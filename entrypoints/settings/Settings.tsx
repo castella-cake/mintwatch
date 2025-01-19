@@ -47,9 +47,9 @@ createRoot(rootElement).render(
                         MintWatch を一時的に無効にする場合は、ヘッダーにあるドアのアイコンをクリックします。<br/>
                         再度オンにするまで無効にしたい場合は、拡張機能自体を無効化してください。<br/>
                         設定は自動保存されます。保存した設定を反映させるには、リロードする必要があります。<br/>
-                        PepperMintの更新後に表示が崩れた場合は、Ctrl+Shift+Rでハード再読み込みを試してみてください。
+                        MintWatch の更新後に表示が崩れた場合は、Ctrl+Shift+Rでハード再読み込みを試してみてください。
                     </div>
-                    Niconico-PepperMint+ <a href="https://github.com/castella-cake/niconico-peppermint-extension"target="_blank" rel="noopener noreferrer">Github Repo</a><br/>
+                    MintWatch <a href="https://github.com/castella-cake/niconico-peppermint-extension" target="_blank" rel="noopener noreferrer">Github Repo</a><br/>
                     Created by CYakigasi <a href="https://www.cyakigasi.net" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Website</a>
                     <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Niconico</a>
                     <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Discord</a>
