@@ -241,11 +241,6 @@
     cursor: pointer
 }
 
-.seekbar-bg, .seekbar-buffered, .seekbar-played {
-    height: 0.5rem !important;
-    transform: translate(0, 50%);
-}
-
 .seekbar-bg {
     position: absolute;
     top: 0;
@@ -283,6 +278,11 @@
     background: var(--textcolor1);
     border-radius: var(--radius-mini);
     opacity: 0.5;
+}
+
+.seekbar-bg, .seekbar-buffered, .seekbar-played {
+    height: 0.5rem;
+    transform: translate(0, 50%);
 }
 
 .seekbar-commentstats {
@@ -408,17 +408,25 @@
         .playercontroller-volume:before {
             background: linear-gradient(#666 0%, #fff 20%, #ddd 90%, #aaa 90%);
             margin: 2px;
+            width: calc(100% - 4px) !important;
+            transform: scaleX(var(--width));
+            transform-origin: top left;
         }
     }
 
 
 
+    .seekbar-bg, .seekbar-buffered, .seekbar-played {
+        height: inherit;
+        transform: none;
+    }
     .seekbar-thumb {
         position: relative;
         height: 24px;
         width: 4px;
         background: linear-gradient(#ddd 1%, #ddd 2%, #ddd 49%, #555 50%, #eee 100%);
         bottom: 16px;
+        top: inherit;
         transform: none;
         border-radius: 0;
         border: 1px solid #111;

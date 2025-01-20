@@ -9,17 +9,19 @@ export function OnboardingPopup({ onOnboardOpen, nodeRef }: { onOnboardOpen: () 
         setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
     }
     return <div className="pmw-onboarding-popup-wrapper" ref={nodeRef}>
-        <div className="pmw-onboarding-popup">
-            <h2>MintWatch で視聴中です</h2>
-            <div className="pmw-onboarding-popup-text">
-                MintWatch へようこそ。現在ベータ段階です。<br/>
-                「はじめに」を確認しておくことをおすすめします。
-            </div>  
-            <div className="pmw-onboarding-popup-buttons">
-                <button className="pmw-onboarding-popup-button-primary" onClick={onOnboardOpen}>MintWatch のはじめに</button>
-                <button onClick={() => {writePlayerSettings("onboardingIgnored", true)}}>閉じる</button>
+        <ReactFocusLock>
+            <div className="pmw-onboarding-popup">
+                <h2>MintWatch で視聴中です</h2>
+                <div className="pmw-onboarding-popup-text">
+                    MintWatch へようこそ。現在ベータ段階です。<br/>
+                    「はじめに」を確認しておくことをおすすめします。
+                </div>  
+                <div className="pmw-onboarding-popup-buttons">
+                    <button className="pmw-onboarding-popup-button-primary" onClick={onOnboardOpen}>MintWatch のはじめに</button>
+                    <button onClick={() => {writePlayerSettings("onboardingIgnored", true)}}>閉じる</button>
+                </div>
             </div>
-        </div>
+        </ReactFocusLock>
     </div>
 }
 
