@@ -297,8 +297,11 @@ a {
 @css {
     html.PMW-Enabled .watch-container-grid {
         /*小数点以下のpaddingを丸める。video要素が微妙にずれるのが緩和される。*/
-        grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;
+        grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--padding) / 2), 1px), 320px);
         margin: 0 round(var(--padding), 1px); 
+    }
+    html.PMW-Enabled [watch-type="shinjuku"] .watch-container-grid, html.PMW-Enabled [watch-type="recresc"] .watch-container-grid {
+        grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;
     }
 }
 
