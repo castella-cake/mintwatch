@@ -54,7 +54,7 @@ createRoot(rootElement).render(
                     <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Niconico</a>
                     <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Discord</a>
                     <a href="https://www.cyakigasi.net/links" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>SNS Links(Misskey,Bluesky,Twitter...)</a> <br/>
-                    <a href="credit.html" target="_self" className="settinglink">PepperMintについて...</a>    
+                    <a href="credit.html" target="_self" className="settinglink">MintWatch について...</a>    
                 </div>
             </div>
         </StorageProvider>

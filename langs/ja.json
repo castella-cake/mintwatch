@@ -1,5 +1,5 @@
 {
-    "SETTINGS_DESC": "MintWatch の設定を変更します。設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
+    "SETTINGS_DESC": "MintWatch の設定を変更します。\n設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
     "SETTINGS_AREATITLE": {
         "hide": "要素の非表示",
         "watchpage": "視聴ページ",
