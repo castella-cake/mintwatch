@@ -101,6 +101,16 @@ function VefxController({ frequencies, effectsState, onEffectsChange, nodeRef }:
                 <label>
                     <input
                         type="checkbox"
+                        checked={effectsState.mono.enabled}
+                        onChange={(e) => handleEnabledEffect("mono")}
+                    />
+                    MONO
+                </label>
+            </div>
+            <div className="vefx-module">
+                <label>
+                    <input
+                        type="checkbox"
                         checked={effectsState.equalizer.enabled}
                         onChange={(e) => handleEnabledEffect("equalizer")}
                     />
@@ -128,6 +138,33 @@ function VefxController({ frequencies, effectsState, onEffectsChange, nodeRef }:
                 }
                 <datalist id="eq-list">
                     {[-15,-10,-5,0,5,10,15].map(elem => {return <option key={`eq-list-${elem}`}>{elem}</option>})}
+                </datalist>
+            </div>
+
+            <div className="vefx-module">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={effectsState.preamp.enabled}
+                        onChange={(e) => handleEnabledEffect("preamp")}
+                    />
+                    <span className="vefx-name">PREAMP</span>
+                    <span className="vefx-value">{effectsState.preamp.gain - 1 > 0 && "+"}{effectsState.preamp.gain - 1}dB</span>
+                </label>
+                <div className="vefx-slidercontainer">
+                    <input
+                        type="range"
+                        min="0"
+                        max="3"
+                        step="0.1"
+                        value={effectsState.preamp.gain}
+                        list="preamp-list"
+                        onChange={(e) => handlePreampGainChange(parseFloat(e.target.value))}
+                        disabled={!effectsState.preamp.enabled}
+                    />
+                </div>
+                <datalist id="preamp-list">
+                    {[0,0.5,1,1.5,2,3].map(elem => {return <option key={`preamp-list-${elem}`}>{elem}</option>})}
                 </datalist>
             </div>
 
@@ -183,44 +220,6 @@ function VefxController({ frequencies, effectsState, onEffectsChange, nodeRef }:
                 <datalist id="gain-list">
                     {[-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1].map(elem => {return <option key={`gain-list-${elem}`}>{elem}</option>})}
                 </datalist>
-            </div>
-
-            <div className="vefx-module">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={effectsState.preamp.enabled}
-                        onChange={(e) => handleEnabledEffect("preamp")}
-                    />
-                    <span className="vefx-name">PREAMP</span>
-                    <span className="vefx-value">{effectsState.preamp.gain - 1 > 0 && "+"}{effectsState.preamp.gain - 1}dB</span>
-                </label>
-                <div className="vefx-slidercontainer">
-                    <input
-                        type="range"
-                        min="0"
-                        max="3"
-                        step="0.1"
-                        value={effectsState.preamp.gain}
-                        list="preamp-list"
-                        onChange={(e) => handlePreampGainChange(parseFloat(e.target.value))}
-                        disabled={!effectsState.preamp.enabled}
-                    />
-                </div>
-                <datalist id="preamp-list">
-                    {[0,0.5,1,1.5,2,3].map(elem => {return <option key={`preamp-list-${elem}`}>{elem}</option>})}
-                </datalist>
-            </div>
-
-            <div className="vefx-module">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={effectsState.mono.enabled}
-                        onChange={(e) => handleEnabledEffect("mono")}
-                    />
-                    MONO
-                </label>
             </div>
         </div>
     </div>

@@ -11,9 +11,11 @@
     min-width: 16em;
     margin: 4px;
     border-radius: 6px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.867);
+    color: #000;
     border: 1px solid #555a;
     box-shadow: 0px 0px 4px #000;
-    overflow: hidden;
     cursor: auto; // 動画の上で動いてない判定されてカーソルが見えなくならないように
     ::-webkit-scrollbar {
         background: transparent;
@@ -22,8 +24,6 @@
 .vefx-container-inner {
     padding: 8px;
     padding-right: 4px;
-    background: rgba(255,255,255,0.867);
-    color: #000;
     height: 100%;
     backdrop-filter: blur(8px);
     overflow: auto;
