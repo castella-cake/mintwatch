@@ -10,6 +10,8 @@ body {
     --box-shadow-color: #0001;
     --box-shadow: 0 0 var(--box-shadow-width) var(--box-shadow-color);
     --modal-background: var(--bgcolor2);
+    --info-block-padding: 16px;
+    --blocks-gap: 8px;
 }
 
 body {
@@ -269,13 +271,13 @@ a {
 
 .watch-container {
     &[settings-size="0"] {
-        --padding: 14%;
+        --page-padding: 14%;
     }
     &[settings-size="1"] {
-        --padding: 8%;
+        --page-padding: 8%;
     }
     &[settings-size="2"] {
-        --padding: 1%;
+        --page-padding: 1%;
     }
 }
 
@@ -284,7 +286,7 @@ a {
     width: 100%;
     //grid-auto-rows: 1fr; 
     grid-template-rows: repeat(3, max-content);
-    gap: 0.5em 0.5em; 
+    gap: var(--blocks-gap); 
     /*grid-template-areas: 
         "vid act act"
         "inf rec rec"
@@ -297,8 +299,8 @@ a {
 @css {
     html.PMW-Enabled .watch-container-grid {
         /*小数点以下のpaddingを丸める。video要素が微妙にずれるのが緩和される。*/
-        grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--padding) / 2), 1px), 320px);
-        margin: 0 round(var(--padding), 1px); 
+        grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--page-padding) / 2), 1px), 320px);
+        margin: 0 round(var(--page-padding), 1px); 
     }
     html.PMW-Enabled [watch-type="shinjuku"] .watch-container-grid, html.PMW-Enabled [watch-type="recresc"] .watch-container-grid {
         grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;

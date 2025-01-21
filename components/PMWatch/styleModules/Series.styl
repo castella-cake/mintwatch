@@ -9,12 +9,12 @@
     grid-template-areas: "tmb tit" "eps eps" "fir fir";
     grid-template-columns: max-content 1fr;
     grid-template-rows: max-content 1fr max-content;
-    padding: 8px;
+    padding: var(--info-block-padding);
     background: var(--bgcolor2);
     border-radius: var(--radius);
     border: var(--border);
     box-shadow: var(--box-shadow);
-    gap: 0.5rem;
+    gap: calc(var(--info-block-padding) / 2);
     display: grid;
 }
 
@@ -142,7 +142,7 @@
     .seriesinfo-episodes {
         display: flex;
         overflow: hidden;
-        gap: 0.2rem;
+        gap: calc(var(--info-block-padding) / 2);
         font-size: 0.9rem;
         justify-content: center;
         .draggable-infocard-wrapper {
