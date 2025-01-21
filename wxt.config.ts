@@ -8,14 +8,9 @@ export default defineConfig({
         "name": "MintWatch (Beta)",
         "permissions": [
             "storage",
-            "contextMenus",
-            "alarms",
-            "tabs",
-            "scripting"
         ],
         "host_permissions": [
             "*://*.nicovideo.jp/*",
-            "https://fonts.googleapis.com/icon",
             "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/*",
             "https://nicovideo.cdn.nimg.jp/thumbnails/*",
         ],
