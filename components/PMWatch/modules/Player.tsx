@@ -129,7 +129,13 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
             return
         }
 
-        if (!videoInfo.data.response.player.initialPlayback || localStorage.playersettings.enableResumePlayback === false) return
+        if (!videoInfo.data.response.player.initialPlayback || localStorage.playersettings.resumePlayback === "never" || (
+            // スマートなレジューム再生(デフォルト値) が有効で、再生位置が始まりか終わりに近い(10s)場合は無視する
+            (localStorage.playersettings.resumePlayback === "smart" || !localStorage.playersettings.resumePlayback) && (
+                videoInfo.data.response.player.initialPlayback.positionSec <= 10 ||
+                videoInfo.data.response.player.initialPlayback.positionSec >= videoInfo.data.response.video.duration - 10
+            )
+        )) return
         videoRef.current.currentTime = videoInfo.data.response.player.initialPlayback?.positionSec
     }, [videoInfo])
 

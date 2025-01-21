@@ -64,9 +64,11 @@ const settings: { [key: string]: setting } = {
         name: "コメント描画FPS",
         texts: ["30FPS","60FPS","120FPS", "自動"],
     },
-    enableResumePlayback: {
-        type: "checkbox",
-        defaultValue: true,
+    resumePlayback: {
+        type: "select",
+        defaultValue: "smart",
+        options: ["never", "smart", "always"],
+        texts: ["しない", "スマート", "常に"],
         name: "レジューム再生",
         hint: "プレミアム会員資格が必要です。"
     },
