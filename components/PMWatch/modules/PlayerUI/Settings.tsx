@@ -148,7 +148,6 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boo
                 統計情報を表示(一時的)
             </label>
         </div>
-        <button onClick={() => {writePlayerSettings("onboardingIgnored", false)}}>DEBUG_ONBOARDING_OPEN</button>
     </div>
 }
 

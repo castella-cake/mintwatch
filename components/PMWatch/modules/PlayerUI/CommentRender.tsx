@@ -32,7 +32,6 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
             threads &&  
             videoRef.current
         ) {
-            console.log("niconicomments redefined")
             // プレビューコメントを追加
             if (previewCommentItem && defaultPostTargetIndex !== -1) {
                 threads[defaultPostTargetIndex].comments = threads[defaultPostTargetIndex].comments.filter(comment => comment.id !== "-1") // ID-1はプレビューコメント。前回のプレビューが残らないように一旦消してからpushする。
