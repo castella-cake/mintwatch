@@ -48,12 +48,21 @@ type VideoPlayerProps = {
     onPause: () => void,
     onEnded: () => void,
     onClick: () => void,
+    thumbnailSrc?: string,
 }
 
-function VideoPlayer({children, videoRef, onPause, onEnded, onClick}: VideoPlayerProps) {
+function VideoPlayer({children, videoRef, onPause, onEnded, onClick, thumbnailSrc}: VideoPlayerProps) {
+    const [canPlay, setCanPlay] = useState(false)
+    const nodeRef = useRef(null)
     return (<div className="player-video-container" >
         <div className="player-video-container-inner">
-            <video ref={videoRef} autoPlay onPause={(e) => {onPause()}} onEnded={onEnded} width="1920" height="1080" id="pmw-element-video" onClick={onClick}></video>
+            <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={400} unmountOnExit classNames="player-loading-transition">
+                <div ref={nodeRef} className="player-video-loading-container">
+                    <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
+                    <div className="player-video-loading-text">Loading...</div>
+                </div>
+            </CSSTransition>
+            <video ref={videoRef} autoPlay onPause={(e) => {onPause()}} onEnded={onEnded} onCanPlay={() => {setCanPlay(true)}} width="1920" height="1080" id="pmw-element-video" onClick={onClick}></video>
             { children }
         </div>
     </div>);
@@ -279,6 +288,8 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
     // .map() から生成されている string[] の一次元配列なら大丈夫だと信じて.reverse()する
     const qualityLabels = videoInfo.data?.response.media.domand?.videos.map(video => video.label).reverse()
 
+    const thumbnailSrc = videoInfo.data?.response.video.thumbnail.player 
+
     return <div className="player-container"
         id="pmw-player"
         is-pipvideo={localStorage.playersettings.enableCommentPiP && isCommentShown ? "true" : "false"}
@@ -287,7 +298,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
         ref={containerRef}
     >
-        <VideoPlayer videoRef={videoRef} onPause={onPause} onEnded={onEnded} onClick={videoOnClick}>
+        <VideoPlayer videoRef={videoRef} onPause={onPause} onEnded={onEnded} onClick={videoOnClick} thumbnailSrc={thumbnailSrc}>
             { filteredComments && <CommentRender
                 videoRef={videoRef}
                 pipVideoRef={pipVideoRef}
