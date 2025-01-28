@@ -31,16 +31,6 @@ createRoot(rootElement).render(
                     }}>
                         <CreateSettingsList settings={settings}/>
                     </ErrorBoundary>
-                    <div className="settings-area">
-                        <div className="settings-row">
-                            <h1>Dangerous Area</h1>
-                            <div>
-                                ここにあるものは、使い方次第で便利に使用できるものもあれば、使い方次第で全ての設定が削除される場合があります。<br />
-                                また、自分が何をしているか正しく理解せずに使用するとPepperMintの正常動作を妨げる可能性があるため、注意して取り扱ってください！  
-                            </div>
-                            <a href="storagemanage.html" target="_self" className="settinglink">ユーザーデータの管理...</a>
-                        </div>
-                    </div>
                 </div>
                 <div id="info-area" className="includelinks">
                     <div className="hint">
@@ -54,7 +44,9 @@ createRoot(rootElement).render(
                     <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Niconico</a>
                     <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Discord</a>
                     <a href="https://www.cyakigasi.net/links" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>SNS Links(Misskey,Bluesky,Twitter...)</a> <br/>
-                    <a href="credit.html" target="_self" className="settinglink">MintWatch について...</a>    
+                    <div style={{ display: "flex", gap: 8 }}>
+                        <a href="credit.html" target="_self" className="settinglink">MintWatch について...</a> <a href="storagemanage.html" target="_self" className="settinglink">ユーザーデータの管理...</a> 
+                    </div>
                 </div>
             </div>
         </StorageProvider>

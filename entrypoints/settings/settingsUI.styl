@@ -1,29 +1,37 @@
 :root {
-	--primary: #0060df;
-	--primary-hover: #0090ed;
+	/* 基本背景色 */
+	--bgcolor1: transparent;
+	/* サブ背景色1 */
+	--bgcolor2: #fff1;
+	/* サブ背景色2 */
+	--bgcolor3: #2d2c35;
+	--bgcolor4: #53525e;
+	--textcolor1: #fff;
+	--textcolor2: #ddd;
+	--textcolor3: #aaa;
+	--textcolornew: #e05050;
+	--accent1: #444;
+	--accent2: #888;
+	--hover1: #666;
+	--hover2: #aaa;
+	--shadow1: rgba(0, 0, 0, 0.5);
+	--shadow2: rgba(255, 255, 255, 0.5);
+	--linktext1: #8fb9df;
+	--linktext2: #8ed9ff;
+	--linktext3: #008acf;
+	--nicoru1: rgba(201, 168, 62, 0.1);
+	--nicoru2: rgba(201, 168, 62, 0.2);
+	--nicoru3: rgba(201, 168, 62, 0.35);
+	--nicoru4: rgba(201, 168, 62, 0.5);
+	--primary: #0081cc;
+	--primary-hover: #0091d4;
 	--destructive: #c50042;
 	--destructive-hover: #e22850;
 	--destructive-dark: #810220;
-	/* 基本背景色 */
-	--bgcolor1: #fefefe;
-	/* サブ背景色1 */
-	--bgcolor2: #fafafa;
-	/* サブ背景色2 */
-	--bgcolor3: #eeeeee;
-	--bgcolor4: #e0e0e0;
-	--textcolor1: #000;
-	--textcolor2: #333;
-	--textcolor3: #666;
-	--shadow1: rgba(64, 64, 64, 0.5);
-	--shadow2: rgba(0, 0, 0, 0.5);
-	--textcolornew: #e05050;
-	--accent1: #dadada;
-	--accent2: #c0c0c0;
-	--hover1: #fff;
-	--hover2: #aaa;
-	--linktext1: #008acf;
-	--linktext2: #008acf;
-	--linktext3: #008acf;
+    --bg: #0003;
+    --bg-hover: #555a;
+    --fg: #fafafa;
+    --fg-dark: #aaa;
 }
 
 @keyframes fadeout {
@@ -36,15 +44,19 @@
 	}
 }
 
+html, body {
+	background-color: #1c1b22;
+	color: #fff;
+}
+
 body {
 	width: 520px;
 	margin: 0;
-	background-color: Canvas;
-	color: CanvasText;
 	opacity: 100;
-	font-family: "Lato", "Yu Gothic UI", "Meiryo", sans-serif;
+	font-family: "Lato", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", sans-serif;
 	font-size: 12px;
-	background: var(--bgcolor1);
+	background: linear-gradient(-45deg, #124, #344);
+	min-height: 100vh;
 }
 
 .width-big {
@@ -52,8 +64,7 @@ body {
 }
 
 .maincontainer {
-	margin-bottom: 2px;
-	padding: 0px 8px 8px;
+	padding: 0px 12px;
 }
 
 body>* {
@@ -125,12 +136,6 @@ h1 {
 	box-shadow: 0px 0px 5px #000;*/
 	line-height: 24px;
 	font-weight: normal;
-}
-.settings-area {
-	background: var(--bgcolor2);
-	border-radius: 4px;
-	padding: 8px;
-	margin-bottom: 8px;
 }
 
 .toptitle {
@@ -253,10 +258,10 @@ select:hover {
 .settings-row {
 	margin-bottom: 6px;
 	padding-bottom: 6px;
-}
-
-.settings-area .settings-row {
-	border-bottom: 1px solid var(--accent1);
+	background: var(--bgcolor2);
+	border-radius: 4px;
+	padding: 8px;
+	margin-bottom: 8px;
 }
 
 label {
@@ -272,10 +277,12 @@ label {
 .settinglink {
 	text-decoration: none;
 	color: #fff;
-	padding: 5px;
-	background: var(--primary);
-	box-shadow: 0px 0px 1px var(--primary-hover);
+	padding: 5px 10px;
+	border: 1px solid var(--primary);
+	background: var(--bgcolor2);
+	box-shadow: 0px 0px 2px var(--primary-hover);
 	border-radius: 5px;
+	font-size: 12px;
 	margin: 8px 0;
 	display: block;
 	text-align: center;
@@ -361,6 +368,7 @@ label {
 
 .settings-page-desc {
 	padding: 0 16px;
+	margin-bottom: 16px;
 	white-space: pre-wrap;
 }
 
@@ -406,7 +414,7 @@ tr td:nth-child(7) {
 }
 
 .noyugothic {
-	font-family: "Lato",sans-serif
+	font-family: "Lato", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Meiryo", sans-serif;
 }
 
 .quickoptions-editmode-row {
@@ -476,42 +484,6 @@ tr td:nth-child(7) {
     background: var(--hover1);
 }
 
-@media (prefers-color-scheme: dark) {
-
-	html,
-	body {
-		background-color: #1c1b22;
-		color: #fff;
-	}
-
-	:root {
-		/* 基本背景色 */
-		--bgcolor1: #1c1b22;
-		/* サブ背景色1 */
-		--bgcolor2: #201f27;
-		/* サブ背景色2 */
-		--bgcolor3: #2d2c35;
-		--bgcolor4: #53525e;
-		--textcolor1: #fff;
-		--textcolor2: #ddd;
-		--textcolor3: #aaa;
-		--textcolornew: #e05050;
-		--accent1: #444;
-		--accent2: #888;
-		--hover1: #666;
-		--hover2: #aaa;
-		--shadow1: rgba(0, 0, 0, 0.5);
-		--shadow2: rgba(255, 255, 255, 0.5);
-		--linktext1: #8fb9df;
-		--linktext2: #8ed9ff;
-		--linktext3: #008acf;
-		--nicoru1: rgba(201, 168, 62, 0.1);
-		--nicoru2: rgba(201, 168, 62, 0.2);
-		--nicoru3: rgba(201, 168, 62, 0.35);
-		--nicoru4: rgba(201, 168, 62, 0.5);
-	}
-}
-
 @media (width:632px) {
 
 	html,
@@ -540,7 +512,6 @@ tr td:nth-child(7) {
 	body,.width-big {
 		width: 100%;
 		margin: 0;
-		font-family: "Lato", "Yu Gothic UI", "Meiryo", sans-serif;
 	}
 
 	.container {
@@ -608,10 +579,6 @@ tr td:nth-child(7) {
 		margin-top: 0px
 	}
 
-	.settings-area {
-		margin-top: 16px;
-	}
-
 	textarea {
 		height: 160px !important;
 		width: 640px !important;
@@ -640,7 +607,6 @@ tr td:nth-child(7) {
 
 	.settings-page-desc {
 		display: block;
-		margin-left: 16px;
 		font-size: 13px;
 	}
 }
