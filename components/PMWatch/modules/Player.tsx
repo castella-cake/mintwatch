@@ -42,6 +42,7 @@ type Props = {
     changeVideo: (videoId: string) => void,
 }
 
+
 type VideoPlayerProps = {
     children?: ReactNode,
     videoRef: RefObject<HTMLVideoElement>,
@@ -49,13 +50,44 @@ type VideoPlayerProps = {
     onEnded: () => void,
     onClick: () => void,
     thumbnailSrc?: string,
+    enableVolumeGesture: boolean
 }
 
-function VideoPlayer({children, videoRef, onPause, onEnded, onClick, thumbnailSrc}: VideoPlayerProps) {
+function VideoPlayer({children, videoRef, onPause, onEnded, onClick, thumbnailSrc, enableVolumeGesture}: VideoPlayerProps) {
     const [canPlay, setCanPlay] = useState(false)
     const nodeRef = useRef(null)
-    return (<div className="player-video-container" >
-        <div className="player-video-container-inner">
+    const videoContainerRef = useRef<HTMLDivElement>(null)
+
+    const volumeGestureUsedRef = useRef<boolean>(false)
+    useEffect(() => {
+        // ホイールの音量ジェスチャー
+        function onWheel(e: WheelEvent) {
+            const video = videoRef.current
+            // 右クリックを押しながらホイールで音量を変更
+            if ( e.buttons < 2 || enableVolumeGesture === false || !video ) return;
+            if ( e.deltaY < 0 ) {
+                video.volume += 0.05;
+            } else {
+                video.volume -= 0.05;
+            }
+            e.preventDefault();
+            volumeGestureUsedRef.current = true
+        }
+        function preventContextMenu(e: Event) {
+            if (!volumeGestureUsedRef.current) return
+            e.preventDefault()
+            volumeGestureUsedRef.current = false
+        }
+        videoContainerRef.current?.addEventListener("wheel", onWheel)
+        videoContainerRef.current?.addEventListener("contextmenu", preventContextMenu)
+        return () => {
+            videoContainerRef.current?.removeEventListener("wheel", onWheel)
+            videoContainerRef.current?.removeEventListener("contextmenu", preventContextMenu)
+        }
+    }, [])
+
+    return (<div className="player-video-container">
+        <div className="player-video-container-inner" ref={videoContainerRef}>
             <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={400} unmountOnExit classNames="player-loading-transition">
                 <div ref={nodeRef} className="player-video-loading-container">
                     <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
@@ -259,20 +291,21 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         }
     }
     
-    function onPause() {
+    const onPause = useCallback(() => {
         if ( !videoRef.current ) return
         const playbackPositionBody = { watchId: videoId, seconds: videoRef.current.currentTime }
         putPlaybackPosition(JSON.stringify(playbackPositionBody))
-    }
+    }, [videoRef])
 
-    function onEnded() {
+    const onEnded = useCallback(() => {
         const autoPlayType = localStorage.playersettings.autoPlayType ?? "playlistonly"
         if ( ((autoPlayType === "playlistonly" && playlistData.items.length > 1) || autoPlayType === "always") && !localStorage.playersettings.isLoop ) {
             playlistIndexControl(1, localStorage.playersettings.enableShufflePlay)
         }
-    }
+    }, [localStorage.playersettings.autoPlayType, localStorage.playersettings.enableShufflePlay, localStorage.playersettings.isLoop, playlistData.items])
 
-    function videoOnClick() {
+    
+    const videoOnClick = useCallback(() => {
         const video = videoRef.current
         if ( !video ) return
         if ( video.paused ) {
@@ -281,7 +314,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
             video.pause()
             onPause()
         }
-    }
+    }, [videoRef])
 
     const preferredCommentFps = (localStorage.playersettings.commentRenderFps ?? 60) // 未指定の場合は60にフォールバック
     const commentRenderFps = localStorage.playersettings.enableCommentPiP ? 60 : preferredCommentFps // PiPでコメント表示する場合はメモリリークを防ぐために60FPSで固定する
@@ -298,7 +331,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
         ref={containerRef}
     >
-        <VideoPlayer videoRef={videoRef} onPause={onPause} onEnded={onEnded} onClick={videoOnClick} thumbnailSrc={thumbnailSrc}>
+        <VideoPlayer videoRef={videoRef} onPause={onPause} onEnded={onEnded} onClick={videoOnClick} thumbnailSrc={thumbnailSrc} enableVolumeGesture={localStorage.playersettings.enableWheelGesture}>
             { filteredComments && <CommentRender
                 videoRef={videoRef}
                 pipVideoRef={pipVideoRef}

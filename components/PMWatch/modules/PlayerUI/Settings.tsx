@@ -78,6 +78,12 @@ const settings: { [key: string]: setting } = {
         name: "PiPでコメントを表示(実験的)",
         hint: "コメント透過率と描画FPSが固定されます。"
     },
+    enableWheelGesture: {
+        type: "checkbox",
+        defaultValue: true,
+        name: "ホイールの音量ジェスチャーを使用",
+        hint: "動画の上で右クリックしながらホイールを回して音量を変更できます。"
+    },
     disableCommentOutline: {
         type: "checkbox",
         defaultValue: false,

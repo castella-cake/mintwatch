@@ -55,6 +55,9 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
             // PiP用のvideo要素にキャンバスの内容を流す
             if (enableCommentPiP && pipVideoRef.current && !pipVideoRef.current.srcObject) {
                 pipVideoRef.current.srcObject = canvasRef.current.captureStream()
+                if (!videoRef.current.paused) {
+                    pipVideoRef.current.play()
+                }
             }
             if (commentRenderFps == -1) drawWithAnimationFrame()
             return () => {
@@ -75,7 +78,7 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
             className="player-commentvideo-pip"
             width="1920"
             height="1080"
-            autoPlay
+            data-disabled={enableCommentPiP ? "false" : "true"}
             onPause={() => {videoRef.current && videoRef.current.pause()}}
             onPlay={() => {videoRef.current && videoRef.current.play()}}
             onClick={videoOnClick}
