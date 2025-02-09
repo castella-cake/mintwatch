@@ -26,7 +26,7 @@ interface Response {
     marquee: Marquee;
     media: Media;
     okReason: string;
-    owner: Owner;
+    owner: VideoOwner;
     payment: Payment;
     pcWatchPage: PcWatchPage;
     player: Player;
@@ -302,7 +302,7 @@ interface Video2 {
     billingType: string;
 }
 
-interface Owner {
+export interface VideoOwner {
     id: number;
     nickname: string;
     iconUrl: string;

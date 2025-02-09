@@ -106,7 +106,7 @@ function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
         return seriesVideoItem && <Card
             thumbnailUrl={seriesVideoItem.thumbnail && (seriesVideoItem.thumbnail.listingUrl ?? seriesVideoItem.thumbnail.url ?? "")}
             thumbText={seriesVideoItem.duration ? secondsToTime(seriesVideoItem.duration) : "??:??"}
-            ownerName={""}
+            subTitle={""}
             href={`https://www.nicovideo.jp/watch/${encodeURIComponent(seriesVideoItem.id)}`}
             additionalClassName={""}
             title={seriesVideoItem.title ?? "タイトル不明"}
@@ -313,7 +313,7 @@ function CreateWatchUI() {
     const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
         {playerElem}{rightActionElem}
     </div>
-    const recommendElem = <Recommend recommendData={recommendData} key="watchui-recommend" />
+    const recommendElem = <Recommend recommendData={recommendData} videoOwnerData={videoInfo.data?.response.owner} key="watchui-recommend" />
     const seriesElem = <SeriesInfo videoInfo={videoInfo} key="watchui-series" />
     const bottomInfoElem = <BottomInfo videoInfo={videoInfo} key="watchui-bottominfo"/>
     const searchElem = <Search key="watchui-search" />

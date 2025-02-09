@@ -2,28 +2,59 @@
     position: relative;
     overflow-x: hidden;
 }
-
 .recommend-container {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
+}
+.recommend-container .recommend-content {
     overflow-y: auto;
 }
 
-.watch-container[use-card-recommend="true"] .recommend-container {
-    position: static;
-    display: grid;
-    font-size: 0.9em;
-    grid-template-columns: repeat(auto-fit, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    width: 100%;
-    white-space: nowrap;
-    grid-auto-flow: column;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 0;
-    grid-template-columns: repeat(auto-fill, minmax(11.5em, 1fr));
-    overflow-y: visible;
+.watch-container[use-card-recommend="true"] {
+    .recommend-container  {
+        position: static;
+    }
+    .recommend-content {
+        display: grid;
+        font-size: 0.9em;
+        grid-template-columns: repeat(auto-fit, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        width: 100%;
+        white-space: nowrap;
+        grid-auto-flow: column;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 0;
+        grid-template-columns: repeat(auto-fill, minmax(11.5em, 1fr));
+        overflow-y: visible;
+    }
+}
+
+.recommend-selector {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 8px;
+
+}
+.recommend-selector button {
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    transition: background 0.1s ease;
+    cursor: pointer;
+    &:hover {
+        background: var(--hover1);
+    }
+    &:active {
+        background: var(--bgcolor1);
+    }
+    &[data-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor1);
+    }
 }

@@ -284,3 +284,28 @@ export async function getDAnimeLinks(videoId) {
     });
     return await response.json()
 }
+
+export async function getUserVideo(userId, sortKey, sortOrder) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v3/users/${encodeURIComponent(userId)}/videos?sortKey=${encodeURIComponent(sortKey)}&sortOrder=${encodeURIComponent(sortOrder)}`, {
+        "credentials": "include",
+        "headers": {
+            "content-type": "application/json",
+            "X-Frontend-Id": "6",
+            "X-Frontend-Version": "0",
+            "X-Niconico-Language": "ja-jp",
+        },
+        "method": "GET",
+    });
+    return await response.json()
+}
+
+export async function getVideoTimeline() {
+    const response = await fetch("https://api.feed.nicovideo.jp/v1/activities/followings/video?context=my_timeline", {
+        "headers": {
+            "x-frontend-id": "6"
+        },
+        "method": "GET",
+        "credentials": "include"
+    });
+    return await response.json()
+}
