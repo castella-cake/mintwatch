@@ -305,6 +305,9 @@ a {
     html.PMW-Enabled [watch-type="shinjuku"] .watch-container-grid, html.PMW-Enabled [watch-type="recresc"] .watch-container-grid {
         grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;
     }
+    html.PMW-Enabled [watch-type="rerekari"] .watch-container-grid {
+        grid-template-columns: 1fr min(round(32%, 1px), 440px);
+    }
 }
 
 [watch-type="renew"] .watch-container-grid {
@@ -324,6 +327,10 @@ a {
 [watch-type="shinjuku"] .watch-container-grid {
     grid-template-rows: repeat(6, max-content);
     grid-template-areas: "shr shr shr" "inf inf own" "inf inf sac" "spl spl spl" "rec srs srs" "btm btm btm" "btm btm btm";
+}
+
+[watch-type="rerekari"] .watch-container-grid {
+    grid-template-areas: "vid act" "inf inf" "rec rec" "btm srs" "sch sch" "trk trk";
 }
 
 .watch-container-grid {

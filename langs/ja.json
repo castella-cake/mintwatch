@@ -17,12 +17,12 @@
         "pmwlayouttype": {
             "name": "視聴ページのレイアウト",
             "hint": "MintWatchの見た目を指定します。Shinjukuではスタイルも変更されます。",
-            "select": ["Re-cresc.", "Re-新視聴", "Stacked", "3カラム", "Shinjuku"]
+            "select": ["Re-cresc.", "Re-新視聴", "Stacked", "3カラム", "Shinjuku", "Re:Re:(仮)"]
         },
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
             "hint": "MintWatchで使用するプレイヤーの見た目を指定します。",
-            "select": ["デフォルト", "公式配置", "Shinjuku"]
+            "select": ["デフォルト", "cresc.", "Shinjuku"]
         }
     }
 }

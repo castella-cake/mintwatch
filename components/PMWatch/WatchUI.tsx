@@ -27,6 +27,7 @@ import { useStorageContext } from "@/hooks/extensionHook";
 import { SeriesVideoItem } from "@/types/VideoData";
 import SeriesInfo from "./modules/Series";
 import { OnboardingPopup } from "./modules/Onboarding";
+import { TurikkumaFrame } from "./modules/TurikkumaFrame";
 
 const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -319,6 +320,7 @@ function CreateWatchUI() {
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner videoInfo={videoInfo} key="watchui-owner"/>
     const hrjkLogoElem = <div className="hrjk-header"><NicoHarajukuLogo key="watchui-hrjklogo"/>{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
+    const turikkumaElem = <TurikkumaFrame key="watchui-turikkuma" />
 
     const layoutPresets: {
         [key: string]: JSX.Element[]
@@ -327,6 +329,7 @@ function CreateWatchUI() {
         "recresc": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, bottomInfoElem, recommendElem],
         "stacked": [playerElem, rightActionElem, bottomInfoElem, seriesElem, searchElem, recommendElem],
         "3col": [titleElem, infoElem, playerElem, rightActionElem, recommendElem, seriesElem, bottomInfoElem, searchElem],
+        "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, recommendElem, searchElem, turikkumaElem],
         "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, recommendElem, bottomInfoElem],
     }
 

@@ -22,7 +22,7 @@ const settings: settingList = {
         {
             type: "select",
             name: "pmwlayouttype",
-            values: ["recresc", "renew", "stacked", "3col", "shinjuku"],
+            values: ["recresc", "renew", "stacked", "3col", "shinjuku", "rerekari"],
             default: "recresc"
         },
         {

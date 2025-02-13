@@ -1,0 +1,50 @@
+.turikkuma-portal {
+    grid-area: trk;
+    text-align: center;
+}
+
+.turikkuma-portal iframe {
+    border-radius: var(--radius);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+}
+
+.turikkuma-portal-input, .turikkuma-portal-button {
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 8px;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    line-height: 1rem;
+}
+
+.turikkuma-portal-input {
+    margin-right: 0.5em;
+}
+
+.turikkuma-portal-button {
+    cursor: pointer;
+    &:hover {
+        background: var(--bgcolor1);
+    }
+}
+
+
+.turikkuma-portal-door {
+    background: transparent;
+    color: var(--textcolor1);
+    border: none;
+    cursor: pointer;
+    &-transition {
+        &-exit-active {
+            --translateX: -100%;
+        }
+        &-exit-active {
+            transition: transform 0.5s linear, opacity 0.5s linear;
+        }
+        &-exit-active {
+            transform: translateX(var(--translateX))
+            opacity: 0;
+        }
+    }
+}
