@@ -1,9 +1,9 @@
 # MintWatch
 
-MintWatch は、ニコニコ動画向けの視聴にフォーカスした、カスタマイズ性の高い新たな動画プレイヤーです。
+MintWatch は、ニコニコ動画向けの視聴にフォーカスした、カスタマイズ性の高い新たな動画プレイヤーです。   
 プロジェクトはMITライセンスで提供され、背後の面倒な規約などはありません。   
-Chrome Webstore: TBD
-Firefox Add-ONS: TBD
+Chrome Webstore: https://chromewebstore.google.com/detail/mintwatch-beta/ggamdocgmhpdnldkkepkiobpioakopom   
+Firefox Add-ONS: https://addons.mozilla.org/ja/firefox/addon/mintwatch/
 
 **この拡張機能は非公式のプロジェクトであり、ニコニコやドワンゴとは一切提携していません。**   
 もしページレイアウトの崩れなどのバグが発生した場合、まずそれが MintWatch やその他の拡張機能によって引き起こされたものでないか確認してください。   
@@ -11,18 +11,18 @@ Firefox Add-ONS: TBD
 
 # Why?
 ニコニコ動画の新視聴ページは、"現代的な"CSSクラスの命名によりUserStyle/UserScriptを使用したカスタマイズを難しくしています。   
-MintWatch は、新視聴ページを用いずにページを構築し、よりカスタマイズ可能なオープンソースの視聴ページを目指して開発されています。
+MintWatch は、新視聴ページを用いずにページを構築しており、よりカスタマイズ可能なオープンソースの視聴ページを目指して開発されています。   
 旧視聴ページに慣れていた人でも、新視聴ページを使用している人でも、すぐに視聴を始められます。
 
 # Install
 ## ストア版(安定版)を入手
 ### Firefox
-1. https://addons.mozilla.org/ja/firefox/addon/niconico-peppermint/ に行きます
+1. https://addons.mozilla.org/ja/firefox/addon/mintwatch/ に行きます
 2. ``Firefox に追加`` を押します
 3. 画面の手順に従います
 4. おわり
 ### Chrome
-1. https://chrome.google.com/webstore/detail/niconico-peppermint/oeadnodbjplclhibppgkkijomgcgochf に行きます
+1. https://chromewebstore.google.com/detail/mintwatch-beta/ggamdocgmhpdnldkkepkiobpioakopom に行きます
 2. ``Chrome に追加`` を押します
 3. 画面の手順に従います
 4. おわり
