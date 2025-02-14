@@ -135,7 +135,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         // 各エフェクトの更新処理
         updateEqualizer(newState.equalizer.gains);
         updateEcho(newState.echo.delayTime, newState.echo.feedback, newState.echo.gain);
-        updatePreampGain(toDecibel(effectsState.preamp.gain));
+        updatePreampGain(decibelToScale(effectsState.preamp.gain));
     };
 
     // シャッフル再生のバッグ

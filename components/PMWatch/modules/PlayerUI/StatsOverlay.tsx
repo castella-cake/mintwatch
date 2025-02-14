@@ -14,6 +14,7 @@ export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: Video
     }, [hlsRef.current])
 
     if (!videoInfo.data) return <div className="statsoverlay">動画情報が利用できません</div>
+    const loudnessData = (videoInfo.data?.response.media.domand && videoInfo.data?.response.media.domand?.audios[0].loudnessCollection[0].value)
     return <div className="statsoverlay">
         動画ID: {videoInfo.data?.response.video.id}<br/>
         <br/>
@@ -36,5 +37,9 @@ export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: Video
         {videoInfo.data?.response.media.domand?.audios.map(elem => {
             return <span key={`audioq-${elem.id}`}>{`ID: ${elem.id} - ${elem.bitRate / 1000}kbps / ${elem.samplingRate}Hz`}<br/></span>;
         })}
+        <br/>
+        ラウドネスノーマライズ: {loudnessData ?? "不明"}
+        <br/>
+        { loudnessData && `( Volume -${Math.floor(100 - loudnessData * 100)}%, ${scaleToDecibel(loudnessData)}dB )` }
     </div>
 }

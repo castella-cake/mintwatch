@@ -27,9 +27,13 @@ function returnQValue(center: number, next: number | null, prev: number | null) 
     return f0 / bw
 }
 
-// scale to decibels
-export function toDecibel(value: number) {
+// https://memo88.hatenablog.com/entry/web-audio-api-gainnode-decibel を参考にさせていただきました
+export function decibelToScale(value: number) {
     return Math.pow(10, value / 20);
+}
+
+export function scaleToDecibel(value: number) {
+    return 20 * Math.log10(value);
 }
 
 // Thank you ChatGPT
@@ -89,7 +93,7 @@ export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequenci
 
             // プリアンプの設定
             gainNodeRef.current = audioContextRef.current.createGain();
-            if (gainNodeRef.current) gainNodeRef.current.gain.value = toDecibel(effectsState.preamp.gain)
+            if (gainNodeRef.current) gainNodeRef.current.gain.value = decibelToScale(effectsState.preamp.gain)
 
             // ラウドネスコントロール
             loudnessGainNodeRef.current = audioContextRef.current.createGain();
