@@ -1,4 +1,4 @@
-a.info-card {
+div.info-card {
     display: flex;
     white-space: nowrap;
     height: 4em;
@@ -7,6 +7,12 @@ a.info-card {
     text-decoration: none;
     overflow: hidden;
     border-radius: var(--radius);
+    position: relative;
+}
+
+a.info-card-link {
+    position: absolute;
+    inset: 0;
 }
 
 .info-card-thumbnail {
@@ -62,6 +68,22 @@ a.info-card {
 .info-card-owner {
     font-size: 0.9em;
     opacity: 0.8;
+}
+
+.info-card-removebtn {
+    z-index: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--textcolor2);
+    vertical-align: middle;
+    font-size: 1rem;
+    :hover {
+        color: var(--textcolor1);
+    }
+    svg {
+        margin-right: 0;
+    }
 }
 
 .recommend-container .info-card {
