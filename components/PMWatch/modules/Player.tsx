@@ -273,7 +273,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
                 console.log(bagItems)
             } else {
                 const currentVideoIndex = playlistData.items?.findIndex(video => video.id === videoId)
-                if (currentVideoIndex === undefined || currentVideoIndex === -1 || currentVideoIndex + add > playlistData.items.length || currentVideoIndex + add < 0) return
+                if (currentVideoIndex === undefined || currentVideoIndex === -1 || currentVideoIndex + add >= playlistData.items.length || currentVideoIndex + add < 0) return
                 nextVideo = playlistData.items[currentVideoIndex + add]
             }
             let playlistQuery: { type: string, context: any } = {
@@ -295,14 +295,14 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         if ( !videoRef.current ) return
         const playbackPositionBody = { watchId: videoId, seconds: videoRef.current.currentTime }
         putPlaybackPosition(JSON.stringify(playbackPositionBody))
-    }, [videoRef])
+    }, [videoRef, videoId])
 
-    const onEnded = useCallback(() => {
+    const onEnded = () => {
         const autoPlayType = localStorage.playersettings.autoPlayType ?? "playlistonly"
         if ( ((autoPlayType === "playlistonly" && playlistData.items.length > 1) || autoPlayType === "always") && !localStorage.playersettings.isLoop ) {
             playlistIndexControl(1, localStorage.playersettings.enableShufflePlay)
         }
-    }, [localStorage.playersettings.autoPlayType, localStorage.playersettings.enableShufflePlay, localStorage.playersettings.isLoop, playlistData.items])
+    }
 
     
     const videoOnClick = useCallback(() => {
