@@ -118,7 +118,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
     const [frequencies] = useState([31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]);
     const [effectsState, setEffectsState] = useState<effectsState>(localStorage.playersettings.vefxSettings || {
         equalizer: { enabled: false, gains: new Array(frequencies.length).fill(0) },
-        echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 1 },
+        echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 0 },
         preamp: { enabled: false, gain: 1 },
         mono: { enabled: false },
     });
@@ -135,7 +135,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
         // 各エフェクトの更新処理
         updateEqualizer(newState.equalizer.gains);
         updateEcho(newState.echo.delayTime, newState.echo.feedback, newState.echo.gain);
-        updatePreampGain(newState.preamp.gain);
+        updatePreampGain(toDecibel(effectsState.preamp.gain));
     };
 
     // シャッフル再生のバッグ

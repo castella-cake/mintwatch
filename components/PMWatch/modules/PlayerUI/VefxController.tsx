@@ -149,23 +149,20 @@ function VefxController({ frequencies, effectsState, onEffectsChange, nodeRef }:
                         onChange={(e) => handleEnabledEffect("preamp")}
                     />
                     <span className="vefx-name">PREAMP</span>
-                    <span className="vefx-value">{effectsState.preamp.gain - 1 > 0 && "+"}{effectsState.preamp.gain - 1}dB</span>
+                    <span className="vefx-value">{effectsState.preamp.gain > 0 && "+"}{effectsState.preamp.gain}dB</span>
                 </label>
                 <div className="vefx-slidercontainer">
                     <input
                         type="range"
-                        min="0"
-                        max="3"
+                        min="-15"
+                        max="15"
                         step="0.1"
                         value={effectsState.preamp.gain}
-                        list="preamp-list"
+                        list="eq-list"
                         onChange={(e) => handlePreampGainChange(parseFloat(e.target.value))}
                         disabled={!effectsState.preamp.enabled}
                     />
                 </div>
-                <datalist id="preamp-list">
-                    {[0,0.5,1,1.5,2,3].map(elem => {return <option key={`preamp-list-${elem}`}>{elem}</option>})}
-                </datalist>
             </div>
 
             <div className="vefx-module">
@@ -177,7 +174,7 @@ function VefxController({ frequencies, effectsState, onEffectsChange, nodeRef }:
                     />
                     <span className="vefx-name">{delayString(effectsState.echo.delayTime, effectsState.echo.feedback).toUpperCase()}</span>
                 </label>
-                <div className="vefx-echo-value">d{effectsState.echo.delayTime}s / f{effectsState.echo.feedback}dB / g{effectsState.echo.gain}dB</div>
+                <div className="vefx-echo-value">d{effectsState.echo.delayTime}s / f{effectsState.echo.feedback}x / g{effectsState.echo.gain}x</div>
                 <div className="vefx-slidercontainer">
                     <label>Delay Time</label>
                     <input

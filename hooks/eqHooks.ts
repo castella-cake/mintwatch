@@ -27,6 +27,11 @@ function returnQValue(center: number, next: number | null, prev: number | null) 
     return f0 / bw
 }
 
+// scale to decibels
+export function toDecibel(value: number) {
+    return Math.pow(10, value / 20);
+}
+
 // Thank you ChatGPT
 export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequencies: number[], effectsState: effectsState, loudnessControl: number) => {
     const audioContextRef = useRef<AudioContext>(null!);
@@ -68,10 +73,10 @@ export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequenci
 
             // エコーの設定
             echoDelayNodeRef.current = audioContextRef.current.createDelay();
-            if (echoDelayNodeRef.current) echoDelayNodeRef.current.delayTime.value = effectsState.echo.delayTime || 0.5;
+            if (echoDelayNodeRef.current) echoDelayNodeRef.current.delayTime.value = effectsState.echo.delayTime || 0.1;
 
             echoFeedbackNodeRef.current = audioContextRef.current.createGain();
-            if (echoFeedbackNodeRef.current) echoFeedbackNodeRef.current.gain.value = effectsState.echo.feedback || 0.5;
+            if (echoFeedbackNodeRef.current) echoFeedbackNodeRef.current.gain.value = effectsState.echo.feedback || 0.25;
 
             echoGainNodeRef.current = audioContextRef.current.createGain();
             if (echoGainNodeRef.current) echoGainNodeRef.current.gain.value = effectsState.echo.gain || 0.5;
@@ -84,7 +89,7 @@ export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequenci
 
             // プリアンプの設定
             gainNodeRef.current = audioContextRef.current.createGain();
-            if (gainNodeRef.current) gainNodeRef.current.gain.value = effectsState.preamp.gain
+            if (gainNodeRef.current) gainNodeRef.current.gain.value = toDecibel(effectsState.preamp.gain)
 
             // ラウドネスコントロール
             loudnessGainNodeRef.current = audioContextRef.current.createGain();
