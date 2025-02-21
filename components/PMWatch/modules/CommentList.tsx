@@ -6,6 +6,7 @@ import { VideoDataRootObject } from "@/types/VideoData";
 import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostResponseRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
 import { getNicoruKey, postNicoru, removeNicoru } from "../../../utils/watchApi";
 import { useStorageContext } from "@/hooks/extensionHook";
+import { IconAdjustmentsStar } from "@tabler/icons-react";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement>
@@ -62,6 +63,7 @@ function CommentList(props: Props) {
     const [ autoScroll, setAutoScroll ] = useState(true)
     const [ openedCommentItem, setOpenedCommentItem ] = useState<string>("")
     const [ listFocusable, setListFocusable ] = useState(false)
+    const [ onlyShowMyselfComments, setOnlyShowMyselfComments ] = useState(false)
 
     const commentListContainerRef = useRef<HTMLDivElement>(null)
     // 複数のref
@@ -118,8 +120,8 @@ function CommentList(props: Props) {
             if ( a.vposMs < b.vposMs ) return -1
             return 0
         })
-        return doFilterComments(sortedComments, sharedNgLevelScore[(localStorage.playersettings.sharedNgLevel ?? "mid") as keyof typeof sharedNgLevelScore], props.videoInfo.data?.response.comment.ng.viewer)
-    }, [currentThread, localStorage.playersettings.sharedNgLevel, props.videoInfo])
+        return doFilterComments(sortedComments, sharedNgLevelScore[(localStorage.playersettings.sharedNgLevel ?? "mid") as keyof typeof sharedNgLevelScore], props.videoInfo.data?.response.comment.ng.viewer, onlyShowMyselfComments)
+    }, [currentThread, localStorage.playersettings.sharedNgLevel, onlyShowMyselfComments, props.videoInfo])
 
 
     // データが足りなかったら閉店
@@ -140,9 +142,9 @@ function CommentList(props: Props) {
         }
     })
 
-    async function onNicoru(commentNo: number, commentBody: string, nicoruId: string | null) {
+    async function onNicoru(commentNo: number, commentBody: string, nicoruId: string | null, isMyPost: boolean) {
         //"{\"videoId\":\"\",\"fork\":\"\",\"no\":0,\"content\":\"\",\"nicoruKey\":\"\"}"
-        if (!props.videoInfo.data || !props.videoInfo.data.response.video.id || !props.videoInfo.data.response.viewer || !props.videoInfo.data.response.viewer.isPremium || !props.commentContent.data) return
+        if (!props.videoInfo.data || !props.videoInfo.data.response.video.id || !props.videoInfo.data.response.viewer || !props.commentContent.data || isMyPost) return
         if (nicoruId) {
             const response: NicoruRemoveRootObject = await removeNicoru(nicoruId)
             if ( response.meta.status === 200 ) {
@@ -201,30 +203,36 @@ function CommentList(props: Props) {
             <div className="global-flex1 global-bold">
                 
             </div>
-            <div>
-                <select onChange={(e) => {setCurrentForkType(Number(e.currentTarget.value))}} value={currentForkType} className="commentlist-fork-selector" title="コメント種類選択">
-                    {props.videoInfo.data.response.comment.threads.map((elem, index) => {
-                        const key = elem.label as keyof typeof forkLabelToLang
-                        return <option key={`${index}-${elem.fork}-${elem.label}`} value={index}>{forkLabelToLang[key] || elem.label}</option>
-                    })}
-                </select>
-                <label>
-                    <input
-                        type="checkbox"
-                        className="commentlist-autoscroll"
-                        onChange={(e) => {setAutoScroll(e.currentTarget.checked)}}
-                        checked={autoScroll}
-                    />
-                    自動スクロール
-                </label>
-                <button className="commentlist-list-toggletabindex" aria-description={ariaDetails} onClick={() => {setListFocusable(!listFocusable);setAutoScroll(false)}} data-isopen={listFocusable}>コメントリストを{listFocusable ? "閉じる" : "開く"}</button>
-            </div>
+            <button className="commentlist-list-togglemycomments" data-isenable={onlyShowMyselfComments} onClick={() => {setOnlyShowMyselfComments((state) => { return !onlyShowMyselfComments })}} title="自分のコメントのみ表示"><IconAdjustmentsStar/></button>
+            <select onChange={(e) => {setCurrentForkType(Number(e.currentTarget.value))}} value={currentForkType} className="commentlist-fork-selector" title="コメント種類選択">
+                {props.videoInfo.data.response.comment.threads.map((elem, index) => {
+                    const key = elem.label as keyof typeof forkLabelToLang
+                    return <option key={`${index}-${elem.fork}-${elem.label}`} value={index}>{forkLabelToLang[key] || elem.label}</option>
+                })}
+            </select>
+            <label>
+                <input
+                    type="checkbox"
+                    className="commentlist-autoscroll"
+                    onChange={(e) => {setAutoScroll(e.currentTarget.checked)}}
+                    checked={autoScroll}
+                />
+                自動スクロール
+            </label>
+            <button className="commentlist-list-toggletabindex" aria-description={ariaDetails} onClick={() => {setListFocusable(!listFocusable);setAutoScroll(false)}} data-isopen={listFocusable}>コメントリストを{listFocusable ? "閉じる" : "開く"}</button>
         </div>
         <div className="commentlist-list-container" ref={commentListContainerRef} onMouseEnter={() => {setIsCommentListHovered(true)}} onMouseLeave={() => setIsCommentListHovered(false)}>
             {filteredComments?.map((elem, index) => {
                 //console.log(elem)
                 return <div key={elem.id} ref={commentRefs.current[index]} className={`commentlist-list-item ${openedCommentItem.includes(elem.id) ? "commentlist-list-item-open" : ""}`} nicoru-count={returnNicoruRank(elem.nicoruCount)} aria-hidden={!listFocusable}>
-                    <button type="button" tabIndex={listFocusable ? undefined : -1} onClick={() => onNicoru(elem.no, elem.body, elem.nicoruId)} className={`commentlist-list-item-nicorubutton ${!props.videoInfo.data?.response.viewer || (!props.videoInfo.data?.response.viewer.isPremium) ? "commentlist-list-item-nicorubutton-disabled" : ""}`}>ﾆｺ{elem.nicoruId && "ｯﾀ"} {elem.nicoruCount}</button>
+                    <button
+                        type="button"
+                        tabIndex={listFocusable ? undefined : -1}
+                        onClick={() => onNicoru(elem.no, elem.body, elem.nicoruId, elem.isMyPost)}
+                        aria-disabled={elem.isMyPost ? true : false}
+                        className={`commentlist-list-item-nicorubutton`}
+                        >ﾆｺ{elem.nicoruId && "ｯﾀ"} {elem.nicoruCount}
+                    </button>
                     <div className="commentlist-list-item-body" title={elem.body}>{elem.body}</div>
                     <button type="button" tabIndex={listFocusable ? undefined : -1} className="commentlist-list-item-vpos" onClick={() => {toggleCommentItemExpand(elem.id)}} title="コメントの詳細を開く">{secondsToTime(Math.floor( elem.vposMs / 1000 ))}</button>
                     { openedCommentItem === elem.id && <>

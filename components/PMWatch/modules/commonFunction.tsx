@@ -129,8 +129,9 @@ export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewer
     return threadsAfter
 }
 
-export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: ViewerNg) {
+export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: ViewerNg, onlyShowMyselfComments?: boolean) {
     return comments.filter((comment) => {
+        if (onlyShowMyselfComments && !comment.isMyPost) return false 
         if ( comment.score < sharedNgLevel ) return false
         if (viewerNg && viewerNg.items.findIndex(elem => {
             if (elem.type === "command" && comment.commands.findIndex(command => elem.source === command) !== -1) return true

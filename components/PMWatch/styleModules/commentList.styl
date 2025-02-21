@@ -101,8 +101,11 @@
     line-height: 1.5em;
     font-size: 0.9em;
     white-space: nowrap;
+    &[aria-disabled="true"] {
+        color: var(--textcolor3);
+    }
 }
-.commentlist-list-item-nicorubutton:not(.commentlist-list-item-nicorubutton-disabled):hover {
+.commentlist-list-item-nicorubutton:not([aria-disabled="true"]):hover {
     background: var(--hover1);
     cursor: pointer;
 }
