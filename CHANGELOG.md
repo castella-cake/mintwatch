@@ -5,15 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.4.0 - 2025/02
+## 0.4.0 - 2025/02/22
 
 ### Added
 - 再生キューからアイテムを削除することができるようになりました
 - 動画統計からラウドネスノーマライズ情報が確認できるようになりました
+- コメントリストで「自分のコメントを表示」が使えるようになりました
+
+### Changed
+- 一般会員でも「ニコる」が使えるようになりました
+- スタッカーヘッダーのボタンの状態がよりわかりやすくなりました
 
 ### Fixed
+- タイムラインが特定の条件で引き伸ばされる問題を修正しました
 - プレイリストの自動再生に関する問題を修正しました
-- エフェクト設定の設定に正しい単位が使われるようになりました
+- エフェクト設定に正しい単位が使われるようになりました   
 - 言語設定が日本語以外に設定されている場合に発生するエラーを修正しました
 
 
