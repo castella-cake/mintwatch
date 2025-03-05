@@ -1,5 +1,4 @@
 import { RefObject } from "react";
-import ReactFocusLock from "react-focus-lock";
 
 export function OnboardingPopup({ onOnboardOpen, nodeRef }: { onOnboardOpen: () => void, nodeRef: RefObject<HTMLDivElement> }) {
     const { localStorage, setLocalStorageValue} = useStorageContext()
@@ -9,19 +8,17 @@ export function OnboardingPopup({ onOnboardOpen, nodeRef }: { onOnboardOpen: () 
         setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
     }
     return <div className="pmw-onboarding-popup-wrapper" ref={nodeRef}>
-        <ReactFocusLock>
-            <div className="pmw-onboarding-popup">
-                <h2>MintWatch で視聴中です</h2>
-                <div className="pmw-onboarding-popup-text">
-                    MintWatch へようこそ。現在ベータ段階です。<br/>
-                    「はじめに」を確認しておくことをおすすめします。
-                </div>  
-                <div className="pmw-onboarding-popup-buttons">
-                    <button className="pmw-onboarding-popup-button-primary" onClick={onOnboardOpen}>MintWatch のはじめに</button>
-                    <button onClick={() => {writePlayerSettings("onboardingIgnored", true)}}>閉じる</button>
-                </div>
+        <div className="pmw-onboarding-popup">
+            <h2>MintWatch で視聴中です</h2>
+            <div className="pmw-onboarding-popup-text">
+                MintWatch へようこそ。現在ベータ段階です。<br/>
+                「はじめに」を確認しておくことをおすすめします。
+            </div>  
+            <div className="pmw-onboarding-popup-buttons">
+                <button className="pmw-onboarding-popup-button-primary" onClick={onOnboardOpen}>MintWatch のはじめに</button>
+                <button onClick={() => {writePlayerSettings("onboardingIgnored", true)}}>閉じる</button>
             </div>
-        </ReactFocusLock>
+        </div>
     </div>
 }
 
@@ -59,7 +56,7 @@ export function OnboardingHelp() {
             HLSは技術的制約により、ページスクリプトとして動作するプラグインとして実装されています。
         </p>
         <p>
-            画質セレクターは使用可能ですが、希望画質の保存や、稀に使用不可になることがあります。<br/>
+            画質セレクターは使用可能ですが、再生時の画質は自動設定に固定されます。また、稀に使用不可になることがあります。<br/>
             また、シークバーのバッファ表示は利用できません。
         </p>
         <h2>あなた好みの視聴ページになります</h2>

@@ -114,29 +114,20 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
     const containerRef = useRef<HTMLDivElement>(null)
     const [previewCommentItem, setPreviewCommentItem] = useState<Comment | null>(null) // プレビューコメント
 
-    // エフェクター
-    const [frequencies] = useState([31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]);
-    const [effectsState, setEffectsState] = useState<effectsState>(localStorage.playersettings.vefxSettings || {
-        equalizer: { enabled: false, gains: new Array(frequencies.length).fill(0) },
-        echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 0 },
-        preamp: { enabled: false, gain: 1 },
-        mono: { enabled: false },
-    });
+    // for transition
+    const vefxElemRef = useRef<HTMLDivElement>(null)
+    const settingsElemRef = useRef<HTMLDivElement>(null)
 
-    
     const isLoudnessEnabled = localStorage.playersettings.enableLoudnessData ?? true
     const integratedLoudness = (videoInfo.data?.response.media.domand && videoInfo.data?.response.media.domand?.audios[0].loudnessCollection[0].value) ?? 1
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1
-    const { updateEqualizer, updateEcho, updatePreampGain } = useAudioEffects(videoRef, frequencies, effectsState, loudnessData);
-
-    const handleEffectsChange = (newState: effectsState) => {
-        setEffectsState(newState);
-
-        // 各エフェクトの更新処理
-        updateEqualizer(newState.equalizer.gains);
-        updateEcho(newState.echo.delayTime, newState.echo.feedback, newState.echo.gain);
-        updatePreampGain(decibelToScale(effectsState.preamp.gain));
-    };
+    const { effectsState, setEffectsState, frequencies, handleEffectsChange } = useAudioEffects(videoRef, loudnessData, localStorage.playersettings.vefxSettings);
+    // エフェクト設定をリストア
+    useEffect(() => {
+        if (!localStorage || !localStorage.playersettings || !localStorage.playersettings.vefxSettings) return
+        setEffectsState(localStorage.playersettings.vefxSettings)
+        handleEffectsChange(effectsState)
+    }, [])
 
     // シャッフル再生のバッグ
     const shuffleBagRef = useRef<string[]>([])
@@ -145,47 +136,10 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
     const shouldUseContentScriptHls = !(import.meta.env.FIREFOX || syncStorage.pmwforcepagehls)
     const hlsRef = useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, shouldUseContentScriptHls, localStorage.playersettings.preferredLevel || -1)
 
-    // for transition
-    const vefxElemRef = useRef<HTMLDivElement>(null)
-    const settingsElemRef = useRef<HTMLDivElement>(null)
+    // ストーリーボード
+    const storyBoardData = useStoryBoardData(videoInfo, videoId, actionTrackId)
 
-    // レジューム再生の処理
-    useEffect(() => {
-        const onUnload = () => {
-            if ( !videoRef.current ) return
-            const playbackPositionBody = { watchId: videoId, seconds: videoRef.current.currentTime }
-            putPlaybackPosition(JSON.stringify(playbackPositionBody))
-        }
-        window.addEventListener("beforeunload", onUnload)
-        return () => { window.removeEventListener("beforeunload", onUnload) }
-    }, [])
-
-    // fromから再生位置の指定をするか、レジューム再生で再生位置を指定する
-    useEffect(() => {
-        if (!videoInfo.data || !videoRef.current) return
-        const searchParams = new URLSearchParams(location.search);
-        const fromSecond = Number(searchParams.get('from'))
-        if (fromSecond) {
-            videoRef.current.currentTime = fromSecond
-            return
-        }
-
-        if (!videoInfo.data.response.player.initialPlayback || localStorage.playersettings.resumePlayback === "never" || (
-            // スマートなレジューム再生(デフォルト値) が有効で、再生位置が始まりか終わりに近い(10s)場合は無視する
-            (localStorage.playersettings.resumePlayback === "smart" || !localStorage.playersettings.resumePlayback) && (
-                videoInfo.data.response.player.initialPlayback.positionSec <= 10 ||
-                videoInfo.data.response.player.initialPlayback.positionSec >= videoInfo.data.response.video.duration - 10
-            )
-        )) return
-        videoRef.current.currentTime = videoInfo.data.response.player.initialPlayback?.positionSec
-    }, [videoInfo])
-
-    // エフェクト設定をリストア
-    useEffect(() => {
-        if (!localStorage || !localStorage.playersettings || !localStorage.playersettings.vefxSettings) return
-        setEffectsState(localStorage.playersettings.vefxSettings)
-        handleEffectsChange(effectsState)
-    }, [])
+    useResumePlayback(videoRef, videoId, videoInfo, localStorage.playersettings.resumePlayback)
 
     const toggleFullscreen = () => {
         const shouldRequestFullscreen = localStorage.playersettings.requestMonitorFullscreen ?? true
@@ -387,6 +341,7 @@ function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, i
 
                 playlistIndexControl={playlistIndexControl}
                 qualityLabels={qualityLabels}
+                storyBoardData={storyBoardData}
             />
             <CommentInput videoId={videoId} videoRef={videoRef} videoInfo={videoInfo} setCommentContent={setCommentContent} reloadCommentContent={reloadCommentContent} commentInputRef={commentInputRef} setPreviewCommentItem={setPreviewCommentItem}/>
         </div>

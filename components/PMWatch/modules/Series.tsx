@@ -32,7 +32,7 @@ function SeriesInfo({videoInfo}: Props) {
             <div className="seriesinfo-noseries">
                 <span className="seriesinfo-noseries-text">
                     <span className="seriesinfo-seriestext"><IconListNumbers/> シリーズ</span><br/>
-                    この動画に割り当てられているシリーズはありません
+                    この動画に登録されているシリーズはありません
                 </span>
             </div>
         }

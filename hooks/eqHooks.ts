@@ -37,7 +37,24 @@ export function scaleToDecibel(value: number) {
 }
 
 // Thank you ChatGPT
-export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequencies: number[], effectsState: effectsState, loudnessControl: number) => {
+export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, loudnessControl: number, vefxSettings: any) => {
+    const [frequencies] = useState([31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]);
+    const [effectsState, setEffectsState] = useState<effectsState>(vefxSettings || {
+        equalizer: { enabled: false, gains: new Array(frequencies.length).fill(0) },
+        echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 0 },
+        preamp: { enabled: false, gain: 1 },
+        mono: { enabled: false },
+    });
+
+    const handleEffectsChange = (newState: effectsState) => {
+        setEffectsState(newState);
+
+        // 各エフェクトの更新処理
+        updateEqualizer(newState.equalizer.gains);
+        updateEcho(newState.echo.delayTime, newState.echo.feedback, newState.echo.gain);
+        updatePreampGain(decibelToScale(effectsState.preamp.gain));
+    };
+
     const audioContextRef = useRef<AudioContext>(null!);
     const mediaElementSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
     const biquadFiltersRef = useRef<BiquadFilterNode[]>([]);
@@ -202,6 +219,10 @@ export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, frequenci
         updateEqualizer,
         updateEcho,
         updatePreampGain,
-        updateLoudnessControl
+        updateLoudnessControl,
+        effectsState,
+        setEffectsState,
+        frequencies,
+        handleEffectsChange
     };
 };

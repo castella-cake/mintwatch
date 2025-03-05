@@ -119,7 +119,7 @@ function Playlist({ playlistData, videoInfo, setPlaylistData }: { playlistData: 
             </div>
             {playlistData.items.length < 2 && <div className="playlist-nothinghere">
                 <p>
-                    ここに動画を投げ込んでプレイリストに追加...
+                    ここに動画をドラッグ&ドロップしてプレイリストに追加...
                 </p>
             </div>}
         </SortableContext>
