@@ -3,6 +3,7 @@ import type { VideoDataRootObject } from "@/types/VideoData"
 import { getCommentThread, getRecommend, getVideoInfo } from "../utils/watchApi"
 import { CommentDataRootObject } from "@/types/CommentData"
 import { RecommendDataRootObject } from "@/types/RecommendData"
+import { StoryBoardImageRootObject, StoryBoardRightsRootObject } from "@/types/StoryBoardData"
 
 export function useWatchData(smId: string) {
     const [videoInfo, setVideoInfo] = useState<VideoDataRootObject>({})
@@ -46,11 +47,17 @@ export function useWatchData(smId: string) {
         }
         fetchInfo()
     }, [smId])
-    async function reloadCommentContent() {
+    async function reloadCommentContent(logData?: { when: number }) {
         if (!videoInfo.data) return
+        const logParams = logData ?? {}
         const commentRequestBody = {
             params: {
-                ...videoInfo.data.response.comment.nvComment.params
+                ...videoInfo.data.response.comment.nvComment.params,
+            },
+            additionals: {
+                ...logParams,
+                resFrom: -1000,
+                res_from: -1000
             },
             threadKey: commentThreadKeyRef.current
         }
@@ -63,7 +70,8 @@ export function useWatchData(smId: string) {
                     commentThreadKeyRef.current = threadKeyResponse.data.threadKey
                     const newCommentRequestBody = {
                         params: {
-                            ...videoInfo.data.response.comment.nvComment.params
+                            ...videoInfo.data.response.comment.nvComment.params,
+                            ...logParams,
                         },
                         threadKey: commentThreadKeyRef.current
                     }
@@ -95,4 +103,23 @@ export function useRecommendData(smId: string) {
         fetchInfo()
     }, [smId])
     return recommendData
+}
+
+export function useStoryBoardData(videoInfo: VideoDataRootObject, smId: string, actionTrackId: string) {
+    const [storyBoardData, _setStoryBoardData] = useState<null | StoryBoardImageRootObject>(null)
+    useEffect(() => {
+        async function getData() {
+            _setStoryBoardData(null)
+            const rightsResult: StoryBoardRightsRootObject = await getHls(smId, "{}", actionTrackId, videoInfo.data?.response.media.domand?.accessRightKey, true)
+            if (rightsResult.meta.status !== 201 || !rightsResult.data.contentUrl) return
+            const imagesResult = await fetch(rightsResult.data.contentUrl)
+            if (!imagesResult.ok) return
+            let imagesResultJson: StoryBoardImageRootObject = await imagesResult.json()
+            _setStoryBoardData({ ...imagesResultJson, images: imagesResultJson.images.map((image) => { return { ...image, url: rightsResult.data.contentUrl.replace("storyboard.json", image.url) }}) })
+        }
+        if (videoInfo.data?.response.media.domand?.isStoryboardAvailable) {
+            getData()
+        }
+    },[smId, videoInfo])
+    return storyBoardData
 }

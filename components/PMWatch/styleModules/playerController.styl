@@ -13,6 +13,34 @@
         font-size: 0.9em;
         color: var(--textcolor1)
     }
+    .seekbar-storyboard {
+        position: absolute;
+        transform: translate(-50%,10%);
+        background: #000a;
+        color: var(--textcolor1);
+        font-size: 0.7em;
+        border-radius: var(--radius);
+        padding: 4px;
+        bottom: 1rem;
+        transition: opacity 0.2s ease, transform 0.1s ease;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+        backdrop-filter: blur(2px);
+        box-shadow: 0 0 4px #000a;
+        border: 1px solid var(--accent1);
+        .seekbar-storyboard-time {
+            text-align: center;
+        }
+    }
+    .seekbar:hover .seekbar-storyboard {
+        opacity: 0.9;
+        transform: translate(-50%,0%);
+        pointer-events: inherit;
+        &:hover {
+            opacity: 1;
+        }
+    }
 }
 .playercontroller-container-middle {
     display: flex;
@@ -38,16 +66,18 @@
         vertical-align: middle;
         padding: 5px 8px;
         border-radius: var(--radius);
-        transition: background 0.1s ease;
+        transition: background 0.1s ease, transform 0.05s ease;
         svg {
             vertical-align: middle;
         }
         position: relative;
-    }
-    button:hover {
-        background: var(--hover1);
-        
-        cursor: pointer;
+        &:hover {
+            background: var(--hover1);
+            cursor: pointer;
+        }
+        &:active {
+            transform: scale(0.95);
+        }
     }
 }
 .playercontroller-tooltip {

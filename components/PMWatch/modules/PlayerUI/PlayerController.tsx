@@ -8,6 +8,7 @@ import { Seekbar } from "./Seekbar";
 import { secondsToTime, timeCalc } from "../commonFunction";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { CSSTransition } from "react-transition-group";
+import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
 type Props = {
     videoRef: RefObject<HTMLVideoElement>,
     effectsState: effectsState,
@@ -22,7 +23,8 @@ type Props = {
     hlsRef: RefObject<Hls>,
     commentContent: CommentDataRootObject,
     playlistIndexControl: (index: number, shuffleEnabled?: boolean) => void,
-    qualityLabels?: string[]
+    qualityLabels?: string[],
+    storyBoardData?: StoryBoardImageRootObject | null,
 }
 
 const playerTypes = {
@@ -77,7 +79,8 @@ function PlayerController({
     setIsSettingsShown,
     commentContent,
     playlistIndexControl,
-    qualityLabels
+    qualityLabels,
+    storyBoardData,
 }: Props) {
     const { localStorage, setLocalStorageValue, syncStorage, isLoaded } = useStorageContext()
     const localStorageRef = useRef<any>(null)
@@ -101,7 +104,6 @@ function PlayerController({
 
     const seekbarRef = useRef<HTMLDivElement>(null)
     const [isSeeking, setIsSeeking] = useState(false)
-    const [tempSeekDuration, setTempSeekDuration] = useState(0)
 
     const [isLoop, setIsLoop] = useState(false)
 
@@ -281,13 +283,13 @@ function PlayerController({
         currentTime={currentTime}
         duration={duration}
         showTime={currentPlayerType === playerTypes.default}
-        tempSeekDuration={tempSeekDuration}
         bufferedDuration={bufferedDuration}
         isSeeking={isSeeking}
         setIsSeeking={setIsSeeking}
         tempSeekHandle={tempSeekHandle}
         seekbarRef={seekbarRef}
         commentContent={commentContent}
+        storyBoardData={storyBoardData}
     />
 
     const effectChangeElem =  <PlayerControllerButton key="control-effectchange" className="playercontroller-effectchange" onClick={() => {setIsVefxShown(!isVefxShown)}} title="エフェクト設定">

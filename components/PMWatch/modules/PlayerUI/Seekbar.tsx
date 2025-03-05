@@ -2,21 +2,106 @@ import { Dispatch, PointerEvent, RefObject, SetStateAction, useMemo } from "reac
 import { secondsToTime } from "../commonFunction";
 
 import type { CommentDataRootObject, Comment as CommentItem} from "@/types/CommentData";
+import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
 
 type Props = {
     currentTime: number,
     duration: number,
     showTime: boolean,
-    tempSeekDuration: number,
     bufferedDuration: number,
     isSeeking: boolean,
     setIsSeeking: Dispatch<SetStateAction<boolean>>,
     tempSeekHandle: (clientX: number) => void,
     commentContent: CommentDataRootObject,
     seekbarRef: RefObject<HTMLDivElement>,
+    storyBoardData?: StoryBoardImageRootObject | null,
 }
 
-export function Seekbar({ currentTime, duration, showTime, bufferedDuration, setIsSeeking, tempSeekHandle, commentContent, seekbarRef}: Props) {
+export function Seekbar({ currentTime, duration, showTime, bufferedDuration, setIsSeeking, tempSeekHandle, commentContent, seekbarRef, storyBoardData}: Props) {
+    const [storyBoardX, setStoryBoardX] = useState<number>(0)
+    const storyboardCanvasRef = useRef<HTMLCanvasElement>(null)
+    const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+    if (storyboardCanvasRef.current) {
+        ctxRef.current = storyboardCanvasRef.current?.getContext("2d")
+    }
+    const storyboardImgsMemo = useMemo(() => {
+        if (!storyBoardData) return []
+        return storyBoardData.images.map(imgUrl => {
+            const image = new Image()
+            image.src = imgUrl.url
+            return image
+        })
+    }, [storyBoardData])
+
+    const onPointerMove = (e: PointerEvent) => {
+        const boundingClientRect = seekbarRef.current?.getBoundingClientRect()
+        if (!boundingClientRect) return
+        let scale = ((e.clientX - boundingClientRect.left) / boundingClientRect.width)
+        if ( scale > 1 ) scale = 1
+        if ( scale < 0 ) scale = 0
+        setStoryBoardX( scale <= 1 ? scale : 1 )
+        
+        if (storyBoardData && ctxRef.current && storyboardCanvasRef.current) {
+            const flooredHoverTime = Math.floor(( scale <= 1 ? scale : 1 ) * duration)
+            // intervalで割って、何番目のサムネイルかを計算
+            const thumbnailIndex = Math.floor(flooredHoverTime / (storyBoardData.interval / 1000))
+            // サムネイルのインデックスから画像インデックスとグリッド位置を計算
+            const selectImgIndex = Math.floor(thumbnailIndex / (storyBoardData.columns * storyBoardData.rows))
+            const positionInGrid = thumbnailIndex % (storyBoardData.columns * storyBoardData.rows)
+            const selectColumn = Math.floor(positionInGrid / storyBoardData.columns)
+            const selectRow = positionInGrid % storyBoardData.columns
+        
+    
+            // キャンバスをクリア
+            ctxRef.current.clearRect(0, 0, storyboardCanvasRef.current.width, storyboardCanvasRef.current.height)
+            
+            // 対象の画像が読み込まれているか確認
+            if (storyboardImgsMemo[selectImgIndex]) {
+                const sourceX = selectRow * storyBoardData.thumbnailWidth
+                const sourceY = selectColumn * storyBoardData.thumbnailHeight
+                
+                // キャンバスのサイズ
+                const canvasWidth = storyboardCanvasRef.current.width
+                const canvasHeight = storyboardCanvasRef.current.height
+                
+                // アスペクト比を計算
+                const sourceAspect = storyBoardData.thumbnailWidth / storyBoardData.thumbnailHeight
+                const canvasAspect = canvasWidth / canvasHeight
+                
+                // 描画サイズとオフセットを計算
+                let drawWidth, drawHeight, offsetX, offsetY
+                
+                if (sourceAspect > canvasAspect) {
+                    // 画像の方が横長の場合
+                    drawWidth = canvasWidth
+                    drawHeight = canvasWidth / sourceAspect
+                    offsetX = 0
+                    offsetY = (canvasHeight - drawHeight) / 2
+                } else {
+                    // 画像の方が縦長の場合
+                    drawHeight = canvasHeight
+                    drawWidth = canvasHeight * sourceAspect
+                    offsetX = (canvasWidth - drawWidth) / 2
+                    offsetY = 0
+                }
+                
+                // 画像の切り出しと描画
+                ctxRef.current.drawImage(
+                    storyboardImgsMemo[selectImgIndex],
+                    sourceX,
+                    sourceY,
+                    storyBoardData.thumbnailWidth,
+                    storyBoardData.thumbnailHeight,
+                    offsetX,
+                    offsetY,
+                    drawWidth,
+                    drawHeight
+                )
+            }
+        }
+    }
+
+
     const commentStatsCalc = useMemo(() => {
         const comments = commentContent.data?.threads
             .map(elem => elem.comments)
@@ -58,6 +143,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
         { showTime && <div className="seekbar-time currenttime">{secondsToTime( currentTime )}</div> }
         <div className="seekbar" ref={seekbarRef} onDragOver={(e) => {e.preventDefault()}}
             onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
         >
             <div className="seekbar-commentstats global-flex">{Object.keys(commentStatsCalc).map((keyname, index) => {
                 return <span key={`${keyname}s-index`} className="global-flex1" style={{["--height" as any]: `${commentStatsCalc[keyname]}px`}}></span>
@@ -66,6 +152,10 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
             <div className="seekbar-buffered" style={{ width: `${bufferedDuration / duration * 100}%` }}></div>
             <div className="seekbar-played" style={{ width: `${( currentTime ) / duration * 100}%` }}></div>
             <div className="seekbar-thumb" style={{ left: `${( currentTime ) / duration * 100}%` }}></div>
+            <div className="seekbar-storyboard" style={{ left: `${storyBoardX * 100}%` }}>
+                <canvas ref={storyboardCanvasRef} width={160} height={90}/>
+                <div className="seekbar-storyboard-time">{secondsToTime(duration * storyBoardX)}</div>
+            </div>
         </div>
         { showTime && <div className="seekbar-time duration">{secondsToTime(duration)}</div> }
     </div>

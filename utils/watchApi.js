@@ -16,8 +16,8 @@ export function generateActionTrackId() {
     return ati_firststr + "_" + ati_laststr
 }
 
-export async function getHls(videoId, body, actionTrackId, accessRightKey) {
-    const response = await fetch(`https://nvapi.nicovideo.jp/v1/watch/${encodeURIComponent(videoId)}/access-rights/hls?actionTrackId=${encodeURIComponent(actionTrackId)}`, {
+export async function getHls(videoId, body, actionTrackId, accessRightKey, isStoryBoard = false) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v1/watch/${encodeURIComponent(videoId)}/access-rights/${isStoryBoard ? "storyboard" : "hls"}?actionTrackId=${encodeURIComponent(actionTrackId)}`, {
         "headers": {
             "content-type": "application/json",
             "x-access-right-key": accessRightKey,
