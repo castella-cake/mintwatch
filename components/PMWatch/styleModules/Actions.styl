@@ -27,7 +27,10 @@
 
 .watch-container:not([watch-type="shinjuku"]) .video-actions {
     > button {
-        transition: background 0.1s ease;
+        transition: background 0.1s ease, transform 0.05s ease;
+        &:active {
+            transform: scale(0.95)
+        }
     }
     > .video-action-likebutton {
         border: 1px solid var(--border-color);

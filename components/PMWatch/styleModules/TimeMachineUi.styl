@@ -1,0 +1,55 @@
+.comment-timemachine-container {
+    padding: 16px;
+    margin: 4px;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    background: var(--bgcolor1);
+
+    button {
+        border-radius: var(--radius);
+        border: var(--border);
+        background: var(--bgcolor2);
+        color: var(--textcolor1);
+        transform: scale(1);
+        transition: background 0.2s ease, transform 0.05s ease;
+        cursor: pointer;
+        &:not([aria-disabled="true"]) {
+            &:hover {
+                background: var(--hover1);
+            }
+            &:active {
+                transform: scale(0.95);
+                background: var(--bgcolor1);
+            }
+        }
+        &[aria-disabled="true"] {
+            opacity: 0.5
+            cursor: not-allowed;
+        }
+    }
+    .comment-timemachine-description {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        margin: 4px 0;
+    }
+}
+
+.comment-timemachine-content {
+    display: flex;
+    gap: 8px;
+}
+
+.comment-timemachine-input-container input {
+    height: 1.25rem;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+}
+
+.comment-timemachine-title {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}

@@ -6,7 +6,8 @@ import { VideoDataRootObject } from "@/types/VideoData";
 import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostResponseRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
 import { getNicoruKey, postNicoru, removeNicoru } from "../../../utils/watchApi";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { IconAdjustmentsStar } from "@tabler/icons-react";
+import { IconAdjustmentsStar, IconHistoryToggle } from "@tabler/icons-react";
+import { TimeMachine } from "./TimeMachineUi";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement>
@@ -50,7 +51,8 @@ type Props = {
     videoInfo: VideoDataRootObject,
     commentContent: CommentDataRootObject,
     setCommentContent: Dispatch<SetStateAction<CommentDataRootObject>>,
-    videoRef: RefObject<HTMLVideoElement>
+    videoRef: RefObject<HTMLVideoElement>,
+    reloadCommentContent: (logData?: { when: number }) => void,
 }
 
 const ariaDetails = "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。"
@@ -64,6 +66,7 @@ function CommentList(props: Props) {
     const [ openedCommentItem, setOpenedCommentItem ] = useState<string>("")
     const [ listFocusable, setListFocusable ] = useState(false)
     const [ onlyShowMyselfComments, setOnlyShowMyselfComments ] = useState(false)
+    const [ showTimemachineUi, setShowTimemachineUi ] = useState(false)
 
     const commentListContainerRef = useRef<HTMLDivElement>(null)
     // 複数のref
@@ -200,10 +203,10 @@ function CommentList(props: Props) {
 
     return <div className="commentlist-container" id="pmw-commentlist">
         <div className="commentlist-title-container global-flex stacker-title">
-            <div className="global-flex1 global-bold">
-                
+            <div className="global-flex1">
             </div>
-            <button className="commentlist-list-togglemycomments" data-isenable={onlyShowMyselfComments} onClick={() => {setOnlyShowMyselfComments((state) => { return !onlyShowMyselfComments })}} title="自分のコメントのみ表示"><IconAdjustmentsStar/></button>
+            <button className="commentlist-list-timemachine" data-isenable={onlyShowMyselfComments} onClick={() => {setOnlyShowMyselfComments((state) => { return !onlyShowMyselfComments })}} title="自分のコメントのみ表示"><IconAdjustmentsStar/></button>
+            <button className="commentlist-list-togglemycomments" data-isenable={showTimemachineUi} onClick={() => {setShowTimemachineUi((state) => { return !showTimemachineUi  })}} title="過去ログメニューを表示"><IconHistoryToggle/></button>
             <select onChange={(e) => {setCurrentForkType(Number(e.currentTarget.value))}} value={currentForkType} className="commentlist-fork-selector" title="コメント種類選択">
                 {props.videoInfo.data.response.comment.threads.map((elem, index) => {
                     const key = elem.label as keyof typeof forkLabelToLang
@@ -221,6 +224,12 @@ function CommentList(props: Props) {
             </label>
             <button className="commentlist-list-toggletabindex" aria-description={ariaDetails} onClick={() => {setListFocusable(!listFocusable);setAutoScroll(false)}} data-isopen={listFocusable}>コメントリストを{listFocusable ? "閉じる" : "開く"}</button>
         </div>
+        {
+            showTimemachineUi && <TimeMachine
+                onConfirm={(date) => {props.reloadCommentContent({ when: Math.floor(date.getTime() / 1000) })}}
+                onReload={() => {props.reloadCommentContent()}}
+            />
+        }
         <div className="commentlist-list-container" ref={commentListContainerRef} onMouseEnter={() => {setIsCommentListHovered(true)}} onMouseLeave={() => setIsCommentListHovered(false)}>
             {filteredComments?.map((elem, index) => {
                 //console.log(elem)

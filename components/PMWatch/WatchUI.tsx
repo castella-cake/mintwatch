@@ -300,7 +300,7 @@ function CreateWatchUI() {
     />
     const titleElem = <Title key="watch-container-title" videoInfo={videoInfo} />
     const infoElem = <Info videoInfo={videoInfo} videoRef={videoElementRef} isTitleShown={layoutType !== watchLayoutType.threeColumn} errorInfo={errorInfo} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
-    const commentListElem = <CommentList videoInfo={videoInfo} commentContent={commentContent} setCommentContent={setCommentContent} videoRef={videoElementRef} key="watchui-commentlist" />
+    const commentListElem = <CommentList videoInfo={videoInfo} commentContent={commentContent} setCommentContent={setCommentContent} reloadCommentContent={reloadCommentContent} videoRef={videoElementRef} key="watchui-commentlist" />
     const playListElem = <Playlist playlistData={playlistData} videoInfo={videoInfo} setPlaylistData={setPlaylistData} key="watchui-playlist"/>
     const actionsElem = <Actions onModalOpen={(modalType: "mylist" | "share") => {onModalStateChanged(true, modalType)}} videoInfo={videoInfo} key="watchui-actions"></Actions>
     const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
