@@ -34,7 +34,7 @@ function Recommend({recommendData, videoOwnerData}: {recommendData: RecommendDat
     return <div className="recommend-wrapper">
         <div className="recommend-container" id="pmw-recommend">
             <div className="recommend-selector">
-                <button data-active={recommendDisplayType === "recommend"} onClick={() => setRecommendDisplayType("recommend")}>関連動画</button>
+                <button data-active={recommendDisplayType === "recommend"} onClick={() => setRecommendDisplayType("recommend")}>おすすめ</button>
                 <button data-active={recommendDisplayType === "timeline"} onClick={() => setRecommendDisplayType("timeline")}>フォロー新着</button>
                 { videoOwnerData && videoOwnerData.nickname && <button data-active={recommendDisplayType === "userVideos"} onClick={() => setRecommendDisplayType("userVideos")}>{videoOwnerData.nickname} の投稿動画</button> }
             </div>

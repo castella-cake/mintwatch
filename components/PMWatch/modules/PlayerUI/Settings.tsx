@@ -81,7 +81,7 @@ const settings: { [key: string]: setting } = {
     enableWheelGesture: {
         type: "checkbox",
         defaultValue: true,
-        name: "ホイールの音量ジェスチャーを使用",
+        name: "音量ジェスチャーを使用",
         hint: "動画の上で右クリックしながらホイールを回して音量を変更できます。"
     },
     disableCommentOutline: {

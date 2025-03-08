@@ -6,7 +6,7 @@ import { RecommendDataRootObject } from "@/types/RecommendData";
 import { InfoCard } from "../InfoCards";
 
 export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: VideoDataRootObject, videoRef: RefObject<HTMLVideoElement>, recommendData: RecommendDataRootObject }) {
-    const { localStorage } = useStorageContext()
+    const { localStorage, syncStorage } = useStorageContext()
     const [supportersInfo, setSupportersInfo] = useState<PickupSupportersRootObject | null>(null)
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [duration, setDuration] = useState<number>(Infinity)
@@ -48,6 +48,8 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
     if (videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname
     if (videoInfo.data && videoInfo.data.response.channel) ownerName = videoInfo.data.response.channel.name
 
+    const isKokenMuted = syncStorage.muteKokenVoice ?? getDefault("muteKokenVoice")
+
     return <div className="endcard-container global-flex">
         <div className="endcard-left">
             <div className="endcard-supporters">
@@ -58,7 +60,7 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
                 </span>
             })}
             </div>
-            { supportersInfo?.data && <audio autoPlay src={supportersInfo?.data.voiceUrl} ref={audioElemRef}/> }
+            { supportersInfo?.data && !isKokenMuted && <audio autoPlay src={supportersInfo?.data.voiceUrl} ref={audioElemRef}/> }
         </div>
         <div className="endcard-right">
             <h2>現在の動画</h2>

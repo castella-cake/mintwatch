@@ -23,6 +23,16 @@
             "name": "プレイヤーテーマ",
             "hint": "MintWatchで使用するプレイヤーの見た目を指定します。",
             "select": ["デフォルト", "cresc.", "Shinjuku"]
+        },
+        
+        "otherSettings": {
+            "name": "詳細設定"
+        },
+        "muteKokenVoice": {
+            "name": "ニコニ貢献をミュート"
+        },
+        "wheelGestureAmount": {
+            "name": "音量ジェスチャーの移動量(%)"
         }
     }
 }

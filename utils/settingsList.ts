@@ -36,7 +36,39 @@ const settings: settingList = {
             name: "pmwforcepagehls",
             default: false,
         },
+        {
+            type: "group",
+            name: "otherSettings",
+            children: [
+                {
+                    type: "checkbox",
+                    name: "muteKokenVoice",
+                    default: false,
+                },
+                {
+                    type: "inputNumber",
+                    name: "wheelGestureAmount",
+                    default: 5,
+                    min: 1,
+                    max: 10,
+                }
+            ]
+        }
     ],
+}
+
+export function getDefault(name: string) {
+    for (const category of Object.values(settings)) {
+        for (const setting of category) {
+            if (setting.name === name) return setting.default
+            if (setting.children && setting.children.length > 0) {
+                for (const child of setting.children) {
+                    if (child.name === name) return child.default
+                }
+            }
+        }
+    }
+    return null
 }
 
 export default settings

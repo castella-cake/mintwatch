@@ -5,7 +5,7 @@ import VefxController from "./PlayerUI/VefxController";
 import { useHlsVideo } from "@/hooks/hlsHooks";
 import type { VideoDataRootObject } from "@/types/VideoData";
 import { Comment, type CommentDataRootObject } from "@/types/CommentData";
-import type { Dispatch, ReactNode, SetStateAction } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import CommentInput from "./PlayerUI/CommentInput";
 import Settings from "./PlayerUI/Settings";
 import { putPlaybackPosition } from "../../../utils/watchApi";
@@ -19,6 +19,7 @@ import { useAudioEffects } from "@/hooks/eqHooks";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { ErrorScreen } from "./PlayerUI/ErrorScreen";
 import { CommentRender } from "./PlayerUI/CommentRender";
+import { VideoPlayer } from "./PlayerUI/VideoPlayer";
 
 export type effectsState = {
     equalizer: { enabled: boolean, gains: number[] },
@@ -42,65 +43,22 @@ type Props = {
     changeVideo: (videoId: string) => void,
 }
 
-
-type VideoPlayerProps = {
-    children?: ReactNode,
-    videoRef: RefObject<HTMLVideoElement>,
-    onPause: () => void,
-    onEnded: () => void,
-    onClick: () => void,
-    thumbnailSrc?: string,
-    enableVolumeGesture: boolean
-}
-
-function VideoPlayer({children, videoRef, onPause, onEnded, onClick, thumbnailSrc, enableVolumeGesture}: VideoPlayerProps) {
-    const [canPlay, setCanPlay] = useState(false)
-    const nodeRef = useRef(null)
-    const videoContainerRef = useRef<HTMLDivElement>(null)
-
-    const volumeGestureUsedRef = useRef<boolean>(false)
-    useEffect(() => {
-        // ホイールの音量ジェスチャー
-        function onWheel(e: WheelEvent) {
-            const video = videoRef.current
-            // 右クリックを押しながらホイールで音量を変更
-            if ( e.buttons < 2 || enableVolumeGesture === false || !video ) return;
-            if ( e.deltaY < 0 ) {
-                video.volume += 0.05;
-            } else {
-                video.volume -= 0.05;
-            }
-            e.preventDefault();
-            volumeGestureUsedRef.current = true
-        }
-        function preventContextMenu(e: Event) {
-            if (!volumeGestureUsedRef.current) return
-            e.preventDefault()
-            volumeGestureUsedRef.current = false
-        }
-        videoContainerRef.current?.addEventListener("wheel", onWheel)
-        videoContainerRef.current?.addEventListener("contextmenu", preventContextMenu)
-        return () => {
-            videoContainerRef.current?.removeEventListener("wheel", onWheel)
-            videoContainerRef.current?.removeEventListener("contextmenu", preventContextMenu)
-        }
-    }, [])
-
-    return (<div className="player-video-container">
-        <div className="player-video-container-inner" ref={videoContainerRef}>
-            <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={400} unmountOnExit classNames="player-loading-transition">
-                <div ref={nodeRef} className="player-video-loading-container">
-                    <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
-                    <div className="player-video-loading-text">Loading...</div>
-                </div>
-            </CSSTransition>
-            <video ref={videoRef} autoPlay onPause={(e) => {onPause()}} onEnded={onEnded} onCanPlay={() => {setCanPlay(true)}} width="1920" height="1080" id="pmw-element-video" onClick={onClick}></video>
-            { children }
-        </div>
-    </div>);
-}
-
-function Player({ videoId, actionTrackId, videoInfo, commentContent, videoRef, isFullscreenUi, setIsFullscreenUi, setCommentContent, reloadCommentContent, playlistData, changeVideo, recommendData }: Props) {
+function Player(props: Props) {
+    const {
+        videoId,
+        actionTrackId,
+        videoInfo,
+        commentContent,
+        videoRef,
+        isFullscreenUi,
+        setIsFullscreenUi,
+        setCommentContent,
+        reloadCommentContent,
+        playlistData,
+        changeVideo,
+        recommendData
+    } = props
+    
     //const lang = useLang()
     const { localStorage, setLocalStorageValue, syncStorage } = useStorageContext()
 
