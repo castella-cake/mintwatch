@@ -64,14 +64,14 @@ Manifest V2向け(Firefox)の場合は、runコマンドの最後に`:firefox`�
 
 # Support
 ## ブラウザー
-Niconico-PepperMintは最近のFirefoxとその派生ブラウザ、そしてChromium系ブラウザをサポートします。  
+MintWatch は最近のFirefoxとその派生ブラウザ、そしてChromium系ブラウザをサポートします。  
 ただし、完全な動作には`:has()`のサポートが必要です。(最近のブラウザでは概ねサポートされているはずです)   
 PCでの動作を想定した拡張機能のため、スマートフォンでの動作は現状サポートしていません。
 
 # Donate
 開発者への寄付に関しては、Github sponsorsで受け付けています。   
 https://github.com/sponsors/castella-cake
-
+ 
 # License
 MintWatch のライセンスは``MIT License``です。  
 詳細は``LICENSE.txt``を確認してください。  

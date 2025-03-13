@@ -37,7 +37,7 @@ export function scaleToDecibel(value: number) {
 }
 
 // Thank you ChatGPT
-export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, loudnessControl: number, vefxSettings: any) => {
+export const useAudioEffects = (videoRef: RefObject<unknown>, loudnessControl: number, vefxSettings: any) => {
     const [frequencies] = useState([31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000]);
     const [effectsState, setEffectsState] = useState<effectsState>(vefxSettings || {
         equalizer: { enabled: false, gains: new Array(frequencies.length).fill(0) },
@@ -74,7 +74,7 @@ export const useAudioEffects = (videoRef: RefObject<HTMLVideoElement>, loudnessC
             audioContextRef.current = new (window.AudioContext)();
         }
 
-        if (videoRef.current && !mediaElementSourceRef.current) {
+        if (videoRef.current instanceof HTMLVideoElement && !mediaElementSourceRef.current) {
             mediaElementSourceRef.current = audioContextRef.current.createMediaElementSource(videoRef.current);
 
             // イコライザーの設定

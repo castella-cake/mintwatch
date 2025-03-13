@@ -410,7 +410,7 @@ interface Comment {
     nvComment: NvComment;
 }
 
-interface NvComment {
+export interface NvComment {
     threadKey: string;
     server: string;
     params: Params;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindForward10, IconSettings, IconSettingsFilled, IconVolume, IconVolume3 } from "@tabler/icons-react";
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
 import Hls from "hls.js";
@@ -33,7 +33,7 @@ const playerTypes = {
     shinjuku: "shinjuku",
 }
 
-function PlayerControllerButton({ onClick, title, className, children }: { onClick: any, title: string, className: string, children: ReactNode}) {
+const PlayerControllerButton = memo(function ({ onClick, title, className, children }: { onClick: any, title: string, className: string, children: ReactNode}) {
     const [isHovered, setIsHovered] = useState(false)
     const spanRef = useRef(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
@@ -62,7 +62,7 @@ function PlayerControllerButton({ onClick, title, className, children }: { onCli
             <span ref={spanRef} className="playercontroller-tooltip">{title}</span>
         </CSSTransition>
     </button>
-}
+})
 
 
 function PlayerController({
@@ -85,8 +85,8 @@ function PlayerController({
     const { localStorage, setLocalStorageValue, syncStorage, isLoaded } = useStorageContext()
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage
-    function writePlayerSettings(name: string, value: any) {
-        setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
+    function writePlayerSettings(name: string, value: any, silent?: boolean) {
+        setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value }, ( silent ?? false ))
     }
 
     const [isIconPlay, setIsIconPlay] = useState(false)
@@ -104,6 +104,8 @@ function PlayerController({
 
     const seekbarRef = useRef<HTMLDivElement>(null)
     const [isSeeking, setIsSeeking] = useState(false)
+    const isSeekingRef = useRef(false)
+    isSeekingRef.current = isSeeking
 
     const [isLoop, setIsLoop] = useState(false)
 
@@ -167,11 +169,11 @@ function PlayerController({
         const updateVolumeState = () => {
             if ( videoRef.current!.volume !== videoVolume / 100 ) {
                 setVideoVolume(videoRef.current!.volume * 100)
-                writePlayerSettings("volume", videoRef.current!.volume * 100)
+                writePlayerSettings("volume", videoRef.current!.volume * 100, true)
             }
             if ( videoRef.current!.muted !== isMuted ) {
                 setIsMuted(videoRef.current!.muted)
-                writePlayerSettings("isMuted", videoRef.current!.muted)
+                writePlayerSettings("isMuted", videoRef.current!.muted, true)
             }
         }
         
@@ -186,7 +188,7 @@ function PlayerController({
         }
     }, [videoRef.current])
     useEffect(() => {
-        const updateCurrentTime = () => { if (videoRef.current!.currentTime !== currentTime && !isSeeking) setCurrentTime(videoRef.current!.currentTime) }
+        const updateCurrentTime = () => { if (videoRef.current!.currentTime !== currentTime && !isSeekingRef.current) setCurrentTime(videoRef.current!.currentTime) }
         const updateDuration = () => { if (videoRef.current!.duration !== duration ) setDuration(videoRef.current!.duration) }
         document.addEventListener("pointermove", onSeekPointerMove)
         document.addEventListener("pointerup", onSeekPointerUp)
@@ -223,11 +225,11 @@ function PlayerController({
     function setVolume(volume: number, isMuteToggle = false) {
         if (isMuteToggle) { 
             setIsMuted(!isMuted)
-            writePlayerSettings("isMuted", !isMuted)
+            writePlayerSettings("isMuted", !isMuted, true)
             return
         }
         setVideoVolume(volume)
-        writePlayerSettings("volume", volume)
+        writePlayerSettings("volume", volume, true)
     }
 
     function tempSeekHandle(clientX: number) {
@@ -352,7 +354,7 @@ function PlayerController({
                 {hlsRef.current && <select onChange={(e) => {
                     if (!hlsRef.current) return
                     hlsRef.current.currentLevel = Number(e.currentTarget.value)
-                    writePlayerSettings("preferredLevel", Number(e.currentTarget.value))
+                    writePlayerSettings("preferredLevel", Number(e.currentTarget.value), true)
                     //setHlsLevel(Number(e.currentTarget.value))
                 }} value={hlsLevel} className="playercontroller-qualityselect" title="画質選択">
                     {hlsRef.current.levels.map((elem, index) => {

@@ -11,32 +11,32 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
 
     const settingName = setting.name as keyof typeof lang.SETTINGS_ITEMS
     if ( setting.type === "checkbox" ) {
-        return <label key={setting.name}><input type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.checked)}} />{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}</label>
+        return <label ><input type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.checked)}} />{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}</label>
     } else if ( setting.type === "select" && setting.values ){
         const settingsOption = setting.values.map((elem, index) => { return <option value={elem} key={elem}>{lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}</option> })
-        return <label key={setting.name}>{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<select onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select></label>
+        return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<select onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select></label>
     } else if ( setting.type === "selectButtons" && setting.values ){
         const settingsOption = setting.values.map((elem, index) => { return <button type="button" key={elem} onClick={() => {setSyncStorageValue(setting.name, elem)}} className={"select-button" + ((syncStorage[setting.name] ?? setting.default) == elem ? " select-button-current" : "")}>{lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}</button> })
-        return <><label key={setting.name}>{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}</label><div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div></>
+        return <><label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}</label><div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div></>
     } else if ( setting.type === "inputNumber" ) {
-        return <label key={setting.name}>{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
+        return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
     } else if ( setting.type === "inputString" ) {
         //console.log(syncStorage[settings.name])
-        return <label key={setting.name}>{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
+        return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
     } else if ( setting.type === "desc") {
-        return <div key={setting.name} className="desc">
+        return <div  className="desc">
             {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
             {setting.href && <a href={setting.href} target="_blank">{lang.SETTINGS_ITEMS[settingName].linktitle ?? "LINK"}</a>}
         </div>
     } else if ( setting.type === "group") {
-        return <details key={setting.name} className="settings-group">
+        return <details  className="settings-group">
             <summary>{( lang.SETTINGS_ITEMS[settingName] && lang.SETTINGS_ITEMS[settingName].name ) ?? setting.name}</summary>
             {setting.children && setting.children.map((elem) => {
-                return <CreateSettingsControl setting={elem} key={setting.name}/>
+                return <CreateSettingsControl setting={elem} key={`${elem.name}-group-children`}/>
             })}
         </details>
     } else {
-        return <label key={setting.name}>Unknown settings type</label>
+        return <label >Unknown settings type</label>
     }
 }
 
@@ -79,7 +79,7 @@ function CreateSettingsList({settings}: {settings: settingList}) {
             //console.log(settingsElem)
             return <CreateSettingsRow setting={settingsElem} key={`${settingsElem.name}-row`}/>
         })
-        return <div className="settings-area" key={elem} id={elem}>{settingsAreaElems}</div>
+        return <div className="settings-area" key={`${elem}-area`} id={elem}>{settingsAreaElems}</div>
     })
     //console.log(elemArray)
     return <>

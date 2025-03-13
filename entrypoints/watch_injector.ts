@@ -48,7 +48,7 @@ export default defineUnlistedScript({
             actionTrackId: 現在のレンダーで使っているアクショントラックID,
             commentContent: /v1/threadsで返ってくるコメント情報のオブジェクト,
         }*/
-        console.log(detail)
+        //console.log(detail)
         // 以前のATIと一緒ならスキップする
         if (detail.actionTrackId !== previousATI) {
             //console.log("Player injecting...")
