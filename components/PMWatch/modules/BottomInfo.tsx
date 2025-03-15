@@ -1,6 +1,7 @@
 import { getCommonsRelatives } from "../../../utils/watchApi";
 import { useEffect, useRef, useState } from "react";
 import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { wheelTranslator } from "./commonFunction";
 
 function BottomInfo() {
     const { videoInfo } = useVideoInfoContext();
@@ -46,17 +47,6 @@ function BottomInfo() {
         };
     });
     if (!videoInfo.data) return <></>;
-    function wheelTranslator(e: WheelEvent) {
-        if (
-            Math.abs(e.deltaY) < Math.abs(e.deltaX) ||
-            !e.currentTarget ||
-            !(e.currentTarget instanceof HTMLDivElement) ||
-            e.currentTarget.scrollWidth <= e.currentTarget.clientWidth
-        )
-            return;
-        e.preventDefault();
-        e.currentTarget.scrollLeft += e.deltaY;
-    }
 
     return (
         <div

@@ -62,6 +62,11 @@ export function WatchContent( _props: Props ) {
         }
     }
 
+    const shouldUseCardRecommend = !( layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch ) ? true : false
+    const shouldUseHorizontalSearchLayout = !(layoutType === watchLayoutType.shinjuku || layoutType === watchLayoutType.reimaginedOldWatch) ? true : false
+    const shouldUseCardInfo = !( layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku ) ? true : false
+    const shouldUseBigView = localStorage.playersettings.enableBigView ?? false
+
     const playerElem = <Player
         isFullscreenUi={isFullscreenUi}
         setIsFullscreenUi={setIsFullscreenUi}
@@ -84,7 +89,7 @@ export function WatchContent( _props: Props ) {
     const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
         {playerElem}{rightActionElem}
     </div>
-    const recommendElem = <Recommend key="watchui-recommend" />
+    const recommendElem = <Recommend key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend}/>
     const seriesElem = <SeriesInfo key="watchui-series" />
     const bottomInfoElem = <BottomInfo key="watchui-bottominfo" />
     const searchElem = <Search key="watchui-search" />
@@ -104,12 +109,7 @@ export function WatchContent( _props: Props ) {
 
     const currentLayout = layoutPresets[layoutType]
 
-    const shouldUseCardRecommend = !( layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch ) ? "true" : "false"
-    const shouldUseHorizontalSearchLayout = !(layoutType === watchLayoutType.shinjuku || layoutType === watchLayoutType.reimaginedOldWatch) ? "true" : "false"
-    const shouldUseCardInfo = !( layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku ) ? "true" : "false"
-    const shouldUseBigView = localStorage.playersettings.enableBigView ?? false
-
-    return <div className="watch-container" is-bigview={shouldUseBigView ? "true" : "false"} watch-type={layoutType} settings-size={playerSize} use-card-recommend={shouldUseCardRecommend} use-horizontal-search={shouldUseHorizontalSearchLayout} use-card-info={shouldUseCardInfo} id="pmw-container" onClickCapture={(e) => {linkClickHandler(e)}}>
+    return <div className="watch-container" is-bigview={shouldUseBigView.toString()} watch-type={layoutType.toString()} settings-size={playerSize.toString()} use-card-recommend={shouldUseCardRecommend.toString()} use-horizontal-search={shouldUseHorizontalSearchLayout.toString()} use-card-info={shouldUseCardInfo.toString()} id="pmw-container" onClickCapture={(e) => {linkClickHandler(e)}}>
         <div className="watch-container-grid">
             {currentLayout}
         </div>

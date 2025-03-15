@@ -143,3 +143,21 @@ export function doFilterComments(comments: Comment[], sharedNgLevel: number, vie
     })
 }
 
+export function wheelTranslator(e: WheelEvent) {
+    if (
+        Math.abs(e.deltaY) < Math.abs(e.deltaX) ||
+        !e.currentTarget ||
+        !(e.currentTarget instanceof HTMLDivElement) ||
+        e.currentTarget.scrollWidth <= e.currentTarget.clientWidth
+    )
+        return;
+
+    if (
+        (e.deltaY > 0 && e.currentTarget.scrollLeft >= e.currentTarget.scrollWidth - e.currentTarget.clientWidth) ||
+        (e.deltaY < 0 && e.currentTarget.scrollLeft <= 0)
+    )
+        return;
+
+    e.preventDefault();
+    e.currentTarget.scrollLeft += e.deltaY;
+}

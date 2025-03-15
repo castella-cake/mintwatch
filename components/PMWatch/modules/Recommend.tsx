@@ -5,9 +5,11 @@ import { UserVideoData } from "@/types/UserVideoData";
 import { Timeline } from "./Timeline";
 import { useRecommendContext } from "./Contexts/RecommendProvider";
 import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { wheelTranslator } from "./commonFunction";
 
-function Recommend() {
+function Recommend({ enableWheelTranslate }: { enableWheelTranslate?: boolean }) {
     const { videoInfo } = useVideoInfoContext();
+    const contentRef = useRef<HTMLDivElement>(null)
     const recommendData = useRecommendContext();
 
     const videoOwnerData = videoInfo.data?.response.owner;
@@ -15,6 +17,30 @@ function Recommend() {
     const [recommendDisplayType, setRecommendDisplayType] =
         useState<string>("recommend");
     const [userVideos, setUserVideos] = useState<UserVideoData | null>(null);
+
+    useEffect(() => {
+        if (!contentRef.current || !enableWheelTranslate) return
+        contentRef.current?.addEventListener(
+            "wheel",
+            wheelTranslator,
+            { passive: false },
+        );
+        contentRef.current?.addEventListener(
+            "wheel",
+            wheelTranslator,
+            { passive: false },
+        );
+        return () => {
+            contentRef.current?.removeEventListener(
+                "wheel",
+                wheelTranslator,
+            );
+            contentRef.current?.removeEventListener(
+                "wheel",
+                wheelTranslator,
+            );
+        };
+    });
 
     useEffect(() => {
         // 今は要素が利用可能であるということだけを伝えます
@@ -73,7 +99,7 @@ function Recommend() {
                         </button>
                     )}
                 </div>
-                <div className="recommend-content">
+                <div className="recommend-content" ref={contentRef}>
                     {recommendDisplayType === "recommend" &&
                         recommendData.data.items.map((elem, index) => {
                             return (
