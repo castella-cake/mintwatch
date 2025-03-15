@@ -116,7 +116,7 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
     );
 }
 
-export function Title() {
+export function VideoTitle() {
     const { videoInfo } = useVideoInfoContext();
     if (!videoInfo.data) return;
     const videoInfoResponse = videoInfo.data.response;

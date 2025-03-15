@@ -1,13 +1,12 @@
 import { StrictMode } from "react";
 
-import CreateWatchUI from "./WatchUI";
 import PluginList from "./modules/PluginList";
 
 //import "./index.styl"
 import { ErrorBoundary } from "react-error-boundary";
 import { StorageProvider } from "@/hooks/extensionHook";
 import { IconBoom } from "@tabler/icons-react";
-import { SmIdProvider, WatchDataProvider } from "./modules/WatchDataContext";
+import { WatchBody } from "./WatchBody";
 
 export function watchPage() {
     return (
@@ -40,11 +39,7 @@ export function watchPage() {
                         );
                     }}
                 >
-                    <SmIdProvider>
-                        <WatchDataProvider>
-                            <CreateWatchUI />
-                        </WatchDataProvider>
-                    </SmIdProvider>
+                    <WatchBody />
                     <PluginList />
                 </ErrorBoundary>
             </StorageProvider>

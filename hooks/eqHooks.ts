@@ -64,7 +64,7 @@ export const useAudioEffects = (
         },
         lowpass: {
             enabled: false,
-            cutoffFrequency: 8000,
+            cutoffFrequency: 16000,
             qFactor: 0.5,
             detune: 0,
         },

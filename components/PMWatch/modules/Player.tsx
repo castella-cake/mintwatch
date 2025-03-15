@@ -353,6 +353,19 @@ function Player(props: Props) {
         }
     }, [videoRef]);
 
+    useEffect(() => {
+        if (
+            videoInfo.meta?.status === 200 &&
+            actionTrackId !== ""
+        ) {
+            document.dispatchEvent(
+                new CustomEvent("pmw_playerReady", {
+                    detail: JSON.stringify({ videoInfo, actionTrackId }),
+                }),
+            );
+        }
+    }, [videoInfo]);
+
     const preferredCommentFps =
         localStorage.playersettings.commentRenderFps ?? 60; // 未指定の場合は60にフォールバック
     const commentRenderFps = localStorage.playersettings.enableCommentPiP
@@ -364,6 +377,8 @@ function Player(props: Props) {
         .reverse();
 
     const thumbnailSrc = videoInfo.data?.response.video.thumbnail.player;
+
+
 
     return (
         <div

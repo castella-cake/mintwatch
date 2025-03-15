@@ -1,7 +1,7 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react"
 import Actions from "./modules/Actions"
 import CommentList from "./modules/CommentList"
-import Info, { Title } from "./modules/Info"
+import Info, { VideoTitle } from "./modules/Info"
 import Player from "./modules/Player"
 import Playlist from "./modules/Playlist"
 import { Stacker } from "./modules/Stacker"
@@ -60,7 +60,7 @@ export function WatchContent( _props: Props ) {
         changeVideo={onChangeVideo}
         key="watchui-player"
     />
-    const titleElem = <Title key="watch-container-title"/>
+    const titleElem = <VideoTitle key="watch-container-title"/>
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
     const commentListElem = <CommentList key="watchui-commentlist" />
     const playListElem = <Playlist key="watchui-playlist" />

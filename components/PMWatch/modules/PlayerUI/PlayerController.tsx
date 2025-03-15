@@ -66,7 +66,7 @@ const PlayerControllerButton = memo(function ({ onClick, title, className, child
 
 
 function PlayerController({
-    videoRef, 
+    videoRef,
     effectsState,
     isVefxShown,
     setIsVefxShown,
@@ -139,6 +139,7 @@ function PlayerController({
         }
     }, [isMuted, isLoop, videoVolume])
     useEffect(() => {
+        if (!video) return;
         if ( currentTime < 3 ) {
             setIsIndexControl([true, false])
         } else if ( currentTime >= video.duration ) {
@@ -176,7 +177,7 @@ function PlayerController({
                 writePlayerSettings("isMuted", videoRef.current!.muted, true)
             }
         }
-        
+
         videoRef.current?.addEventListener("play", setIconToPause)
         videoRef.current?.addEventListener("pause", setIconToPlay)
 
@@ -204,11 +205,10 @@ function PlayerController({
 
     if (!isLoaded) return <div>storage待機中...</div>
 
-
-    if (!videoRef || !videoRef.current) return <div>video待機中…</div>
     const video = videoRef.current
 
     function toggleStopState() {
+        if (!video) return;
         if ( video.paused ) {
             video.play()
         } else {
@@ -219,11 +219,12 @@ function PlayerController({
 
 
     function onTimeControl(operation: string, time: number) {
+        if (!video) return;
         video.currentTime = timeCalc(operation, time, currentTime, duration)
     }
 
     function setVolume(volume: number, isMuteToggle = false) {
-        if (isMuteToggle) { 
+        if (isMuteToggle) {
             setIsMuted(!isMuted)
             writePlayerSettings("isMuted", !isMuted, true)
             return
@@ -248,6 +249,7 @@ function PlayerController({
     }
 
     function onSkipForward() {
+        if (!video) return;
         onTimeControl("set", video.duration)
         if (isIndexControl[1] === true) playlistIndexControl(1, localStorage.playersettings.enableShufflePlay)
     }
@@ -304,13 +306,13 @@ function PlayerController({
         <input type="range" className="playercontroller-volume" min="0" max="100" value={videoVolume} disabled={isMuted} aria-label={`音量 ${Math.floor(videoVolume)}%`} onChange={(e) => {setVolume(Math.floor(e.currentTarget.valueAsNumber))}}/>
         <span className="playercontroller-volume-tooltip">{Math.floor(videoVolume)}%</span>
     </span>
-    
+
     const skipBackElem = <PlayerControllerButton key="control-skipback" className="playercontroller-skipback" onClick={() => {onSkipBack()}} title="開始地点にシーク">{ isIndexControl[0] ? <IconPlayerSkipBackFilled/> : <IconPlayerSkipBack/>}</PlayerControllerButton>
     const skipForwardElem = <PlayerControllerButton key="control-skipforward" className="playercontroller-skipforward" onClick={() => {onSkipForward()}} title="終了地点にシーク">{ isIndexControl[1] ? <IconPlayerSkipForwardFilled/> : <IconPlayerSkipForward/>}</PlayerControllerButton>
-    
+
     const backwardElem = <PlayerControllerButton key="control-backward10s" className="playercontroller-backward10s" onClick={() => {onTimeControl("add", -10)}} title="-10秒シーク"><IconRewindBackward10/></PlayerControllerButton>
     const forwardElem = <PlayerControllerButton key="control-forward10s" className="playercontroller-forward10s" onClick={() => {onTimeControl("add", 10)}} title="10秒シーク"><IconRewindForward10/></PlayerControllerButton>
-    
+
     const togglePauseElem = <PlayerControllerButton key="control-togglepause" className="playercontroller-togglepause" onClick={() => {toggleStopState()}} title={ isIconPlay ? "再生" : "一時停止" }>{ isIconPlay ? <IconPlayerPlayFilled/> : <IconPlayerPauseFilled/> }</PlayerControllerButton>
 
     const toggleLoopElem = <PlayerControllerButton key="control-toggleloop"className="playercontroller-toggleloop" onClick={() => {toggleLoopState()}} title={ isLoop ? "ループ再生を解除" : "ループ再生を有効化" }>{ isLoop ? <IconRepeat/> : <IconRepeatOff/> }</PlayerControllerButton>

@@ -271,7 +271,7 @@ function VefxController({
                         {effectsState.highpass.detune} Hz
                     </span>
                     <div className="vefx-slidercontainer">
-                        <label>Cutoff Freq</label>
+                        <label>Cutoff</label>
                         <input
                             type="range"
                             min="0"
@@ -309,6 +309,7 @@ function VefxController({
                             min="-1200"
                             max="1200"
                             step="1"
+                            list="filter-detune-list"
                             value={effectsState.highpass.detune}
                             onChange={(e) =>
                                 handleHighpassDetuneChange(
@@ -330,12 +331,12 @@ function VefxController({
                         <span className="vefx-name">LOWPASS</span>
                     </label>
                     <span className="vefx-echo-value">
-                        C{effectsState.highpass.cutoffFrequency}Hz / Q{" "}
-                        {effectsState.highpass.qFactor} D
-                        {effectsState.highpass.detune} Hz
+                        C{effectsState.lowpass.cutoffFrequency}Hz / Q{" "}
+                        {effectsState.lowpass.qFactor} D
+                        {effectsState.lowpass.detune} Hz
                     </span>
                     <div className="vefx-slidercontainer">
-                        <label>Cutoff Freq</label>
+                        <label>Cutoff</label>
                         <input
                             type="range"
                             min="0"
@@ -373,6 +374,7 @@ function VefxController({
                             min="-1200"
                             max="1200"
                             step="1"
+                            list="filter-detune-list"
                             value={effectsState.lowpass.detune}
                             onChange={(e) =>
                                 handleLowpassDetuneChange(
@@ -383,6 +385,13 @@ function VefxController({
                         />
                     </div>
                 </div>
+                <datalist id="filter-detune-list">
+                    {[0].map((elem) => {
+                        return (
+                            <option key={`gain-list-${elem}`}>{elem}</option>
+                        );
+                    })}
+                </datalist>
 
                 <div className="vefx-module">
                     <label>
