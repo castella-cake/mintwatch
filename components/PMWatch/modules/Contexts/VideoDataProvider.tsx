@@ -22,31 +22,26 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo, errorInfo } = useVideoData(smId);
     const [actionTrackId, setActionTrackId] = useState("");
 
-    const isEventFired = useRef<boolean>(false);
-
     useEffect(() => {
         const newActionTrackId = generateActionTrackId();
         setActionTrackId(newActionTrackId);
         document.dispatchEvent(
-            new CustomEvent("actionTrackIdGenerated", {
+            new CustomEvent("pmw_actionTrackIdGenerated", {
                 detail: newActionTrackId,
             }),
         );
-        isEventFired.current = false;
     }, [smId]);
 
     useEffect(() => {
         if (
             videoInfo.meta?.status === 200 &&
-            actionTrackId !== "" &&
-            isEventFired.current !== true
+            actionTrackId !== ""
         ) {
             document.dispatchEvent(
                 new CustomEvent("pmw_videoInformationReady", {
                     detail: JSON.stringify({ videoInfo, actionTrackId }),
                 }),
             );
-            isEventFired.current = true;
         }
     }, [videoInfo]);
 

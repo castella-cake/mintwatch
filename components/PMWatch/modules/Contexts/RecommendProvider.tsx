@@ -9,6 +9,18 @@ export function RecommendProvider({ children }: { children: ReactNode }) {
 
     const recommendData = useRecommendData(smId);
 
+    useEffect(() => {
+        if (
+            recommendData.meta?.status === 200
+        ) {
+            document.dispatchEvent(
+                new CustomEvent("pmw_recommendInformationReady", {
+                    detail: JSON.stringify({ recommendData }),
+                }),
+            );
+        }
+    }, [recommendData]);
+
     return (
         <IRecommendContext.Provider value={recommendData}>
             {children}

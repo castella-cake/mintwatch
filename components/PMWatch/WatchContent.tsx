@@ -40,6 +40,14 @@ export function WatchContent( _props: Props ) {
     } = _props
     const {localStorage} = useStorageContext()
 
+    useEffect(() => {
+        document.dispatchEvent(
+            new CustomEvent("pmw_initialRender", {
+                detail: ""
+            }),
+        );
+    }, [])
+
     const linkClickHandler = (e: MouseEvent<HTMLDivElement>) => {
         if ( e.target instanceof Element ) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")

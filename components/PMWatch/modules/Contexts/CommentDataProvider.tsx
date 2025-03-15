@@ -23,19 +23,16 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
             videoInfo.data?.response.comment.nvComment,
             videoInfo.data?.response.video.id,
         );
-    const isEventFired = useRef<boolean>(false);
 
     useEffect(() => {
         if (
-            commentContent.meta?.status === 200 &&
-            isEventFired.current !== true
+            commentContent.meta?.status === 200
         ) {
             document.dispatchEvent(
-                new CustomEvent("pmw_commentInformationReady", {
+                new CustomEvent("pmw_commentInformationUpdated", {
                     detail: JSON.stringify({ commentContent }),
                 }),
             );
-            isEventFired.current = true;
         }
     }, [commentContent]); // コメント情報が最後に更新されると踏んで、commentContentだけを依存する
 
