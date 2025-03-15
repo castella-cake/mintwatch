@@ -33,8 +33,17 @@ import {
 import { usePlaylistContext } from "./Contexts/PlaylistProvider";
 import { useRecommendContext } from "./Contexts/RecommendProvider";
 
+type filterState = {
+    enabled: boolean;
+    cutoffFrequency: number;
+    qFactor: number;
+    detune: number;
+};
+
 export type effectsState = {
     equalizer: { enabled: boolean; gains: number[] };
+    highpass: filterState;
+    lowpass: filterState;
     echo: {
         enabled: boolean;
         delayTime: number;
