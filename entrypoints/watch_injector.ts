@@ -48,7 +48,7 @@ export default defineUnlistedScript({
         let previousATI = "";
         // 動画変更の検出
         let previousVideoId = "";
-        document.addEventListener("pmw_videoInformationReady", (e: any) => {
+        document.addEventListener("pmw_playerReady", (e: any) => {
             // CORS関係でオブジェクトはStringになって渡されます。
             const detail = JSON.parse(e.detail);
             /* Readonlyです {
