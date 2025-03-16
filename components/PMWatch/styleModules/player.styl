@@ -71,10 +71,29 @@
         color: #fff;
         border-radius: 8px;
     }
+    .player-video-loading-text-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4rem;
+        font-size: 1.25rem;
+        opacity: 0.8;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .player-video-loading-text-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
     &.player-loading-transition {
         &-exit-active {
             --loading-blur: 32px;
-            transition: --loading-blur 0.1s ease;
+            transition: --loading-blur 0.1s ease, opacity 0.1s ease;
         }
         &-enter, &-exit-active {
             opacity: 0;

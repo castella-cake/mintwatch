@@ -8,11 +8,25 @@ type VideoPlayerProps = {
     onEnded: () => void,
     onClick: () => void,
     thumbnailSrc?: string,
-    enableVolumeGesture: boolean
+    enableVolumeGesture: boolean,
+    videoTitle?: string,
+    videoAuthor?: string,
+    videoGenre?: string
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
-    const {children, videoRef, onPause, onEnded, onClick, thumbnailSrc, enableVolumeGesture} = props
+    const {
+        children,
+        videoRef,
+        onPause,
+        onEnded,
+        onClick,
+        thumbnailSrc,
+        enableVolumeGesture,
+        videoTitle,
+        videoAuthor,
+        videoGenre
+    } = props
     const { syncStorage } = useStorageContext()
 
     const [canPlay, setCanPlay] = useState(false)
@@ -52,9 +66,20 @@ export function VideoPlayer(props: VideoPlayerProps) {
 
     return (<div className="player-video-container">
         <div className="player-video-container-inner" ref={videoContainerRef}>
-            <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={400} unmountOnExit classNames="player-loading-transition">
+            <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={100} unmountOnExit classNames="player-loading-transition">
                 <div ref={nodeRef} className="player-video-loading-container">
                     <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
+                    <div className="player-video-loading-text-container">
+                        <div className="player-video-loading-text-genre">
+                            {videoGenre}
+                        </div>
+                        <div className="player-video-loading-text-title">
+                            {videoTitle}
+                        </div>
+                        <div className="player-video-loading-text-author">
+                            {videoAuthor}
+                        </div>
+                    </div>
                     <div className="player-video-loading-text">Loading...</div>
                 </div>
             </CSSTransition>

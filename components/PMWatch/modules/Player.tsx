@@ -378,7 +378,7 @@ function Player(props: Props) {
 
     const thumbnailSrc = videoInfo.data?.response.video.thumbnail.player;
 
-
+    const thisVideoAuthor = (videoInfo.data?.response.owner && videoInfo.data?.response.owner.nickname) ?? (videoInfo.data?.response.channel && videoInfo.data?.response.channel.name) ?? "不明なユーザー"
 
     return (
         <div
@@ -409,6 +409,9 @@ function Player(props: Props) {
                 onEnded={onEnded}
                 onClick={videoOnClick}
                 thumbnailSrc={thumbnailSrc}
+                videoTitle={videoInfo.data?.response.video.title}
+                videoAuthor={thisVideoAuthor}
+                videoGenre={videoInfo.data?.response.genre.label}
                 enableVolumeGesture={
                     localStorage.playersettings.enableWheelGesture
                 }
