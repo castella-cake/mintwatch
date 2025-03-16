@@ -27,6 +27,7 @@
 .commentlist-list-container {
     overflow: hidden scroll;
     font-size: 0.9em;
+    scroll-behavior: smooth;
     .commentlist-list-item {
         padding: 6px;
         //border-bottom: 1px solid var(--accent1);
@@ -112,13 +113,15 @@
 
 .commentlist-fork-selector {
     padding: 2px;
-    margin: 0 8px;
-    background: var(--bgcolor3);
+    margin: 0;
+    height: 1.8rem;
+    background: var(--accent1);
     color: var(--textcolor1);
     border: none;
     border-radius: var(--radius-mini);
     font-size: 0.9em;
     cursor: pointer;
+    text-align: center;
 }
 
 .commentlist-list-toggletabindex {

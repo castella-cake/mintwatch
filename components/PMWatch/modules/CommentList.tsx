@@ -19,7 +19,7 @@ import {
     removeNicoru,
 } from "../../../utils/watchApi";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { IconAdjustmentsStar, IconHistoryToggle } from "@tabler/icons-react";
+import { IconAdjustmentsStar, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
 import {
     useVideoInfoContext,
@@ -321,6 +321,8 @@ function CommentList() {
         videoInfo,
     ]);
 
+    const commentCount = commentContent.data?.threads.reduce((prev, current) => prev + current.comments.length, 0);
+
     // データが足りなかったら閉店
     if (!videoInfo.data || !commentContent.data) return <></>;
 
@@ -424,7 +426,9 @@ function CommentList() {
     return (
         <div className="commentlist-container" id="pmw-commentlist">
             <div className="commentlist-title-container global-flex stacker-title">
-                <div className="global-flex1"></div>
+                <div className="global-flex1 global-bold">
+                    受信済み {commentCount} 件
+                </div>
                 <button
                     className="commentlist-list-timemachine"
                     data-isenable={onlyShowMyselfComments}
@@ -449,6 +453,18 @@ function CommentList() {
                 >
                     <IconHistoryToggle />
                 </button>
+                <button
+                    className="commentlist-list-toggleautoscroll"
+                    data-isenable={autoScroll}
+                    onClick={() => {
+                        setAutoScroll((state) => {
+                            return !state;
+                        });
+                    }}
+                    title="自動スクロールを切り替え"
+                >
+                    <IconTransitionBottom/>
+                </button>
                 <select
                     onChange={(e) => {
                         setCurrentForkType(Number(e.currentTarget.value));
@@ -472,29 +488,18 @@ function CommentList() {
                         },
                     )}
                 </select>
-                <label>
-                    <input
-                        type="checkbox"
-                        className="commentlist-autoscroll"
-                        onChange={(e) => {
-                            setAutoScroll(e.currentTarget.checked);
-                        }}
-                        checked={autoScroll}
-                    />
-                    自動スクロール
-                </label>
-                <button
-                    className="commentlist-list-toggletabindex"
-                    aria-description={ariaDetails}
-                    onClick={() => {
-                        setListFocusable(!listFocusable);
-                        setAutoScroll(false);
-                    }}
-                    data-isopen={listFocusable}
-                >
-                    コメントリストを{listFocusable ? "閉じる" : "開く"}
-                </button>
             </div>
+            <button
+                className="commentlist-list-toggletabindex"
+                aria-description={ariaDetails}
+                onClick={() => {
+                    setListFocusable(!listFocusable);
+                    setAutoScroll(false);
+                }}
+                data-isopen={listFocusable}
+            >
+                コメントリストを{listFocusable ? "閉じる" : "開く"}
+            </button>
             {showTimemachineUi && (
                 <TimeMachine
                     onConfirm={(date) => {
