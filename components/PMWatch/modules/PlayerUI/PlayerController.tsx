@@ -38,25 +38,22 @@ const PlayerControllerButton = memo(function ({ onClick, title, className, child
     const spanRef = useRef(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
     const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
+    function toHoverState() {
+        setIsHovered(false)
+        timeoutRef.current = setTimeout(() => setIsHovered(true), 500)
+    }
+    function cancelHoverState() {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null!
+        setIsHovered(false)
+    }
     useEffect(() => {
-        if ( !buttonRef.current ) return
-        function toHoverState() {
-            setIsHovered(false)
-            timeoutRef.current = setTimeout(() => setIsHovered(true), 500)
-        }
-        function cancelHoverState() {
-            setIsHovered(false)
-            if (timeoutRef.current) clearTimeout(timeoutRef.current)
-        }
-        buttonRef.current.addEventListener("mouseenter", toHoverState)
-        buttonRef.current.addEventListener("mouseleave", cancelHoverState)
         return () => {
             clearTimeout(timeoutRef.current)
-            buttonRef.current?.removeEventListener("mouseenter", toHoverState)
-            buttonRef.current?.removeEventListener("mouseleave", cancelHoverState)
+            timeoutRef.current = null!
         }
     }, [])
-    return <button ref={buttonRef} className={className} onClick={onClick} aria-label={title}>
+    return <button ref={buttonRef} className={className} onClick={onClick} aria-label={title} onMouseEnter={toHoverState} onMouseLeave={cancelHoverState}>
         {children}
         <CSSTransition nodeRef={spanRef} in={isHovered} timeout={300} unmountOnExit classNames="playercontroller-tooltip-transition">
             <span ref={spanRef} className="playercontroller-tooltip">{title}</span>
