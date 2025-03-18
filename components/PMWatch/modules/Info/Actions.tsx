@@ -184,6 +184,7 @@ function Actions({ children, onModalOpen }: Props) {
                                         type="button"
                                         title="お礼メッセージを閉じる"
                                         onClick={() => {
+                                            setIsLikeHovered(false);
                                             setIsLikeThanksMsgClosed(true);
                                         }}
                                     >
