@@ -34,7 +34,8 @@
     canvas {
         position: absolute;
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: contain;
         top: 0;
         left: 0;
         pointer-events: none;
@@ -164,6 +165,7 @@
     }
     .playercontroller-container {
         width: 70vw;
+        min-width: 800px;
         margin: 8px 32px;
     }
     [is-dynamic-controller="true"] .player-bottom-container {
