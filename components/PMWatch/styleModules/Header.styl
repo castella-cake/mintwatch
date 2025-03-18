@@ -1,6 +1,6 @@
 .header-container {
     --header-height: 36px;
-    --header-width: 1024px;
+    --header-width: 990px;
     background: #353535;
     color: #fff
     height: var(--header-height);
@@ -10,7 +10,7 @@
     .header-center-container {
         justify-content: space-between;
         flex: 1.5 !important;
-        min-width: 35em;
+        min-width: var(--header-width);
         > div {
             display: flex;
         }
@@ -59,17 +59,18 @@
         border: none;
         color: #888;
         cursor: pointer;
+        padding: 0;
         svg {
             width: 20px;
             height: 20px;
             vertical-align: middle;
+            padding: 7px 5px;
         }
     }
     button:hover {
         color: #fff;
     }
 }
-
 
 .header-container a > svg {
     display: inline;
@@ -78,4 +79,11 @@
 
 .header-container a:not(.header-disabled):hover {
     background: #555;
+}
+
+.header-usercontainer button {
+    color: #ddd;
+    &:hover {
+        color: #eee;
+    }
 }

@@ -1,0 +1,113 @@
+.mymenu-container {
+    padding: 8px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.mymenu-linkarea-container h3 {
+    margin: 0 0 16px;
+}
+
+.mymenu-links-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.mymenu-link {
+    border-radius: var(--radius-mini);
+    border: var(--border);
+    text-decoration: none;
+    color: var(--textcolor1);
+    padding: 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    background: var(--bgcolor2);
+    transition: background 0.2s ease;
+    &:hover {
+        background: var(--hover1);
+    }
+}
+
+.mymenu-linkarea-container {
+    border-bottom: var(--border);
+    padding: 8px 8px 16px;
+    margin-bottom: 8px;
+}
+
+.mymenu-link[data-is-fullwidth="true"] {
+    grid-column: 1 / -1;
+}
+
+// ユーザー
+.mymenu-profile img {
+    display: block;
+    height: 4em;
+    object-fit: contain;
+    aspect-ratio: 1 / 1;
+    border-radius: 1024px;
+}
+
+.mymenu-profile {
+    display: flex;
+    text-decoration: none;
+    color: var(--textcolor1);
+    gap: 1em;
+    align-items: center;
+    border-radius: var(--radius);
+    border: var(--border);
+    padding: 8px;
+    transition: background 0.1s ease;
+    > svg {
+        margin-left: auto;
+        opacity: 0.8;
+    }
+    &:hover {
+        background: var(--bgcolor2);
+    }
+
+}
+
+.mymenu-profile-id {
+    opacity: 0.6;
+    font-size: 0.7em;
+    letter-spacing: 1px;
+    font-weight: normal;
+    vertical-align: bottom;
+}
+
+.mymenu-profile-name {
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 1.3em;
+}
+
+// ボタン類
+.mymenu-profile-button-container {
+    margin: 8px 0;
+    display: flex;
+    gap: 8px
+    a {
+        flex: 1;
+        text-align: center;
+        color: var(--textcolor1);
+        text-decoration: none;
+        padding: 8px;
+        border-radius: var(--radius);
+        border: var(--border);
+        font-size: 0.8em;
+        transition: background 0.1s ease;
+        svg {
+            width: 1.5em;
+            height: 1.5em;
+            vertical-align: bottom;
+        }
+        &:hover {
+            background: var(--bgcolor2);
+        }
+    }
+}

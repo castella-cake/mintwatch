@@ -1,7 +1,7 @@
 //import { useState } from "react";
 
 import { Dispatch, SetStateAction } from "react";
-import { IconDoorExit, IconTool } from "@tabler/icons-react";
+import { IconBell, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
 import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
 
 function onVanillaPageReturn() {
@@ -10,8 +10,10 @@ function onVanillaPageReturn() {
 
 function Header({
     setIsMintConfigShown,
+    setHeaderModalType
 }: {
     setIsMintConfigShown: Dispatch<SetStateAction<boolean>>;
+    setHeaderModalType: Dispatch<SetStateAction<"notifications" | "mymenu" | false>>;
 }) {
     //const [hover, setHover] = useState(false)
     const { videoInfo } = useVideoInfoContext();
@@ -54,6 +56,16 @@ function Header({
                 </div>
                 <div className="header-center-right">
                     <div className="global-flex header-usercontainer">
+                        <button className="header-notificationbutton" onClick={() => {
+                            setHeaderModalType((state) => state === "notifications" ? false : "notifications")
+                        }}>
+                            <IconBell/>
+                        </button>
+                        <button className="header-mymenubutton" onClick={() => {
+                            setHeaderModalType((state) => state === "mymenu" ? false : "mymenu")
+                        }}>
+                            <IconCategory/>
+                        </button>
                         {videoViewerInfo && (
                             <a href="https://www.nicovideo.jp/my">
                                 <img

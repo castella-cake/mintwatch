@@ -16,6 +16,7 @@ import {
     useVideoRefContext,
 } from "./modules/Contexts/VideoDataProvider";
 import { usePlaylistContext } from "./modules/Contexts/PlaylistProvider";
+import { HeaderActionStacker } from "./modules/HeaderModal/HeaderActionStacker";
 
 function CreateWatchUI() {
     //const lang = useLang()
@@ -24,6 +25,9 @@ function CreateWatchUI() {
     const { syncStorage, localStorage, isLoaded } = useStorageContext();
 
     const [isMintConfigShown, setIsMintConfigShown] = useState(false);
+    const [headerActionState, setHeaderActionState] = useState<
+        false | "notifications" | "mymenu"
+    >(false);
 
     const [videoActionModalState, setVideoActionModalState] = useState<
         false | "mylist" | "share" | "help"
@@ -86,6 +90,7 @@ function CreateWatchUI() {
 
     // transition refs
     const mintConfigElemRef = useRef<HTMLDivElement>(null);
+    const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
     const videoActionModalElemRef = useRef<HTMLDivElement>(null);
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null);
 
@@ -115,8 +120,14 @@ function CreateWatchUI() {
         }
     }
 
+    function closeAllModal(e: React.MouseEvent<HTMLDivElement>) {
+        if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
+        if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target)) setVideoActionModalState(false)
+        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setIsMintConfigShown(false)
+    }
+
     return (
-        <div className={isFullscreenUi ? "container fullscreen" : "container"}>
+        <div className={isFullscreenUi ? "container fullscreen" : "container"} onClick={closeAllModal}>
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}
@@ -136,11 +147,26 @@ function CreateWatchUI() {
                 />
             </CSSTransition>
             {!isFullscreenUi && (
-                <Header setIsMintConfigShown={setIsMintConfigShown} />
+                <Header setIsMintConfigShown={setIsMintConfigShown} setHeaderModalType={setHeaderActionState}/>
             )}
             <CSSTransition
+                nodeRef={headerActionStackerElemRef}
+                in={
+                    headerActionState !== false &&
+                    !isFullscreenUi
+                }
+                timeout={300}
+                unmountOnExit
+                classNames="headeraction-modal-transition"
+            >
+                <HeaderActionStacker nodeRef={headerActionStackerElemRef} selectedType={headerActionState} onModalStateChanged={setHeaderActionState} />
+            </CSSTransition>
+            <CSSTransition
                 nodeRef={mintConfigElemRef}
-                in={isMintConfigShown}
+                in={
+                    isMintConfigShown &&
+                    !isFullscreenUi
+                }
                 timeout={300}
                 unmountOnExit
                 classNames="mintconfig-transition"

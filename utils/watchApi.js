@@ -309,3 +309,30 @@ export async function getVideoTimeline() {
     });
     return await response.json()
 }
+
+export async function getOshiraseBox(offset = 0, importantOnly = false) {
+    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/box?offset=${offset}&importantOnly=${importantOnly.toString()}`, {
+        "credentials": "include",
+        "headers": {
+            "content-type": "application/json",
+            "X-Frontend-Id": "6",
+            "X-Frontend-Version": "0"
+        },
+        "method": "GET",
+    });
+    return await response.json()
+}
+
+export async function sendOshiraseBoxRead(id, requestWith) {
+    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/notifications/${id}/read?header=pc`, {
+        "headers": {
+            "content-type": "application/json",
+            "X-Frontend-Id": "6",
+            "X-Frontend-Version": "0",
+            "X-Request-With": requestWith,
+        },
+        "method": "PUT",
+        "credentials": "include"
+    });
+    return await response.json()
+}

@@ -1,0 +1,88 @@
+.notifications-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 8px;
+    overflow-y: auto;
+}
+
+.notifications-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.notification-item {
+    color: var(--textcolor1);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent1);
+    display: block;
+    padding: 8px;
+    display: grid;
+    grid-template-areas: "icon title" "icon content" "icon date";
+    grid-template-columns: 3em 1fr;
+    gap: 0 8px;
+    padding: 16px;
+    border: var(--border);
+    margin-bottom: 8px;
+    border-radius: var(--radius);
+    background: var(--bgcolor2);
+    box-shadow: var(--box-shadow);
+    position: relative;
+
+    // 新着通知
+    &[data-isread="false"]:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: var(--textcolornew);
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        border-radius: 50%;
+    }
+}
+
+.notification-item-icon {
+    grid-area: icon;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 1024px;
+}
+
+.notification-item-title {
+    grid-area: title;
+    font-size: 0.9rem;
+    align-self: end;
+}
+
+.notification-item-content {
+    grid-area: content;
+    background: var(--bgcolor1);
+    padding: 8px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.notification-item-content {
+    margin: 4px 0;
+}
+.notification-item-content-icon {
+    height: 2rem;
+    aspect-ratio: 16 / 9;
+    width: auto;
+    object-fit: contain;
+    background: var(--bgcolor2);
+}
+
+.notification-item-date {
+    grid-area: date;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
