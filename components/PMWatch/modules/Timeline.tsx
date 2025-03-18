@@ -1,4 +1,4 @@
-import { Card } from "./InfoCards";
+import { Card } from "./Info/InfoCards";
 import { secondsToTime } from "./commonFunction";
 
 const splitWithYMD = (items: VideoTimelineDataRootObject['activities']) => {

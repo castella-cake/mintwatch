@@ -8,9 +8,9 @@ import {
     IconX,
 } from "@tabler/icons-react";
 import { ReactNode, useEffect, useState } from "react";
-import { sendLike } from "../../../utils/watchApi";
-import { readableInt } from "./commonFunction";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { sendLike } from "../../../../utils/watchApi";
+import { readableInt } from "../commonFunction";
+import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 
 type Props = {
     children?: ReactNode;

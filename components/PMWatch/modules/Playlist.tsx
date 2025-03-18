@@ -1,4 +1,4 @@
-import { PlaylistVideoCard } from "./InfoCards";
+import { PlaylistVideoCard } from "./Info/InfoCards";
 import { MylistResponseRootObject } from "@/types/mylistData";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 import { useDroppable } from "@dnd-kit/core";

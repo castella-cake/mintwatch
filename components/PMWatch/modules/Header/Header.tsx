@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { IconBell, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;

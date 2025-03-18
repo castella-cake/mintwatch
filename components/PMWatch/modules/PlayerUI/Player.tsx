@@ -1,58 +1,37 @@
 import { useEffect, useState, useRef } from "react";
 //import { useLang } from "../localizeHook";
-import PlayerController from "./PlayerUI/PlayerController";
-import VefxController from "./PlayerUI/VefxController";
+import PlayerController from "./PlayerController";
+import VefxController from "./VefxController";
 import { useHlsVideo } from "@/hooks/hlsHooks";
 import { Comment } from "@/types/CommentData";
 import type { Dispatch, SetStateAction } from "react";
-import CommentInput from "./PlayerUI/CommentInput";
-import Settings from "./PlayerUI/Settings";
-import { putPlaybackPosition } from "../../../utils/watchApi";
+import CommentInput from "./CommentInput";
+import Settings from "./Settings";
+import { putPlaybackPosition } from "@/utils/watchApi";
 import {
     doFilterThreads,
     handleCtrl,
     sharedNgLevelScore,
-} from "./commonFunction";
-import { StatsOverlay } from "./PlayerUI/StatsOverlay";
+} from "../commonFunction";
+import { StatsOverlay } from "./StatsOverlay";
 import { CSSTransition } from "react-transition-group";
-import { EndCard } from "./PlayerUI/EndCard";
-import { useAudioEffects } from "@/hooks/eqHooks";
+import { EndCard } from "./EndCard";
+import { effectsState, useAudioEffects } from "@/hooks/eqHooks";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { ErrorScreen } from "./PlayerUI/ErrorScreen";
-import { CommentRender } from "./PlayerUI/CommentRender";
-import { VideoPlayer } from "./PlayerUI/VideoPlayer";
+import { ErrorScreen } from "./ErrorScreen";
+import { CommentRender } from "./CommentRender";
+import { VideoPlayer } from "./VideoPlayer";
 import {
     useActionTrackDataContext,
     useVideoInfoContext,
     useVideoRefContext,
-} from "./Contexts/VideoDataProvider";
+} from "../Contexts/VideoDataProvider";
 import {
     useCommentContentContext,
     useCommentControllerContext,
-} from "./Contexts/CommentDataProvider";
-import { usePlaylistContext } from "./Contexts/PlaylistProvider";
-import { useRecommendContext } from "./Contexts/RecommendProvider";
-
-type filterState = {
-    enabled: boolean;
-    cutoffFrequency: number;
-    qFactor: number;
-    detune: number;
-};
-
-export type effectsState = {
-    equalizer: { enabled: boolean; gains: number[] };
-    highpass: filterState;
-    lowpass: filterState;
-    echo: {
-        enabled: boolean;
-        delayTime: number;
-        feedback: number;
-        gain: number;
-    };
-    preamp: { enabled: boolean; gain: number };
-    mono: { enabled: boolean };
-};
+} from "../Contexts/CommentDataProvider";
+import { usePlaylistContext } from "../Contexts/PlaylistProvider";
+import { useRecommendContext } from "../Contexts/RecommendProvider";
 
 type Props = {
     isFullscreenUi: boolean;

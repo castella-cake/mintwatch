@@ -1,6 +1,6 @@
 import { SeriesVideoCard } from "./InfoCards";
 import { IconListNumbers } from "@tabler/icons-react";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 
 function SeriesInfo() {
     const { videoInfo } = useVideoInfoContext();

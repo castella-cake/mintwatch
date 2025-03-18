@@ -10,12 +10,12 @@ import type { ErrorResponse } from "@/types/VideoData";
 import { MouseEvent, useState } from "react";
 import DOMPurify from "dompurify";
 import HTMLReactParser from "html-react-parser";
-import { readableInt } from "./commonFunction";
+import { readableInt } from "../commonFunction";
 import { useStorageContext } from "@/hooks/extensionHook";
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "./Contexts/VideoDataProvider";
+} from "../Contexts/VideoDataProvider";
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div");
     dummyDiv.innerHTML = htmlString;

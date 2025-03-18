@@ -1,6 +1,6 @@
 import { IconCircleMinus, IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react";
-import { secondsToTime } from "./commonFunction";
-import { playlistVideoItem } from "./Playlist";
+import { secondsToTime } from "../commonFunction";
+import { playlistVideoItem } from "../Playlist";
 import { CSS } from "@dnd-kit/utilities";
 import { useDraggable } from "@dnd-kit/core";
 import { RecommendItem } from "@/types/RecommendData";

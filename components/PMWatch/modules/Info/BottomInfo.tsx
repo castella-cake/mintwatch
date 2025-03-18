@@ -1,7 +1,7 @@
-import { getCommonsRelatives } from "../../../utils/watchApi";
+import { getCommonsRelatives } from "@/utils/watchApi";
 import { useEffect, useRef, useState } from "react";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
-import { wheelTranslator } from "./commonFunction";
+import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import { wheelTranslator } from "../commonFunction";
 
 function BottomInfo() {
     const { videoInfo } = useVideoInfoContext();

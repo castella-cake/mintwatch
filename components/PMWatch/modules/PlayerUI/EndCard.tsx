@@ -3,7 +3,7 @@ import { VideoDataRootObject } from "@/types/VideoData";
 import { getPickupSupporters } from "../../../../utils/watchApi";
 import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
 import { RecommendDataRootObject } from "@/types/RecommendData";
-import { InfoCard } from "../InfoCards";
+import { InfoCard } from "../Info/InfoCards";
 
 export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: VideoDataRootObject, videoRef: RefObject<HTMLVideoElement>, recommendData: RecommendDataRootObject }) {
     const { localStorage, syncStorage } = useStorageContext()

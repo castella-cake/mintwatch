@@ -1,5 +1,25 @@
-import { effectsState } from "@/components/PMWatch/modules/Player";
 import { useRef, useEffect, RefObject } from "react";
+
+type filterState = {
+    enabled: boolean;
+    cutoffFrequency: number;
+    qFactor: number;
+    detune: number;
+};
+
+export type effectsState = {
+    equalizer: { enabled: boolean; gains: number[] };
+    highpass: filterState;
+    lowpass: filterState;
+    echo: {
+        enabled: boolean;
+        delayTime: number;
+        feedback: number;
+        gain: number;
+    };
+    preamp: { enabled: boolean; gain: number };
+    mono: { enabled: boolean };
+};
 
 function returnQValue(
     center: number,

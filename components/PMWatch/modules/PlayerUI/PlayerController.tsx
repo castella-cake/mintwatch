@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindForward10, IconSettings, IconSettingsFilled, IconVolume, IconVolume3 } from "@tabler/icons-react";
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
 import Hls from "hls.js";
-import type { effectsState } from "../Player";
+import type { effectsState } from "@/hooks/eqHooks";
 import { CommentDataRootObject } from "@/types/CommentData";
 import { Seekbar } from "./Seekbar";
 import { secondsToTime, timeCalc } from "../commonFunction";

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { putPlaybackPosition } from "../../utils/watchApi";
 //import { useLang } from "./localizeHook";
-import Header from "./modules/Header";
+import Header from "./modules/Header/Header";
 import { MintConfig } from "./modules/MintConfig";
 import { CSSTransition } from "react-transition-group";
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal";
@@ -16,7 +16,7 @@ import {
     useVideoRefContext,
 } from "./modules/Contexts/VideoDataProvider";
 import { usePlaylistContext } from "./modules/Contexts/PlaylistProvider";
-import { HeaderActionStacker } from "./modules/HeaderModal/HeaderActionStacker";
+import { HeaderActionStacker } from "./modules/Header/HeaderActionStacker";
 
 function CreateWatchUI() {
     //const lang = useLang()

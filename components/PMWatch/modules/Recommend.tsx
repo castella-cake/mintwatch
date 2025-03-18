@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 //import { useLang } from "../localizeHook";
-import { InfoCard } from "./InfoCards";
+import { InfoCard } from "./Info/InfoCards";
 import { UserVideoData } from "@/types/UserVideoData";
 import { Timeline } from "./Timeline";
 import { useRecommendContext } from "./Contexts/RecommendProvider";

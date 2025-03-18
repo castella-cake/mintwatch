@@ -3,7 +3,7 @@
 //import { useLang } from "../localizeHook";
 
 import { RefObject } from "react";
-import { effectsState } from "../Player";
+import { effectsState } from "@/hooks/eqHooks";
 
 function delayString(delayTime: number, feedback: number) {
     if (feedback <= 0) {

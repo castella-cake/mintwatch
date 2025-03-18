@@ -4,7 +4,7 @@ import {
     doFilterComments,
     secondsToTime,
     sharedNgLevelScore,
-} from "./commonFunction";
+} from "../commonFunction";
 import type { Comment, CommentDataRootObject } from "@/types/CommentData";
 import { VideoDataRootObject } from "@/types/VideoData";
 import {
@@ -17,18 +17,18 @@ import {
     getNicoruKey,
     postNicoru,
     removeNicoru,
-} from "../../../utils/watchApi";
+} from "../../../../utils/watchApi";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { IconAdjustmentsStar, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "./Contexts/VideoDataProvider";
+} from "../Contexts/VideoDataProvider";
 import {
     useCommentContentContext,
     useCommentControllerContext,
-} from "./Contexts/CommentDataProvider";
+} from "../Contexts/CommentDataProvider";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement>;

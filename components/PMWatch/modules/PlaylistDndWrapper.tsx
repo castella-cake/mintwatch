@@ -7,7 +7,7 @@ import {
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
-import { Card } from "./InfoCards";
+import { Card } from "./Info/InfoCards";
 import { secondsToTime } from "./commonFunction";
 import { SeriesVideoItem } from "@/types/VideoData";
 import { RecommendItem } from "@/types/RecommendData";
