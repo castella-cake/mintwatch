@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - - 音量ジェスチャーの変更値をカスタマイズ可能になりました
 - ハイパス/ローパスフィルターを追加しました
 - ヘッダーにお知らせ、マイメニュー画面を追加しました
+- いいね！へのお礼メッセージがコピーできるようになりました
 
 ### Changed
 - 内部のState/Contextがリファクタリングされました

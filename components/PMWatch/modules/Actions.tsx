@@ -1,4 +1,5 @@
 import {
+    IconCopy,
     IconFolder,
     IconHeart,
     IconHeartFilled,
@@ -24,6 +25,8 @@ function Actions({ children, onModalOpen }: Props) {
     const [isLikeThanksMsgClosed, setIsLikeThanksMsgClosed] = useState(false);
     const [isLikeHovered, setIsLikeHovered] = useState(false);
     const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0); // videoInfoに焼き込まれていない「いいね」のための加算。
+
+    const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
     //const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
     useEffect(() => {
         if (!videoInfo.data) return;
@@ -103,14 +106,31 @@ function Actions({ children, onModalOpen }: Props) {
         </select>
     }*/
 
+    function onLikeMouseEnter() {
+        clearTimeout(likeMessageTimeoutRef.current)
+        setIsLikeHovered(true)
+    }
+
+    function onLikeMouseLeave() {
+        clearTimeout(likeMessageTimeoutRef.current)
+        likeMessageTimeoutRef.current = setTimeout(() => {
+            setIsLikeHovered(false)
+        }, 100)
+    }
+
+    function onLikeMsgCopy() {
+        if (!likeThanksMsg) return
+        navigator.clipboard.writeText(likeThanksMsg);
+    }
+
     return (
         <div className="video-actions" id="pmw-videoactions">
             {/* row-reverse じゃなくなりました！！！！ */}
             <button
                 type="button"
                 onClick={likeChange}
-                onMouseEnter={() => setIsLikeHovered(true)}
-                onMouseLeave={() => setIsLikeHovered(false)}
+                onMouseEnter={onLikeMouseEnter}
+                onMouseLeave={onLikeMouseLeave}
                 className="video-action-likebutton"
                 title="いいね！"
                 is-liked={isLiked ? "true" : "false"}
@@ -148,17 +168,15 @@ function Actions({ children, onModalOpen }: Props) {
             >
                 <IconFolder />
             </button>
-            {isLiked &&
-                likeThanksMsg &&
-                ((videoInfo.data.response.video.viewer.like.isLiked &&
-                    isLikeHovered) ||
+            {isLiked && likeThanksMsg &&
+                ((videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered) ||
                     (!videoInfo.data.response.video.viewer.like.isLiked &&
                         (!isLikeThanksMsgClosed || isLikeHovered))) && (
-                    <div className="video-action-likethanks-outercontainer">
+                    <div className="video-action-likethanks-outercontainer" onMouseEnter={onLikeMouseEnter} onMouseLeave={onLikeMouseLeave}>
                         <div className="video-action-likethanks-container">
                             <div className="global-flex video-action-likethanks-title">
                                 <span className="global-flex1">
-                                    いいね！へのお礼メッセージ
+                                    いいね！へのお礼メッセージ<button onClick={onLikeMsgCopy} title="お礼メッセージをコピー" className="video-action-likethanks-copy"><IconCopy/></button>
                                 </span>
                                 {!videoInfo.data.response.video.viewer.like
                                     .isLiked && (
