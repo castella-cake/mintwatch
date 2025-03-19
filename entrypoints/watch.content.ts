@@ -123,7 +123,6 @@ export default defineContentScript({
                     <div id="ads-130"></div>
                 </body>
             `;
-            const head = document.head;
             document.dispatchEvent(
                 new CustomEvent("pmw_pageReplaced", { detail: "" }),
             );
