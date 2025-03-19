@@ -49,5 +49,14 @@
         "vite": "^6.0.8",
         "wxt": "^0.19.26"
     },
-    "packageManager": "pnpm@10.6.5"
+    "engines": {
+        "pnpm": ">=10.6"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "dtrace-provider",
+            "esbuild",
+            "spawn-sync"
+        ]
+    }
 }

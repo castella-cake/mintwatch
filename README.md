@@ -46,19 +46,24 @@ Firefoxでは、新しいバージョンがある場合自動的にアップデ�
 5. おわり
 
 # Build
+
+> [!IMPORTANT]
+MintWatch は、v0.5.0からPNPMに移行しています。   
+NPM を使用してビルドしていたユーザーは、PNPM へ移行してビルドを行ってください。
+
 MintWatch は、ブラウザ上で動作させるためにビルドが必要です。   
-Node.jsとnpmをインストールしたら、以下のコマンドで依存関係をインストールします:
+Node.js と pnpm をインストールしたら、以下のコマンドで依存関係をインストールします:
 ```
-npm install
+pnpm install
 ```
 Manifest V3向け(Chromium)にビルドするには、以下のコマンドを実行します。
 ```
-npm run build
+pnpm run build
 ```
 ビルドが正常に終了すると、`.output` フォルダーに成果物が作成されます。   
 
-HMRを利用できる開発サーバーを開始するには、`npm run dev`を実行してください。   
-提出用のZIP作成には`npm run zip`を使用します。
+HMRを利用できる開発サーバーを開始するには、`pnpm run dev`を実行してください。   
+提出用のZIP作成には`pnpm run zip`を使用します。
 
 Manifest V2向け(Firefox)の場合は、runコマンドの最後に`:firefox`を付けて実行します。   
 
