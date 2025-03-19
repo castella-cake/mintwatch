@@ -37,7 +37,7 @@ function Sortable({ id, obj, children }: { id: string, obj: any, children: React
 }
 
 export function Card({ href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title }: { href: string, thumbnailUrl?: string, thumbText?: string | ReactNode, subTitle?: string | ReactNode, additionalClassName?: string, children?: ReactNode, title: string }) {
-    return <div className={`info-card ${additionalClassName}`}>
+    return <div className={`info-card ${additionalClassName ?? ""}`}>
         <a className="info-card-link" href={href} title={title}></a>
         { (thumbText) && <div className="info-card-thumbnail">
             <img src={thumbnailUrl} alt={`${title} のサムネイル`}/>

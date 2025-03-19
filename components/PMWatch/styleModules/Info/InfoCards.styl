@@ -86,18 +86,19 @@ a.info-card-link {
     }
 }
 
-.recommend-container .info-card {
+.watchnext-container .info-card {
     background: var(--bgcolor2);
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin-bottom: 0.5em;
 }
 
-.watch-container[use-card-recommend="true"] .recommend-container {
+.watch-container[use-card-recommend="true"] .watchnext-container {
     .info-card {
+        --info-card-width: 11em;
         flex-direction: column;
         height: calc(100% - 10px);
-        width: 11em;
+        width: var(--info-card-width);
         white-space: wrap;
         margin: 0 auto;
         /* height: 10em; */
@@ -121,7 +122,7 @@ a.info-card-link {
 
         .info-card-text {
             align-self: start;
-            max-width: 100%;
+            max-width: var(--info-card-width);
         }
         .info-card-title {
             --max-line: 2

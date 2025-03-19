@@ -1,23 +1,23 @@
-.recommend-wrapper {
+.watchnext-wrapper {
     position: relative;
     overflow-x: hidden;
 }
-.recommend-container {
+.watchnext-container {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
 }
-.recommend-container .recommend-content {
+.watchnext-container .watchnext-content {
     overflow-y: auto;
 }
 
 .watch-container[use-card-recommend="true"] {
-    .recommend-container  {
+    .watchnext-container {
         position: static;
     }
-    .recommend-content {
+    .watchnext-content {
         display: grid;
         font-size: 0.9em;
         grid-template-columns: repeat(auto-fit, 1fr);
@@ -33,13 +33,13 @@
     }
 }
 
-.recommend-selector {
+.watchnext-selector {
     display: flex;
     gap: 8px;
     padding-bottom: 8px;
     overflow-x: auto;
 }
-.recommend-selector button {
+.watchnext-selector button {
     border-radius: var(--radius);
     padding: 4px 8px;
     background: var(--bgcolor2);

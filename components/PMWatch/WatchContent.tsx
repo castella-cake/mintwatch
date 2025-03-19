@@ -6,7 +6,7 @@ import Player from "./modules/PlayerUI/Player"
 import Playlist from "./modules/Playlist"
 import { Stacker } from "./modules/Stacker"
 import { NicoHarajukuLogo, Owner, Stats } from "./modules/ShinjukuUI"
-import Recommend from "./modules/Recommend"
+import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "./modules/Search"
@@ -89,7 +89,7 @@ export function WatchContent( _props: Props ) {
     const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
         {playerElem}{rightActionElem}
     </div>
-    const recommendElem = <Recommend key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend}/>
+    const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend}/>
     const seriesElem = <SeriesInfo key="watchui-series" />
     const bottomInfoElem = <BottomInfo key="watchui-bottominfo" />
     const searchElem = <Search key="watchui-search" />
@@ -99,12 +99,12 @@ export function WatchContent( _props: Props ) {
     const layoutPresets: {
         [key: string]: JSX.Element[]
     } = {
-        "renew": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, searchElem, recommendElem],
-        "recresc": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, bottomInfoElem, recommendElem],
-        "stacked": [playerElem, rightActionElem, bottomInfoElem, seriesElem, searchElem, recommendElem],
-        "3col": [titleElem, infoElem, playerElem, rightActionElem, recommendElem, seriesElem, bottomInfoElem, searchElem],
-        "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, recommendElem, searchElem],
-        "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, recommendElem, bottomInfoElem],
+        "renew": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, searchElem, watchNextElem],
+        "recresc": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, bottomInfoElem, watchNextElem],
+        "stacked": [playerElem, rightActionElem, bottomInfoElem, seriesElem, searchElem, watchNextElem],
+        "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, bottomInfoElem, searchElem],
+        "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, watchNextElem, searchElem],
+        "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, bottomInfoElem],
     }
 
     const currentLayout = layoutPresets[layoutType]
