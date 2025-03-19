@@ -51,7 +51,7 @@ export default defineContentScript({
         function onError(error: Error) {
             console.log(`Error: ${error}`);
         }
-        function createCSSRule(storages: any) {
+        async function createCSSRule(storages: any) {
             const syncStorage: { [key: string]: any } = storages[0].value;
             const localStorage: { [key: string]: any } = storages[1].value;
             //if (!syncStorage.enablewatchpagereplace) return;
@@ -60,6 +60,15 @@ export default defineContentScript({
             const queryString = location.search;
             const searchParams = new URLSearchParams(queryString);
             if (searchParams.get("nopmw") == "true") return;
+
+            // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
+            if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
+                /*const script = document.createElement("script");
+                script.src = browser.runtime.getURL("/watch_injector.js");
+                script.setAttribute("pmw-isplugin", "true");
+                head.appendChild(script);*/
+                await injectScript('/watch_injector.js');
+            }
 
             // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
             if (import.meta.env.FIREFOX) window.stop();
@@ -118,14 +127,6 @@ export default defineContentScript({
             document.dispatchEvent(
                 new CustomEvent("pmw_pageReplaced", { detail: "" }),
             );
-
-            // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
-            if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
-                const script = document.createElement("script");
-                script.src = browser.runtime.getURL("/watch_injector.js");
-                script.setAttribute("pmw-isplugin", "true");
-                head.appendChild(script);
-            }
 
             //console.log("initialResponse", JSON.parse(initialResponse))
             // さっき書き換える前に取得した値を書き戻す。innerHTMLに直接埋め込むのは信用できない。
