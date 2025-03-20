@@ -3,7 +3,7 @@ import { MylistResponseRootObject } from "@/types/mylistData";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import { IconArrowsShuffle } from "@tabler/icons-react";
+import { IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
 import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
 import { usePlaylistContext } from "./Contexts/PlaylistProvider";
 
@@ -72,6 +72,8 @@ function Playlist() {
         id: "playlist-droppable",
     });
 
+    const [isRemoveMode, setIsRemoveMode] = useState(false);
+
     //const [playlistData, setPlaylistData] = useState({} as any);
     let playlistQuery: { type: string; context: any } = {
         type: playlistData.type,
@@ -132,6 +134,19 @@ function Playlist() {
                 </div>
                 <button
                     title={
+                        (isRemoveMode ?? false)
+                            ? "削除モードを終了"
+                            : "プレイリストからアイテムを削除"
+                    }
+                    onClick={() => setIsRemoveMode(!isRemoveMode)}
+                    data-isenable={
+                        isRemoveMode.toString()
+                    }
+                >
+                    <IconPencilMinus />
+                </button>
+                <button
+                    title={
                         (localStorage.playersettings.enableShufflePlay ?? false)
                             ? "シャッフル再生を無効化"
                             : "シャッフル再生を有効化"
@@ -147,7 +162,7 @@ function Playlist() {
             <SortableContext
                 items={playlistData.items.map((elem) => elem.itemId)}
             >
-                <div className="playlist-items-container">
+                <div className="playlist-items-container" data-is-removemode={isRemoveMode.toString()}>
                     {playlistData.items.length > 0 &&
                         playlistData.items?.map((item, index) => {
                             const isNowPlaying =
