@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - いいね！へのお礼メッセージがコピーできるようになりました
 - Github Actions による開発ビルドが利用可能になりました
 - ショートカットやジェスチャーの実行時にメッセージが表示されるようになりました
+- ユーザーのフォローボタンを追加しました
 
 ### Changed
 - 内部のState/Contextがリファクタリングされました
@@ -30,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ヘッダー幅が1024px基準に再調整されました
 - おすすめのセレクターの並び順が再調整されました
 - パッケージマネージャーを PNPM に移行しました
+- プレイヤー関連のアトリビュートが変更されました
+- プレイリストのアイテム削除は削除モードに移行してから行うようになりました
 
 ### Fixed
 - コンテンツツリーの高さによってシリーズの表示が見切れる場合がある問題を修正しました
@@ -40,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 音量とエフェクターのレスポンスが向上しました
 - Shinjukuレイアウトのコメント送信ボタンのホバースタイルを修正しました
 - 外部からの音量操作が正しくUIに反映されない問題を修正しました
+- ツールチップのボーダー色が固定されました
 
 ## 0.4.0 - 2025/02/22
 
