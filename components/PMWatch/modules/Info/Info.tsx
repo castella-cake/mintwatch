@@ -16,6 +16,8 @@ import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "../Contexts/VideoDataProvider";
+import OwnerInfo from "./Owner";
+import UserFollowButton from "./UserFollowButton";
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div");
     dummyDiv.innerHTML = htmlString;
@@ -311,39 +313,16 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                         </div>
                     )}
                 </div>
-                {!isShinjukuLayout && (
-                    <div className="videoinfo-owner">
+                {!isShinjukuLayout && (<>
                         {videoInfoResponse.owner && (
-                            <a
-                                href={`https://www.nicovideo.jp/user/${videoInfoResponse.owner.id}`}
-                            >
-                                {videoInfoResponse.owner.iconUrl && (
-                                    <img
-                                        src={videoInfoResponse.owner.iconUrl}
-                                        alt={`${videoInfoResponse.owner.nickname} のアイコン`}
-                                    />
-                                )}
-                                <span>{videoInfoResponse.owner.nickname}</span>
-                            </a>
+                            <OwnerInfo id={videoInfoResponse.owner.id} iconUrl={videoInfoResponse.owner.iconUrl} name={videoInfoResponse.owner.nickname}>
+                                <UserFollowButton userId={videoInfoResponse.owner.id}/>
+                            </OwnerInfo>
                         )}
                         {videoInfoResponse.channel && (
-                            <a
-                                href={`https://ch.nicovideo.jp/${videoInfoResponse.channel.id}`}
-                            >
-                                {videoInfoResponse.channel.thumbnail
-                                    .smallUrl && (
-                                    <img
-                                        src={
-                                            videoInfoResponse.channel.thumbnail
-                                                .smallUrl
-                                        }
-                                        alt={`${videoInfoResponse.channel.name} のアイコン`}
-                                    />
-                                )}
-                                <span>{videoInfoResponse.channel.name}</span>
-                            </a>
+                            <OwnerInfo id={videoInfoResponse.channel.id} iconUrl={videoInfoResponse.channel.thumbnail.smallUrl} name={videoInfoResponse.channel.name} isChannel/>
                         )}
-                    </div>
+                    </>
                 )}
             </div>
             {isShinjukuLayout && (

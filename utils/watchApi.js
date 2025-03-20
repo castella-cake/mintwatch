@@ -311,7 +311,7 @@ export async function getVideoTimeline() {
 }
 
 export async function getOshiraseBox(offset = 0, importantOnly = false) {
-    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/box?offset=${offset}&importantOnly=${importantOnly.toString()}`, {
+    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/box?offset=${encodeURIComponent(offset)}&importantOnly=${encodeURIComponent(importantOnly.toString())}`, {
         "credentials": "include",
         "headers": {
             "content-type": "application/json",
@@ -324,7 +324,7 @@ export async function getOshiraseBox(offset = 0, importantOnly = false) {
 }
 
 export async function sendOshiraseBoxRead(id, requestWith) {
-    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/notifications/${id}/read?header=pc`, {
+    const response = await fetch(`https://api.oshirasebox.nicovideo.jp/v1/notifications/${encodeURIComponent(id)}/read?header=pc`, {
         "headers": {
             "content-type": "application/json",
             "X-Frontend-Id": "6",
@@ -332,6 +332,20 @@ export async function sendOshiraseBoxRead(id, requestWith) {
             "X-Request-With": requestWith,
         },
         "method": "PUT",
+        "credentials": "include"
+    });
+    return await response.json()
+}
+
+// GET / POST / DELETE
+export async function userFollowApi(userId, method = "GET") { 
+    const response = await fetch(`https://user-follow-api.nicovideo.jp/v1/user/followees/niconico-users/${encodeURIComponent(userId)}.json`, {
+        "headers": {
+            "x-frontend-id": "6",
+            "x-frontend-version": "0",
+            "x-request-with": "https://www.nicovideo.jp"
+        },
+        "method": method,
         "credentials": "include"
     });
     return await response.json()

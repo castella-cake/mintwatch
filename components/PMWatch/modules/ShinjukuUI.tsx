@@ -1,6 +1,7 @@
 import { readableInt } from "./commonFunction";
 import { useEffect, useState } from "react";
 import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import UserFollowButton from "./Info/UserFollowButton";
 
 const weekDay = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -64,7 +65,7 @@ export function Owner() {
 
     return (
         <div className="videoowner-container" id="pmw-videoowner">
-            {videoInfoResponse.owner && (
+            {videoInfoResponse.owner && (<>
                 <a
                     href={`https://www.nicovideo.jp/user/${videoInfoResponse.owner.id}`}
                 >
@@ -76,7 +77,8 @@ export function Owner() {
                         <span>{videoInfoResponse.owner.nickname}</span>
                     </div>
                 </a>
-            )}
+                <UserFollowButton userId={videoInfoResponse.owner.id}/>
+            </>)}
             {videoInfoResponse.channel && (
                 <a
                     href={`https://ch.nicovideo.jp/${videoInfoResponse.channel.id}`}
