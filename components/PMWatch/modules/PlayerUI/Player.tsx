@@ -68,6 +68,20 @@ function Player(props: Props) {
     const [previewCommentItem, setPreviewCommentItem] =
         useState<Comment | null>(null); // プレビューコメント
 
+    // ショートカットのフィードバックツールチップ
+    const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false);
+    const [shortcutFeedbackText, _setShortcutFeedbackText] = useState<string | null>(null);
+    const shortcutFeedbackElemRef = useRef<HTMLDivElement>(null);
+    const shortcutFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+    function setShortcutFeedback(text: string) {
+        _setShortcutFeedbackText(text);
+        _setShortcutFeedbackShown(true);
+        clearTimeout(shortcutFeedbackTimeoutRef.current);
+        shortcutFeedbackTimeoutRef.current = setTimeout(() => {
+            _setShortcutFeedbackShown(false);
+        }, 1500)
+    }
+
     // for transition
     const vefxElemRef = useRef<HTMLDivElement>(null);
     const settingsElemRef = useRef<HTMLDivElement>(null);
@@ -201,6 +215,7 @@ function Player(props: Props) {
                 videoRef.current,
                 commentInputRef.current,
                 toggleFullscreen,
+                setShortcutFeedback
             );
         document.body.addEventListener("keydown", onKeydown);
 
@@ -394,6 +409,7 @@ function Player(props: Props) {
                 enableVolumeGesture={
                     localStorage.playersettings.enableWheelGesture
                 }
+                setShortcutFeedback={setShortcutFeedback}
             >
                 {filteredComments && (
                     <CommentRender
@@ -462,6 +478,19 @@ function Player(props: Props) {
                         isStatsShown={isStatsShown}
                         setIsStatsShown={setIsStatsShown}
                     />
+                </CSSTransition>
+                <CSSTransition
+                    nodeRef={shortcutFeedbackElemRef}
+                    in={shortcutFeedbackShown}
+                    timeout={300}
+                    unmountOnExit
+                    classNames="player-shortcut-feedback-transition"
+                >
+                    <div className="player-shortcut-feedback-wrapper" ref={shortcutFeedbackElemRef}>
+                        <div className="player-shortcut-feedback">
+                            {shortcutFeedbackText}
+                        </div>
+                    </div>
                 </CSSTransition>
                 {isStatsShown && (
                     <StatsOverlay

@@ -11,7 +11,8 @@ type VideoPlayerProps = {
     enableVolumeGesture: boolean,
     videoTitle?: string,
     videoAuthor?: string,
-    videoGenre?: string
+    videoGenre?: string,
+    setShortcutFeedback: (text: string) => void,
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
@@ -25,7 +26,8 @@ export function VideoPlayer(props: VideoPlayerProps) {
         enableVolumeGesture,
         videoTitle,
         videoAuthor,
-        videoGenre
+        videoGenre,
+        setShortcutFeedback,
     } = props
     const { syncStorage } = useStorageContext()
 
@@ -42,12 +44,19 @@ export function VideoPlayer(props: VideoPlayerProps) {
             // 右クリックを押しながらホイールで音量を変更
             if ( e.buttons < 2 || enableVolumeGesture === false || !video ) return;
             if ( e.deltaY < 0 ) {
-                video.volume += wheelGestureAmount;
-                if (video.volume + wheelGestureAmount > 1) video.volume = 1
+                if (video.volume + wheelGestureAmount > 1) {
+                    video.volume = 1
+                } else {
+                    video.volume += wheelGestureAmount;
+                }
             } else {
-                video.volume -= wheelGestureAmount;
-                if (video.volume - wheelGestureAmount < 0) video.volume = 0
+                if (video.volume - wheelGestureAmount < 0) {
+                    video.volume = 0
+                } else {
+                    video.volume -= wheelGestureAmount;
+                }
             }
+            setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
             e.preventDefault();
             volumeGestureUsedRef.current = true
         }

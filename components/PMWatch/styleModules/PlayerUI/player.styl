@@ -254,3 +254,37 @@
         }
     }
 }
+
+.player-shortcut-feedback-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .player-shortcut-feedback {
+        width: max-content;
+        margin: 16px auto;
+        background: #000a;
+        backdrop-filter: blur(8px);
+        color: #fff;
+        padding: 4px 8px;
+        box-shadow: 0 0 8px #000;
+        border-radius: var(--radius);
+        border: var(--border);
+    }
+}
+.player-shortcut-feedback-transition {
+    &-enter, &-exit-active {
+        --translateY: 50%;
+    }
+    &-enter-active, &-exit-active {
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    &-enter, &-exit-active {
+        transform: translateY(var(--translateY))
+        opacity: 0;
+    }
+    &-enter-done, &-enter-active {
+        transform: translateY(0%)
+        opacity: 1;
+    }
+}

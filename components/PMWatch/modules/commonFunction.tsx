@@ -41,7 +41,7 @@ export function timeCalc(operation: string, time: number, currentTime: number, d
     }
 }
 
-export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, commentInput: HTMLTextAreaElement | null, onToggleFullscreen: () => void) => {
+export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, commentInput: HTMLTextAreaElement | null, onToggleFullscreen: () => void, setShortcutFeedback: (text: string) => void) => {
     if ( e.ctrlKey ) return true;
     if ( e.target instanceof Element ) {
         if ( e.target.closest("input, textarea") ) return true;
@@ -50,40 +50,55 @@ export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, com
         e.preventDefault()
         if ( video.paused ) {
             video.play()
+            setShortcutFeedback("再生")
         } else {
             video.pause()
+            setShortcutFeedback("一時停止")
         }
         return false;
     }
     if ( e.key === "ArrowLeft" && video ) {
         e.preventDefault()
         video.currentTime = timeCalc("add", -10, video.currentTime, video.duration)
+        setShortcutFeedback("-10 秒")
         return false;
     }
     if ( e.key === "ArrowRight" && video ) {
         e.preventDefault()
         video.currentTime = timeCalc("add", 10, video.currentTime, video.duration)
+        setShortcutFeedback("+10 秒")
         return false;
     }
     if ( e.key === "," && video ) {
         e.preventDefault()
         video.currentTime = timeCalc("add", -1 / 60, video.currentTime, video.duration)
+        setShortcutFeedback("-16 ミリ秒")
         return false;
     }
     if ( e.key === "." && video ) {
         e.preventDefault()
         video.currentTime = timeCalc("add", 1 / 60, video.currentTime, video.duration)
+        setShortcutFeedback("+16 ミリ秒")
         return false;
     }
-    if ( e.key === "c" || e.key === "C" ) {
+    if ( e.key.toLowerCase() === "c" ) {
         if (!commentInput) return
         // 入力を防ぐために preventDefaultしてからフォーカス(後でreturnしたら間に合わない)
         e.preventDefault()
         commentInput.focus()
+        setShortcutFeedback("コメントリストへフォーカス")
         return false;
     }
-    if ( e.key === "f" || e.key === "F" ) {
+    if ( e.key.toLowerCase()  === "f" ) {
         onToggleFullscreen()
+        return false;
+    }
+    if ( e.key.toLowerCase() === "m" && video ) {
+        e.preventDefault()
+        if (video.muted) {
+            setShortcutFeedback("ミュート解除")
+        } else setShortcutFeedback("ミュート");
+        video.muted = !video.muted
         return false;
     }
 }
