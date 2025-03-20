@@ -26,6 +26,8 @@ function Actions({ children, onModalOpen }: Props) {
     const [isLikeHovered, setIsLikeHovered] = useState(false);
     const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0); // videoInfoに焼き込まれていない「いいね」のための加算。
 
+    const [isLikeMsgCopied, setIsLikeMsgCopied] = useState<boolean>(false);
+
     const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
     //const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
     useEffect(() => {
@@ -121,6 +123,10 @@ function Actions({ children, onModalOpen }: Props) {
     function onLikeMsgCopy() {
         if (!likeThanksMsg) return
         navigator.clipboard.writeText(likeThanksMsg);
+        setIsLikeMsgCopied(true);
+        setTimeout(() => {
+            setIsLikeMsgCopied(false);
+        }, 3000);
     }
 
     return (
@@ -176,7 +182,11 @@ function Actions({ children, onModalOpen }: Props) {
                         <div className="video-action-likethanks-container">
                             <div className="global-flex video-action-likethanks-title">
                                 <span className="global-flex1">
-                                    いいね！へのお礼メッセージ<button onClick={onLikeMsgCopy} title="お礼メッセージをコピー" className="video-action-likethanks-copy"><IconCopy/></button>
+                                    いいね！へのお礼メッセージ
+                                    <button onClick={onLikeMsgCopy} title="お礼メッセージをコピー" className="video-action-likethanks-copy">
+                                        <IconCopy/>
+                                        {isLikeMsgCopied && <span className="video-action-likethanks-copied">コピーしました</span>}
+                                    </button>
                                 </span>
                                 {!videoInfo.data.response.video.viewer.like
                                     .isLiked && (
