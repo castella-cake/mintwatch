@@ -91,6 +91,10 @@ function PlayerController({
 
     const [isMuted, setIsMuted] = useState(false)
     const [videoVolume, setVideoVolume] = useState(50)
+    const isMutedRef = useRef(isMuted)
+    isMutedRef.current = isMuted
+    const videoVolumeRef = useRef(videoVolume)
+    videoVolumeRef.current = videoVolume
 
     const [hlsLevel, setHlsLevel] = useState(0)
     const [bufferedDuration, setBufferedDuration] = useState(0)
@@ -165,13 +169,14 @@ function PlayerController({
         const setIconToPause = () => setIsIconPlay(false)
         const setIconToPlay = () => setIsIconPlay(true)
         const updateVolumeState = () => {
-            if ( videoRef.current!.volume !== videoVolume / 100 ) {
-                setVideoVolume(videoRef.current!.volume * 100)
-                writePlayerSettings("volume", videoRef.current!.volume * 100, true)
+            if (!videoRef.current) return
+            if ( videoRef.current.volume !== videoVolumeRef.current / 100 ) {
+                setVideoVolume(videoRef.current.volume * 100)
+                writePlayerSettings("volume", videoRef.current.volume * 100, true)
             }
-            if ( videoRef.current!.muted !== isMuted ) {
-                setIsMuted(videoRef.current!.muted)
-                writePlayerSettings("isMuted", videoRef.current!.muted, true)
+            if ( videoRef.current.muted !== isMutedRef.current ) {
+                setIsMuted(videoRef.current.muted)
+                writePlayerSettings("isMuted", videoRef.current.muted, true)
             }
         }
 
