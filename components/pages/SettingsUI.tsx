@@ -19,7 +19,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         const settingsOption = setting.values.map((elem, index) => { return <button type="button" key={elem} onClick={() => {setSyncStorageValue(setting.name, elem)}} className={"select-button" + ((syncStorage[setting.name] ?? setting.default) == elem ? " select-button-current" : "")}>{lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}</button> })
         return <><label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}</label><div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div></>
     } else if ( setting.type === "inputNumber" ) {
-        return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
+        return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => {setSyncStorageValue(setting.name, Number(e.currentTarget.value))}}/></label>
     } else if ( setting.type === "inputString" ) {
         //console.log(syncStorage[settings.name])
         return <label >{lang.SETTINGS_ITEMS[settingName].name ?? setting.name}<input type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => {setSyncStorageValue(setting.name, e.currentTarget.value)}}/></label>
