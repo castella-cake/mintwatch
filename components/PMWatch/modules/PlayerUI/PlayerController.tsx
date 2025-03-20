@@ -25,9 +25,10 @@ type Props = {
     playlistIndexControl: (index: number, shuffleEnabled?: boolean) => void,
     qualityLabels?: string[],
     storyBoardData?: StoryBoardImageRootObject | null,
+    currentPlayerType: keyof typeof playerTypes,
 }
 
-const playerTypes = {
+export const playerTypes = {
     default: "default",
     officialPlayer: "html5",
     shinjuku: "shinjuku",
@@ -78,8 +79,9 @@ function PlayerController({
     playlistIndexControl,
     qualityLabels,
     storyBoardData,
+    currentPlayerType
 }: Props) {
-    const { localStorage, setLocalStorageValue, syncStorage, isLoaded } = useStorageContext()
+    const { localStorage, setLocalStorageValue, isLoaded } = useStorageContext()
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage
     function writePlayerSettings(name: string, value: any, silent?: boolean) {
@@ -281,8 +283,6 @@ function PlayerController({
         if ( elem && effectsState[elem as keyof effectsState].enabled ) return elem
         return
     }).filter(elem => {if (elem) return true})
-
-    const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
 
     const seekbarElem = <Seekbar
         key="control-seekbar"

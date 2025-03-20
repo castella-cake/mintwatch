@@ -115,7 +115,7 @@
     }
 }
 
-[is-integrated-controller="true"] .playercontroller-container {
+.player-container[data-is-integrated-controller="true"] .playercontroller-container {
     position: absolute;
     left: 8px;
     right: 8px;
@@ -141,11 +141,11 @@
 
 // 非フルスクリーンもしくは非ダイナミックコントローラー時に、動画要素の上でカーソルが動いていない場合は半透明。
 // 非ホバー時は適用しない。また、後ろに書いたopacityによってオーバーライドする場合もある
-[is-cursor-stopped="true"]:hover .player-bottom-container:not(:hover) {
+.player-container[data-is-cursor-stopped="true"]:hover .player-bottom-container:not(:hover) {
     opacity: 0.5; 
 }
 
-[is-integrated-controller="true"][is-cursor-stopped="true"] .playercontroller-container:not(:hover) {
+.player-container[data-is-integrated-controller="true"][data-is-cursor-stopped="true"] .playercontroller-container:not(:hover) {
     opacity: 0 !important; 
 }
 
@@ -169,7 +169,7 @@
         min-width: 800px;
         margin: 8px 32px;
     }
-    [is-dynamic-controller="true"] .player-bottom-container {
+    .player-container[data-is-dynamic-controller="true"] .player-bottom-container {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -181,18 +181,18 @@
         opacity: 0 !important; // フルスクリーンでダイナミック表示時にカーソルが動いていない
     }
 
-    [is-dynamic-controller="true"] .player-bottom-container > div {
+    .player-container[data-is-dynamic-controller="true"] .player-bottom-container > div {
         margin-left: auto;
         margin-right: auto;
     }
 
     // フルスクリーンでダイナミック表示時にカーソルが動いている場合、もしくはホバーされている場合に不透明
-    [is-cursor-stopped="false"][is-dynamic-controller="true"] .player-bottom-container, [is-dynamic-controller="true"] .player-bottom-container:hover {
+    .player-container[data-is-cursor-stopped="false"][data-is-dynamic-controller="true"] .player-bottom-container, [data-is-dynamic-controller="true"] .player-bottom-container:hover {
         opacity: 1 !important;
     }
 }
 
-[is-cursor-stopped="true"] {
+.player-container[data-is-cursor-stopped="true"] {
     .player-video-container {
         cursor: none;
     }

@@ -1,0 +1,161 @@
+.player-container[data-player-type="shinjuku"] .playercontroller-container {
+    --radius: 0px;
+    --radius-mini: 0px;
+    --radius-big: 0px;
+    background-image: linear-gradient(#ddd, #494949 3%, #282828 48%, #1a1a1a 50%, #202020 95%, #000 100%)
+    color: #fff;
+    margin-top: 0;
+    font-family: "MS Gothic";
+    font-weight: bold;
+    letter-spacing: -1px;
+    font-size: 14px;
+
+    .playercontroller-container-left {
+        flex: 1;
+        padding-left: 1px;
+    }
+
+    .playercontroller-container-right, .playercontroller-container-center {
+        flex: none;
+    }
+
+    .playercontroller-container-left, .playercontroller-container-center {
+        button {
+            border: 1px solid #111;
+            border-image: linear-gradient(#252525 10%, #000000 50%, #0f0f0f) 2;
+            padding: 3px 4px; // 1px増やすのはoutlineが減った分
+            margin-left: 2px;
+            box-shadow: 0px 0px 3px #000 inset;
+            position: relative;
+            &:after {
+                content: "";
+                background: transparent;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                position: absolute;
+                z-index: 1;
+                border: 1px solid #000;
+                border-image: linear-gradient(#000, #252525 50%, #666) 2;
+            }
+        }
+        button:not(:focus-visible) {
+            //outline: 1px solid #060606;
+        }
+    }
+
+
+    button svg {
+        height: 20px;
+        width: 20px;
+        color: #fff;
+    }
+
+    .playercontroller-container-left button.playercontroller-togglepause {
+        padding: 3px 9px; // 1px増やすのはoutlineが減った分
+    }
+    .playercontroller-container-right button {
+        padding: 6px 4px;
+    }
+    .playercontroller-qualityselect {
+        background: transparent;
+        padding: 6px 2px;
+        color: #fff;
+        margin: 0;
+        font-size: 12px;
+        font-family: "MS UI Gothic", sans-serif;
+        font-weight: bold;
+        option {
+            background: #000;
+            color: #fff;
+        }
+    }
+
+    .playercontroller-volume-container {
+        height: 10px;
+        margin-right: 4px;
+        .playercontroller-volume {
+            max-width: 64px;
+        }
+        .playercontroller-volume::-moz-range-track {
+            border: 2px solid #111;
+            background: linear-gradient(#000 0%, #555 20%, #333 90%, #444 90%);
+        }
+        .playercontroller-volume::-moz-range-progress {
+            background: linear-gradient(#666 0%, #fff 20%, #ddd 90%, #aaa 90%);
+        }
+        .playercontroller-volume::-webkit-slider-runnable-track {
+            border: 2px solid #111;
+            background: linear-gradient(#000 0%, #555 20%, #333 90%, #444 90%);
+        }
+        .playercontroller-volume:before {
+            background: linear-gradient(#666 0%, #fff 20%, #ddd 90%, #aaa 90%);
+            margin: 2px;
+            width: calc(100% - 4px) !important;
+            transform: scaleX(var(--width));
+            transform-origin: top left;
+        }
+    }
+
+
+
+    .seekbar-bg, .seekbar-buffered, .seekbar-played {
+        height: inherit;
+        transform: none;
+    }
+    .seekbar-thumb {
+        position: relative;
+        height: 24px;
+        width: 4px;
+        background: linear-gradient(#ddd 1%, #ddd 2%, #ddd 49%, #555 50%, #eee 100%);
+        bottom: 16px;
+        top: inherit;
+        transform: none;
+        border-radius: 0;
+        border: 1px solid #111;
+    }
+    .seekbar {
+        height: 6px;
+        border: 2px solid #111;
+        background: linear-gradient(#232323, #1c1c1c 20%, #333 70%);
+    }
+    .seekbar-played {
+        background: transparent;
+    }
+    .seekbar-buffered {
+        background: linear-gradient(#888, #ddd 20%, #fff 70%);
+        opacity: 1;
+    }
+    .seekbar-bg {
+        display: none
+    }
+    .playercontroller-time {
+        font-family: "MS Gothic", sans-serif;
+        font-weight: bold;
+        letter-spacing: -1px;
+        font-size: 13px;
+        margin: 0 2px;
+    }
+    .playercontroller-container-right, .playercontroller-container-left, .playercontroller-container-center {
+        button:hover {
+            background: #fff2;
+            cursor: pointer;
+        }
+    }
+    /*.playercontroller-volume-container .playercontroller-volume::-webkit-slider-thumb {
+        display: none;
+    }*/
+
+    .playercontroller-commenttoggle, .playercontroller-togglemute, .playercontroller-toggleloop {
+        border-left: 3px solid;
+        border-image: linear-gradient(90deg, #aaaa 1%, #000 5%, #000 10%, #aaaa 15%) 5;
+    }
+
+    .playercontroller-container-right, .player-container[data-player-type="shinjuku"] .playercontroller-container-left {
+        flex: none;
+    }
+    .seekbar-container {
+        flex: 1;
+    }
+}

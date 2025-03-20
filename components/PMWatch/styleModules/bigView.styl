@@ -22,7 +22,7 @@
         transition: opacity 0.3s ease;
         opacity: 1 !important;
     }
-    .watch-container-grid:has(.player-container[is-dynamic-controller="true"][is-cursor-stopped="true"]):has(.player-video-container:hover) {
+    .watch-container-grid:has(.player-container[data-is-dynamic-controller="true"][data-is-cursor-stopped="true"]):has(.player-video-container:hover) {
         // フルスクリーンでダイナミック表示時にカーソルが動いていない
         .videoinfo-container, .video-actions {
             transition: opacity 3s linear;

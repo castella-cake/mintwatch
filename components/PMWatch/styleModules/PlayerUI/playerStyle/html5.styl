@@ -1,0 +1,76 @@
+.playercontroller-container[player-type="html5"] {
+    margin-top: 0;
+    background: #000;
+    color: #fff;
+    --textcolor1: #fff;
+    --textcolor2: #ddd;
+    --radius-mini: 3px;
+    --linktext3: #07f;
+
+    .seekbar-container {
+        padding: 6px;
+        padding-bottom: 0;
+    }
+
+    .playercontroller-container-right button svg, .playercontroller-container-left button svg, .playercontroller-container-center button svg {
+        width: 1.6em;
+        height: 1.6em;
+    }
+
+    .playercontroller-container-right button, .playercontroller-container-left button, .playercontroller-container-center button {
+        padding: 8px 8px;
+        transition: color 0.1s ease;
+        &:hover {
+            background: transparent;
+            color: var(--linktext3);
+        }
+    }
+
+    select.playercontroller-qualityselect {
+        padding: 4px 8px;
+        margin: 0px 2px;
+        background: transparent;
+        transition: color 0.1s ease, background 0.1s ease;    
+        &:hover, &:active {
+            background: #fff1;
+        }
+        option {
+            background: #000;
+            color: #fff;
+            &:hover, &:active {
+                color: var(--linktext3);
+            }
+        }
+    }
+
+    .seekbar-bg, .seekbar-buffered, .seekbar-played {
+        height: inherit;
+        transform: none;
+    }
+    .seekbar-thumb {
+        display: none
+    }
+    .seekbar {
+        height: 0.5em
+    }
+
+    button.playercontroller-togglepause {
+        padding: 8px 10px
+    }
+
+    .playercontroller-time {
+        font-size: 0.9em
+    }
+
+    .playercontroller-volume-container {
+        height: 8px;
+    }
+}
+
+.player-container[data-is-integrated-controller="true"][data-player-type="html5"] .playercontroller-container {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.667) 80%, rgba(0, 0, 0, 0));
+}
+
+.fullscreen .player-container[data-is-dynamic-controller="true"][data-player-type="html5"] .playercontroller-container {
+    background: transparent
+}

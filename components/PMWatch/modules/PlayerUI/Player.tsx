@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 //import { useLang } from "../localizeHook";
-import PlayerController from "./PlayerController";
+import PlayerController, { playerTypes } from "./PlayerController";
 import VefxController from "./VefxController";
 import { useHlsVideo } from "@/hooks/hlsHooks";
 import { Comment } from "@/types/CommentData";
@@ -161,7 +161,7 @@ function Player(props: Props) {
             )
                 return;
             cursorStopRef.current = true;
-            containerRef.current?.setAttribute("is-cursor-stopped", "true");
+            containerRef.current?.setAttribute("data-is-cursor-stopped", "true");
         };
         // 動画が終了してエンドカードが表示されそうな場合は常にカーソル表示状態に
         const onTimeUpdate = () => {
@@ -174,7 +174,7 @@ function Player(props: Props) {
             if (videoRef.current?.currentTime >= videoRef.current?.duration) {
                 cursorStopRef.current = false;
                 containerRef.current?.setAttribute(
-                    "is-cursor-stopped",
+                    "data-is-cursor-stopped",
                     "false",
                 );
                 clearTimeout(timeout);
@@ -184,7 +184,7 @@ function Player(props: Props) {
         const handleMouseMove = (e: MouseEvent) => {
             clearTimeout(timeout);
             cursorStopRef.current = false;
-            containerRef.current?.setAttribute("is-cursor-stopped", "false");
+            containerRef.current?.setAttribute("data-is-cursor-stopped", "false");
             timeout = setTimeout(toCursorStop, 2500);
         };
         let timeout = setTimeout(toCursorStop, 2500);
@@ -373,28 +373,30 @@ function Player(props: Props) {
     const thumbnailSrc = videoInfo.data?.response.video.thumbnail.player;
 
     const thisVideoAuthor = (videoInfo.data?.response.owner && videoInfo.data?.response.owner.nickname) ?? (videoInfo.data?.response.channel && videoInfo.data?.response.channel.name) ?? "不明なユーザー"
+    const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
 
     return (
         <div
             className="player-container"
             id="pmw-player"
-            is-pipvideo={
+            data-is-pipvideo={
                 localStorage.playersettings.enableCommentPiP && isCommentShown
                     ? "true"
                     : "false"
             }
-            is-dynamic-controller={
+            data-is-dynamic-controller={
                 localStorage.playersettings.integratedControl !== "never"
                     ? "true"
                     : "false"
             }
-            is-integrated-controller={
+            data-is-integrated-controller={
                 localStorage.playersettings.integratedControl === "always" &&
                 !isFullscreenUi
                     ? "true"
                     : "false"
             }
-            is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
+            data-is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
+            data-player-type={currentPlayerType}
             ref={containerRef}
         >
             <VideoPlayer
@@ -434,8 +436,8 @@ function Player(props: Props) {
                         defaultPostTargetIndex={
                             videoInfo.data
                                 ? videoInfo.data.response.comment.threads.findIndex(
-                                      (elem) => elem.isDefaultPostTarget,
-                                  )
+                                        (elem) => elem.isDefaultPostTarget,
+                                )
                                 : -1
                         }
                     />
@@ -523,6 +525,7 @@ function Player(props: Props) {
                     playlistIndexControl={playlistIndexControl}
                     qualityLabels={qualityLabels}
                     storyBoardData={storyBoardData}
+                    currentPlayerType={currentPlayerType}
                 />
                 <CommentInput
                     videoId={videoId}
