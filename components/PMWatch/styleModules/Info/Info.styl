@@ -208,7 +208,22 @@
     width: calc(100% - 32px);
 }*/
 
-.stacker-content .videoinfo-container {
-    margin: 0;
-    overflow: hidden auto;
+.stacker-content { 
+    .videoinfo-container {
+        margin: 0;
+        overflow: hidden auto;
+        flex: 1;
+        border: none;
+    }
+
+    .videoinfo-owner {
+        margin-left: 0 !important;
+    }
+
+    .tags-container {
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5em;
+    }
 }
+
