@@ -10,7 +10,7 @@
     .header-center-container {
         justify-content: space-between;
         flex: 1.5 !important;
-        min-width: var(--header-width);
+        min-width: @css{min(var(--header-width), 80vw)};
         > div {
             display: flex;
         }
@@ -40,13 +40,18 @@
         display: inline;
         margin-right: 0;
     }
-    .header-usercontainer > a > img {
-        vertical-align: middle;
-        border-radius: 512px;
-        margin-right: 8px;
-        width: 2.25em;
-        height: 2.25em;
-        object-fit: contain;
+    .header-account {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        > img {
+            vertical-align: middle;
+            border-radius: 512px;
+            margin-right: 8px;
+            width: 2.25em;
+            height: 2.25em;
+            object-fit: contain;
+        }
     }
     .header-right-container {
         justify-content: flex-end;
@@ -69,6 +74,10 @@
     }
     button:hover {
         color: #fff;
+    }
+    .header-center-left {
+        white-space: nowrap;
+        overflow-x: auto;
     }
 }
 

@@ -12,6 +12,8 @@ body {
     --modal-background: var(--bgcolor2);
     --info-block-padding: 16px;
     --blocks-gap: 8px;
+    font-family: @css{Avenir, Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, メイリオ, sans-serif};
+    line-height: 1.5;
 }
 
 body {
@@ -20,12 +22,6 @@ body {
     margin: 0;
 }
 // font-family を Stylus-langが正しく解釈しないようなので、@cssを使う
-@css {
-    html.PMW-Enabled body {
-        font-family: Avenir, Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, メイリオ, sans-serif;
-        line-height: 1.5;
-    }
-}
 a {
     color: var(--linktext1)
 }
@@ -56,6 +52,7 @@ a {
     gap: 16px;
     justify-content: center;
     margin: 0 auto;
+    max-width: @css{round(98vw, 1px)};
     .watch-container-top {
         flex-basis: 100%;
         margin: 0 7.5%;
@@ -96,11 +93,6 @@ a {
         background-clip: content-box;
         border: 4px solid transparent;
         border-radius: var(--radius-big);
-    }
-}
-@css {
-    .watch-container {
-        max-width: round(98vw, 1px)
     }
 }
 
@@ -298,20 +290,65 @@ a {
         "sch rec rec"
         "sch rec rec"; */
     grid-template-areas: "inf inf sch" "vid act act" "rec rec rec" "btm srs srs";
+    grid-template-columns: @css{1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--page-padding) / 2), 1px), 320px)};
+    margin: @css{0 round(var(--page-padding), 1px)}; 
 }
 
-@css {
-    html.PMW-Enabled .watch-container-grid {
-        /*小数点以下のpaddingを丸める。video要素が微妙にずれるのが緩和される。*/
-        grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--page-padding) / 2), 1px), 320px);
-        margin: 0 round(var(--page-padding), 1px); 
+@media (max-width: 1024px) {
+    .container[data-disallow-grid-fallback="false"] {
+        .watch-container-grid {
+            display: flex;
+            flex-direction: column;
+        }
+        .stacker-container {
+            position: static;
+            max-height: 80vh;
+        }
+
+        .stacker-wrapper {
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            bottom: 0;
+        }
+
+        .stacker-content {
+            /* max-width: 0; */
+        }
+
+        .watch-container-grid .commentlist-list-toggletabindex {
+            opacity: 1 !important;
+            font-size: 1rem !important;
+            padding: 8px !important;
+        }
+
+        .commentlist-list-container:has(.commentlist-list-item[aria-hidden="false"]) {
+            max-height: 50vh;
+        }
+
+        .commentlist-list-container:has(.commentlist-list-item[aria-hidden="true"]) {
+            max-height: 0;
+        }
+
+        .header-account span {
+            display: none;
+        }
+
+        .watchnext-container {
+            position: static;
+        }
+        .seriesinfo-contaner {
+            min-height: 0;
+        }
     }
-    html.PMW-Enabled [watch-type="shinjuku"] .watch-container-grid, html.PMW-Enabled [watch-type="recresc"] .watch-container-grid {
-        grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;
-    }
-    html.PMW-Enabled [watch-type="rerekari"] .watch-container-grid {
-        grid-template-columns: 1fr min(round(32%, 1px), 440px);
-    }
+}
+
+[watch-type="shinjuku"] .watch-container-grid, [watch-type="recresc"] .watch-container-grid {
+    grid-template-columns: @css{1fr min(round(10%, 1px), 140px) max-content};
+}
+[watch-type="rerekari"] .watch-container-grid {
+    grid-template-columns: @css{1fr min(round(32%, 1px), 440px)};
 }
 
 [watch-type="renew"] .watch-container-grid {

@@ -17,6 +17,18 @@
             "name": "Player theme",
             "hint": "Specifies the appearance of the player used in MintWatch.",
             "select": ["Default", "cresc.", "Shinjuku"]
+        },
+        "otherSettings": {
+            "name": "Detailed settings"
+        },
+        "muteKokenVoice": {
+            "name": "Mute Koken voice"
+        },
+        "wheelGestureAmount": {
+            "name": "Wheel gesture movement amount (%)"
+        },
+        "disallowGridFallback": {
+            "name": "Disable grid fallback based on screen width"
         }
     }
 }

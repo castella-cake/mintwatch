@@ -51,6 +51,11 @@ const settings: settingList = {
                     default: 5,
                     min: 1,
                     max: 10,
+                },
+                {
+                    type: "checkbox",
+                    name: "disallowGridFallback",
+                    default: false,
                 }
             ]
         }

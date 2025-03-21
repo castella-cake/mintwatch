@@ -67,7 +67,7 @@ function Header({
                             <IconCategory/>
                         </button>
                         {videoViewerInfo && (
-                            <a href="https://www.nicovideo.jp/my">
+                            <a href="https://www.nicovideo.jp/my" className="header-account">
                                 <img
                                     src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(videoViewerInfo.id / 10000)}/${videoViewerInfo.id.toString()}.jpg`}
                                     onError={(e: any) => {

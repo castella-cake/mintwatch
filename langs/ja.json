@@ -33,6 +33,9 @@
         },
         "wheelGestureAmount": {
             "name": "音量ジェスチャーの移動量(%)"
+        },
+        "disallowGridFallback": {
+            "name": "画面幅に応じたグリッド表示のフォールバックを無効化"
         }
     }
 }

@@ -126,8 +126,10 @@ function CreateWatchUI() {
         if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setIsMintConfigShown(false)
     }
 
+    const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
+
     return (
-        <div className={isFullscreenUi ? "container fullscreen" : "container"} onClick={closeAllModal}>
+        <div className={isFullscreenUi ? "container fullscreen" : "container"} onClick={closeAllModal} data-disallow-grid-fallback={disallowGridFallback.toString()}>
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}
