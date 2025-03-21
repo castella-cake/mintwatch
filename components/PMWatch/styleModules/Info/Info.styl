@@ -97,60 +97,6 @@
     }
 }
 
-.tags-container {
-    display: flex;
-    background: var(--bgcolor1);
-    border-radius: var(--radius);
-    gap: 1em;
-    padding: 8px 16px;
-    align-items: center;
-}
-.tags-title {
-    font-weight: bold;
-    text-align: left;
-}
-.tags-item-container {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    line-height: 24px;
-    gap: 4px;
-    
-
-    .tags-item {
-        margin-right: 8px;
-        border-bottom: 2px solid var(--accent1)
-        a {
-            text-decoration: none;
-            color: var(--textcolor1);
-        } 
-        .tags-item-nicodic {
-            background: #b81414;
-            border-radius: var(--radius-mini);
-            color: #fff;
-            font-size: 0.7em;
-            padding: 1px 2px;
-        }
-        .tags-item-nicodic.tags-item-nicodic-notexist {
-            background: var(--accent1);
-        }
-    }
-    .tags-item-locked {
-        border-bottom: 2px solid rgb(212, 138, 0)
-    }
-    .tags-editbutton {
-        background: transparent;
-        color: var(--textcolor1);
-        border: none;
-        vertical-align: middle;
-        padding: 0;
-        &.disabled { opacity: 0.2; }
-        svg {
-            vertical-align: middle;
-        }
-    }
-}
-
 .videoinfo-titlecontainer {
     display: flex;
     align-items: center;

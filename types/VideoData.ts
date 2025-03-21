@@ -148,7 +148,7 @@ interface Thumbnail3 {
     ogp: string;
 }
 
-interface Tag {
+export interface Tag {
     items: TagItem[];
     hasR18Tag: boolean;
     isPublishedNicoscript: boolean;

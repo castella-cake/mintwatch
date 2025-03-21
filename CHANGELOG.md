@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Github Actions による開発ビルドが利用可能になりました
 - ショートカットやジェスチャーの実行時にメッセージが表示されるようになりました
 - ユーザーのフォローボタンを追加しました
+- タグ編集機能を実装しました
 
 ### Changed
 - 内部のState/Contextがリファクタリングされました

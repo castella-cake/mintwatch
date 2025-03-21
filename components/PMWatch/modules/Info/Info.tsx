@@ -18,6 +18,7 @@ import {
 } from "../Contexts/VideoDataProvider";
 import OwnerInfo from "./Owner";
 import UserFollowButton from "./UserFollowButton";
+import Tags from "./Tags";
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div");
     dummyDiv.innerHTML = htmlString;
@@ -364,53 +365,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     {descElem}
                 </div>
             </details>
-            <div className="tags-container">
-                <div className="tags-title">
-                    <span>登録タグ</span>
-                </div>
-                <div className="tags-item-container">
-                    {videoInfoResponse.tag.items.map((elem, index) => {
-                        return (
-                            <div
-                                key={`tag-${elem.name}`}
-                                className={
-                                    elem.isLocked
-                                        ? "tags-item tags-item-locked"
-                                        : "tags-item"
-                                }
-                            >
-                                <a
-                                    href={`/tag/${elem.name}`}
-                                    title={`タグ ${elem.name} の動画を検索`}
-                                >
-                                    {elem.name}
-                                </a>
-                                <a
-                                    href={`https://dic.nicovideo.jp/a/${elem.name}`}
-                                    className={
-                                        elem.isNicodicArticleExists
-                                            ? "tags-item-nicodic"
-                                            : "tags-item-nicodic tags-item-nicodic-notexist"
-                                    }
-                                    title={`タグ ${elem.name} の大百科記事を開く`}
-                                >
-                                    {elem.isNicodicArticleExists
-                                        ? nicodicExistIcon
-                                        : nicodicNotExistIcon}
-                                </a>
-                            </div>
-                        );
-                    })}
-                    <button
-                        className="tags-editbutton disabled"
-                        aria-disabled="true"
-                        title="タグ編集は未実装です"
-                    >
-                        <IconEdit />
-                        編集
-                    </button>
-                </div>
-            </div>
+            <Tags initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout}/>
         </div>
     );
 }
