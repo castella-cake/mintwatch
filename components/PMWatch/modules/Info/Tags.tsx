@@ -1,5 +1,5 @@
 import { Tag } from "@/types/VideoData";
-import { IconCheck, IconEdit, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react";
+import { IconCheck, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react";
 import { useSmIdContext } from "../WatchDataContext";
 
 type compatibleTag = {

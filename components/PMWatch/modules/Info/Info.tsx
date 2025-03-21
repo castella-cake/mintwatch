@@ -1,6 +1,5 @@
 import {
     IconClockHour4Filled,
-    IconEdit,
     IconExclamationCircleFilled,
     IconFolderFilled,
     IconMessageFilled,
@@ -219,22 +218,6 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
             })}
         </select>
     }*/
-    const nicodicExistIcon = isShinjukuLayout ? (
-        <img
-            src="http://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_on.png"
-            alt="記事利用可能アイコン"
-        />
-    ) : (
-        "百"
-    );
-    const nicodicNotExistIcon = isShinjukuLayout ? (
-        <img
-            src="http://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_off.png"
-            alt="記事未作成アイコン"
-        />
-    ) : (
-        "？"
-    );
 
     return (
         <div className="videoinfo-container" id="pmw-videoinfo">
