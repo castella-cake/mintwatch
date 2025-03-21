@@ -94,7 +94,7 @@ export function WatchContent( _props: Props ) {
     const bottomInfoElem = <BottomInfo key="watchui-bottominfo" />
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
-    const hrjkLogoElem = <div className="hrjk-header"><NicoHarajukuLogo key="watchui-hrjklogo" />{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
+    const hrjkLogoElem = <div className="hrjk-header" key="watchui-hrjkheader"><NicoHarajukuLogo/>{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
 
     const layoutPresets: {
         [key: string]: JSX.Element[]

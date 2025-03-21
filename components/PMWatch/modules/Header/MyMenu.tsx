@@ -151,11 +151,11 @@ export default function MyMenu() {
             </div>
             {Object.keys(myMenuLinks).map((key) => {
                 const thisKey = key as keyof typeof myMenuLinks
-                return <div key={key} className="mymenu-linkarea-container">
+                return <div key={`linkarea-${key}`} className="mymenu-linkarea-container">
                     {myMenuLinks[thisKey].label && <h3>{myMenuLinks[thisKey].label}</h3>}
                     <div className="mymenu-links-container">
                         {myMenuLinks[key].links.map((link) => (
-                            <a className="mymenu-link" href={link.href} data-is-fullwidth={(link.isFullWidth ?? false).toString()}>{link.label}</a>
+                            <a key={`links-${link.label}`}className="mymenu-link" href={link.href} data-is-fullwidth={(link.isFullWidth ?? false).toString()}>{link.label}</a>
                         ))}
                     </div>
                 </div>
