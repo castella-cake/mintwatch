@@ -437,7 +437,7 @@ function CommentList() {
                             return !onlyShowMyselfComments;
                         });
                     }}
-                    title="自分のコメントのみ表示"
+                    title={onlyShowMyselfComments ? "フィルターを解除" : "自分のコメントでフィルター"}
                 >
                     <IconAdjustmentsStar />
                 </button>
@@ -449,7 +449,7 @@ function CommentList() {
                             return !showTimemachineUi;
                         });
                     }}
-                    title="過去ログメニューを表示"
+                    title={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                 >
                     <IconHistoryToggle />
                 </button>
@@ -461,7 +461,7 @@ function CommentList() {
                             return !state;
                         });
                     }}
-                    title="自動スクロールを切り替え"
+                    title={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                 >
                     <IconTransitionBottom/>
                 </button>
