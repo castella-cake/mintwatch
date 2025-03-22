@@ -113,7 +113,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     return <div className="tags-container">
         <div className="tags-title">
             <span>{isEditMode ? "タグを編集中" : "登録タグ"}</span>
-            <button
+            { ( !isShinjukuLayout || isEditMode ) && <button
                 className="tags-editbutton"
                 title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
                 onClick={onEditModeToggle}
@@ -122,7 +122,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             >
                 { isEditMode ? <IconCheck/> : <IconTags /> }
                 { isEditMode ? "完了" : "編集" }
-            </button>
+            </button> }
         </div>
         <div className="tags-item-container" data-is-editmode={isEditMode}>
             {tags.map((elem, index) => {
@@ -173,6 +173,16 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
                     </div>
                 );
             })}
+            { ( !isEditMode && isShinjukuLayout ) && <button
+                className="tags-editbutton"
+                title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
+                onClick={onEditModeToggle}
+                data-is-active={isEditMode}
+                aria-disabled={!isEditable}
+            >
+                { isEditMode ? <IconCheck/> : <IconTags /> }
+                { isEditMode ? "完了" : "編集" }
+            </button> }
         </div>
         {isEditMode && <div className="tags-add-container">
             <input type="text" placeholder="タグ名を入力…" ref={tagInputRef} className="tags-add-input"/>

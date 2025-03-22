@@ -353,15 +353,14 @@
         font-size: 0.9em;
     }
 
-    .tags-item {
+    .tags-item-container[data-is-editmode="false"] .tags-item {
         border-bottom: none;
         text-decoration: underline;
         margin-right: 0.25em;
         line-height: 1.2em;
-    }
-
-    .tags-item.tags-item-locked {
-        text-decoration-color: rgb(212, 138, 0);
+        &.tags-item-locked {
+            text-decoration-color: rgb(212, 138, 0);
+        }
     }
 
     .tags-item-nicodic {
@@ -388,6 +387,15 @@
         display: none;
     }
 
+    .tags-editbutton {
+        padding: 0;
+        border: none;
+        text-decoration: underline;
+        &:hover {
+            background: transparent;
+            color: #f00;
+        }
+    }
     .tags-editbutton:before {
         content: "【";
     }
