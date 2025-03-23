@@ -4,7 +4,7 @@ import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 
 function SeriesInfo() {
     const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo.data) return <></>;
+    if (!videoInfo) return <></>;
 
     const seriesData = videoInfo.data.response.series;
     const playlist = btoa(

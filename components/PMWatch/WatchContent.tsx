@@ -77,7 +77,7 @@ export function WatchContent( _props: Props ) {
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
     const commentListElem = <CommentList key="watchui-commentlist" />
     const playListElem = <Playlist key="watchui-playlist" />
-    const actionsElem = <Actions onModalOpen={(modalType: "mylist" | "share") => { onModalStateChanged(true, modalType) }} key="watchui-actions"></Actions>
+    const actionsElem = <Actions onModalOpen={(modalType: "mylist" | "share" | "help") => { onModalStateChanged(true, modalType) }} key="watchui-actions"></Actions>
     const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
         {layoutType === watchLayoutType.shinjuku ?
             <div className="watch-container-rightaction-hjleft">

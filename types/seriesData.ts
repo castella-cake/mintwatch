@@ -1,5 +1,4 @@
-export interface SeriesResponseRootObject {
-    meta: Meta;
+export interface SeriesResponseRootObject extends baseResponse {
     data: Data;
 }
 
@@ -88,8 +87,4 @@ interface Channel {
     description: string;
     thumbnailUrl: string;
     thumbnailSmallUrl: string;
-}
-
-interface Meta {
-    status: number;
 }

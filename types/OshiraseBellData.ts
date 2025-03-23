@@ -1,10 +1,5 @@
-export interface OshiraseBellDataRootObject {
+export interface OshiraseBellDataRootObject extends baseResponse {
     data: Data;
-    meta: Meta;
-}
-
-interface Meta {
-    status: number;
 }
 
 interface Data {

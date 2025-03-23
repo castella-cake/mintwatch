@@ -2,7 +2,7 @@ import Hls from "hls.js";
 import { VideoDataRootObject } from "@/types/VideoData";
 import { RefObject, useEffect, useState } from "react";
 
-export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: VideoDataRootObject, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement> }) {
+export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: VideoDataRootObject | null, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement> }) {
     const [hlsLevel, setHlsLevel] = useState(hlsRef.current?.currentLevel || 0)
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: Video
         })
     }, [hlsRef.current])
 
-    if (!videoInfo.data) return <div className="statsoverlay">動画情報が利用できません</div>
+    if (!videoInfo) return <div className="statsoverlay">動画情報が利用できません</div>
     const loudnessData = (videoInfo.data?.response.media.domand && videoInfo.data?.response.media.domand?.audios[0].loudnessCollection[0].value)
     return <div className="statsoverlay">
         動画ID: {videoInfo.data?.response.video.id}<br/>

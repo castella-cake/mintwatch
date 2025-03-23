@@ -1,7 +1,6 @@
 // JSON to TS で生成したものを手直ししたものです
 // mylistの扱いとかもうちょっと修正したいですが、とりあえず名前の書き直しだけしています
-export interface RecommendDataRootObject {
-    meta?: Meta;
+export interface RecommendDataRootObject extends baseResponse {
     data?: Data;
 }
 
@@ -112,8 +111,4 @@ interface Count {
 interface Recipe {
     id: string;
     meta: null;
-}
-
-interface Meta {
-    status: number;
 }

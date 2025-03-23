@@ -1,18 +1,3 @@
-export interface StoryBoardRightsRootObject {
-    meta: Meta;
-    data: Data;
-}
-
-interface Data {
-    contentUrl: string;
-    createTime: string;
-    expireTime: string;
-}
-
-interface Meta {
-    status: number;
-}
-
 export interface StoryBoardImageRootObject {
     version: string;
     thumbnailWidth: number;

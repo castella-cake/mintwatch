@@ -1,5 +1,4 @@
-export interface DAnimeLinksDataRootObject {
-  meta: Meta;
+export interface DAnimeLinksDataRootObject extends baseResponse {
   data: Data;
 }
 
@@ -27,8 +26,4 @@ interface Channel {
   thumbnailUrl: string;
   thumbnailSmallUrl: string;
   canAdmit: boolean;
-}
-
-interface Meta {
-  status: number;
 }

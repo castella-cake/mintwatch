@@ -1,5 +1,4 @@
-export interface PickupSupportersRootObject {
-    meta: Meta;
+export interface PickupSupportersRootObject extends baseResponse {
     data: Data;
 }
 
@@ -23,8 +22,4 @@ interface Auxiliary {
     bgColor?: string;
     instreamStartTime?: number;
     bgVideoPosition?: number;
-}
-
-interface Meta {
-    status: number;
 }

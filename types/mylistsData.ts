@@ -1,5 +1,4 @@
-export interface MylistsResponseRootObject {
-    meta: Meta;
+export interface MylistsResponseRootObject extends baseResponse {
     data: Data;
 }
 
@@ -30,8 +29,4 @@ interface Owner {
     id: string;
     name: string;
     iconUrl: string;
-}
-
-interface Meta {
-    status: number;
 }

@@ -1,6 +1,5 @@
 // JSON to TS で生成したものをそのまま使ってます
-export interface CommentDataRootObject {
-    meta?: Meta;
+export interface CommentDataRootObject extends baseResponse {
     data?: Data;
 }
 
@@ -37,13 +36,7 @@ interface GlobalComment {
     count: number;
 }
 
-interface Meta {
-    status: number;
-    errorCode: string;
-}
-
-export interface CommentResponseRootObject {
-    meta: Meta;
+export interface CommentResponseRootObject extends baseResponse {
     data: CommentResponseData;
 }
 

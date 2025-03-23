@@ -53,4 +53,7 @@ export default defineConfig({
             }
         },
     },
+    imports: {
+        dirs: ["./utils/apis/*"]
+    }
 });

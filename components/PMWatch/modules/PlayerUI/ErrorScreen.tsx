@@ -1,7 +1,7 @@
 import { VideoDataRootObject } from "@/types/VideoData";
 
-export function ErrorScreen({ videoInfo }: { videoInfo: VideoDataRootObject}) {
-    if (!videoInfo.data || videoInfo.data?.response.media.domand && videoInfo.data.response.viewer) return
+export function ErrorScreen({ videoInfo }: { videoInfo: VideoDataRootObject | null}) {
+    if (!videoInfo || videoInfo.data?.response.media.domand && videoInfo.data.response.viewer) return
     const isPPV = videoInfo.data?.response.payment.preview.ppv.isEnabled
     const isPremiumOnly = videoInfo.data?.response.payment.preview.premium.isEnabled
     const viewer = videoInfo.data.response.viewer

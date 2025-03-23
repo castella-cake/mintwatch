@@ -1,10 +1,5 @@
-export interface NicoruKeyResponseRootObject {
-    meta: Meta;
+export interface NicoruKeyResponseRootObject extends baseResponse {
     data: NicoruKeyResponseData;
-}
-
-interface Meta {
-    status: number;
 }
 
 interface NicoruKeyResponseData {

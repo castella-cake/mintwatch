@@ -1,21 +1,22 @@
 import { VideoDataRootObject } from "@/types/VideoData"
 import { RefObject } from "react"
 
-export function useResumePlayback(videoRef: RefObject<HTMLVideoElement>, videoId: string, videoInfo: VideoDataRootObject, resumePlaybackType?: string) {
+export function useResumePlayback(videoRef: RefObject<HTMLVideoElement>, videoInfo: VideoDataRootObject | null, resumePlaybackType?: string) {
     // レジューム再生の処理
     useEffect(() => {
+        if (!videoInfo) return
         const onUnload = () => {
             if ( !videoRef.current ) return
-            const playbackPositionBody = { watchId: videoId, seconds: videoRef.current.currentTime }
+            const playbackPositionBody = { watchId: videoInfo.data.response.video.id, seconds: videoRef.current.currentTime }
             putPlaybackPosition(JSON.stringify(playbackPositionBody))
         }
         window.addEventListener("beforeunload", onUnload)
         return () => { window.removeEventListener("beforeunload", onUnload) }
-    }, [])
+    }, [videoInfo])
 
     // fromから再生位置の指定をするか、レジューム再生で再生位置を指定する
     useEffect(() => {
-        if (!videoInfo.data || !videoRef.current) return
+        if (!videoInfo || !videoRef.current) return
         const searchParams = new URLSearchParams(location.search);
         const fromSecond = Number(searchParams.get('from'))
         if (fromSecond) {

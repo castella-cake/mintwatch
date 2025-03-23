@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
 import type { NvComment, VideoDataRootObject } from "@/types/VideoData";
-import {
-    getCommentThread,
-    getRecommend,
-    getVideoInfo,
-} from "../utils/watchApi";
 import { CommentDataRootObject } from "@/types/CommentData";
 import { RecommendDataRootObject } from "@/types/RecommendData";
-import {
-    StoryBoardImageRootObject,
-    StoryBoardRightsRootObject,
-} from "@/types/StoryBoardData";
+import {StoryBoardImageRootObject,} from "@/types/StoryBoardData";
+import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
+import { AccessRightsRootObject } from "@/types/accessRightsApi";
 
 export function useVideoData(smId: string) {
-    const [videoInfo, setVideoInfo] = useState<VideoDataRootObject>({});
+    const [videoInfo, setVideoInfo] = useState<VideoDataRootObject | null>(null);
     const [errorInfo, setErrorInfo] = useState<any>(false);
     useEffect(() => {
         async function fetchInfo() {
@@ -63,9 +57,7 @@ export function useCommentData(
     nvComment: NvComment | undefined,
     smId: string | undefined,
 ) {
-    const [commentContent, setCommentContent] = useState<CommentDataRootObject>(
-        {},
-    );
+    const [commentContent, setCommentContent] = useState<CommentDataRootObject | null>(null);
     const commentThreadKeyRef = useRef("");
     useEffect(() => {
         async function fetchInfo() {
@@ -113,14 +105,11 @@ export function useCommentData(
                 console.log(
                     "PMW: getCommentThread failed with expired token, fetching token...",
                 );
-                const threadKeyResponse: {
-                    meta?: { status: number };
-                    data?: { threadKey: string };
-                } = await getCommentThreadKey(smId);
+                const threadKeyResponse: CommentThreadKeyData = await getCommentThreadKey(smId);
                 if (
                     threadKeyResponse.meta &&
                     threadKeyResponse.meta.status === 200 &&
-                    threadKeyResponse.data?.threadKey
+                    threadKeyResponse.data.threadKey
                 ) {
                     commentThreadKeyRef.current =
                         threadKeyResponse.data.threadKey;
@@ -157,9 +146,7 @@ export function useCommentData(
 }
 
 export function useRecommendData(smId: string) {
-    const [recommendData, setRecommendData] = useState<RecommendDataRootObject>(
-        {},
-    );
+    const [recommendData, setRecommendData] = useState<RecommendDataRootObject | null>(null);
     useEffect(() => {
         async function fetchInfo() {
             const recommendResponse = await getRecommend(smId);
@@ -172,7 +159,7 @@ export function useRecommendData(smId: string) {
 }
 
 export function useStoryBoardData(
-    videoInfo: VideoDataRootObject,
+    videoInfo: VideoDataRootObject | null,
     smId: string,
     actionTrackId: string,
 ) {
@@ -181,7 +168,8 @@ export function useStoryBoardData(
     useEffect(() => {
         async function getData() {
             _setStoryBoardData(null);
-            const rightsResult: StoryBoardRightsRootObject = await getHls(
+            if (!videoInfo || !videoInfo.data.response.media.domand) return
+            const rightsResult: AccessRightsRootObject = await getHls(
                 smId,
                 "{}",
                 actionTrackId,
@@ -210,7 +198,7 @@ export function useStoryBoardData(
                 }),
             });
         }
-        if (videoInfo.data?.response.media.domand?.isStoryboardAvailable) {
+        if (videoInfo?.data.response.media.domand?.isStoryboardAvailable) {
             getData();
         }
     }, [smId, videoInfo]);

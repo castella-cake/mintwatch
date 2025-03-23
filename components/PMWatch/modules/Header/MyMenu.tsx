@@ -112,7 +112,7 @@ const myMenuLinks: links = {
 
 export default function MyMenu() {
     const { videoInfo } = useVideoInfoContext();
-    const videoViewerInfo = videoInfo.data?.response.viewer;
+    const videoViewerInfo = videoInfo?.data.response.viewer;
 
     return (
         <div className="mymenu-container">

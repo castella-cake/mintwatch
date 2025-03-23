@@ -1,10 +1,5 @@
-export interface OshiraseBoxRootObject {
+export interface OshiraseBoxRootObject extends baseResponse {
     data: Data;
-    meta: Meta;
-}
-
-interface Meta {
-    status: number;
 }
 
 interface Data {

@@ -1,5 +1,4 @@
-export interface UserVideoData  {
-    meta: Meta;
+export interface UserVideoData extends baseResponse {
     data: Data;
 }
 
@@ -60,8 +59,4 @@ interface Series {
     id: number;
     title: string;
     order: number;
-}
-
-interface Meta {
-    status: number;
 }

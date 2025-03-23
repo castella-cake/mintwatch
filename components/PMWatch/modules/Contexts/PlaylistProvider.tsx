@@ -67,7 +67,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     id: playlistJson.context.seriesId,
                     items: seriesToSimplifiedPlaylist(response),
                 });
-            } else if (videoInfo.data) {
+            } else if (videoInfo) {
                 //setFetchedPlaylistData(null)
                 setPlaylistData({ type: "none", items: [] });
             }
@@ -82,7 +82,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             getData(playlistJson);
         }
         if (
-            videoInfo.data &&
+            videoInfo &&
             (playlistData.type === "none" ||
                 (playlistData.type === "custom" &&
                     playlistData.items.length < 2))

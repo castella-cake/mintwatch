@@ -1,8 +1,9 @@
 import { Dispatch, PointerEvent, RefObject, SetStateAction, useMemo } from "react";
 import { secondsToTime } from "../commonFunction";
 
-import type { CommentDataRootObject, Comment as CommentItem} from "@/types/CommentData";
+import type { Comment as CommentItem} from "@/types/CommentData";
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
+import { useCommentContentContext } from "../Contexts/CommentDataProvider";
 
 type Props = {
     currentTime: number,
@@ -12,12 +13,12 @@ type Props = {
     isSeeking: boolean,
     setIsSeeking: Dispatch<SetStateAction<boolean>>,
     tempSeekHandle: (clientX: number) => void,
-    commentContent: CommentDataRootObject,
     seekbarRef: RefObject<HTMLDivElement>,
     storyBoardData?: StoryBoardImageRootObject | null,
 }
 
-export function Seekbar({ currentTime, duration, showTime, bufferedDuration, setIsSeeking, tempSeekHandle, commentContent, seekbarRef, storyBoardData}: Props) {
+export function Seekbar({ currentTime, duration, showTime, bufferedDuration, setIsSeeking, tempSeekHandle, seekbarRef, storyBoardData}: Props) {
+    const commentContent = useCommentContentContext()
     const [storyBoardX, setStoryBoardX] = useState<number>(0)
     const storyboardCanvasRef = useRef<HTMLCanvasElement>(null)
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -103,6 +104,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
 
 
     const commentStatsCalc = useMemo(() => {
+        if (!commentContent) return {}
         const comments = commentContent.data?.threads
             .map(elem => elem.comments)
             .reduce((prev, current) => {

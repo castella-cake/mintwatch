@@ -8,11 +8,11 @@ const VideoRefContext = createContext<RefObject<HTMLVideoElement>>(null!);
 const IVideoRef = createRef<HTMLVideoElement>();
 
 type VideoInfoContext = {
-    videoInfo: VideoDataRootObject;
+    videoInfo: VideoDataRootObject | null;
     errorInfo: any;
 };
 const IVideoInfoContext = createContext<VideoInfoContext>({
-    videoInfo: null!,
+    videoInfo: null,
     errorInfo: false,
 });
 
@@ -34,6 +34,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (
+            videoInfo &&
             videoInfo.meta?.status === 200 &&
             actionTrackId !== ""
         ) {
@@ -44,6 +45,8 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             );
         }
     }, [videoInfo]);
+
+    if ( !videoInfo ) return children
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId}>

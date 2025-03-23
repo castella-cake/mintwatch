@@ -13,11 +13,6 @@ import {
     NicoruPostResponseRootObject,
     NicoruRemoveRootObject,
 } from "@/types/NicoruPostData";
-import {
-    getNicoruKey,
-    postNicoru,
-    removeNicoru,
-} from "../../../../utils/watchApi";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { IconAdjustmentsStar, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
@@ -295,10 +290,12 @@ function CommentList() {
         scrollPosList,
     ]);
 
-    // 現在のフォークタイプで代入
-    const currentThread = commentContent.data?.threads[currentForkType];
+    
     // 早い順にソート
     const filteredComments = useMemo(() => {
+        if (!commentContent) return
+        // 現在のフォークタイプで代入
+        const currentThread = commentContent.data?.threads[currentForkType];
         if (!currentThread) return;
         const sortedComments = currentThread.comments.sort((a, b) => {
             if (a.vposMs > b.vposMs) return 1;
@@ -311,29 +308,28 @@ function CommentList() {
                 (localStorage.playersettings.sharedNgLevel ??
                     "mid") as keyof typeof sharedNgLevelScore
             ],
-            videoInfo.data?.response.comment.ng.viewer,
+            videoInfo?.data.response.comment.ng.viewer,
             onlyShowMyselfComments,
         );
     }, [
-        currentThread,
+        currentForkType,
+        commentContent,
         localStorage.playersettings.sharedNgLevel,
         onlyShowMyselfComments,
         videoInfo,
     ]);
 
+    // データが足りなかったら閉店
+    if (!videoInfo || !commentContent || !commentContent.data) return <></>;
+
     const commentCount = commentContent.data?.threads.reduce((prev, current) => prev + current.comments.length, 0);
 
-    // データが足りなかったら閉店
-    if (!videoInfo.data || !commentContent.data) return <></>;
-
     // currentForkTypeが-1の場合は入れ直す
-    if (currentForkType === -1)
-        setCurrentForkType(getDefaultThreadIndex(videoInfo));
+    if (currentForkType === -1) setCurrentForkType(getDefaultThreadIndex(videoInfo));
 
     //const videoInfo = videoInfo.data.response
 
     // 指定したフォークタイプのスレッドが見つからなかったらreturn
-    if (!currentThread) return <></>;
     // refを登録
     filteredComments?.forEach((elem, index) => {
         commentRefs.current[index] = createRef();
@@ -351,9 +347,10 @@ function CommentList() {
     ) {
         //"{\"videoId\":\"\",\"fork\":\"\",\"no\":0,\"content\":\"\",\"nicoruKey\":\"\"}"
         if (
-            !videoInfo.data ||
+            !videoInfo ||
             !videoInfo.data.response.video.id ||
             !videoInfo.data.response.viewer ||
+            !commentContent ||
             !commentContent.data ||
             isMyPost
         )
@@ -393,7 +390,7 @@ function CommentList() {
             };
             const response: NicoruPostResponseRootObject = await postNicoru(
                 currentThread.id,
-                JSON.stringify(body),
+                body,
             );
             //console.log(response)
             if (response.meta.status === 201) {

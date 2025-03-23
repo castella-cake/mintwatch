@@ -21,7 +21,7 @@ function Clock() {
 
 export function Stats() {
     const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo.data) return <></>;
+    if (!videoInfo || !videoInfo.data) return <></>;
 
     const videoInfoResponse = videoInfo.data.response;
 
@@ -59,7 +59,7 @@ export function Stats() {
 
 export function Owner() {
     const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo.data) return <></>;
+    if (!videoInfo) return <></>;
 
     const videoInfoResponse = videoInfo.data.response;
 

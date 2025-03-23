@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 
-export function useInterval(callback, delayMs) {
+export function useInterval(callback: () => void, delayMs: number) {
     // 渡されたコールバックでRef作成
     const callbackRef = useRef(callback)
     // callbackが更新されたりしたらRef更新

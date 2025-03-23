@@ -1,32 +1,39 @@
-import { getHls } from "@/utils/watchApi";
+import { VideoDataRootObject } from "@/types/VideoData";
 import Hls from "hls.js"
-import { useEffect, useMemo, useRef } from "react";
+import { RefObject, useEffect, useMemo, useRef } from "react";
+
+// AudioQualityItemとVideoQualityItemの型を定義
+type QualityItem = {
+    isAvailable: boolean;
+    id: string; // 必要に応じて他のプロパティを追加
+};
 
 // クオリティ配列から、利用可能な中で最も良いクオリティのオブジェクトを返す。
-export function returnGreatestQuality(array) {
+export function returnGreatestQuality<T extends QualityItem>(array: T[]): T | false {
     for (const elem of array) {
         if (elem.isAvailable) return elem;
     }
-    return false
+    return false;
 }
 
-function returnGreatestLevelNumber(preferValue, max) {
+function returnGreatestLevelNumber(preferValue: number, max: number) {
     if (preferValue === -1) return -1
     if (max < preferValue) return max
     return preferValue
 }
 
-export function useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, isEnabled = true, preferredLevel = -1) {
+export function useHlsVideo(videoRef: RefObject<HTMLVideoElement>, videoInfo: VideoDataRootObject | null, videoId: string, actionTrackId: string, isEnabled = true, preferredLevel = -1) {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), [])
-    const hlsRef = useRef(null)
+    const hlsRef = useRef<Hls>(null!)
     useEffect(() => {
         async function getSrc() {
             if (!isEnabled) return
             if (
-                videoInfo.data && 
-                videoInfo.data.response && 
-                videoInfo.data.response.media && 
-                videoInfo.data.response.media.domand && 
+                videoInfo &&
+                videoInfo.data &&
+                videoInfo.data.response &&
+                videoInfo.data.response.media &&
+                videoInfo.data.response.media.domand &&
                 videoInfo.data.response.media.domand.accessRightKey &&
                 videoInfo.data.response.media.domand.videos &&
                 videoInfo.data.response.media.domand.audios
@@ -34,11 +41,11 @@ export function useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, isEnabl
                 const accessRightKey = videoInfo.data.response.media.domand.accessRightKey
                 const availableVideoQuality = videoInfo.data.response.media.domand.videos
                 const availableAudioQuality = videoInfo.data.response.media.domand.audios
-        
+
                 const greatestAudioQuality = returnGreatestQuality(availableAudioQuality)
                 // そもそも利用可能な音声クオリティがなかったら終了
                 if (!greatestAudioQuality) return false
-        
+
                 // 使えるやつを全部希望する。音声クオリティは常に一番良いものを希望する。
                 const hlsRequestBody = {outputs: availableVideoQuality.map(elem => {
                     if (!elem.isAvailable) return null
@@ -48,8 +55,8 @@ export function useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, isEnabl
                 // APIから取得
                 const hlsResponse = await getHls(videoId, JSON.stringify(hlsRequestBody), actionTrackId, accessRightKey)
                 // 作られてないとかデータが足りないとかだったら終了
-                if ( hlsResponse.meta.status != 201 || !hlsResponse.data || !hlsResponse.data.contentUrl ) return
-        
+                if ( hlsResponse.meta.status != 201 || !hlsResponse.data || !hlsResponse.data.contentUrl || !videoRef.current ) return
+
                 // hls.jsがサポートするならhls.jsで再生し、そうでない(Safariなど)ならネイティブ再生する
                 if ( isSupportedBrowser ) {
                     const hls = new Hls({ debug: false, xhrSetup: function(xhr, url) {
@@ -61,7 +68,6 @@ export function useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, isEnabl
                         initParams.credentials = 'include';
                         return new Request(context.url, initParams);
                     }, enableCEA708Captions: false })
-                    hls.log = false
                     // videoのrefにアタッチ
                     hls.attachMedia(videoRef.current)
                     // 読み込み
@@ -79,7 +85,7 @@ export function useHlsVideo(videoRef, videoInfo, videoId, actionTrackId, isEnabl
                     videoRef.current.src = hlsResponse.data.contentUrl;
                 }
             } else {
-                videoRef.current.src = "";
+                if (videoRef.current) videoRef.current.src = "";
             }
         }
         getSrc()

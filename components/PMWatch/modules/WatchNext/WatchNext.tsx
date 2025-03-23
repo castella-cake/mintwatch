@@ -10,7 +10,7 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
     const { videoInfo } = useVideoInfoContext();
     const contentRef = useRef<HTMLDivElement>(null)
 
-    const videoOwnerData = videoInfo.data?.response.owner;
+    const videoOwnerData = videoInfo?.data.response.owner;
     //const lang = useLang()
     const [recommendDisplayType, setRecommendDisplayType] =
         useState<string>("recommend");

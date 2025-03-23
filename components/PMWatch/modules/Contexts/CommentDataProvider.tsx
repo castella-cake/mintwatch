@@ -2,10 +2,10 @@ import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
 import { CommentDataRootObject } from "@/types/CommentData";
 
-const ICommentContentContext = createContext<CommentDataRootObject>(null!);
+const ICommentContentContext = createContext<CommentDataRootObject | null>(null);
 
 type CommentControllerContext = {
-    setCommentContent: Dispatch<SetStateAction<CommentDataRootObject>>;
+    setCommentContent: Dispatch<SetStateAction<CommentDataRootObject | null>>;
     reloadCommentContent: (logData?: {
         when: number;
     }) => Promise<CommentDataRootObject | undefined>;
@@ -20,13 +20,13 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
 
     const { commentContent, setCommentContent, reloadCommentContent } =
         useCommentData(
-            videoInfo.data?.response.comment.nvComment,
-            videoInfo.data?.response.video.id,
+            videoInfo?.data.response.comment.nvComment,
+            videoInfo?.data.response.video.id,
         );
 
     useEffect(() => {
         if (
-            commentContent.meta?.status === 200
+            commentContent && commentContent.meta?.status === 200
         ) {
             document.dispatchEvent(
                 new CustomEvent("pmw_commentInformationUpdated", {

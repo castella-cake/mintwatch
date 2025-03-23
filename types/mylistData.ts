@@ -1,5 +1,4 @@
-export interface MylistResponseRootObject {
-    meta: Meta;
+export interface MylistResponseRootObject extends baseResponse {
     data: Data;
 }
 
@@ -66,8 +65,4 @@ interface Meta2 {
 interface Id {
     type: string;
     value: string;
-}
-
-interface Meta {
-    status: number;
 }

@@ -1,4 +1,4 @@
-interface TagsApiRootObject {
+interface TagsApiRootObject extends baseResponse {
     meta: Meta;
     data: Data;
 }
@@ -15,9 +15,4 @@ interface Tag {
     isLocked: boolean;
     isLockedBySystem: boolean;
     isNicodicArticleExists: boolean;
-}
-
-interface Meta {
-    status: number;
-    errorCode?: string;
 }

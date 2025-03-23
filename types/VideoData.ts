@@ -1,8 +1,8 @@
 // JSON to TS で生成したものを手直ししたものです
+
 // 実際使わないものは多いけど、null扱いされてしまったものでデータが入ることが想定されてそうなものはanyにしています
-export interface VideoDataRootObject {
-    meta?: Meta;
-    data?: Data;
+export interface VideoDataRootObject extends baseResponse{
+    data: Data;
 }
 
 interface Data {
@@ -331,7 +331,7 @@ interface Domand {
     accessRightKey: string;
 }
 
-interface AudioQualityItem {
+export interface AudioQualityItem {
     id: string;
     isAvailable: boolean;
     bitRate: number;
@@ -347,7 +347,7 @@ interface LoudnessCollection {
     value: number;
 }
 
-interface VideoQualityItem {
+export interface VideoQualityItem {
     id: string;
     isAvailable: boolean;
     label: string;
@@ -614,11 +614,6 @@ interface Attrs2 {
 
 interface Attr {
     as: string;
-}
-
-interface Meta {
-    status: number;
-    code: string;
 }
 
 interface Channel {

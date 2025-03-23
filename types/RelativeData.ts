@@ -1,5 +1,4 @@
-interface CommonsRelativeRootObject {
-    meta: Meta;
+interface CommonsRelativeRootObject extends baseResponse {
     data: Data;
 }
 
@@ -40,8 +39,4 @@ interface Content {
     parentsCount: number;
     childrenCount: number;
     isEditable: boolean;
-}
-
-interface Meta {
-    status: number;
 }

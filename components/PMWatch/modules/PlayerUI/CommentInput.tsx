@@ -4,15 +4,13 @@ import type { ChangeEvent, Dispatch, KeyboardEvent, RefObject, SetStateAction } 
 import type { VideoDataRootObject } from "@/types/VideoData";
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData";
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData";
-import { getCommentPostKey, postComment } from "../../../../utils/watchApi";
+import { useCommentControllerContext } from "../Contexts/CommentDataProvider";
 //import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
 
 type Props = {
     videoId: string,
-    videoInfo: VideoDataRootObject,
-    setCommentContent: Dispatch<SetStateAction<CommentDataRootObject>>,
-    reloadCommentContent: () => Promise<CommentDataRootObject | undefined>,
+    videoInfo: VideoDataRootObject | null,
     videoRef: RefObject<HTMLVideoElement>,
     commentInputRef: RefObject<HTMLTextAreaElement>,
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
@@ -20,8 +18,9 @@ type Props = {
 
 
 
-function CommentInput({videoRef, videoId, videoInfo, setCommentContent, reloadCommentContent, commentInputRef, setPreviewCommentItem}: Props) {
+function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem}: Props) {
     const { localStorage } = useStorageContext()
+    const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
 
     const [dummyTextAreaContent, setDummyTextAreaContent] = useState("")
@@ -32,11 +31,12 @@ function CommentInput({videoRef, videoId, videoInfo, setCommentContent, reloadCo
     const previewUpdateTimeout = useRef<ReturnType<typeof setTimeout>>(null!)
 
     // idが遅い方のデフォルトの投稿ターゲット
-    const mainThreads = videoInfo.data?.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
+    const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
 
     async function sendComment(videoId: string, commentBody: string, commentCommand: string[] = [], vposMs: number) {
         // {"videoId":"","commands":["184"],"body":"君ビートマニア上手いねぇ！","vposMs":147327,"postKey":""}
         //console.log(mainThreads)
+        if (!mainThreads) return
         const postKeyResponse: KeyRootObjectResponse = await getCommentPostKey(mainThreads?.id)
         if (postKeyResponse.meta.status !== 200) return 
         const reqBody: CommentPostBody = {videoId, commands: [...commentCommand, "184"], body: commentBody, vposMs, postKey: postKeyResponse.data.postKey}
@@ -102,7 +102,7 @@ function CommentInput({videoRef, videoId, videoInfo, setCommentContent, reloadCo
         if (localStorage.playersettings.pauseOnCommentInput) {
             clearTimeout(previewUpdateTimeout.current)
             previewUpdateTimeout.current = setTimeout(() => {
-                if (videoInfo.data && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
+                if (videoInfo && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
                     setPreviewCommentItem({
                         id: "-1", 
                         no: -1,

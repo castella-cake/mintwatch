@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { addItemToMylist, getMylists } from "../../../../utils/watchApi";
 import { MylistsResponseRootObject } from "@/types/mylistsData";
 import { VideoDataRootObject } from "@/types/VideoData";
 

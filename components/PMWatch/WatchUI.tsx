@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { putPlaybackPosition } from "../../utils/watchApi";
 //import { useLang } from "./localizeHook";
 import Header from "./modules/Header/Header";
 import { MintConfig } from "./modules/MintConfig";
@@ -122,7 +121,7 @@ function CreateWatchUI() {
 
     function closeAllModal(e: React.MouseEvent<HTMLDivElement>) {
         if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
-        if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target)) setVideoActionModalState(false)
+        if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
         if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setIsMintConfigShown(false)
     }
 
@@ -148,9 +147,11 @@ function CreateWatchUI() {
                     nodeRef={onboardingPopupElemRef}
                 />
             </CSSTransition>
+
             {!isFullscreenUi && (
                 <Header setIsMintConfigShown={setIsMintConfigShown} setHeaderModalType={setHeaderActionState}/>
             )}
+
             <CSSTransition
                 nodeRef={headerActionStackerElemRef}
                 in={
@@ -163,6 +164,7 @@ function CreateWatchUI() {
             >
                 <HeaderActionStacker nodeRef={headerActionStackerElemRef} selectedType={headerActionState} onModalStateChanged={setHeaderActionState} />
             </CSSTransition>
+            
             <CSSTransition
                 nodeRef={mintConfigElemRef}
                 in={
@@ -178,6 +180,7 @@ function CreateWatchUI() {
                     setIsMintConfigShown={setIsMintConfigShown}
                 />
             </CSSTransition>
+
             <PlaylistDndWrapper>
                 <WatchContent
                     layoutType={layoutType}
@@ -188,6 +191,7 @@ function CreateWatchUI() {
                     setIsFullscreenUi={setIsFullscreenUi}
                 />
             </PlaylistDndWrapper>
+
             <CSSTransition
                 nodeRef={videoActionModalElemRef}
                 in={videoActionModalState !== false}

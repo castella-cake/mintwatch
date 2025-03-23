@@ -1,11 +1,12 @@
-import { RefObject, useEffect, useState } from "react";
-import { VideoDataRootObject } from "@/types/VideoData";
-import { getPickupSupporters } from "../../../../utils/watchApi";
+import { useEffect, useState } from "react";
 import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
-import { RecommendDataRootObject } from "@/types/RecommendData";
 import { InfoCard } from "../Info/InfoCards";
+import { useVideoInfoContext, useVideoRefContext } from "../Contexts/VideoDataProvider";
 
-export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: VideoDataRootObject, videoRef: RefObject<HTMLVideoElement>, recommendData: RecommendDataRootObject }) {
+export function EndCard({ smId }: { smId: string }) {
+    const videoRef = useVideoRefContext()
+    const { videoInfo } = useVideoInfoContext()
+    const recommendData = useRecommendData(smId)
     const { localStorage, syncStorage } = useStorageContext()
     const [supportersInfo, setSupportersInfo] = useState<PickupSupportersRootObject | null>(null)
     const [currentTime, setCurrentTime] = useState<number>(0)
@@ -14,7 +15,7 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
     const audioElemRef = useRef<HTMLAudioElement>(null)
     useEffect(() => {
         async function getData() {
-            if (!videoInfo.data) return
+            if (!videoInfo) return
             const response = await getPickupSupporters(videoInfo.data.response.video.id, 10)
             if (response) setSupportersInfo(response)
         }
@@ -45,8 +46,8 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
     if (currentTime < duration) return null
 
     let ownerName = "非公開または退会済みユーザー"
-    if (videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname
-    if (videoInfo.data && videoInfo.data.response.channel) ownerName = videoInfo.data.response.channel.name
+    if (videoInfo && videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname
+    if (videoInfo && videoInfo.data && videoInfo.data.response.channel) ownerName = videoInfo.data.response.channel.name
 
     const isKokenMuted = syncStorage.muteKokenVoice ?? getDefault("muteKokenVoice")
 
@@ -64,7 +65,7 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
         </div>
         <div className="endcard-right">
             <h2>現在の動画</h2>
-            {videoInfo.data && <div className="endcard-currentvideo-container">
+            {videoInfo && <div className="endcard-currentvideo-container">
                 <img src={videoInfo.data.response.video.thumbnail.url}></img>
                 <div className="endcard-currentvideo-text">
                     <strong>{videoInfo.data.response.video.title}</strong><br/>
@@ -73,7 +74,7 @@ export function EndCard({ videoInfo, videoRef, recommendData }: { videoInfo: Vid
             </div>}
             <h2>おすすめの動画</h2>
             <div className="endcard-upnext-container">
-                {recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
+                {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
                     return <InfoCard key={`${elem.id}`} obj={elem}/>
                 })}
             </div>

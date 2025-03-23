@@ -8,13 +8,12 @@ import {
     IconX,
 } from "@tabler/icons-react";
 import { ReactNode, useEffect, useState } from "react";
-import { sendLike } from "../../../../utils/watchApi";
 import { readableInt } from "../commonFunction";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 
 type Props = {
     children?: ReactNode;
-    onModalOpen: (modalType: "mylist" | "share") => void;
+    onModalOpen: (modalType: "mylist" | "share" | "help") => void;
 };
 
 function Actions({ children, onModalOpen }: Props) {
@@ -31,7 +30,7 @@ function Actions({ children, onModalOpen }: Props) {
     const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
     //const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
     useEffect(() => {
-        if (!videoInfo.data) return;
+        if (!videoInfo) return;
         setTemporalLikeModifier(0);
         setIsLiked(
             videoInfo.data.response.video.viewer
@@ -61,12 +60,12 @@ function Actions({ children, onModalOpen }: Props) {
         }
         setIsLikeThanksMsgClosed(false);
     }, [videoInfo]);
-    if (!videoInfo.data) return <></>;
+    if (!videoInfo) return <></>;
 
     const videoInfoResponse = videoInfo.data.response;
 
     async function likeChange() {
-        if (!videoInfo.data || !videoInfo.data.response.video.viewer) return;
+        if (!videoInfo || !videoInfo.data.response.video.viewer) return;
         const method = isLiked ? "DELETE" : "POST";
         const likeResponse = await sendLike(videoInfoResponse.video.id, method);
         if (likeResponse) {
@@ -84,8 +83,9 @@ function Actions({ children, onModalOpen }: Props) {
     }
 
     function onAdsClicked() {
+        if (!videoInfo) return
         window.open(
-            `https://nicoad.nicovideo.jp/video/publish/${videoInfo.data?.response.video.id}`,
+            `https://nicoad.nicovideo.jp/video/publish/${videoInfo.data.response.video.id}`,
             "_blank",
             "width=500,height=700,popup=yes",
         );

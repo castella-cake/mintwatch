@@ -1,4 +1,3 @@
-import { getCommonsRelatives } from "@/utils/watchApi";
 import { useEffect, useRef, useState } from "react";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import { wheelTranslator } from "../commonFunction";
@@ -13,17 +12,17 @@ function BottomInfo() {
 
     useEffect(() => {
         if (
-            !videoInfo.data ||
+            !videoInfo ||
             !videoInfo.data.response.external.commons.hasContentTree
         )
             return;
         async function getData() {
-            const fetchedRelativeData: CommonsRelativeRootObject =
-                await getCommonsRelatives(videoInfo.data?.response.video.id);
+            if (!videoInfo?.data.response.video.id) return; 
+            const fetchedRelativeData = await getCommonsRelatives(videoInfo.data?.response.video.id);
             setCommonsRelativeData(fetchedRelativeData);
         }
         getData();
-    }, [videoInfo.data?.response.video.id]);
+    }, [videoInfo?.data.response.video.id]);
     useEffect(() => {
         parentItemsContainerRef.current?.addEventListener(
             "wheel",
@@ -46,7 +45,7 @@ function BottomInfo() {
             );
         };
     });
-    if (!videoInfo.data) return <></>;
+    if (!videoInfo) return <></>;
 
     return (
         <div

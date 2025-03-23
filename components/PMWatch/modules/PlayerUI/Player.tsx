@@ -7,7 +7,6 @@ import { Comment } from "@/types/CommentData";
 import type { Dispatch, SetStateAction } from "react";
 import CommentInput from "./CommentInput";
 import Settings from "./Settings";
-import { putPlaybackPosition } from "@/utils/watchApi";
 import {
     doFilterThreads,
     handleCtrl,
@@ -28,7 +27,6 @@ import {
 } from "../Contexts/VideoDataProvider";
 import {
     useCommentContentContext,
-    useCommentControllerContext,
 } from "../Contexts/CommentDataProvider";
 import { usePlaylistContext } from "../Contexts/PlaylistProvider";
 import { useRecommendContext } from "../Contexts/RecommendProvider";
@@ -44,8 +42,6 @@ function Player(props: Props) {
 
     const { videoInfo } = useVideoInfoContext();
     const commentContent = useCommentContentContext();
-    const { setCommentContent, reloadCommentContent } =
-        useCommentControllerContext();
     const videoRef = useVideoRefContext();
     const actionTrackId = useActionTrackDataContext();
     const { playlistData } = usePlaylistContext();
@@ -90,7 +86,7 @@ function Player(props: Props) {
         localStorage.playersettings.enableLoudnessData ?? true;
     const integratedLoudness =
         (videoInfo?.data?.response.media.domand &&
-            videoInfo.data?.response.media.domand?.audios[0]
+            videoInfo?.data.response.media.domand?.audios[0]
                 .loudnessCollection[0].value) ??
         1;
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1;
@@ -133,7 +129,6 @@ function Player(props: Props) {
 
     useResumePlayback(
         videoRef,
-        videoId,
         videoInfo,
         localStorage.playersettings.resumePlayback,
     );
@@ -242,14 +237,14 @@ function Player(props: Props) {
     }, [localStorage]);
 
     const filteredComments = useMemo(() => {
-        if (!commentContent.data) return;
+        if (!commentContent || !commentContent.data) return;
         return doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
                 (localStorage.playersettings.sharedNgLevel ??
                     "mid") as keyof typeof sharedNgLevelScore
             ],
-            videoInfo.data?.response.comment.ng.viewer,
+            videoInfo?.data.response.comment.ng.viewer,
         );
     }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel]);
 
@@ -301,6 +296,7 @@ function Player(props: Props) {
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
             );
         } else if (
+            recommendData &&
             recommendData.data?.items &&
             recommendData.data.items[0].contentType === "video" &&
             add === 1
@@ -349,7 +345,7 @@ function Player(props: Props) {
 
     useEffect(() => {
         if (
-            videoInfo.meta?.status === 200 &&
+            videoInfo?.meta.status === 200 &&
             actionTrackId !== ""
         ) {
             document.dispatchEvent(
@@ -366,13 +362,13 @@ function Player(props: Props) {
         ? 60
         : preferredCommentFps; // PiPでコメント表示する場合はメモリリークを防ぐために60FPSで固定する
     // .map() から生成されている string[] の一次元配列なら大丈夫だと信じて.reverse()する
-    const qualityLabels = videoInfo.data?.response.media.domand?.videos
+    const qualityLabels = videoInfo?.data.response.media.domand?.videos
         .map((video) => video.label)
         .reverse();
 
-    const thumbnailSrc = videoInfo.data?.response.video.thumbnail.player;
+    const thumbnailSrc = videoInfo?.data.response.video.thumbnail.player;
 
-    const thisVideoAuthor = (videoInfo.data?.response.owner && videoInfo.data?.response.owner.nickname) ?? (videoInfo.data?.response.channel && videoInfo.data?.response.channel.name) ?? "不明なユーザー"
+    const thisVideoAuthor = (videoInfo?.data.response.owner && videoInfo?.data.response.owner.nickname) ?? (videoInfo?.data.response.channel && videoInfo?.data.response.channel.name) ?? "不明なユーザー"
     const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
 
     return (
@@ -405,9 +401,9 @@ function Player(props: Props) {
                 onEnded={onEnded}
                 onClick={videoOnClick}
                 thumbnailSrc={thumbnailSrc}
-                videoTitle={videoInfo.data?.response.video.title}
+                videoTitle={videoInfo?.data.response.video.title}
                 videoAuthor={thisVideoAuthor}
-                videoGenre={videoInfo.data?.response.genre.label}
+                videoGenre={videoInfo?.data.response.genre.label}
                 enableVolumeGesture={
                     localStorage.playersettings.enableWheelGesture
                 }
@@ -434,11 +430,9 @@ function Player(props: Props) {
                         commentRenderFps={commentRenderFps}
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={
-                            videoInfo.data
-                                ? videoInfo.data.response.comment.threads.findIndex(
-                                        (elem) => elem.isDefaultPostTarget,
-                                )
-                                : -1
+                            videoInfo ?
+                            videoInfo.data.response.comment.threads.findIndex((elem) => elem.isDefaultPostTarget,)
+                            : -1
                         }
                     />
                 )}
@@ -501,11 +495,7 @@ function Player(props: Props) {
                         hlsRef={hlsRef}
                     />
                 )}
-                <EndCard
-                    videoInfo={videoInfo}
-                    videoRef={videoRef}
-                    recommendData={recommendData}
-                />
+                { videoId !== "" && <EndCard smId={videoId}/> }
                 <ErrorScreen videoInfo={videoInfo} />
             </VideoPlayer>
             <div className="player-bottom-container">
@@ -521,7 +511,6 @@ function Player(props: Props) {
                     setIsCommentShown={setIsCommentShown}
                     isSettingsShown={isSettingsShown}
                     setIsSettingsShown={setIsSettingsShown}
-                    commentContent={commentContent}
                     playlistIndexControl={playlistIndexControl}
                     qualityLabels={qualityLabels}
                     storyBoardData={storyBoardData}
@@ -531,8 +520,6 @@ function Player(props: Props) {
                     videoId={videoId}
                     videoRef={videoRef}
                     videoInfo={videoInfo}
-                    setCommentContent={setCommentContent}
-                    reloadCommentContent={reloadCommentContent}
                     commentInputRef={commentInputRef}
                     setPreviewCommentItem={setPreviewCommentItem}
                 />

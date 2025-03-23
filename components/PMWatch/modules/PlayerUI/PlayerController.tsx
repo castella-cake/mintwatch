@@ -3,7 +3,6 @@ import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayou
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
 import Hls from "hls.js";
 import type { effectsState } from "@/hooks/eqHooks";
-import { CommentDataRootObject } from "@/types/CommentData";
 import { Seekbar } from "./Seekbar";
 import { secondsToTime, timeCalc } from "../commonFunction";
 import { useStorageContext } from "@/hooks/extensionHook";
@@ -21,7 +20,6 @@ type Props = {
     isSettingsShown: boolean,
     setIsSettingsShown: Dispatch<SetStateAction<boolean>>,
     hlsRef: RefObject<Hls>,
-    commentContent: CommentDataRootObject,
     playlistIndexControl: (index: number, shuffleEnabled?: boolean) => void,
     qualityLabels?: string[],
     storyBoardData?: StoryBoardImageRootObject | null,
@@ -63,24 +61,24 @@ const PlayerControllerButton = memo(function ({ onClick, title, className, child
 })
 
 
-function PlayerController({
-    videoRef,
-    effectsState,
-    isVefxShown,
-    setIsVefxShown,
-    isFullscreenUi,
-    toggleFullscreen,
-    isCommentShown,
-    setIsCommentShown,
-    hlsRef,
-    isSettingsShown,
-    setIsSettingsShown,
-    commentContent,
-    playlistIndexControl,
-    qualityLabels,
-    storyBoardData,
-    currentPlayerType
-}: Props) {
+function PlayerController(props: Props) {
+    const {
+        videoRef,
+        effectsState,
+        isVefxShown,
+        setIsVefxShown,
+        isFullscreenUi,
+        toggleFullscreen,
+        isCommentShown,
+        setIsCommentShown,
+        hlsRef,
+        isSettingsShown,
+        setIsSettingsShown,
+        playlistIndexControl,
+        qualityLabels,
+        storyBoardData,
+        currentPlayerType
+    } = props
     const { localStorage, setLocalStorageValue, isLoaded } = useStorageContext()
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage
@@ -294,7 +292,6 @@ function PlayerController({
         setIsSeeking={setIsSeeking}
         tempSeekHandle={tempSeekHandle}
         seekbarRef={seekbarRef}
-        commentContent={commentContent}
         storyBoardData={storyBoardData}
     />
 

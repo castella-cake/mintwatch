@@ -18,7 +18,7 @@ function Header({
 }) {
     //const [hover, setHover] = useState(false)
     const { videoInfo } = useVideoInfoContext();
-    const videoViewerInfo = videoInfo.data?.response.viewer;
+    const videoViewerInfo = videoInfo?.data.response.viewer;
 
     const { isBellActive, setIsBellActive } = useOshiraseBell();
 

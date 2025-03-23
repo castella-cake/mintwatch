@@ -120,7 +120,7 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
 
 export function VideoTitle() {
     const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo.data) return;
+    if (!videoInfo) return;
     const videoInfoResponse = videoInfo.data.response;
     return (
         <div className="videotitle-container">
@@ -175,8 +175,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
         localStorage.playersettings.descriptionOpen || false,
     );
     if (errorInfo !== false) return <ErrorUI error={errorInfo} />;
-    if (!videoInfo.data)
-        return <LoadingUI isShinjukuLayout={isShinjukuLayout} />;
+    if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />;
     const videoInfoResponse = videoInfo.data.response;
 
     // Not scary!
