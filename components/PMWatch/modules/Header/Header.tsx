@@ -1,8 +1,9 @@
 //import { useState } from "react";
 
 import { Dispatch, SetStateAction } from "react";
-import { IconBell, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
+import { IconBell, IconBellRingingFilled, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import useOshiraseBell from "@/hooks/bellHooks";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
@@ -18,6 +19,8 @@ function Header({
     //const [hover, setHover] = useState(false)
     const { videoInfo } = useVideoInfoContext();
     const videoViewerInfo = videoInfo.data?.response.viewer;
+
+    const { isBellActive, setIsBellActive } = useOshiraseBell();
 
     return (
         <div className="header-container global-flex" id="pmw-header">
@@ -58,8 +61,9 @@ function Header({
                     <div className="global-flex header-usercontainer">
                         <button className="header-notificationbutton" onClick={() => {
                             setHeaderModalType((state) => state === "notifications" ? false : "notifications")
+                            if (isBellActive) setIsBellActive(false)
                         }}>
-                            <IconBell/>
+                            { isBellActive ? <IconBellRingingFilled/>  : <IconBell/> }
                         </button>
                         <button className="header-mymenubutton" onClick={() => {
                             setHeaderModalType((state) => state === "mymenu" ? false : "mymenu")
