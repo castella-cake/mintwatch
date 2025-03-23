@@ -26,14 +26,43 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         items: [],
     });
 
+    function setInitialPlaylistState() {
+        if (!videoInfo) return
+        const ownerName =
+            videoInfo.data.response.owner &&
+            videoInfo.data.response.owner.nickname;
+        const channelName =
+            videoInfo.data.response.channel &&
+            videoInfo.data.response.channel.name;
+        setPlaylistData({
+            type: "custom",
+            items: [
+                {
+                    title: videoInfo.data.response.video.title,
+                    id: videoInfo.data.response.video.id,
+                    itemId: crypto.randomUUID(),
+                    ownerName:
+                        ownerName ??
+                        channelName ??
+                        "非公開または退会済みユーザー",
+                    duration: videoInfo.data.response.video.duration,
+                    thumbnailUrl:
+                        videoInfo.data.response.video.thumbnail.middleUrl ??
+                        videoInfo.data.response.video.thumbnail.url,
+                },
+            ],
+        });
+    }
+
     function updatePlaylistState(search = location.search) {
+        // URLのクエリパラメータを引っ張ってくる。playlistにはbase64でエンコードされたプレイリストの情報が入っている。
         const searchParams = new URLSearchParams(search);
         const playlistString = searchParams.get("playlist");
         //console.log(playlistString)
 
+        // プレイリストの情報からマイリストもしくはシリーズのデータを取得する関数
         async function getData(playlistJson: playlistQueryData) {
             //console.log(playlistJson.context.mylistId)
-
             if (
                 playlistJson.type === "mylist" &&
                 playlistJson.context.mylistId
@@ -58,10 +87,13 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 playlistJson.type === "series" &&
                 playlistJson.context.seriesId
             ) {
+                // fetchしようとしているマイリストが、すでにフェッチ済みのシリーズと同一ならスキップする
+                console.log(playlistData.id, playlistJson.context.seriesId)
+                if (playlistData.id === playlistJson.context.seriesId) return;
                 const response: SeriesResponseRootObject = await getSeriesInfo(
                     playlistJson.context.seriesId,
                 );
-                console.log(response);
+                //console.log(response);
                 setPlaylistData({
                     type: "series",
                     id: playlistJson.context.seriesId,
@@ -69,50 +101,35 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 });
             } else if (videoInfo) {
                 //setFetchedPlaylistData(null)
-                setPlaylistData({ type: "none", items: [] });
+                setInitialPlaylistState()
             }
         }
-
-        if (playlistString && playlistData.type !== "custom") {
+        if (playlistString && (playlistData.type === "none" || (playlistData.type === "custom" && playlistData.items.length < 2))) {
+            // プレイリスト情報があり、カスタムプレイリストではない場合にデータを取得
             const decodedPlaylist = atob(
                 playlistString.replace("-", "+").replace("_", "/"),
             );
             const playlistJson: playlistQueryData = JSON.parse(decodedPlaylist);
             //setCurrentPlaylist(playlistJson)
             getData(playlistJson);
-        }
-        if (
-            videoInfo &&
-            (playlistData.type === "none" ||
-                (playlistData.type === "custom" &&
-                    playlistData.items.length < 2))
-        ) {
-            const ownerName =
-                videoInfo.data.response.owner &&
-                videoInfo.data.response.owner.nickname;
-            const channelName =
-                videoInfo.data.response.channel &&
-                videoInfo.data.response.channel.name;
-            setPlaylistData({
-                type: "custom",
-                items: [
-                    {
-                        title: videoInfo.data.response.video.title,
-                        id: videoInfo.data.response.video.id,
-                        itemId: crypto.randomUUID(),
-                        ownerName:
-                            ownerName ??
-                            channelName ??
-                            "非公開または退会済みユーザー",
-                        duration: videoInfo.data.response.video.duration,
-                        thumbnailUrl:
-                            videoInfo.data.response.video.thumbnail.middleUrl ??
-                            videoInfo.data.response.video.thumbnail.url,
-                    },
-                ],
-            });
+        } else if (!playlistString && (playlistData.type === "none" || (playlistData.type === "custom" && playlistData.items.length < 2))) {
+            setInitialPlaylistState()
         }
     }
+
+    useEffect(() => {
+        // 初回レンダリングで今のプレイリスト状態を設定
+        if (videoInfo) updatePlaylistState();
+
+        // 戻るボタンとかが発生した場合
+        const onPopState = () => {
+            if (videoInfo) updatePlaylistState();
+        };
+        window.addEventListener("popstate", onPopState);
+        return () => {
+            window.removeEventListener("popstate", onPopState);
+        };
+    }, [videoInfo]);
 
     return (
         <IPlaylistContext.Provider

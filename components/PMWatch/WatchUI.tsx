@@ -60,9 +60,6 @@ function CreateWatchUI() {
     }
 
     useEffect(() => {
-        // 初回レンダリングで今のプレイリスト状態を設定
-        updatePlaylistState();
-
         // 戻るボタンとかが発生した場合
         const onPopState = () => {
             // 移動前にシーク位置を保存
@@ -78,8 +75,6 @@ function CreateWatchUI() {
             }
             // watchだったら更新する、watchではない場合はページ移動が起こる
             setSmId(location.pathname.slice(7).replace(/\?.*/, ""));
-            // popstateはlocationも更新後なので、プレイリストに対して何も与えなくて良い
-            updatePlaylistState();
         };
         window.addEventListener("popstate", onPopState);
         return () => {
