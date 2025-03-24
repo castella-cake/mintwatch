@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.5.0 - 2025/03
+## 0.5.0 - 2025/03/24
 
 ### Added
 - シークバーをホバーするとストーリーボードが表示されるようになりました
@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ライトパレット環境下でシアタービューを開始した場合に発生するスタイルの問題を修正しました
 - Shinjuku レイアウトでシアタービューを開始した場合に発生するレイアウトの問題を修正しました
 - 動画情報の統計表示が再調整されました
+- 前の動画/次の動画がない場合にプレイヤーボタンで操作を行うとエラーが発生する問題を修正しました
 
 ## 0.4.0 - 2025/02/22
 

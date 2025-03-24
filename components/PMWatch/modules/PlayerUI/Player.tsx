@@ -293,12 +293,14 @@ function Player(props: Props) {
             } else if (playlistData.type === "series") {
                 playlistQuery.context = { seriesId: Number(playlistData.id) };
             }
+            if (!nextVideo) return
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
             );
         } else if (
             recommendData &&
             recommendData.data?.items &&
+            recommendData.data.items[0] &&
             recommendData.data.items[0].contentType === "video" &&
             add === 1
         ) {
