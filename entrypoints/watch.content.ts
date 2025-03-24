@@ -61,6 +61,9 @@ export default defineContentScript({
             const searchParams = new URLSearchParams(queryString);
             if (searchParams.get("nopmw") == "true") return;
 
+            // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
+            if (import.meta.env.FIREFOX) window.stop();
+
             // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
             if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
                 /*const script = document.createElement("script");
@@ -69,9 +72,6 @@ export default defineContentScript({
                 head.appendChild(script);*/
                 await injectScript('/watch_injector.js');
             }
-
-            // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
-            if (import.meta.env.FIREFOX) window.stop();
 
             if (!document.documentElement) return;
 
