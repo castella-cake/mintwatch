@@ -116,7 +116,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
 
     function handleDragEnd(e: DragEndEvent) {
         if (!playlistData) return;
-        console.log(e);
+        //console.log(e);
         setCurrentDraggingItem(null);
         if (
             e.over &&
@@ -176,7 +176,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
                 items: sortAfter,
                 type: "custom",
             });
-            console.log("sortAfter", sortAfter);
+            //console.log("sortAfter", sortAfter);
         }
         //setIsDraggingInfoCard(false)
     }

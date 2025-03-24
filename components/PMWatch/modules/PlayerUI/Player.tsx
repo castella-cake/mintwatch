@@ -265,8 +265,8 @@ function Player(props: Props) {
                     Math.random() * (bagItems.length - 1),
                 );
                 nextVideo = bagItems[pickedIndex];
-                console.log(shuffleBag);
-                console.log(bagItems);
+                //console.log(shuffleBag);
+                //console.log(bagItems);
             } else {
                 const currentVideoIndex = playlistData.items?.findIndex(
                     (video) => video.id === videoId,

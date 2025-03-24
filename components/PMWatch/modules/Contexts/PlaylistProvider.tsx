@@ -88,7 +88,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 playlistJson.context.seriesId
             ) {
                 // fetchしようとしているマイリストが、すでにフェッチ済みのシリーズと同一ならスキップする
-                console.log(playlistData.id, playlistJson.context.seriesId)
+                //console.log(playlistData.id, playlistJson.context.seriesId)
                 if (playlistData.id === playlistJson.context.seriesId) return;
                 const response: SeriesResponseRootObject = await getSeriesInfo(
                     playlistJson.context.seriesId,
