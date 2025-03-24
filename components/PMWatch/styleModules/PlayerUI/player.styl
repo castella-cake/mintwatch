@@ -48,6 +48,25 @@
     }
 }
 
+
+.player-video-container-inner .videotitle-container {
+    position: absolute;
+    color: #fff;
+    background: linear-gradient(#000a 85%, #0000);
+    padding: 16px;
+    padding-bottom: 32px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-align: left;
+    backdrop-filter: blur(2px);
+    .videostats span {
+        border-left: 2px solid #ddd;
+    }
+}
+.player-container[data-is-cursor-stopped="false"]:hover .player-video-container-inner .videotitle-container {
+    opacity: 1
+}
+
 .player-video-loading-container {
     width: 100%;
     height: 100%;

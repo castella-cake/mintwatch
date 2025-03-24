@@ -10,12 +10,13 @@
         bottom: 0;
         margin: 0;
         background: var(--bgcolor1);
-        grid-template-areas: "vid act" "vid act" "inf act" "inf act";
+        grid-template-areas: "vid act" "vid act";
+        place-content: center;
         grid-template-columns: 1fr var(--right-width);
         gap: 0;
     }
     &[watch-type="shinjuku"] .watch-container-grid {
-        grid-template-areas: "spl act" "inf act";
+        grid-template-areas: "spl spl" "spl spl" !important;
         grid-template-rows: max-content 1fr;
     }
     .videoinfo-container, .video-actions, .stacker-container {
@@ -33,8 +34,8 @@
             opacity: 0.5 !important;
         }
     }
-    .videoinfo-container.bottominfo-container, .searchbox-container, .watchnext-wrapper, .videoowner-container, .watch-container-grid > .video-actions, .hrjk-header, .seriesinfo-container, .turikkuma-portal {
-        display: none;
+    .watch-container-grid > div:not(.player-container):not(.watch-container-rightaction):not(.shinjuku-player-container) {
+        display: none !important;
     }
 
     .commentinput-container {

@@ -367,7 +367,7 @@ function PlayerController(props: Props) {
                 <PlayerControllerButton className="playercontroller-commenttoggle" onClick={() => {setIsCommentShown(!isCommentShown)}} title={isCommentShown ? "コメントを非表示" : "コメントを表示"}>{ isCommentShown ? <IconMessage2/> : <IconMessage2Off/>}</PlayerControllerButton>
                 <PlayerControllerButton className="playercontroller-fullscreen" onClick={toggleFullscreen} title={isFullscreenUi ? "フルスクリーンを終了" : "フルスクリーン"}>{ isFullscreenUi ? <IconMinimize/> : <IconMaximize/>}</PlayerControllerButton>
                 <PlayerControllerButton className="playercontroller-settings" onClick={() => {setIsSettingsShown(!isSettingsShown)}} title="プレイヤーの設定">{ isSettingsShown ? <IconSettingsFilled/> : <IconSettings/>}</PlayerControllerButton>
-                {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => {writePlayerSettings("enableBigView", !(localStorage.playersettings.enableBigView ?? false))}} title="サイドバーを展開">{ (localStorage.playersettings.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled/> : <IconLayoutSidebarRightExpand/> }</PlayerControllerButton>}
+                {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => {writePlayerSettings("enableBigView", !(localStorage.playersettings.enableBigView ?? false))}} title={localStorage.playersettings.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>{ (localStorage.playersettings.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled/> : <IconLayoutSidebarRightExpand/> }</PlayerControllerButton>}
             </div>
         </div>
     </div>

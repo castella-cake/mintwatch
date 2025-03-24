@@ -6,7 +6,7 @@ import {
     IconPlayerPlayFilled,
 } from "@tabler/icons-react";
 import type { ErrorResponse } from "@/types/VideoData";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, ReactNode, useState } from "react";
 import DOMPurify from "dompurify";
 import HTMLReactParser from "html-react-parser";
 import { readableInt } from "../commonFunction";
@@ -118,7 +118,7 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
     );
 }
 
-export function VideoTitle() {
+export function VideoTitle({ children }: { children?: ReactNode }) {
     const { videoInfo } = useVideoInfoContext();
     if (!videoInfo) return;
     const videoInfoResponse = videoInfo.data.response;
@@ -144,6 +144,7 @@ export function VideoTitle() {
                     {readableInt(videoInfoResponse.video.count.mylist)}
                 </span>
             </div>
+            { children }
         </div>
     );
 }

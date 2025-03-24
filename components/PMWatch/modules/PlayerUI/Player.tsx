@@ -30,6 +30,7 @@ import {
 } from "../Contexts/CommentDataProvider";
 import { usePlaylistContext } from "../Contexts/PlaylistProvider";
 import { useRecommendContext } from "../Contexts/RecommendProvider";
+import { VideoTitle } from "../Info/Info";
 
 type Props = {
     isFullscreenUi: boolean;
@@ -497,6 +498,7 @@ function Player(props: Props) {
                 )}
                 { videoId !== "" && <EndCard smId={videoId}/> }
                 <ErrorScreen videoInfo={videoInfo} />
+                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle/>}
             </VideoPlayer>
             <div className="player-bottom-container">
                 <PlayerController
