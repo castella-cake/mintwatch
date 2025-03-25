@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext, ReactNode } from "react";
 
 
 async function getSyncStorageData() {
@@ -10,7 +10,7 @@ async function getLocalStorageData() {
 
 export function useSyncStorage() {
     const [ syncStorage, _setSyncStorageVar ] = useState({})
-    function setSyncStorageValue(name, value) {
+    function setSyncStorageValue(name: string, value: any) {
         _setSyncStorageVar(current => {
             return {
                 ...current,
@@ -30,7 +30,7 @@ export function useSyncStorage() {
 
 export function useLocalStorage() {
     const [ localStorage, _setLocalStorageVar ] = useState({})
-    function setLocalStorageValue(name, value) {
+    function setLocalStorageValue(name: string, value: any) {
         _setLocalStorageVar(current => {
             return {
                 ...current,
@@ -53,8 +53,8 @@ export function useManifestData() {
 }
 
 export function useStorage() {
-    const [ storages, _setStorageVar ] = useState({ local: {}, sync: {}, isLoaded: false })
-    function setLocalStorageValue(name, value, silent = false) {
+    const [ storages, _setStorageVar ] = useState<{ local: {[key: string]: any}, sync: {[key: string]: any}, isLoaded: boolean }>({ local: {}, sync: {}, isLoaded: false })
+    function setLocalStorageValue(name: string, value: any, silent = false) {
         if ( !silent ) {
             _setStorageVar(current => {
                 return {
@@ -68,7 +68,7 @@ export function useStorage() {
         }
         browser.storage.local.set({ [name]: value })
     }
-    function setSyncStorageValue(name, value) {
+    function setSyncStorageValue(name: string, value: any) {
         _setStorageVar(current => {
             return {
                 ...current,
@@ -88,16 +88,22 @@ export function useStorage() {
         } 
         setStorage()
     }, [])
-    return [storages, setLocalStorageValue, setSyncStorageValue]
+    return {storages, setLocalStorageValue, setSyncStorageValue}
 }
 
-const IStorageContext = createContext()
+const IStorageContext = createContext<{
+    syncStorage: {[key: string]: any},
+    setSyncStorageValue: (name: string, value: any, silent?: boolean) => void,
+    localStorage: {[key: string]: any},
+    setLocalStorageValue: (name: string, value: any, silent?: boolean) => void,
+    isLoaded: boolean
+}>({ syncStorage: {}, setSyncStorageValue: (name: string, value: any, silent?: boolean) => {}, localStorage: {}, setLocalStorageValue: (name: string, value: any, silent?: boolean) => {}, isLoaded: false})
 
-export function StorageProvider({ children }) {
-    const [storages, setLocalStorageValue, setSyncStorageValue] = useStorage()
-    return (<IStorageContext value={{ syncStorage: storages.sync, setSyncStorageValue, localStorage: storages.local, setLocalStorageValue, isLoaded: storages.isLoaded }}>
+export function StorageProvider({ children }: { children: ReactNode }) {
+    const {storages, setLocalStorageValue, setSyncStorageValue} = useStorage()
+    return (<IStorageContext.Provider value={{ syncStorage: storages.sync, setSyncStorageValue, localStorage: storages.local, setLocalStorageValue, isLoaded: storages.isLoaded }}>
         {children}
-    </IStorageContext>)
+    </IStorageContext.Provider>)
 }
 
 export function useStorageContext() {
