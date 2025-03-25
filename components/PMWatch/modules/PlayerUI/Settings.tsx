@@ -106,7 +106,7 @@ const settings: { [key: string]: setting } = {
     },
 }
 
-function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boolean, setIsStatsShown: Dispatch<SetStateAction<boolean>>, nodeRef: RefObject<HTMLDivElement>}) {
+function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boolean, setIsStatsShown: Dispatch<SetStateAction<boolean>>, nodeRef: RefObject<HTMLDivElement | null>}) {
     const { localStorage, setLocalStorageValue } = useStorageContext()
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage

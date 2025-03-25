@@ -4,8 +4,8 @@ import { RefObject } from "react";
 
 // コメントレンダラー
 export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOpacity, threads, videoOnClick, enableCommentPiP, commentRenderFps, disableCommentOutline, previewCommentItem, defaultPostTargetIndex }: {
-    videoRef: RefObject<HTMLVideoElement>,
-    pipVideoRef: RefObject<HTMLVideoElement>,
+    videoRef: RefObject<HTMLVideoElement | null>,
+    pipVideoRef: RefObject<HTMLVideoElement | null>,
     isCommentShown: boolean,
     commentOpacity: number,
     threads: Thread[],

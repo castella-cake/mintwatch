@@ -26,7 +26,7 @@ import {
 } from "../Contexts/CommentDataProvider";
 
 type scrollPos = {
-    [vposSec: string]: RefObject<HTMLDivElement>;
+    [vposSec: string]: RefObject<HTMLDivElement | null>;
 };
 /*
 // 選択した名前のスレッドを返す関数
@@ -76,7 +76,7 @@ function returnFirstScrollPos(scrollPosList: scrollPos) {
 
 type RowProps = {
     comment: Comment;
-    nodeRef: RefObject<HTMLDivElement>;
+    nodeRef: RefObject<HTMLDivElement | null>;
     isOpen: boolean;
     listFocusable: boolean;
     onNicoru: (
@@ -165,7 +165,7 @@ const MemoizedComments = memo(function ({
     onSeekTo,
 }: {
     comments: Comment[] | undefined;
-    commentRefs: RefObject<RefObject<HTMLDivElement>[]>;
+    commentRefs: RefObject<RefObject<HTMLDivElement | null>[]>;
     listFocusable: boolean;
     onNicoru: (
         commentNo: number,
@@ -223,7 +223,7 @@ function CommentList() {
 
     const commentListContainerRef = useRef<HTMLDivElement>(null);
     // 複数のref
-    const commentRefs = useRef<RefObject<HTMLDivElement>[]>([]);
+    const commentRefs = useRef<RefObject<HTMLDivElement | null>[]>([]);
 
     const videoInfoRef = useRef<VideoDataRootObject | null>(null);
     videoInfoRef.current = videoInfo;
@@ -333,10 +333,7 @@ function CommentList() {
     // refを登録
     filteredComments?.forEach((elem, index) => {
         commentRefs.current[index] = createRef();
-        if (commentRefs.current[index] != null) {
-            scrollPosList[`${Math.floor(elem.vposMs / 1000)}`] =
-                commentRefs.current[index];
-        }
+        if (commentRefs.current[index]) scrollPosList[`${Math.floor(elem.vposMs / 1000)}`] = commentRefs.current[index];
     });
 
     async function onNicoru(

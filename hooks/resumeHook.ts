@@ -1,7 +1,7 @@
 import { VideoDataRootObject } from "@/types/VideoData"
 import { RefObject } from "react"
 
-export function useResumePlayback(videoRef: RefObject<HTMLVideoElement>, videoInfo: VideoDataRootObject | null, resumePlaybackType?: string) {
+export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | null, resumePlaybackType?: string) {
     // レジューム再生の処理
     useEffect(() => {
         if (!videoInfo) return

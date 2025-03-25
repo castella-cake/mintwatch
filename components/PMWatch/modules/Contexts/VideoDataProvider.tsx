@@ -4,7 +4,7 @@ import { VideoDataRootObject } from "@/types/VideoData";
 
 const IActionTrackDataContext = createContext<string>("");
 
-const VideoRefContext = createContext<RefObject<HTMLVideoElement>>(null!);
+const VideoRefContext = createContext<RefObject<HTMLVideoElement | null>>(null!);
 const IVideoRef = createRef<HTMLVideoElement>();
 
 type VideoInfoContext = {

@@ -2,7 +2,7 @@ import Hls from "hls.js";
 import { VideoDataRootObject } from "@/types/VideoData";
 import { RefObject, useEffect, useState } from "react";
 
-export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: VideoDataRootObject | null, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement> }) {
+export function StatsOverlay({ videoInfo, hlsRef, videoRef }: { videoInfo: VideoDataRootObject | null, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement | null> }) {
     const [hlsLevel, setHlsLevel] = useState(hlsRef.current?.currentLevel || 0)
 
     useEffect(() => {

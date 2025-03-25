@@ -77,7 +77,7 @@ function VefxController({
     frequencies: number[];
     effectsState: effectsState;
     onEffectsChange: any;
-    nodeRef: RefObject<HTMLDivElement>;
+    nodeRef: RefObject<HTMLDivElement | null>;
 }) {
     //const lang = useLang()
     //const { syncStorage, setSyncStorageValue } = useStorageContext()

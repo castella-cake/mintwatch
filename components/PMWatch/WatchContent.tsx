@@ -1,4 +1,4 @@
-import { Dispatch, MouseEvent, SetStateAction } from "react"
+import { Dispatch, JSX, MouseEvent, SetStateAction } from "react"
 import Actions from "./modules/Info/Actions"
 import CommentList from "./modules/CommentList/CommentList"
 import Info, { VideoTitle } from "./modules/Info/Info"

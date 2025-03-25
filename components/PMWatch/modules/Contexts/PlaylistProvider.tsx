@@ -132,7 +132,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     }, [videoInfo]);
 
     return (
-        <IPlaylistContext.Provider
+        <IPlaylistContext
             value={{
                 playlistData,
                 setPlaylistData,
@@ -140,7 +140,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             }}
         >
             {children}
-        </IPlaylistContext.Provider>
+        </IPlaylistContext>
     );
 }
 

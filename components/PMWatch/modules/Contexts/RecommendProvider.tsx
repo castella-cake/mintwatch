@@ -22,9 +22,9 @@ export function RecommendProvider({ children }: { children: ReactNode }) {
     }, [recommendData]);
 
     return (
-        <IRecommendContext.Provider value={recommendData}>
+        <IRecommendContext value={recommendData}>
             {children}
-        </IRecommendContext.Provider>
+        </IRecommendContext>
     );
 }
 

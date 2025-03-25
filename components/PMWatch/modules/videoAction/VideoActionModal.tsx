@@ -21,7 +21,7 @@ export function VideoActionModal({
         modalType: "mylist" | "share" | "help",
     ) => void;
     selectedType: "mylist" | "share" | "help" | false;
-    nodeRef: RefObject<HTMLDivElement>;
+    nodeRef: RefObject<HTMLDivElement | null>;
 }) {
     const { videoInfo } = useVideoInfoContext();
 

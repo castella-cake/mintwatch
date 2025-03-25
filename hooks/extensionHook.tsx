@@ -101,9 +101,9 @@ const IStorageContext = createContext<{
 
 export function StorageProvider({ children }: { children: ReactNode }) {
     const {storages, setLocalStorageValue, setSyncStorageValue} = useStorage()
-    return (<IStorageContext.Provider value={{ syncStorage: storages.sync, setSyncStorageValue, localStorage: storages.local, setLocalStorageValue, isLoaded: storages.isLoaded }}>
+    return (<IStorageContext value={{ syncStorage: storages.sync, setSyncStorageValue, localStorage: storages.local, setLocalStorageValue, isLoaded: storages.isLoaded }}>
         {children}
-    </IStorageContext.Provider>)
+    </IStorageContext>)
 }
 
 export function useStorageContext() {

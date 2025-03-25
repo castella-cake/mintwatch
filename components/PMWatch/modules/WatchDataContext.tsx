@@ -18,9 +18,9 @@ export function SmIdProvider({ children }: { children: ReactNode }) {
         location.pathname.slice(7).replace(/\?.*/, ""),
     );
     return (
-        <ISmIdContext.Provider value={{ smId, setSmId }}>
+        <ISmIdContext value={{ smId, setSmId }}>
             {children}
-        </ISmIdContext.Provider>
+        </ISmIdContext>
     );
 }
 

@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindForward10, IconSettings, IconSettingsFilled, IconVolume, IconVolume3 } from "@tabler/icons-react";
-import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
+import type { Dispatch, JSX, ReactNode, RefObject, SetStateAction } from "react";
 import Hls from "hls.js";
 import type { effectsState } from "@/hooks/eqHooks";
 import { Seekbar } from "./Seekbar";
@@ -9,7 +9,7 @@ import { useStorageContext } from "@/hooks/extensionHook";
 import { CSSTransition } from "react-transition-group";
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
 type Props = {
-    videoRef: RefObject<HTMLVideoElement>,
+    videoRef: RefObject<HTMLVideoElement | null>,
     effectsState: effectsState,
     isVefxShown: boolean,
     setIsVefxShown: Dispatch<SetStateAction<boolean>>,
@@ -103,7 +103,7 @@ function PlayerController(props: Props) {
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
 
-    const seekbarRef = useRef<HTMLDivElement>(null)
+    const seekbarRef = useRef<HTMLDivElement>(null!)
     const [isSeeking, setIsSeeking] = useState(false)
     const isSeekingRef = useRef(false)
     isSeekingRef.current = isSeeking

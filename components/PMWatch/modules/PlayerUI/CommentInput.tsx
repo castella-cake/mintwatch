@@ -11,8 +11,8 @@ import { useCommentControllerContext } from "../Contexts/CommentDataProvider";
 type Props = {
     videoId: string,
     videoInfo: VideoDataRootObject | null,
-    videoRef: RefObject<HTMLVideoElement>,
-    commentInputRef: RefObject<HTMLTextAreaElement>,
+    videoRef: RefObject<HTMLVideoElement | null>,
+    commentInputRef: RefObject<HTMLTextAreaElement | null>,
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
 

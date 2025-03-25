@@ -3,7 +3,7 @@ import { CSSTransition } from "react-transition-group"
 
 type VideoPlayerProps = {
     children?: ReactNode,
-    videoRef: RefObject<HTMLVideoElement>,
+    videoRef: RefObject<HTMLVideoElement | null>,
     onPause: () => void,
     onEnded: () => void,
     onClick: () => void,

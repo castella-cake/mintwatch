@@ -16,7 +16,7 @@ export function HeaderActionStacker({
 }: {
     onModalStateChanged: Dispatch<SetStateAction<"notifications" | "mymenu" | false>>;
     selectedType: "notifications" | "mymenu" | false;
-    nodeRef: RefObject<HTMLDivElement>;
+    nodeRef: RefObject<HTMLDivElement | null>;
 }) {
     const { videoInfo } = useVideoInfoContext();
 

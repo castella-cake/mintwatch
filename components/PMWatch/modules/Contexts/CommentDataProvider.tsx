@@ -37,13 +37,13 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     }, [commentContent]); // コメント情報が最後に更新されると踏んで、commentContentだけを依存する
 
     return (
-        <ICommentContentContext.Provider value={commentContent}>
-            <ICommentControllerContext.Provider
+        <ICommentContentContext value={commentContent}>
+            <ICommentControllerContext
                 value={{ setCommentContent, reloadCommentContent }}
             >
                 {children}
-            </ICommentControllerContext.Provider>
-        </ICommentContentContext.Provider>
+            </ICommentControllerContext>
+        </ICommentContentContext>
     );
 }
 

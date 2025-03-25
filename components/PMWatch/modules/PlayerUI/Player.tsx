@@ -69,7 +69,7 @@ function Player(props: Props) {
     const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false);
     const [shortcutFeedbackText, _setShortcutFeedbackText] = useState<string | null>(null);
     const shortcutFeedbackElemRef = useRef<HTMLDivElement>(null);
-    const shortcutFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+    const shortcutFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!);
     function setShortcutFeedback(text: string) {
         _setShortcutFeedbackText(text);
         _setShortcutFeedbackShown(true);

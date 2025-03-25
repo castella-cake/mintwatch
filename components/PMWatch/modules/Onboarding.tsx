@@ -1,6 +1,6 @@
 import { RefObject } from "react";
 
-export function OnboardingPopup({ onOnboardOpen, nodeRef }: { onOnboardOpen: () => void, nodeRef: RefObject<HTMLDivElement> }) {
+export function OnboardingPopup({ onOnboardOpen, nodeRef }: { onOnboardOpen: () => void, nodeRef: RefObject<HTMLDivElement | null> }) {
     const { localStorage, setLocalStorageValue} = useStorageContext()
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage
