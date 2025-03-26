@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.5.0 - 2025/03
+
+### Added
+- バージョン情報をより確認しやすい場所に追加しました
+
+### Fixed
+- React 19への更新に合わせてコードを修正しました
+- フォロー新着を表示した場合に横スクロール変換が適用されない問題を修正しました
+
 ## 0.5.0 - 2025/03/24
 
 ### Added
