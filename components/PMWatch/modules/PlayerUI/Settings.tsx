@@ -115,10 +115,12 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boo
     }
     
     return <div className="playersettings-container" id="pmw-player-settings" ref={nodeRef}>
-        <div className="playersettings-title">プレイヤー設定</div>
-        <p>
-            Version {manifestData.version_name || manifestData.version || "Unknown"}
-        </p>
+        <div className="playersettings-title">
+            プレイヤー設定
+            <span className="playersettings-version">
+                v{manifestData.version_name || manifestData.version || "Unknown"}
+            </span>
+        </div>
         <p>
             この設定はローカルに保存されます。<br/>
             視聴ページの設定は左上のスパナアイコンから設定できます。<br/>

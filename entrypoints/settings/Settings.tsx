@@ -11,12 +11,18 @@ import settings from "@/utils/settingsList";
 
 const rootElement = document.getElementById("root")
 if (!rootElement) throw new Error("root element not found");
+
+const manifestData = browser.runtime.getManifest();
+
 createRoot(rootElement).render(
     <StrictMode>
         <StorageProvider>
             <div className="container">
                 <div className="title-container">
-                    <div className="title toptitle"><a href="settings.html" target="_blank" rel="noopener noreferrer" className="optlink">MintWatch</a></div>
+                    <div className="title toptitle">
+                        <a href="settings.html" target="_blank" rel="noopener noreferrer" className="optlink">MintWatch</a>
+                        <span className="current-version">v{manifestData.version_name ?? manifestData.version ?? "(Unknown Version)"}</span>
+                    </div>
                     <div className="titlelink-container">
                         <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" className="titlelink">Discord</a>
                         <a href="https://github.com/castella-cake/mintwatch/issues" target="_blank" rel="noopener noreferrer" className="titlelink">Feedback</a>
