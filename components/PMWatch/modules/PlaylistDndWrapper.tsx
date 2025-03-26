@@ -3,6 +3,7 @@ import {
     DragEndEvent,
     DragOverlay,
     DragStartEvent,
+    DropAnimation,
     PointerSensor,
     useSensor,
     useSensors,
@@ -14,6 +15,7 @@ import { RecommendItem } from "@/types/RecommendData";
 import { usePlaylistContext } from "./Contexts/PlaylistProvider";
 import { arrayMove } from "@dnd-kit/sortable";
 import { ReactNode } from "react";
+import { snapCenterToCursor } from "@dnd-kit/modifiers";
 
 function isValidRecommendItem(value: unknown): value is RecommendItem {
     return (
@@ -69,7 +71,10 @@ function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
                 }
                 href={`https://www.nicovideo.jp/watch/${thisVideoId}`}
                 title={""}
-            />
+                subTitle={draggingItem.content.owner.name}
+            >
+                {draggingItem.content.title ?? ""}
+            </Card>
         ) : null;
     } else if (isValidSeriesVideoItem(draggingItem)) {
         const seriesVideoItem = draggingItem;
@@ -113,6 +118,25 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
             },
         }),
     );
+
+    const modifiers = [snapCenterToCursor]
+    const dropAnimation: DropAnimation = {
+        duration: 400,
+        easing: "ease",
+        keyframes: ((transform) => {
+            return [
+                { opacity: 1, filter: "blur(0)" },
+                { opacity: 0, filter: "blur(16px)" },
+            ]
+        }),
+        /*sideEffects: defaultDropAnimationSideEffects({
+            styles: {
+                active: {
+                    opacity: '0'
+                }
+            }
+        })*/
+    }
 
     function handleDragEnd(e: DragEndEvent) {
         if (!playlistData) return;
@@ -194,7 +218,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
             sensors={sensors}
         >
             {children}
-            <DragOverlay>
+            <DragOverlay className="card-drag-overlay" modifiers={modifiers} dropAnimation={dropAnimation}>
                 <CardDragOverlay draggingItem={currentDraggingItem} />
             </DragOverlay>
         </DndContext>
