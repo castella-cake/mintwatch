@@ -22,22 +22,13 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
             wheelTranslator,
             { passive: false },
         );
-        contentRef.current?.addEventListener(
-            "wheel",
-            wheelTranslator,
-            { passive: false },
-        );
         return () => {
             contentRef.current?.removeEventListener(
                 "wheel",
                 wheelTranslator,
             );
-            contentRef.current?.removeEventListener(
-                "wheel",
-                wheelTranslator,
-            );
         };
-    });
+    }), [enableWheelTranslate, contentRef.current];
 
     return (
         <div className="watchnext-wrapper">
