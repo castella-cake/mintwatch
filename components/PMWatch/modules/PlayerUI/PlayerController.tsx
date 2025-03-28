@@ -352,7 +352,7 @@ function PlayerController(props: Props) {
             </div>
             <div className="playercontroller-container-right">
                 {controlLayouts[currentPlayerType].right}
-                {hlsRef.current && <select onChange={(e) => {
+                {hlsRef.current ? <select onChange={(e) => {
                     if (!hlsRef.current) return
                     hlsRef.current.currentLevel = Number(e.currentTarget.value)
                     writePlayerSettings("preferredLevel", Number(e.currentTarget.value), true)
@@ -362,7 +362,7 @@ function PlayerController(props: Props) {
                         return <option value={index} key={index}>{(qualityLabels && qualityLabels[index]) || `${elem.height}p`}</option>
                     })}
                     <option value={-1}>Auto</option>
-                </select>}
+                </select> : <select className="playercontroller-qualityselect" title="画質選択" id="pmw-qualityselector"/>}
                 {/*<div className="playercontroller-qualitydisplay">{hlsRef.current && hlsRef.current.levels.map(elem => `${elem.height}p`)[hlsRef.current.currentLevel]}</div>*/}
                 <PlayerControllerButton className="playercontroller-commenttoggle" onClick={() => {setIsCommentShown(!isCommentShown)}} title={isCommentShown ? "コメントを非表示" : "コメントを表示"}>{ isCommentShown ? <IconMessage2/> : <IconMessage2Off/>}</PlayerControllerButton>
                 <PlayerControllerButton className="playercontroller-fullscreen" onClick={toggleFullscreen} title={isFullscreenUi ? "フルスクリーンを終了" : "フルスクリーン"}>{ isFullscreenUi ? <IconMinimize/> : <IconMaximize/>}</PlayerControllerButton>

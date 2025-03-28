@@ -87,31 +87,17 @@ export default defineUnlistedScript({
                 mediaInjectorContainer.id = "pmwp-cyaki-mediainjector";
                 mediaInjectorContainer.className = "plugin-list-item";
                 mediaInjectorContainer.innerHTML = `
-            <div class="plugin-list-item-title">
-                外部HLS プラグイン (ビルトイン)
-            </div>
-            <div class="plugin-list-item-desc">
-                ページスクリプトとしてHLSを実行し、一部のCORS問題を回避します。
-            </div>
-        `;
+                    <div class="plugin-list-item-title">
+                        外部HLS プラグイン (ビルトイン)
+                    </div>
+                    <div class="plugin-list-item-desc">
+                        ページスクリプトとしてHLSを実行し、一部のCORS問題を回避します。
+                    </div>
+                `;
                 if (pluginList) pluginList.appendChild(mediaInjectorContainer);
             }
 
-            const levelSelector = document.createElement("select");
-            levelSelector.id = "pmwp-cyaki-mediainjector-level-select";
-            levelSelector.className = "playercontroller-qualityselect";
-            levelSelector.title = "画質選択";
-
-            if (
-                !document.getElementById(
-                    "pmwp-cyaki-mediainjector-level-select",
-                )
-            ) {
-                const rightControl = document.getElementsByClassName(
-                    "playercontroller-container-right",
-                )[0];
-                if (rightControl) rightControl.prepend(levelSelector);
-            }
+            let levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector");
 
             if (
                 videoInfo.data &&
@@ -176,10 +162,11 @@ export default defineUnlistedScript({
                 });
                 hls.on(Hls.Events.LEVEL_SWITCHED, (e, data) => {
                     //console.log("switched:", data)
-                    levelSelector.selectedIndex = data.level;
+                    if (levelSelector && (levelSelector instanceof HTMLSelectElement)) levelSelector.selectedIndex = data.level;
                 });
                 hls.on(Hls.Events.MANIFEST_LOADED, (e, data) => {
                     //console.log("levels",   hls.levels)
+                    if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
                     levelSelector.innerHTML = "";
                     hls.levels.forEach((level, index) => {
                         const option = document.createElement("option");
@@ -188,7 +175,7 @@ export default defineUnlistedScript({
                         levelSelector.appendChild(option);
                     });
                 });
-                levelSelector.addEventListener("change", (e) => {
+                if (levelSelector) levelSelector.addEventListener("change", (e) => {
                     if (e.target && e.target instanceof HTMLSelectElement) {
                         //console.log("change: ", e)
                         hls.currentLevel = Number(e.target.value);
