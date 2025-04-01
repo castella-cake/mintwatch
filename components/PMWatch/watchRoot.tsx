@@ -13,7 +13,7 @@ export function watchPage() {
         <StrictMode>
             <StorageProvider>
                 <ErrorBoundary
-                    fallbackRender={({ error, resetErrorBoundary }) => {
+                    fallbackRender={({ error }: { error: Error}) => {
                         return (
                             <div className="pmwatch-error-boundary-wrapper">
                                 <div className="pmwatch-error-boundary-container">
@@ -21,18 +21,23 @@ export function watchPage() {
                                         <IconBoom /> Aw, snap!
                                     </h1>
                                     <p>
-                                        MintWatchの表示中に重大なエラーが発生しました。
+                                        申し訳ありません。MintWatch の表示中に重大なエラーが発生しました。<br/>
+                                        この問題を開発者に Github もしくは Discord 経由で報告してください。
                                     </p>
                                     <p className="pmwatch-error-boundary-msg">
                                         <code>{error.message}</code>
                                     </p>
+                                    { error.stack && <><p>
+                                        コールスタック: 
+                                    </p>
+                                    <pre className="pmwatch-error-boundary-msg">
+                                        <code>{error.stack}</code>
+                                    </pre></>}
                                     <p className="pmwatch-error-boundary-button-container">
+                                        ページを再読み込みして再試行できます。<br/>
                                         <a href="https://www.nicovideo.jp/video_top">
                                             ニコニコ動画へ戻る
                                         </a>
-                                        <button onClick={resetErrorBoundary}>
-                                            再読み込み
-                                        </button>
                                     </p>
                                 </div>
                             </div>

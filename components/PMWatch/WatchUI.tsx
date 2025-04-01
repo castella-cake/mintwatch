@@ -123,6 +123,7 @@ function CreateWatchUI() {
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
 
     return (
+        
         <div className={isFullscreenUi ? "container fullscreen" : "container"} onClick={closeAllModal} data-disallow-grid-fallback={disallowGridFallback.toString()}>
             <TitleElement />
             <CSSTransition
