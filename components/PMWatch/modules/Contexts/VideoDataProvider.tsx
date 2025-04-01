@@ -46,7 +46,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
         }
     }, [videoInfo]);
 
-    if ( !videoInfo ) return children
+    if ( !videoInfo ) return <IVideoInfoContext.Provider value={{ videoInfo: null, errorInfo }}>{children}</IVideoInfoContext.Provider>
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId}>
