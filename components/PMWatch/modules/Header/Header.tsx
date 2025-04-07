@@ -1,24 +1,20 @@
 //import { useState } from "react";
-
-import { Dispatch, SetStateAction } from "react";
 import { IconBell, IconBellRingingFilled, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import useOshiraseBell from "@/hooks/bellHooks";
+import { useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
 }
 
-function Header({
-    setIsMintConfigShown,
-    setHeaderModalType
-}: {
-    setIsMintConfigShown: Dispatch<SetStateAction<boolean>>;
-    setHeaderModalType: Dispatch<SetStateAction<"notifications" | "mymenu" | false>>;
-}) {
+function Header() {
     //const [hover, setHover] = useState(false)
     const { videoInfo } = useVideoInfoContext();
     const videoViewerInfo = videoInfo?.data.response.viewer;
+
+    const setIsMintConfigShown = useSetMintConfigShownContext();
+    const setHeaderModalType = useSetHeaderActionStateContext();
 
     const { isBellActive, setIsBellActive } = useOshiraseBell();
 

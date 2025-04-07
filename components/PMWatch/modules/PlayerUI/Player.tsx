@@ -36,10 +36,11 @@ type Props = {
     isFullscreenUi: boolean;
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>;
     changeVideo: (videoId: string) => void;
+    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help" | "shortcuts") => void;
 };
 
 function Player(props: Props) {
-    const { isFullscreenUi, setIsFullscreenUi, changeVideo } = props;
+    const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged } = props;
 
     const { videoInfo } = useVideoInfoContext();
     const commentContent = useCommentContentContext();
@@ -211,7 +212,8 @@ function Player(props: Props) {
                 videoRef.current,
                 commentInputRef.current,
                 toggleFullscreen,
-                setShortcutFeedback
+                setShortcutFeedback,
+                onModalStateChanged
             );
         document.body.addEventListener("keydown", onKeydown);
 

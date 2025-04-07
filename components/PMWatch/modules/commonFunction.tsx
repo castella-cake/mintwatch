@@ -41,7 +41,13 @@ export function timeCalc(operation: string, time: number, currentTime: number, d
     }
 }
 
-export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, commentInput: HTMLTextAreaElement | null, onToggleFullscreen: () => void, setShortcutFeedback: (text: string) => void) => {
+export const handleCtrl = (
+    e: KeyboardEvent, video: HTMLVideoElement | null,
+    commentInput: HTMLTextAreaElement | null,
+    onToggleFullscreen: () => void,
+    setShortcutFeedback: (text: string) => void,
+    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help" | "shortcuts") => void
+) => {
     if ( e.ctrlKey ) return true;
     if ( e.target instanceof Element ) {
         if ( e.target.closest("input, textarea") ) return true;
@@ -90,6 +96,7 @@ export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, com
         return false;
     }
     if ( e.key.toLowerCase()  === "f" ) {
+        e.preventDefault()
         onToggleFullscreen()
         return false;
     }
@@ -99,6 +106,11 @@ export const handleCtrl = (e: KeyboardEvent, video: HTMLVideoElement | null, com
             setShortcutFeedback("ミュート解除")
         } else setShortcutFeedback("ミュート");
         video.muted = !video.muted
+        return false;
+    }
+    if ( e.key.toLowerCase() === "?" ) {
+        e.preventDefault()
+        onModalStateChanged(true, "shortcuts")
         return false;
     }
 }

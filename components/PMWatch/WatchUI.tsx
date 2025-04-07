@@ -16,21 +16,13 @@ import {
 } from "./modules/Contexts/VideoDataProvider";
 import { usePlaylistContext } from "./modules/Contexts/PlaylistProvider";
 import { HeaderActionStacker } from "./modules/Header/HeaderActionStacker";
+import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "./modules/Contexts/ModalStateProvider";
 
 function CreateWatchUI() {
     //const lang = useLang()
     const { smId, setSmId } = useSmIdContext();
 
     const { syncStorage, localStorage, isLoaded } = useStorageContext();
-
-    const [isMintConfigShown, setIsMintConfigShown] = useState(false);
-    const [headerActionState, setHeaderActionState] = useState<
-        false | "notifications" | "mymenu"
-    >(false);
-
-    const [videoActionModalState, setVideoActionModalState] = useState<
-        false | "mylist" | "share" | "help"
-    >(false);
 
     const [isFullscreenUi, setIsFullscreenUi] = useState(false);
 
@@ -82,11 +74,15 @@ function CreateWatchUI() {
         };
     }, [videoInfo]);
 
-    // transition refs
+    // transition / outside click detection refs
     const mintConfigElemRef = useRef<HTMLDivElement>(null);
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
     const videoActionModalElemRef = useRef<HTMLDivElement>(null);
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null);
+
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const setHeaderActionState = useSetHeaderActionStateContext();
+    const setMintConfigShown = useSetMintConfigShownContext();
 
     //console.log(videoInfo)
     if (!isLoaded)
@@ -103,28 +99,24 @@ function CreateWatchUI() {
             localStorage.playersettings.playerAreaSize) ||
         1;
 
-    function onModalStateChanged(
-        isModalOpen: boolean,
-        modalType: "mylist" | "share" | "help",
-    ) {
-        if (isModalOpen === false) {
-            setVideoActionModalState(false);
-        } else {
-            setVideoActionModalState(modalType);
+    function handleKeydown(e: React.KeyboardEvent) {
+        if (e.key === "Escape") {
+            setHeaderActionState(false)
+            setVideoActionModalState(false)
+            setMintConfigShown(false)
         }
     }
 
-    function closeAllModal(e: React.MouseEvent<HTMLDivElement>) {
+    function onModalOutsideClick(e: React.MouseEvent<HTMLDivElement>) {
         if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
         if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
-        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setIsMintConfigShown(false)
+        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setMintConfigShown(false)
     }
 
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
 
     return (
-        
-        <div className={isFullscreenUi ? "container fullscreen" : "container"} onClick={closeAllModal} data-disallow-grid-fallback={disallowGridFallback.toString()}>
+        <div className={isFullscreenUi ? "container fullscreen" : "container"} onKeyDown={handleKeydown} onClick={onModalOutsideClick} data-disallow-grid-fallback={disallowGridFallback.toString()}>
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}
@@ -137,70 +129,28 @@ function CreateWatchUI() {
                 classNames="pmw-onboarding-popup-transition"
             >
                 <OnboardingPopup
-                    onOnboardOpen={() => {
-                        onModalStateChanged(true, "help");
-                    }}
                     nodeRef={onboardingPopupElemRef}
                 />
             </CSSTransition>
 
-            {!isFullscreenUi && (
-                <Header setIsMintConfigShown={setIsMintConfigShown} setHeaderModalType={setHeaderActionState}/>
-            )}
-
-            <CSSTransition
-                nodeRef={headerActionStackerElemRef}
-                in={
-                    headerActionState !== false &&
-                    !isFullscreenUi
-                }
-                timeout={300}
-                unmountOnExit
-                classNames="headeraction-modal-transition"
-            >
-                <HeaderActionStacker nodeRef={headerActionStackerElemRef} selectedType={headerActionState} onModalStateChanged={setHeaderActionState} />
-            </CSSTransition>
-            
-            <CSSTransition
-                nodeRef={mintConfigElemRef}
-                in={
-                    isMintConfigShown &&
-                    !isFullscreenUi
-                }
-                timeout={300}
-                unmountOnExit
-                classNames="mintconfig-transition"
-            >
-                <MintConfig
-                    nodeRef={mintConfigElemRef}
-                    setIsMintConfigShown={setIsMintConfigShown}
+            {!isFullscreenUi && <>
+                <Header />
+                <HeaderActionStacker nodeRef={headerActionStackerElemRef} />
+                <MintConfig nodeRef={mintConfigElemRef} />
+                <VideoActionModal
+                    nodeRef={videoActionModalElemRef}
                 />
-            </CSSTransition>
+            </>}
 
             <PlaylistDndWrapper>
                 <WatchContent
                     layoutType={layoutType}
                     playerSize={playerSize}
                     onChangeVideo={changeVideo}
-                    onModalStateChanged={onModalStateChanged}
                     isFullscreenUi={isFullscreenUi}
                     setIsFullscreenUi={setIsFullscreenUi}
                 />
             </PlaylistDndWrapper>
-
-            <CSSTransition
-                nodeRef={videoActionModalElemRef}
-                in={videoActionModalState !== false}
-                timeout={300}
-                unmountOnExit
-                classNames="videoaction-modal-transition"
-            >
-                <VideoActionModal
-                    nodeRef={videoActionModalElemRef}
-                    onModalStateChanged={onModalStateChanged}
-                    selectedType={videoActionModalState}
-                />
-            </CSSTransition>
         </div>
     );
 }

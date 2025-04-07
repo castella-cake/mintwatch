@@ -10,6 +10,7 @@ import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "./modules/Search"
+import { useSetVideoActionModalStateContext } from "./modules/Contexts/ModalStateProvider"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -24,21 +25,19 @@ type Props = {
     layoutType: string,
     playerSize: number,
     onChangeVideo: (smId: string) => void,
-    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help") => void,
     isFullscreenUi: boolean,
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>,
 }
 
-export function WatchContent( _props: Props ) {
+export function WatchContent(_props: Props) {
     const {
         layoutType,
         playerSize,
         onChangeVideo,
-        onModalStateChanged,
         isFullscreenUi,
         setIsFullscreenUi
     } = _props
-    const {localStorage} = useStorageContext()
+    const { localStorage } = useStorageContext()
 
     useEffect(() => {
         document.dispatchEvent(
@@ -48,11 +47,24 @@ export function WatchContent( _props: Props ) {
         );
     }, [])
 
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+
+    function onModalStateChanged(
+        isModalOpen: boolean,
+        modalType: "mylist" | "share" | "help" | "shortcuts",
+    ) {
+        if (isModalOpen === false) {
+            setVideoActionModalState(false);
+        } else {
+            setVideoActionModalState(modalType);
+        }
+    }
+
     const linkClickHandler = (e: MouseEvent<HTMLDivElement>) => {
-        if ( e.target instanceof Element ) {
+        if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
-            if ( nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime") ) {
+            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime")) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
@@ -62,18 +74,19 @@ export function WatchContent( _props: Props ) {
         }
     }
 
-    const shouldUseCardRecommend = !( layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch ) ? true : false
+    const shouldUseCardRecommend = !(layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch) ? true : false
     const shouldUseHorizontalSearchLayout = !(layoutType === watchLayoutType.shinjuku || layoutType === watchLayoutType.reimaginedOldWatch) ? true : false
-    const shouldUseCardInfo = !( layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku ) ? true : false
+    const shouldUseCardInfo = !(layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku) ? true : false
     const shouldUseBigView = localStorage.playersettings.enableBigView ?? false
 
     const playerElem = <Player
         isFullscreenUi={isFullscreenUi}
         setIsFullscreenUi={setIsFullscreenUi}
         changeVideo={onChangeVideo}
+        onModalStateChanged={onModalStateChanged}
         key="watchui-player"
     />
-    const titleElem = <VideoTitle key="watch-container-title"/>
+    const titleElem = <VideoTitle key="watch-container-title" />
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
     const commentListElem = <CommentList key="watchui-commentlist" />
     const playListElem = <Playlist key="watchui-playlist" />
@@ -89,12 +102,12 @@ export function WatchContent( _props: Props ) {
     const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
         {playerElem}{rightActionElem}
     </div>
-    const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend}/>
+    const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
     const bottomInfoElem = <BottomInfo key="watchui-bottominfo" />
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
-    const hrjkLogoElem = <div className="hrjk-header" key="watchui-hrjkheader"><NicoHarajukuLogo/>{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
+    const hrjkLogoElem = <div className="hrjk-header" key="watchui-hrjkheader"><NicoHarajukuLogo />{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
 
     const layoutPresets: {
         [key: string]: JSX.Element[]
@@ -109,7 +122,16 @@ export function WatchContent( _props: Props ) {
 
     const currentLayout = layoutPresets[layoutType]
 
-    return <div className="watch-container" is-bigview={shouldUseBigView.toString()} watch-type={layoutType.toString()} settings-size={playerSize.toString()} use-card-recommend={shouldUseCardRecommend.toString()} use-horizontal-search={shouldUseHorizontalSearchLayout.toString()} use-card-info={shouldUseCardInfo.toString()} id="pmw-container" onClickCapture={(e) => {linkClickHandler(e)}}>
+    return <div className="watch-container"
+        is-bigview={shouldUseBigView.toString()}
+        watch-type={layoutType.toString()}
+        settings-size={playerSize.toString()}
+        use-card-recommend={shouldUseCardRecommend.toString()}
+        use-horizontal-search={shouldUseHorizontalSearchLayout.toString()}
+        use-card-info={shouldUseCardInfo.toString()}
+        id="pmw-container"
+        onClickCapture={(e) => { linkClickHandler(e) }}
+    >
         <div className="watch-container-grid">
             {currentLayout}
         </div>

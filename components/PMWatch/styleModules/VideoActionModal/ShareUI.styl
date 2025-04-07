@@ -1,22 +1,106 @@
-.share-body {
-    background: var(--bgcolor2);
-    padding: 0.5em;
-    border-radius: var(--radius);
-    margin-bottom: 1em;
-}
-
 .share-container {
     background: var(--bgcolor1);
     border-radius: var(--radius);
     padding: 1em;
 }
 
+.share-preview {
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    border: var(--border);
+    padding: 16px;
+    display: grid;
+    grid-template-areas: "icon name" "icon handle" "body body" "ogp ogp" "act act";
+    grid-template-columns: max-content 1fr;
+    gap: 0 8px;
+    margin-bottom: 16px;
+}
+
+.share-dummy-icon {
+    grid-area: icon;
+    background: repeating-linear-gradient(-45deg, var(--bgcolor2), var(--bgcolor2) 5px, var(--accent1) 5px, var(--accent1) 10px);
+    border-radius: 1024px;
+    aspect-ratio: 1 / 1;
+    height: 3rem;
+    border: var(--border);
+}
+
+.share-dummy-name {
+    grid-area: name;
+    font-weight: bold;
+}
+
+.share-dummy-handle {
+    grid-area: handle;
+    opacity: 0.5;
+}
+
+.share-body {
+    grid-area: body;
+    margin: 0;
+    margin-top: 8px;
+}
+
+.share-dummy-actions {
+    grid-area: act;
+    display: flex;
+    justify-content: space-around;
+    opacity: 0.2;
+}
+
+.share-ogp {
+    grid-area: ogp;
+    display: grid;
+    grid-template-areas: "thumb title" "thumb desc" "thumb sname";
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 0;
+    gap: 8px 16px;
+    overflow: hidden;
+    grid-template-rows: 1fr min-content 1fr;
+    line-height: 1em;
+    font-size: 0.9rem;
+    margin: 8px 0;
+    margin-bottom: 16px;
+    .share-ogp-thumbnail {
+        grid-area: thumb;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        height: 6rem;
+    }
+
+    .share-ogp-title {
+        grid-area: title;
+        align-self: end;
+        font-weight: bold;
+    }
+
+    .share-ogp-description {
+        grid-area: desc;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.8;
+        font-size: 0.8rem;
+    }
+
+    .share-ogp-site-name {
+        grid-area: sname;
+        font-size: 0.8em;
+        align-self: start;
+    }
+}
+
+.share-buttons {
+    display: flex;
+    gap: 1em;
+}
+
 .share-button {
     text-decoration: none;
     background: var(--share-bg, #fff);
     color: var(--share-fg, #000) !important;
-    padding: 0.5em;
-    margin-right: 0.5em;
+    padding: 8px 12px;
     border-radius: var(--radius);
     font-weight: bold;
 }
