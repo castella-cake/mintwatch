@@ -60,6 +60,13 @@ const settings: settingList = {
             ]
         }
     ],
+    reshogi: [
+        {
+            type: "checkbox",
+            name: "enableReshogi",
+            default: false,
+        },
+    ]
 }
 
 export function getDefault(name: string) {

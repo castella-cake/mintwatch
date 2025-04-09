@@ -53,6 +53,6 @@ export default defineConfig({
         },
     },
     imports: {
-        dirs: ["./utils/apis/*"]
+        dirs: ["./utils/apis/*", "./utils/apis/ranking/*"]
     }
 });

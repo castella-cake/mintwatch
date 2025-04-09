@@ -1,13 +1,8 @@
 {
     "SETTINGS_DESC": "MintWatch の設定を変更します。\n設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
     "SETTINGS_AREATITLE": {
-        "hide": "要素の非表示",
-        "watchpage": "視聴ページ",
         "mintwatch": "MintWatch",
-        "nicopedia": "大百科",
-        "other": "その他",
-        "global": "グローバル",
-        "quickpanel": "クイックパネル"
+        "reshogi": "Re:将棋盤"
     },
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
@@ -23,6 +18,11 @@
             "name": "プレイヤーテーマ",
             "hint": "MintWatchで使用するプレイヤーの見た目を指定します。",
             "select": ["デフォルト", "cresc.", "Shinjuku"]
+        },
+
+        "enableReshogi": {
+            "name": "実験的: ランキングページの置き換えを有効化",
+            "hint": "代替的なランキングページ。ランキングページを、壊れていなかった正しい形へ引き戻します。"
         },
         
         "otherSettings": {

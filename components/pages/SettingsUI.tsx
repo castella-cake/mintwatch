@@ -73,13 +73,14 @@ function CreateSettingsRow({ setting }: { setting: setting } ) {
 }
 
 function CreateSettingsList({settings}: {settings: settingList}) {
+    const lang: any = useLang()
 
     const elemArray = Object.keys(settings).map((elem) => {
         const settingsAreaElems = settings[elem].map((settingsElem) => {
             //console.log(settingsElem)
             return <CreateSettingsRow setting={settingsElem} key={`${settingsElem.name}-row`}/>
         })
-        return <div className="settings-area" key={`${elem}-area`} id={elem}>{settingsAreaElems}</div>
+        return <div className="settings-area" key={`${elem}-area`} id={elem}><h1>{lang.SETTINGS_AREATITLE[elem] ?? elem}</h1>{settingsAreaElems}</div>
     })
     //console.log(elemArray)
     return <>
