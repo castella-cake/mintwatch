@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 //import { useLang } from "./localizeHook";
-import Header from "./modules/Header/Header";
+import Header from "@/components/Global/Header/Header";
 import { MintConfig } from "./modules/MintConfig";
 import { CSSTransition } from "react-transition-group";
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal";
@@ -13,10 +13,10 @@ import { useSmIdContext } from "./modules/WatchDataContext";
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "./modules/Contexts/VideoDataProvider";
-import { usePlaylistContext } from "./modules/Contexts/PlaylistProvider";
-import { HeaderActionStacker } from "./modules/Header/HeaderActionStacker";
-import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "./modules/Contexts/ModalStateProvider";
+} from "@/components/Global/Contexts/VideoDataProvider";
+import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { HeaderActionStacker } from "@/components/Global/Header/HeaderActionStacker";
+import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 function CreateWatchUI() {
     //const lang = useLang()

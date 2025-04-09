@@ -1,7 +1,7 @@
 
 //import { useLang } from "../localizeHook";
 import { InfoCard } from "../Info/InfoCards";
-import { useRecommendContext } from "../Contexts/RecommendProvider";
+import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
 function Recommend() {
     const recommendData = useRecommendContext();
 

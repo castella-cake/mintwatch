@@ -4,8 +4,8 @@ import { SeriesResponseRootObject } from "@/types/seriesData";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
-import { usePlaylistContext } from "./Contexts/PlaylistProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
+import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 
 export type playlistData = {
     type: "mylist" | "series" | "custom" | "none";

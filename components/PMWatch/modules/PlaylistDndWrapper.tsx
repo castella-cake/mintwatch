@@ -12,7 +12,7 @@ import { Card } from "./Info/InfoCards";
 import { secondsToTime } from "./commonFunction";
 import { SeriesVideoItem } from "@/types/VideoData";
 import { RecommendItem } from "@/types/RecommendData";
-import { usePlaylistContext } from "./Contexts/PlaylistProvider";
+import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { arrayMove } from "@dnd-kit/sortable";
 import { ReactNode } from "react";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";

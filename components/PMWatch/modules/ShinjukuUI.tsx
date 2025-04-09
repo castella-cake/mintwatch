@@ -1,6 +1,6 @@
 import { readableInt } from "./commonFunction";
 import { useEffect, useState } from "react";
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import UserFollowButton from "./Info/UserFollowButton";
 
 const weekDay = ["日", "月", "火", "水", "木", "金", "土"];

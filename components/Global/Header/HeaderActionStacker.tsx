@@ -4,7 +4,6 @@ import {
     IconX,
 } from "@tabler/icons-react";
 import ReactFocusLock from "react-focus-lock";
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import Notifications from "./Notifications";
 import MyMenu from "./MyMenu";
 import { CSSTransition } from "react-transition-group";
@@ -12,11 +11,8 @@ import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../
 import { RefObject } from "react";
 
 export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
-    const { videoInfo } = useVideoInfoContext();
     const headerActionState = useHeaderActionStateContext();
     const setHeaderActionState = useSetHeaderActionStateContext();
-
-    if (!videoInfo) return <></>;
 
     return (
         <CSSTransition

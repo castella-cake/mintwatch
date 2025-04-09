@@ -1,13 +1,13 @@
 import { StrictMode } from "react";
 
-import PluginList from "./modules/PluginList";
+import PluginList from "@/components/Global/PluginList";
 
 //import "./index.styl"
 import { ErrorBoundary } from "react-error-boundary";
 import { StorageProvider } from "@/hooks/extensionHook";
 import { IconBoom } from "@tabler/icons-react";
 import { WatchBody } from "./WatchBody";
-import { ModalStateProvider } from "./modules/Contexts/ModalStateProvider";
+import { ModalStateProvider } from "@/components/Global/Contexts/ModalStateProvider";
 
 export function watchPage() {
     return (

@@ -4,7 +4,7 @@ import settings from "@/utils/settingsList";
 import { IconX } from "@tabler/icons-react";
 import { RefObject } from "react";
 import { CSSTransition } from "react-transition-group";
-import { useMintConfigShownContext, useSetMintConfigShownContext } from "./Contexts/ModalStateProvider";
+import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 export function MintConfig({ nodeRef}: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const manifestData = useManifestData()

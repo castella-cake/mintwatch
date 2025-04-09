@@ -16,14 +16,14 @@ export function useVideoData(smId: string) {
                 let initialResponse: VideoDataRootObject | null = null;
                 let fetchedVideoInfo: VideoDataRootObject | null = null;
                 if (
-                    document.getElementsByName("initial-response").length > 0 &&
+                    document.getElementsByName("server-response").length > 0 &&
                     typeof document
-                        .getElementsByName("initial-response")[0]
+                        .getElementsByName("server-response")[0]
                         .getAttribute("content") === "string"
                 ) {
                     initialResponse = JSON.parse(
                         document
-                            .getElementsByName("initial-response")[0]
+                            .getElementsByName("server-response")[0]
                             .getAttribute("content")!,
                     ) as VideoDataRootObject;
                     //console.log("using initialResponse", initialResponse)
@@ -37,7 +37,7 @@ export function useVideoData(smId: string) {
                     initialResponse.data?.response.video.id === smId
                 ) {
                     fetchedVideoInfo = initialResponse;
-                    document.getElementsByName("initial-response")[0].remove(); // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。
+                    document.getElementsByName("server-response")[0].remove(); // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。
                     //console.log("using initialResponse")
                 } else fetchedVideoInfo = await getVideoInfo(smId);
                 if (!fetchedVideoInfo || !fetchedVideoInfo.data) return;

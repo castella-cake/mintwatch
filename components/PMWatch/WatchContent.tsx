@@ -10,7 +10,7 @@ import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "./modules/Search"
-import { useSetVideoActionModalStateContext } from "./modules/Contexts/ModalStateProvider"
+import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { wheelTranslator } from "../commonFunction";
 
 function BottomInfo() {

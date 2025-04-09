@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 //import { useLang } from "../localizeHook";
 import { Timeline } from "./Timeline";
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { wheelTranslator } from "../commonFunction";
 import Recommend from "./Recommend";
 import UserVideos from "./UserVideos";

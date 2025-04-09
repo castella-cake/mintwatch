@@ -1,8 +1,8 @@
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
-import { VideoDataProvider } from "./Contexts/VideoDataProvider";
-import { CommentDataProvider } from "./Contexts/CommentDataProvider";
-import { PlaylistProvider } from "./Contexts/PlaylistProvider";
-import { RecommendProvider } from "./Contexts/RecommendProvider";
+import { VideoDataProvider } from "@/components/Global/Contexts/VideoDataProvider";
+import { CommentDataProvider } from "@/components/Global/Contexts/CommentDataProvider";
+import { PlaylistProvider } from "@/components/Global/Contexts/PlaylistProvider";
+import { RecommendProvider } from "@/components/Global/Contexts/RecommendProvider";
 
 type smIdContext = {
     smId: string;

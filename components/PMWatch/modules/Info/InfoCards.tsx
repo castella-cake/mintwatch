@@ -44,7 +44,7 @@ export function Card({ href, thumbnailUrl, thumbText, subTitle: ownerName, addit
             <span className="info-card-durationtext">{thumbText}</span>
         </div>}
         <div className="info-card-text">
-            { children && <span className="info-card-title">{children}</span> }<br />
+            { children && <span className="info-card-title">{children}</span> }
             { ownerName && <span className="info-card-owner">{ownerName}</span> }
         </div>
     </div>

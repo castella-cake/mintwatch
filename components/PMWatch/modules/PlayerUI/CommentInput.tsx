@@ -4,7 +4,7 @@ import type { ChangeEvent, Dispatch, KeyboardEvent, RefObject, SetStateAction } 
 import type { VideoDataRootObject } from "@/types/VideoData";
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData";
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData";
-import { useCommentControllerContext } from "../Contexts/CommentDataProvider";
+import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider";
 //import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
 

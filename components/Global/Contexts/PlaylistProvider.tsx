@@ -5,7 +5,7 @@ import {
     mylistToSimplifiedPlaylist,
     playlistData,
     seriesToSimplifiedPlaylist,
-} from "../Playlist";
+} from "../../PMWatch/modules/Playlist";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 
 type PlaylistContext = {
