@@ -9,11 +9,11 @@ import ReactFocusLock from "react-focus-lock";
 import { Mylist } from "./MylistUI";
 import { Share } from "./ShareUI";
 import { RefObject } from "react";
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import OnboardingHelp from "./OnboardingHelp";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import { CSSTransition } from "react-transition-group";
-import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "../Contexts/ModalStateProvider";
+import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 export function VideoActionModal({
     nodeRef,

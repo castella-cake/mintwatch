@@ -1,4 +1,4 @@
-import { useVideoInfoContext } from "./Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 
 export function TitleElement() {
     const { videoInfo } = useVideoInfoContext();

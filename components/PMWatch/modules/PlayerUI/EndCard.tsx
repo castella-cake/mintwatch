@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
 import { InfoCard } from "../Info/InfoCards";
-import { useVideoInfoContext, useVideoRefContext } from "../Contexts/VideoDataProvider";
+import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()

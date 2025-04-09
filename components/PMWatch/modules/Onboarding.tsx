@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { useSetVideoActionModalStateContext } from "./Contexts/ModalStateProvider";
+import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const { localStorage, setLocalStorageValue} = useStorageContext()

@@ -19,11 +19,11 @@ import { TimeMachine } from "./TimeMachineUi";
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "../Contexts/VideoDataProvider";
+} from "@/components/Global/Contexts/VideoDataProvider";
 import {
     useCommentContentContext,
     useCommentControllerContext,
-} from "../Contexts/CommentDataProvider";
+} from "@/components/Global/Contexts/CommentDataProvider";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement | null>;

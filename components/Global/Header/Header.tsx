@@ -3,15 +3,24 @@ import { IconBell, IconBellRingingFilled, IconCategory, IconDoorExit, IconTool }
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import useOshiraseBell from "@/hooks/bellHooks";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
+import ServerContextRootObject from "@/types/serverContextData";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
 }
 
-function Header() {
+function Header({ contextData }: { contextData?: ServerContextRootObject }) {
     //const [hover, setHover] = useState(false)
     const { videoInfo } = useVideoInfoContext();
     const videoViewerInfo = videoInfo?.data.response.viewer;
+
+    const alternativeUserData = contextData ? {
+        nickname: contextData.sessionUser.nickname,
+        id: contextData.sessionUser.id,
+        isPremium: contextData.sessionUser.type === "premium"
+    } : null
+
+    const simplifiedUserData = videoViewerInfo || alternativeUserData || null;
 
     const setIsMintConfigShown = useSetMintConfigShownContext();
     const setHeaderModalType = useSetHeaderActionStateContext();
@@ -66,10 +75,10 @@ function Header() {
                         }}>
                             <IconCategory/>
                         </button>
-                        {videoViewerInfo && (
+                        {simplifiedUserData && (
                             <a href="https://www.nicovideo.jp/my" className="header-account">
                                 <img
-                                    src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(videoViewerInfo.id / 10000)}/${videoViewerInfo.id.toString()}.jpg`}
+                                    src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(simplifiedUserData.id / 10000)}/${simplifiedUserData.id.toString()}.jpg`}
                                     onError={(e: any) => {
                                         e.target.src =
                                             "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/defaults/blank.jpg";
@@ -78,12 +87,12 @@ function Header() {
                                 />
                                 <span
                                     style={
-                                        videoViewerInfo.isPremium
+                                        simplifiedUserData.isPremium
                                             ? { color: "rgb(217, 163, 0)" }
                                             : {}
                                     }
                                 >
-                                    {videoViewerInfo.nickname}
+                                    {simplifiedUserData.nickname}
                                 </span>
                             </a>
                         )}

@@ -86,6 +86,12 @@ export default defineContentScript({
                         .getElementsByName("server-response")[0]
                         .getAttribute("content")) ??
                 "";
+            const initialContext =
+                (document.getElementsByName("server-context").length > 0 &&
+                    document
+                        .getElementsByName("server-context")[0]
+                        .getAttribute("content")) ??
+                "";
             //console.log("DOM serverResponse", initialResponse)
             const initialClassNames =
                 document.documentElement.classList.values();
@@ -117,7 +123,8 @@ export default defineContentScript({
                 <head>
                     <meta charset="utf-8">
                     <link rel="shortcut icon" href="https://resource.video.nimg.jp/web/images/favicon/favicon.ico">
-                    <meta name="initial-response" content="{}">
+                    <meta name="server-response" content="{}">
+                    <meta name="server-context" content="{}">
                 </head>
                 <body>
                     <div id="ads-130"></div>
@@ -130,12 +137,21 @@ export default defineContentScript({
             //console.log("initialResponse", JSON.parse(initialResponse))
             // さっき書き換える前に取得した値を書き戻す。innerHTMLに直接埋め込むのは信用できない。
             if (
-                document.getElementsByName("initial-response").length > 0 &&
+                document.getElementsByName("server-response").length > 0 &&
                 initialResponse
             ) {
                 document
-                    .getElementsByName("initial-response")[0]
+                    .getElementsByName("server-response")[0]
                     .setAttribute("content", initialResponse);
+                //console.log("embedded")
+            }
+            if (
+                document.getElementsByName("server-context").length > 0 &&
+                initialContext
+            ) {
+                document
+                    .getElementsByName("server-context")[0]
+                    .setAttribute("content", initialContext);
                 //console.log("embedded")
             }
             // PepperMint+ のダークモードが使えるようにここも引き継ぐ

@@ -24,12 +24,12 @@ import {
     useActionTrackDataContext,
     useVideoInfoContext,
     useVideoRefContext,
-} from "../Contexts/VideoDataProvider";
+} from "@/components/Global/Contexts/VideoDataProvider";
 import {
     useCommentContentContext,
-} from "../Contexts/CommentDataProvider";
-import { usePlaylistContext } from "../Contexts/PlaylistProvider";
-import { useRecommendContext } from "../Contexts/RecommendProvider";
+} from "@/components/Global/Contexts/CommentDataProvider";
+import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
 import { VideoTitle } from "../Info/Info";
 
 type Props = {

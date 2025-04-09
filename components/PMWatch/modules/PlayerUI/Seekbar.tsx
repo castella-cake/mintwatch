@@ -3,7 +3,7 @@ import { secondsToTime } from "../commonFunction";
 
 import type { Comment as CommentItem} from "@/types/CommentData";
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
-import { useCommentContentContext } from "../Contexts/CommentDataProvider";
+import { useCommentContentContext } from "@/components/Global/Contexts/CommentDataProvider";
 
 type Props = {
     currentTime: number,

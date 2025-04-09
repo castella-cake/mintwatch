@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from "react";
-import { useSmIdContext } from "../WatchDataContext";
+import { useSmIdContext } from "../../PMWatch/modules/WatchDataContext";
 import { RecommendDataRootObject } from "@/types/RecommendData";
 
 const IRecommendContext = createContext<RecommendDataRootObject | null>(null);

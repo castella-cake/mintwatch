@@ -9,7 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { ReactNode, useEffect, useState } from "react";
 import { readableInt } from "../commonFunction";
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 
 type Props = {
     children?: ReactNode;

@@ -14,7 +14,7 @@ import { useStorageContext } from "@/hooks/extensionHook";
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "../Contexts/VideoDataProvider";
+} from "@/components/Global/Contexts/VideoDataProvider";
 import OwnerInfo from "./Owner";
 import UserFollowButton from "./UserFollowButton";
 import Tags from "./Tags";

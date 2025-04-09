@@ -115,15 +115,15 @@ export const handleCtrl = (
     }
 }
 
-export function readableInt(number: number) {
+export function readableInt(number: number, maxLength = Infinity) {
     const units = ["万","億","兆","京","垓","秭","穣","溝","潤","正","載","極","恒河沙","阿僧祇","那由他","不可思議","無量大数"]
     if ( number.toString().indexOf("e") == -1 ) {
         const stringArray = number.toString().split("").reverse()
         const length = Math.ceil(stringArray.length / 4)
         const splitArray = new Array(length).fill("").map((_, index) => stringArray.slice(index * 4, (index + 1) * 4))
         const afterStringArray = splitArray.map((chars, index) => {
-            if (chars.length === 4 && index + 1 !== length) {
-                return [...chars, units[index]]
+            if (splitArray[index - 1] && units[index - 1] && splitArray[index - 1].length === 4) {
+                return [units[index - 1], ...chars]
             } else {
                 return chars
             }
@@ -132,7 +132,7 @@ export function readableInt(number: number) {
             if ((index) % 4 !== 0) return char
             return `${char}${units[((index) / 4) - 1] || ""}`
         })*/
-        return afterStringArray.reduce((prev,current) => prev.concat(current), []).reverse().join("")
+        return afterStringArray.reverse().slice(0, maxLength).reduce((prev,current) => current.concat(prev), []).reverse().join("")
     } else {
         return number
     }
