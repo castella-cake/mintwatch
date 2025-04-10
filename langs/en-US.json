@@ -18,6 +18,15 @@
             "hint": "Specifies the appearance of the player used in MintWatch.",
             "select": ["Default", "cresc.", "Shinjuku"]
         },
+        "enableFixedHeader": {
+            "name": "Enable Fixed Header",
+            "hint": "The header will always be displayed even when scrolling. It remains hidden during fullscreen mode"
+        },
+        "headerActionType": {
+            "name": "Header Action Display Type",
+            "hint": "Sets how to open notifications or My Menu in the header",
+            "select": ["Click to Open", "Open on Hover"]
+        },
         "otherSettings": {
             "name": "Detailed settings"
         },

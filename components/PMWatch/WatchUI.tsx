@@ -15,7 +15,6 @@ import {
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider";
 import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
-import { HeaderActionStacker } from "@/components/Global/Header/HeaderActionStacker";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 function CreateWatchUI() {
@@ -134,8 +133,7 @@ function CreateWatchUI() {
             </CSSTransition>
 
             {!isFullscreenUi && <>
-                <Header />
-                <HeaderActionStacker nodeRef={headerActionStackerElemRef} />
+                <Header headerActionStackerElemRef={headerActionStackerElemRef} />
                 <MintConfig nodeRef={mintConfigElemRef} />
                 <VideoActionModal
                     nodeRef={videoActionModalElemRef}

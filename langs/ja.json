@@ -1,13 +1,8 @@
 {
     "SETTINGS_DESC": "MintWatch の設定を変更します。\n設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
     "SETTINGS_AREATITLE": {
-        "hide": "要素の非表示",
-        "watchpage": "視聴ページ",
-        "mintwatch": "MintWatch",
-        "nicopedia": "大百科",
-        "other": "その他",
-        "global": "グローバル",
-        "quickpanel": "クイックパネル"
+        "mintwatch": "視聴ページ",
+        "header": "MintWatch ヘッダー"
     },
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
@@ -23,6 +18,15 @@
             "name": "プレイヤーテーマ",
             "hint": "MintWatchで使用するプレイヤーの見た目を指定します。",
             "select": ["デフォルト", "cresc.", "Shinjuku"]
+        },
+        "enableFixedHeader": {
+            "name": "ヘッダーを画面に固定",
+            "hint": "スクロールしてもヘッダーが常に表示され続けるようになります。フルスクリーン時は引き続き非表示になります"
+        },
+        "headerActionType": {
+            "name": "ヘッダーアクションの表示タイプ",
+            "hint": "ヘッダーにある通知ボタンやマイメニューをどのようにして開くかを設定します",
+            "select": ["クリックで開く", "ホバーで開く"]
         },
         
         "otherSettings": {

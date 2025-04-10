@@ -1,16 +1,22 @@
 //import { useState } from "react";
-import { IconBell, IconBellRingingFilled, IconCategory, IconDoorExit, IconTool } from "@tabler/icons-react";
+import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconDoorExit, IconTool } from "@tabler/icons-react";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import useOshiraseBell from "@/hooks/bellHooks";
-import { useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
+import { useHeaderActionStateContext, useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
 import ServerContextRootObject from "@/types/serverContextData";
+import { HeaderActionStacker } from "./HeaderActionStacker";
+import { RefObject } from "react";
+import { CSSTransition } from "react-transition-group";
+import Notifications from "./Notifications";
+import MyMenu from "./MyMenu";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
 }
 
-function Header({ contextData }: { contextData?: ServerContextRootObject }) {
+function Header({ contextData, headerActionStackerElemRef }: { contextData?: ServerContextRootObject, headerActionStackerElemRef: RefObject<HTMLDivElement | null> }) {
     //const [hover, setHover] = useState(false)
+    const { syncStorage } = useStorageContext()
     const { videoInfo } = useVideoInfoContext();
     const videoViewerInfo = videoInfo?.data.response.viewer;
 
@@ -23,12 +29,28 @@ function Header({ contextData }: { contextData?: ServerContextRootObject }) {
     const simplifiedUserData = videoViewerInfo || alternativeUserData || null;
 
     const setIsMintConfigShown = useSetMintConfigShownContext();
+    const headerModalType = useHeaderActionStateContext();
     const setHeaderModalType = useSetHeaderActionStateContext();
 
     const { isBellActive, setIsBellActive } = useOshiraseBell();
 
+    const notificationElemWrapperRef = useRef(null);
+    const myMenuElemWrapperRef = useRef(null);
+
+    const isFixedHeaderEnabled = syncStorage.enableFixedHeader ?? getDefault("enableFixedHeader")
+    const headerActionType = syncStorage.headerActionType ?? getDefault("headerActionType")
+    const isSetToQuickHeaderAction = headerActionType === "quick"
+    
+    function onNotificationOpen() {
+        setHeaderModalType((state) => state !== "notifications" || isSetToQuickHeaderAction ? "notifications" : false)
+        if (isBellActive) setIsBellActive(false)
+    }
+    function onMyMenuOpen() {
+        setHeaderModalType((state) => state !== "mymenu" || isSetToQuickHeaderAction ? "mymenu" : false)
+    }
+
     return (
-        <div className="header-container global-flex" id="pmw-header">
+        <div className="header-container global-flex" id="pmw-header" data-is-fixed={isFixedHeaderEnabled}>
             <div className="global-flex1 header-left-container global-flex">
                 <button
                     onClick={() => {
@@ -64,19 +86,30 @@ function Header({ contextData }: { contextData?: ServerContextRootObject }) {
                 </div>
                 <div className="header-center-right">
                     <div className="global-flex header-usercontainer">
-                        <button className="header-notificationbutton" onClick={() => {
-                            setHeaderModalType((state) => state === "notifications" ? false : "notifications")
-                            if (isBellActive) setIsBellActive(false)
-                        }}>
+                        <button
+                            className="header-notificationbutton"
+                            onClick={onNotificationOpen}
+                            onMouseEnter={() => {if (isSetToQuickHeaderAction) onNotificationOpen()}}
+                            onMouseLeave={() => {if (isSetToQuickHeaderAction) setHeaderModalType(false)}}
+                            data-is-active={headerModalType === "notifications"}
+                        >
                             { isBellActive ? <IconBellRingingFilled/>  : <IconBell/> }
                         </button>
-                        <button className="header-mymenubutton" onClick={() => {
-                            setHeaderModalType((state) => state === "mymenu" ? false : "mymenu")
-                        }}>
+                        { !isSetToQuickHeaderAction && <button
+                            className="header-mymenubutton"
+                            onClick={onMyMenuOpen}
+                            data-is-active={headerModalType === "mymenu"}
+                        >
                             <IconCategory/>
-                        </button>
+                        </button> }
                         {simplifiedUserData && (
-                            <a href="https://www.nicovideo.jp/my" className="header-account">
+                            <a
+                                href="https://www.nicovideo.jp/my"
+                                className="header-account"
+                                onMouseEnter={() => {if (isSetToQuickHeaderAction) onMyMenuOpen()}}
+                                onMouseLeave={() => {if (isSetToQuickHeaderAction) setHeaderModalType(false)}}
+                                data-is-active={headerModalType === "mymenu" && isSetToQuickHeaderAction}
+                            >
                                 <img
                                     src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(simplifiedUserData.id / 10000)}/${simplifiedUserData.id.toString()}.jpg`}
                                     onError={(e: any) => {
@@ -94,10 +127,34 @@ function Header({ contextData }: { contextData?: ServerContextRootObject }) {
                                 >
                                     {simplifiedUserData.nickname}
                                 </span>
+                                { isSetToQuickHeaderAction && <IconChevronDown/> }
                             </a>
                         )}
+                        <CSSTransition
+                            nodeRef={notificationElemWrapperRef}
+                            in={ headerModalType === "notifications" && isSetToQuickHeaderAction }
+                            timeout={300}
+                            unmountOnExit
+                            classNames="headeraction-quickmodal-transition"
+                        >
+                            <div className="headeraction-quickmodal-wrapper" ref={notificationElemWrapperRef} onMouseEnter={onNotificationOpen} onMouseLeave={() => setHeaderModalType(false)}>
+                                <Notifications/>
+                            </div>
+                        </CSSTransition>
+                        <CSSTransition
+                            nodeRef={myMenuElemWrapperRef}
+                            in={ headerModalType === "mymenu" && isSetToQuickHeaderAction }
+                            timeout={300}
+                            unmountOnExit
+                            classNames="headeraction-quickmodal-transition"
+                        >
+                            <div className="headeraction-quickmodal-wrapper" ref={myMenuElemWrapperRef} onMouseEnter={onMyMenuOpen} onMouseLeave={() => setHeaderModalType(false)}>
+                                <MyMenu />
+                            </div>
+                        </CSSTransition>
                     </div>
                 </div>
+                
             </div>
 
             <div className="global-flex1 global-flex header-right-container">
@@ -108,6 +165,7 @@ function Header({ contextData }: { contextData?: ServerContextRootObject }) {
                     <IconDoorExit />
                 </button>
             </div>
+            { !isSetToQuickHeaderAction && <HeaderActionStacker nodeRef={headerActionStackerElemRef} /> }
         </div>
     );
 }

@@ -86,3 +86,38 @@
 .headeraction-select {
     flex: 1;
 }
+
+.headeraction-quickmodal-wrapper {
+    position: relative;
+    text-align: left;
+    > div {
+        left: inherit;
+        bottom: inherit;
+        top: var(--header-height)
+        background: var(--bgcolor1);
+        width: min(25em,98vw);
+        height: 90vh;
+        padding: 16px;
+        border: var(--border);
+        border-radius: var(--radius);
+        font-size: 1rem;
+        color: var(--textcolor1);
+    }
+}
+
+.headeraction-quickmodal-transition {
+    &-enter, &-exit-active {
+        --translateY: -10%;
+    }
+    &-enter-active, &-exit-active {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    &-enter, &-exit-active {
+        transform: translateY(var(--translateY))
+        opacity: 0;
+    }
+    &-enter-done, &-enter-active {
+        transform: translateY(0%)
+        opacity: 1;
+    }
+}

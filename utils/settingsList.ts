@@ -60,6 +60,19 @@ const settings: settingList = {
             ]
         }
     ],
+    header: [
+        {
+            type: "checkbox",
+            name: "enableFixedHeader",
+            default: true,
+        },
+        {
+            type: "selectButtons",
+            name: "headerActionType",
+            values: ["default", "quick"],
+            default: "default"
+        },
+    ]
 }
 
 export function getDefault(name: string) {
