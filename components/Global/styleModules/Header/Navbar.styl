@@ -1,0 +1,90 @@
+.navbar-container {
+    display: flex;
+    align-items: center;
+    height: var(--navbar-height)
+    padding: 0 16px;
+    gap: 16px;
+
+    .navbar-sidemenu-button {
+        background: transparent;
+        color: var(--textcolor1);
+        border-radius: 1024px;
+        border: none;
+        padding: 0;
+        &:hover {
+            background: var(--hover1);
+        }
+        svg {
+            vertical-align: middle;
+            padding: 8px;
+        }
+    }
+    .navbar-logo a {
+        background: var(--navbar-logo-url);
+        aspect-ratio: 300 / 45;
+        height: 1.25em;
+        display: block;
+    }
+
+    .searchbox-container {
+        display: flex;
+        background: var(--bgcolor2);
+        padding: 0px;
+        border-radius: var(--radius);
+        align-items: center;
+        gap: 0;
+        border: var(--border);
+        height: fit-content;
+        .searchbox-typeselector {
+            font-size: 1.5rem;
+            padding: 0 8px;
+        }
+        .searchbox-type-text {
+            display: none;
+        }
+        .searchbox-type-item {
+            padding: 4px;
+            border-radius: 8px;
+            color: var(--textcolor3);
+            svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+        .searchbox-type-item.searchbox-type-active {
+            color: var(--textcolor1);
+            padding: 4px;
+        }
+        .searchbox-inputcontainer {
+            input {
+                border: none;
+                border-left: var(--border);
+                border-radius: 0;
+            }
+            button {
+                background: var(--accent1);
+                border: none;
+                padding: 6px 12px;
+                svg {
+                    height: 1.4rem;
+                    width: 1.4rem;
+                }
+            }
+        }
+    }
+}
+
+/*
+.navbar-container {
+    opacity: 1;
+    height: auto;
+    transition: opacity 0.5s ease, height 0.2s ease;
+    interpolate-size: allow-keywords;
+}
+.header-container:not(:hover):not(:has(.headeraction-modal-container)) .navbar-container:not(:has(:focus)) {
+    opacity: 0;
+    height: 0;
+    padding: 0 16px !important;
+    transition: opacity 0.1s ease, height 0.2s ease;
+}
+*/

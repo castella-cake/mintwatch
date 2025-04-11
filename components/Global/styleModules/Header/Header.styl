@@ -1,12 +1,25 @@
 .header-container {
     --header-height: 36px;
     --header-width: 990px;
-    background: #353535;
-    color: #fff
-    height: var(--header-height);
+    --navbar-height: 55px;
     position: relative;
     z-index: 100;
     margin-bottom: 16px;
+    .header-upper-container {
+        background: @css{rgb(32 32 32 / 0.9)};
+        color: #fff;
+        height: var(--header-height);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+    }
+    .header-bottom-container {
+        background: @css{rgb(from var(--bgcolor2) r g b / 0.8);};
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
+    .header-upper-container, .header-bottom-container {
+        position: relative;
+    }
     .header-center-container {
         justify-content: space-between;
         flex: 1.5 !important;
@@ -99,12 +112,12 @@
     }
 }
 
-.header-container a > svg {
+.header-upper-container a > svg {
     display: inline;
     vertical-align: middle;
 }
 
-.header-container a:not(.header-disabled):hover {
+.header-upper-container a:not(.header-disabled):hover {
     background: #555;
 }
 
@@ -114,15 +127,15 @@
         color: #eee;
     }
     &[data-is-active="true"] {
-        background: var(--hover1);
-        color: var(--textcolor1);
+        background: #444;
+        color: #fff;
     }
 }
 
 .header-usercontainer > button, .header-usercontainer > a {
     transition: background 0.1s ease;
     &[data-is-active="true"] {
-        background: var(--hover1);
-        color: var(--textcolor1);
+        background: #444;
+        color: #fff;
     }
 }

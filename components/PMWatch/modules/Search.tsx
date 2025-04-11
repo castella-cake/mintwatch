@@ -1,4 +1,4 @@
-import { IconSearch } from "@tabler/icons-react";
+import { IconFolder, IconMessageLanguage, IconSearch, IconTag } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 function Search() {
@@ -14,7 +14,8 @@ function Search() {
 
     const startComposition = () => setIsComposing(true);
     const endComposition = () => setIsComposing(false);
-    const searchTypesText = ["キーワード", "タグ", "マイリスト"]
+    const searchTypeTexts = ["キーワード", "タグ", "マイリスト"]
+    const searchTypeIcons = [<IconMessageLanguage/>, <IconTag/>, <IconFolder/>]
 
     function handleEnter(keyName: string) {
         if (!isComposing && keyName === 'Enter') {
@@ -35,11 +36,14 @@ function Search() {
         <div className="searchbox-typeselector">
             { Object.keys(searchTypes).map((elem, index) => {
                 const isActive = currentSearchType === index;
-                return <button key={index} className={`searchbox-type-item ${isActive && 'searchbox-type-active'}`} onClick={() => setSearchType(index)}>{searchTypesText[index]}</button>;
+                return <button key={index} className={`searchbox-type-item ${isActive && 'searchbox-type-active'}`} onClick={() => setSearchType(index)}>
+                    {searchTypeIcons[index]}
+                    <span className="searchbox-type-text">{searchTypeTexts[index]}</span>
+                </button>;
             })}
         </div>
         <div className="searchbox-inputcontainer">
-            <input type="text" ref={inputRef} placeholder={`${searchTypesText[currentSearchType]}で検索...`} onKeyDown={(e) => {handleEnter(e.key)}} onCompositionStart={startComposition} onCompositionEnd={endComposition}/>
+            <input type="text" ref={inputRef} placeholder={`${searchTypeTexts[currentSearchType]}で検索...`} onKeyDown={(e) => {handleEnter(e.key)}} onCompositionStart={startComposition} onCompositionEnd={endComposition}/>
             <button onClick={() => {onSearch()}} type="button" title="検索"><IconSearch/></button>
         </div>
     </div>
