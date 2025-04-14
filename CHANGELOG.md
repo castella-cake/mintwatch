@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 再生キューへのD&Dがスマートになりました
 - ヘッダーアクションの表示方法をカスタマイズできるようになりました
 
+### Fixed
+- ランキングページからの視聴ページ置き換えが正しく機能しない問題を緩和しました
+
 ## 0.5.1 - 2025/04/01
 
 ### Added
