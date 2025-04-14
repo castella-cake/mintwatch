@@ -1,5 +1,5 @@
 import Search from "@/components/PMWatch/modules/Search";
-import { IconMenu2, IconPencil } from "@tabler/icons-react";
+import { IconMenu2 } from "@tabler/icons-react";
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts/ModalStateProvider";
 import NavbarCustomArea from "./NavbarCustomArea";
 import { Dispatch, SetStateAction } from "react";

@@ -4,7 +4,7 @@ import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
-import { Dispatch, ReactNode, SetStateAction } from "react"
+import { Dispatch, SetStateAction } from "react"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [

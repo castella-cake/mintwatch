@@ -1,5 +1,4 @@
 import {
-    closestCenter,
     DndContext,
     DragCancelEvent,
     DragEndEvent,
@@ -19,11 +18,10 @@ import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemCo
 import { arrayMove } from "@dnd-kit/sortable";
 import { ReactNode } from "react";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
-import { playlistVideoItem } from "./Playlist";
 import { isValidRecommendItem } from "@/utils/playlistUtils";
 
 let PREVIEW_UPDATE_TIMEOUT = 10
-
+/*
 function insertPlaylistVideoItem(playlist: playlistVideoItem[], targetId: string, playlistVideoItem: playlistVideoItem) {
     const playlistCopy = [...playlist]; // arrのコピーを生成
     
@@ -34,7 +32,7 @@ function insertPlaylistVideoItem(playlist: playlistVideoItem[], targetId: string
     }
     
     return playlistCopy; // 変更後の配列のコピーを返す
-}
+}*/
 
 function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
     if (isValidRecommendItem(draggingItem)) {

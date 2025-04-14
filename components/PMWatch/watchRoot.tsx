@@ -1,4 +1,3 @@
-import { scan } from "react-scan";
 import { StrictMode } from "react";
 
 import PluginList from "@/components/Global/PluginList";
