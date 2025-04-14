@@ -35,6 +35,11 @@
 .sidemenu-item {
     text-decoration: none;
     padding: 8px;
+    border-radius: var(--radius);
+    color: var(--textcolor1);
+    &:hover {
+        background: var(--hover1)
+    }
 }
 
 .sidemenu-item svg {
@@ -71,6 +76,27 @@
 
 .header-container[data-is-fixed="false"] .sidemenu-closebutton {
     display: block;
+}
+
+.sidemenu-editmode-button {
+    margin-top: auto;
+    background: transparent;
+    color: inherit;
+    border-radius: var(--border);
+    border: none;
+    text-align: left;
+    padding: 8px;
+    cursor: pointer;
+    svg {
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+    span {
+        vertical-align: middle;
+    }
+    &:hover {
+        background: var(--hover1);
+    }
 }
 
 .sidemenu-transition {

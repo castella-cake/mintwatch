@@ -2,7 +2,9 @@ import ReactFocusLock from "react-focus-lock"
 import { CSSTransition } from "react-transition-group"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts/ModalStateProvider"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
-import { IconX } from "@tabler/icons-react"
+import { IconPencil, IconX } from "@tabler/icons-react"
+import { useDraggable } from "@dnd-kit/core"
+import { Dispatch, ReactNode, SetStateAction } from "react"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -20,7 +22,22 @@ const SideMenuContents: SideMenuEntry[] = [
     NavigationObject.premiumOnlyVideos,
 ]
 
-export default function SideMenu({ nodeRef }: { nodeRef: React.RefObject<HTMLDivElement | null> }) {
+function SideMenuItem({ item, isEditMode }: { item: SideMenuItem, isEditMode: boolean }) {
+    const {attributes, listeners, setNodeRef, isDragging} = useDraggable({
+        id: `sidemenu-${item.id}`,
+        data: { navigationItemId: item.id },
+        disabled: !isEditMode,
+    });
+    const style = {
+        ...( isDragging && {pointerEvents: ("none" as React.CSSProperties["pointerEvents"])})
+    };
+    return <a href={item.href} className="sidemenu-item" ref={setNodeRef} {...attributes} {...listeners} style={style}>
+        {item.icon ?? <></>}
+        <span className="sidemenu-item-label">{item.label}</span>
+    </a>
+}
+
+export default function SideMenu({ nodeRef, isEditMode, setIsEditMode }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> }) {
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
 
@@ -46,13 +63,11 @@ export default function SideMenu({ nodeRef }: { nodeRef: React.RefObject<HTMLDiv
                                 return <div className="sidemenu-separator" key={index} />
                             }
                             if ('href' in item) return (
-                                <a key={index} href={item.href} className="sidemenu-item">
-                                    {item.icon ?? <></>}
-                                    <span className="sidemenu-item-label">{item.label}</span>
-                                </a>
+                                <SideMenuItem key={index} item={item} isEditMode={isEditMode} />
                             )
                         })
                     }
+                    <button className="sidemenu-editmode-button" onClick={() => setIsEditMode(!isEditMode)}><IconPencil/><span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span></button>
                 </div>
             </ReactFocusLock>
         </div>

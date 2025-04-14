@@ -1,8 +1,10 @@
 import Search from "@/components/PMWatch/modules/Search";
-import { IconMenu2 } from "@tabler/icons-react";
+import { IconMenu2, IconPencil } from "@tabler/icons-react";
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts/ModalStateProvider";
+import NavbarCustomArea from "./NavbarCustomArea";
+import { Dispatch, SetStateAction } from "react";
 
-export default function Navbar() {
+export default function Navbar({ isEditMode, setIsEditMode }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> } ) {
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
     return <div className="navbar-container" id="pmw-navbar">
@@ -19,5 +21,6 @@ export default function Navbar() {
             </a>
         </div>
         <Search/>
+        <NavbarCustomArea isEditMode={isEditMode} setIsEditMode={setIsEditMode}/>
     </div>
 }

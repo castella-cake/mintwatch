@@ -11,6 +11,7 @@ import Notifications from "./Notifications";
 import MyMenu from "./MyMenu";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import { NavigationDndWrapper } from "./NavigationCustomDragContext";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
@@ -54,7 +55,7 @@ function Header({ contextData, headerActionStackerElemRef, sideMenuElemRef }: { 
     }
 
     return (
-        
+        <NavigationDndWrapper>
         <div className="header-container" id="pmw-header" data-is-fixed={isFixedHeaderEnabled}>
             <div className="header-upper-container global-flex">
                 <div className="global-flex1 header-left-container global-flex">
@@ -173,11 +174,12 @@ function Header({ contextData, headerActionStackerElemRef, sideMenuElemRef }: { 
                 </div>
             </div>
             <div className="header-bottom-container">
-                <Navbar/>
+                <Navbar isEditMode={isEditMode} setIsEditMode={setIsEditMode}/>
             </div>
-            <SideMenu nodeRef={sideMenuElemRef}/>
+            <SideMenu nodeRef={sideMenuElemRef} isEditMode={isEditMode} setIsEditMode={setIsEditMode}/>
             { !isSetToQuickHeaderAction && <HeaderActionStacker nodeRef={headerActionStackerElemRef} /> }
         </div>
+        </NavigationDndWrapper>
     );
 }
 

@@ -25,55 +25,114 @@
         height: 1.25em;
         display: block;
     }
+}
 
-    .searchbox-container {
-        display: flex;
-        background: var(--bgcolor2);
-        padding: 0px;
-        border-radius: var(--radius);
-        align-items: center;
-        gap: 0;
+.navbar-custom-area {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    border-radius: var(--radius);
+    position: relative;
+    &[data-is-editmode="true"] {
         border: var(--border);
-        height: fit-content;
-        .searchbox-typeselector {
-            font-size: 1.5rem;
-            padding: 0 8px;
+        border-style: dotted;
+        border-width: 2px;
+    }
+    .navbar-custom-area-item {
+        display: block;
+        padding: 4px;
+        border-radius: var(--radius);
+        color: var(--textcolor2);
+        svg {
+            vertical-align: middle;
         }
-        .searchbox-type-text {
-            display: none;
+
+        &:hover {
+            background: var(--hover1)
+            color: var(--textcolor1); 
         }
-        .searchbox-type-item {
-            padding: 4px;
-            border-radius: 8px;
-            color: var(--textcolor3);
+    }
+    .navbar-custom-area-edit-done-button {
+        margin-left: 8px;
+        background: transparent;
+        color: var(--textcolor1);
+        border: var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        &:hover {
+            background: var(--bgcolor2);
+        }
+        svg {
+            vertical-align: middle;
+        }
+    }
+    .navbar-custom-area-editmode-tips {
+        align-self: center;
+        opacity: 0.8;
+        font-size: 0.8rem;
+        margin: 4px 0px;
+        position: absolute;
+        bottom: calc(-3rem - 16px);
+        width: max-content;
+        left: 0;
+        background: var(--bgcolor1);
+        padding: 8px;
+        border-radius: var(--radius);
+        border: var(--border);
+        box-shadow: var(--box-shadow);
+    }
+}
+
+.navigation-custom-drag-overlay div {
+    width: min-content;
+}
+
+.navbar-container .searchbox-container {
+    display: flex;
+    background: var(--bgcolor2);
+    padding: 0px;
+    border-radius: var(--radius);
+    align-items: center;
+    gap: 0;
+    border: var(--border);
+    height: fit-content;
+    .searchbox-typeselector {
+        font-size: 1.5rem;
+        padding: 0 8px;
+    }
+    .searchbox-type-text {
+        display: none;
+    }
+    .searchbox-type-item {
+        padding: 4px;
+        border-radius: 8px;
+        color: var(--textcolor3);
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+    .searchbox-type-item.searchbox-type-active {
+        color: var(--textcolor1);
+        padding: 4px;
+    }
+    .searchbox-inputcontainer {
+        input {
+            border: none;
+            border-left: var(--border);
+            border-radius: 0;
+        }
+        button {
+            background: var(--accent1);
+            border: none;
+            padding: 6px 12px;
             svg {
-                width: 1.25rem;
-                height: 1.25rem;
-            }
-        }
-        .searchbox-type-item.searchbox-type-active {
-            color: var(--textcolor1);
-            padding: 4px;
-        }
-        .searchbox-inputcontainer {
-            input {
-                border: none;
-                border-left: var(--border);
-                border-radius: 0;
-            }
-            button {
-                background: var(--accent1);
-                border: none;
-                padding: 6px 12px;
-                svg {
-                    height: 1.4rem;
-                    width: 1.4rem;
-                }
+                height: 1.4rem;
+                width: 1.4rem;
             }
         }
     }
 }
-
 /*
 .navbar-container {
     opacity: 1;
