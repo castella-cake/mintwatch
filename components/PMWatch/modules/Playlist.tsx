@@ -5,7 +5,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
-import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider";
 
 export type playlistData = {
     type: "mylist" | "series" | "custom" | "none";
@@ -20,6 +20,7 @@ export type playlistVideoItem = {
     ownerName: string | null;
     duration: number;
     thumbnailUrl: string;
+    isPreview?: boolean;
 };
 
 export function mylistToSimplifiedPlaylist(obj: MylistResponseRootObject) {
@@ -57,7 +58,9 @@ const playlistTypeString = {
 
 function Playlist() {
     const { videoInfo } = useVideoInfoContext();
-    const { playlistData, setPlaylistData } = usePlaylistContext();
+    const playlistData = usePlaylistContext();
+    const previewPlaylistItem = usePreviewPlaylistItemContext();
+    const { setPlaylistData } = useControlPlaylistContext()
 
     const { localStorage, setLocalStorageValue } = useStorageContext();
     const localStorageRef = useRef<any>(null);
@@ -68,8 +71,14 @@ function Playlist() {
             [name]: value,
         });
     }
-    const { setNodeRef, isOver } = useDroppable({
-        id: "playlist-droppable",
+    const { setNodeRef: droppableWrapperRef } = useDroppable({
+        id: "playlist-droppable-wrapper",
+    });
+    const { setNodeRef: droppableTopRef } = useDroppable({
+        id: "playlist-droppable-top",
+    });
+    const { setNodeRef: droppableBottomRef } = useDroppable({
+        id: "playlist-droppable-bottom",
     });
 
     const [isRemoveMode, setIsRemoveMode] = useState(false);
@@ -93,22 +102,6 @@ function Playlist() {
         const currentShufflePlayState =
             localStorage.playersettings.enableShufflePlay ?? false;
         writePlayerSettings("enableShufflePlay", !currentShufflePlayState);
-        /*
-        const playlistItems = playlistData.items.slice();
-        // シャッフルしてから先頭を現在の動画に
-        for ( const [index, item] of playlistItems.entries() ) {
-            const randomIndex = Math.floor(Math.random() * playlistItems.length);
-            const randomItem = playlistItems[randomIndex];
-            playlistItems[randomIndex] = item;
-            playlistItems[index] = randomItem;
-        }
-        const currentVideoIndex = playlistItems.findIndex( item => videoInfo?.data?.response.video.id === item.id )
-        const currentVideoItem = playlistItems[currentVideoIndex];
-        const currentFirstVideoItem = playlistItems[0];
-        playlistItems[0] = currentVideoItem;
-        playlistItems[currentVideoIndex] = currentFirstVideoItem;
-
-        setPlaylistData({ ...playlistData, type: "custom", items: playlistItems });*/
     }
     function removeVideo(index: number) {
         const playlistItemsAfter = playlistData.items.filter(
@@ -121,11 +114,20 @@ function Playlist() {
         });
     }
 
+    let extendedItems = playlistData.items 
+    if (previewPlaylistItem.item && !playlistData.items.some((item) => item.itemId === previewPlaylistItem.item!.itemId)) {
+        if (previewPlaylistItem.index !== -1) {
+            extendedItems = playlistData.items.toSpliced(previewPlaylistItem.index, 0, previewPlaylistItem.item)
+        } else {
+            extendedItems = [ ...playlistData.items , previewPlaylistItem.item ]
+        }
+    }
+
     return (
         <div
             className={`playlist-container`}
             id="pmw-playlist"
-            ref={setNodeRef}
+            ref={droppableWrapperRef}
         >
             <div className="playlist-title-container global-flex stacker-title">
                 <div className="playlist-title global-flex1 global-bold">
@@ -160,11 +162,13 @@ function Playlist() {
                 </button>
             </div>
             <SortableContext
-                items={playlistData.items.map((elem) => elem.itemId)}
+                items={extendedItems.map((elem) => elem.itemId)}
             >
+                
                 <div className="playlist-items-container" data-is-removemode={isRemoveMode.toString()}>
-                    {playlistData.items.length > 0 &&
-                        playlistData.items?.map((item, index) => {
+                    <div className="playlist-droppable-area-upper" ref={droppableTopRef}></div>
+                    {extendedItems.length > 0 &&
+                        extendedItems?.map((item, index) => {
                             const isNowPlaying =
                                 videoInfo?.data?.response.video.id === item.id;
                             return (
@@ -174,11 +178,14 @@ function Playlist() {
                                     additionalQuery={`?playlist=${query}`}
                                     isNowPlaying={isNowPlaying}
                                     onRemove={() => removeVideo(index)}
+                                    isPreview={item.isPreview ?? false}
                                 />
                             );
                         })}
+                    <div className="playlist-droppable-area-lower" ref={droppableBottomRef}></div>
                 </div>
-                {playlistData.items.length < 2 && (
+                
+                {extendedItems.length < 2 && (
                     <div className="playlist-nothinghere">
                         <p>
                             ここに動画をドラッグ&ドロップしてプレイリストに追加...
@@ -186,11 +193,6 @@ function Playlist() {
                     </div>
                 )}
             </SortableContext>
-            {isOver && (
-                <div className="playlist-dropavailablehint">
-                    ここにドロップして動画を最後尾に追加...
-                </div>
-            )}
         </div>
     );
 }

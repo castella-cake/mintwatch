@@ -14,7 +14,7 @@ import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider";
-import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 function CreateWatchUI() {
@@ -26,10 +26,10 @@ function CreateWatchUI() {
     const [isFullscreenUi, setIsFullscreenUi] = useState(false);
 
     const videoRef = useVideoRefContext();
-    const { updatePlaylistState } = usePlaylistContext();
+    const { updatePlaylistState } = useControlPlaylistContext();
     const { videoInfo } = useVideoInfoContext();
 
-    function changeVideo(videoUrl: string) {
+    const changeVideo = useCallback((videoUrl: string) => {
         // 移動前にシーク位置を保存
         if (videoRef && videoRef.current instanceof HTMLVideoElement) {
             const playbackPositionBody = {
@@ -48,7 +48,7 @@ function CreateWatchUI() {
                 .replace(/\?.*/, ""),
         );
         updatePlaylistState(new URL(videoUrl).search);
-    }
+    }, [videoRef.current, smId])
 
     useEffect(() => {
         // 戻るボタンとかが発生した場合

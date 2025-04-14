@@ -64,8 +64,17 @@ a.info-card-link {
         }
     }
 }
-.info-card-nowplaying {
+.info-card[data-nowplaying="true"] {
     background: var(--bgcolor3);
+}
+.info-card[data-is-preview="true"] {
+    opacity: 0.5;
+    border: var(--border);
+    margin: 4px;
+    height: 2em;
+    .info-card-owner {
+        display: none;
+    }
 }
 
 .info-card-playingtext {

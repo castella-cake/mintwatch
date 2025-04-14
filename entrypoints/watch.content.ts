@@ -1,3 +1,4 @@
+import { scan } from "react-scan";
 import {
     getLocalStorageData,
     getSyncStorageData,
@@ -166,6 +167,9 @@ export default defineContentScript({
             if (!localStorage.playersettings)
                 browser.storage.local.set({ playersettings: {} });
 
+            scan({
+                enabled: true
+            })
             // root要素を足してレンダー！
             const body = document.body;
             const root = document.createElement("div");
