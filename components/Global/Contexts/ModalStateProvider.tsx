@@ -9,6 +9,9 @@ const ISetHeaderActionStateContext = createContext<Dispatch<SetStateAction<false
 const IMintConfigShownContext = createContext<boolean>(false);
 const ISetMintConfigShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { });
 
+const ISideMenuShownContext = createContext<boolean>(false);
+const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { });
+
 
 export function ModalStateProvider({ children }: { children: ReactNode }) {
     const [videoActionModalState, setVideoActionModalState] = useState<
@@ -18,17 +21,23 @@ export function ModalStateProvider({ children }: { children: ReactNode }) {
         false | "notifications" | "mymenu"
     >(false);
     const [mintConfigShown, setMintConfigShown] = useState(false);
+    const [isSideMenuShown, setIsSideMenuShown] = useState(false);
+
 
     return (
         <ISetMintConfigShownContext value={setMintConfigShown}>
             <IMintConfigShownContext value={mintConfigShown}>
                 <ISetHeaderActionStateContext value={setHeaderActionState}>
                     <IHeaderActionStateContext value={headerActionState}>
-                        <ISetVideoModalStateContext value={setVideoActionModalState}>
-                            <IVideoModalStateContext value={videoActionModalState}>
-                                {children}
-                            </IVideoModalStateContext>
-                        </ISetVideoModalStateContext>
+                        <ISetSideMenuShownContext value={setIsSideMenuShown}>
+                            <ISideMenuShownContext value={isSideMenuShown}>
+                                <ISetVideoModalStateContext value={setVideoActionModalState}>
+                                    <IVideoModalStateContext value={videoActionModalState}>
+                                        {children}
+                                    </IVideoModalStateContext>
+                                </ISetVideoModalStateContext>
+                            </ISideMenuShownContext>
+                        </ISetSideMenuShownContext>
                     </IHeaderActionStateContext>
                 </ISetHeaderActionStateContext>
             </IMintConfigShownContext>
@@ -59,6 +68,17 @@ export function useMintConfigShownContext() {
 export function useSetMintConfigShownContext() {
     return useContext(ISetMintConfigShownContext);
 }
+
+export function useSideMenuShownContext() {
+    return useContext(ISideMenuShownContext);
+}
+
+export function useSetSideMenuShownContext() {
+    return useContext(ISetSideMenuShownContext);
+}
+
+
+
 
 
 

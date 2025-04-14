@@ -1,12 +1,25 @@
 .header-container {
     --header-height: 36px;
     --header-width: 990px;
-    background: #353535;
-    color: #fff
-    height: var(--header-height);
+    --navbar-height: 55px;
     position: relative;
     z-index: 100;
     margin-bottom: 16px;
+    .header-upper-container {
+        background: @css{rgb(32 32 32 / 0.9)};
+        color: #fff;
+        height: var(--header-height);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+    }
+    .header-bottom-container {
+        background: @css{rgb(from var(--bgcolor2) r g b / 0.8);};
+        backdrop-filter: blur(8px);
+        z-index: 99;
+    }
+    .header-upper-container, .header-bottom-container {
+        position: relative;
+    }
     .header-center-container {
         justify-content: space-between;
         flex: 1.5 !important;
@@ -15,24 +28,24 @@
             display: flex;
         }
     }
-    a {
+    .header-center-left > a, .header-usercontainer > a {
         padding-left: 8px;
         font-size: .8rem;
         text-decoration: none;
         line-height: var(--header-height);
         color: #fff;
         align-self: center;
-        span {
+        > span {
             vertical-align: middle;
         }
+        &:last-child {
+            padding-right: 8px;
+        }
+        &.header-disabled {
+            opacity: 0.5;
+        }
     }
-    a:last-child {
-        padding-right: 8px;
-    }
-    a.header-disabled {
-        opacity: 0.5;
-    }
-    a:not(:last-child):after {
+    .header-center-left > a:not(:last-child):after {
         content: "";
         border-right: 1px solid #555;
         margin-left: 8px;
@@ -44,6 +57,13 @@
         display: flex;
         align-items: center;
         height: 100%;
+        padding: 0 8px;
+        > svg {
+            width: 1rem;
+            height: 1rem;
+            margin-left: 4px;
+            opacity: 0.8;
+        }
         > img {
             vertical-align: middle;
             border-radius: 512px;
@@ -59,7 +79,7 @@
     .header-right-container, .header-left-container {
         padding: 0 8px;
     }
-    button {
+    .header-left-container button, .header-center-container button, .header-right-container button {
         background: transparent;
         border: none;
         color: #888;
@@ -69,30 +89,53 @@
             width: 20px;
             height: 20px;
             vertical-align: middle;
-            padding: 7px 5px;
+            padding: 7px;
         }
-    }
-    button:hover {
-        color: #fff;
+        &:hover {
+            color: #fff;
+        }
     }
     .header-center-left {
         white-space: nowrap;
         overflow-x: auto;
     }
+
+    &[data-is-fixed="true"] {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 100;
+        box-shadow: 0 2px 4px #0002;
+        border-bottom: var(--border);
+    }
 }
 
-.header-container a > svg {
+.header-upper-container a > svg {
     display: inline;
     vertical-align: middle;
 }
 
-.header-container a:not(.header-disabled):hover {
+.header-upper-container a:not(.header-disabled):hover {
     background: #555;
 }
 
-.header-usercontainer button {
+.header-usercontainer > button {
     color: #ddd;
     &:hover {
         color: #eee;
+    }
+    &[data-is-active="true"] {
+        background: #444;
+        color: #fff;
+    }
+}
+
+.header-usercontainer > button, .header-usercontainer > a {
+    transition: background 0.1s ease;
+    &[data-is-active="true"] {
+        background: #444;
+        color: #fff;
     }
 }

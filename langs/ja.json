@@ -2,7 +2,8 @@
     "SETTINGS_DESC": "MintWatch の設定を変更します。\n設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
     "SETTINGS_AREATITLE": {
         "mintwatch": "MintWatch",
-        "reshogi": "Re:将棋盤"
+        "reshogi": "Re:将棋盤",
+        "header": "MintWatch ヘッダー"
     },
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
@@ -23,6 +24,15 @@
         "enableReshogi": {
             "name": "実験的: ランキングページの置き換えを有効化",
             "hint": "代替的なランキングページ。ランキングページを、壊れていなかった正しい形へ引き戻します。"
+        },
+        "enableFixedHeader": {
+            "name": "ヘッダーを画面に固定",
+            "hint": "スクロールしてもヘッダーが常に表示され続けるようになります。フルスクリーン時は引き続き非表示になります"
+        },
+        "headerActionType": {
+            "name": "ヘッダーアクションの表示タイプ",
+            "hint": "ヘッダーにある通知ボタンやマイメニューをどのようにして開くかを設定します",
+            "select": ["クリックで開く", "ホバーで開く"]
         },
         
         "otherSettings": {

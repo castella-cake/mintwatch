@@ -1,7 +1,7 @@
 // Old Twitter Layoutの実装を大いに参考にさせていただきました
 // https://github.com/dimdenGD/OldTwitter/blob/master/scripts/blockBeforeInject.js
 export default function blockScriptElement(element: Element) {
-    console.log("acting block:" , element)
+    //console.log("acting block:" , element)
     const href: string = element.getAttribute("href") ?? "";
     const src: string = element.getAttribute("src") ?? "";
     if (

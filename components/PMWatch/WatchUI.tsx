@@ -14,9 +14,8 @@ import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider";
-import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
-import { HeaderActionStacker } from "@/components/Global/Header/HeaderActionStacker";
-import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 function CreateWatchUI() {
     //const lang = useLang()
@@ -27,10 +26,10 @@ function CreateWatchUI() {
     const [isFullscreenUi, setIsFullscreenUi] = useState(false);
 
     const videoRef = useVideoRefContext();
-    const { updatePlaylistState } = usePlaylistContext();
+    const { updatePlaylistState } = useControlPlaylistContext();
     const { videoInfo } = useVideoInfoContext();
 
-    function changeVideo(videoUrl: string) {
+    const changeVideo = useCallback((videoUrl: string) => {
         // 移動前にシーク位置を保存
         if (videoRef && videoRef.current instanceof HTMLVideoElement) {
             const playbackPositionBody = {
@@ -49,7 +48,7 @@ function CreateWatchUI() {
                 .replace(/\?.*/, ""),
         );
         updatePlaylistState(new URL(videoUrl).search);
-    }
+    }, [videoRef.current, smId])
 
     useEffect(() => {
         // 戻るボタンとかが発生した場合
@@ -77,12 +76,14 @@ function CreateWatchUI() {
     // transition / outside click detection refs
     const mintConfigElemRef = useRef<HTMLDivElement>(null);
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
+    const sideMenuElemRef = useRef<HTMLDivElement>(null);
     const videoActionModalElemRef = useRef<HTMLDivElement>(null);
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null);
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setHeaderActionState = useSetHeaderActionStateContext();
     const setMintConfigShown = useSetMintConfigShownContext();
+    const setSideMenuShown = useSetSideMenuShownContext()
 
     //console.log(videoInfo)
     if (!isLoaded)
@@ -104,6 +105,7 @@ function CreateWatchUI() {
             setHeaderActionState(false)
             setVideoActionModalState(false)
             setMintConfigShown(false)
+            setSideMenuShown(false)
         }
     }
 
@@ -111,6 +113,7 @@ function CreateWatchUI() {
         if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
         if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
         if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setMintConfigShown(false)
+        if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
     }
 
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
@@ -134,8 +137,7 @@ function CreateWatchUI() {
             </CSSTransition>
 
             {!isFullscreenUi && <>
-                <Header />
-                <HeaderActionStacker nodeRef={headerActionStackerElemRef} />
+                <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef}/>
                 <MintConfig nodeRef={mintConfigElemRef} />
                 <VideoActionModal
                     nodeRef={videoActionModalElemRef}

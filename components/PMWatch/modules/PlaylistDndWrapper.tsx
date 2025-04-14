@@ -1,6 +1,8 @@
 import {
     DndContext,
+    DragCancelEvent,
     DragEndEvent,
+    DragOverEvent,
     DragOverlay,
     DragStartEvent,
     DropAnimation,
@@ -12,45 +14,25 @@ import { Card } from "./Info/InfoCards";
 import { secondsToTime } from "./commonFunction";
 import { SeriesVideoItem } from "@/types/VideoData";
 import { RecommendItem } from "@/types/RecommendData";
-import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext} from "@/components/Global/Contexts/PlaylistProvider";
 import { arrayMove } from "@dnd-kit/sortable";
 import { ReactNode } from "react";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
+import { isValidRecommendItem } from "@/utils/playlistUtils";
 
-function isValidRecommendItem(value: unknown): value is RecommendItem {
-    return (
-        typeof value === "object" &&
-        Object.prototype.hasOwnProperty.call(value, "id") &&
-        Object.prototype.hasOwnProperty.call(value, "contentType") &&
-        Object.prototype.hasOwnProperty.call(value, "recommendType") &&
-        Object.prototype.hasOwnProperty.call(value, "content")
-    );
-}
-
-function isValidSeriesVideoItem(value: unknown): value is SeriesVideoItem {
-    return (
-        typeof value === "object" &&
-        Object.prototype.hasOwnProperty.call(value, "type") &&
-        Object.prototype.hasOwnProperty.call(value, "id") &&
-        Object.prototype.hasOwnProperty.call(value, "title") &&
-        Object.prototype.hasOwnProperty.call(value, "registeredAt") &&
-        Object.prototype.hasOwnProperty.call(value, "count") &&
-        Object.prototype.hasOwnProperty.call(value, "thumbnail") &&
-        Object.prototype.hasOwnProperty.call(value, "duration") &&
-        Object.prototype.hasOwnProperty.call(value, "shortDescription") &&
-        Object.prototype.hasOwnProperty.call(value, "latestCommentSummary") &&
-        Object.prototype.hasOwnProperty.call(value, "isChannelVideo") &&
-        Object.prototype.hasOwnProperty.call(value, "isPaymentRequired") &&
-        Object.prototype.hasOwnProperty.call(value, "playbackPosition") &&
-        Object.prototype.hasOwnProperty.call(value, "owner") &&
-        Object.prototype.hasOwnProperty.call(
-            value,
-            "requireSensitiveMasking",
-        ) &&
-        Object.prototype.hasOwnProperty.call(value, "videoLive") &&
-        Object.prototype.hasOwnProperty.call(value, "isMuted")
-    );
-}
+let PREVIEW_UPDATE_TIMEOUT = 10
+/*
+function insertPlaylistVideoItem(playlist: playlistVideoItem[], targetId: string, playlistVideoItem: playlistVideoItem) {
+    const playlistCopy = [...playlist]; // arrのコピーを生成
+    
+    const index = playlistCopy.findIndex(obj => obj.itemId === targetId);
+    
+    if (index !== -1) {
+        playlistCopy.splice(index + 1, 0, playlistVideoItem); // オブジェクトを挿入
+    }
+    
+    return playlistCopy; // 変更後の配列のコピーを返す
+}*/
 
 function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
     if (isValidRecommendItem(draggingItem)) {
@@ -109,7 +91,11 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
     const [currentDraggingItem, setCurrentDraggingItem] = useState<
         unknown | null
     >(null);
-    const { playlistData, setPlaylistData } = usePlaylistContext();
+    const playlistData = usePlaylistContext()
+    const previewPlaylistItem = usePreviewPlaylistItemContext()
+    const { setPlaylistData, setPreviewPlaylistItem } = useControlPlaylistContext();
+
+    const canUpdatePreviewRef = useRef<boolean>(true)
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -139,7 +125,6 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
     }
 
     function handleDragEnd(e: DragEndEvent) {
-        if (!playlistData) return;
         //console.log(e);
         setCurrentDraggingItem(null);
         if (
@@ -148,60 +133,57 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
             e.active.data.current
         ) {
             const data = e.active.data.current as RecommendItem;
-            if (
-                !data.content ||
-                !data.content.title ||
-                !data.content.duration ||
-                !data.content.id
-            )
-                return;
-            const thisPlaylistObject = {
-                title: data.content.title,
-                id: data.content.id.toString(),
-                itemId: crypto.randomUUID(),
-                ownerName: data.content.owner.name,
-                duration: data.content.duration,
-                thumbnailUrl: data.content.thumbnail
-                    ? data.content.thumbnail.listingUrl
-                    : "",
-            };
-            setPlaylistData({
+            const thisPlaylistObject = recommendItemToPlaylistItem(data);
+            if (!thisPlaylistObject) return
+            let itemsAfter = [...playlistData.items, thisPlaylistObject]
+            if (e.over.data.current) {
+                //console.log(insertPlaylistVideoItem(playlistData.items, e.over.data.current.itemId, thisPlaylistObject))
+                let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
+                if ( e.over.data.current ) overIndex = playlistData.items.findIndex((item) => item.itemId === e.over!.data.current!.itemId)
+                if (e.over.data.current.itemId === "0") overIndex = previewPlaylistItem.index
+                if (overIndex !== -1) itemsAfter = playlistData.items.toSpliced(overIndex, 0, thisPlaylistObject)
+            }
+            setPlaylistData((playlistData) => ({
                 ...playlistData,
-                items: [...playlistData.items, thisPlaylistObject],
+                items: itemsAfter,
                 type: "custom",
-            });
+            }));
         } else if (
             e.over &&
             e.active.id.toString().includes("-series") &&
             e.active.data.current
         ) {
             const data = e.active.data.current as SeriesVideoItem;
-            if (!data.title || !data.duration || !data.id) return;
-            const thisPlaylistObject = {
-                title: data.title,
-                id: data.id.toString(),
-                itemId: crypto.randomUUID(),
-                ownerName: data.owner.name,
-                duration: data.duration,
-                thumbnailUrl: data.thumbnail ? data.thumbnail.listingUrl : "",
-            };
-            setPlaylistData({
+            const thisPlaylistObject = seriesItemToPlaylistItem(data);
+            if (!thisPlaylistObject) return
+            let itemsAfter = [...playlistData.items, thisPlaylistObject]
+            if (e.over.data.current) {
+                //console.log(insertPlaylistVideoItem(playlistData.items, e.over.data.current.itemId, thisPlaylistObject))
+                let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
+                if ( e.over.data.current ) overIndex = playlistData.items.findIndex((item) => item.itemId === e.over!.data.current!.itemId)
+                if (e.over.data.current.itemId === "0") overIndex = previewPlaylistItem.index
+                if (overIndex !== -1) itemsAfter = playlistData.items.toSpliced(overIndex, 0, thisPlaylistObject)
+            }
+            setPlaylistData((playlistData) => ({
                 ...playlistData,
-                items: [...playlistData.items, thisPlaylistObject],
+                items: itemsAfter,
                 type: "custom",
-            });
+            }));
         } else if (e.over && e.active && e.over.id !== e.active.id) {
-            const currentIdList = playlistData.items.map((elem) => elem.itemId);
-            const oldIndex = currentIdList.indexOf(e.active.id.toString());
-            const newIndex = currentIdList.indexOf(e.over.id.toString());
-            const sortAfter = arrayMove(playlistData.items, oldIndex, newIndex);
-            setPlaylistData({
-                ...playlistData,
-                items: sortAfter,
-                type: "custom",
+            setPlaylistData((playlistData) => {
+                const currentIdList = playlistData.items.map((elem) => elem.itemId);
+                const oldIndex = currentIdList.indexOf(e.active.id.toString());
+                const newIndex = currentIdList.indexOf(e.over!.id.toString());
+                const sortAfter = arrayMove(playlistData.items, oldIndex, newIndex);
+                return {
+                    ...playlistData,
+                    items: sortAfter,
+                    type: "custom",
+                }
             });
             //console.log("sortAfter", sortAfter);
         }
+        setPreviewPlaylistItem({ item: null, index: -1 })
         //setIsDraggingInfoCard(false)
     }
     function handleDragStart(e: DragStartEvent) {
@@ -210,12 +192,66 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
         setCurrentDraggingItem(e.active.data.current);
         //setIsDraggingInfoCard(true)
     }
+    function handleDragCancel(e: DragCancelEvent) {
+        setPreviewPlaylistItem({ item: null, index: -1 })
+    }
+    function handleDragOver(e: DragOverEvent) {
+        if (!e.over || !e.active.data.current || e.over.id === "playlist-droppable-wrapper" || !canUpdatePreviewRef.current) return
+        if (
+            e.active.id.toString().includes("-recommend")
+        ) {
+            const data = e.active.data.current as RecommendItem;
+            const thisPlaylistObject = recommendItemToPlaylistItem(data);
+            let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
+            if ( e.over.data.current ) overIndex = playlistData.items.findIndex((item) => item.itemId === e.over!.data.current!.itemId)
+            if (thisPlaylistObject) {
+                if (
+                    (!e.over.data.current || e.over.data.current.itemId !== "0") &&
+                    (
+                        previewPlaylistItem.index !== overIndex ||
+                        (previewPlaylistItem.item === null && overIndex === -1)
+                    )
+                ) setPreviewPlaylistItem({ item: { ...thisPlaylistObject, itemId: "0", isPreview: true }, index: overIndex })
+                canUpdatePreviewRef.current = false
+                setTimeout(() => {
+                    canUpdatePreviewRef.current = true
+                }, PREVIEW_UPDATE_TIMEOUT)
+            } else {
+                setPreviewPlaylistItem({ item: null, index: -1 })
+            }
+        } else if (
+            e.active.id.toString().includes("-series")
+        ) {
+            const data = e.active.data.current as SeriesVideoItem;
+            const thisPlaylistObject = seriesItemToPlaylistItem(data);
+            let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
+            if ( e.over.data.current ) overIndex = playlistData.items.findIndex((item) => item.itemId === e.over!.data.current!.itemId)
+            if (thisPlaylistObject) {
+                if (
+                    (!e.over.data.current || e.over.data.current.itemId !== "0") &&
+                    (
+                        previewPlaylistItem.item && previewPlaylistItem.item.id !== thisPlaylistObject.id || 
+                        previewPlaylistItem.index !== overIndex
+                    )
+                ) setPreviewPlaylistItem({ item: { ...thisPlaylistObject, itemId: "0", isPreview: true }, index: overIndex })
+                canUpdatePreviewRef.current = false
+                setTimeout(() => {
+                    canUpdatePreviewRef.current = true
+                }, PREVIEW_UPDATE_TIMEOUT)
+            } else {
+                setPreviewPlaylistItem({ item: null, index: -1 })
+            }
+        } 
+    }
 
     return (
         <DndContext
             onDragEnd={handleDragEnd}
             onDragStart={handleDragStart}
+            onDragCancel={handleDragCancel}
+            onDragOver={handleDragOver}
             sensors={sensors}
+            autoScroll={{layoutShiftCompensation: false}}
         >
             {children}
             <DragOverlay className="card-drag-overlay" modifiers={modifiers} dropAnimation={dropAnimation}>

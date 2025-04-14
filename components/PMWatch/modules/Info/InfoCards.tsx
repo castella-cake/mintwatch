@@ -36,16 +36,16 @@ function Sortable({ id, obj, children }: { id: string, obj: any, children: React
     </div>
 }
 
-export function Card({ href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title }: { href: string, thumbnailUrl?: string, thumbText?: string | ReactNode, subTitle?: string | ReactNode, additionalClassName?: string, children?: ReactNode, title: string }) {
-    return <div className={`info-card ${additionalClassName ?? ""}`}>
+export function Card({ href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, ...additionalAttribute }: { href: string, thumbnailUrl?: string, thumbText?: string | ReactNode, subTitle?: string | ReactNode, additionalClassName?: string, children?: ReactNode, title: string }) {
+    return <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
         <a className="info-card-link" href={href} title={title}></a>
         { (thumbText) && <div className="info-card-thumbnail">
             <img src={thumbnailUrl} alt={`${title} のサムネイル`}/>
             <span className="info-card-durationtext">{thumbText}</span>
         </div>}
         <div className="info-card-text">
-            { children && <span className="info-card-title">{children}</span> }
-            { ownerName && <span className="info-card-owner">{ownerName}</span> }
+            { children && <div className="info-card-title">{children}</div> }
+            { ownerName && <div className="info-card-owner">{ownerName}</div> }
         </div>
     </div>
 }
@@ -60,7 +60,7 @@ export function VideoInfo({obj, additionalQuery, isNowPlaying, isNextVideo = fal
             thumbText={obj.content.duration ? secondsToTime(obj.content.duration) : "??:??"}
             subTitle={obj.content.owner.name}
             href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
-            additionalClassName={isNowPlaying ? "info-card-nowplaying" : ""}
+            data-nowplaying={isNowPlaying}
             title={obj.content.title ?? "タイトル不明"}
         >
             {isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled/></span> }
@@ -87,7 +87,7 @@ export function MylistInfo(props: { obj: RecommendItem }) {
     )
 }
 
-export function PlaylistVideoCard({obj, additionalQuery, isNowPlaying, isNextVideo = false, onRemove}: { obj: playlistVideoItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, onRemove: () => void }) {
+export function PlaylistVideoCard({obj, additionalQuery, isNowPlaying, isNextVideo = false, onRemove, isPreview = false}: { obj: playlistVideoItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, onRemove: () => void, isPreview?: boolean }) {
     return <Sortable id={obj.itemId} obj={obj}>
         <Card
             thumbnailUrl={obj.thumbnailUrl}
@@ -95,7 +95,8 @@ export function PlaylistVideoCard({obj, additionalQuery, isNowPlaying, isNextVid
             href={`https://www.nicovideo.jp/watch/${obj.id}${additionalQuery || ""}`}
             thumbText={secondsToTime(obj.duration)}
             subTitle={<>{obj.ownerName || "非公開または退会済みユーザー"}{ !isNowPlaying && <button className="info-card-removebtn" onClick={onRemove} title="プレイリストから削除"><IconCircleMinus/></button> }</>}
-            additionalClassName={isNowPlaying ? "info-card-nowplaying" : ""}
+            data-nowplaying={isNowPlaying}
+            data-is-preview={isPreview}
         >
             { isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled/></span> }{ isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled/></span>}{obj.title}
         </Card>

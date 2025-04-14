@@ -65,6 +65,19 @@ const settings: settingList = {
             type: "checkbox",
             name: "enableReshogi",
             default: false,
+        }
+    ],
+    header: [
+        {
+            type: "checkbox",
+            name: "enableFixedHeader",
+            default: true,
+        },
+        {
+            type: "selectButtons",
+            name: "headerActionType",
+            values: ["default", "quick"],
+            default: "default"
         },
     ]
 }

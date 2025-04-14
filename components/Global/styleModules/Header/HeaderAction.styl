@@ -21,7 +21,7 @@
     top: 36px;
     margin: 8px;
     width: 25rem;
-    z-index: 100;
+    z-index: 102;
     background: var(--bgcolor1);
     box-shadow: 0 0 4px #000;
     bottom: 0;
@@ -85,4 +85,40 @@
 
 .headeraction-select {
     flex: 1;
+}
+
+.headeraction-quickmodal-wrapper {
+    position: relative;
+    z-index: 101;
+    text-align: left;
+    > div {
+        left: inherit;
+        bottom: inherit;
+        top: var(--header-height)
+        background: var(--bgcolor1);
+        width: min(25em,98vw);
+        height: 90vh;
+        padding: 16px;
+        border: var(--border);
+        border-radius: var(--radius);
+        font-size: 1rem;
+        color: var(--textcolor1);
+    }
+}
+
+.headeraction-quickmodal-transition {
+    &-enter, &-exit-active {
+        --translateY: -10%;
+    }
+    &-enter-active, &-exit-active {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    &-enter, &-exit-active {
+        transform: translateY(var(--translateY))
+        opacity: 0;
+    }
+    &-enter-done, &-enter-active {
+        transform: translateY(0%)
+        opacity: 1;
+    }
 }

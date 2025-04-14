@@ -49,16 +49,16 @@ export function WatchContent(_props: Props) {
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
 
-    function onModalStateChanged(
+    const onModalStateChanged = useCallback((
         isModalOpen: boolean,
         modalType: "mylist" | "share" | "help" | "shortcuts",
-    ) {
+    ) => {
         if (isModalOpen === false) {
             setVideoActionModalState(false);
         } else {
             setVideoActionModalState(modalType);
         }
-    }
+    }, [])
 
     const linkClickHandler = (e: MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {

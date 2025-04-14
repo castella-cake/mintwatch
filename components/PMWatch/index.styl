@@ -68,3 +68,11 @@ html.PMW-Enabled.PMDMP-spcolor {
 html.PMW-Enabled.PMDMP-black {
     --hrjk-logo-filter: brightness(1) invert(1);
 }
+
+html.PMW-Enabled {
+    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg)
+}
+
+html.PMW-Enabled:not([class*="PMDMP-"]), html.PMW-Enabled.PMDMP-light, html.PMW-Enabled.PMDMP-nordlight {
+    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg)
+}

@@ -46,7 +46,7 @@ function Player(props: Props) {
     const commentContent = useCommentContentContext();
     const videoRef = useVideoRefContext();
     const actionTrackId = useActionTrackDataContext();
-    const { playlistData } = usePlaylistContext();
+    const playlistData = usePlaylistContext();
     const recommendData = useRecommendContext();
 
     const videoId = videoInfo?.data?.response.video.id ?? "";

@@ -50,14 +50,31 @@ a.info-card-link {
     align-self: center;
     overflow: hidden;
     text-overflow: ellipsis;
-    span svg {
-        height: 1em;
-        width: 1em;
-        margin-right: 0.25em;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    > div {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        svg {
+            height: 1em;
+            width: 1em;
+            margin-right: 0.25em;
+        }
     }
 }
-.info-card-nowplaying {
+.info-card[data-nowplaying="true"] {
     background: var(--bgcolor3);
+}
+.info-card[data-is-preview="true"] {
+    opacity: 0.5;
+    border: var(--border);
+    margin: 4px;
+    height: 2em;
+    .info-card-owner {
+        display: none;
+    }
 }
 
 .info-card-playingtext {
@@ -66,8 +83,12 @@ a.info-card-link {
 }
 
 .info-card-owner {
-    font-size: 0.9em;
+    font-size: 0.8rem;
     opacity: 0.8;
+}
+
+.info-card-owner, .info-card-thumbnail {
+    pointer-events: none;
 }
 
 .info-card-removebtn {
@@ -78,6 +99,7 @@ a.info-card-link {
     color: var(--textcolor2);
     vertical-align: middle;
     font-size: 1rem;
+    pointer-events: auto;
     :hover {
         color: var(--textcolor1);
     }
@@ -101,10 +123,10 @@ a.info-card-link {
     .info-card {
         --info-card-width: 11em;
         flex-direction: column;
-        height: calc(100% - 10px);
-        width: var(--info-card-width);
+        height: auto;
         white-space: wrap;
-        margin: 0 auto;
+        padding: 6px;
+        margin: 0;
         /* height: 10em; */
 
         .info-card-thumbnail {
@@ -126,13 +148,16 @@ a.info-card-link {
 
         .info-card-text {
             align-self: start;
-            max-width: var(--info-card-width);
+            max-width: 100%;
+            gap: 0.5rem;
+            font-size: 0.85rem;
         }
         .info-card-title {
             --max-line: 2
             -webkit-box-orient: vertical;
             -webkit-line-clamp: var(--max-line);
             height: calc(1.5em * var(--max-line));
+            white-space: normal;
             overflow: hidden;
             display: -webkit-box;
         }

@@ -4,29 +4,42 @@ import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 import {
     mylistToSimplifiedPlaylist,
     playlistData,
+    playlistVideoItem,
     seriesToSimplifiedPlaylist,
 } from "../../PMWatch/modules/Playlist";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 
-type PlaylistContext = {
-    playlistData: playlistData;
+const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] });
+
+const IPreviewPlaylistItemContext = createContext<{ item: playlistVideoItem | null, index: number }>({ item: null, index: -1 })
+
+type ControlPlaylistContext = {
     setPlaylistData: Dispatch<SetStateAction<playlistData>>;
     updatePlaylistState: (search?: string) => void;
-};
-const IPlaylistContext = createContext<PlaylistContext>({
-    playlistData: { type: "none", items: [] },
+    setPreviewPlaylistItem: Dispatch<SetStateAction<{ item: playlistVideoItem | null, index: number }>>;
+}
+const IControlPlaylistContext = createContext<ControlPlaylistContext>({
     setPlaylistData: () => {},
     updatePlaylistState: (search?: string) => {},
-});
+    setPreviewPlaylistItem: () => {},
+})
 
 export function PlaylistProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext();
-    const [playlistData, setPlaylistData] = useState<playlistData>({
+    const [_playlistData, setPlaylistData] = useState<playlistData>({
         type: "none",
         items: [],
     });
+    const [previewPlaylistItem, setPreviewPlaylistItem] = useState<{ item: playlistVideoItem | null, index: number }>({ item: null, index: -1 })
+    
+    // また会ったな！！ 今回はsetStateActionではasyncが使えない、
+    // またuseCallbackを使わないとの関係ないStateの更新時に巻き込んで再レンダリングされるため必要だった
+    const _playlistDataRef = useRef(_playlistData)
+    useEffect(() => {
+        _playlistDataRef.current = _playlistData
+    }, [_playlistData])
 
-    function setInitialPlaylistState() {
+    const setInitialPlaylistState = useCallback(() => {
         if (!videoInfo) return
         const ownerName =
             videoInfo.data.response.owner &&
@@ -52,13 +65,14 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 },
             ],
         });
-    }
+    }, [videoInfo])
 
-    function updatePlaylistState(search = location.search) {
+    const updatePlaylistState = useCallback((search = location.search) => {
         // URLのクエリパラメータを引っ張ってくる。playlistにはbase64でエンコードされたプレイリストの情報が入っている。
         const searchParams = new URLSearchParams(search);
         const playlistString = searchParams.get("playlist");
         //console.log(playlistString)
+        const currentPlaylistData = _playlistDataRef.current
 
         // プレイリストの情報からマイリストもしくはシリーズのデータを取得する関数
         async function getData(playlistJson: playlistQueryData) {
@@ -68,7 +82,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 playlistJson.context.mylistId
             ) {
                 // fetchしようとしているマイリストが、すでにフェッチ済みのマイリストと同一ならスキップする
-                if (playlistData.id === playlistJson.context.mylistId) return;
+                if (currentPlaylistData.id === playlistJson.context.mylistId) return;
 
                 const context: mylistContext = playlistJson.context;
                 const response: any = await getMylist(
@@ -89,7 +103,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             ) {
                 // fetchしようとしているマイリストが、すでにフェッチ済みのシリーズと同一ならスキップする
                 //console.log(playlistData.id, playlistJson.context.seriesId)
-                if (playlistData.id === playlistJson.context.seriesId) return;
+                if (currentPlaylistData.id === playlistJson.context.seriesId) return;
                 const response: SeriesResponseRootObject = await getSeriesInfo(
                     playlistJson.context.seriesId,
                 );
@@ -104,7 +118,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 setInitialPlaylistState()
             }
         }
-        if (playlistString && (playlistData.type === "none" || (playlistData.type === "custom" && playlistData.items.length < 2))) {
+        if (playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {
             // プレイリスト情報があり、カスタムプレイリストではない場合にデータを取得
             const decodedPlaylist = atob(
                 playlistString.replace("-", "+").replace("_", "/"),
@@ -112,10 +126,10 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             const playlistJson: playlistQueryData = JSON.parse(decodedPlaylist);
             //setCurrentPlaylist(playlistJson)
             getData(playlistJson);
-        } else if (!playlistString && (playlistData.type === "none" || (playlistData.type === "custom" && playlistData.items.length < 2))) {
+        } else if (!playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {
             setInitialPlaylistState()
         }
-    }
+    }, [_playlistData, videoInfo])
 
     useEffect(() => {
         // 初回レンダリングで今のプレイリスト状態を設定
@@ -131,19 +145,34 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         };
     }, [videoInfo]);
 
+    const controlFunctionsMemo = useMemo(() => ({
+        setPlaylistData,
+        updatePlaylistState,
+        setPreviewPlaylistItem,
+    }), [videoInfo, _playlistData])
+
     return (
-        <IPlaylistContext
-            value={{
-                playlistData,
-                setPlaylistData,
-                updatePlaylistState,
-            }}
-        >
-            {children}
-        </IPlaylistContext>
+        <IControlPlaylistContext value={controlFunctionsMemo}>
+            <IPlaylistContext
+                value={_playlistData}
+            >
+                <IPreviewPlaylistItemContext value={previewPlaylistItem}>
+                    {children}
+                </IPreviewPlaylistItemContext>
+            </IPlaylistContext>
+        </IControlPlaylistContext>
     );
 }
 
 export function usePlaylistContext() {
     return useContext(IPlaylistContext);
+}
+
+export function usePreviewPlaylistItemContext() {
+    return useContext(IPreviewPlaylistItemContext);
+}
+
+
+export function useControlPlaylistContext() {
+    return useContext(IControlPlaylistContext);
 }
