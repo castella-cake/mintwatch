@@ -6,16 +6,31 @@ import Header from "../Global/Header/Header";
 import { HeaderActionStacker } from "../Global/Header/HeaderActionStacker";
 import { MintConfig } from "../PMWatch/modules/MintConfig";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
+import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
+import { useBackgroundPlayHrefRefContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
 
-function Match({ targetPathname, children }: { targetPathname: string, children: ReactNode}) {
+function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
+    const backgroundPlaying = useBackgroundPlayingContext()
+    const location = useLocationContext()
+    if (location.pathname.startsWith(targetPathname) || backgroundPlaying) return children
+    return <></>;
+}
+
+function Match({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const location = useLocationContext()
     if (location.pathname.startsWith(targetPathname)) return children
     return <></>;
 }
 
+const nicovideoPrefix = "https://www.nicovideo.jp"
+const targetPathnames = ["/watch/", "/ranking"]
+
 export default function RouterUI() {
+    const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()
+    const setBackgroundPlaying = useSetBackgroundPlayingContext()
+    const backgroundPlayHrefRef = useBackgroundPlayHrefRefContext()
     function linkClickHandler(e: React.MouseEvent) {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -25,19 +40,19 @@ export default function RouterUI() {
                 nearestAnchor && 
                 !nearestAnchor.getAttribute("data-seektime") &&
                 (
-                    (
-                        nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") &&
-                        !location.pathname.startsWith("/watch/")
-                    ) ||
-                    (
-                        nearestAnchor.href.startsWith("https://www.nicovideo.jp/ranking") &&
-                        !location.pathname.startsWith("/ranking")
-                    ) 
+                    targetPathnames.map(path => nearestAnchor.href.startsWith(nicovideoPrefix + path) && !location.pathname.startsWith(path)).some(path => path)
                 )
             ) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
+                if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
+                    setBackgroundPlaying(true)
+                    if (!backgroundPlayHrefRef.current) backgroundPlayHrefRef.current = nicovideoPrefix + location.pathname
+                } else {
+                    setBackgroundPlaying(false)
+                    backgroundPlayHrefRef.current = null
+                }
                 history.push(nearestAnchor.href)
             }
         }
@@ -69,9 +84,9 @@ export default function RouterUI() {
         <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef}/>
         <HeaderActionStacker nodeRef={headerActionStackerElemRef} />
         <MintConfig nodeRef={mintConfigElemRef} />
-        <Match targetPathname="/watch">
+        <MatchWatchPage targetPathname="/watch">
             <WatchBody/>
-        </Match>
+        </MatchWatchPage>
         <Match targetPathname="/ranking">
             <ShogiBody/>
         </Match>

@@ -3,6 +3,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts/ModalStateProvider";
 import NavbarCustomArea from "./NavbarCustomArea";
 import { Dispatch, SetStateAction } from "react";
+import NavbarBackgroundPlayer from "./NavbarBackgroundPlayer";
 
 export default function Navbar({ isEditMode, setIsEditMode }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> } ) {
     const isSideMenuShown = useSideMenuShownContext()
@@ -22,5 +23,6 @@ export default function Navbar({ isEditMode, setIsEditMode }: { isEditMode: bool
         </div>
         <Search/>
         <NavbarCustomArea isEditMode={isEditMode} setIsEditMode={setIsEditMode}/>
+        <NavbarBackgroundPlayer/>
     </div>
 }

@@ -12,7 +12,6 @@ const ISetMintConfigShownContext = createContext<Dispatch<SetStateAction<boolean
 const ISideMenuShownContext = createContext<boolean>(false);
 const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { });
 
-
 export function ModalStateProvider({ children }: { children: ReactNode }) {
     const [videoActionModalState, setVideoActionModalState] = useState<
         false | "mylist" | "share" | "help" | "shortcuts"
@@ -22,7 +21,6 @@ export function ModalStateProvider({ children }: { children: ReactNode }) {
     >(false);
     const [mintConfigShown, setMintConfigShown] = useState(false);
     const [isSideMenuShown, setIsSideMenuShown] = useState(false);
-
 
     return (
         <ISetMintConfigShownContext value={setMintConfigShown}>
@@ -76,9 +74,3 @@ export function useSideMenuShownContext() {
 export function useSetSideMenuShownContext() {
     return useContext(ISetSideMenuShownContext);
 }
-
-
-
-
-
-

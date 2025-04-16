@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { createRef, StrictMode } from "react";
 import { ModalStateProvider } from "../Global/Contexts/ModalStateProvider";
 import { ErrorBoundary } from "react-error-boundary";
 import { IconBoom } from "@tabler/icons-react";
@@ -6,6 +6,10 @@ import PluginList from "../Global/PluginList";
 import "../Global/baseUI.styl"
 import RouterUI from "./RouterUI";
 import { RouterProvider } from "./RouterContext";
+import { VideoRefContext } from "../Global/Contexts/VideoDataProvider";
+import { BackgroundPlayProvider } from "../Global/Contexts/BackgroundPlayProvider";
+
+const IVideoRef = createRef<HTMLVideoElement>();
 
 export default function RouterRoot() {
     return (
@@ -44,10 +48,14 @@ export default function RouterRoot() {
             >
                 <StorageProvider>
                     <ModalStateProvider>
-                        <RouterProvider>
-                            <RouterUI />
-                            <PluginList />
-                        </RouterProvider>
+                        <VideoRefContext value={IVideoRef}>
+                            <BackgroundPlayProvider>
+                                <RouterProvider>
+                                    <RouterUI />
+                                    <PluginList />
+                                </RouterProvider>
+                            </BackgroundPlayProvider>
+                        </VideoRefContext>
                     </ModalStateProvider>
                 </StorageProvider>
             </ErrorBoundary>

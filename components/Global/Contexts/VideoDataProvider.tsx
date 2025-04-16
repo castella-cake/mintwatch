@@ -1,11 +1,11 @@
 import { createContext, createRef, ReactNode, RefObject } from "react";
 import { useSmIdContext } from "../../PMWatch/modules/WatchDataContext";
 import { VideoDataRootObject } from "@/types/VideoData";
+import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider";
 
 const IActionTrackDataContext = createContext<string>("");
 
-const VideoRefContext = createContext<RefObject<HTMLVideoElement | null>>(createRef<HTMLVideoElement>());
-const IVideoRef = createRef<HTMLVideoElement>();
+export const VideoRefContext = createContext<RefObject<HTMLVideoElement | null>>(createRef<HTMLVideoElement>());
 
 type VideoInfoContext = {
     videoInfo: VideoDataRootObject | null;
@@ -19,6 +19,7 @@ const IVideoInfoContext = createContext<VideoInfoContext>({
 export function VideoDataProvider({ children }: { children: ReactNode }) {
     const { smId } = useSmIdContext();
 
+    const setBackgroundPlayInfo = useSetBackgroundPlayInfoContext()
     const { videoInfo, errorInfo } = useVideoData(smId);
     const [actionTrackId, setActionTrackId] = useState("");
 
@@ -38,6 +39,15 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             videoInfo.meta?.status === 200 &&
             actionTrackId !== ""
         ) {
+            if (videoInfo.data.response.video) {
+                setBackgroundPlayInfo({
+                    title: videoInfo.data.response.video.title,
+                    videoId: videoInfo.data.response.video.id,
+                    thumbnailSrc: videoInfo.data.response.video.thumbnail.player
+                })
+            } else {
+                setBackgroundPlayInfo({})
+            }
             document.dispatchEvent(
                 new CustomEvent("pmw_videoInformationReady", {
                     detail: JSON.stringify({ videoInfo, actionTrackId }),
@@ -51,9 +61,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     return (
         <IActionTrackDataContext.Provider value={actionTrackId}>
             <IVideoInfoContext.Provider value={{ videoInfo, errorInfo }}>
-                <VideoRefContext.Provider value={IVideoRef}>
-                    {children}
-                </VideoRefContext.Provider>
+                {children}
             </IVideoInfoContext.Provider>
         </IActionTrackDataContext.Provider>
     );

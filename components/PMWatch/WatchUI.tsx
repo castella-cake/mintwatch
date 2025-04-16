@@ -16,12 +16,14 @@ import {
 } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
-import { useHistoryContext } from "../Router/RouterContext";
+import { useHistoryContext, useLocationContext } from "../Router/RouterContext";
+import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
 
 function CreateWatchUI() {
     //const lang = useLang()
     const { smId, setSmId } = useSmIdContext();
     const history = useHistoryContext()
+    const location = useLocationContext()
 
     const { syncStorage, localStorage, isLoaded } = useStorageContext();
 
@@ -54,8 +56,7 @@ function CreateWatchUI() {
 
     useEffect(() => {
         // 戻るボタンとかが発生した場合
-        const onPopState = () => {
-            // 移動前にシーク位置を保存
+        const listenPopState = history.listen(({ action, location }) => {
             if (
                 videoRef.current &&
                 videoRef.current instanceof HTMLVideoElement
@@ -66,26 +67,22 @@ function CreateWatchUI() {
                 };
                 putPlaybackPosition(JSON.stringify(playbackPositionBody));
             }
-            // watchだったら更新する、watchではない場合はページ移動が起こる
-            setSmId(location.pathname.replace("/watch/", "").replace(/\?.*/, ""));
-        };
-        window.addEventListener("popstate", onPopState);
+            console.log(
+                `The current URL is ${location.pathname}${location.search}${location.hash}`
+            );
+            if (location.pathname.startsWith("/watch/")) setSmId(location.pathname.replace("/watch/", "").replace(/\?.*/, ""));
+        })
         return () => {
-            window.removeEventListener("popstate", onPopState);
+            listenPopState() // unlisten
         };
     }, [videoInfo]);
 
     // transition / outside click detection refs
-    const mintConfigElemRef = useRef<HTMLDivElement>(null);
-    const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
-    const sideMenuElemRef = useRef<HTMLDivElement>(null);
     const videoActionModalElemRef = useRef<HTMLDivElement>(null);
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null);
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const setHeaderActionState = useSetHeaderActionStateContext();
-    const setMintConfigShown = useSetMintConfigShownContext();
-    const setSideMenuShown = useSetSideMenuShownContext()
+    const backgroundPlaying = useBackgroundPlayingContext()
 
     //console.log(videoInfo)
     if (!isLoaded)
@@ -115,7 +112,7 @@ function CreateWatchUI() {
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
 
     return (
-        <div className={isFullscreenUi ? "container fullscreen" : "container"} onKeyDown={handleKeydown} onClick={onModalOutsideClick} data-disallow-grid-fallback={disallowGridFallback.toString()}>
+        <div className={isFullscreenUi ? "container fullscreen" : "container"} onKeyDown={handleKeydown} onClick={onModalOutsideClick} data-disallow-grid-fallback={disallowGridFallback.toString()} data-background-playing={backgroundPlaying}>
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}

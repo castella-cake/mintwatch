@@ -1,0 +1,43 @@
+.container[data-background-playing="true"] {
+    position: fixed;
+    z-index: 97;
+    bottom: 0;
+    right: 0;
+    width: 24em;
+    margin: 16px;
+
+    .watch-container {
+        --page-padding: 0%;
+    }
+    .watch-container-grid {
+        grid-template-areas: "vid";
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+    .watch-container-grid > :not(.player-container) {
+        display: none;
+    }
+
+    .playercontroller-container-left {
+        display: none;
+    }
+
+    .playercontroller-container-right {
+        display: none;
+    }
+
+    .commentinput-container {
+        display: none;
+    }
+
+    .endcard-container > div {
+        display: none;
+    }
+
+    .player-container {
+        background: var(--bgcolor2);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 8px #000a;
+    }
+}
+

@@ -11,6 +11,7 @@ import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "./modules/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useHistoryContext } from "../Router/RouterContext"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -30,6 +31,7 @@ type Props = {
 }
 
 export function WatchContent(_props: Props) {
+    const history = useHistoryContext()
     const {
         layoutType,
         playerSize,
@@ -68,8 +70,8 @@ export function WatchContent(_props: Props) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-
-                onChangeVideo(nearestAnchor.href)
+                history.push(nearestAnchor.href)
+                //onChangeVideo(nearestAnchor.href)
             }
         }
     }
