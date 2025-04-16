@@ -3,10 +3,11 @@ import { VideoDataProvider } from "@/components/Global/Contexts/VideoDataProvide
 import { CommentDataProvider } from "@/components/Global/Contexts/CommentDataProvider";
 import { PlaylistProvider } from "@/components/Global/Contexts/PlaylistProvider";
 import { RecommendProvider } from "@/components/Global/Contexts/RecommendProvider";
+import { useLocationContext } from "@/components/Router/RouterContext";
 
 type smIdContext = {
-    smId: string;
-    setSmId: Dispatch<SetStateAction<string>>;
+    smId: null | string;
+    setSmId: Dispatch<SetStateAction<null | string>>;
 };
 const ISmIdContext = createContext<smIdContext>({
     smId: null!,
@@ -14,8 +15,10 @@ const ISmIdContext = createContext<smIdContext>({
 });
 
 export function SmIdProvider({ children }: { children: ReactNode }) {
-    const [smId, setSmId] = useState(
-        location.pathname.slice(7).replace(/\?.*/, ""),
+    const location = useLocationContext()
+    const [smId, setSmId] = useState<null | string>(
+        location.pathname.startsWith("/watch/") ? 
+        location.pathname.replace("/watch/", "").replace(/\?.*/, "") : null,
     );
     return (
         <ISmIdContext value={{ smId, setSmId }}>

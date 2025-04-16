@@ -16,10 +16,12 @@ import {
 } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import { useHistoryContext } from "../Router/RouterContext";
 
 function CreateWatchUI() {
     //const lang = useLang()
     const { smId, setSmId } = useSmIdContext();
+    const history = useHistoryContext()
 
     const { syncStorage, localStorage, isLoaded } = useStorageContext();
 
@@ -40,7 +42,7 @@ function CreateWatchUI() {
         }
 
         // historyにpushして移動
-        history.pushState(null, "", videoUrl);
+        history.push(videoUrl);
         // 動画IDとプレイリスト状態を更新。プレイリスト状態はlocationが未更新のため、
         setSmId(
             videoUrl
@@ -65,7 +67,7 @@ function CreateWatchUI() {
                 putPlaybackPosition(JSON.stringify(playbackPositionBody));
             }
             // watchだったら更新する、watchではない場合はページ移動が起こる
-            setSmId(location.pathname.slice(7).replace(/\?.*/, ""));
+            setSmId(location.pathname.replace("/watch/", "").replace(/\?.*/, ""));
         };
         window.addEventListener("popstate", onPopState);
         return () => {
@@ -102,18 +104,12 @@ function CreateWatchUI() {
 
     function handleKeydown(e: React.KeyboardEvent) {
         if (e.key === "Escape") {
-            setHeaderActionState(false)
             setVideoActionModalState(false)
-            setMintConfigShown(false)
-            setSideMenuShown(false)
         }
     }
 
     function onModalOutsideClick(e: React.MouseEvent<HTMLDivElement>) {
-        if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
         if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
-        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setMintConfigShown(false)
-        if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
     }
 
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
@@ -137,8 +133,6 @@ function CreateWatchUI() {
             </CSSTransition>
 
             {!isFullscreenUi && <>
-                <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef}/>
-                <MintConfig nodeRef={mintConfigElemRef} />
                 <VideoActionModal
                     nodeRef={videoActionModalElemRef}
                 />

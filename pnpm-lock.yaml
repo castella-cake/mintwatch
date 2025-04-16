@@ -29,6 +29,9 @@ importers:
       dompurify:
         specifier: ^3.2.5
         version: 3.2.5
+      history:
+        specifier: ^5.3.0
+        version: 5.3.0
       hls.js:
         specifier: ^1.6.1
         version: 1.6.1
@@ -1537,6 +1540,9 @@ packages:
 
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+
+  history@5.3.0:
+    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
 
   hls.js@1.6.1:
     resolution: {integrity: sha512-7GOkcqn0Y9EqU2OJZlzkwxj9Uynuln7URvr7dRjgqNJNZ5UbbjL/v1BjAvQogy57Psdd/ek1u2s6IDEFYlabrA==}
@@ -4248,6 +4254,10 @@ snapshots:
       function-bind: 1.1.2
 
   highlight.js@10.7.3: {}
+
+  history@5.3.0:
+    dependencies:
+      '@babel/runtime': 7.26.10
 
   hls.js@1.6.1: {}
 

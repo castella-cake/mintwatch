@@ -57,6 +57,13 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     );
 
     async function onEditModeToggle() {
+        if (!smId) {
+            setIsEditable(false)
+            setIsEditMode(false)
+            setIsLockable(false)
+            alert("動画を再生していないため、動画のタグを編集できません。")
+            return
+        }
         const response: TagsApiRootObject = await getTagsApi(smId)
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
@@ -74,6 +81,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
 
     async function onTagAdd() {
         if (
+            !smId ||
             !isEditable ||
             !tagInputRef.current ||
             tagInputRef.current.value === "" ||
@@ -95,14 +103,14 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     }
 
     async function onTagRemove(tagName: string, isLocked: boolean) {
-        if (!isEditable || isLocked) return
+        if (!isEditable || isLocked || !smId) return
         const response: TagsApiRootObject = await tagsEditApi(smId, tagName, "DELETE")
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
     }
 
     async function onTagLockEdit(tagName: string, isLocked: boolean) {
-        if (!isLockable || !isEditable) return
+        if (!isLockable || !isEditable || !smId) return
         const response: TagsApiRootObject = await tagsLockApi(smId, tagName, isLocked)
         if (response.meta.status !== 200) return
         setTags(response.data.tags)

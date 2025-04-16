@@ -3,7 +3,6 @@ import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconDoo
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
 import useOshiraseBell from "@/hooks/bellHooks";
 import { useHeaderActionStateContext, useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
-import ServerContextRootObject from "@/types/serverContextData";
 import { HeaderActionStacker } from "./HeaderActionStacker";
 import { RefObject } from "react";
 import { CSSTransition } from "react-transition-group";
@@ -12,15 +11,17 @@ import MyMenu from "./MyMenu";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { NavigationDndWrapper } from "./NavigationCustomDragContext";
+import useServerContext from "@/hooks/serverContextHook";
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`;
 }
 
-function Header({ contextData, headerActionStackerElemRef, sideMenuElemRef }: { contextData?: ServerContextRootObject, headerActionStackerElemRef: RefObject<HTMLDivElement | null>, sideMenuElemRef: RefObject<HTMLDivElement | null> }) {
+function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionStackerElemRef: RefObject<HTMLDivElement | null>, sideMenuElemRef: RefObject<HTMLDivElement | null> }) {
     //const [hover, setHover] = useState(false)
     const { syncStorage } = useStorageContext()
     const { videoInfo } = useVideoInfoContext();
+    const contextData = useServerContext()
     const videoViewerInfo = videoInfo?.data.response.viewer;
 
     const alternativeUserData = contextData ? {

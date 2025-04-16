@@ -6,12 +6,17 @@ import {StoryBoardImageRootObject,} from "@/types/StoryBoardData";
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 import { AccessRightsRootObject } from "@/types/accessRightsApi";
 
-export function useVideoData(smId: string) {
+export function useVideoData(smId: string | null) {
     const [videoInfo, setVideoInfo] = useState<VideoDataRootObject | null>(null);
     const [errorInfo, setErrorInfo] = useState<any>(false);
     useEffect(() => {
         async function fetchInfo() {
             try {
+                if ( !smId ) {
+                    setVideoInfo(null);
+                    setErrorInfo(false);
+                    return
+                }
                 // metaタグからのレスポンスを入れる。ないかもしれないので最初はnull。
                 let initialResponse: VideoDataRootObject | null = null;
                 let fetchedVideoInfo: VideoDataRootObject | null = null;
@@ -34,6 +39,7 @@ export function useVideoData(smId: string) {
                 if (
                     initialResponse &&
                     initialResponse.meta?.status === 200 &&
+                    initialResponse.data?.response.video &&
                     initialResponse.data?.response.video.id === smId
                 ) {
                     fetchedVideoInfo = initialResponse;
@@ -145,10 +151,14 @@ export function useCommentData(
     return { commentContent, setCommentContent, reloadCommentContent };
 }
 
-export function useRecommendData(smId: string) {
+export function useRecommendData(smId: string | null) {
     const [recommendData, setRecommendData] = useState<RecommendDataRootObject | null>(null);
     useEffect(() => {
         async function fetchInfo() {
+            if (!smId) {
+                setRecommendData(null)
+                return;
+            }
             const recommendResponse = await getRecommend(smId);
             setRecommendData(recommendResponse);
             //console.log(commentResponse)
