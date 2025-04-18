@@ -1,7 +1,9 @@
 {
     "SETTINGS_DESC": "Changes the settings of MintWatch.\nYou can also open this from the wrench icon in the header of MintWatch.",
     "SETTINGS_AREATITLE": {
-        "mintwatch": "MintWatch"
+        "mintwatch": "MintWatch",
+        "reshogi": "Re:Shogi",
+        "header": "Header"
     },
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
@@ -18,6 +20,12 @@
             "hint": "Specifies the appearance of the player used in MintWatch.",
             "select": ["Default", "cresc.", "Shinjuku"]
         },
+
+        "enableReshogi": {
+            "name": "Experimental: Enable replacement of the ranking page",
+            "hint": "MintWatch's new ranking page. Reverts the ranking page to its correct form."
+        },
+        
         "enableFixedHeader": {
             "name": "Enable Fixed Header",
             "hint": "The header will always be displayed even when scrolling. It remains hidden during fullscreen mode"

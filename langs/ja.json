@@ -3,7 +3,7 @@
     "SETTINGS_AREATITLE": {
         "mintwatch": "MintWatch",
         "reshogi": "Re:将棋盤",
-        "header": "MintWatch ヘッダー"
+        "header": "ヘッダー"
     },
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
@@ -23,7 +23,7 @@
 
         "enableReshogi": {
             "name": "実験的: ランキングページの置き換えを有効化",
-            "hint": "代替的なランキングページ。ランキングページを、壊れていなかった正しい形へ引き戻します。"
+            "hint": "代替的なランキングページ。ランキングページを再構成し、壊れていなかった正しい形へ引き戻します。"
         },
         "enableFixedHeader": {
             "name": "ヘッダーを画面に固定",
