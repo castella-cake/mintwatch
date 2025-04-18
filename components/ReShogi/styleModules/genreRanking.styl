@@ -122,6 +122,7 @@
 
     .shogi-genre-trend-tag {
         text-decoration: none;
+        background: var(--bgcolor2);
         border: 2px solid var(--accent1);
         line-height: 2rem;
         border-radius: 1024px;
@@ -195,5 +196,38 @@
     .shogi-genre-no-trend-tags {
         opacity: 0.5;
         text-align: center;
+    }
+
+    .shogi-genre-term-selector {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .shogi-genre-term-button  {
+        text-decoration: none;
+        padding: 4px 8px;
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
+        display: block;
+        font-size: 1rem;
+        &[data-is-active="true"] {
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+            font-weight: bold;
+        }
+    }
+
+    .shogi-genre-stats-pagination {
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--textcolor2);
+    }
+
+
+    .shogi-genre-term-title {
+        color: var(--textcolor2);
+        font-size: 0.9rem;
     }
 }

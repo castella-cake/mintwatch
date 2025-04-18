@@ -8,11 +8,30 @@ import { HistoryAnchor } from "../Router/HistoryAnchor";
 function PageSelector({ page }: {page: GenreRankingDataRootObject["data"]["response"]["page"]}) {
     const location = useLocationContext()
     return <div className="shogi-genre-stats-page-selector">
+        <div className="shogi-genre-stats-pagination">
+            ページ {page.pagination.page} - {page.pagination.totalCount} 件中 {page.pagination.pageSize} 件
+        </div>
         {[...Array(page.pagination.totalCount / page.pagination.pageSize)].map((_, index) => {
             const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search);
             pathUrl.searchParams.set("page", (index + 1).toString())
             return <HistoryAnchor key={index} className="shogi-genre-page-button" data-is-active={index === (page.pagination.page - 1)} href={pathUrl.toString()}>
                 {index + 1}
+            </HistoryAnchor>
+        })}
+    </div>
+}
+
+function TermSelector({ page }: {page: GenreRankingDataRootObject["data"]["response"]["page"]}) {
+    const location = useLocationContext()
+    return <div className="shogi-genre-term-selector">
+        <div className="shogi-genre-term-title">
+            集計期間を選択
+        </div>
+        {page.availableTerms.map(term => {
+            const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search);
+            pathUrl.searchParams.set("term", term.value)
+            return <HistoryAnchor key={term.value} className="shogi-genre-term-button" href={pathUrl.toString()} data-is-active={page.currentTerm === term.value}>
+                {term.label}
             </HistoryAnchor>
         })}
     </div>
@@ -32,16 +51,18 @@ export default function GenreRankingContent() {
 
             const pageParam = pathUrl.searchParams.get("page") ?? "1";
 
+            const termParam = pathUrl.searchParams.get("term") ?? "24h";
+
             let response
 
             if (thisPath === "" || thisPath === "/") {
-                response = await getGenreRanking(pageParam);
+                response = await getGenreRanking(pageParam, termParam);
             } else if (tagParam) {
                 const featuredKeyPathArray = location.pathname.replace(/\?.*/, "").replace("/ranking/genre/", "").split("/")
-                response = await getGenreRanking(pageParam, featuredKeyPathArray[0], tagParam);
+                response = await getGenreRanking(pageParam, termParam, featuredKeyPathArray[0], tagParam);
             } else {
                 const featuredKeyPathArray = location.pathname.replace(/\?.*/, "").replace("/ranking/genre/", "").split("/")
-                response = await getGenreRanking(pageParam, featuredKeyPathArray[0]);
+                response = await getGenreRanking(pageParam, termParam, featuredKeyPathArray[0]);
             }
 
             if (response && response.meta.status === 200) setGenreRankingData(response);
@@ -97,11 +118,8 @@ export default function GenreRankingContent() {
                         </span>
                     </>}
                 </div>
-                <div className="shogi-genre-stats-pagination">
-                    ページ {page.pagination.page}<br />
-                    {page.pagination.totalCount} 件中 {page.pagination.pageSize} 件
-                </div>
                 <PageSelector page={page}/>
+                <TermSelector page={page}/>
             </div>
             <div className="shogi-genre-items">
                 {teibanRanking.data.items.map((video, index) => {
