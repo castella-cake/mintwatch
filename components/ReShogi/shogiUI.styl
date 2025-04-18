@@ -36,9 +36,9 @@
     &[aria-disabled="true"] {
         opacity: 0.3;
     }
-    &:not([aria-disabled="true"]):hover {
+    &:not([aria-disabled="true"]):not([data-is-active="true"]):hover {
         background: var(--hover1);
-        cursor: pointerl;
+        cursor: pointer;
     }
     &[data-is-active="true"] {
         background: var(--textcolor1);
