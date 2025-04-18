@@ -3,7 +3,6 @@ import { WatchBody } from "../PMWatch/WatchBody";
 import ShogiBody from "../ReShogi/ShogiBody";
 import { useHistoryContext, useLocationContext } from "./RouterContext";
 import Header from "../Global/Header/Header";
-import { HeaderActionStacker } from "../Global/Header/HeaderActionStacker";
 import { MintConfig } from "../PMWatch/modules/MintConfig";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
 import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
@@ -88,7 +87,6 @@ export default function RouterUI() {
 
     return <div className="router" onClickCapture={linkClickHandler} onKeyDown={handleKeydown} onClick={onModalOutsideClick}>
         <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef}/>
-        <HeaderActionStacker nodeRef={headerActionStackerElemRef} />
         <MintConfig nodeRef={mintConfigElemRef} />
         <MatchWatchPage targetPathname="/watch">
             <WatchBody/>

@@ -25,7 +25,7 @@
             "name": "Experimental: Enable replacement of the ranking page",
             "hint": "MintWatch's new ranking page. Reverts the ranking page to its correct form."
         },
-        
+
         "enableFixedHeader": {
             "name": "Enable Fixed Header",
             "hint": "The header will always be displayed even when scrolling. It remains hidden during fullscreen mode"
@@ -35,6 +35,13 @@
             "hint": "Sets how to open notifications or My Menu in the header",
             "select": ["Click to Open", "Open on Hover"]
         },
+        "navbarType": {
+            "name": "Navigation bar display type",
+            "hint": "Set how to display the navigation bar. It is hidden by default when using Shinjuku.",
+            "select": ["Always show", "Open on hover", "Hide"]
+        },
+
+        
         "otherSettings": {
             "name": "Detailed settings"
         },
@@ -46,6 +53,9 @@
         },
         "disallowGridFallback": {
             "name": "Disable grid fallback based on screen width"
+        },
+        "shinjukuEnableNavbar": {
+            "name": "Show navigation bar in Shinjuku layout"
         }
     }
 }

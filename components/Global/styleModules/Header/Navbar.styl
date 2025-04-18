@@ -175,6 +175,26 @@
 .navbar-background-player-action svg {
     vertical-align: middle;
 }
+
+.header-container[data-navbar-type="dynamic"] .navbar-container {
+    opacity: 0;
+    height: 0px;
+    overflow: hidden;
+    transition: height 0.2s ease-out, opacity 0.2s ease;
+}
+
+.header-container[data-navbar-type="dynamic"]:hover .navbar-container, 
+.header-container[data-navbar-type="dynamic"] .navbar-container:has(input:focus) 
+.header-container[data-navbar-type="dynamic"]:has(.sidemenu-container) .navbar-container {
+    height: var(--navbar-height);
+    opacity: 1;
+    overflow: visible;
+}
+
+.header-container[data-navbar-type="disable"] .navbar-container {
+    display: none;
+}
+
 /*
 .navbar-container {
     opacity: 1;

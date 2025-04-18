@@ -56,6 +56,11 @@ const settings: settingList = {
                     type: "checkbox",
                     name: "disallowGridFallback",
                     default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "shinjukuEnableNavbar",
+                    default: false,
                 }
             ]
         }
@@ -77,6 +82,12 @@ const settings: settingList = {
             type: "selectButtons",
             name: "headerActionType",
             values: ["default", "quick"],
+            default: "default"
+        },
+        {
+            type: "selectButtons",
+            name: "navbarType",
+            values: ["default", "dynamic", "disable"],
             default: "default"
         },
     ]

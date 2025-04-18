@@ -42,6 +42,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     const myMenuElemWrapperRef = useRef(null);
 
     const isFixedHeaderEnabled = syncStorage.enableFixedHeader ?? getDefault("enableFixedHeader")
+    const navbarType = (syncStorage.pmwlayouttype === "shinjuku" && !syncStorage.shinjukuEnableNavbar) ? "disable" : syncStorage.navbarType ?? getDefault("navbarType")
     const headerActionType = syncStorage.headerActionType ?? getDefault("headerActionType")
     const isSetToQuickHeaderAction = headerActionType === "quick"
 
@@ -57,7 +58,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
 
     return (
         <NavigationDndWrapper>
-        <div className="header-container" id="pmw-header" data-is-fixed={isFixedHeaderEnabled}>
+        <div className="header-container" id="pmw-header" data-is-fixed={isFixedHeaderEnabled} data-navbar-type={navbarType}>
             <div className="header-upper-container global-flex">
                 <div className="global-flex1 header-left-container global-flex">
                     <button
