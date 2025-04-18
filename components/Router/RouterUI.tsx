@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useLayoutEffect } from "react";
 import { WatchBody } from "../PMWatch/WatchBody";
 import ShogiBody from "../ReShogi/ShogiBody";
 import { useHistoryContext, useLocationContext } from "./RouterContext";
@@ -48,15 +48,22 @@ export default function RouterUI() {
                 e.preventDefault()
                 if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
                     setBackgroundPlaying(true)
-                    if (!backgroundPlayHrefRef.current) backgroundPlayHrefRef.current = nicovideoPrefix + location.pathname
                 } else {
                     setBackgroundPlaying(false)
-                    backgroundPlayHrefRef.current = null
                 }
                 history.push(nearestAnchor.href)
             }
         }
     }
+    useLayoutEffect(() => {
+        return history.listen(({ location: newLocation }) => {
+            if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
+                setBackgroundPlaying(true)
+            } else {
+                setBackgroundPlaying(false)
+            }
+        })
+    }, [])
     const mintConfigElemRef = useRef<HTMLDivElement>(null);
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
     const sideMenuElemRef = useRef<HTMLDivElement>(null);

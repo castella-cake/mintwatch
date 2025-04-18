@@ -12,16 +12,8 @@ export default function NavbarBackgroundPlayer() {
 
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
 
-    const toForground = useCallback(() => {
-        if (backgroundPlayHrefRef.current && backgroundPlayHrefRef.current.startsWith("https://www.nicovideo.jp/")) {
-            history.push(backgroundPlayHrefRef.current)
-            setBackgroundPlaying(false)
-            backgroundPlayHrefRef.current = null
-        }
-    }, [backgroundPlayHrefRef])
     const closeBackground = useCallback(() => {
         setBackgroundPlaying(false)
-        backgroundPlayHrefRef.current = null
     }, [])
 
     if (!backgroundPlaying) return
@@ -33,7 +25,6 @@ export default function NavbarBackgroundPlayer() {
             <br/>
             <span className="navbar-background-player-title-video">{backgroundPlayInfo.title ?? "タイトル不明"}</span>  
         </div>
-        <button className="navbar-background-player-action" onClick={toForground} title="フォアグラウンドに戻す"><IconScreenShare/></button>
         <button className="navbar-background-player-action" onClick={closeBackground} title="バックグラウンド再生を終了"><IconX/></button>
     </div>
 }
