@@ -7,7 +7,7 @@ import { HeaderActionStacker } from "../Global/Header/HeaderActionStacker";
 import { MintConfig } from "../PMWatch/modules/MintConfig";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
 import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
-import { useBackgroundPlayHrefRefContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
+import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -30,7 +30,6 @@ export default function RouterUI() {
     const history = useHistoryContext()
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
-    const backgroundPlayHrefRef = useBackgroundPlayHrefRefContext()
     function linkClickHandler(e: React.MouseEvent) {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")

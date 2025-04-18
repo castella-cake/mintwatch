@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 //import { useLang } from "./localizeHook";
-import Header from "@/components/Global/Header/Header";
-import { MintConfig } from "./modules/MintConfig";
 import { CSSTransition } from "react-transition-group";
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal";
 import { useStorageContext } from "@/hooks/extensionHook";
@@ -15,15 +13,14 @@ import {
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
-import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
-import { useHistoryContext, useLocationContext } from "../Router/RouterContext";
+import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import { useHistoryContext } from "../Router/RouterContext";
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
 
 function CreateWatchUI() {
     //const lang = useLang()
     const { smId, setSmId } = useSmIdContext();
     const history = useHistoryContext()
-    const location = useLocationContext()
 
     const { syncStorage, localStorage, isLoaded } = useStorageContext();
 

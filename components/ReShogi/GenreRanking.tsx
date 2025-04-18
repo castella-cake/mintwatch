@@ -2,9 +2,8 @@ import { GenreRankingDataRootObject } from "@/types/ranking/genreData";
 import { Card } from "../PMWatch/modules/Info/InfoCards";
 import { readableInt, secondsToTime } from "../PMWatch/modules/commonFunction";
 import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled, IconTag } from "@tabler/icons-react";
-import { useHistoryContext, useLocationContext } from "../Router/RouterContext";
+import { useLocationContext } from "../Router/RouterContext";
 import { HistoryAnchor } from "../Router/HistoryAnchor";
-import { TitleElement } from "../PMWatch/modules/TitleElement";
 
 function PageSelector({ page }: {page: GenreRankingDataRootObject["data"]["response"]["page"]}) {
     const location = useLocationContext()

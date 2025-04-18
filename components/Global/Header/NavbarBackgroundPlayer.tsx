@@ -1,14 +1,9 @@
-import { useHistoryContext } from "@/components/Router/RouterContext";
-import { useBackgroundPlayHrefRefContext, useBackgroundPlayInfoContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Contexts/BackgroundPlayProvider";
-import { useVideoRefContext } from "../Contexts/VideoDataProvider";
-import { IconScreenShare, IconX } from "@tabler/icons-react";
+import { useBackgroundPlayInfoContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Contexts/BackgroundPlayProvider";
+import { IconX } from "@tabler/icons-react";
 
 export default function NavbarBackgroundPlayer() {
-    const history = useHistoryContext()
     const backgroundPlaying = useBackgroundPlayingContext()
-    const videoRef = useVideoRefContext()
     const backgroundPlayInfo = useBackgroundPlayInfoContext()
-    const backgroundPlayHrefRef = useBackgroundPlayHrefRefContext()
 
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
 
