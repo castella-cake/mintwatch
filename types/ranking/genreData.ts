@@ -89,7 +89,7 @@ interface Data2 {
     label: string;
     isTopLevel: boolean;
     isImmoral: boolean;
-    trendTags: any[];
+    trendTags: string[];
 }
 
 interface GetTeibanRanking {
@@ -99,7 +99,7 @@ interface GetTeibanRanking {
 interface GenreTeibanRankingData {
     featuredKey: string;
     label: string;
-    tag: null;
+    tag: null | string;
     maxItemCount: number;
     items: GenreTeibanRankingItem[];
     hasNext: boolean;

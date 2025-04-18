@@ -4,9 +4,13 @@ import { HeaderActionStacker } from "@/components/Global/Header/HeaderActionStac
 import { MintConfig } from "../PMWatch/modules/MintConfig";
 
 import "./shogiUI.styl"
+import { useHistoryContext, useLocationContext } from "../Router/RouterContext";
+import { HistoryAnchor } from "../Router/HistoryAnchor";
 import.meta.glob("./styleModules/**/*.styl", {eager: true})
 
 export default function ShogiBody() {
+    const history = useHistoryContext()
+    const location = useLocationContext()
     const [contextData, setContextData] = useState<any>(null);
     useEffect(() => {
         async function fetchData() {
@@ -21,15 +25,17 @@ export default function ShogiBody() {
         fetchData()
     }, [])
 
+
+
     return (
         <div className="container reshogi-container">
             <div className="shogi-yorokobi-message">
                 Welcome to the Project Re:Shogi ranking page!!!!!!
             </div>
             <div className="shogi-type-selector">
-                <button className="shogi-type-selector-button" aria-disabled="true">For who?</button>
-                <button className="shogi-type-selector-button" data-is-active="true">メイン</button>
-                <button className="shogi-type-selector-button" aria-disabled="true">総合ランキング</button>
+                <HistoryAnchor className="shogi-type-selector-button" aria-disabled="true">For who?</HistoryAnchor>
+                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.replace(/\?.*/, "") === "/ranking"} href="/ranking">メイン</HistoryAnchor>
+                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">総合ランキング</HistoryAnchor>
             </div>
             <ShogiContent/>
         </div>

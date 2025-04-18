@@ -1,0 +1,63 @@
+.shogi-custom-ranking {
+    display: flex;
+    gap: 8px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.shogi-ranking-lane-title {
+    text-align: center;
+    margin: 8px 0;
+    padding: 8px;
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+}
+
+
+.shogi-ranking-lane-videolist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.shogi-ranking-lane-editbutton {
+    border-radius: var(--radius);
+    border: var(--border);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    text-align: center;
+    margin: 0 auto;
+    padding: 4px 8px;
+    svg {
+        vertical-align: bottom;
+        height: 1.2rem;
+        width: 1.2rem;
+    }
+    &[aria-disabled="true"] {
+        opacity: 0.3
+    }
+}
+
+.shogi-type-selector {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.shogi-ranking-lane-videolist-item {
+    position: relative;
+    overflow: visible;
+}
+
+.shogi-ranking-lane:first-child .shogi-ranking-lane-videolist-item:before {
+    position: absolute;
+    content: attr(data-index);
+    display: block;
+    right: 6.5em;
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 1rem;
+}

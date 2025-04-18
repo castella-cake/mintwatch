@@ -1,0 +1,199 @@
+.shogi-genre-ranking {
+    display: grid;
+    width: auto;
+    padding: 1rem 12%;
+    grid-template-columns: 1fr 50rem 1fr;
+    grid-template-areas: "feat feat feat" ". items trend" ". page .";
+    position: relative;
+    margin: 0 auto;
+    gap: 1rem;
+    > .shogi-genre-stats-page-selector {
+        grid-area: page
+    }
+    .shogi-genre-item {
+        position: relative;
+        border-radius: var(--radius);
+        background: var(--bgcolor2);
+        border: var(--border);
+    }
+
+    .shogi-genre-item::before {
+        right: 0rem;
+        text-align: right;
+        bottom: 0;
+    }
+
+    .shogi-genre-item .info-card {
+        height: 8rem;
+        padding: 16px;
+    }
+
+    .info-card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    } 
+
+    .info-card-text {
+        line-height: 1.5rem;
+    }
+
+    .shogi-genre-item:before {
+        position: absolute;
+        content: attr(data-index);
+        display: block;
+        right: 0;
+        font-size: 2rem;
+        font-style: italic;
+        font-weight: bold;
+        text-align: right;
+        margin-right: 1rem;
+    }
+
+    img.shogi-video-owner-icon {
+        height: 2rem;
+        border-radius: 1024px;
+        vertical-align: middle;
+        margin-right: 0.5em;
+    }
+
+    .shogi-video-owner {
+        text-decoration: none;
+        pointer-events: auto;
+    }
+
+    .info-card-text {
+        max-height: 100%;
+    }
+
+    .shogi-video-owner {
+        display: block;
+        /* margin-top: 1rem; */
+        width: max-content;
+        max-width: 100%;
+        padding: 4px 8px 4px 4px;
+        border-radius: var(--radius);
+    }
+    .shogi-video-owner:hover {
+        background: var(--hover1);
+    }
+
+    .shogi-video-count {
+        font-size: 0.9rem;
+        line-height: 2rem;
+    }
+    .shogi-genre-teiban-selector-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .shogi-genre-teiban-selector {
+        text-decoration: none;
+        border-radius: var(--radius);
+        border: var(--border);
+        padding: 6px 12px;
+        font-size: 0.9rem
+        text-align: center;
+        &[data-is-active="true"] {
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+        }
+    }
+
+    .shogi-genre-featured-container {
+        grid-area: feat;
+        padding: 8px;
+        border-radius: var(--radius);
+        background: var(--bgcolor2);
+    }
+
+    .shogi-genre-trendtags {
+        grid-area: trend;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        h3 {
+            margin: 0;
+            svg {
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .shogi-genre-trend-tag {
+        text-decoration: none;
+        border: 2px solid var(--accent1);
+        line-height: 2rem;
+        border-radius: 1024px;
+        padding: 0 1rem;
+    }
+
+    .shogi-genre-items {
+        grid-area: items;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .shogi-genre-page-button {
+        text-decoration: none;
+        padding: 4px 8px;
+        background: var(--bgcolor2);
+        margin-right: 8px;
+        border: var(--border);
+        border-radius: var(--radius);
+        &[data-is-active="true"] {
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+            font-weight: bold;
+        }
+    }
+
+    .shogi-genre-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .shogi-genre-this-title {
+        border-radius: var(--radius);
+        background: var(--bgcolor2);
+        padding: 8px;
+        border-top: 4px solid var(--accent1);
+    }
+
+    .shogi-genre-this-title-subtitle {
+        opacity: 0.8;
+        font-size: 0.9rem;
+        > * {
+            vertical-align: middle;
+        }
+
+        > svg {
+            height: 1.2rem;
+        }
+    }
+
+    .shogi-genre-tag {
+        color: var(--textcolor2);
+    }
+
+    .shogi-genre-stats .shogi-genre-page-button {
+        display: block;
+        margin-bottom: 8px;
+        margin-right: 0;
+        &:before {
+            content: "Page "
+        }
+    }
+
+    .shogi-genre-genretitle {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .shogi-genre-no-trend-tags {
+        opacity: 0.5;
+        text-align: center;
+    }
+}
