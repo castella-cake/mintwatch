@@ -31,6 +31,7 @@ import {
 import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
 import { VideoTitle } from "../Info/Info";
+import BackgroundController from "./BackgroundController";
 
 type Props = {
     isFullscreenUi: boolean;
@@ -529,6 +530,7 @@ function Player(props: Props) {
                     commentInputRef={commentInputRef}
                     setPreviewCommentItem={setPreviewCommentItem}
                 />
+                <BackgroundController/>
             </div>
         </div>
     );

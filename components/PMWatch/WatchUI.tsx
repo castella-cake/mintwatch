@@ -129,11 +129,9 @@ function CreateWatchUI() {
                 />
             </CSSTransition>
 
-            {!isFullscreenUi && <>
-                <VideoActionModal
-                    nodeRef={videoActionModalElemRef}
-                />
-            </>}
+            <VideoActionModal
+                nodeRef={videoActionModalElemRef}
+            />
 
             <PlaylistDndWrapper>
                 <WatchContent
