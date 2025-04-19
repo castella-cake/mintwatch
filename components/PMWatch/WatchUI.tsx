@@ -7,7 +7,7 @@ import { OnboardingPopup } from "./modules/Onboarding";
 import { PlaylistDndWrapper } from "./modules/PlaylistDndWrapper";
 import { TitleElement } from "./modules/TitleElement";
 import { WatchContent, watchLayoutType } from "./WatchContent";
-import { useSmIdContext } from "./modules/WatchDataContext";
+import { useSmIdContext } from "../Global/Contexts/WatchDataContext";
 import {
     useVideoInfoContext,
     useVideoRefContext,

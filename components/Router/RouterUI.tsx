@@ -3,7 +3,7 @@ import { WatchBody } from "../PMWatch/WatchBody";
 import ShogiBody from "../ReShogi/ShogiBody";
 import { useHistoryContext, useLocationContext } from "./RouterContext";
 import Header from "../Global/Header/Header";
-import { MintConfig } from "../PMWatch/modules/MintConfig";
+import { MintConfig } from "../Global/MintConfig";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
 import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
 import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";

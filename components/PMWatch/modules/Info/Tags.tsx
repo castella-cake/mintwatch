@@ -1,6 +1,6 @@
 import { Tag } from "@/types/VideoData";
 import { IconCheck, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react";
-import { useSmIdContext } from "../WatchDataContext";
+import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext";
 
 type compatibleTag = {
     name: string;

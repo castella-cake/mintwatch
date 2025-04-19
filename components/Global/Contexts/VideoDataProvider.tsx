@@ -1,5 +1,5 @@
 import { createContext, createRef, ReactNode, RefObject } from "react";
-import { useSmIdContext } from "../../PMWatch/modules/WatchDataContext";
+import { useSmIdContext } from "./WatchDataContext";
 import { VideoDataRootObject } from "@/types/VideoData";
 import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider";
 

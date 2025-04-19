@@ -9,7 +9,7 @@ import { NicoHarajukuLogo, Owner, Stats } from "./modules/ShinjukuUI"
 import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
-import Search from "./modules/Search"
+import Search from "../Global/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { useHistoryContext } from "../Router/RouterContext"
 
