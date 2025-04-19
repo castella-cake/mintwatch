@@ -25,7 +25,7 @@
         "@xpadev-net/niconicomments": "^0.2.73",
         "dompurify": "^3.2.5",
         "history": "^5.3.0",
-        "hls.js": "^1.6.1",
+        "hls.js": "^1.6.2",
         "html-react-parser": "5.2.3",
         "react": "19.1.0",
         "react-dom": "19.1.0",
@@ -36,15 +36,15 @@
         "stylus": "^0.64.0"
     },
     "devDependencies": {
-        "@types/chrome": "^0.0.313",
+        "@types/chrome": "^0.0.315",
         "@types/jquery": "^3.5.31",
-        "@types/react": "^19.1.0",
-        "@types/react-dom": "^19.1.1",
+        "@types/react": "^19.1.2",
+        "@types/react-dom": "^19.1.2",
         "@types/react-transition-group": "^4.4.11",
         "@wxt-dev/module-react": "^1.1.1",
         "patch-package": "^8.0.0",
         "typescript": "^5.8.3",
-        "wxt": "^0.20.0"
+        "wxt": "^0.20.2"
     },
     "engines": {
         "pnpm": ">=10.6"
