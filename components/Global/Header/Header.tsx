@@ -8,9 +8,9 @@ import { RefObject } from "react";
 import { CSSTransition } from "react-transition-group";
 import Notifications from "./Notifications";
 import MyMenu from "./MyMenu";
-import Navbar from "./Navbar";
-import SideMenu from "./SideMenu";
-import { NavigationDndWrapper } from "./NavigationCustomDragContext";
+import Navbar from "./Navbar/Navbar";
+import SideMenu from "./Navbar/SideMenu";
+import { NavigationDndWrapper } from "./Navbar/NavigationCustomDragContext";
 import useServerContext from "@/hooks/serverContextHook";
 
 function onVanillaPageReturn() {

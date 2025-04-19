@@ -1,6 +1,6 @@
 import ReactFocusLock from "react-focus-lock"
 import { CSSTransition } from "react-transition-group"
-import { useSetSideMenuShownContext, useSideMenuShownContext } from "../Contexts/ModalStateProvider"
+import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"

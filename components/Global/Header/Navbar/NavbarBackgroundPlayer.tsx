@@ -1,4 +1,4 @@
-import { useBackgroundPlayInfoContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Contexts/BackgroundPlayProvider";
+import { useBackgroundPlayInfoContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../../Contexts/BackgroundPlayProvider";
 import { IconX } from "@tabler/icons-react";
 
 export default function NavbarBackgroundPlayer() {
