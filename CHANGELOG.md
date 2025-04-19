@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - ナビゲーションバーとサイドメニューを追加しました
 - ヘッダー固定を追加しました
+- 実験的: ランキングページの置き換え機能を実装しました
 
 ### Changed
 - 動画アクションのデザインを変更しました
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - ランキングページからの視聴ページ置き換えが正しく機能しない問題を緩和しました
+- 一部のスタイルを調整・修正しました
 
 ## 0.5.1 - 2025/04/01
 
