@@ -1,36 +1,9 @@
+import onboardingMarkdown from "@/assets/onboarding.md?raw"
+import Markdown from "react-markdown"
 export default function OnboardingHelp() {
     return <div className="pmw-help-content">
-        <h2>MintWatch のはじめに</h2>
-        <p>
-            MintWatch へようこそ。<br/>
-            MintWatch は、現在のニコニコユーザーのために設計された、簡潔でカスタマイズ可能な視聴ページです。
-        </p>
-        <p>
-            現在ベータ版で、要素はいつでも変更される可能性があります。<br/>
-            フィードバックやバグがある場合は、遠慮なく Discord や Issue に報告してください。
-        </p>
-        <h2>使い方</h2>
-        <p>
-            MintWatch は、通常の視聴ページと透過的な使用感を目指して設計されています。<br/>
-            未実装の機能を除いて、ほぼ求めているものはその場所にあります。
-        </p>
-        <p>
-            レイアウトの設定は、ヘッダーの左端にあるスパナアイコンから「MintWatch の設定」を開くことで行えます。<br/>
-            全体的なページ幅や、プレイヤーに関する設定は、プレイヤーコントローラーの歯車アイコンから「プレイヤー設定」を開いてください。
-        </p>
-        <h2>Firefox (Gecko) での動作</h2>
-        <p>
-            Firefox 系ブラウザでの動作は一部制限があります。<br/>
-            HLSは技術的制約により、ページスクリプトとして動作するプラグインとして実装されています。
-        </p>
-        <p>
-            画質セレクターは使用可能ですが、再生時の画質は自動設定に固定されます。また、稀に使用不可になることがあります。<br/>
-            また、シークバーのバッファ表示は利用できません。
-        </p>
-        <h2>あなた好みの視聴ページになります</h2>
-        <p>
-            CSS に関する知識があれば、MintWatch の明確なクラス名によって簡単にカスタムCSSを作成することができます。<br/>
-            ユーザースタイルやユーザースクリプトの追加にはその他の拡張機能が必要です。
-        </p>
+        <Markdown>
+            {onboardingMarkdown}
+        </Markdown>
     </div>
 }

@@ -1,6 +1,13 @@
+import whatsNewData from "@/assets/whatsnew.json"
+import { useSetVideoActionModalStateContext } from "../../Contexts/ModalStateProvider"
 export default function WhatsNewTitle() {
-    return <div className="whatsnew-container">
-        <div className="whatsnew-title">新着情報</div>
-        <div className="whatsnew-body"></div>
-    </div>
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const onClick = useCallback(() => {
+        setVideoActionModalState("whatsnew")
+    }, [])
+    return <button className="whatsnew-container" onClick={onClick}>
+        <div className="whatsnew-title">更新情報</div>
+        <div className="whatsnew-body">{whatsNewData.title}</div>
+        <div className="whatsnew-subtitle">{whatsNewData.subtitle}</div>
+    </button>
 }

@@ -1,4 +1,5 @@
 import {
+    IconComet,
     IconFolder,
     IconHelpCircle,
     IconKeyboard,
@@ -14,6 +15,7 @@ import OnboardingHelp from "./OnboardingHelp";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import { CSSTransition } from "react-transition-group";
 import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import WhatsNew from "./WhatsNew";
 
 export function VideoActionModal({
     nodeRef,
@@ -40,7 +42,7 @@ export function VideoActionModal({
                     <div className="videoaction-modal-container">
                         <div className="videoaction-modal-header global-flex">
                             <h2 className="global-flex1">
-                                {videoActionModalState === "help" || videoActionModalState === "shortcuts"
+                                {videoActionModalState === "help" || videoActionModalState === "shortcuts" || videoActionModalState === "whatsnew"
                                     ? "ヘルプ"
                                     : "動画アクション"}
                             </h2>
@@ -81,6 +83,17 @@ export function VideoActionModal({
                             <button
                                 className="videoaction-select videoaction-select-bottom"
                                 onClick={() => {
+                                    setVideoActionModalState("whatsnew");
+                                }}
+                                is-active={
+                                    videoActionModalState === "whatsnew" ? "true" : "false"
+                                }
+                            >
+                                <IconComet /> 更新情報
+                            </button>
+                            <button
+                                className="videoaction-select videoaction-select-bottom"
+                                onClick={() => {
                                     setVideoActionModalState("shortcuts");
                                 }}
                                 is-active={
@@ -110,6 +123,7 @@ export function VideoActionModal({
                             )}
                             {videoActionModalState === "help" && <OnboardingHelp />}
                             {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
+                            {videoActionModalState === "whatsnew" && <WhatsNew />}
                         </div>
                     </div>
                 </div>

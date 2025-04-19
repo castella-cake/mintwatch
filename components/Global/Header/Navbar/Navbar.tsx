@@ -4,6 +4,7 @@ import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Conte
 import NavbarCustomArea from "./NavbarCustomArea";
 import { Dispatch, SetStateAction } from "react";
 import NavbarBackgroundPlayer from "./NavbarBackgroundPlayer";
+import WhatsNewTitle from "./WhatsNewTitle";
 
 export default function Navbar({ isEditMode, setIsEditMode }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> } ) {
     const isSideMenuShown = useSideMenuShownContext()
@@ -23,6 +24,8 @@ export default function Navbar({ isEditMode, setIsEditMode }: { isEditMode: bool
         </div>
         <Search/>
         <NavbarCustomArea isEditMode={isEditMode} setIsEditMode={setIsEditMode}/>
+        <div className="navbar-right-separator"/>
         <NavbarBackgroundPlayer/>
+        <WhatsNewTitle/>
     </div>
 }

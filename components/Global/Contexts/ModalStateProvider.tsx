@@ -1,7 +1,9 @@
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 
-const IVideoModalStateContext = createContext<false | "mylist" | "share" | "help" | "shortcuts">(false);
-const ISetVideoModalStateContext = createContext<Dispatch<SetStateAction<false | "mylist" | "share" | "help" | "shortcuts">>>(() => { });
+type videoModalState = false | "mylist" | "share" | "help" | "shortcuts" | "whatsnew"
+
+const IVideoModalStateContext = createContext<videoModalState>(false);
+const ISetVideoModalStateContext = createContext<Dispatch<SetStateAction<videoModalState>>>(() => { });
 
 const IHeaderActionStateContext = createContext<false | "notifications" | "mymenu">(false);
 const ISetHeaderActionStateContext = createContext<Dispatch<SetStateAction<false | "notifications" | "mymenu">>>(null!);
@@ -13,9 +15,7 @@ const ISideMenuShownContext = createContext<boolean>(false);
 const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { });
 
 export function ModalStateProvider({ children }: { children: ReactNode }) {
-    const [videoActionModalState, setVideoActionModalState] = useState<
-        false | "mylist" | "share" | "help" | "shortcuts"
-    >(false);
+    const [videoActionModalState, setVideoActionModalState] = useState<videoModalState>(false);
     const [headerActionState, setHeaderActionState] = useState<
         false | "notifications" | "mymenu"
     >(false);

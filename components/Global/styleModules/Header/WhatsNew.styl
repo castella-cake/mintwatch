@@ -1,0 +1,36 @@
+.whatsnew-container {
+    display: block;
+    background: transparent;
+    color: var(--textcolor1);
+    font-size: inherit;
+    text-align: left;
+    border: none;
+    font-family: inherit;
+
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: max-content max-content;
+    gap: 0 8px;
+
+    padding: 4px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    &:hover {
+        background: var(--hover1);
+    }
+}
+
+
+.whatsnew-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    background: var(--bgcolor1);
+    padding: 8px;
+    border-radius: var(--radius);
+}
+
+.whatsnew-subtitle {
+    color: var(--textcolor3);
+    font-size: 0.8rem;
+}
