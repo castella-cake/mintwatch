@@ -134,7 +134,7 @@
     }
 }
 
-.player-container[data-is-integrated-controller="true"] .playercontroller-container {
+.container[data-background-playing="false"] .player-container[data-is-integrated-controller="true"] .playercontroller-container {
     position: absolute;
     left: 8px;
     right: 8px;
@@ -168,6 +168,12 @@
     opacity: 0 !important; 
 }
 
+.player-container[data-is-integrated-controller="true"] {
+    .playersettings-container, .vefx-container {
+        bottom: 80px;
+    }
+}
+
 .fullscreen [is-bigview="false"] {
     .player-container {
         position: fixed;
@@ -188,21 +194,25 @@
         min-width: 800px;
         margin: 8px 32px;
     }
-    .player-container[data-is-dynamic-controller="true"] .player-bottom-container {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 8px;
-        background: linear-gradient(0deg, #000a 80%, #0000);
-        padding-top: 32px;
-        z-index: 30;
-        opacity: 0 !important; // フルスクリーンでダイナミック表示時にカーソルが動いていない
-    }
-
-    .player-container[data-is-dynamic-controller="true"] .player-bottom-container > div {
-        margin-left: auto;
-        margin-right: auto;
+    .player-container[data-is-dynamic-controller="true"] {
+        .player-bottom-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: linear-gradient(0deg, #000a 80%, #0000);
+            padding-top: 32px;
+            z-index: 30;
+            opacity: 0 !important; // フルスクリーンでダイナミック表示時にカーソルが動いていない
+        }
+        .player-bottom-container > div {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .playersettings-container, .vefx-container {
+            bottom: 150px;
+        }
     }
 
     // フルスクリーンでダイナミック表示時にカーソルが動いている場合、もしくはホバーされている場合に不透明
