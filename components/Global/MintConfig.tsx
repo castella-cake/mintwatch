@@ -8,7 +8,7 @@ import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/compo
 
 export function MintConfig({ nodeRef}: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const manifestData = useManifestData()
-    const settingsObject = { "mintwatch": settings.mintwatch.filter(setting => setting.type !== "desc") }
+    const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
     const mintConfigShown = useMintConfigShownContext()
     const setMintConfigShown = useSetMintConfigShownContext()

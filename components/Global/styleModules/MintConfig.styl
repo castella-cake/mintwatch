@@ -14,7 +14,10 @@
     position: fixed;
     left: 0;
     top: 0;
-    //bottom: 0;
+    bottom: 0;
+    height: max-content;
+    max-height: calc(100vh - 96px);
+    overflow: auto;
     width: clamp(10em, 25em, 90vw);
     padding: 16px;
     z-index: 100;
@@ -42,6 +45,9 @@
         }
     }
     .settings-area h1 {
+        font-size: 1.25rem;
+    }
+    .settings-area:nth-child(2) h1 {
         display: none;
     }
     select {
