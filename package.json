@@ -31,6 +31,7 @@
         "react-dom": "19.1.0",
         "react-error-boundary": "5.0.0",
         "react-focus-lock": "2.13.6",
+        "react-markdown": "^10.1.0",
         "react-scan": "^0.3.3",
         "react-transition-group": "^4.4.5",
         "stylus": "^0.64.0"
@@ -44,7 +45,7 @@
         "@wxt-dev/module-react": "^1.1.1",
         "patch-package": "^8.0.0",
         "typescript": "^5.8.3",
-        "wxt": "^0.20.2"
+        "wxt": "^0.20.0"
     },
     "engines": {
         "pnpm": ">=10.6"
