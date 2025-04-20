@@ -2,7 +2,7 @@
     "SETTINGS_DESC": "Changes the settings of MintWatch.\nYou can also open this from the wrench icon in the header of MintWatch.",
     "SETTINGS_AREATITLE": {
         "mintwatch": "MintWatch",
-        "reshogi": "Re:Shogi",
+        "pageReplace": "Page replacement",
         "header": "Header"
     },
     "SETTINGS_ITEMS": {
@@ -22,17 +22,17 @@
         },
 
         "enableReshogi": {
-            "name": "Experimental: Enable replacement of the ranking page",
+            "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",
             "hint": "MintWatch's new ranking page. Reverts the ranking page to its correct form."
         },
 
         "enableFixedHeader": {
             "name": "Enable Fixed Header",
-            "hint": "The header will always be displayed even when scrolling. It remains hidden during fullscreen mode"
+            "hint": "The header will always be displayed even when scrolling. It remains hidden during fullscreen mode."
         },
         "headerActionType": {
             "name": "Header Action Display Type",
-            "hint": "Sets how to open notifications or My Menu in the header",
+            "hint": "Sets how to open notifications or My Menu in the header.",
             "select": ["Click to Open", "Open on Hover"]
         },
         "navbarType": {

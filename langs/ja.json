@@ -1,8 +1,8 @@
 {
-    "SETTINGS_DESC": "MintWatch の設定を変更します。\n設定は MintWatch 内のヘッダーにあるスパナアイコンからも開くことができます。",
+    "SETTINGS_DESC": "MintWatch の設定を変更します。\nページ置き換え以外の設定は MintWatch のヘッダーにある設定を開くことでも行えます。",
     "SETTINGS_AREATITLE": {
         "mintwatch": "MintWatch",
-        "reshogi": "Re:将棋盤",
+        "pageReplace": "ページの置き換え",
         "header": "ヘッダー"
     },
     "SETTINGS_ITEMS": {
@@ -12,30 +12,31 @@
         },
         "pmwlayouttype": {
             "name": "視聴ページのレイアウト",
-            "hint": "MintWatchの見た目を指定します。Shinjukuではスタイルも変更されます。",
-            "select": ["Re-cresc.", "Re-新視聴", "Stacked", "3カラム", "Shinjuku", "Re:Re:(仮)"]
+            "hint": "MintWatchの見た目を指定します。Shinjukuではスタイルも変更されます",
+            "select": ["Re:cresc.", "Re:新視聴", "Stacked", "3カラム", "Shinjuku", "Re:Re:(仮)"]
         },
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
-            "hint": "MintWatchで使用するプレイヤーの見た目を指定します。",
+            "hint": "MintWatchで使用するプレイヤーの見た目を指定します",
             "select": ["デフォルト", "cresc.", "Shinjuku"]
         },
 
         "enableReshogi": {
-            "name": "実験的: ランキングページの置き換えを有効化",
-            "hint": "代替的なランキングページ。ランキングページを再構成し、壊れていなかった正しい形へ引き戻します。"
+            "name": "実験的: ランキングページの置き換えを有効化 (Re:将棋盤)",
+            "hint": "ランキングページを再構成されたデザインのランキングページで置き換えます"
         },
+
         "enableFixedHeader": {
             "name": "ヘッダーを画面に固定",
             "hint": "スクロールしてもヘッダーが常に表示され続けるようになります。フルスクリーン時は引き続き非表示になります"
         },
         "headerActionType": {
-            "name": "ヘッダーアクションの表示タイプ",
-            "hint": "ヘッダーにある通知ボタンやマイメニューをどのようにして開くかを設定します",
+            "name": "ヘッダーアクションの表示",
+            "hint": "ヘッダーにある通知やマイメニューの開閉方法を設定します",
             "select": ["クリックで開く", "ホバーで開く"]
         },
         "navbarType": {
-            "name": "ナビゲーションバーの表示タイプ",
+            "name": "ナビゲーションバーの表示",
             "hint": "ナビゲーションバーの表示を設定します。Shinjuku ではデフォルトで非表示になります",
             "select": ["常に表示", "ホバーで開く", "非表示"]
         },

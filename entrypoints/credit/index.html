@@ -5,37 +5,46 @@
         <meta charset="utf-8">
         <title>MintWatch について</title>
         <link rel="stylesheet" href="../settings/settingsUI.styl"/>
+        <link rel="stylesheet" href="./credit.styl"/>
     </head>
 
     <body>
         <div class="container">
         <header class="title"><a href="settings.html" target="_self"><</a>MintWatch について</header>
         <div class="includelinks maincontainer noyugothic">
-            <div class="maincontainer_inner">
+            <div class="maincontainer_inner" style="font-size: 14px;line-height: 22px;">
                 <div class="settings-area">
                     <h1>About</h1>
                     <div>
                         現在使用中のバージョン: <span id="version"></span><br>
 
-                        MintWatch は、ニコニコ動画の視聴そのものにフォーカスした、カスタマイズ性の高い動画プレイヤーです。<br>
+                        MintWatch は、ニコニコ動画用の視聴することにフォーカスした代替フロントエンドです。<br>
                         MintWatch は MIT License のもとで利用することができます。<br>
                         <br>
-                        Website/X(旧Twitter)では MintWatch の更新情報も投稿しています。<br>
-                        (Websiteの投稿通知は、ActivityPubで受け取ることもできます)<br>
+                        Website/X では MintWatch の更新情報も投稿しています。<br>
+                        (Website の投稿通知は、ActivityPub で受け取ることもできます)<br>
                         <br>
-                        記事掲載は大歓迎ですが、事後報告でも大丈夫なのでWebsiteの問い合わせまたはDMで一報くださると幸いです<br>
-                        Created by CYakigasi
+                        Created by CYakigasi<br>
                         <a href="https://www.cyakigasi.net" target="_blank" rel="noopener noreferrer">Website</a>
                         <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer">Niconico</a>
-                        <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer">Discord</a>
                         <a href="https://www.cyakigasi.net/links" target="_blank" rel="noopener noreferrer">SNS Links(Misskey,Bluesky,Twitter...)</a><br>
+                    </div>
+                </div>
+
+                <div class="settings-area">
+                    <h1>Discord</h1>
+                    <div>
+                        PepperMint+ / MintWatch の Discord サーバーがあります。<br>
+                        バグ報告やフィードバックをより簡単に行ったり、ベータ版や今後の開発に関するアンケートなどに参加できます。<br>
+                        ニコニコ関連の UserStyle や UserScript などに関するディスカッションも歓迎します！<br>
+                        <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer">NicoPM Community Discord に参加する</a>
                     </div>
                 </div>
 
                 <div class="settings-area">
                     <h1>Contribute</h1>
                     <div>
-                        MintWatch のGithubリポジトリがあります。<br>
+                        MintWatch の Github リポジトリがあります。<br>
                         機能追加やバグ修正などのPull requestは大歓迎です。<br>
                         バグを見つけた場合はissueに報告していただけると助かります。<br>
                         <a href="https://github.com/castella-cake/mintwatch" target="_blank" rel="noopener noreferrer">https://github.com/castella-cake/mintwatch</a>
@@ -45,7 +54,7 @@
                 <div class="settings-area">
                     <h1>Donate</h1>
                     <div>
-                        Github Sponsorsから開発者に寄付できます。<br>
+                        Github Sponsors から開発者に$1~/月もしくは$2~から寄付できます。<br>
                         MintWatch を気に入っていただけたなら、よければ支援をお願いします。<br>
                         <a href="https://github.com/sponsors/castella-cake" target="_blank" rel="noopener noreferrer">https://github.com/sponsors/castella-cake</a>
                     </div>
@@ -61,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <script src="./credit.js" type="module"></script>
+        <script src="./credit.ts" type="module"></script>
         <style id="ee_style"></style>
     </body>
 

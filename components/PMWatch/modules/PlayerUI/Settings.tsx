@@ -19,7 +19,7 @@ const settings: { [key: string]: setting } = {
         options: [0,1,2],
         defaultValue: 1,
         texts: ["小", "中", "フル"],
-        name: "プレイヤーサイズ",
+        name: "ページサイズ",
         hint: "全体的なページの横幅が変更されます。"
     },
     commentOpacity: {
@@ -47,7 +47,7 @@ const settings: { [key: string]: setting } = {
         type: "select",
         defaultValue: "playlistonly",
         options: ["never", "playlistonly", "always"],
-        name: "自動再生",
+        name: "連続再生",
         texts: ["しない", "プレイリストがある場合", "常に"]
     },
     sharedNgLevel: {

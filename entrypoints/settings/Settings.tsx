@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import "./settingsUI.styl"
 import settings from "@/utils/settingsList";
+import { IconBrandDiscord, IconBrandDiscordFilled, IconBrandGithub, IconBrandGithubFilled } from "@tabler/icons-react";
 
 const rootElement = document.getElementById("root")
 if (!rootElement) throw new Error("root element not found");
@@ -24,8 +25,8 @@ createRoot(rootElement).render(
                         <span className="current-version">v{manifestData.version_name ?? manifestData.version ?? "(Unknown Version)"}</span>
                     </div>
                     <div className="titlelink-container">
-                        <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" className="titlelink">Discord</a>
-                        <a href="https://github.com/castella-cake/mintwatch/issues" target="_blank" rel="noopener noreferrer" className="titlelink">Feedback</a>
+                        <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" className="titlelink"><IconBrandDiscord/></a>
+                        <a href="https://github.com/castella-cake/mintwatch" target="_blank" rel="noopener noreferrer" className="titlelink"><IconBrandGithub/></a>
                     </div>
                 </div>
                 <div className="settings-page-desc">{lang.SETTINGS_DESC}</div>
@@ -40,19 +41,25 @@ createRoot(rootElement).render(
                 </div>
                 <div id="info-area" className="includelinks">
                     <div className="hint">
+                        <br/>
                         MintWatch を一時的に無効にする場合は、ヘッダーにあるドアのアイコンをクリックします。<br/>
                         再度オンにするまで無効にしたい場合は、拡張機能自体を無効化してください。<br/>
                         設定は自動保存されます。保存した設定を反映させるには、リロードする必要があります。<br/>
                         MintWatch の更新後に表示が崩れた場合は、Ctrl+Shift+Rでハード再読み込みを試してみてください。
                     </div>
-                    MintWatch <a href="https://github.com/castella-cake/mintwatch" target="_blank" rel="noopener noreferrer">Github Repo</a><br/>
-                    Created by CYakigasi <a href="https://www.cyakigasi.net" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Website</a>
-                    <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Niconico</a>
-                    <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>Discord</a>
-                    <a href="https://www.cyakigasi.net/links" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}>SNS Links(Misskey,Bluesky,Twitter...)</a> <br/>
                     <div style={{ display: "flex", gap: 8 }}>
                         <a href="credit.html" target="_self" className="settinglink">MintWatch について...</a> <a href="storagemanage.html" target="_self" className="settinglink">ユーザーデータの管理...</a> 
                     </div>
+                    <div className="links" style={{marginTop: "1em"}}>
+                        <span>MintWatch</span><a href="https://github.com/castella-cake/mintwatch" target="_blank" rel="noopener noreferrer"><IconBrandGithubFilled/></a><a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" rel="noopener noreferrer" style={{marginRight: 4}}><IconBrandDiscordFilled/></a>
+                    </div>
+                    <div className="links">
+                        <span>Created by CYakigasi</span>
+                        <a href="https://www.cyakigasi.net" target="_blank" rel="noopener noreferrer">Website</a>
+                        <a href="https://www.nicovideo.jp/user/92343354" target="_blank" rel="noopener noreferrer">Niconico</a>
+                        <a href="https://x.com/CYaki_xcf" target="_blank" rel="noopener noreferrer">X(Twitter)</a> <br/>
+                    </div>
+
                 </div>
             </div>
         </StorageProvider>

@@ -65,13 +65,6 @@ const settings: settingList = {
             ]
         }
     ],
-    reshogi: [
-        {
-            type: "checkbox",
-            name: "enableReshogi",
-            default: false,
-        }
-    ],
     header: [
         {
             type: "checkbox",
@@ -90,7 +83,14 @@ const settings: settingList = {
             values: ["default", "dynamic", "disable"],
             default: "default"
         },
-    ]
+    ],
+    pageReplace: [
+        {
+            type: "checkbox",
+            name: "enableReshogi",
+            default: false,
+        }
+    ],
 }
 
 export function getDefault(name: string) {
