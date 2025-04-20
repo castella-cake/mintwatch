@@ -17,6 +17,15 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
 
     if (!document.documentElement) return;
 
+    // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
+    if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
+        /*const script = document.createElement("script");
+        script.src = browser.runtime.getURL("/watch_injector.js");
+        script.setAttribute("pmw-isplugin", "true");
+        head.appendChild(script);*/
+        await injectScript('/watch_injector.js');
+    }
+
     // PMW-Enabledを追加してスタイルシートを有効化
     document.documentElement.classList.add(`ReShogi-Enabled`);
     //console.log(document.documentElement.outerHTML)
