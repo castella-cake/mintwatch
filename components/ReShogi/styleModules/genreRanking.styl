@@ -1,7 +1,7 @@
 .shogi-genre-ranking {
     display: grid;
-    width: auto;
-    padding: 1rem 12%;
+    width: @css{min(95vw, 91em)};
+    padding: 1rem 0;
     grid-template-columns: 1fr 50rem 1fr;
     grid-template-areas: "feat feat feat" ". items trend" ". page .";
     position: relative;
@@ -50,6 +50,7 @@
         font-weight: bold;
         text-align: right;
         margin-right: 1rem;
+        opacity: 0.8;
     }
 
     img.shogi-video-owner-icon {
@@ -78,6 +79,11 @@
     }
     .shogi-video-owner:hover {
         background: var(--hover1);
+    }
+
+    .shogi-short-desc {
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
     .shogi-video-count {
