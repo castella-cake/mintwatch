@@ -11,11 +11,10 @@ import { Mylist } from "./MylistUI";
 import { Share } from "./ShareUI";
 import { RefObject } from "react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
-import OnboardingHelp from "./OnboardingHelp";
+import MarkdownHelp from "./MarkdownHelp";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import { CSSTransition } from "react-transition-group";
 import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
-import WhatsNew from "./WhatsNew";
 
 export function VideoActionModal({
     nodeRef,
@@ -121,9 +120,8 @@ export function VideoActionModal({
                             {videoActionModalState === "share" && (
                                 <Share videoInfo={videoInfo} />
                             )}
-                            {videoActionModalState === "help" && <OnboardingHelp />}
+                            {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && <MarkdownHelp contentKey={videoActionModalState}/>}
                             {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
-                            {videoActionModalState === "whatsnew" && <WhatsNew />}
                         </div>
                     </div>
                 </div>
