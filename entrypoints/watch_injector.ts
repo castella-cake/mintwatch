@@ -128,9 +128,9 @@ export default defineUnlistedScript({
                 // 使えるやつを全部希望する。音声クオリティは常に一番良いものを希望する。
                 const hlsRequestBody = {
                     outputs: availableVideoQuality.map((elem) => {
-                        if (!elem.isAvailable) return;
+                        if (!elem.isAvailable) return null;
                         return [elem.id, greatestAudioQuality.id];
-                    }),
+                    }).filter(quality => quality !== null),
                 };
                 const videoElement: any =
                     document.getElementById("pmw-element-video"); // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
