@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.6.0 - 2025/04
+## 0.6.1 - 2025/04/21
+
+### Fixed
+- 外部 HLS プラグインが動画クオリティを正しく送信しない場合がある問題を修正しました
+- ナビゲーションバーの更新情報は視聴ページ以外で表示されないようになりました
+- ブラウザーがライトモードに設定されている場合に設定ページの文字色が一部正しくない問題を修正しました
+
+## 0.6.0 - 2025/04/20
 
 ### Added
 - ナビゲーションバーとサイドメニューを追加しました
