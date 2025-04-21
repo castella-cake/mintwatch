@@ -8,7 +8,7 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
         const onUnload = () => {
             if ( !videoRef.current ) return
             const playbackPositionBody = { watchId: videoInfo.data.response.video.id, seconds: videoRef.current.currentTime }
-            putPlaybackPosition(JSON.stringify(playbackPositionBody))
+            putPlaybackPosition(playbackPositionBody)
         }
         window.addEventListener("beforeunload", onUnload)
         return () => { window.removeEventListener("beforeunload", onUnload) }

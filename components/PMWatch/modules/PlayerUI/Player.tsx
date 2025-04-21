@@ -319,7 +319,7 @@ function Player(props: Props) {
             watchId: videoId,
             seconds: videoRef.current.currentTime,
         };
-        putPlaybackPosition(JSON.stringify(playbackPositionBody));
+        putPlaybackPosition(playbackPositionBody);
     }, [videoRef, videoId]);
 
     const onEnded = () => {

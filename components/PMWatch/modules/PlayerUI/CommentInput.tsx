@@ -41,7 +41,7 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
         if (postKeyResponse.meta.status !== 200) return 
         const reqBody: CommentPostBody = {videoId, commands: [...commentCommand, "184"], body: commentBody, vposMs, postKey: postKeyResponse.data.postKey}
         //console.log(reqBody)
-        const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, JSON.stringify(reqBody))
+        const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, reqBody)
         //console.log(commentPostResponse)
         if ( commentPostResponse.meta.status === 201 && videoInfo.data ) {
             const commentResponse = await reloadCommentContent()

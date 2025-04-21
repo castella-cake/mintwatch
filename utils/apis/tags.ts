@@ -1,3 +1,7 @@
+/**
+ * 指定した動画のタグを取得するAPI
+ * @param smId タグを取得する動画のID
+ */
 export async function getTagsApi(smId: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/videos/${encodeURIComponent(smId)}/tags`, {
         "headers": {
@@ -11,7 +15,12 @@ export async function getTagsApi(smId: string) {
     return await response.json() as TagsApiRootObject
 }
 
-// POST / DELETE
+/**
+ * 指定した動画のタグを編集するAPI
+ * @param smId タグを編集する動画のID
+ * @param tag 追加/削除するタグ名
+ * @param method POSTで追加/DELETEで削除
+ */
 export async function tagsEditApi(smId: string, tag: string, method: "POST" | "DELETE" = "POST") {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/videos/${encodeURIComponent(smId)}/tags?tag=${encodeURIComponent(tag)}`, {
         "headers": {
@@ -27,6 +36,12 @@ export async function tagsEditApi(smId: string, tag: string, method: "POST" | "D
     return await response.json() as TagsApiRootObject
 }
 
+/**
+ * 指定したタグのロック状態を編集するAPI isLockableなどで確認しておくこと
+ * @param smId タグロックを編集する動画のID
+ * @param tag タグロックを編集するタグ名
+ * @param isLocked 変更先のロック状態
+ */
 export async function tagsLockApi(smId: string, tag: string, isLocked: boolean) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/videos/${encodeURIComponent(smId)}/tags/lock?tag=${encodeURIComponent(tag)}&isLocked=${encodeURIComponent(isLocked.toString())}`, {
         "headers": {

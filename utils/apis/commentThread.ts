@@ -1,6 +1,11 @@
 import { CommentDataRootObject } from "@/types/CommentData";
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 
+/**
+ * コメントを取得するAPI
+ * @param server サーバーへのURL(/v1...以降は含めない、動画情報APIから取得するべき)
+ * @param body コメント取得のオブジェクト
+ */
 export async function getCommentThread(server: string, body: string) {
     const response = await fetch(`${server}/v1/threads`, {
         "credentials": "omit",
@@ -18,6 +23,10 @@ export async function getCommentThread(server: string, body: string) {
     return await response.json() as CommentDataRootObject
 }
 
+/**
+ * コメント取得用のキーを取得するAPI
+ * @param videoId キーを取得する動画ID
+ */
 export async function getCommentThreadKey(videoId: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/thread?videoId=${encodeURIComponent(videoId)}`, {
         "credentials": "include",

@@ -1,5 +1,13 @@
 import { AccessRightsRootObject } from "@/types/accessRightsApi";
 
+/**
+ * HLS/Storyboard のリソース(アクセス権限)を取得するAPI
+ * @param videoId 取得する動画ID
+ * @param body 取得用のオブジェクト
+ * @param actionTrackId アクショントラックID
+ * @param accessRightKey 取得用のキー
+ * @param isStoryBoard HLSではなくストーリーボードを取るか
+ */
 export async function getHls(videoId: string, body: string, actionTrackId: string, accessRightKey: string, isStoryBoard = false) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/watch/${encodeURIComponent(videoId)}/access-rights/${isStoryBoard ? "storyboard" : "hls"}?actionTrackId=${encodeURIComponent(actionTrackId)}`, {
         "headers": {

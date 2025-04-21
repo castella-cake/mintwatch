@@ -1,6 +1,11 @@
 import { VideoDataRootObject } from "@/types/VideoData"
 
 const manifestData = browser.runtime.getManifest();
+
+/**
+ * 動画情報を取得する(正確には視聴ページ情報を取得する)API
+ * @param smId 動画ID
+ */
 export function getVideoInfo(smId: string): Promise<VideoDataRootObject> {
     return new Promise(async (resolve, reject) => {
         try {

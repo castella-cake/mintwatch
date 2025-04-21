@@ -32,12 +32,12 @@ function CreateWatchUI() {
 
     const changeVideo = useCallback((videoUrl: string) => {
         // 移動前にシーク位置を保存
-        if (videoRef && videoRef.current instanceof HTMLVideoElement) {
+        if (smId && videoRef && videoRef.current instanceof HTMLVideoElement) {
             const playbackPositionBody = {
                 watchId: smId,
                 seconds: videoRef.current.currentTime,
             };
-            putPlaybackPosition(JSON.stringify(playbackPositionBody));
+            putPlaybackPosition(playbackPositionBody);
         }
 
         // historyにpushして移動
@@ -55,6 +55,7 @@ function CreateWatchUI() {
         // 戻るボタンとかが発生した場合
         const listenPopState = history.listen(({ action, location }) => {
             if (
+                smId &&
                 videoRef.current &&
                 videoRef.current instanceof HTMLVideoElement
             ) {
@@ -62,7 +63,7 @@ function CreateWatchUI() {
                     watchId: smId,
                     seconds: videoRef.current.currentTime,
                 };
-                putPlaybackPosition(JSON.stringify(playbackPositionBody));
+                putPlaybackPosition(playbackPositionBody);
             }
             console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`

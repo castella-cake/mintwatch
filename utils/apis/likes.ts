@@ -1,6 +1,11 @@
 import { LikesApi } from "@/types/likesApi";
 
-export async function sendLike(smId: string, method: string) {
+/**
+ * いいね！を取得/追加/削除するAPI
+ * @param smId いいね！を取得する動画ID
+ * @param method GETで取得/POSTで追加/DELETEで削除
+ */
+export async function sendLike(smId: string, method: "GET" | "POST" | "DELETE") {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/likes/items?videoId=${encodeURIComponent(smId)}`, {
         "headers": {
             "x-frontend-id": "6",
