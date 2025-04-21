@@ -97,7 +97,7 @@ export function CommentRender(props: {
             // PiP用のvideo要素にキャンバスの内容を流す
             if (enableCommentPiP && pipVideoRef.current && !pipVideoRef.current.srcObject) {
                 pipVideoRef.current.srcObject = canvasRef.current.captureStream()
-                if (!videoRef.current.paused) {
+                if (!(videoRef.current.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA && videoRef.current.paused)) {
                     pipVideoRef.current.play()
                 }
             }
