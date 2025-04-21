@@ -2,8 +2,21 @@ import { Comment, Thread } from "@/types/CommentData";
 import NiconiComments from "@xpadev-net/niconicomments";
 import { RefObject } from "react";
 
+const fastConfig = {
+    canvasWidth: 1366,
+    canvasHeight: 768,
+    commentScale: 1366 / 683,
+    commentDrawRange: 1088,
+    commentDrawPadding: 139
+}
+const disableOutlineConfig = {
+    contextLineWidth: { html5: 0, flash: 0 },
+    contextStrokeColor: "#000000",
+    contextStrokeOpacity: 0,
+}
+
 // コメントレンダラー
-export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOpacity, threads, videoOnClick, enableCommentPiP, commentRenderFps, disableCommentOutline, previewCommentItem, defaultPostTargetIndex }: {
+export function CommentRender(props: {
     videoRef: RefObject<HTMLVideoElement | null>,
     pipVideoRef: RefObject<HTMLVideoElement | null>,
     isCommentShown: boolean,
@@ -15,17 +28,47 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
     previewCommentItem: null | Comment,
     defaultPostTargetIndex: number,
     disableCommentOutline: boolean,
+    enableFancyRendering: boolean
 }) {
+    const {
+        videoRef,
+        pipVideoRef,
+        isCommentShown,
+        commentOpacity,
+        threads,
+        videoOnClick,
+        enableCommentPiP,
+        commentRenderFps,
+        disableCommentOutline,
+        previewCommentItem,
+        defaultPostTargetIndex,
+        enableFancyRendering
+    } = props
+
+    const canUseFastRenderConfig = !(enableFancyRendering || enableCommentPiP) // コメントPIPと描画優先のどちらも有効になっていない
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const niconicommentsRef = useRef<NiconiComments | null>(null!)
     const animationFrameIdRef = useRef<number>(null!)
     const fpsRef = useRef<number>(null!)
     fpsRef.current = commentRenderFps
-    function drawWithAnimationFrame() {
+
+    const lastCurrentTimeRef = useRef({ lastTime: 0, timeStamp: 0 })
+    
+    const drawWithAnimationFrame = useCallback(() => {
         if (!videoRef.current || !niconicommentsRef.current) return
-        niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
+        const thisPerformance = performance.now()
+        // Firefox は currentTime が 48ms 刻みでしか更新されていない！！！
+        // このため、前のanimationFrameと同じcurrentTimeが来たら、その時の Performance.now() との差分を比較して加えることで、期待通りのフレームを描画する
+        // これをやらないとどう頑張っても 20.833333333333332 fps にしかならない！！！！！！
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime) {
+            lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
+            niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
+        } else if (!videoRef.current.paused){
+            niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
+        }
         if (fpsRef.current == -1) animationFrameIdRef.current = requestAnimationFrame(drawWithAnimationFrame)
-    }
+    }, [fpsRef.current, videoRef.current, niconicommentsRef.current])
+
     useEffect(() => {
         if (
             canvasRef.current &&
@@ -45,11 +88,10 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
                 enableLegacyPiP: true,
                 video: (enableCommentPiP ? videoRef.current : undefined),
                 mode: "html5",
-                config: (disableCommentOutline ? {
-                    contextLineWidth: { html5: 0, flash: 0 },
-                    contextStrokeColor: "#000000",
-                    contextStrokeOpacity: 0,
-                } : {})
+                config: {
+                    ...(disableCommentOutline ? disableOutlineConfig : {}),
+                    ...(canUseFastRenderConfig ? fastConfig : {})
+                }
             }) // 
 
             // PiP用のvideo要素にキャンバスの内容を流す
@@ -66,13 +108,22 @@ export function CommentRender({ videoRef, pipVideoRef, isCommentShown, commentOp
                 if (pipVideoRef.current) pipVideoRef.current.srcObject = null
             }
         }
-    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline])
+    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline, canUseFastRenderConfig])
     useInterval(() => {
         if (!videoRef.current || !isCommentShown || !niconicommentsRef.current) return
-        niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
+        const thisPerformance = performance.now()
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime) {
+            lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
+            niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
+        } else if (!videoRef.current.paused){
+            niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
+        }
     }, Math.floor(1000 / commentRenderFps))
+
+    const canvasWidth = (canUseFastRenderConfig ? 1366 : 1920)
+    const canvasHeight = (canUseFastRenderConfig ? 768 : 1080)
     return <>
-        <canvas ref={canvasRef} width="1920" height="1080" style={isCommentShown ? {opacity: commentOpacity} : {opacity: 0}} id="pmw-element-commentcanvas"/>
+        <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} style={isCommentShown ? {opacity: commentOpacity} : {opacity: 0}} id="pmw-element-commentcanvas"/>
         <video
             ref={pipVideoRef}
             className="player-commentvideo-pip"

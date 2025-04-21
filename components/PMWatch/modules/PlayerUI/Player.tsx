@@ -433,6 +433,10 @@ function Player(props: Props) {
                             localStorage.playersettings.disableCommentOutline ??
                             false
                         }
+                        enableFancyRendering={
+                            localStorage.playersettings.enableFancyRendering ??
+                            false
+                        }
                         commentRenderFps={commentRenderFps}
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={

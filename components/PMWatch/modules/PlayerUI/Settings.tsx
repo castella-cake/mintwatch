@@ -72,6 +72,12 @@ const settings: { [key: string]: setting } = {
         name: "レジューム再生",
         hint: "プレミアム会員資格が必要です。"
     },
+    enableFancyRendering: {
+        type: "checkbox",
+        name: "高解像度でコメントを描画",
+        defaultValue: false,
+        hint: "弾幕が流れている場合などにフレームレートが低下する可能性があります。"
+    },
     enableCommentPiP: {
         type: "checkbox",
         defaultValue: false,
