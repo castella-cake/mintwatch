@@ -10,7 +10,7 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     // nopmwだったら終了
     const queryString = location.search;
     const searchParams = new URLSearchParams(queryString);
-    if (!syncStorage.enableReshogi || searchParams.get("nopmw") == "true") return;
+    if (searchParams.get("nopmw") == "true") return;
 
     // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
     if (import.meta.env.FIREFOX) window.stop();

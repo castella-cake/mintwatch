@@ -22,13 +22,14 @@ function Match({ targetPathname, children }: { targetPathname: string, children:
 }
 
 const nicovideoPrefix = "https://www.nicovideo.jp"
-const targetPathnames = ["/watch/", "/ranking"]
 
 export default function RouterUI() {
+    const {syncStorage} = useStorageContext()
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
+    const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
     function linkClickHandler(e: React.MouseEvent) {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
