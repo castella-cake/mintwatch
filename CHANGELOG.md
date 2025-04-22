@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   元の 1920x1080 に戻す場合は、プレイヤー設定で `高解像度でコメントを描画` を有効にします。
 - video 要素の currentTime の更新間隔がフレームレートより低い場合に、自動で補完して描画するようになりました (Fixes [#5](https://github.com/castella-cake/mintwatch/issues/5))   
   これにより、Firefox 環境でのコメント描画フレームレートが大幅に改善します。無効化するにはプレイヤー設定で `コメントの補完描画` を無効にします。
+- Re:将棋盤 のカスタムランキングレーンの幅を少し拡大しました
 
 ### Fixed
 - PiPでのコメント描画が場合によっては一時停止される問題を修正しました
