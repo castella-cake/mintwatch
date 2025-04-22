@@ -78,6 +78,12 @@ const settings: { [key: string]: setting } = {
         defaultValue: false,
         hint: "弾幕が流れている場合などにフレームレートが低下する可能性があります。"
     },
+    enableInterpolateCommentRendering: {
+        type: "checkbox",
+        name: "コメントの補完描画",
+        defaultValue: true,
+        hint: "Firefox 環境で大幅にフレームレートが改善します。"
+    },
     enableCommentPiP: {
         type: "checkbox",
         defaultValue: false,

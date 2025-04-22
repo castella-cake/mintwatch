@@ -437,6 +437,10 @@ function Player(props: Props) {
                             localStorage.playersettings.enableFancyRendering ??
                             false
                         }
+                        enableInterpolateCommentRendering={
+                            localStorage.playersettings.enableInterpolateCommentRendering ??
+                            true
+                        }
                         commentRenderFps={commentRenderFps}
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={

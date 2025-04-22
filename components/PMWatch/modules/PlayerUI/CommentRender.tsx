@@ -28,7 +28,8 @@ export function CommentRender(props: {
     previewCommentItem: null | Comment,
     defaultPostTargetIndex: number,
     disableCommentOutline: boolean,
-    enableFancyRendering: boolean
+    enableFancyRendering: boolean,
+    enableInterpolateCommentRendering: boolean
 }) {
     const {
         videoRef,
@@ -42,7 +43,8 @@ export function CommentRender(props: {
         disableCommentOutline,
         previewCommentItem,
         defaultPostTargetIndex,
-        enableFancyRendering
+        enableFancyRendering,
+        enableInterpolateCommentRendering,
     } = props
 
     const canUseFastRenderConfig = !(enableFancyRendering || enableCommentPiP) // コメントPIPと描画優先のどちらも有効になっていない
@@ -60,14 +62,14 @@ export function CommentRender(props: {
         // Firefox は currentTime が 48ms 刻みでしか更新されていない！！！
         // このため、前のanimationFrameと同じcurrentTimeが来たら、その時の Performance.now() との差分を比較して加えることで、期待通りのフレームを描画する
         // これをやらないとどう頑張っても 20.833333333333332 fps にしかならない！！！！！！
-        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime) {
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
         } else if (!videoRef.current.paused){
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
         }
         if (fpsRef.current == -1) animationFrameIdRef.current = requestAnimationFrame(drawWithAnimationFrame)
-    }, [fpsRef.current, videoRef.current, niconicommentsRef.current])
+    }, [fpsRef.current, videoRef.current, niconicommentsRef.current, enableInterpolateCommentRendering])
 
     useEffect(() => {
         if (
@@ -108,11 +110,12 @@ export function CommentRender(props: {
                 if (pipVideoRef.current) pipVideoRef.current.srcObject = null
             }
         }
-    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline, canUseFastRenderConfig])
+    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline, canUseFastRenderConfig, enableInterpolateCommentRendering])
+
     useInterval(() => {
         if (!videoRef.current || !isCommentShown || !niconicommentsRef.current) return
         const thisPerformance = performance.now()
-        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime) {
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
         } else if (!videoRef.current.paused){
