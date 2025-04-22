@@ -1,0 +1,71 @@
+.ngcomments-editor-container {
+    border-radius: var(--radius);
+    padding: 16px;
+    background: var(--bgcolor1);
+}
+
+.ngcomments-editor-title {
+    color: var(--textcolor2);
+}
+
+.ngcomments-editor-add {
+    padding: 8px;
+    border-radius: var(--radius);
+    border: var(--border);
+}
+
+.ngcomments-editor-add-input {
+    line-height: 1.5rem;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius) 0 0 var(--radius);
+    padding: 4px 8px;
+    width: 15em
+}
+
+.ngcomments-editor-add-button {
+    line-height: 1.5rem;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 4px 8px;
+}
+
+.ngcomments-editor-item-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.ngcomments-editor-item {
+    background: var(--bgcolor2);
+    padding: 8px;
+    border-radius: var(--radius);
+    border: var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    .ngcomments-type {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    svg {
+        padding: 4px;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    button {
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--textcolor1);
+        border-radius: var(--radius);
+        &:hover {
+            background: var(--hover1);
+        }
+    }
+}

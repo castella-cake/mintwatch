@@ -1,5 +1,7 @@
 // JSON to TS で生成したものを手直ししたものです
 
+import { NgData } from "./ngCommentsApiData";
+
 // 実際使わないものは多いけど、null扱いされてしまったものでデータが入ることが想定されてそうなものはanyにしています
 export interface VideoDataRootObject extends baseResponse{
     data: Data;
@@ -430,7 +432,7 @@ interface Ng {
     ngScore: NgScore;
     channel: any[];
     owner: any[];
-    viewer: ViewerNg;
+    viewer: NgData;
 }
 
 export interface ViewerNg {

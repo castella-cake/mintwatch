@@ -1,5 +1,5 @@
 import { Thread, Comment } from "@/types/CommentData"
-import { ViewerNg } from "@/types/VideoData"
+import { NgData } from "@/types/ngCommentsApiData"
 
 export function secondsToTime(seconds: number) {
     const second = Math.floor(seconds % 60)
@@ -147,7 +147,7 @@ export const sharedNgLevelScore = {
     "none": -1000000,
 }
 
-export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewerNg?: ViewerNg ) {
+export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewerNg?: NgData | null ) {
     const threadsAfter = threads.map((thread) => {
         if ( thread.fork === "owner" ) return thread
         const comments = doFilterComments(thread.comments, sharedNgLevel, viewerNg)
@@ -156,7 +156,7 @@ export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewer
     return threadsAfter
 }
 
-export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: ViewerNg, onlyShowMyselfComments?: boolean) {
+export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: NgData | null, onlyShowMyselfComments?: boolean) {
     return comments.filter((comment) => {
         if (onlyShowMyselfComments && !comment.isMyPost) return false 
         if ( comment.score < sharedNgLevel ) return false

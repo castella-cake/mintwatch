@@ -1,4 +1,5 @@
 import {
+    IconBubbleX,
     IconComet,
     IconFolder,
     IconHelpCircle,
@@ -15,6 +16,7 @@ import MarkdownHelp from "./MarkdownHelp";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import { CSSTransition } from "react-transition-group";
 import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import NgComments from "./NgComments";
 
 export function VideoActionModal({
     nodeRef,
@@ -78,6 +80,17 @@ export function VideoActionModal({
                             >
                                 <IconShare /> 共有
                             </button>
+                            <button
+                                className="videoaction-select"
+                                onClick={() => {
+                                    setVideoActionModalState("ngcomments");
+                                }}
+                                is-active={
+                                    videoActionModalState === "ngcomments" ? "true" : "false"
+                                }
+                            >
+                                <IconBubbleX/> NGコメント設定
+                            </button>
                             <div className="videoaction-select-separator videoaction-select-separator-bottom">ヘルプ</div>
                             <button
                                 className="videoaction-select videoaction-select-bottom"
@@ -120,6 +133,11 @@ export function VideoActionModal({
                             {videoActionModalState === "share" && (
                                 <Share videoInfo={videoInfo} />
                             )}
+                            {
+                                videoActionModalState === "ngcomments" && (
+                                    <NgComments/>
+                                )
+                            }
                             {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && <MarkdownHelp contentKey={videoActionModalState}/>}
                             {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
                         </div>

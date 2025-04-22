@@ -14,7 +14,7 @@ import {
     NicoruRemoveRootObject,
 } from "@/types/NicoruPostData";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { IconAdjustmentsStar, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
+import { IconAdjustmentsStar, IconBubbleX, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
 import {
     useVideoInfoContext,
@@ -24,6 +24,8 @@ import {
     useCommentContentContext,
     useCommentControllerContext,
 } from "@/components/Global/Contexts/CommentDataProvider";
+import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
+import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement | null>;
@@ -211,6 +213,8 @@ function CommentList() {
     const { setCommentContent, reloadCommentContent } =
         useCommentControllerContext();
     const videoRef = useVideoRefContext();
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const {ngData} = useViewerNgContext();
 
     //const lang = useLang()
     const { localStorage } = useStorageContext();
@@ -308,7 +312,7 @@ function CommentList() {
                 (localStorage.playersettings.sharedNgLevel ??
                     "mid") as keyof typeof sharedNgLevelScore
             ],
-            videoInfo?.data.response.comment.ng.viewer,
+            ngData,
             onlyShowMyselfComments,
         );
     }, [
@@ -423,6 +427,15 @@ function CommentList() {
                 <div className="global-flex1 global-bold">
                     受信済み {commentCount} 件
                 </div>
+                <button
+                    className="commentlist-list-openng"
+                    onClick={() => {
+                        setVideoActionModalState("ngcomments")
+                    }}
+                    title="NG設定を開く"
+                >
+                    <IconBubbleX />
+                </button>
                 <button
                     className="commentlist-list-timemachine"
                     data-isenable={onlyShowMyselfComments}

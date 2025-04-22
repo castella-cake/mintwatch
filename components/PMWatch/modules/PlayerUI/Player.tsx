@@ -32,6 +32,7 @@ import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvide
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
 import { VideoTitle } from "../Info/Info";
 import BackgroundController from "./BackgroundController";
+import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
 
 type Props = {
     isFullscreenUi: boolean;
@@ -49,6 +50,7 @@ function Player(props: Props) {
     const actionTrackId = useActionTrackDataContext();
     const playlistData = usePlaylistContext();
     const recommendData = useRecommendContext();
+    const {ngData} = useViewerNgContext()
 
     const videoId = videoInfo?.data?.response.video.id ?? "";
 
@@ -248,7 +250,7 @@ function Player(props: Props) {
                 (localStorage.playersettings.sharedNgLevel ??
                     "mid") as keyof typeof sharedNgLevelScore
             ],
-            videoInfo?.data.response.comment.ng.viewer,
+            ngData,
         );
     }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel]);
 

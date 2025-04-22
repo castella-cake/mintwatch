@@ -4,6 +4,7 @@ import { CommentDataProvider } from "@/components/Global/Contexts/CommentDataPro
 import { PlaylistProvider } from "@/components/Global/Contexts/PlaylistProvider";
 import { RecommendProvider } from "@/components/Global/Contexts/RecommendProvider";
 import { useLocationContext } from "@/components/Router/RouterContext";
+import { ViewerNgProvider } from "./ViewerNgProvider";
 
 type smIdContext = {
     smId: null | string;
@@ -31,9 +32,13 @@ export function WatchDataProvider({ children }: { children: ReactNode }) {
     return (
         <VideoDataProvider>
             <CommentDataProvider>
-                <RecommendProvider>
-                    <PlaylistProvider>{children}</PlaylistProvider>
-                </RecommendProvider>
+                <ViewerNgProvider>
+                    <RecommendProvider>
+                        <PlaylistProvider>
+                            {children}
+                        </PlaylistProvider>
+                    </RecommendProvider>
+                </ViewerNgProvider>
             </CommentDataProvider>
         </VideoDataProvider>
     );
