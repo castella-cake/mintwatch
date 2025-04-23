@@ -31,6 +31,9 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     if (!document.documentElement) return;
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
+    document.documentElement.querySelectorAll("script").forEach(
+        blockScriptElement,
+    );
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
             const addedNodes = record.addedNodes;
