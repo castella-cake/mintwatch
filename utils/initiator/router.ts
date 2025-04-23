@@ -13,7 +13,20 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     if (searchParams.get("nopmw") == "true") return;
 
     // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
-    if (import.meta.env.FIREFOX) window.stop();
+    //if (import.meta.env.FIREFOX) window.stop();
+    if (import.meta.env.FIREFOX) {
+        window.stop();
+        const faviconElement = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
+        if (faviconElement) {
+            faviconElement.href = "";
+            faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
+        } else {
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'shortcut icon';
+            linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
+            document.head.appendChild(linkElement);
+        }
+    }
 
     if (!document.documentElement) return;
 
