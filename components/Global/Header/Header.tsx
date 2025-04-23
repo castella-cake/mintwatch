@@ -24,7 +24,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     const contextData = useServerContext()
     const videoViewerInfo = videoInfo?.data.response.viewer;
 
-    const alternativeUserData = contextData ? {
+    const alternativeUserData = contextData && contextData.sessionUser ? {
         nickname: contextData.sessionUser.nickname,
         id: contextData.sessionUser.id,
         isPremium: contextData.sessionUser.type === "premium"

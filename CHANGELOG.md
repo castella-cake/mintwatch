@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.7.0 - 2025/04
+## 0.6.2 - 2025/04/23
 
 ### Changed
 - 内部のAPI呼び出し関数にJSDocでの注釈を追加しました
@@ -13,10 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - コメント描画の解像度はデフォルトで 1366x768 に変更されました   
   元の 1920x1080 に戻す場合は、プレイヤー設定で `高解像度でコメントを描画` を有効にします。
 - video 要素の currentTime の更新間隔がフレームレートより低い場合に、自動で補完して描画するようになりました (Fixes [#5](https://github.com/castella-cake/mintwatch/issues/5))   
-  これにより、Firefox 環境でのコメント描画フレームレートが大幅に改善します。
+  これにより、Firefox 環境でのコメント描画フレームレートが大幅に改善します。無効化するにはプレイヤー設定で `コメントの補完描画` を無効にします。
+- Re:将棋盤 のカスタムランキングレーンの幅を少し拡大しました
 
 ### Fixed
 - PiPでのコメント描画が場合によっては一時停止される問題を修正しました
+- ランキングページの置き換え機能が使用されていない場合に置き換えが機能しない問題を修正しました
+- スクリプトのブロックが外部HLS プラグインの実行前に実行されるようになりました
+- 未ログイン時にヘッダーコンポーネントがエラーを発生する問題を修正しました
 
 ## 0.6.1 - 2025/04/21
 

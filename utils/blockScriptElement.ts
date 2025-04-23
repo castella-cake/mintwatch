@@ -7,7 +7,8 @@ export default function blockScriptElement(element: Element) {
     if (
         element.tagName.toLowerCase() === "script" &&
         element.getAttribute("pmw-isplugin") !== "true" &&
-        !src.includes("extension://")
+        !src.includes("extension://") &&
+        !(src === "" && element.innerHTML.includes("watchinjector"))
     ) {
         //console.log("blocked:",element);
         element.setAttribute("type", "javascript/blocked");

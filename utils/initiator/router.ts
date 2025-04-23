@@ -13,36 +13,27 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     if (searchParams.get("nopmw") == "true") return;
 
     // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
-    if (import.meta.env.FIREFOX) window.stop();
+    //if (import.meta.env.FIREFOX) window.stop();
+    if (import.meta.env.FIREFOX) {
+        window.stop();
+        const faviconElement = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
+        if (faviconElement) {
+            faviconElement.href = "";
+            faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
+        } else {
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'shortcut icon';
+            linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
+            document.head.appendChild(linkElement);
+        }
+    }
 
     if (!document.documentElement) return;
 
-    // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
-    if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
-        /*const script = document.createElement("script");
-        script.src = browser.runtime.getURL("/watch_injector.js");
-        script.setAttribute("pmw-isplugin", "true");
-        head.appendChild(script);*/
-        await injectScript('/watch_injector.js');
-    }
-
-    // PMW-Enabledを追加してスタイルシートを有効化
-    document.documentElement.classList.add(`ReShogi-Enabled`);
-    //console.log(document.documentElement.outerHTML)
-
-    // わたってくるdocumentには既に動画情報のレスポンスが入っている。使えるならこっちを使って高速化してしまったほうが良いので、innerHTMLが書き換わる前に取得しておく
-    /*const initialResponse =
-        (document.getElementsByName("server-response").length > 0 &&
-            document
-                .getElementsByName("server-response")[0]
-                .getAttribute("content")) ??
-        "";
-    //console.log("DOM serverResponse", initialResponse)
-    const initialClassNames =
-        document.documentElement.classList.values();
-    const initialStyle = document.documentElement.style.cssText;*/
-
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
+    document.documentElement.querySelectorAll("script").forEach(
+        blockScriptElement,
+    );
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
             const addedNodes = record.addedNodes;
@@ -63,6 +54,29 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         childList: true,
         subtree: true,
     });
+
+    // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
+    if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
+        /*const script = document.createElement("script");
+        script.src = browser.runtime.getURL("/watch_injector.js");
+        script.setAttribute("pmw-isplugin", "true");
+        head.appendChild(script);*/
+        await injectScript('/watch_injector.js');
+    }
+    //console.log(document.documentElement.outerHTML)
+
+    // わたってくるdocumentには既に動画情報のレスポンスが入っている。使えるならこっちを使って高速化してしまったほうが良いので、innerHTMLが書き換わる前に取得しておく
+    /*const initialResponse =
+        (document.getElementsByName("server-response").length > 0 &&
+            document
+                .getElementsByName("server-response")[0]
+                .getAttribute("content")) ??
+        "";
+    //console.log("DOM serverResponse", initialResponse)
+    const initialClassNames =
+        document.documentElement.classList.values();
+    const initialStyle = document.documentElement.style.cssText;*/
+
     /*document.head.innerHTML = `
         <meta charset="utf-8">
         <link rel="shortcut icon" href="https://resource.video.nimg.jp/web/images/favicon/favicon.ico">

@@ -4,7 +4,7 @@ export default interface ServerContextRootObject {
     tracking: Tracking;
     serverTime: number;
     publicUrl: PublicUrl;
-    sessionUser: SessionUser;
+    sessionUser: SessionUser | null;
     videoTotalSummary: VideoTotalSummary;
     hrc: boolean;
 }
