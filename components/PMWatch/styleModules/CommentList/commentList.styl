@@ -70,10 +70,11 @@
         height: inherit;
         min-height: 1.6em;
         flex-wrap: wrap;
+        box-shadow: 0 0 4px #000;
         .commentlist-list-item-body {
             white-space: normal;
         }
-        .commentlist-list-item-stats {
+        .commentlist-list-item-stats, .commentlist-list-item-actions {
             flex: 100%;
             opacity: 0.8;
             font-size: 0.9em;
@@ -81,7 +82,7 @@
     }
 }
 
-.commentlist-list-item-seektobutton {
+.commentlist-list-item-button {
     background: none;
     border: none;
     color: var(--textcolor1);

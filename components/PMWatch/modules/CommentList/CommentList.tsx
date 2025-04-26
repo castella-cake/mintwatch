@@ -144,13 +144,23 @@ function CommentRow({
                             コメ番: {comment.no} / 投稿日時:{" "}
                             {new Date(comment.postedAt).toLocaleString()}
                         </span>
+                    </div>
+                    <div className="commentlist-list-item-actions">
                         <button
                             onClick={() => {
                                 onSeekTo(comment.vposMs / 1000);
                             }}
-                            className="commentlist-list-item-seektobutton"
+                            className="commentlist-list-item-button"
                         >
                             投稿時間にシーク
+                        </button>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(comment.userId)
+                            }}
+                            className="commentlist-list-item-button"
+                        >
+                            ユーザーIDをコピー
                         </button>
                     </div>
                 </>
@@ -321,6 +331,7 @@ function CommentList() {
         localStorage.playersettings.sharedNgLevel,
         onlyShowMyselfComments,
         videoInfo,
+        ngData
     ]);
 
     // データが足りなかったら閉店
