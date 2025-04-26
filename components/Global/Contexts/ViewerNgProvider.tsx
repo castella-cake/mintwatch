@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
-import { NgData } from "@/types/ngCommentsApiData";
+import { NgData } from "@/types/NgCommentsApiData";
 
 const IViewerNgContext = createContext<{ ngData: NgData | null, setNgData: Dispatch<SetStateAction<NgData | null>> }>({ ngData: null, setNgData: () => {} });
 

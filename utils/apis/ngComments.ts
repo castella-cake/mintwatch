@@ -1,4 +1,4 @@
-import { NgCommentsRootObject } from "@/types/ngCommentsApiData";
+import { NgCommentsRootObject } from "@/types/NgCommentsApiData";
 
 /**
  * NGワードを追加するAPI

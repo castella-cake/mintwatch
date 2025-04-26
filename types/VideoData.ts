@@ -1,6 +1,6 @@
 // JSON to TS で生成したものを手直ししたものです
 
-import { NgData } from "./ngCommentsApiData";
+import { NgData } from "./NgCommentsApiData";
 
 // 実際使わないものは多いけど、null扱いされてしまったものでデータが入ることが想定されてそうなものはanyにしています
 export interface VideoDataRootObject extends baseResponse{

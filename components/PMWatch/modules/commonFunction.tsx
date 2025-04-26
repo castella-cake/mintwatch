@@ -1,5 +1,5 @@
 import { Thread, Comment } from "@/types/CommentData"
-import { NgData } from "@/types/ngCommentsApiData"
+import { NgData } from "@/types/NgCommentsApiData"
 
 export function secondsToTime(seconds: number) {
     const second = Math.floor(seconds % 60)
