@@ -88,7 +88,7 @@ export function WatchContent(_props: Props) {
         onModalStateChanged={onModalStateChanged}
         key="watchui-player"
     />
-    const titleElem = <VideoTitle key="watch-container-title" />
+    const titleElem = <VideoTitle key="watch-container-title" showStats={true} />
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
     const commentListElem = <CommentList key="watchui-commentlist" />
     const playListElem = <Playlist key="watchui-playlist" />

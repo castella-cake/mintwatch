@@ -118,32 +118,61 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
     );
 }
 
-export function VideoTitle({ children }: { children?: ReactNode }) {
+export function VideoTitle({ children, showStats }: { children?: ReactNode, showStats: boolean }) {
     const { videoInfo } = useVideoInfoContext();
     if (!videoInfo) return;
     const videoInfoResponse = videoInfo.data.response;
     return (
         <div className="videotitle-container">
             <div className="videotitle">{videoInfoResponse.video.title}</div>
-            <div className="videostats">
-                <span className="videostats-item">
-                    {new Date(
-                        videoInfoResponse.video.registeredAt,
-                    ).toLocaleString("ja-JP")}
-                </span>
-                <span className="videostats-item">
-                    <IconPlayerPlayFilled />
-                    {readableInt(videoInfoResponse.video.count.view)}
-                </span>
-                <span className="videostats-item">
-                    <IconMessageFilled />
-                    {readableInt(videoInfoResponse.video.count.comment)}
-                </span>
-                <span className="videostats-item">
-                    <IconFolderFilled />
-                    {readableInt(videoInfoResponse.video.count.mylist)}
-                </span>
-            </div>
+            {showStats && (
+                <div className="videostats">
+                    <span className="videostats-item">
+                        <IconClockHour4Filled />
+                        <span>
+                            {new Date(
+                                videoInfoResponse.video.registeredAt,
+                            ).toLocaleString("ja-JP")}
+                        </span>
+                    </span>
+                    <span className="videostats-item">
+                        <IconPlayerPlayFilled />
+                        <span>
+                            {readableInt(
+                                videoInfoResponse.video.count.view,
+                            )}
+                        </span>
+                    </span>
+                    <span className="videostats-item">
+                        <IconMessageFilled />
+                        <span>
+                            {readableInt(
+                                videoInfoResponse.video.count.comment,
+                            )}
+                        </span>
+                    </span>
+                    <span className="videostats-item">
+                        <IconFolderFilled />
+                        <span>
+                            {readableInt(
+                                videoInfoResponse.video.count.mylist,
+                            )}
+                        </span>
+                    </span>
+                    <span className="videostats-item">
+                        <span>
+                            {videoInfoResponse.genre.isNotSet
+                                ? "未設定"
+                                : videoInfoResponse.genre.label}
+                            {videoInfoResponse.ranking.teiban
+                                ? <>
+                                    (<strong>{videoInfoResponse.ranking.teiban.label}</strong> 内現在順位: {videoInfoResponse.ranking.teiban.rank}位)
+                                </>
+                                : ""}
+                        </span>
+                    </span>
+                </div>
+            )}
             { children }
         </div>
     );
@@ -240,62 +269,14 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                                     : videoInfoResponse.genre.label}{" "}
                             </strong>
                             カテゴリ
-                            {videoInfoResponse.ranking.genre
-                                ? `(過去最高順位: ${videoInfoResponse.ranking.genre.rank}位)`
+                            {videoInfoResponse.ranking.teiban
+                                ? <>
+                                    (<strong>{videoInfoResponse.ranking.teiban.label}</strong> 内現在順位: {videoInfoResponse.ranking.teiban.rank}位)
+                                </>
                                 : ""}
                         </div>
                     )}
-                    {isTitleShown && (
-                        <div className="videotitle">
-                            {videoInfoResponse.video.title}
-                        </div>
-                    )}
-                    {!isShinjukuLayout && isTitleShown && (
-                        <div className="videostats">
-                            <span className="videostats-item">
-                                <IconClockHour4Filled />
-                                <span>
-                                    {new Date(
-                                        videoInfoResponse.video.registeredAt,
-                                    ).toLocaleString("ja-JP")}
-                                </span>
-                            </span>
-                            <span className="videostats-item">
-                                <IconPlayerPlayFilled />
-                                <span>
-                                    {readableInt(
-                                        videoInfoResponse.video.count.view,
-                                    )}
-                                </span>
-                            </span>
-                            <span className="videostats-item">
-                                <IconMessageFilled />
-                                <span>
-                                    {readableInt(
-                                        videoInfoResponse.video.count.comment,
-                                    )}
-                                </span>
-                            </span>
-                            <span className="videostats-item">
-                                <IconFolderFilled />
-                                <span>
-                                    {readableInt(
-                                        videoInfoResponse.video.count.mylist,
-                                    )}
-                                </span>
-                            </span>
-                            <span className="videostats-item">
-                                <span>
-                                    {videoInfoResponse.genre.isNotSet
-                                        ? "未設定"
-                                        : videoInfoResponse.genre.label}
-                                    {videoInfoResponse.ranking.genre
-                                        ? `(過去最高順位: ${videoInfoResponse.ranking.genre.rank}位)`
-                                        : ""}
-                                </span>
-                            </span>
-                        </div>
-                    )}
+                    {isTitleShown && <VideoTitle showStats={!isShinjukuLayout}/>}
                 </div>
                 {!isShinjukuLayout && (<>
                         {videoInfoResponse.owner && (

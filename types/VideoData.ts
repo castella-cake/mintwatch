@@ -238,6 +238,7 @@ interface Count {
 interface Ranking {
     genre: Genre2 | null;
     popularTag: PopularTag[];
+    teiban: Teiban | null;
 }
 
 interface PopularTag {
@@ -252,6 +253,12 @@ interface Genre2 {
     rank: number;
     genre: string;
     dateTime: string;
+}
+
+interface Teiban {
+    featuredKey: string;
+    label: string;
+    rank: number;
 }
 
 interface Player {
