@@ -6,7 +6,7 @@ interface Data {
   items: Item[];
 }
 
-interface Item {
+export interface Item {
   channel: Channel;
   isChannelMember: boolean;
   linkedVideoId: string;
