@@ -20,7 +20,7 @@ const settings: { [key: string]: setting } = {
         defaultValue: 1,
         texts: ["小", "中", "フル"],
         name: "ページサイズ",
-        hint: "全体的なページの横幅が変更されます。"
+        hint: "3カラムでは常にフル表示になります。"
     },
     commentOpacity: {
         type: "select",
