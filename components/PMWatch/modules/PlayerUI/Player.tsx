@@ -513,7 +513,7 @@ function Player(props: Props) {
                 )}
                 { videoId !== "" && <EndCard smId={videoId}/> }
                 <ErrorScreen videoInfo={videoInfo} />
-                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle/>}
+                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle showStats={true}/>}
             </VideoPlayer>
             <div className="player-bottom-container">
                 <PlayerController

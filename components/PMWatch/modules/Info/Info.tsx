@@ -118,7 +118,7 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
     );
 }
 
-export function VideoTitle({ children, showStats }: { children?: ReactNode, showStats: boolean }) {
+export function VideoTitle({ children, showStats }: { children?: ReactNode, showStats?: boolean }) {
     const { videoInfo } = useVideoInfoContext();
     if (!videoInfo) return;
     const videoInfoResponse = videoInfo.data.response;
