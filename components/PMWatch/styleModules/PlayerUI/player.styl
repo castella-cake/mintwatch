@@ -51,6 +51,8 @@
 
 .player-video-container-inner .videotitle-container {
     position: absolute;
+    left: 0;
+    right: 0;
     color: #fff;
     background: linear-gradient(#000a 85%, #0000);
     padding: 16px;
@@ -59,8 +61,9 @@
     transition: opacity 0.2s ease;
     text-align: left;
     backdrop-filter: blur(2px);
-    .videostats span {
-        border-left: 2px solid #ddd;
+    .videotitle {
+        font-weight: bold;
+        font-size: 1.2rem;
     }
 }
 .player-container[data-is-cursor-stopped="false"]:hover .player-video-container-inner .videotitle-container {
