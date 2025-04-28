@@ -11,7 +11,9 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
     const videoInfoResponse = videoInfo.data.response
     const shareURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
     const hashtags = [videoInfoResponse.video.id, "ニコニコ動画", "PepperMintShare"]
-    const shareBody = `${videoInfoResponse.video.title} - by ${videoInfoResponse.owner ? videoInfoResponse.owner.nickname : "非公開または退会済みユーザー"}\n${shareURL}\n#${hashtags.join(" #")}`
+    const ownerName = videoInfoResponse.owner ? videoInfoResponse.owner.nickname : (videoInfoResponse.channel ? videoInfoResponse.channel.name : "非公開または退会済みユーザー")
+
+    const shareBody = `${videoInfoResponse.video.title} - by ${ownerName}\n${shareURL}\n#${hashtags.join(" #")}`
     // Twitterとか各項目で改行してくれないので、全部bodyに押し込むことにした
     const shareIntents = {
         "twitter": `https://x.com/intent/tweet?text=${encodeURIComponent(shareBody)}`,
