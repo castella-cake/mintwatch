@@ -1,5 +1,6 @@
 import {
     IconClockHour4Filled,
+    IconCoinYenFilled,
     IconExclamationCircleFilled,
     IconFolderFilled,
     IconMessageFilled,
@@ -122,6 +123,9 @@ export function VideoTitle({ children, showStats }: { children?: ReactNode, show
     const { videoInfo } = useVideoInfoContext();
     if (!videoInfo) return;
     const videoInfoResponse = videoInfo.data.response;
+
+    const isPaidVideo = Object.keys(videoInfoResponse.payment.preview).some((key) => videoInfoResponse.payment.preview[key as keyof typeof videoInfoResponse.payment.preview].isEnabled);
+
     return (
         <div className="videotitle-container">
             <div className="videotitle">{videoInfoResponse.video.title}</div>
@@ -171,6 +175,14 @@ export function VideoTitle({ children, showStats }: { children?: ReactNode, show
                                 : ""}
                         </span>
                     </span>
+                    {
+                        isPaidVideo && <span className="videostats-item">
+                            <span className="videostats-paid-label">
+                                <IconCoinYenFilled/>
+                                <span>有料</span>
+                            </span>
+                        </span>
+                    }
                 </div>
             )}
             { children }
