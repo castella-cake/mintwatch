@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `全体的なページのスタイル` 設定でUIの密度を調整できるようになりました
 - `コメントリストの表示` 設定でRe:turn以降のコメントリスト表示に切り替えられるようになりました
 - NGコメント設定ができるようになりました [#7](https://github.com/castella-cake/mintwatch/issues/7)
+- 公式アニメを見ている場合は、エンドカードでエピソードを表示するようになりました
 
 ### Changed
 - ニコるボタンにニコるっぽいアイコンが表示されるようになりました

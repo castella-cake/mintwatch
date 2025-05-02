@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
-import { InfoCard } from "../Info/InfoCards";
+import { InfoCard, SeriesVideoCard } from "../Info/InfoCards";
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
 
 export function EndCard({ smId }: { smId: string }) {
@@ -51,6 +51,12 @@ export function EndCard({ smId }: { smId: string }) {
 
     const isKokenMuted = syncStorage.muteKokenVoice ?? getDefault("muteKokenVoice")
 
+    const seriesData = videoInfo?.data.response.series;
+    const playlist = btoa(
+        `{"type":"series","context":{"seriesId":${(seriesData && seriesData.id) || 0}}}`,
+    );
+    const showSeriesRecommend = seriesData && videoInfo?.data.response.channel && videoInfo?.data.response.genre.key === "anime"
+
     return <div className="endcard-container global-flex">
         <div className="endcard-left">
             <div className="endcard-supporters">
@@ -72,12 +78,28 @@ export function EndCard({ smId }: { smId: string }) {
                     <span>{ownerName}</span>
                 </div>
             </div>}
-            <h2>おすすめの動画</h2>
-            <div className="endcard-upnext-container">
-                {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
-                    return <InfoCard key={`${elem.id}`} obj={elem}/>
-                })}
-            </div>
+            { showSeriesRecommend ? <>
+                <h2>次のエピソードを見る</h2>
+                <div className="endcard-upnext-container">
+                    { seriesData.video.next && <SeriesVideoCard
+                        seriesVideoItem={seriesData.video.next}
+                        playlistString={playlist}
+                        transitionId={seriesData.id}
+                    />}
+                    { seriesData.video.prev && <SeriesVideoCard
+                        seriesVideoItem={seriesData.video.prev}
+                        playlistString={playlist}
+                        transitionId={seriesData.id}
+                    />}
+                </div>
+            </> : <>
+                <h2>おすすめの動画</h2>
+                <div className="endcard-upnext-container">
+                    {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
+                        return <InfoCard key={`${elem.id}`} obj={elem}/>
+                    })}
+                </div>
+            </>}
         </div>
     </div>
 }
