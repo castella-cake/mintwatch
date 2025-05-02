@@ -144,38 +144,38 @@
     }
 }
 /*
-.watch-container[watch-type="3col"], .watch-container[watch-type="recresc"], .watch-container[watch-type="shinjuku"] {
+.watch-container[data-watch-type="3col"], .watch-container[data-watch-type="recresc"], .watch-container[data-watch-type="shinjuku"] {
     .stacker-wrapper {
         min-height: 0;
     }
 }
 
-.watch-container:not([watch-type="3col"]):not([watch-type="shinjuku"]) {
-    &[settings-size="0"] .watch-container-left {
+.watch-container:not([data-watch-type="3col"]):not([data-watch-type="shinjuku"]) {
+    &[data-settings-size="0"] .watch-container-left {
         flex: 0.4
     }
-    &[settings-size="1"] .watch-container-left {
+    &[data-settings-size="1"] .watch-container-left {
         flex: 0.6
     }
-    &[settings-size="2"] .watch-container-left {
+    &[data-settings-size="2"] .watch-container-left {
         flex: 1
     }
 }
 
-.watch-container[watch-type="shinjuku"] {
-    &[settings-size="0"] .watch-container-middle {
+.watch-container[data-watch-type="shinjuku"] {
+    &[data-settings-size="0"] .watch-container-middle {
         flex-basis: 60%
     }
-    &[settings-size="1"] .watch-container-middle {
+    &[data-settings-size="1"] .watch-container-middle {
         flex-basis: 80%
     }
-    &[settings-size="2"] .watch-container-middle {
+    &[data-settings-size="2"] .watch-container-middle {
         flex-basis: 100%
     }
 }
 
 
-[watch-type="3col"] {
+[data-watch-type="3col"] {
     .watch-container-left {
         flex: 0.2;
         min-width: 0;
@@ -196,7 +196,7 @@
     }
 }
 
-[watch-type="recresc"], [watch-type="shinjuku"], [watch-type="3col"] {
+[data-watch-type="recresc"], [data-watch-type="shinjuku"], [data-watch-type="3col"] {
     .watch-container-rightaction {
         min-height: 0;
         position: absolute;
@@ -218,13 +218,13 @@
 }
 
 .watch-container {
-    &[settings-size="0"] {
+    &[data-settings-size="0"] {
         --page-padding: 14%;
     }
-    &[settings-size="1"] {
+    &[data-settings-size="1"] {
         --page-padding: 8%;
     }
-    &[settings-size="2"] {
+    &[data-settings-size="2"] {
         --page-padding: 1%;
     }
 }
@@ -296,34 +296,34 @@
     }
 }
 
-[watch-type="shinjuku"] .watch-container-grid, [watch-type="recresc"] .watch-container-grid {
+[data-watch-type="shinjuku"] .watch-container-grid, [data-watch-type="recresc"] .watch-container-grid {
     grid-template-columns: @css{1fr min(round(10%, 1px), 140px) max-content};
 }
-[watch-type="rerekari"] .watch-container-grid {
+[data-watch-type="rerekari"] .watch-container-grid {
     grid-template-columns: @css{1fr min(round(32%, 1px), 440px)};
 }
 
-[watch-type="renew"] .watch-container-grid {
+[data-watch-type="renew"] .watch-container-grid {
     grid-template-areas: "vid act act" "inf rec rec" "srs rec rec" "btm rec rec" "sch rec rec";
 }
 
-[watch-type="stacked"] .watch-container-grid {
+[data-watch-type="stacked"] .watch-container-grid {
     grid-template-areas: "vid act act" "srs rec rec" "btm rec rec" "sch rec rec";
 }
 
-[watch-type="3col"] .watch-container-grid {
+[data-watch-type="3col"] .watch-container-grid {
     grid-template-columns: 22% 1fr 22%; 
     grid-template-rows: repeat(4, max-content);
     grid-template-areas: "tit tit tit" "inf vid act" "rec rec rec" "srs srs srs" "btm btm btm" "sch sch sch";
     --page-padding: 0%;
 }
 
-[watch-type="shinjuku"] .watch-container-grid {
+[data-watch-type="shinjuku"] .watch-container-grid {
     grid-template-rows: repeat(6, max-content);
     grid-template-areas: "shr shr shr" "inf inf own" "inf inf sac" "spl spl spl" "rec rec rec" "btm srs srs";
 }
 
-[watch-type="rerekari"] .watch-container-grid {
+[data-watch-type="rerekari"] .watch-container-grid {
     grid-template-areas: "vid act" "inf inf" "rec rec" "btm srs" "sch sch" "trk trk";
 }
 

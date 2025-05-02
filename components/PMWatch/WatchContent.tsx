@@ -125,12 +125,12 @@ export function WatchContent(_props: Props) {
     const currentLayout = layoutPresets[layoutType]
 
     return <div className="watch-container"
-        is-bigview={shouldUseBigView.toString()}
-        watch-type={layoutType.toString()}
-        settings-size={playerSize.toString()}
-        use-card-recommend={shouldUseCardRecommend.toString()}
-        use-horizontal-search={shouldUseHorizontalSearchLayout.toString()}
-        use-card-info={shouldUseCardInfo.toString()}
+        data-is-bigview={shouldUseBigView}
+        data-watch-type={layoutType}
+        data-settings-size={playerSize}
+        data-use-card-recommend={shouldUseCardRecommend}
+        data-use-horizontal-search={shouldUseHorizontalSearchLayout}
+        data-use-card-info={shouldUseCardInfo}
         id="pmw-container"
         onClickCapture={(e) => { linkClickHandler(e) }}
     >

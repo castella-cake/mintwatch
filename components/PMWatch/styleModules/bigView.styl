@@ -1,4 +1,4 @@
-.fullscreen .watch-container[is-bigview="true"] {
+.fullscreen .watch-container[data-is-bigview="true"] {
     //animation: sidebarslideleft 0.25s ease forwards 1;
     --right-width: 25%;
     --component-bg: transparent;
@@ -16,7 +16,7 @@
         gap: 0;
         z-index: 105;
     }
-    &[watch-type="shinjuku"] .watch-container-grid {
+    &[data-watch-type="shinjuku"] .watch-container-grid {
         grid-template-areas: "spl spl" "spl spl" !important;
         grid-template-rows: max-content 1fr;
     }
