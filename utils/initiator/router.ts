@@ -82,7 +82,7 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         <link rel="shortcut icon" href="https://resource.video.nimg.jp/web/images/favicon/favicon.ico">
         <meta name="initial-response" content="{}">
     `*/
-    document.body.innerHTML = "";
+    if (document.body) document.body.innerHTML = "";
     // cleanup
     const linkElements = [...document.head.getElementsByTagName("link")]
     linkElements.forEach(elem => {
