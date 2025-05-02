@@ -51,6 +51,7 @@ export default function RouterUI() {
                     setBackgroundPlaying(false)
                 }
                 history.push(nearestAnchor.href)
+                window.scroll({ top: 0 })
             }
         }
     }
