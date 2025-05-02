@@ -25,6 +25,11 @@
             "hint": "Specifies the design of the comment list",
             "select": ["Default (~eR)", "Modern (Re:return~)"]
         },
+        "layoutDensity": {
+            "name": "Overall page style",
+            "hint": "Specifies the overall padding, corner rounding, and other styles",
+            "select": ["Compact", "Default", "Spacious"]
+        },
 
         "enableReshogi": {
             "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",

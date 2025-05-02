@@ -89,6 +89,7 @@ function CreateWatchUI() {
                 <div className="header-container global-flex"></div>
             </div>
         );
+    
     const layoutType =
         syncStorage.pmwlayouttype || watchLayoutType.reimaginedOldWatch;
     const playerSize =
@@ -96,6 +97,8 @@ function CreateWatchUI() {
             localStorage.playersettings &&
             localStorage.playersettings.playerAreaSize) ||
         1;
+
+    const layoutDensity = syncStorage.layoutDensity ?? getDefault("layoutDensity")
 
     function handleKeydown(e: React.KeyboardEvent) {
         if (e.key === "Escape") {
@@ -110,7 +113,14 @@ function CreateWatchUI() {
     const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback");
 
     return (
-        <div className={isFullscreenUi ? "container fullscreen" : "container"} onKeyDown={handleKeydown} onClick={onModalOutsideClick} data-disallow-grid-fallback={disallowGridFallback.toString()} data-background-playing={backgroundPlaying}>
+        <div
+            className={isFullscreenUi ? "container fullscreen" : "container"}
+            onKeyDown={handleKeydown}
+            onClick={onModalOutsideClick}
+            data-disallow-grid-fallback={disallowGridFallback.toString()}
+            data-background-playing={backgroundPlaying}
+            data-layout-density={layoutDensity}
+        >
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}

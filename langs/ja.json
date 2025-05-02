@@ -23,7 +23,12 @@
         "commentListType": {
             "name": "コメントリストの表示",
             "hint": "コメントリストのデザインを指定します",
-            "select": ["デフォルト(~eR)", "モダン(Re:turn~)"]
+            "select": ["コンパクト(~eR)", "モダン(Re:turn~)"]
+        },
+        "layoutDensity": {
+            "name": "全体的なページのスタイル",
+            "hint": "要素間の余白や角の丸みなどを調整します",
+            "select": ["かために", "デフォルト", "やさしく"]
         },
 
         "enableReshogi": {

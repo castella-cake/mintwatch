@@ -38,6 +38,12 @@ const settings: settingList = {
             default: "default"
         },
         {
+            type: "selectButtons",
+            name: "layoutDensity",
+            values: ["compact", "default",  "comfort"],
+            default: "default",
+        },
+        {
             type: "checkbox",
             name: "pmwforcepagehls",
             default: false,
