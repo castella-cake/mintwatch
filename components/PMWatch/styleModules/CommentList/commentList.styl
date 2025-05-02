@@ -106,6 +106,31 @@
     &[aria-disabled="true"] {
         color: var(--textcolor3);
     }
+
+    > * {
+        vertical-align: middle;
+    }
+
+    .nicoru-icon {
+        transform: rotate(90deg);
+        opacity: 0.6;
+        transition: transform 0.5s ease, opacity 0.2s ease;
+    }
+
+    .nicoru-icon circle {
+        transition: fill 0.2s ease;
+    }
+
+    &[data-nicotta="true"] .nicoru-icon {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    &[data-nicotta="false"] .nicoru-icon circle {
+        fill: transparent !important;
+    }
+    &[data-nicotta="false"] .nicoru-icon path {
+        fill: var(--textcolor1);
+    }
 }
 .commentlist-list-item-nicorubutton:not([aria-disabled="true"]):hover {
     background: var(--hover1);
@@ -136,4 +161,9 @@
     font-size: 0;
     margin: 0;
     padding: 0;
+}
+
+.commentlist-list-item-nicorubutton svg {
+    height: 1.5em;
+    margin-right: 0.3em;
 }

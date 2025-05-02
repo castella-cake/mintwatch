@@ -2,7 +2,6 @@ import { useState, useRef, createRef, RefObject, memo } from "react";
 //import { useLang } from "../localizeHook";
 import {
     doFilterComments,
-    secondsToTime,
     sharedNgLevelScore,
 } from "../commonFunction";
 import type { Comment, CommentDataRootObject } from "@/types/CommentData";
@@ -26,6 +25,7 @@ import {
 } from "@/components/Global/Contexts/CommentDataProvider";
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
+import CommentRow from "./CommentRow";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement | null>;
@@ -54,14 +54,6 @@ const forkLabelToLang: { [key: string]: string } = {
     "extra-easy": "引用かんたん",
 };
 
-function returnNicoruRank(nicoruCount: number) {
-    if (nicoruCount >= 9) return 4;
-    if (nicoruCount >= 5) return 3;
-    if (nicoruCount >= 3) return 2;
-    if (nicoruCount >= 1) return 1;
-    return 0;
-}
-
 function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
     return (
         videoInfo.data?.response.comment.threads.findIndex(
@@ -74,99 +66,6 @@ function returnFirstScrollPos(scrollPosList: scrollPos) {
     for (const elem in scrollPosList) {
         if (scrollPosList[elem].current) return scrollPosList[elem];
     }
-}
-
-type RowProps = {
-    comment: Comment;
-    nodeRef: RefObject<HTMLDivElement | null>;
-    isOpen: boolean;
-    listFocusable: boolean;
-    onNicoru: (
-        commentNo: number,
-        commentBody: string,
-        nicoruId: string | null,
-        isMyPost: boolean,
-    ) => {};
-    onSeekTo: (currentTime: number) => void;
-    onItemExpand: (id: string) => void;
-};
-
-function CommentRow({
-    comment,
-    nodeRef,
-    isOpen,
-    listFocusable,
-    onNicoru,
-    onSeekTo,
-    onItemExpand,
-}: RowProps) {
-    return (
-        <div
-            ref={nodeRef}
-            className={`commentlist-list-item ${isOpen ? "commentlist-list-item-open" : ""}`}
-            nicoru-count={returnNicoruRank(comment.nicoruCount)}
-            aria-hidden={!listFocusable}
-        >
-            <button
-                type="button"
-                tabIndex={listFocusable ? undefined : -1}
-                onClick={() =>
-                    onNicoru(
-                        comment.no,
-                        comment.body,
-                        comment.nicoruId,
-                        comment.isMyPost,
-                    )
-                }
-                aria-disabled={comment.isMyPost ? true : false}
-                className={`commentlist-list-item-nicorubutton`}
-            >
-                ﾆｺ{comment.nicoruId && "ｯﾀ"} {comment.nicoruCount}
-            </button>
-            <div className="commentlist-list-item-body" title={comment.body}>
-                {comment.body}
-            </div>
-            <button
-                type="button"
-                tabIndex={listFocusable ? undefined : -1}
-                className="commentlist-list-item-vpos"
-                onClick={() => {
-                    onItemExpand(comment.id);
-                }}
-                title="コメントの詳細を開く"
-            >
-                {secondsToTime(Math.floor(comment.vposMs / 1000))}
-            </button>
-            {isOpen && (
-                <>
-                    <div className="commentlist-list-item-stats">
-                        <span>
-                            コメ番: {comment.no} / 投稿日時:{" "}
-                            {new Date(comment.postedAt).toLocaleString()}
-                        </span>
-                    </div>
-                    <div className="commentlist-list-item-actions">
-                        <button
-                            onClick={() => {
-                                onSeekTo(comment.vposMs / 1000);
-                            }}
-                            className="commentlist-list-item-button"
-                        >
-                            投稿時間にシーク
-                        </button>
-                        <button
-                            onClick={() => {
-                                navigator.clipboard.writeText(comment.userId)
-                            }}
-                            className="commentlist-list-item-button"
-                        >
-                            ユーザーIDをコピー
-                        </button>
-                    </div>
-                </>
-            )}
-        </div>
-    );
 }
 
 const MemoizedComments = memo(function ({
@@ -220,14 +119,13 @@ const ariaDetails =
 function CommentList() {
     const { videoInfo } = useVideoInfoContext();
     const commentContent = useCommentContentContext();
-    const { setCommentContent, reloadCommentContent } =
-        useCommentControllerContext();
+    const { setCommentContent, reloadCommentContent } = useCommentControllerContext();
     const videoRef = useVideoRefContext();
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const {ngData} = useViewerNgContext();
 
     //const lang = useLang()
-    const { localStorage } = useStorageContext();
+    const { localStorage, syncStorage } = useStorageContext();
     const [currentForkType, setCurrentForkType] = useState(-1);
     const isCommentListHovered = useRef(false);
     const [autoScroll, setAutoScroll] = useState(true);
@@ -432,8 +330,10 @@ function CommentList() {
         }
     }
 
+    const commentListType = syncStorage.commentListType ?? getDefault("commentListType")
+
     return (
-        <div className="commentlist-container" id="pmw-commentlist">
+        <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType}>
             <div className="commentlist-title-container global-flex stacker-title">
                 <div className="global-flex1 global-bold">
                     受信済み {commentCount} 件
