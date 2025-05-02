@@ -167,3 +167,57 @@
     height: 1.5em;
     margin-right: 0.3em;
 }
+
+.commentlist-container[data-commentlist-type="modern"] {
+    .commentlist-list-item {
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        grid-template-rows: 1fr max-content;
+        height: auto;
+        margin: 4px 8px;
+        border-radius: var(--radius);
+        background: var(--bgcolor2);
+        padding: 10px;
+    }
+
+    .commentlist-list-item-nicorubutton {
+        grid-column: 2 / 3;
+        grid-row: 1/ 3;
+    }
+
+    .commentlist-list-item-vpos {
+        text-align: left;
+        padding: 0;
+        line-height: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .commentlist-list-container {
+        background: var(--bgcolor1);
+    }
+
+    .commentlist-list-item-nicorubutton {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        align-self: center;
+        gap: 4px;
+    }
+
+    .nicoru-icon {
+        margin: 0;
+    }
+
+    .commentlist-list-item-nicorubutton span {
+        line-height: 1em;
+    }
+
+    .nicoru-icon {
+        height: 1.5rem;
+    }
+
+    .commentlist-list-item-body {
+        white-space: normal;
+    }
+}

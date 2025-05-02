@@ -32,6 +32,12 @@ const settings: settingList = {
             default: "default"
         },
         {
+            type: "selectButtons",
+            name: "commentListType",
+            values: ["default", "modern"],
+            default: "default"
+        },
+        {
             type: "checkbox",
             name: "pmwforcepagehls",
             default: false,

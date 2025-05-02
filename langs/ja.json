@@ -12,13 +12,18 @@
         },
         "pmwlayouttype": {
             "name": "視聴ページのレイアウト",
-            "hint": "MintWatchの見た目を指定します。Shinjukuではスタイルも変更されます",
+            "hint": "視聴ページの見た目を指定します。Shinjukuではスタイルも変更されます",
             "select": ["Re:cresc.", "Re:新視聴", "Stacked", "3カラム", "Shinjuku", "Re:Re:(仮)"]
         },
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
-            "hint": "MintWatchで使用するプレイヤーの見た目を指定します",
+            "hint": "動画プレイヤーの見た目を指定します",
             "select": ["デフォルト", "cresc.", "Shinjuku"]
+        },
+        "commentListType": {
+            "name": "コメントリストの表示",
+            "hint": "コメントリストのデザインを指定します",
+            "select": ["デフォルト(~eR)", "モダン(Re:turn~)"]
         },
 
         "enableReshogi": {

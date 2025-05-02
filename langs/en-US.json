@@ -20,6 +20,11 @@
             "hint": "Specifies the appearance of the player used in MintWatch.",
             "select": ["Default", "cresc.", "Shinjuku"]
         },
+        "commentListType": {
+            "name": "Comment list display",
+            "hint": "Specifies the design of the comment list",
+            "select": ["Default (~eR)", "Modern (Re:return~)"]
+        },
 
         "enableReshogi": {
             "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",
