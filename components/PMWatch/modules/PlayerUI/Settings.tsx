@@ -43,13 +43,6 @@ const settings: { [key: string]: setting } = {
         texts: ["分割表示","全画面時のみ統合表示","常に統合表示"],
         name: "コントローラーの表示",
     },
-    autoPlayType: {
-        type: "select",
-        defaultValue: "playlistonly",
-        options: ["never", "playlistonly", "always"],
-        name: "連続再生",
-        texts: ["しない", "プレイリストがある場合", "常に"]
-    },
     sharedNgLevel: {
         type: "select",
         defaultValue: "mid",
@@ -71,6 +64,17 @@ const settings: { [key: string]: setting } = {
         texts: ["しない", "スマート", "常に"],
         name: "レジューム再生",
         hint: "プレミアム会員資格が必要です。"
+    },
+    enableContinuousPlay: {
+        type: "checkbox",
+        defaultValue: true,
+        name: "再生キューで連続再生",
+    },
+    continuousPlayWithRecommend: {
+        type: "checkbox",
+        defaultValue: false,
+        name: "連続再生におすすめを含める",
+        hint: "再生キューに動画がない場合に、おすすめ動画を連続再生します。"
     },
     enableFancyRendering: {
         type: "checkbox",

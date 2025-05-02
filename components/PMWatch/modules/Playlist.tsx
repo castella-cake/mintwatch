@@ -3,7 +3,7 @@ import { MylistResponseRootObject } from "@/types/mylistData";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import { IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
+import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider";
 
@@ -103,6 +103,12 @@ function Playlist() {
             localStorage.playersettings.enableShufflePlay ?? false;
         writePlayerSettings("enableShufflePlay", !currentShufflePlayState);
     }
+
+    function onContinuousPlayToggle() {
+        const currentContinuousPlayState =
+            localStorage.playersettings.enableContinuousPlay ?? true;
+        writePlayerSettings("enableContinuousPlay", !currentContinuousPlayState);
+    }
     function removeVideo(index: number) {
         const playlistItemsAfter = playlistData.items.filter(
             (_, i) => i !== index,
@@ -146,6 +152,19 @@ function Playlist() {
                     }
                 >
                     <IconPencilMinus />
+                </button>
+                <button
+                    title={
+                        (localStorage.playersettings.enableContinuousPlay ?? true)
+                            ? "連続再生を無効化"
+                            : "連続再生を有効化"
+                    }
+                    onClick={onContinuousPlayToggle}
+                    data-isenable={
+                        localStorage.playersettings.enableContinuousPlay ?? true
+                    }
+                >
+                    <IconArrowBigRightLine />
                 </button>
                 <button
                     title={

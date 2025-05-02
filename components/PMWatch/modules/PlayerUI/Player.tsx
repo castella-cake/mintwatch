@@ -50,7 +50,7 @@ function Player(props: Props) {
     const actionTrackId = useActionTrackDataContext();
     const playlistData = usePlaylistContext();
     const recommendData = useRecommendContext();
-    const {ngData} = useViewerNgContext()
+    const { ngData } = useViewerNgContext()
 
     const videoId = videoInfo?.data?.response.video.id ?? "";
 
@@ -247,8 +247,8 @@ function Player(props: Props) {
         return doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
-                (localStorage.playersettings.sharedNgLevel ??
-                    "mid") as keyof typeof sharedNgLevelScore
+            (localStorage.playersettings.sharedNgLevel ??
+                "mid") as keyof typeof sharedNgLevelScore
             ],
             ngData,
         );
@@ -325,12 +325,11 @@ function Player(props: Props) {
     }, [videoRef, videoId]);
 
     const onEnded = () => {
-        const autoPlayType =
-            localStorage.playersettings.autoPlayType ?? "playlistonly";
+        const enableContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true;
+        const withRecommend = localStorage.playersettings.continuousPlayWithRecommend ?? false;
+
         if (
-            ((autoPlayType === "playlistonly" &&
-                playlistData.items.length > 1) ||
-                autoPlayType === "always") &&
+            (enableContinuousPlay && (playlistData.items.length > 1 || withRecommend)) &&
             !localStorage.playersettings.isLoop
         ) {
             playlistIndexControl(
@@ -395,7 +394,7 @@ function Player(props: Props) {
             }
             data-is-integrated-controller={
                 localStorage.playersettings.integratedControl === "always" &&
-                !isFullscreenUi
+                    !isFullscreenUi
                     ? "true"
                     : "false"
             }
@@ -447,8 +446,8 @@ function Player(props: Props) {
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={
                             videoInfo ?
-                            videoInfo.data.response.comment.threads.findIndex((elem) => elem.isDefaultPostTarget,)
-                            : -1
+                                videoInfo.data.response.comment.threads.findIndex((elem) => elem.isDefaultPostTarget,)
+                                : -1
                         }
                     />
                 )}
@@ -511,9 +510,9 @@ function Player(props: Props) {
                         hlsRef={hlsRef}
                     />
                 )}
-                { videoId !== "" && <EndCard smId={videoId}/> }
+                {videoId !== "" && <EndCard smId={videoId} />}
                 <ErrorScreen videoInfo={videoInfo} />
-                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle showStats={true}/>}
+                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">
                 <PlayerController
@@ -540,7 +539,7 @@ function Player(props: Props) {
                     commentInputRef={commentInputRef}
                     setPreviewCommentItem={setPreviewCommentItem}
                 />
-                <BackgroundController/>
+                <BackgroundController />
             </div>
         </div>
     );
