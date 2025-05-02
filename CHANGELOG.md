@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.7.0 - 2025/05
+
+### Added
+- 未レンタルの PPV 動画を開いた場合に、dアニメストアニコニコ支店へのリンクを表示するようになりました [#8](https://github.com/castella-cake/mintwatch/issues/8)
+- `全体的なページのスタイル` 設定でUIの密度を調整できるようになりました
+- `コメントリストの表示` 設定でRe:turn以降のコメントリスト表示に切り替えられるようになりました
+- NGコメント設定ができるようになりました [#7](https://github.com/castella-cake/mintwatch/issues/7)
+
+### Changed
+- ニコるボタンにニコるっぽいアイコンが表示されるようになりました
+- watch-container要素の属性にすべて`data-`プレフィックスが付与されるようになりました   
+既存のUserStyleに改修が必要になる可能性があります。
+- 再生不可画面の表記が変更されました
+
+### Fixed
+- シアタービューの動画タイトル表記の位置が場合によってずれる問題を修正しました
+- チャンネル動画を共有するとオーナーが正しく表示されない問題を修正しました
+- 3カラムの表示を一部修正しました [#9](https://github.com/castella-cake/mintwatch/issues/9)
+- 稀にページの置き換えに失敗する問題を修正しました
+- ルーター内でページを行き来する際に最上部へスクロールするようになりました
+
 ## 0.6.2 - 2025/04/23
 
 ### Changed
