@@ -26,9 +26,9 @@ const settings: settingList = {
             default: "recresc"
         },
         {
-            type: "selectButtons",
+            type: "select",
             name: "pmwplayertype",
-            values: ["default", "html5", "shinjuku"],
+            values: ["default", "classic", "html5", "shinjuku"],
             default: "default"
         },
         {

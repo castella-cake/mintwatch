@@ -1,0 +1,127 @@
+.container[data-background-playing="false"] .player-container[data-player-type="default"] {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    .player-video-container {
+        background: var(--bgcolor2);
+        padding: 0px;
+        border-radius: var(--radius);
+        box-shadow: var(--box-shadow);
+        border: var(--border);
+        width: auto;
+    }
+
+    .playercontroller-container {
+        margin-top: 8px;
+        padding: 2px 0;
+        padding-bottom: 4px;
+        background: var(--bgcolor2);
+        border-radius: var(--radius);
+        border: var(--border);
+        box-shadow: var(--box-shadow);
+    }
+
+    .playercontroller-container-right button, .playercontroller-container-left button {
+        padding: 6px;
+    }
+
+    .playercontroller-container-center button {
+        padding: 8px;
+        border-radius: 1024px;
+        background: var(--accent1);
+        &:hover {
+            background: var(--hover1);
+        }
+        & svg {
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    .playercontroller-container-right, .playercontroller-container-left {
+        gap: 4px;
+    }
+
+    .playercontroller-container-center {
+        gap: 8px;
+    }
+
+    .playercontroller-container-middle {
+        padding: 0 8px;
+    }
+
+    .playercontroller-qualityselect {
+        height: 2.5rem;
+    }
+
+    .seekbar-container {
+        padding: 0px 10px;
+        padding-top: 6px;
+    }
+    
+    .playercontroller-container > div {
+        transition: opacity 0.2s ease;
+    }
+    
+    &[data-is-integrated-controller="true"] {
+        .playercontroller-container {
+            backdrop-filter: blur(8px);
+            box-shadow: 0px 0px 4px #000;
+        }
+        .playersettings-container, .vefx-container {
+            bottom: 96px;
+        }
+    }
+    .playercontroller-tooltip {
+        top: 3.5em;
+    }
+
+    .commentinput-container > input, .commentinput-container > .commentinput-textarea-container > .commentinput-input {
+        background: var(--bgcolor2);
+    }
+
+    .commentinput-container {
+        box-shadow: var(--box-shadow);
+        --border: 1px solid var(--accent1);
+    }
+
+    .commentinput-input {
+        padding: 9px;
+    }
+
+    
+}
+
+.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"] {
+    background: var(--bgcolor1);
+    .playercontroller-container {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        --bgcolor1: #000a;
+        --bgcolor2: #252525af;
+        --bgcolor3: #4a4a4aaf;
+        --bgcolor4: #6a6a6aaf;
+        --accent1: #3a3a3add;
+        --accent2: #5a5a5add;
+        --hover1: #404040af;
+        --hover2: #5a5a5aaf;
+        --textcolor1: #fff;
+        --textcolor2: #ddd;
+        --textcolor3: #aaa;
+    }
+    .commentinput-container {
+        margin-top: 0;
+    }
+    .player-video-container {
+        background: #000;
+        padding: 0px;
+        border-radius: 0;
+        box-shadow: none;
+        border: 0;
+        width: 100%;
+    }
+}

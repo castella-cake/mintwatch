@@ -18,7 +18,7 @@
         "pmwplayertype": {
             "name": "Player theme",
             "hint": "Specifies the appearance of the player used in MintWatch.",
-            "select": ["Default", "cresc.", "Shinjuku"]
+            "select": ["Default", "Classic", "cresc.", "Shinjuku"]
         },
         "commentListType": {
             "name": "Comment list display",

@@ -28,6 +28,7 @@ type Props = {
 
 export const playerTypes = {
     default: "default",
+    classic: "classic",
     officialPlayer: "html5",
     shinjuku: "shinjuku",
 }
@@ -286,7 +287,7 @@ function PlayerController(props: Props) {
         key="control-seekbar"
         currentTime={currentTime}
         duration={duration}
-        showTime={currentPlayerType === playerTypes.default}
+        showTime={currentPlayerType === playerTypes.default || currentPlayerType === playerTypes.classic}
         bufferedDuration={bufferedDuration}
         isSeeking={isSeeking}
         setIsSeeking={setIsSeeking}
@@ -339,19 +340,21 @@ function PlayerController(props: Props) {
         },
     }
 
+    const currentLayout = controlLayouts[currentPlayerType] ?? controlLayouts.default
+
     return <div className={`playercontroller-container`} id="pmw-playercontroller"
         player-type={currentPlayerType}
     >
-        {controlLayouts[currentPlayerType].top}
+        {currentLayout.top}
         <div className="playercontroller-container-middle">
             <div className="playercontroller-container-left">
-                {controlLayouts[currentPlayerType].left}
+                {currentLayout.left}
             </div>
             <div className="playercontroller-container-center">
-                {controlLayouts[currentPlayerType].center}
+                {currentLayout.center}
             </div>
             <div className="playercontroller-container-right">
-                {controlLayouts[currentPlayerType].right}
+                {currentLayout.right}
                 {hlsRef.current ? <select onChange={(e) => {
                     if (!hlsRef.current) return
                     hlsRef.current.currentLevel = Number(e.currentTarget.value)
