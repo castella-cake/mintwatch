@@ -77,7 +77,7 @@ export default function CommentRow({
                 <>
                     { comment.commands.length > 0 && <div className="commentlist-list-item-stats">
                         {comment.commands.map(command => {
-                            return <code className="commentlist-list-item-command">{command}</code>
+                            return <code className="commentlist-list-item-command" key={command}>{command}</code>
                         })}
                     </div> }
                     <div className="commentlist-list-item-stats">
