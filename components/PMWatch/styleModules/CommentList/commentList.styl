@@ -36,6 +36,7 @@
         height: 1.6em;
         align-items: center;
         gap: 4px;
+        background: var(--item-bg, transparent);
         .commentlist-list-item-body {
             flex: 1;
             white-space: nowrap;
@@ -54,16 +55,16 @@
         }
     }
     .commentlist-list-item[nicoru-count="1"] {
-        background: var(--nicoru1)
+        --item-bg: var(--nicoru1)
     }
     .commentlist-list-item[nicoru-count="2"] {
-        background: var(--nicoru2)
+        --item-bg: var(--nicoru2)
     }
     .commentlist-list-item[nicoru-count="3"] {
-        background: var(--nicoru3)
+        --item-bg: var(--nicoru3)
     }
     .commentlist-list-item[nicoru-count="4"] {
-        background: var(--nicoru4)
+        --item-bg: var(--nicoru4)
     }
     
     .commentlist-list-item-open {
@@ -97,15 +98,12 @@
     flex: 0.1;
     background: none;
     border: none;
-    color: var(--textcolor1);
+    color: var(--textcolor2);
     border-radius: var(--radius-mini);
     font-family: inherit;
     line-height: 1.5em;
     font-size: 0.9em;
     white-space: nowrap;
-    &[aria-disabled="true"] {
-        color: var(--textcolor3);
-    }
 
     > * {
         vertical-align: middle;
@@ -121,6 +119,11 @@
         transition: fill 0.2s ease;
     }
 
+    &[data-nicotta="true"] {
+        color: var(--textcolor1);
+        font-weight: bold;
+    }
+
     &[data-nicotta="true"] .nicoru-icon {
         transform: rotate(0deg);
         opacity: 1;
@@ -130,6 +133,10 @@
     }
     &[data-nicotta="false"] .nicoru-icon path {
         fill: var(--textcolor1);
+    }
+
+    &[aria-disabled="true"] {
+        color: var(--textcolor3);
     }
 }
 .commentlist-list-item-nicorubutton:not([aria-disabled="true"]):hover {
@@ -168,7 +175,20 @@
     margin-right: 0.3em;
 }
 
+.commentlist-list-item-command {
+    margin-right: 0.5em;
+    background: var(--bgcolor1);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    padding: 2px 4px;
+    display: inline-block;
+}
+
 .commentlist-container[data-commentlist-type="modern"] {
+    .commentlist-list-container {
+        background: var(--bgcolor1);
+    }
+
     .commentlist-list-item {
         display: grid;
         grid-template-columns: 1fr max-content;
@@ -176,13 +196,28 @@
         height: auto;
         margin: 4px 8px;
         border-radius: var(--radius);
-        background: var(--bgcolor2);
+        background: var(--item-bg, var(--bgcolor2))
         padding: 10px;
     }
 
     .commentlist-list-item-nicorubutton {
         grid-column: 2 / 3;
-        grid-row: 1/ 3;
+        grid-row: 1 / 3;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        align-self: center;
+        gap: 4px;
+
+        .nicoru-icon {
+            margin: 0;
+            height: 1.5rem;
+        }
+        
+        span {
+            line-height: 1em;
+        }
     }
 
     .commentlist-list-item-vpos {
@@ -190,31 +225,6 @@
         padding: 0;
         line-height: 1rem;
         font-size: 0.9rem;
-    }
-
-    .commentlist-list-container {
-        background: var(--bgcolor1);
-    }
-
-    .commentlist-list-item-nicorubutton {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        align-self: center;
-        gap: 4px;
-    }
-
-    .nicoru-icon {
-        margin: 0;
-    }
-
-    .commentlist-list-item-nicorubutton span {
-        line-height: 1em;
-    }
-
-    .nicoru-icon {
-        height: 1.5rem;
     }
 
     .commentlist-list-item-body {

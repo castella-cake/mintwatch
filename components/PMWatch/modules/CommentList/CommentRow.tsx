@@ -75,6 +75,11 @@ export default function CommentRow({
             </button>
             {isOpen && (
                 <>
+                    { comment.commands.length > 0 && <div className="commentlist-list-item-stats">
+                        {comment.commands.map(command => {
+                            return <code className="commentlist-list-item-command">{command}</code>
+                        })}
+                    </div> }
                     <div className="commentlist-list-item-stats">
                         <span>
                             コメ番: {comment.no} / 投稿日時:{" "}
