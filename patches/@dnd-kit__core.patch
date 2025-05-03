@@ -1,7 +1,7 @@
-diff --git a/node_modules/@dnd-kit/core/dist/core.esm.js b/node_modules/@dnd-kit/core/dist/core.esm.js
-index 3cc765e..12722f1 100644
---- a/node_modules/@dnd-kit/core/dist/core.esm.js
-+++ b/node_modules/@dnd-kit/core/dist/core.esm.js
+diff --git a/dist/core.esm.js b/dist/core.esm.js
+index 1577c253774e3c37eafa4f267f1944426deee405..12722f11f8c40c61bfceadd34961b9f19d53a744 100644
+--- a/dist/core.esm.js
++++ b/dist/core.esm.js
 @@ -1153,7 +1153,7 @@ class KeyboardSensor {
  
    attach() {

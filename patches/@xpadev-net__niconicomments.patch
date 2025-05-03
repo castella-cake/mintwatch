@@ -1,0 +1,23 @@
+diff --git a/dist/bundle.js b/dist/bundle.js
+index 785e5bcb8db1561e72713ef369f0ed24ceabcf9f..7a6eac6bef6906ba78838d0f126f849104f434cc 100644
+--- a/dist/bundle.js
++++ b/dist/bundle.js
+@@ -2080,7 +2080,8 @@
+     };
+     const processReverseScript = (comment, commands) => {
+         const reverse = RegExp(/^[@\uff20]\u9006(?:\s+)?(\u5168|\u30b3\u30e1|\u6295\u30b3\u30e1)?/).exec(comment.content);
+-        if (!reverse?.[1] || !typeGuard.nicoScript.range.target(reverse[1]))
++        const target = (reverse?.[1] && typeGuard.nicoScript.range.target(reverse?.[1])) ? reverse?.[1] : "全"
++        if (!target || !typeGuard.nicoScript.range.target(target))
+             return;
+         if (commands.long === undefined) {
+             commands.long = 30;
+@@ -2088,7 +2089,7 @@
+         nicoScripts.reverse.unshift({
+             start: comment.vpos,
+             end: comment.vpos + commands.long * 100,
+-            target: reverse[1],
++            target: target,
+         });
+     };
+     const processBanScript = (comment, commands) => {
