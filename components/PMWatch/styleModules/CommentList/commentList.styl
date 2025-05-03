@@ -199,6 +199,12 @@
         background: var(--item-bg, var(--bgcolor2))
         padding: 10px;
     }
+    .commentlist-list-item-open {
+        grid-template-rows: repeat(5, max-content);
+        .commentlist-list-item-stats {
+            grid-column: 1 / 3;
+        }
+    }
 
     .commentlist-list-item-nicorubutton {
         grid-column: 2 / 3;
@@ -214,7 +220,7 @@
             margin: 0;
             height: 1.5rem;
         }
-        
+
         span {
             line-height: 1em;
         }
