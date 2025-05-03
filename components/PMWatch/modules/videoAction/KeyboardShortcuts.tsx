@@ -1,6 +1,6 @@
 export default function KeyboardShortcuts() {
     return <div className="pmw-help-content">
-        <h2>MintWatch のキーボードショートカット</h2>
+        <h1>MintWatch のキーボードショートカット</h1>
         <p>
             ショートカットキーは開発中で、限定的です。<br/>
             現在は以下のショートカットキーが使用できます:

@@ -138,7 +138,12 @@ export function VideoActionModal({
                                     <NgComments/>
                                 )
                             }
-                            {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && <MarkdownHelp contentKey={videoActionModalState}/>}
+                            {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && <MarkdownHelp contentKey={videoActionModalState}>
+                                {videoActionModalState === "whatsnew" && <details>
+                                    <summary>過去の更新情報</summary>
+                                    <MarkdownHelp contentKey="whatsnew_archive"/>
+                                </details>}
+                            </MarkdownHelp>}
                             {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
                         </div>
                     </div>

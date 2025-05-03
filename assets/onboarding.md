@@ -1,4 +1,4 @@
-## MintWatch のはじめに
+# MintWatch のはじめに
 
 MintWatch へようこそ。  
 MintWatch は、現在のニコニコユーザーのために設計された、簡潔でカスタマイズ可能な視聴ページです。
