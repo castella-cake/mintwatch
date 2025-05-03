@@ -5,8 +5,9 @@ const splitWithYMD = (items: VideoTimelineDataRootObject['activities']) => {
     const result: { [key: string]: VideoTimelineDataRootObject['activities'] } = {};
 
     items.forEach(item => {
-        // createdAt を日付文字列に変換（例："YYYY-MM-DD"）
-        const dateStr = new Date(item.createdAt).toISOString().slice(0, 10);
+        // createdAt を日付文字列に変換(YYYY-MM-DD)
+        const thisDate = new Date(item.createdAt)
+        const dateStr = `${thisDate.getFullYear()}-${thisDate.getMonth() + 1}-${thisDate.getDate()}`
 
         if (result[dateStr]) {
             result[dateStr].push(item);
@@ -31,7 +32,6 @@ const getRelativeDate = (dateStr: string) => {
     } else if (diffDays < 7) {
         return `${diffDays}日前`;
     } else {
-        // 使用者が提供した splitWithYMD 関数を利用して YYYY-MM-DD 形式に戻す
         return dateStr.replace(/-/g, "/");
     }
 };

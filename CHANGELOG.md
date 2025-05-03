@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 3カラムの表示を一部修正しました [#9](https://github.com/castella-cake/mintwatch/issues/9)
 - 稀にページの置き換えに失敗する問題を修正しました
 - ルーター内でページを行き来する際に最上部へスクロールするようになりました
+- フォロー新着の日別表示がタイムゾーンを考慮しない問題を修正しました
 
 ## 0.6.2 - 2025/04/23
 
