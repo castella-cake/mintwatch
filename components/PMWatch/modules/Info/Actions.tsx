@@ -1,6 +1,7 @@
 import {
     IconCopy,
     IconFolder,
+    IconGift,
     IconHeart,
     IconHeartFilled,
     IconShare,
@@ -91,6 +92,15 @@ function Actions({ children, onModalOpen }: Props) {
         );
     }
 
+    function onGiftClicked() {
+        if (!videoInfo) return
+        window.open(
+            `https://gift.nicovideo.jp/video/${videoInfo.data.response.video.id}/purchase?frontend_id=6&frontend_version=0`,
+            "_blank",
+            "width=500,height=700,popup=yes"
+        );
+    }
+
     function onShareClicked() {
         onModalOpen("share");
     }
@@ -156,7 +166,7 @@ function Actions({ children, onModalOpen }: Props) {
                 onClick={onAdsClicked}
                 title="ニコニ広告する"
             >
-                <IconSpeakerphone /> <span>ニコニ広告</span>
+                <IconSpeakerphone />
             </button>
             <button
                 type="button"
@@ -173,6 +183,14 @@ function Actions({ children, onModalOpen }: Props) {
                 title="マイリスト"
             >
                 <IconFolder />
+            </button>
+            <button
+                type="button"
+                className="video-action-giftbutton"
+                onClick={onGiftClicked}
+                title="ギフト"
+            >
+                <IconGift />
             </button>
             {isLiked && likeThanksMsg &&
                 ((videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered) ||
