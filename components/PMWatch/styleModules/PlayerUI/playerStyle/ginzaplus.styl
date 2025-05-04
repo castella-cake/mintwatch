@@ -1,0 +1,111 @@
+.playercontroller-container[player-type="ginzaplus"] {
+    margin: 0;
+    --ginza-blue-bg: linear-gradient(#1591d7, #10739d);
+    --radius: 0;
+    --radius-mini: 0;
+    --radius-big: 0;
+    --bgcolor2: #252525;
+    --textcolor1: #fff;
+    --textcolor2: #eee;
+    --textcolor3: #aaa;
+    --hover1: #0002;
+
+    .seekbar-container {
+        padding: 0;
+        margin: 0;
+    }
+
+    .seekbar {
+        height: 12px;
+        border: 1px solid #666;
+    }
+
+    .seekbar-thumb {
+        height: auto !important;
+        width: 8px !important;
+        left: @css{max(var(--left), 9px)};
+        transform: translate(-100%, 0);
+        box-shadow: none;
+        border-radius: 0;
+        border: 1px solid #aaa;
+        background: var(--textcolor2);
+    }
+
+    .seekbar-bg, .seekbar-buffered, .seekbar-played {
+        height: 100%;
+        transform: translate(0);
+    }
+
+    .seekbar-buffered {
+        background: var(--textcolor1);
+    }
+
+    .seekbar-bg {
+        background: var(--textcolor3);
+    }
+
+    .seekbar-played {
+        background: var(--ginza-blue-bg);
+    }
+
+
+    .playercontroller-container-middle {
+        background: linear-gradient(#303030,#111);
+        color: #fff;
+        svg {
+            filter: drop-shadow(0px 0px 2px #000a);
+        }
+    }
+
+    .playercontroller-container-right button, .playercontroller-container-left button, .playercontroller-container-center button {
+        padding: 6px;
+        color: var(--textcolor2);
+        transition: none;
+        &:hover {
+            background: transparent;
+            color: var(--textcolor1);
+            svg {
+                filter: drop-shadow(0px 0px 2px #fff5);
+            }
+        }
+    }
+
+    .playercontroller-container-left > button {
+        border-right: 1px solid #333;
+        padding: 6px 8px;
+        &.playercontroller-togglepause {
+            background: linear-gradient(#7b3011, #642409);
+            padding: 0 !important;
+
+            svg {
+                padding: 5px 14px;
+                height: 28px;
+                width: 28px;
+            }
+            &:hover {
+                background: #8b4021;
+            }
+        }
+    }
+
+    .playercontroller-container-right > button:first-child {
+        border-left: 1px solid #333;
+    }
+
+    .playercontroller-qualityselect {
+        background: transparent;
+        option {
+            background: var(--bgcolor2);
+        }
+    }
+
+    .playercontroller-volume-container .playercontroller-volume::before {
+        background: var(--ginza-blue-bg);
+    }
+
+    .playercontroller-time {
+        font-size: 0.9rem;
+        margin: 0 10px;
+    }
+}
+

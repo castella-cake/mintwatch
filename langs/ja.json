@@ -18,7 +18,7 @@
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
             "hint": "動画プレイヤーの見た目を指定します",
-            "select": ["デフォルト", "クラシック", "cresc.", "Shinjuku"]
+            "select": ["デフォルト", "クラシック", "cresc.", "Shinjuku", "GINZA+"]
         },
         "commentListType": {
             "name": "コメントリストの表示",

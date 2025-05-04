@@ -28,7 +28,7 @@ const settings: settingList = {
         {
             type: "select",
             name: "pmwplayertype",
-            values: ["default", "classic", "html5", "shinjuku"],
+            values: ["default", "classic", "html5", "shinjuku", "ginzaplus"],
             default: "default"
         },
         {

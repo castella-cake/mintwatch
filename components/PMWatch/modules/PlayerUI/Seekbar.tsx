@@ -153,7 +153,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
             <div className="seekbar-bg"></div>
             <div className="seekbar-buffered" style={{ width: `${bufferedDuration / duration * 100}%` }}></div>
             <div className="seekbar-played" style={{ width: `${( currentTime ) / duration * 100}%` }}></div>
-            <div className="seekbar-thumb" style={{ left: `${( currentTime ) / duration * 100}%` }}></div>
+            <div className="seekbar-thumb" style={{ ["--left" as any]: `${( currentTime ) / duration * 100}%` }}></div>
             <div className="seekbar-storyboard" style={{ left: `${storyBoardX * 100}%` }}>
                 <canvas ref={storyboardCanvasRef} width={160} height={90}/>
                 <div className="seekbar-storyboard-time">{secondsToTime(duration * storyBoardX)}</div>

@@ -31,6 +31,7 @@ export const playerTypes = {
     classic: "classic",
     officialPlayer: "html5",
     shinjuku: "shinjuku",
+    ginzaPlus: "ginzaplus",
 }
 
 const PlayerControllerButton = memo(function ({ onClick, title, className, children }: { onClick: any, title: string, className: string, children: ReactNode}) {
@@ -331,6 +332,12 @@ function PlayerController(props: Props) {
             left: [ togglePauseElem, effectChangeElem, toggleMuteElem, volumeElem ],
             center: [ skipBackElem, backwardElem, timeElem, forwardElem, skipForwardElem ],
             right: [ toggleLoopElem ],
+        },
+        "ginzaplus": {
+            top: [ seekbarElem ],
+            left: [ togglePauseElem, skipBackElem, backwardElem, forwardElem, skipForwardElem, timeElem ],
+            center: [],
+            right: [ effectChangeElem, toggleMuteElem, volumeElem, toggleLoopElem ],
         },
         "shinjuku": {
             top: [],
