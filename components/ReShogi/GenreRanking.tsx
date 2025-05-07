@@ -148,7 +148,7 @@ export default function GenreRankingContent() {
                                         {relativeTimeFrom(new Date(video.registeredAt))}
                                     </span>
                                 </div>
-                                <a href={`https://www.nicovideo.jp/user/${video.owner.id}`} className="shogi-video-owner">
+                                <a href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} className="shogi-video-owner">
                                     <img src={video.owner.iconUrl} className="shogi-video-owner-icon" alt={`${video.owner.name} のアイコン`} />
                                     <span className="shogi-video-owner-name">{video.owner.name}</span>
                                 </a>

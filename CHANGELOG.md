@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - プレイリストクエリのソート順が反映されない問題を修正しました
 - エンドカードのシリーズ表示が常に「前の動画」として表示される問題を修正しました
+- Re:将棋盤でチャンネルへのリンクが機能しない問題を修正しました
 
 ## 0.7.0 - 2025/05/04
 
