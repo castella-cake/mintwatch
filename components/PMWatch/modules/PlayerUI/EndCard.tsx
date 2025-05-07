@@ -85,11 +85,13 @@ export function EndCard({ smId }: { smId: string }) {
                         seriesVideoItem={seriesData.video.next}
                         playlistString={playlist}
                         transitionId={seriesData.id}
+                        type={"next"}
                     />}
                     { seriesData.video.prev && <SeriesVideoCard
                         seriesVideoItem={seriesData.video.prev}
                         playlistString={playlist}
                         transitionId={seriesData.id}
+                        type={"prev"}
                     />}
                 </div>
             </> : <>
