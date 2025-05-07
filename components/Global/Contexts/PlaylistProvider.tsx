@@ -87,8 +87,8 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 const context: mylistContext = playlistJson.context;
                 const response: any = await getMylist(
                     context.mylistId,
-                    "registeredAt",
-                    "desc",
+                    context.sortKey ?? "registeredAt",
+                    context.sortOrder ?? "desc",
                 );
                 //console.log(response);
                 //setFetchedPlaylistData(response)
