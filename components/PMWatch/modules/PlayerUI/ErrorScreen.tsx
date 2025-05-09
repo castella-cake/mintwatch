@@ -14,8 +14,8 @@ export function ErrorScreen({ videoInfo }: { videoInfo: VideoDataRootObject | nu
             <p>
                 {isPPV && <span>未レンタルのため視聴できません。</span>}
                 {isAdmissionOnly && <span>チャンネルに未加入のため視聴できません。</span>}
+                {isPremiumOnly && <p>この動画は現在プレミアム限定動画です。プレミアム会員に加入することで視聴できます。</p>}
             </p>
-            {isPremiumOnly && <p>この動画は現在プレミアム限定動画です。プレミアム会員に加入することでも視聴できます。</p>}
         </div>
         <DAnimeLinks/>
     </div></div>

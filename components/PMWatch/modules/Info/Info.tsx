@@ -1,16 +1,10 @@
 import {
-    IconClockHour4Filled,
-    IconCoinYenFilled,
     IconExclamationCircleFilled,
-    IconFolderFilled,
-    IconMessageFilled,
-    IconPlayerPlayFilled,
 } from "@tabler/icons-react";
 import type { ErrorResponse } from "@/types/VideoData";
-import { MouseEvent, ReactNode, useState } from "react";
+import { MouseEvent, useState } from "react";
 import DOMPurify from "dompurify";
 import HTMLReactParser from "html-react-parser";
-import { readableInt } from "../commonFunction";
 import { useStorageContext } from "@/hooks/extensionHook";
 import {
     useVideoInfoContext,
@@ -19,6 +13,7 @@ import {
 import OwnerInfo from "./Owner";
 import UserFollowButton from "./UserFollowButton";
 import Tags from "./Tags";
+import VideoTitle from "./VideoTitle";
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div");
     dummyDiv.innerHTML = htmlString;
@@ -115,77 +110,6 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
                     <span>登録タグ</span>
                 </div>
             </div>
-        </div>
-    );
-}
-
-export function VideoTitle({ children, showStats }: { children?: ReactNode, showStats?: boolean }) {
-    const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo) return;
-    const videoInfoResponse = videoInfo.data.response;
-
-    const isPaidVideo = Object.keys(videoInfoResponse.payment.preview).some((key) => videoInfoResponse.payment.preview[key as keyof typeof videoInfoResponse.payment.preview].isEnabled);
-
-    return (
-        <div className="videotitle-container">
-            <div className="videotitle">{videoInfoResponse.video.title}</div>
-            {showStats && (
-                <div className="videostats">
-                    <span className="videostats-item">
-                        <IconClockHour4Filled />
-                        <span>
-                            {new Date(
-                                videoInfoResponse.video.registeredAt,
-                            ).toLocaleString("ja-JP")}
-                        </span>
-                    </span>
-                    <span className="videostats-item">
-                        <IconPlayerPlayFilled />
-                        <span>
-                            {readableInt(
-                                videoInfoResponse.video.count.view,
-                            )}
-                        </span>
-                    </span>
-                    <span className="videostats-item">
-                        <IconMessageFilled />
-                        <span>
-                            {readableInt(
-                                videoInfoResponse.video.count.comment,
-                            )}
-                        </span>
-                    </span>
-                    <span className="videostats-item">
-                        <IconFolderFilled />
-                        <span>
-                            {readableInt(
-                                videoInfoResponse.video.count.mylist,
-                            )}
-                        </span>
-                    </span>
-                    <span className="videostats-item">
-                        <span>
-                            {videoInfoResponse.genre.isNotSet
-                                ? "未設定"
-                                : videoInfoResponse.genre.label}
-                            {videoInfoResponse.ranking.teiban
-                                ? <>
-                                    (<strong>{videoInfoResponse.ranking.teiban.label}</strong> 内現在順位: {videoInfoResponse.ranking.teiban.rank}位)
-                                </>
-                                : ""}
-                        </span>
-                    </span>
-                    {
-                        isPaidVideo && <span className="videostats-item">
-                            <span className="videostats-paid-label">
-                                <IconCoinYenFilled/>
-                                <span>有料</span>
-                            </span>
-                        </span>
-                    }
-                </div>
-            )}
-            { children }
         </div>
     );
 }

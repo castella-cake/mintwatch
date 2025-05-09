@@ -30,9 +30,9 @@ import {
 } from "@/components/Global/Contexts/CommentDataProvider";
 import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider";
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
-import { VideoTitle } from "../Info/Info";
 import BackgroundController from "./BackgroundController";
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
+import VideoTitle from "../Info/VideoTitle";
 
 type Props = {
     isFullscreenUi: boolean;

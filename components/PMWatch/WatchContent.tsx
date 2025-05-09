@@ -1,7 +1,7 @@
 import { Dispatch, JSX, MouseEvent, SetStateAction } from "react"
 import Actions from "./modules/Info/Actions"
 import CommentList from "./modules/CommentList/CommentList"
-import Info, { VideoTitle } from "./modules/Info/Info"
+import Info from "./modules/Info/Info"
 import Player from "./modules/PlayerUI/Player"
 import Playlist from "./modules/Playlist"
 import { Stacker } from "./modules/Stacker"
@@ -12,6 +12,7 @@ import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "../Global/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { useHistoryContext } from "../Router/RouterContext"
+import VideoTitle from "./modules/Info/VideoTitle"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
