@@ -237,3 +237,30 @@
         white-space: normal;
     }
 }
+
+.commentlist-externalmenu {
+    background: var(--bgcolor1);
+    padding: 8px 8px 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button {
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
+        color: var(--textcolor1);
+        padding: 2px 4px;
+        transition: var(--transition-normal);
+        cursor: pointer;
+    }
+
+    button svg {
+        vertical-align: middle;
+    }
+
+    button:hover {
+        background: var(--hover1);
+    }
+}
+

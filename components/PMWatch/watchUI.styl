@@ -101,10 +101,13 @@
                     opacity: 1;
                     background: var(--hover1);
                 }
-                &[data-isenable="true"] {
+                &[data-isenabled="true"] {
                     background: var(--textcolor2);
                     color: var(--bgcolor1);
                 }
+                &[aria-disabled="true"] {
+                    opacity: 0.2
+                } 
             }
         }
     }

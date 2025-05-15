@@ -13,7 +13,7 @@ import {
     NicoruRemoveRootObject,
 } from "@/types/NicoruPostData";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { IconAdjustmentsStar, IconBubbleX, IconHistoryToggle, IconTransitionBottom } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconBubbleX, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
 import {
     useVideoInfoContext,
@@ -53,6 +53,12 @@ const forkLabelToLang: { [key: string]: string } = {
     "extra-community": "引用コミュニティ",
     "extra-easy": "引用かんたん",
 };
+
+const sortKeys = {
+    vposMs: "動画時間",
+    postedAt: "投稿日時",
+    nicoruCount: "ニコる数"
+}
 
 function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
     return (
@@ -127,11 +133,18 @@ function CommentList() {
     //const lang = useLang()
     const { localStorage, syncStorage } = useStorageContext();
     const [currentForkType, setCurrentForkType] = useState(-1);
+
     const isCommentListHovered = useRef(false);
     const [autoScroll, setAutoScroll] = useState(true);
+
     const [listFocusable, setListFocusable] = useState(false);
+
     const [onlyShowMyselfComments, setOnlyShowMyselfComments] = useState(false);
     const [showTimemachineUi, setShowTimemachineUi] = useState(false);
+    const [externalMenuExpanded, setExternalMenuExpanded] = useState(false);
+
+    const [commentSortKey, setCommentSortKey] = useState<keyof typeof sortKeys>("vposMs");
+    const [reverseCommentSort, setReverseCommentSort] = useState(false);
 
     const commentListContainerRef = useRef<HTMLDivElement>(null);
     // 複数のref
@@ -154,7 +167,8 @@ function CommentList() {
             !videoRef.current ||
             !autoScroll ||
             isCommentListHovered.current ||
-            !scrollPosList
+            !scrollPosList ||
+            commentSortKey !== "vposMs"
         )
             return;
         // video要素の時間
@@ -200,6 +214,7 @@ function CommentList() {
         autoScroll,
         isCommentListHovered.current,
         scrollPosList,
+        commentSortKey,
     ]);
 
     
@@ -210,8 +225,8 @@ function CommentList() {
         const currentThread = commentContent.data?.threads[currentForkType];
         if (!currentThread) return;
         const sortedComments = currentThread.comments.sort((a, b) => {
-            if (a.vposMs > b.vposMs) return 1;
-            if (a.vposMs < b.vposMs) return -1;
+            if (a[commentSortKey] > b[commentSortKey]) return (reverseCommentSort ? -1 : 1);
+            if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1);
             return 0;
         });
         return doFilterComments(
@@ -229,7 +244,9 @@ function CommentList() {
         localStorage.playersettings.sharedNgLevel,
         onlyShowMyselfComments,
         videoInfo,
-        ngData
+        ngData,
+        commentSortKey,
+        reverseCommentSort,
     ]);
 
     // データが足りなかったら閉店
@@ -348,20 +365,8 @@ function CommentList() {
                     <IconBubbleX />
                 </button>
                 <button
-                    className="commentlist-list-timemachine"
-                    data-isenable={onlyShowMyselfComments}
-                    onClick={() => {
-                        setOnlyShowMyselfComments((state) => {
-                            return !onlyShowMyselfComments;
-                        });
-                    }}
-                    title={onlyShowMyselfComments ? "フィルターを解除" : "自分のコメントでフィルター"}
-                >
-                    <IconAdjustmentsStar />
-                </button>
-                <button
                     className="commentlist-list-togglemycomments"
-                    data-isenable={showTimemachineUi}
+                    data-isenabled={showTimemachineUi}
                     onClick={() => {
                         setShowTimemachineUi((state) => {
                             return !showTimemachineUi;
@@ -373,8 +378,10 @@ function CommentList() {
                 </button>
                 <button
                     className="commentlist-list-toggleautoscroll"
-                    data-isenable={autoScroll}
+                    data-isenabled={autoScroll}
+                    aria-disabled={commentSortKey !== "vposMs"}
                     onClick={() => {
+                        if (commentSortKey !== "vposMs") return;
                         setAutoScroll((state) => {
                             return !state;
                         });
@@ -382,6 +389,18 @@ function CommentList() {
                     title={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                 >
                     <IconTransitionBottom/>
+                </button>
+                <button
+                    className="commentlist-list-toggleexternalmenu"
+                    data-isenabled={externalMenuExpanded}
+                    onClick={() => {
+                        setExternalMenuExpanded((state) => {
+                            return !state;
+                        });
+                    }}
+                    title={externalMenuExpanded ? "メニューを開く" : "メニューを閉じる"}
+                >
+                    <IconAdjustmentsHorizontal/>
                 </button>
                 <select
                     onChange={(e) => {
@@ -407,6 +426,34 @@ function CommentList() {
                     )}
                 </select>
             </div>
+            { externalMenuExpanded && <div className="commentlist-externalmenu">
+                <label><input type="checkbox" checked={onlyShowMyselfComments} onChange={(e) => {
+                    setOnlyShowMyselfComments(e.target.checked);
+                }}></input>自分のコメントのみ表示</label>
+                <select
+                    onChange={(e) => {
+                        setCommentSortKey(e.target.value as keyof typeof sortKeys);
+                    }}
+                    value={commentSortKey}
+                    className="commentlist-fork-selector"
+                    title="ソート選択"
+                >
+                    {Object.keys(sortKeys).map((sortKey) => {
+                        return <option key={sortKey} value={sortKey}>{sortKeys[sortKey as keyof typeof sortKeys]}</option>
+                    })}
+                </select>
+                <button
+                    className="commentlist-list-togglesortasc"
+                    onClick={() => {
+                        setReverseCommentSort((state) => {
+                            return !state;
+                        });
+                    }}
+                    title={reverseCommentSort ? "昇順に切り替え" : "降順に切り替え"}
+                >
+                    {reverseCommentSort ? <IconSortDescending/> : <IconSortAscending/>}
+                </button>
+            </div>}
             <button
                 className="commentlist-list-toggletabindex"
                 aria-description={ariaDetails}

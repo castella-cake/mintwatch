@@ -147,7 +147,7 @@ function Playlist() {
                             : "プレイリストからアイテムを削除"
                     }
                     onClick={() => setIsRemoveMode(!isRemoveMode)}
-                    data-isenable={
+                    data-isenabled={
                         isRemoveMode.toString()
                     }
                 >
@@ -160,7 +160,7 @@ function Playlist() {
                             : "連続再生を有効化"
                     }
                     onClick={onContinuousPlayToggle}
-                    data-isenable={
+                    data-isenabled={
                         localStorage.playersettings.enableContinuousPlay ?? true
                     }
                 >
@@ -173,7 +173,7 @@ function Playlist() {
                             : "シャッフル再生を有効化"
                     }
                     onClick={onRandomShuffle}
-                    data-isenable={
+                    data-isenabled={
                         localStorage.playersettings.enableShufflePlay ?? false
                     }
                 >
