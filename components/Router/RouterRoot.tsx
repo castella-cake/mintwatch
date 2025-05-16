@@ -8,8 +8,18 @@ import RouterUI from "./RouterUI";
 import { RouterProvider } from "./RouterContext";
 import { VideoRefContext } from "../Global/Contexts/VideoDataProvider";
 import { BackgroundPlayProvider } from "../Global/Contexts/BackgroundPlayProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const IVideoRef = createRef<HTMLVideoElement>();
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: Infinity,
+            refetchOnWindowFocus: false,
+        }
+    }
+})
 
 export default function RouterRoot() {
     return (
@@ -47,16 +57,18 @@ export default function RouterRoot() {
                 }}
             >
                 <StorageProvider>
-                    <ModalStateProvider>
-                        <VideoRefContext value={IVideoRef}>
-                            <BackgroundPlayProvider>
-                                <RouterProvider>
-                                    <RouterUI />
-                                    <PluginList />
-                                </RouterProvider>
-                            </BackgroundPlayProvider>
-                        </VideoRefContext>
-                    </ModalStateProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <ModalStateProvider>
+                            <VideoRefContext value={IVideoRef}>
+                                <BackgroundPlayProvider>
+                                    <RouterProvider>
+                                        <RouterUI />
+                                        <PluginList />
+                                    </RouterProvider>
+                                </BackgroundPlayProvider>
+                            </VideoRefContext>
+                        </ModalStateProvider>
+                    </QueryClientProvider>
                 </StorageProvider>
             </ErrorBoundary>
         </StrictMode>

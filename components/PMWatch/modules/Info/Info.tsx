@@ -1,5 +1,6 @@
 import {
     IconExclamationCircleFilled,
+    IconTags,
 } from "@tabler/icons-react";
 import type { ErrorResponse } from "@/types/VideoData";
 import { MouseEvent, useState } from "react";
@@ -21,7 +22,7 @@ function htmlToText(htmlString: string) {
 }
 
 function ErrorUI({ error }: { error: any }) {
-    if (!error.data || !error.data.response)
+    if (!error || !error.data || !error.data.response)
         return (
             <div className="videoinfo-error-container">
                 動画の取得に失敗しました
@@ -53,51 +54,15 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
             <div className="videoinfo-titlecontainer">
                 <div className="videoinfo-titleinfo">
                     {isShinjukuLayout && <div className="uploaddate"></div>}
-                    <div className="videotitle">動画情報読み込み中</div>
-                    {!isShinjukuLayout && (
-                        <div className="videostats">
+                    <div className="videotitle-container">
+                        <div className="videotitle">読み込み中</div>
+                        {!isShinjukuLayout && <div className="videostats">
                             <span className="videostats-item">
-                                <span
-                                    style={{
-                                        display: "inline-block",
-                                        width: "3em",
-                                    }}
-                                ></span>
+                                <span style={{ display: "inline-block", width: "3em", height: "1.5em"}}>
+                                </span>
                             </span>
-                            <span className="videostats-item">
-                                <span
-                                    style={{
-                                        display: "inline-block",
-                                        width: "3em",
-                                    }}
-                                ></span>
-                            </span>
-                            <span className="videostats-item">
-                                <span
-                                    style={{
-                                        display: "inline-block",
-                                        width: "3em",
-                                    }}
-                                ></span>
-                            </span>
-                            <span className="videostats-item">
-                                <span
-                                    style={{
-                                        display: "inline-block",
-                                        width: "3em",
-                                    }}
-                                ></span>
-                            </span>
-                            <span className="videostats-item">
-                                <span
-                                    style={{
-                                        display: "inline-block",
-                                        width: "3em",
-                                    }}
-                                ></span>
-                            </span>
-                        </div>
-                    )}
+                        </div>}
+                    </div>
                 </div>
                 {!isShinjukuLayout && <div className="videoinfo-owner"></div>}
             </div>
@@ -108,6 +73,15 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
             <div className="tags-container">
                 <div className="tags-title">
                     <span>登録タグ</span>
+                    {!isShinjukuLayout && <button
+                        className="tags-editbutton"
+                        title="読み込み中"
+                        aria-disabled={true}
+                    >
+                        <IconTags />
+                        編集
+                    </button>}
+
                 </div>
             </div>
         </div>
@@ -140,7 +114,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     const [isDescOpen, setIsDescOpen] = useState<boolean>(
         localStorage.playersettings.descriptionOpen || false,
     );
-    if (errorInfo !== false) return <ErrorUI error={errorInfo} />;
+    if (errorInfo) return <ErrorUI error={errorInfo} />;
     if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />;
     const videoInfoResponse = videoInfo.data.response;
 

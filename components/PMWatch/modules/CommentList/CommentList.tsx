@@ -153,7 +153,7 @@ function CommentList() {
     const videoInfoRef = useRef<VideoDataRootObject | null>(null);
     videoInfoRef.current = videoInfo;
 
-    const commentContentRef = useRef<CommentDataRootObject | null>(null);
+    const commentContentRef = useRef<CommentDataRootObject | undefined>(undefined);
     commentContentRef.current = commentContent;
 
     // スクロールタイミングを書いたオブジェクト

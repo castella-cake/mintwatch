@@ -458,7 +458,7 @@ interface NgScore {
     isDisabled: boolean;
 }
 
-interface Thread {
+export interface Thread {
     id: number;
     fork: number;
     forkLabel: string;

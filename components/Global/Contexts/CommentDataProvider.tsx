@@ -1,11 +1,12 @@
-import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
+import { createContext, ReactNode } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
 import { CommentDataRootObject } from "@/types/CommentData";
+import { useCommentDataQuery } from "@/hooks/apiHooks/commentData";
 
-const ICommentContentContext = createContext<CommentDataRootObject | null>(null);
+const ICommentContentContext = createContext<CommentDataRootObject | undefined>(undefined);
 
 type CommentControllerContext = {
-    setCommentContent: Dispatch<SetStateAction<CommentDataRootObject | null>>;
+    setCommentContent: (newCommentContent: CommentDataRootObject) => void,
     reloadCommentContent: (logData?: {
         when: number;
     }) => Promise<CommentDataRootObject | undefined>;
@@ -19,7 +20,7 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext();
 
     const { commentContent, setCommentContent, reloadCommentContent } =
-        useCommentData(
+        useCommentDataQuery(
             videoInfo?.data.response.comment.nvComment,
             videoInfo?.data.response.video.id,
         );

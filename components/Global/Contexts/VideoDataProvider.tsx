@@ -2,6 +2,7 @@ import { createContext, createRef, ReactNode, RefObject } from "react";
 import { useSmIdContext } from "./WatchDataContext";
 import { VideoDataRootObject } from "@/types/VideoData";
 import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider";
+import { useVideoDataQuery } from "@/hooks/apiHooks/videoData";
 
 const IActionTrackDataContext = createContext<string>("");
 
@@ -20,7 +21,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     const { smId } = useSmIdContext();
 
     const setBackgroundPlayInfo = useSetBackgroundPlayInfoContext()
-    const { videoInfo, errorInfo } = useVideoData(smId);
+    const { videoInfo, errorInfo } = useVideoDataQuery(smId);
     const [actionTrackId, setActionTrackId] = useState("");
 
     useEffect(() => {
