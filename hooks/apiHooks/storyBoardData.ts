@@ -3,7 +3,7 @@ import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
 import { VideoDataRootObject } from "@/types/VideoData";
 
 export function useStoryBoardData(
-    videoInfo: VideoDataRootObject | null,
+    videoInfo: VideoDataRootObject | undefined,
     smId: string,
     actionTrackId: string,
 ) {

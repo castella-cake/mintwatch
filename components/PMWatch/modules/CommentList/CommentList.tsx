@@ -150,7 +150,7 @@ function CommentList() {
     // 複数のref
     const commentRefs = useRef<RefObject<HTMLDivElement | null>[]>([]);
 
-    const videoInfoRef = useRef<VideoDataRootObject | null>(null);
+    const videoInfoRef = useRef<VideoDataRootObject | undefined>(null);
     videoInfoRef.current = videoInfo;
 
     const commentContentRef = useRef<CommentDataRootObject | undefined>(undefined);

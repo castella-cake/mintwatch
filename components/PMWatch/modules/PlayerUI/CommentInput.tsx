@@ -10,7 +10,7 @@ import { useCommentControllerContext } from "@/components/Global/Contexts/Commen
 
 type Props = {
     videoId: string,
-    videoInfo: VideoDataRootObject | null,
+    videoInfo: VideoDataRootObject | undefined,
     videoRef: RefObject<HTMLVideoElement | null>,
     commentInputRef: RefObject<HTMLTextAreaElement | null>,
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>

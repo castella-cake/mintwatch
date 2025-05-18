@@ -1,7 +1,7 @@
 import { VideoDataRootObject } from "@/types/VideoData";
 import DAnimeLinks from "./DAnimeLinks";
 
-export function ErrorScreen({ videoInfo }: { videoInfo: VideoDataRootObject | null}) {
+export function ErrorScreen({ videoInfo }: { videoInfo: VideoDataRootObject | undefined }) {
     if (!videoInfo || videoInfo.data?.response.media.domand && videoInfo.data.response.viewer) return
     const isPPV = videoInfo.data?.response.payment.preview.ppv.isEnabled
     const isAdmissionOnly = videoInfo.data?.response.payment.preview.admission.isEnabled

@@ -1,5 +1,6 @@
 import { ContentScriptContext } from "#imports";
 import RouterRoot from "@/components/Router/RouterRoot";
+import { scan } from "react-scan";
 import { createRoot } from "react-dom/client";
 
 export default async function initiateRouter(ctx: ContentScriptContext, storages: any) {
@@ -124,6 +125,10 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
 
     // watchPage は playersettings の値が何かしら入ってないと落ちるので絶対に書き込む
     if (!localStorage.playersettings) browser.storage.local.set({ playersettings: {} });
+
+    scan({
+        enabled: true,
+    })
 
     const ui = createIntegratedUi(ctx, {
         position: "inline",

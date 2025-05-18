@@ -2,11 +2,11 @@ import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
 import { NgData } from "@/types/NgCommentsApiData";
 
-const IViewerNgContext = createContext<{ ngData: NgData | null, setNgData: Dispatch<SetStateAction<NgData | null>> }>({ ngData: null, setNgData: () => {} });
+const IViewerNgContext = createContext<{ ngData: NgData | undefined, setNgData: Dispatch<SetStateAction<NgData | undefined>> }>({ ngData: undefined, setNgData: () => {} });
 
 export function ViewerNgProvider({ children }: { children: ReactNode }) {
     const {videoInfo} = useVideoInfoContext()
-    const [ngData, setNgData] = useState<NgData | null>(videoInfo && videoInfo.data.response.comment.ng.viewer)
+    const [ngData, setNgData] = useState<NgData | undefined>(videoInfo && videoInfo.data.response.comment.ng.viewer)
     return (
         <IViewerNgContext value={{ ngData, setNgData }}>
             {children}

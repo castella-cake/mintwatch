@@ -107,7 +107,7 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
         queryFn: () => {
             return getCommentDataWithRetry(nvComment, smId, commentThreadKeyRef)
         },
-        enabled: !!smId,
+        enabled: (!!smId && commentThreadKeyRef.current !== ""),
     })
 
     const reloadCommentContent = async (logData?: { when: number }) => {

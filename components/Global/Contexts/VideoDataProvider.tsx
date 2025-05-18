@@ -9,11 +9,11 @@ const IActionTrackDataContext = createContext<string>("");
 export const VideoRefContext = createContext<RefObject<HTMLVideoElement | null>>(createRef<HTMLVideoElement>());
 
 type VideoInfoContext = {
-    videoInfo: VideoDataRootObject | null;
+    videoInfo: VideoDataRootObject | undefined;
     errorInfo: any;
 };
 const IVideoInfoContext = createContext<VideoInfoContext>({
-    videoInfo: null,
+    videoInfo: undefined,
     errorInfo: false,
 });
 
@@ -22,6 +22,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
 
     const setBackgroundPlayInfo = useSetBackgroundPlayInfoContext()
     const { videoInfo, errorInfo } = useVideoDataQuery(smId);
+    console.log(videoInfo)
     const [actionTrackId, setActionTrackId] = useState("");
 
     useEffect(() => {
@@ -56,8 +57,6 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             );
         }
     }, [videoInfo]);
-
-    if ( !videoInfo ) return <IVideoInfoContext.Provider value={{ videoInfo: null, errorInfo }}>{children}</IVideoInfoContext.Provider>
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId}>

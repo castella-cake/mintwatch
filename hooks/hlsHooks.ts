@@ -22,7 +22,7 @@ function returnGreatestLevelNumber(preferValue: number, max: number) {
     return preferValue
 }
 
-export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | null, videoId: string, actionTrackId: string, isEnabled = true, preferredLevel = -1) {
+export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | undefined, videoId: string, actionTrackId: string, isEnabled = true, preferredLevel = -1) {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), [])
     const hlsRef = useRef<Hls>(null!)
     useEffect(() => {
