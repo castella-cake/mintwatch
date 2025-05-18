@@ -3,7 +3,7 @@ import { useSmIdContext } from "./WatchDataContext";
 import { RecommendDataRootObject } from "@/types/RecommendData";
 import { useRecommendData } from "@/hooks/apiHooks/recommendData";
 
-const IRecommendContext = createContext<RecommendDataRootObject | null>(null);
+const IRecommendContext = createContext<RecommendDataRootObject | undefined>(undefined);
 
 export function RecommendProvider({ children }: { children: ReactNode }) {
     const { smId } = useSmIdContext();

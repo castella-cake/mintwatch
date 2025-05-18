@@ -1,18 +1,13 @@
-import { RecommendDataRootObject } from "@/types/RecommendData";
+import { useQuery } from "@tanstack/react-query";
 
 export function useRecommendData(smId: string | null) {
-    const [recommendData, setRecommendData] = useState<RecommendDataRootObject | null>(null);
-    useEffect(() => {
-        async function fetchInfo() {
-            if (!smId) {
-                setRecommendData(null)
-                return;
-            }
-            const recommendResponse = await getRecommend(smId);
-            setRecommendData(recommendResponse);
-            //console.log(commentResponse)
-        }
-        fetchInfo();
-    }, [smId]);
-    return recommendData;
+    const { data: recommendData } = useQuery({
+        queryKey: ['recommendData', smId],
+        queryFn: () => {
+            if (!smId) throw new Error('no-smid') // 無効時には fetch させないように工夫
+            return getRecommend(smId)
+        },
+        enabled: !!smId, // smId が falsy（null, undefined, ''）ならフェッチしない
+    })
+    return recommendData
 }
