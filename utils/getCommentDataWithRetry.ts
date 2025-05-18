@@ -2,7 +2,13 @@ import { CommentDataRootObject } from "@/types/CommentData";
 import { NvComment } from "@/types/VideoData";
 import { RefObject } from "react";
 
-export async function getCommentDataWithRetry(nvComment: NvComment | undefined, smId: string | undefined, commentThreadKeyRef: RefObject<string>, logData?: { when: number }) {
+export type PairedThreadKeyRef = {
+    threadKey: string,
+    thisSmId: string,
+}
+
+
+export async function getCommentDataWithRetry(nvComment: NvComment | undefined, smId: string | undefined, commentThreadKeyRef: RefObject<PairedThreadKeyRef>, logData?: { when: number }) {
     if (!nvComment || !smId) throw new Error("getCommentDataWithRetry requires nvComment and smId");
     const logParams = logData ?? {};
     const commentRequestBody = {
@@ -12,7 +18,7 @@ export async function getCommentDataWithRetry(nvComment: NvComment | undefined, 
         additionals: {
             ...logParams,
         },
-        threadKey: commentThreadKeyRef.current,
+        threadKey: commentThreadKeyRef.current.threadKey,
     };
     let commentResponse: CommentDataRootObject = await getCommentThread(
         nvComment.server,
@@ -29,14 +35,13 @@ export async function getCommentDataWithRetry(nvComment: NvComment | undefined, 
                 threadKeyResponse.meta.status === 200 &&
                 threadKeyResponse.data.threadKey
             ) {
-                commentThreadKeyRef.current =
-                    threadKeyResponse.data.threadKey;
+                commentThreadKeyRef.current = { threadKey: threadKeyResponse.data.threadKey, thisSmId: smId }
                 const newCommentRequestBody = {
                     params: {
                         ...nvComment.params,
                         ...logParams,
                     },
-                    threadKey: commentThreadKeyRef.current,
+                    threadKey: commentThreadKeyRef.current.threadKey,
                 };
                 commentResponse = await getCommentThread(
                     nvComment.server,

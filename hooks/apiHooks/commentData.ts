@@ -2,7 +2,7 @@ import { CommentDataRootObject } from "@/types/CommentData";
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 import { NicoruPostBodyRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
 import { NvComment, Thread } from "@/types/VideoData";
-import { getCommentDataWithRetry } from "@/utils/getCommentDataWithRetry";
+import { getCommentDataWithRetry, PairedThreadKeyRef } from "@/utils/getCommentDataWithRetry";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCommentData(
@@ -98,7 +98,8 @@ export function useCommentData(
 }
 
 export function useCommentDataQuery(nvComment: NvComment | undefined, smId: string | undefined) {
-    const commentThreadKeyRef = useRef((nvComment && nvComment.threadKey) ?? "");
+    const commentThreadKeyRef = useRef<PairedThreadKeyRef>({ threadKey: "", thisSmId: "" });
+    if ( nvComment && smId ) commentThreadKeyRef.current = { threadKey: nvComment.threadKey, thisSmId: smId }
     const [currentLogData, setLogData] = useState<{when: number} | undefined>()
 
     const queryClient = useQueryClient()
@@ -107,7 +108,8 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
         queryFn: () => {
             return getCommentDataWithRetry(nvComment, smId, commentThreadKeyRef)
         },
-        enabled: (!!smId && commentThreadKeyRef.current !== ""),
+        // threadKeyが存在しないか、threadKeyのsmIdが今と違う場合でもフェッチしない
+        enabled: (!!smId && commentThreadKeyRef.current.threadKey !== "" && commentThreadKeyRef.current.thisSmId === smId),
     })
 
     const reloadCommentContent = async (logData?: { when: number }) => {
@@ -195,12 +197,6 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
             }
         }
     }
-
-    useEffect(() => {
-        if (nvComment) {
-            commentThreadKeyRef.current = nvComment?.threadKey
-        }
-    }, [nvComment])
 
     return { commentContent, setCommentContent, reloadCommentContent, sendNicoruData, currentLogData, errorInfo, isLoading }
 }

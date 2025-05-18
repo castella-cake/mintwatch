@@ -20,10 +20,7 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext();
 
     const { commentContent, setCommentContent, reloadCommentContent } =
-        useCommentDataQuery(
-            videoInfo?.data.response.comment.nvComment,
-            videoInfo?.data.response.video.id,
-        );
+        useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id);
 
     useEffect(() => {
         if (
