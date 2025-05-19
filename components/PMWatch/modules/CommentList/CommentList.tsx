@@ -6,12 +6,6 @@ import {
 } from "../commonFunction";
 import type { Comment, CommentDataRootObject } from "@/types/CommentData";
 import { VideoDataRootObject } from "@/types/VideoData";
-import {
-    NicoruKeyResponseRootObject,
-    NicoruPostBodyRootObject,
-    NicoruPostResponseRootObject,
-    NicoruRemoveRootObject,
-} from "@/types/NicoruPostData";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { IconAdjustmentsHorizontal, IconBubbleX, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react";
 import { TimeMachine } from "./TimeMachineUi";
@@ -89,7 +83,7 @@ const MemoizedComments = memo(function ({
         commentBody: string,
         nicoruId: string | null,
         isMyPost: boolean,
-    ) => {};
+    ) => void;
     onSeekTo: (currentTime: number) => void;
 }) {
     const [openedCommentItem, setOpenedCommentItem] = useState<string>("");
@@ -125,7 +119,7 @@ const ariaDetails =
 function CommentList() {
     const { videoInfo } = useVideoInfoContext();
     const commentContent = useCommentContentContext();
-    const { setCommentContent, reloadCommentContent } = useCommentControllerContext();
+    const { reloadCommentContent, sendNicoru } = useCommentControllerContext();
     const videoRef = useVideoRefContext();
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const {ngData} = useViewerNgContext();
@@ -266,78 +260,21 @@ function CommentList() {
         if (commentRefs.current[index]) scrollPosList[`${Math.floor(elem.vposMs / 1000)}`] = commentRefs.current[index];
     });
 
-    async function onNicoru(
+    function onNicoru(
         commentNo: number,
         commentBody: string,
         nicoruId: string | null,
         isMyPost: boolean,
     ) {
-        //"{\"videoId\":\"\",\"fork\":\"\",\"no\":0,\"content\":\"\",\"nicoruKey\":\"\"}"
-        if (
-            !videoInfo ||
-            !videoInfo.data.response.video.id ||
-            !videoInfo.data.response.viewer ||
-            !commentContent ||
-            !commentContent.data ||
+        if (!videoInfo) return;
+        sendNicoru({
+            currentForkType,
+            currentThread: videoInfo.data.response.comment.threads[currentForkType],
+            commentNo,
+            commentBody,
+            nicoruId,
             isMyPost
-        )
-            return;
-        if (nicoruId) {
-            const response: NicoruRemoveRootObject =
-                await removeNicoru(nicoruId);
-            if (response.meta.status === 200) {
-                const commentContentCopy: typeof commentContent = JSON.parse(
-                    JSON.stringify(commentContent),
-                );
-                const comments =
-                    commentContentCopy.data!.threads[currentForkType].comments;
-                const thisComment =
-                    comments[
-                        comments.findIndex(
-                            (comment) => comment.no === commentNo,
-                        )
-                    ];
-                if (!thisComment) return;
-                thisComment.nicoruCount = thisComment.nicoruCount - 1;
-                thisComment.nicoruId = null;
-                setCommentContent(commentContentCopy);
-            }
-        } else {
-            const currentThread =
-                videoInfo.data.response.comment.threads[currentForkType];
-            const nicoruKeyResponse: NicoruKeyResponseRootObject =
-                await getNicoruKey(currentThread.id, currentThread.forkLabel);
-            if (nicoruKeyResponse.meta.status !== 200) return;
-            const body: NicoruPostBodyRootObject = {
-                videoId: videoInfo.data.response.video.id,
-                fork: currentThread.forkLabel,
-                no: commentNo,
-                content: commentBody,
-                nicoruKey: nicoruKeyResponse.data.nicoruKey,
-            };
-            const response: NicoruPostResponseRootObject = await postNicoru(
-                currentThread.id,
-                body,
-            );
-            //console.log(response)
-            if (response.meta.status === 201) {
-                const commentContentCopy: typeof commentContent = JSON.parse(
-                    JSON.stringify(commentContent),
-                );
-                const comments =
-                    commentContentCopy.data!.threads[currentForkType].comments;
-                const thisComment =
-                    comments[
-                        comments.findIndex(
-                            (comment) => comment.no === commentNo,
-                        )
-                    ];
-                if (!thisComment) return;
-                thisComment.nicoruCount = thisComment.nicoruCount + 1;
-                thisComment.nicoruId = response.data.nicoruId;
-                setCommentContent(commentContentCopy);
-            }
-        }
+        })
     }
     //console.log(scrollPosList)
 

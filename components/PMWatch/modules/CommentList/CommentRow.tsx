@@ -13,7 +13,7 @@ type RowProps = {
         commentBody: string,
         nicoruId: string | null,
         isMyPost: boolean,
-    ) => {};
+    ) => void;
     onSeekTo: (currentTime: number) => void;
     onItemExpand: (id: string) => void;
 };

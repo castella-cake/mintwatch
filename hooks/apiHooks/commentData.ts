@@ -3,7 +3,7 @@ import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 import { NicoruPostBodyRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
 import { NvComment, Thread } from "@/types/VideoData";
 import { getCommentDataWithRetry, PairedThreadKeyRef } from "@/utils/getCommentDataWithRetry";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useCommentData(
     nvComment: NvComment | undefined,
@@ -101,6 +101,9 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
     const commentThreadKeyRef = useRef<PairedThreadKeyRef>({ threadKey: "", thisSmId: "" });
     if ( nvComment && smId ) commentThreadKeyRef.current = { threadKey: nvComment.threadKey, thisSmId: smId }
     const [currentLogData, setLogData] = useState<{when: number} | undefined>()
+    useEffect(() => {
+        setLogData(undefined)
+    }, [smId])
 
     const queryClient = useQueryClient()
     const { data: commentContent, error: errorInfo, isLoading } = useQuery({
@@ -112,8 +115,86 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
         enabled: (!!smId && commentThreadKeyRef.current.threadKey !== "" && commentThreadKeyRef.current.thisSmId === smId),
     })
 
+    const nicoruMutation = useMutation({
+        mutationFn: async ({ currentForkType, currentThread, commentNo, commentBody, nicoruId, isMyPost}: {
+            currentForkType: number,
+            currentThread: Thread,
+            commentNo: number,
+            commentBody: string,
+            nicoruId: string | null,
+            isMyPost: boolean,
+        }) => {
+            if (
+                !smId ||
+                !commentContent ||
+                !commentContent.data ||
+                isMyPost
+            ) {
+                throw new Error("Bad arguments")
+            }
+            if (nicoruId) {
+                const response: NicoruRemoveRootObject =
+                    await removeNicoru(nicoruId);
+                if (response.meta.status === 200) {
+                    const commentContentCopy: typeof commentContent = JSON.parse(
+                        JSON.stringify(commentContent),
+                    );
+                    const comments =
+                        commentContentCopy.data!.threads[currentForkType].comments;
+                    const thisComment =
+                        comments[
+                            comments.findIndex(
+                                (comment) => comment.no === commentNo,
+                            )
+                        ];
+                    if (!thisComment) throw new Error("postNicoru success but comment not found, is it deleted?")
+                    thisComment.nicoruCount = thisComment.nicoruCount - 1;
+                    thisComment.nicoruId = null;
+                    return commentContentCopy
+                } else {
+                    throw new APIError("removeNicoru failed.", response)
+                }
+            } else {
+                const nicoruKeyResponse = await getNicoruKey(currentThread.id, currentThread.forkLabel);
+                if (nicoruKeyResponse.meta.status !== 200) throw new APIError("getNicoruKey failed.", nicoruKeyResponse)
+                const body: NicoruPostBodyRootObject = {
+                    videoId: smId,
+                    fork: currentThread.forkLabel,
+                    no: commentNo,
+                    content: commentBody,
+                    nicoruKey: nicoruKeyResponse.data.nicoruKey,
+                };
+                const response = await postNicoru(
+                    currentThread.id,
+                    body,
+                );
+                //console.log(response)
+                if (response.meta.status === 201) {
+                    const commentContentCopy: typeof commentContent = JSON.parse(
+                        JSON.stringify(commentContent),
+                    );
+                    const comments =
+                        commentContentCopy.data!.threads[currentForkType].comments;
+                    const thisComment =
+                        comments[
+                            comments.findIndex(
+                                (comment) => comment.no === commentNo,
+                            )
+                        ];
+                    if (!thisComment) throw new Error("postNicoru success but comment not found, is it deleted?")
+                    thisComment.nicoruCount = thisComment.nicoruCount + 1;
+                    thisComment.nicoruId = response.data.nicoruId;
+                    return commentContentCopy
+                } else {
+                    throw new APIError("postNicoru failed.", response)
+                }
+            }
+        },
+        onSuccess: setCommentContent
+    })
+
     const reloadCommentContent = async (logData?: { when: number }) => {
-        const queryKey = ['comments', smId, { logData }]
+        const queryKey = ['commentData', smId, { logData }]
         const result = await queryClient.fetchQuery({
             queryKey,
             queryFn: () => getCommentDataWithRetry(nvComment, smId, commentThreadKeyRef, logData),
@@ -123,80 +204,9 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
     }
 
     function setCommentContent(newCommentContent: CommentDataRootObject) {
-        const queryKey = ['comments', smId, { logData: currentLogData }]
+        const queryKey = ['commentData', smId, { logData: currentLogData }]
         queryClient.setQueriesData({ queryKey }, newCommentContent)
     }
 
-    async function sendNicoruData(
-        currentForkType: number,
-        currentThread: Thread,
-        commentNo: number,
-        commentBody: string,
-        nicoruId: string | null,
-        isMyPost: boolean,
-    ) {
-        //"{\"videoId\":\"\",\"fork\":\"\",\"no\":0,\"content\":\"\",\"nicoruKey\":\"\"}"
-        if (
-            !smId ||
-            !commentContent ||
-            !commentContent.data ||
-            isMyPost
-        )
-            return;
-        if (nicoruId) {
-            const response: NicoruRemoveRootObject =
-                await removeNicoru(nicoruId);
-            if (response.meta.status === 200) {
-                const commentContentCopy: typeof commentContent = JSON.parse(
-                    JSON.stringify(commentContent),
-                );
-                const comments =
-                    commentContentCopy.data!.threads[currentForkType].comments;
-                const thisComment =
-                    comments[
-                        comments.findIndex(
-                            (comment) => comment.no === commentNo,
-                        )
-                    ];
-                if (!thisComment) return;
-                thisComment.nicoruCount = thisComment.nicoruCount - 1;
-                thisComment.nicoruId = null;
-                setCommentContent(commentContentCopy);
-            }
-        } else {
-            const nicoruKeyResponse = await getNicoruKey(currentThread.id, currentThread.forkLabel);
-            if (nicoruKeyResponse.meta.status !== 200) return;
-            const body: NicoruPostBodyRootObject = {
-                videoId: smId,
-                fork: currentThread.forkLabel,
-                no: commentNo,
-                content: commentBody,
-                nicoruKey: nicoruKeyResponse.data.nicoruKey,
-            };
-            const response = await postNicoru(
-                currentThread.id,
-                body,
-            );
-            //console.log(response)
-            if (response.meta.status === 201) {
-                const commentContentCopy: typeof commentContent = JSON.parse(
-                    JSON.stringify(commentContent),
-                );
-                const comments =
-                    commentContentCopy.data!.threads[currentForkType].comments;
-                const thisComment =
-                    comments[
-                        comments.findIndex(
-                            (comment) => comment.no === commentNo,
-                        )
-                    ];
-                if (!thisComment) return;
-                thisComment.nicoruCount = thisComment.nicoruCount + 1;
-                thisComment.nicoruId = response.data.nicoruId;
-                setCommentContent(commentContentCopy);
-            }
-        }
-    }
-
-    return { commentContent, setCommentContent, reloadCommentContent, sendNicoruData, currentLogData, errorInfo, isLoading }
+    return { commentContent, setCommentContent, reloadCommentContent, sendNicoru: nicoruMutation.mutate, currentLogData, errorInfo, isLoading }
 }

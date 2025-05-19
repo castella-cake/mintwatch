@@ -2,6 +2,8 @@ import { createContext, ReactNode } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
 import { CommentDataRootObject } from "@/types/CommentData";
 import { useCommentDataQuery } from "@/hooks/apiHooks/commentData";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { Thread } from "@/types/VideoData";
 
 const ICommentContentContext = createContext<CommentDataRootObject | undefined>(undefined);
 
@@ -10,17 +12,18 @@ type CommentControllerContext = {
     reloadCommentContent: (logData?: {
         when: number;
     }) => Promise<CommentDataRootObject | undefined>;
+    sendNicoru: UseMutateFunction<CommentDataRootObject, Error, { currentForkType: number; currentThread: Thread; commentNo: number; commentBody: string; nicoruId: string | null; isMyPost: boolean; }, unknown>;
 };
 const ICommentControllerContext = createContext<CommentControllerContext>({
     setCommentContent: () => {},
     reloadCommentContent: null!,
+    sendNicoru: null!,
 });
 
 export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext();
 
-    const { commentContent, setCommentContent, reloadCommentContent } =
-        useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id);
+    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id);
 
     useEffect(() => {
         if (
@@ -37,7 +40,7 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     return (
         <ICommentContentContext value={commentContent}>
             <ICommentControllerContext
-                value={{ setCommentContent, reloadCommentContent }}
+                value={{ setCommentContent, reloadCommentContent, sendNicoru }}
             >
                 {children}
             </ICommentControllerContext>
