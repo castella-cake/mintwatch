@@ -1,23 +1,97 @@
+diff --git a/dist/bundle.d.ts b/dist/bundle.d.ts
+index f90081aae6e518e30809af804600456baebd4403..14b3f60afa15ec071520cbc6148e1feec1c17896 100644
+--- a/dist/bundle.d.ts
++++ b/dist/bundle.d.ts
+@@ -1987,6 +1987,7 @@ type FormattedCommentWithFont = {
+     strokeColor?: string;
+     wakuColor?: string;
+     fillColor?: string;
++    opacity?: number;
+     full: boolean;
+     ender: boolean;
+     _live: boolean;
+@@ -2027,6 +2028,7 @@ type ParseCommandAndNicoScriptResult = {
+     strokeColor?: string;
+     wakuColor?: string;
+     fillColor?: string;
++    opacity?: number;
+     font: CommentFont;
+     full: boolean;
+     ender: boolean;
+@@ -2390,6 +2392,7 @@ type ParsedCommand = {
+     strokeColor?: string;
+     wakuColor?: string;
+     fillColor?: string;
++    opacity?: number;
+     font: CommentFont | undefined;
+     full: boolean;
+     ender: boolean;
 diff --git a/dist/bundle.js b/dist/bundle.js
-index 785e5bcb8db1561e72713ef369f0ed24ceabcf9f..7a6eac6bef6906ba78838d0f126f849104f434cc 100644
+index 785e5bcb8db1561e72713ef369f0ed24ceabcf9f..1c790d2643f236165de5ab4a438cf3f4735ce270 100644
 --- a/dist/bundle.js
 +++ b/dist/bundle.js
-@@ -2080,7 +2080,8 @@
+@@ -1957,6 +1957,7 @@
+             strokeColor: commands.strokeColor,
+             wakuColor: commands.wakuColor,
+             fillColor: commands.fillColor,
++            opacity: commands.opacity,
+             button: commands.button,
+         };
      };
-     const processReverseScript = (comment, commands) => {
-         const reverse = RegExp(/^[@\uff20]\u9006(?:\s+)?(\u5168|\u30b3\u30e1|\u6295\u30b3\u30e1)?/).exec(comment.content);
--        if (!reverse?.[1] || !typeGuard.nicoScript.range.target(reverse[1]))
-+        const target = (reverse?.[1] && typeGuard.nicoScript.range.target(reverse?.[1])) ? reverse?.[1] : "全"
-+        if (!target || !typeGuard.nicoScript.range.target(target))
+@@ -2188,6 +2189,11 @@
+             result.fillColor ??= fillColor;
              return;
-         if (commands.long === undefined) {
-             commands.long = 30;
-@@ -2088,7 +2089,7 @@
-         nicoScripts.reverse.unshift({
-             start: comment.vpos,
-             end: comment.vpos + commands.long * 100,
--            target: reverse[1],
-+            target: target,
-         });
+         }
++        const opacity = getOpacity(RegExp(/^nico:opacity:(.+)$/).exec(command));
++        if (typeof opacity === "number") {
++            result.opacity ??= opacity;
++            return;
++        }
+         if (is(ZCommentLoc, command)) {
+             result.loc ??= command;
+             return;
+@@ -2226,6 +2232,15 @@
+         }
+         return;
      };
-     const processBanScript = (comment, commands) => {
++    const getOpacity = (match) => {
++        if (!match)
++            return;
++        const value = Number(match[1]);
++        if (!Number.isNaN(value)) {
++            return value;
++        }
++        return;
++    };
+     const isFlashComment = (comment) => options.mode === "flash" ||
+         (options.mode === "default" &&
+             !(comment.mail.includes("gothic") ||
+@@ -2428,11 +2443,13 @@
+                 comment.mail.includes("patissier") ||
+                 comment.mail.includes("ender") ||
+                 comment.mail.includes("full")) {
+-                userScoreList[comment.user_id] += 5;
++                userScoreList[comment.user_id] =
++                    (userScoreList[comment.user_id] ?? 0) + 5;
+             }
+             const lineCount = (comment.content.match(/\r\n|\n|\r/g) ?? []).length;
+             if (lineCount > 2) {
+-                userScoreList[comment.user_id] += lineCount / 2;
++                userScoreList[comment.user_id] =
++                    (userScoreList[comment.user_id] ?? 0) + lineCount / 2;
+             }
+         }
+         return userScoreList;
+@@ -3039,7 +3056,11 @@
+             }
+             if (this.image) {
+                 this.renderer.save();
+-                if (this.comment._live) {
++                if (typeof this.comment.opacity === "number" &&
++                    this.comment.opacity >= 0) {
++                    this.renderer.setGlobalAlpha(this.comment.opacity);
++                }
++                else if (this.comment._live) {
+                     this.renderer.setGlobalAlpha(config.contextFillLiveOpacity);
+                 }
+                 else {

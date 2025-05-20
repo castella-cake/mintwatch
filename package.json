@@ -2,7 +2,7 @@
     "name": "mintwatch",
     "description": "ニコニコ動画用のカスタマイズ可能な動画プレイヤー",
     "private": true,
-    "version": "0.7.1",
+    "version": "0.8.0",
     "type": "module",
     "license": "MIT",
     "homepage": "https://github.com/castella-cake/niconico-peppermint-extension#readme",
@@ -57,8 +57,8 @@
             "spawn-sync"
         ],
         "patchedDependencies": {
-            "@xpadev-net/niconicomments": "patches/@xpadev-net__niconicomments.patch",
-            "@dnd-kit/core": "patches/@dnd-kit__core.patch"
+            "@dnd-kit/core": "patches/@dnd-kit__core.patch",
+            "@xpadev-net/niconicomments": "patches/@xpadev-net__niconicomments.patch"
         }
     }
 }

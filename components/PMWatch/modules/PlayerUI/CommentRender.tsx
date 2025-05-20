@@ -92,7 +92,7 @@ export function CommentRender(props: {
                 mode: "html5",
                 config: {
                     ...(disableCommentOutline ? disableOutlineConfig : {}),
-                    ...(canUseFastRenderConfig ? fastConfig : {})
+                    ...(canUseFastRenderConfig ? fastConfig : {}),
                 }
             }) // 
 

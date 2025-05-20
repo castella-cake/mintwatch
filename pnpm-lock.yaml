@@ -9,7 +9,7 @@ patchedDependencies:
     hash: 46fc639c1737953f90329a1be0ec1ba26bd4cd8f048a43bb143e8c178d0a6464
     path: patches/@dnd-kit__core.patch
   '@xpadev-net/niconicomments':
-    hash: 309972c3f014cd64deb1d3922396160869b16f0e21a0122a5eb71c249d1d8d4a
+    hash: 9b7808038a36f1b7dffb32477e3ada8b19236921cec8dcf6649f51edc4342b73
     path: patches/@xpadev-net__niconicomments.patch
 
 importers:
@@ -33,7 +33,7 @@ importers:
         version: 3.31.0(react@19.1.0)
       '@xpadev-net/niconicomments':
         specifier: ^0.2.73
-        version: 0.2.73(patch_hash=309972c3f014cd64deb1d3922396160869b16f0e21a0122a5eb71c249d1d8d4a)
+        version: 0.2.73(patch_hash=9b7808038a36f1b7dffb32477e3ada8b19236921cec8dcf6649f51edc4342b73)
       dompurify:
         specifier: ^3.2.5
         version: 3.2.5
@@ -3497,7 +3497,7 @@ snapshots:
       async-mutex: 0.5.0
       dequal: 2.0.3
 
-  '@xpadev-net/niconicomments@0.2.73(patch_hash=309972c3f014cd64deb1d3922396160869b16f0e21a0122a5eb71c249d1d8d4a)': {}
+  '@xpadev-net/niconicomments@0.2.73(patch_hash=9b7808038a36f1b7dffb32477e3ada8b19236921cec8dcf6649f51edc4342b73)': {}
 
   acorn@8.14.1: {}
 

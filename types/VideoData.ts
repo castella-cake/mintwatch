@@ -413,7 +413,7 @@ interface Comment {
     server: Server;
     keys: Keys;
     layers: Layer[];
-    threads: Thread[];
+    threads: VideoDataThread[];
     ng: Ng;
     isAttentionRequired: boolean;
     nvComment: NvComment;
@@ -458,7 +458,7 @@ interface NgScore {
     isDisabled: boolean;
 }
 
-interface Thread {
+export interface VideoDataThread {
     id: number;
     fork: number;
     forkLabel: string;

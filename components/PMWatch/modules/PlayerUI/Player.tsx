@@ -8,8 +8,10 @@ import type { Dispatch, SetStateAction } from "react";
 import CommentInput from "./CommentInput";
 import Settings from "./Settings";
 import {
+    applyOpacityToThreads,
     doFilterThreads,
     handleCtrl,
+    returnThreadLabels,
     sharedNgLevelScore,
 } from "../commonFunction";
 import { StatsOverlay } from "./StatsOverlay";
@@ -244,7 +246,7 @@ function Player(props: Props) {
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return;
-        return doFilterThreads(
+        const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
             (localStorage.playersettings.sharedNgLevel ??
@@ -252,6 +254,18 @@ function Player(props: Props) {
             ],
             ngData,
         );
+        if (!videoInfo?.data.response.comment.threads) return []
+        const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
+        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, {
+            default: 1,
+            community: 1,
+            easy: 0.5,
+            owner: 1,
+            nicos: 1,
+            "extra-community": 0.8,
+            "extra-easy": 0.5,
+        })
+        return threadsOpacityApplied
     }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel]);
 
     function playlistIndexControl(add: number, isShuffle?: boolean) {
