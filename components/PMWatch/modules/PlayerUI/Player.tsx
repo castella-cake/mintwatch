@@ -6,7 +6,7 @@ import { useHlsVideo } from "@/hooks/hlsHooks";
 import { Comment } from "@/types/CommentData";
 import type { Dispatch, SetStateAction } from "react";
 import CommentInput from "./CommentInput";
-import Settings from "./Settings";
+import Settings from "./Settings/Settings";
 import {
     applyOpacityToThreads,
     doFilterThreads,
