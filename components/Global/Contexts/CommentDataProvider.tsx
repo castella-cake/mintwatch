@@ -3,7 +3,7 @@ import { useVideoInfoContext } from "./VideoDataProvider";
 import { CommentDataRootObject } from "@/types/CommentData";
 import { useCommentDataQuery } from "@/hooks/apiHooks/commentData";
 import { UseMutateFunction } from "@tanstack/react-query";
-import { Thread } from "@/types/VideoData";
+import { VideoDataThread } from "@/types/VideoData";
 
 const ICommentContentContext = createContext<CommentDataRootObject | undefined>(undefined);
 
@@ -12,7 +12,7 @@ type CommentControllerContext = {
     reloadCommentContent: (logData?: {
         when: number;
     }) => Promise<CommentDataRootObject | undefined>;
-    sendNicoru: UseMutateFunction<CommentDataRootObject, Error, { currentForkType: number; currentThread: Thread; commentNo: number; commentBody: string; nicoruId: string | null; isMyPost: boolean; }, unknown>;
+    sendNicoru: UseMutateFunction<CommentDataRootObject, Error, { currentForkType: number; currentThread: VideoDataThread; commentNo: number; commentBody: string; nicoruId: string | null; isMyPost: boolean; }, unknown>;
 };
 const ICommentControllerContext = createContext<CommentControllerContext>({
     setCommentContent: () => {},

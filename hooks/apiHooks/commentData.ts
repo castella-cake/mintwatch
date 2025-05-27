@@ -1,7 +1,7 @@
 import { CommentDataRootObject } from "@/types/CommentData";
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 import { NicoruPostBodyRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
-import { NvComment, Thread } from "@/types/VideoData";
+import { NvComment, VideoDataThread } from "@/types/VideoData";
 import { getCommentDataWithRetry, PairedThreadKeyRef } from "@/utils/getCommentDataWithRetry";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -118,7 +118,7 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
     const nicoruMutation = useMutation({
         mutationFn: async ({ currentForkType, currentThread, commentNo, commentBody, nicoruId, isMyPost}: {
             currentForkType: number,
-            currentThread: Thread,
+            currentThread: VideoDataThread,
             commentNo: number,
             commentBody: string,
             nicoruId: string | null,
