@@ -6,10 +6,12 @@ import { useHlsVideo } from "@/hooks/hlsHooks";
 import { Comment } from "@/types/CommentData";
 import type { Dispatch, SetStateAction } from "react";
 import CommentInput from "./CommentInput";
-import Settings from "./Settings";
+import Settings from "./Settings/Settings";
 import {
+    applyOpacityToThreads,
     doFilterThreads,
     handleCtrl,
+    returnThreadLabels,
     sharedNgLevelScore,
 } from "../commonFunction";
 import { StatsOverlay } from "./StatsOverlay";
@@ -245,7 +247,7 @@ function Player(props: Props) {
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return;
-        return doFilterThreads(
+        const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
             (localStorage.playersettings.sharedNgLevel ??
@@ -253,7 +255,11 @@ function Player(props: Props) {
             ],
             ngData,
         );
-    }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel]);
+        if (!videoInfo?.data.response.comment.threads) return []
+        const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
+        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.playersettings.customCommentOpacity ?? {})
+        return threadsOpacityApplied
+    }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel, localStorage.playersettings.customCommentOpacity]);
 
     function playlistIndexControl(add: number, isShuffle?: boolean) {
         if (playlistData.items.length > 0) {

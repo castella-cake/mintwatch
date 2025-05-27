@@ -20,6 +20,7 @@ import {
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 import CommentRow from "./CommentRow";
+import { threadLabelLang } from "@/utils/threadLabel";
 
 type scrollPos = {
     [vposSec: string]: RefObject<HTMLDivElement | null>;
@@ -37,16 +38,6 @@ function returnSelectedThread(threads: Thread[], forkName: string) {
         return false
     }
 }*/
-
-const forkLabelToLang: { [key: string]: string } = {
-    default: "メイン",
-    community: "コミュニティ",
-    easy: "かんたん",
-    owner: "オーナー",
-    nicos: "ニコス",
-    "extra-community": "引用コミュニティ",
-    "extra-easy": "引用かんたん",
-};
 
 const sortKeys = {
     vposMs: "動画時間",
@@ -350,13 +341,13 @@ function CommentList() {
                     {videoInfo.data.response.comment.threads.map(
                         (elem, index) => {
                             const key =
-                                elem.label as keyof typeof forkLabelToLang;
+                                elem.label as keyof typeof threadLabelLang;
                             return (
                                 <option
                                     key={`${index}-${elem.fork}-${elem.label}`}
                                     value={index}
                                 >
-                                    {forkLabelToLang[key] || elem.label}
+                                    {threadLabelLang[key] || elem.label}
                                 </option>
                             );
                         },

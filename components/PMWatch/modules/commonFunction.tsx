@@ -1,5 +1,6 @@
 import { Thread, Comment } from "@/types/CommentData"
 import { NgData } from "@/types/NgCommentsApiData"
+import { VideoDataThread } from "@/types/VideoData"
 
 export function secondsToTime(seconds: number) {
     const second = Math.floor(seconds % 60)
@@ -156,6 +157,14 @@ export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewer
     return threadsAfter
 }
 
+export function applyOpacityToThreads(threads: Thread[], threadLabels: string[], opacitySetting: { [key: string]: number }) {
+    return threads.map((thread, index) => {
+        return { ...thread, comments: thread.comments.map(comment => {
+            return { ...comment, commands: [...comment.commands, `nico:opacity:${opacitySetting[threadLabels[index]] ?? 1}`] }
+        }) }
+    })
+}
+
 export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: NgData | null, onlyShowMyselfComments?: boolean) {
     return comments.filter((comment) => {
         if (onlyShowMyselfComments && !comment.isMyPost) return false 
@@ -168,6 +177,10 @@ export function doFilterComments(comments: Comment[], sharedNgLevel: number, vie
         }) !== -1) return false
         return true
     })
+}
+
+export function returnThreadLabels(threads: VideoDataThread[]) {
+    return threads.map(thread => thread.label)
 }
 
 export function wheelTranslator(e: WheelEvent) {

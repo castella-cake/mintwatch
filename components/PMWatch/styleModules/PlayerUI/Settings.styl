@@ -3,22 +3,24 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: 30%;
+    width: max(30%, 24rem);
     //height: 100%;
     background: #111e;
     color: #fff;
     backdrop-filter: blur(8px);
     padding: 16px;
     z-index: 2;
-    min-width: 300px;
     overflow: auto;
+    overflow-y: scroll;
     cursor: auto; // 動画の上で動いてない判定されてカーソルが見えなくならないように
     margin: 4px;
     border-radius: 6px;
     border: 1px solid #555a;
     box-shadow: 0px 0px 4px #000;
     p {
-        font-size: 0.9em;
+        opacity: 0.8;
+        font-size: 0.8rem;
+        margin: 8px 0;
     }
     .playersettings-item {
         margin-bottom: 8px;
@@ -45,6 +47,17 @@
             opacity: 0.8;
             margin-top: 2px;
         }
+        button {
+            background: #aaa5;
+            color: #fff;
+            border-radius: 6px;
+            border: 1px solid #555a;
+            padding: 4px 8px;
+            cursor: pointer;
+            &:hover {
+                background: #ccc5;
+            }
+        }
     }
     &::-webkit-scrollbar {
         background: transparent;
@@ -61,4 +74,30 @@
         font-weight: normal;
         opacity: 0.8;
     }
+}
+
+.playersettings-item details summary {
+    font-size: 0.8rem;
+    margin: 4px;
+}
+
+.playersettings-item details .playersettings-item {
+    border: none;
+}
+
+.playersettings-slider {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.playersettings-slider label {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.playersettings-container .playersettings-item button {
+    width: 100%;
 }
