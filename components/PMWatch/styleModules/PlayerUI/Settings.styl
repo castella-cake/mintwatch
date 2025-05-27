@@ -47,6 +47,17 @@
             opacity: 0.8;
             margin-top: 2px;
         }
+        button {
+            background: #aaa5;
+            color: #fff;
+            border-radius: 6px;
+            border: 1px solid #555a;
+            padding: 4px 8px;
+            cursor: pointer;
+            &:hover {
+                background: #ccc5;
+            }
+        }
     }
     &::-webkit-scrollbar {
         background: transparent;
@@ -63,4 +74,30 @@
         font-weight: normal;
         opacity: 0.8;
     }
+}
+
+.playersettings-item details summary {
+    font-size: 0.8rem;
+    margin: 4px;
+}
+
+.playersettings-item details .playersettings-item {
+    border: none;
+}
+
+.playersettings-slider {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.playersettings-slider label {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.playersettings-container .playersettings-item button {
+    width: 100%;
 }

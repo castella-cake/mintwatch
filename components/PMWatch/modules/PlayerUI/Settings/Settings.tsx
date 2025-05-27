@@ -2,6 +2,7 @@ import { playerSettings, playerSettingsLabel } from "@/utils/playerSettingList";
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { Stacker } from "../../Stacker";
 import SettingRow from "./SettingRow";
+import SettingsList from "./SettingsList";
 
 
 const manifestData = browser.runtime.getManifest();
@@ -19,11 +20,12 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boo
             視聴ページの設定は左上のスパナアイコンから設定できます。<br/>
         </p>
         <Stacker items={Object.keys(playerSettings).map((name, index) => {
+            if (playerSettings[name].visible === false) return undefined
             return {
                 title: playerSettingsLabel[name as keyof typeof playerSettingsLabel],
-                content: Object.keys(playerSettings[name]).map((settingKey, index) => <SettingRow settingKey={settingKey} key={settingKey}/>)
+                content: <SettingsList categoryName={name}/>
             }
-        })}/>
+        }).filter(item => item !== undefined)}/>
         <div className="playersettings-item">
             <label>
                 <input type="checkbox" checked={isStatsShown} onChange={(e) => {setIsStatsShown(e.currentTarget.checked)}}/>

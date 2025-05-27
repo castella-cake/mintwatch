@@ -256,17 +256,9 @@ function Player(props: Props) {
         );
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
-        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, {
-            default: 1,
-            community: 1,
-            easy: 0.5,
-            owner: 1,
-            nicos: 1,
-            "extra-community": 0.8,
-            "extra-easy": 0.5,
-        })
+        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.playersettings.customCommentOpacity ?? {})
         return threadsOpacityApplied
-    }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel]);
+    }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel, localStorage.playersettings.customCommentOpacity]);
 
     function playlistIndexControl(add: number, isShuffle?: boolean) {
         if (playlistData.items.length > 0) {
