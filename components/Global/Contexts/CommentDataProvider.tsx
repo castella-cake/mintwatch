@@ -1,7 +1,7 @@
 import { createContext, ReactNode } from "react";
 import { useVideoInfoContext } from "./VideoDataProvider";
 import { CommentDataRootObject } from "@/types/CommentData";
-import { useCommentDataQuery } from "@/hooks/apiHooks/commentData";
+import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { VideoDataThread } from "@/types/VideoData";
 

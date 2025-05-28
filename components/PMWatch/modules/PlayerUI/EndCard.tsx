@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
 import { InfoCard, SeriesVideoCard } from "../Info/InfoCards";
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
-import { useRecommendData } from "@/hooks/apiHooks/recommendData";
+import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()

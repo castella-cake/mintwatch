@@ -2,7 +2,7 @@ import { createContext, createRef, ReactNode, RefObject } from "react";
 import { useSmIdContext } from "./WatchDataContext";
 import { VideoDataRootObject } from "@/types/VideoData";
 import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider";
-import { useVideoDataQuery } from "@/hooks/apiHooks/videoData";
+import { useVideoDataQuery } from "@/hooks/apiHooks/watch/videoData";
 
 const IActionTrackDataContext = createContext<string>("");
 

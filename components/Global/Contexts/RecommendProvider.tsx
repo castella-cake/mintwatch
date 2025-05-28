@@ -1,7 +1,7 @@
 import { createContext, ReactNode } from "react";
 import { useSmIdContext } from "./WatchDataContext";
 import { RecommendDataRootObject } from "@/types/RecommendData";
-import { useRecommendData } from "@/hooks/apiHooks/recommendData";
+import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
 
 const IRecommendContext = createContext<RecommendDataRootObject | undefined>(undefined);
 

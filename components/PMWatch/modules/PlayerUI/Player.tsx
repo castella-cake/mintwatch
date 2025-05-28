@@ -35,7 +35,7 @@ import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvi
 import BackgroundController from "./BackgroundController";
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider";
 import VideoTitle from "../Info/VideoTitle";
-import { useStoryBoardData } from "@/hooks/apiHooks/storyBoardData";
+import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData";
 
 type Props = {
     isFullscreenUi: boolean;
