@@ -22,6 +22,6 @@ export async function sendLike(smId: string, method: "GET" | "POST" | "DELETE") 
     if (json.meta.status == 200 || json.meta.status == 201) {
         return json
     } else {
-        return false
+        throw new APIError("sendLike failed.", json)
     }
 }
