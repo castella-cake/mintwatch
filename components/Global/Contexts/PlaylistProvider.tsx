@@ -7,7 +7,7 @@ import {
     playlistVideoItem,
     seriesToSimplifiedPlaylist,
 } from "../../PMWatch/modules/Playlist";
-import { SeriesResponseRootObject } from "@/types/seriesData";
+import { useQueryClient } from "@tanstack/react-query";
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] });
 
@@ -25,6 +25,7 @@ const IControlPlaylistContext = createContext<ControlPlaylistContext>({
 })
 
 export function PlaylistProvider({ children }: { children: ReactNode }) {
+    const queryClient = useQueryClient()
     const { videoInfo } = useVideoInfoContext();
     const [_playlistData, setPlaylistData] = useState<playlistData>({
         type: "none",
@@ -85,11 +86,14 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 if (currentPlaylistData.id === playlistJson.context.mylistId) return;
 
                 const context: mylistContext = playlistJson.context;
-                const response: any = await getMylist(
-                    context.mylistId,
-                    context.sortKey ?? "registeredAt",
-                    context.sortOrder ?? "desc",
-                );
+                const response = await queryClient.fetchQuery({
+                    queryKey: ["mylist", context],
+                    queryFn: () => getMylist(
+                        context.mylistId,
+                        context.sortKey ?? "registeredAt",
+                        context.sortOrder ?? "desc",
+                    )
+                })
                 //console.log(response);
                 //setFetchedPlaylistData(response)
                 setPlaylistData({
@@ -104,9 +108,10 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 // fetchしようとしているマイリストが、すでにフェッチ済みのシリーズと同一ならスキップする
                 //console.log(playlistData.id, playlistJson.context.seriesId)
                 if (currentPlaylistData.id === playlistJson.context.seriesId) return;
-                const response: SeriesResponseRootObject = await getSeriesInfo(
-                    playlistJson.context.seriesId,
-                );
+                const response = await queryClient.fetchQuery({
+                    queryKey: ["series", playlistJson.context.seriesId],
+                    queryFn: () => getSeriesInfo(playlistJson.context.seriesId)
+                })
                 //console.log(response);
                 setPlaylistData({
                     type: "series",
