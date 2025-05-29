@@ -1,28 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { wheelTranslator } from "../commonFunction";
+import { useCommonsRelativeData } from "@/hooks/apiHooks/watch/CommonsRelativeData";
 
 function BottomInfo() {
     const { videoInfo } = useVideoInfoContext();
 
-    const [commonsRelativeData, setCommonsRelativeData] =
-        useState<CommonsRelativeRootObject | null>(null);
+    const commonsRelativeData = useCommonsRelativeData(videoInfo?.data.response.video.id, videoInfo && !videoInfo.data.response.external.commons.hasContentTree)
     const parentItemsContainerRef = useRef<HTMLDivElement>(null);
     const childrenItemsContainerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (
-            !videoInfo ||
-            !videoInfo.data.response.external.commons.hasContentTree
-        )
-            return;
-        async function getData() {
-            if (!videoInfo?.data.response.video.id) return; 
-            const fetchedRelativeData = await getCommonsRelatives(videoInfo.data?.response.video.id);
-            setCommonsRelativeData(fetchedRelativeData);
-        }
-        getData();
-    }, [videoInfo?.data.response.video.id]);
     useEffect(() => {
         parentItemsContainerRef.current?.addEventListener(
             "wheel",
