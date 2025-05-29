@@ -1,7 +1,5 @@
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useChannelVideoDAnimeLinksData } from "@/hooks/apiHooks/watch/channelVideoDAnimeLinksData";
-import { Item } from "@/types/DAnimeLinksData";
-import { getChannelVideoDAnimeLinks } from "@/utils/apis/channelVideoDAnimeLinks";
 
 export default function DAnimeLinks() {
     const {videoInfo} = useVideoInfoContext()
