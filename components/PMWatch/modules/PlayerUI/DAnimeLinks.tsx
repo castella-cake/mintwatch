@@ -1,24 +1,19 @@
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
+import { useChannelVideoDAnimeLinksData } from "@/hooks/apiHooks/watch/channelVideoDAnimeLinksData";
 import { Item } from "@/types/DAnimeLinksData";
 import { getChannelVideoDAnimeLinks } from "@/utils/apis/channelVideoDAnimeLinks";
 
 export default function DAnimeLinks() {
-    const [dAnimeLinks, setDAnimeLinks] = useState<Item[] | null>(null);
     const {videoInfo} = useVideoInfoContext()
-    useEffect(() => {
-        async function fetchData() {
-            if (videoInfo?.data.response.video && videoInfo?.data.response.video.id) {
-                const response = await getChannelVideoDAnimeLinks(videoInfo?.data.response.video.id)
-                if (response.meta.status === 200) {
-                    setDAnimeLinks(response.data.items)
-                }
-            } else {
-                setDAnimeLinks(null)
-            }
-        }
-        fetchData()
-    }, [videoInfo])
-    if (!dAnimeLinks || dAnimeLinks.length === 0) return
+    const { channelVideoDAnimeLinksData, isLoading } = useChannelVideoDAnimeLinksData(videoInfo?.data.response.video.id)
+    if (isLoading || !channelVideoDAnimeLinksData) return <div className="channel-danime-links-container">
+        <div className="channel-danime-links-title" style={{ opacity: 0.5 }}>代替の有料チャンネルを検索しています…</div>
+    </div>
+    const dAnimeLinks = channelVideoDAnimeLinksData.data.items
+
+    if (!dAnimeLinks || dAnimeLinks.length === 0) return <div className="channel-danime-links-container">
+        <div className="channel-danime-links-title" style={{ opacity: 0.5 }}>利用可能な代替チャンネルは見つかりませんでした</div>
+    </div>
 
     return <div className="channel-danime-links-container">
         <div className="channel-danime-links-title">この動画は以下のチャンネルでも視聴できます</div>
