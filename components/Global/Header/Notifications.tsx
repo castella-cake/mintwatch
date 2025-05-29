@@ -1,23 +1,12 @@
-import { OshiraseBoxRootObject } from "@/types/OshiraseBoxData";
+import { useOshiraseBoxData } from "@/hooks/apiHooks/global/oshiraseBox";
 
 function onNotificationClick(id: string, isRead: boolean) {
     if (isRead) return;
     sendOshiraseBoxRead(id, location.toString())
 }
 
-export default function Notifications({
-}: {
-}) {
-    const [ oshiraseBoxData, setOshiraseBoxData ] = useState<OshiraseBoxRootObject | null>(null);
-
-    useEffect(() => {
-        async function fetchOshiraseBoxData() {
-            const response: OshiraseBoxRootObject = await getOshiraseBox()
-            if (response.meta.status !== 200) return
-            setOshiraseBoxData(response);
-        }
-        fetchOshiraseBoxData()
-    }, [])
+export default function Notifications() {
+    const oshiraseBoxData = useOshiraseBoxData()
     return (
         <div className="notifications-container" id="pmw-notifications">
             <div className="notifications-content">

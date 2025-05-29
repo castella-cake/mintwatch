@@ -1,7 +1,7 @@
 //import { useState } from "react";
 import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconDoorExit, IconTool } from "@tabler/icons-react";
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider";
-import useOshiraseBell from "@/hooks/bellHooks";
+import useOshiraseBellQuery from "@/hooks/apiHooks/global/oshiraseBell";
 import { useHeaderActionStateContext, useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider";
 import { HeaderActionStacker } from "./HeaderActionStacker";
 import { RefObject } from "react";
@@ -36,7 +36,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     const headerModalType = useHeaderActionStateContext();
     const setHeaderModalType = useSetHeaderActionStateContext();
 
-    const { isBellActive, setIsBellActive } = useOshiraseBell();
+    const { oshiraseBellData, setOshiraseBellData } = useOshiraseBellQuery();
 
     const notificationElemWrapperRef = useRef(null);
     const myMenuElemWrapperRef = useRef(null);
@@ -50,7 +50,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     
     function onNotificationOpen() {
         setHeaderModalType((state) => state !== "notifications" || isSetToQuickHeaderAction ? "notifications" : false)
-        if (isBellActive) setIsBellActive(false)
+        if (oshiraseBellData) setOshiraseBellData({ ...oshiraseBellData, data: { ...oshiraseBellData.data, badge: false }})
     }
     function onMyMenuOpen() {
         setHeaderModalType((state) => state !== "mymenu" || isSetToQuickHeaderAction ? "mymenu" : false)
@@ -102,7 +102,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                 onMouseLeave={() => {if (isSetToQuickHeaderAction) setHeaderModalType(false)}}
                                 data-is-active={headerModalType === "notifications"}
                             >
-                                { isBellActive ? <IconBellRingingFilled/>  : <IconBell/> }
+                                { oshiraseBellData && oshiraseBellData.data.badge ? <IconBellRingingFilled/>  : <IconBell/> }
                             </button>
                             { !isSetToQuickHeaderAction && <button
                                 className="header-mymenubutton"
