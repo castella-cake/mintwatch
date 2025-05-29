@@ -195,6 +195,7 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
 
     const reloadCommentContent = async (logData?: { when: number }) => {
         const queryKey = ['commentData', smId, { logData }]
+        queryClient.invalidateQueries({ queryKey })
         const result = await queryClient.fetchQuery({
             queryKey,
             queryFn: () => getCommentDataWithRetry(nvComment, smId, commentThreadKeyRef, logData),
