@@ -1,28 +1,14 @@
-import { useEffect } from "react";
 //import { useLang } from "../localizeHook";
 import { InfoCard } from "../Info/InfoCards";
-import { UserVideoData } from "@/types/UserVideoData";
 import { VideoOwner } from "@/types/VideoData";
+import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData";
 
 function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner }) {
     //const lang = useLang()
-    const [userVideos, setUserVideos] = useState<UserVideoData | null>(null);
-
-    useEffect(() => {
-        async function getUserVideoData() {
-            if (!videoOwnerData) return;
-            const response: UserVideoData = await getUserVideo(
-                videoOwnerData.id,
-                "registeredAt",
-                "desc",
-            );
-            if (response.meta.status === 200) setUserVideos(response);
-        }
-        getUserVideoData();
-    }, [videoOwnerData]);
+    const userVideoData = useUserVideoData(videoOwnerData && videoOwnerData.id)
 
     return (
-        userVideos && userVideos.data.items.map((item) => {
+        userVideoData && userVideoData.data.items.map((item) => {
             return (
                 <InfoCard
                     key={`userVideos-${item.essential.id}`}
