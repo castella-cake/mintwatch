@@ -16,6 +16,7 @@ import { useControlPlaylistContext } from "@/components/Global/Contexts/Playlist
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 import { useHistoryContext } from "../Router/RouterContext";
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
 function CreateWatchUI() {
     //const lang = useLang()
@@ -30,6 +31,8 @@ function CreateWatchUI() {
     const { updatePlaylistState } = useControlPlaylistContext();
     const { videoInfo } = useVideoInfoContext();
 
+    const queryClient = useQueryClient()
+
     const changeVideo = useCallback((videoUrl: string) => {
         // 移動前にシーク位置を保存
         if (smId && videoRef && videoRef.current instanceof HTMLVideoElement) {
@@ -42,11 +45,13 @@ function CreateWatchUI() {
 
         // historyにpushして移動
         history.push(videoUrl);
-        // 動画IDとプレイリスト状態を更新。プレイリスト状態はlocationが未更新のため、
+        const smIdAfter = videoUrl.replace("https://www.nicovideo.jp/watch/", "").replace(/\?.*/, "")
+        // キャッシュのクリアは念の為smIdを設定する前に行う
+        queryClient.invalidateQueries({ queryKey: ['commentData', smIdAfter, { logData: undefined }] })
+        queryClient.invalidateQueries({ queryKey: ['videoData', smIdAfter] })
+        // 動画IDとプレイリスト状態を更新
         setSmId(
-            videoUrl
-                .replace("https://www.nicovideo.jp/watch/", "")
-                .replace(/\?.*/, ""),
+            smIdAfter
         );
         updatePlaylistState(new URL(videoUrl).search);
     }, [videoRef.current, smId])
@@ -68,7 +73,13 @@ function CreateWatchUI() {
             console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`
             );
-            if (location.pathname.startsWith("/watch/")) setSmId(location.pathname.replace("/watch/", "").replace(/\?.*/, ""));
+            if (location.pathname.startsWith("/watch/")) {
+                const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+                queryClient.invalidateQueries({ queryKey: ['commentData', smIdAfter, { logData: undefined }] })
+                queryClient.invalidateQueries({ queryKey: ['videoData', smIdAfter] })
+                setSmId(smIdAfter)
+
+            };
         })
         return () => {
             listenPopState() // unlisten
