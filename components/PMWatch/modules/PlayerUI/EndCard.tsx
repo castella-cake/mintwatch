@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
-import { PickupSupportersRootObject } from "@/types/pickupSupportersData";
 import { InfoCard, SeriesVideoCard } from "../Info/InfoCards";
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
+import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData";
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
     const recommendData = useRecommendData(smId)
     const { localStorage, syncStorage } = useStorageContext()
-    const [supportersInfo, setSupportersInfo] = useState<PickupSupportersRootObject | null>(null)
+    const supportersInfo = usePickupSupportersData(smId)
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [duration, setDuration] = useState<number>(Infinity)
 
     const audioElemRef = useRef<HTMLAudioElement>(null)
-    useEffect(() => {
-        async function getData() {
-            if (!videoInfo) return
-            const response = await getPickupSupporters(videoInfo.data.response.video.id, 10)
-            if (response) setSupportersInfo(response)
-        }
-        getData()
-    }, [videoInfo])
-
     useEffect(() => {
         if (!videoRef.current) return
         const onTimeUpdate = () => {
