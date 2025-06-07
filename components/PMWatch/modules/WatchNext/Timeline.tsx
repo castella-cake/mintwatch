@@ -1,3 +1,4 @@
+import { useVideoTimelineData } from "@/hooks/apiHooks/watch/videoTimelineData";
 import { Card } from "../Info/InfoCards";
 import { secondsToTime } from "../commonFunction";
 
@@ -37,18 +38,10 @@ const getRelativeDate = (dateStr: string) => {
 };
 
 export function Timeline() {
-    const [videoTimeline, setVideoTimeline] = useState<VideoTimelineDataRootObject | null>(null);
-    useEffect(() => {
-        async function getData() {
-            const response: VideoTimelineDataRootObject = await getVideoTimeline();
-            if (response.code === "ok") {
-                setVideoTimeline(response)
-            }
-        }
-        getData()
-    }, [])
+    const videoTimeline = useVideoTimelineData()
+    
     if (!videoTimeline) return <div className="video-timeline-container">Loading...</div>;
-    // 
+
     const splittedActivities = splitWithYMD(videoTimeline.activities)
     return <div className="video-timeline-container">
         {Object.keys(splittedActivities).map((key) => {

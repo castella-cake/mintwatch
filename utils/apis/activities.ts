@@ -9,5 +9,7 @@ export async function getVideoTimeline() {
         "method": "GET",
         "credentials": "include"
     });
-    return await response.json() as VideoTimelineDataRootObject
+    const responseJson = await response.json() as VideoTimelineDataRootObject
+    if (responseJson.code !== "ok") throw new APIError("getVideoTimeline failed: response code is not ok", responseJson)
+    return responseJson
 }
