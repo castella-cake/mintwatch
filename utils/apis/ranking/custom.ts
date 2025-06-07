@@ -1,4 +1,5 @@
 import { CustomRankingDataRootObject } from "@/types/ranking/customData";
+import { validateBaseResponse } from "@/utils/validateResponse";
 
 /**
  * 将棋盤を取得するAPI
@@ -8,5 +9,7 @@ export async function getCustomRanking() {
         "method": "GET",
         "credentials": "include"
     });
-    return await response.json() as CustomRankingDataRootObject
+    const responseJson = await response.json() as CustomRankingDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getCustomRanking failed.", responseJson)
+    return responseJson
 }

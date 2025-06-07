@@ -1,18 +1,11 @@
-import { CustomRankingDataRootObject } from "@/types/ranking/customData";
 import { Card } from "../PMWatch/modules/Info/InfoCards";
 import { readableInt, secondsToTime } from "../PMWatch/modules/commonFunction";
 import { IconFolderFilled, IconMessageFilled, IconPencil, IconPlayerPlayFilled } from "@tabler/icons-react";
 import relativeTimeFrom from "@/utils/relativeTimeFrom";
+import { useRankingCustomData } from "@/hooks/apiHooks/ranking/customData";
 
 export default function CustomRankingContent() {
-    const [customRankingData, setCustomRankingData] = useState<CustomRankingDataRootObject | null>(null);
-    useEffect(() => {
-        async function fetchData() {
-            const response = await getCustomRanking();
-            if (response.meta.status === 200) setCustomRankingData(response);
-        }
-        fetchData()
-    }, [])
+    const customRankingData = useRankingCustomData()
     if (!customRankingData) {
         return <div className="shogi-loading">Loading...</div>;
     }

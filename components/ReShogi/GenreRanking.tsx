@@ -4,6 +4,7 @@ import { readableInt, secondsToTime } from "../PMWatch/modules/commonFunction";
 import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled, IconTag } from "@tabler/icons-react";
 import { useLocationContext } from "../Router/RouterContext";
 import { HistoryAnchor } from "../Router/HistoryAnchor";
+import { useQuery } from "@tanstack/react-query";
 
 function PageSelector({ page }: {page: GenreRankingDataRootObject["data"]["response"]["page"]}) {
     const location = useLocationContext()
@@ -40,35 +41,29 @@ function TermSelector({ page }: {page: GenreRankingDataRootObject["data"]["respo
 export default function GenreRankingContent() {
     const location = useLocationContext()
 
-    const [genreRankingData, setGenreRankingData] = useState<GenreRankingDataRootObject | null>(null);
-    useEffect(() => {
-        async function fetchData() {
+    const thisPath = location.pathname.replace(/\?.*/, "").replace("/ranking/genre", "")
 
-            const thisPath = location.pathname.replace(/\?.*/, "").replace("/ranking/genre", "")
+    const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search);
+    const tagParam = pathUrl.searchParams.get("tag");
 
-            const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search);
-            const tagParam = pathUrl.searchParams.get("tag");
+    const pageParam = pathUrl.searchParams.get("page") ?? "1";
 
-            const pageParam = pathUrl.searchParams.get("page") ?? "1";
+    const termParam = pathUrl.searchParams.get("term") ?? "24h";
 
-            const termParam = pathUrl.searchParams.get("term") ?? "24h";
+    const featuredKeyPathArray = location.pathname.replace(/\?.*/, "").replace("/ranking/genre/", "").split("/")
 
-            let response
-
+    const { data: genreRankingData } = useQuery({
+        queryKey: ['ranking', 'custom', pageParam, termParam, featuredKeyPathArray[0], tagParam],
+        queryFn: () => {
             if (thisPath === "" || thisPath === "/") {
-                response = await getGenreRanking(pageParam, termParam);
+                return getGenreRanking(pageParam, termParam);
             } else if (tagParam) {
-                const featuredKeyPathArray = location.pathname.replace(/\?.*/, "").replace("/ranking/genre/", "").split("/")
-                response = await getGenreRanking(pageParam, termParam, featuredKeyPathArray[0], tagParam);
+                return getGenreRanking(pageParam, termParam, featuredKeyPathArray[0], tagParam);
             } else {
-                const featuredKeyPathArray = location.pathname.replace(/\?.*/, "").replace("/ranking/genre/", "").split("/")
-                response = await getGenreRanking(pageParam, termParam, featuredKeyPathArray[0]);
+                return getGenreRanking(pageParam, termParam, featuredKeyPathArray[0]);
             }
-
-            if (response && response.meta.status === 200) setGenreRankingData(response);
-        }
-        fetchData()
-    }, [location.pathname, location.search])
+        },
+    })
 
     if (!genreRankingData) return <div className="shogi-loading">Loading...</div>
 
