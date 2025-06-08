@@ -99,33 +99,25 @@
     }
     .stacker-tabbutton-container .stacker-tabbutton[data-is-icon-button="true"] {
         flex: 0;
-        background: none;
-        border: none;
-        box-shadow: none;
         padding: 0;
-        height: 2rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        aspect-ratio: 1 / 1;
+        align-self: center;
         margin-left: 4px;
         font-size: 1rem;
         font-weight: normal;
+        border-radius: 1024px;
         svg {
             height: 1rem;
             width: 1rem;
-            background: var(--accent1);
-            box-shadow: var(--box-shadow);
-            transition: var(--transition-normal);
-            padding: 6px;
-            border-radius: 1024px;
-        }
-        &:hover svg {
-            background: var(--hover1);
+            vertical-align: middle;
+            padding: 0;
+            vertical-align: text-bottom;
         }
     }
-    .stacker-tabbutton-container .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] svg {
-        height: 1rem;
-        width: 1rem;
-        background: var(--bgcolor2);
-        padding: 6px;
-        border-radius: 1024px;
+    .stacker-tabbutton-container .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
+        border: 2px solid var(--linktext3);
     }
 }
 

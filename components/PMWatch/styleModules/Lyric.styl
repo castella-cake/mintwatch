@@ -13,17 +13,21 @@
     overflow-y: auto;
     flex: 1;
     padding: 16px;
+    scroll-behavior: smooth;
 }
 
 .lyrics-content[data-is-time-information="true"] {
     .lyric-row {
         opacity: 0.5;
-        transition: opacity 0.2s ease, font-size 0.2s ease;
+        transition: opacity 0.2s ease;
     }
-
-    .lyric-row[data-is-current-lyric="true"] {
+    .lyric-row[data-lyric-state="1"] {
         font-size: 1.2rem;
-        font-weight: bold;
         opacity: 1;
+        font-weight: bold;
+    }
+    .lyric-row[data-lyric-state="2"] {
+        font-size: 1.2rem;
+        opacity: 0.8;
     }
 }

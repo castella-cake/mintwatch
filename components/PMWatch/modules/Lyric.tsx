@@ -24,16 +24,17 @@ export default function Lyric() {
         if (!lyricData || !lyricData.data.hasTimeInformation) return;
         if (!(e.target instanceof HTMLVideoElement)) return;
         const currentTime = e.target.currentTime
-        const nearestLyricTimeKey: keyof lyricKeyRef = Object.keys(lyricRef.current)
+        let nearestLyricTimeKey: keyof lyricKeyRef = Object.keys(lyricRef.current)
             .map(k => Number(k))
             .filter(k => k <= currentTime * 1000) // 未来のキーを対象にしない
             .reduce((prev, current) => {
                 return Math.abs(current - currentTime * 1000) < Math.abs(prev - currentTime * 1000) ? current : prev;
             }, Infinity);
+        if (nearestLyricTimeKey === Infinity) nearestLyricTimeKey = 0
         if (currentLyricKey !== nearestLyricTimeKey) {
             setCurrentLyricKey(nearestLyricTimeKey)
             if (autoScroll && lyricRef.current[nearestLyricTimeKey] && lyricsContentRef.current) {
-                lyricsContentRef.current.scrollTop = lyricRef.current[nearestLyricTimeKey].offsetTop - lyricsContentRef.current.offsetTop;
+                lyricsContentRef.current.scrollTop = lyricRef.current[nearestLyricTimeKey]!.offsetTop - lyricsContentRef.current.offsetTop - (lyricsContentRef.current.clientHeight / 2);
             }
         }
     }, [lyricRef.current, lyricData, autoScroll, currentLyricKey])
@@ -80,7 +81,7 @@ export default function Lyric() {
         <div className="lyrics-content" ref={lyricsContentRef} data-is-time-information={lyricData.data.hasTimeInformation}>
             {lyricData.data.lyrics.map((lyricRow, i) => <div key={`${lyricData.data.videoId}-${i}`} className="lyric-row" ref={(e) => {
                 if (lyricRow.startMs) lyricRef.current[lyricRow.startMs] = e;
-            }} data-is-current-lyric={currentLyricKey === lyricRow.startMs}>
+            }} data-lyric-state={currentLyricKey === lyricRow.startMs ? 1 : (lyricRow.startMs !== null && currentLyricKey > lyricRow.startMs ? 2 : 0)}>
                 {lyricRow.lines.join("\n")}
             </div>)}
         </div>
