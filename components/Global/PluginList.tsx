@@ -11,6 +11,7 @@ function PluginList() {
             <div className="footer-links global-flex1">
                 <a href="https://github.com/sponsors/castella-cake" target="_blank" rel="noopener noreferrer" className="titlelink">Sponsor</a>
                 <a href="https://github.com/castella-cake/niconico-peppermint-extension/issues" target="_blank" rel="noopener noreferrer" className="titlelink">Feedback</a>
+                <button className="footer-pagetop-button" onClick={() => {window.scroll({ top: 0, behavior: "smooth" })}}><IconChevronUp/>PAGE TOP</button>
             </div>
         </div>
         <div className={isPluginListShown ? "plugin-list-display" : "plugin-list-display-hidden"}>
