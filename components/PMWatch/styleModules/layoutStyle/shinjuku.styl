@@ -48,44 +48,46 @@
     }
 
     // プレイヤー横タブ
-    .stacker-tabbutton-container {
-        padding: 0 2em;
-        gap: 0;
-        position: relative;
-        top: 3px;
-    }
+    .watch-container-rightaction {
+        .stacker-tabbutton-container {
+            padding: 0 2em;
+            gap: 0;
+            position: relative;
+            top: 3px;
+        }
 
-    .stacker-tabbutton {
-        border: 3px solid var(--textcolor3);
-        font-size: 0.8rem !important;
-        line-height: 1.2rem;
-        border-bottom: 3px solid var(--textcolor3);
-    }
+        .stacker-tabbutton {
+            border: 3px solid var(--textcolor3);
+            font-size: 0.8rem !important;
+            line-height: 1.2rem;
+            border-bottom: 3px solid var(--textcolor3);
+        }
 
-    .stacker-tabbutton.stacker-tabbutton-active {
-        border-top: 3px solid var(--textcolor3);
-        border-bottom: 3px solid transparent;
-    }
+        .stacker-tabbutton.stacker-tabbutton-active {
+            border-top: 3px solid var(--textcolor3);
+            border-bottom: 3px solid transparent;
+        }
 
-    .stacker-tabbutton:not(:last-child) {
-        border-right: none;
-    }
+        .stacker-tabbutton:not(:last-child) {
+            border-right: none;
+        }
 
-    .stacker-content {
-        border: 3px solid var(--textcolor3);
-    }
+        .stacker-content {
+            border: 3px solid var(--textcolor3);
+        }
 
-    .stacker-tabbutton[data-is-icon-button="true"] {
-        border-radius: 0;
-        margin-left: 0;
-        width: auto;
-        aspect-ratio: unset !important;
-        padding: 4px 8px;
-        height: auto;
-    }
-    .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
-        border: 3px solid var(--textcolor3);
-        border-bottom: 3px solid transparent;
+        .stacker-tabbutton[data-is-icon-button="true"] {
+            border-radius: 0;
+            margin-left: 0;
+            width: auto;
+            aspect-ratio: unset !important;
+            padding: 4px 8px;
+            height: auto;
+        }
+        .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
+            border: 3px solid var(--textcolor3);
+            border-bottom: 3px solid transparent;
+        }
     }
 
     // コメントリスト
