@@ -5,12 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.7.1 - 2025/05
+## 0.8.0 - 2025/06
+
+### Added
+- 「カスタムのコメント透明度」機能を追加しました [#22](https://github.com/castella-cake/mintwatch/issues/22)
+- 歌詞表示機能を追加しました [#16](https://github.com/castella-cake/mintwatch/issues/16)
+- コメントソート機能を追加しました [#17](https://github.com/castella-cake/mintwatch/issues/17)   
+  「自分のコメントのみ表示」はこれに伴いメニューに移動されています。
+
+### Changed
+- Tanstack Queryを使用したデータフェッチにほとんど移行しました
 
 ### Fixed
 - プレイリストクエリのソート順が反映されない問題を修正しました
 - エンドカードのシリーズ表示が常に「前の動画」として表示される問題を修正しました
 - Re:将棋盤でチャンネルへのリンクが機能しない問題を修正しました
+- プレミアム限定動画の表示が正しくなりました
 
 ## 0.7.0 - 2025/05/04
 
