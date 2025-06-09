@@ -69,11 +69,13 @@ export default function Lyric() {
                 className="lyrics-toggleautoscroll"
                 data-isenabled={autoScroll}
                 onClick={() => {
+                    if (!lyricData.data.hasTimeInformation) return
                     setAutoScroll((state) => {
                         return !state;
                     });
                 }}
-                title={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
+                aria-disabled={!lyricData.data.hasTimeInformation}
+                title={!lyricData.data.hasTimeInformation ? "この歌詞データにはタイミング情報がありません" : (autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化")}
             >
                 <IconTransitionBottom/>
             </button>
