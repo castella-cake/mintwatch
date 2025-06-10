@@ -11,7 +11,6 @@ import SeriesInfo from "./modules/Info/Series"
 import BottomInfo from "./modules/Info/BottomInfo"
 import Search from "../Global/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
-import { useHistoryContext } from "../Router/RouterContext"
 import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
 import { IconPlaylist } from "@tabler/icons-react"
@@ -34,7 +33,6 @@ type Props = {
 }
 
 export function WatchContent(_props: Props) {
-    const history = useHistoryContext()
     const {
         layoutType,
         playerSize,
@@ -42,7 +40,7 @@ export function WatchContent(_props: Props) {
         isFullscreenUi,
         setIsFullscreenUi
     } = _props
-    const { syncStorage, localStorage } = useStorageContext()
+    const { localStorage } = useStorageContext()
 
     useEffect(() => {
         document.dispatchEvent(
