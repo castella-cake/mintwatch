@@ -40,7 +40,7 @@ import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData";
 type Props = {
     isFullscreenUi: boolean;
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>;
-    changeVideo: (videoId: string) => void;
+    changeVideo: (videoId: string, doScroll?: boolean) => void;
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help" | "shortcuts") => void;
 };
 
@@ -261,7 +261,7 @@ function Player(props: Props) {
         return threadsOpacityApplied
     }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel, localStorage.playersettings.customCommentOpacity]);
 
-    function playlistIndexControl(add: number, isShuffle?: boolean) {
+    function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
             let nextVideo = playlistData.items[0];
             if (isShuffle) {
@@ -308,6 +308,7 @@ function Player(props: Props) {
             if (!nextVideo) return
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
+                !isAutoPlayTrigger,
             );
         } else if (
             recommendData &&
@@ -318,6 +319,7 @@ function Player(props: Props) {
         ) {
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(recommendData.data.items[0].content.id)}`,
+                !isAutoPlayTrigger,
             );
         }
     }
@@ -342,6 +344,7 @@ function Player(props: Props) {
             playlistIndexControl(
                 1,
                 localStorage.playersettings.enableShufflePlay,
+                true,
             );
         }
     };

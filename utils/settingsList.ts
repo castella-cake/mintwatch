@@ -73,6 +73,12 @@ const settings: settingList = {
                     type: "checkbox",
                     name: "shinjukuEnableNavbar",
                     default: false,
+                },
+                {
+                    type: "selectButtons",
+                    name: "autoScrollPositionOnVideoChange",
+                    values: ["top", "player", "disable"],
+                    default: "top",
                 }
             ]
         }
@@ -103,7 +109,7 @@ const settings: settingList = {
             default: false,
         }
     ],
-}
+} as const
 
 export function getDefault(name: string) {
     for (const category of Object.values(settings)) {

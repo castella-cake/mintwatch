@@ -12,15 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 歌詞表示機能を追加しました [#16](https://github.com/castella-cake/mintwatch/issues/16)
 - コメントソート機能を追加しました [#17](https://github.com/castella-cake/mintwatch/issues/17)   
   「自分のコメントのみ表示」はこれに伴いメニューに移動されています。
+- 動画移動時に自動でページ最上部にスクロールするようになりました [#23](https://github.com/castella-cake/mintwatch/issues/23)
+  詳細設定から自動スクロール位置をプレイヤーの位置に設定したり、無効化することができます。
+- フッターとRe:将棋盤にPAGE TOPボタンを追加しました [#21](https://github.com/castella-cake/mintwatch/issues/21)
 
 ### Changed
-- Tanstack Queryを使用したデータフェッチにほとんど移行しました
+- Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)
+- プレイヤー設定が「基本」と「コメント」に分割されました [#12](https://github.com/castella-cake/mintwatch/issues/12)
 
 ### Fixed
 - プレイリストクエリのソート順が反映されない問題を修正しました
 - エンドカードのシリーズ表示が常に「前の動画」として表示される問題を修正しました
 - Re:将棋盤でチャンネルへのリンクが機能しない問題を修正しました
 - プレミアム限定動画の表示が正しくなりました
+- 最新のChrome環境でCJK文字とラテン文字の組み合わせに空白が入る問題を修正しました
 
 ## 0.7.0 - 2025/05/04
 

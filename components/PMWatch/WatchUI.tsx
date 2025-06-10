@@ -33,31 +33,20 @@ function CreateWatchUI() {
 
     const queryClient = useQueryClient()
 
-    const changeVideo = useCallback((videoUrl: string) => {
-        // 移動前にシーク位置を保存
-        if (smId && videoRef && videoRef.current instanceof HTMLVideoElement) {
-            const playbackPositionBody = {
-                watchId: smId,
-                seconds: videoRef.current.currentTime,
-            };
-            putPlaybackPosition(playbackPositionBody);
+    // ナビゲーション処理はlistenPopStateで行います
+    const changeVideo = useCallback((videoUrl: string, doScroll = true) => {
+        const autoScrollSetting = syncStorage.autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
+        if (autoScrollSetting === "top" && doScroll) {
+            window.scroll({ top: 0, behavior: "smooth" })
+        } else if (autoScrollSetting === "player" && videoRef.current && doScroll) {
+            videoRef.current.scrollIntoView({ behavior: "smooth", block: "center"})
         }
-
         // historyにpushして移動
         history.push(videoUrl);
-        const smIdAfter = videoUrl.replace("https://www.nicovideo.jp/watch/", "").replace(/\?.*/, "")
-        // キャッシュのクリアは念の為smIdを設定する前に行う
-        queryClient.invalidateQueries({ queryKey: ['commentData', smIdAfter, { logData: undefined }] })
-        queryClient.invalidateQueries({ queryKey: ['videoData', smIdAfter] })
-        // 動画IDとプレイリスト状態を更新
-        setSmId(
-            smIdAfter
-        );
-        updatePlaylistState(new URL(videoUrl).search);
-    }, [videoRef.current, smId])
+    }, [videoRef.current, smId, syncStorage])
 
     useEffect(() => {
-        // 戻るボタンとかが発生した場合
+        // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
         const listenPopState = history.listen(({ action, location }) => {
             if (
                 smId &&
@@ -78,7 +67,7 @@ function CreateWatchUI() {
                 queryClient.invalidateQueries({ queryKey: ['commentData', smIdAfter, { logData: undefined }] })
                 queryClient.invalidateQueries({ queryKey: ['videoData', smIdAfter] })
                 setSmId(smIdAfter)
-
+                updatePlaylistState(location.search);
             };
         })
         return () => {

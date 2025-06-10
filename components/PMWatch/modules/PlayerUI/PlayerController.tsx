@@ -20,7 +20,7 @@ type Props = {
     isSettingsShown: boolean,
     setIsSettingsShown: Dispatch<SetStateAction<boolean>>,
     hlsRef: RefObject<Hls>,
-    playlistIndexControl: (index: number, shuffleEnabled?: boolean) => void,
+    playlistIndexControl: (index: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => void,
     qualityLabels?: string[],
     storyBoardData?: StoryBoardImageRootObject | null,
     currentPlayerType: keyof typeof playerTypes,

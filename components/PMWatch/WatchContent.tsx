@@ -28,7 +28,7 @@ export const watchLayoutType = {
 type Props = {
     layoutType: string,
     playerSize: number,
-    onChangeVideo: (smId: string) => void,
+    onChangeVideo: (smId: string, doScroll?: boolean) => void,
     isFullscreenUi: boolean,
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>,
 }
@@ -42,7 +42,7 @@ export function WatchContent(_props: Props) {
         isFullscreenUi,
         setIsFullscreenUi
     } = _props
-    const { localStorage } = useStorageContext()
+    const { syncStorage, localStorage } = useStorageContext()
 
     useEffect(() => {
         document.dispatchEvent(
@@ -73,8 +73,7 @@ export function WatchContent(_props: Props) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                history.push(nearestAnchor.href)
-                //onChangeVideo(nearestAnchor.href)
+                onChangeVideo(nearestAnchor.href)
             }
         }
     }

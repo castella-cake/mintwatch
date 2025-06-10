@@ -65,6 +65,10 @@
         },
         "shinjukuEnableNavbar": {
             "name": "Shinjuku レイアウトでナビゲーションバーを表示"
+        },
+        "autoScrollPositionOnVideoChange": {
+            "name": "動画移動時の自動スクロール位置",
+            "select": ["ページトップ", "プレイヤー", "無効"]
         }
     }
 }
