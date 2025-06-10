@@ -1,4 +1,4 @@
-import { useState, useRef, createRef, RefObject, memo } from "react";
+import { useState, useRef, RefObject, memo } from "react";
 //import { useLang } from "../localizeHook";
 import {
     doFilterComments,
@@ -22,8 +22,8 @@ import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts
 import CommentRow from "./CommentRow";
 import { threadLabelLang } from "@/utils/threadLabel";
 
-type scrollPos = {
-    [vposSec: string]: RefObject<HTMLDivElement | null>;
+export type scrollPos = {
+    [vposSec: string]: HTMLDivElement | null;
 };
 /*
 // 選択した名前のスレッドを返す関数
@@ -55,7 +55,7 @@ function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
 
 function returnFirstScrollPos(scrollPosList: scrollPos) {
     for (const elem in scrollPosList) {
-        if (scrollPosList[elem].current) return scrollPosList[elem];
+        if (scrollPosList[elem]) return scrollPosList[elem];
     }
 }
 
@@ -67,7 +67,7 @@ const MemoizedComments = memo(function ({
     onSeekTo,
 }: {
     comments: Comment[] | undefined;
-    commentRefs: RefObject<RefObject<HTMLDivElement | null>[]>;
+    commentRefs: RefObject<scrollPos>;
     listFocusable: boolean;
     onNicoru: (
         commentNo: number,
@@ -78,22 +78,23 @@ const MemoizedComments = memo(function ({
     onSeekTo: (currentTime: number) => void;
 }) {
     const [openedCommentItem, setOpenedCommentItem] = useState<string>("");
-    function toggleCommentItemExpand(id: string) {
-        if (openedCommentItem === id) {
-            setOpenedCommentItem("");
-            return;
-        }
-        setOpenedCommentItem(id);
-    }
+    const toggleCommentItemExpand = useCallback((id: string) => {
+        setOpenedCommentItem(current => {
+            if (current === id) {
+                return "";
+            } else {
+                return id
+            }
+        })
+    }, [setOpenedCommentItem])
     if (!comments) return;
     return comments?.map((elem, index) => {
         //console.log(elem)
-        if (!commentRefs.current || !commentRefs.current[index]) return;
         return (
             <CommentRow
                 key={`comment-${elem.id}`}
                 comment={elem}
-                nodeRef={commentRefs.current[index]}
+                commentRefs={commentRefs}
                 isOpen={openedCommentItem === elem.id}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}
@@ -132,8 +133,6 @@ function CommentList() {
     const [reverseCommentSort, setReverseCommentSort] = useState(false);
 
     const commentListContainerRef = useRef<HTMLDivElement>(null);
-    // 複数のref
-    const commentRefs = useRef<RefObject<HTMLDivElement | null>[]>([]);
 
     const videoInfoRef = useRef<VideoDataRootObject | undefined>(null);
     videoInfoRef.current = videoInfo;
@@ -141,8 +140,9 @@ function CommentList() {
     const commentContentRef = useRef<CommentDataRootObject | undefined>(undefined);
     commentContentRef.current = commentContent;
 
-    // スクロールタイミングを書いたオブジェクト
-    const scrollPosList: scrollPos = {};
+    // スクロールタイミングとrefの対応オブジェクト
+    const scrollPosListRef = useRef<scrollPos>({});
+
 
     function updateScrollPosition() {
         // データが足りない/オートスクロールが有効化されていない/コメントリストにホバーしている ならreturn
@@ -152,27 +152,26 @@ function CommentList() {
             !videoRef.current ||
             !autoScroll ||
             isCommentListHovered.current ||
-            !scrollPosList ||
+            !scrollPosListRef.current ||
             commentSortKey !== "vposMs"
         )
             return;
         // video要素の時間
         const currentTime = Math.floor(videoRef.current.currentTime);
         // とりあえず一番最初の要素の高さを取得
-        const firstScrollPos = returnFirstScrollPos(scrollPosList);
+        const firstScrollPos = returnFirstScrollPos(scrollPosListRef.current);
         if (
             !firstScrollPos ||
-            !firstScrollPos.current ||
-            !scrollPosList[`${currentTime}` as keyof scrollPos] ||
+            !scrollPosListRef.current[`${currentTime}` as keyof scrollPos] ||
             !commentListContainerRef.current
         )
             return;
 
-        const elemHeight = firstScrollPos.current.offsetHeight;
+        const elemHeight = firstScrollPos.offsetHeight;
         const listHeight = commentListContainerRef.current.clientHeight;
         const listPosTop = commentListContainerRef.current.offsetTop;
         const currentTimeElem =
-            scrollPosList[`${currentTime}` as keyof scrollPos].current;
+            scrollPosListRef.current[`${currentTime}` as keyof scrollPos];
         if (!currentTimeElem) return;
         // offsetTopがでかいのでリスト自身の上からの座標を与えて正しくする
         const elemOffsetTop = currentTimeElem.offsetTop - listPosTop;
@@ -198,7 +197,7 @@ function CommentList() {
         videoRef.current,
         autoScroll,
         isCommentListHovered.current,
-        scrollPosList,
+        scrollPosListRef.current,
         commentSortKey,
     ]);
 
@@ -234,29 +233,12 @@ function CommentList() {
         reverseCommentSort,
     ]);
 
-    // データが足りなかったら閉店
-    if (!videoInfo || !commentContent || !commentContent.data) return <></>;
-
-    const commentCount = commentContent.data?.threads.reduce((prev, current) => prev + current.comments.length, 0);
-
-    // currentForkTypeが-1の場合は入れ直す
-    if (currentForkType === -1) setCurrentForkType(getDefaultThreadIndex(videoInfo));
-
-    //const videoInfo = videoInfo.data.response
-
-    // 指定したフォークタイプのスレッドが見つからなかったらreturn
-    // refを登録
-    filteredComments?.forEach((elem, index) => {
-        commentRefs.current[index] = createRef();
-        if (commentRefs.current[index]) scrollPosList[`${Math.floor(elem.vposMs / 1000)}`] = commentRefs.current[index];
-    });
-
-    function onNicoru(
+    const onNicoru = useCallback((
         commentNo: number,
         commentBody: string,
         nicoruId: string | null,
         isMyPost: boolean,
-    ) {
+    ) => {
         if (!videoInfo) return;
         sendNicoru({
             currentForkType,
@@ -266,14 +248,24 @@ function CommentList() {
             nicoruId,
             isMyPost
         })
-    }
+    }, [currentForkType, videoInfo])
     //console.log(scrollPosList)
 
-    function seekTo(time: number) {
+    const seekTo = useCallback((time: number) => {
         if (videoRef.current) {
             videoRef.current.currentTime = time;
         }
-    }
+    }, [videoRef.current])
+
+    // データが足りなかったら閉店
+    if (!videoInfo || !commentContent || !commentContent.data) return <></>;
+
+    const commentCount = commentContent.data?.threads.reduce((prev, current) => prev + current.comments.length, 0);
+
+    // currentForkTypeが-1の場合は入れ直す
+    if (currentForkType === -1) setCurrentForkType(getDefaultThreadIndex(videoInfo));
+
+    //const videoInfo = videoInfo.data.response
 
     const commentListType = syncStorage.commentListType ?? getDefault("commentListType")
 
@@ -418,7 +410,7 @@ function CommentList() {
                 <MemoizedComments
                     comments={filteredComments}
                     listFocusable={listFocusable}
-                    commentRefs={commentRefs}
+                    commentRefs={scrollPosListRef}
                     onNicoru={onNicoru}
                     onSeekTo={seekTo}
                 />
