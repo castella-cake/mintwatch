@@ -54,3 +54,24 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.shogi-pagetop-button {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 16px;
+    background: var(--bgcolor1);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 4px 8px;
+    &:hover {
+        background: var(--hover1);
+    }
+    svg {
+        vertical-align: text-bottom;
+        height: 2em;
+        width: 2em;
+    }
+}
