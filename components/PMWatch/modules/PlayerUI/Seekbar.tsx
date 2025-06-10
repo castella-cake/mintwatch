@@ -151,10 +151,10 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
                 return <span key={`${keyname}s-index`} className="global-flex1" style={{["--height" as any]: `${commentStatsCalc[keyname]}px`}}></span>
             })}</div>
             <div className="seekbar-bg"></div>
-            <div className="seekbar-buffered" style={{ width: `${bufferedDuration / duration * 100}%` }}></div>
-            <div className="seekbar-played" style={{ width: `${( currentTime ) / duration * 100}%` }}></div>
-            <div className="seekbar-thumb" style={{ ["--left" as any]: `${( currentTime ) / duration * 100}%` }}></div>
-            <div className="seekbar-storyboard" style={{ left: `${storyBoardX * 100}%` }}>
+            <div className="seekbar-buffered" style={{ width: `${Math.min(bufferedDuration / duration * 100, 100)}%` }}></div>
+            <div className="seekbar-played" style={{ width: `${Math.min(currentTime / duration * 100, 100)}%` }}></div>
+            <div className="seekbar-thumb" style={{ ["--left" as any]: `${Math.min( currentTime / duration * 100, 100)}%` }}></div>
+            <div className="seekbar-storyboard" style={{ left: `${Math.min(storyBoardX * 100, 100)}%` }}>
                 <canvas ref={storyboardCanvasRef} width={160} height={90}/>
                 <div className="seekbar-storyboard-time">{secondsToTime(duration * storyBoardX)}</div>
             </div>

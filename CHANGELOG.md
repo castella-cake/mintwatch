@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - プレイヤー設定が「基本」と「コメント」に分割されました [#12](https://github.com/castella-cake/mintwatch/issues/12)
 
 ### Fixed
+- シークバーの要素が場合によってはみ出す問題を修正しました [#20](https://github.com/castella-cake/mintwatch/issues/20)
 - プレイリストクエリのソート順が反映されない問題を修正しました
 - エンドカードのシリーズ表示が常に「前の動画」として表示される問題を修正しました
 - Re:将棋盤でチャンネルへのリンクが機能しない問題を修正しました
