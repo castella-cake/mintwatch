@@ -1,4 +1,4 @@
-import { useState, useRef, RefObject, memo } from "react";
+import { useState, useRef } from "react";
 //import { useLang } from "../localizeHook";
 import {
     doFilterComments,
@@ -21,6 +21,7 @@ import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvide
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 import CommentRow from "./CommentRow";
 import { threadLabelLang } from "@/utils/threadLabel";
+import { VList, VListHandle } from "virtua";
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null;
@@ -53,21 +54,14 @@ function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
     );
 }
 
-function returnFirstScrollPos(scrollPosList: scrollPos) {
-    for (const elem in scrollPosList) {
-        if (scrollPosList[elem]) return scrollPosList[elem];
-    }
-}
-
-const MemoizedComments = memo(function ({
+const Comments = ({
     comments,
-    commentRefs,
     listFocusable,
     onNicoru,
     onSeekTo,
+    doAutoScroll,
 }: {
     comments: Comment[] | undefined;
-    commentRefs: RefObject<scrollPos>;
     listFocusable: boolean;
     onNicoru: (
         commentNo: number,
@@ -76,7 +70,8 @@ const MemoizedComments = memo(function ({
         isMyPost: boolean,
     ) => void;
     onSeekTo: (currentTime: number) => void;
-}) {
+    doAutoScroll: boolean;
+}) => {
     const [openedCommentItem, setOpenedCommentItem] = useState<string>("");
     const toggleCommentItemExpand = useCallback((id: string) => {
         setOpenedCommentItem(current => {
@@ -86,24 +81,68 @@ const MemoizedComments = memo(function ({
                 return id
             }
         })
-    }, [setOpenedCommentItem])
+    }, [setOpenedCommentItem]);
+
+    const isCommentListHovered = useRef(false);
+
+    const videoRef = useVideoRefContext()
+
+    const vlistRef = useRef<VListHandle>(null)
+    const updateScrollPosition = useCallback((e?: Event, doSmoothScroll = true) => {
+        if (!comments || !videoRef.current || !vlistRef.current || !doAutoScroll || isCommentListHovered.current) return
+        const currentTime = videoRef.current.currentTime
+        let nearestComment = comments
+            .filter(c => c.vposMs <= currentTime * 1000) // 未来のキーを対象にしない
+            .reduce((prev: null | Comment, current) => {
+                if (prev === null) return current
+                return Math.abs(current.vposMs - currentTime * 1000) < Math.abs(prev.vposMs - currentTime * 1000) ? current : prev;
+            }, null);
+        if (!nearestComment) return;
+        vlistRef.current.scrollToIndex(comments.findIndex(c => c.id === nearestComment.id), { align: "end", smooth: doSmoothScroll })
+    }, [doAutoScroll])
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+        updateScrollPosition(undefined, false)
+        videoRef.current.addEventListener("timeupdate", updateScrollPosition);
+        return () =>
+            videoRef.current?.removeEventListener(
+                "timeupdate",
+                updateScrollPosition,
+            );
+    }, [
+        videoRef.current,
+        doAutoScroll
+    ]);
+
     if (!comments) return;
-    return comments?.map((elem, index) => {
-        //console.log(elem)
-        return (
-            <CommentRow
-                key={`comment-${elem.id}`}
-                comment={elem}
-                commentRefs={commentRefs}
-                isOpen={openedCommentItem === elem.id}
-                listFocusable={listFocusable}
-                onNicoru={onNicoru}
-                onSeekTo={onSeekTo}
-                onItemExpand={toggleCommentItemExpand}
-            />
-        );
-    });
-});
+    return <div
+        className="commentlist-list-container"
+        onMouseEnter={() => {
+            isCommentListHovered.current = true;
+        }}
+        onMouseLeave={() => {
+            isCommentListHovered.current = false;
+        }}
+    >
+        <VList ref={vlistRef} count={comments.length}>
+            {comments.map((elem, index) => {
+                //console.log(elem)
+                return (
+                    <CommentRow
+                        key={`comment-${elem.id}`}
+                        comment={elem}
+                        isOpen={openedCommentItem === elem.id}
+                        listFocusable={listFocusable}
+                        onNicoru={onNicoru}
+                        onSeekTo={onSeekTo}
+                        onItemExpand={toggleCommentItemExpand}
+                    />
+                );
+            })}
+        </VList>
+    </div>
+};
 
 const ariaDetails =
     "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。";
@@ -120,7 +159,6 @@ function CommentList() {
     const { localStorage, syncStorage } = useStorageContext();
     const [currentForkType, setCurrentForkType] = useState(-1);
 
-    const isCommentListHovered = useRef(false);
     const [autoScroll, setAutoScroll] = useState(true);
 
     const [listFocusable, setListFocusable] = useState(false);
@@ -132,75 +170,11 @@ function CommentList() {
     const [commentSortKey, setCommentSortKey] = useState<keyof typeof sortKeys>("vposMs");
     const [reverseCommentSort, setReverseCommentSort] = useState(false);
 
-    const commentListContainerRef = useRef<HTMLDivElement>(null);
-
     const videoInfoRef = useRef<VideoDataRootObject | undefined>(null);
     videoInfoRef.current = videoInfo;
 
     const commentContentRef = useRef<CommentDataRootObject | undefined>(undefined);
     commentContentRef.current = commentContent;
-
-    // スクロールタイミングとrefの対応オブジェクト
-    const scrollPosListRef = useRef<scrollPos>({});
-
-
-    function updateScrollPosition() {
-        // データが足りない/オートスクロールが有効化されていない/コメントリストにホバーしている ならreturn
-        if (
-            !videoInfoRef.current?.data ||
-            !commentContentRef.current?.data ||
-            !videoRef.current ||
-            !autoScroll ||
-            isCommentListHovered.current ||
-            !scrollPosListRef.current ||
-            commentSortKey !== "vposMs"
-        )
-            return;
-        // video要素の時間
-        const currentTime = Math.floor(videoRef.current.currentTime);
-        // とりあえず一番最初の要素の高さを取得
-        const firstScrollPos = returnFirstScrollPos(scrollPosListRef.current);
-        if (
-            !firstScrollPos ||
-            !scrollPosListRef.current[`${currentTime}` as keyof scrollPos] ||
-            !commentListContainerRef.current
-        )
-            return;
-
-        const elemHeight = firstScrollPos.offsetHeight;
-        const listHeight = commentListContainerRef.current.clientHeight;
-        const listPosTop = commentListContainerRef.current.offsetTop;
-        const currentTimeElem =
-            scrollPosListRef.current[`${currentTime}` as keyof scrollPos];
-        if (!currentTimeElem) return;
-        // offsetTopがでかいのでリスト自身の上からの座標を与えて正しくする
-        const elemOffsetTop = currentTimeElem.offsetTop - listPosTop;
-
-        // リストの高さからはみ出していればスクロール
-        if (elemOffsetTop - listHeight > 0) {
-            // そのまま座標を与えると上に行ってしまうので、リストの高さから1個分のアイテムの高さを引いて下からにする
-            commentListContainerRef.current.scrollTop =
-                elemOffsetTop - (listHeight - elemHeight);
-        }
-    }
-
-    updateScrollPosition();
-    useEffect(() => {
-        if (!videoRef.current) return;
-        videoRef.current.addEventListener("timeupdate", updateScrollPosition);
-        return () =>
-            videoRef.current?.removeEventListener(
-                "timeupdate",
-                updateScrollPosition,
-            );
-    }, [
-        videoRef.current,
-        autoScroll,
-        isCommentListHovered.current,
-        scrollPosListRef.current,
-        commentSortKey,
-    ]);
-
     
     // 早い順にソート
     const filteredComments = useMemo(() => {
@@ -397,24 +371,13 @@ function CommentList() {
                     }}
                 />
             )}
-            <div
-                className="commentlist-list-container"
-                ref={commentListContainerRef}
-                onMouseEnter={() => {
-                    isCommentListHovered.current = true;
-                }}
-                onMouseLeave={() => {
-                    isCommentListHovered.current = false;
-                }}
-            >
-                <MemoizedComments
-                    comments={filteredComments}
-                    listFocusable={listFocusable}
-                    commentRefs={scrollPosListRef}
-                    onNicoru={onNicoru}
-                    onSeekTo={seekTo}
-                />
-            </div>
+            <Comments
+                comments={filteredComments}
+                listFocusable={listFocusable}
+                onNicoru={onNicoru}
+                onSeekTo={seekTo}
+                doAutoScroll={autoScroll && commentSortKey === "vposMs"}
+            />
         </div>
     );
 }

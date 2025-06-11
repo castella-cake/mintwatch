@@ -1,12 +1,9 @@
 import { Comment } from "@/types/CommentData";
-import { RefObject } from "react";
 import { secondsToTime } from "../commonFunction";
 import NicoruSvg from "./nicoruSvg";
-import { scrollPos } from "./CommentList";
 
 type RowProps = {
     comment: Comment;
-    commentRefs: RefObject<scrollPos>;
     isOpen: boolean;
     listFocusable: boolean;
     onNicoru: (
@@ -29,19 +26,14 @@ function returnNicoruRank(nicoruCount: number) {
 
 export default function CommentRow({
     comment,
-    commentRefs,
     isOpen,
     listFocusable,
     onNicoru,
     onSeekTo,
     onItemExpand,
 }: RowProps) {
-    const refSetter = useCallback((commentElem: HTMLDivElement) => {
-        commentRefs.current[`${Math.floor(comment.vposMs / 1000)}`] = commentElem;
-    }, [commentRefs])
     return (
         <div
-            ref={refSetter}
             className={`commentlist-list-item ${isOpen ? "commentlist-list-item-open" : ""}`}
             nicoru-count={returnNicoruRank(comment.nicoruCount)}
             aria-hidden={!listFocusable}
