@@ -23,7 +23,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     const setBackgroundPlayInfo = useSetBackgroundPlayInfoContext()
     const { videoInfo, errorInfo } = useVideoDataQuery(smId);
     console.log(videoInfo)
-    const [actionTrackId, setActionTrackId] = useState("");
+    const [actionTrackId, setActionTrackId] = useState(generateActionTrackId());
 
     useEffect(() => {
         const newActionTrackId = generateActionTrackId();
