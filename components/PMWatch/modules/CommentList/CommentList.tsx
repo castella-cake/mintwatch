@@ -247,7 +247,7 @@ function CommentList() {
         <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType}>
             <div className="commentlist-title-container global-flex stacker-title">
                 <div className="global-flex1 global-bold">
-                    受信済み {commentCount} 件
+                    {commentCount} 件受信済み
                 </div>
                 <button
                     className="commentlist-list-openng"
@@ -292,7 +292,7 @@ function CommentList() {
                             return !state;
                         });
                     }}
-                    title={externalMenuExpanded ? "メニューを開く" : "メニューを閉じる"}
+                    title={externalMenuExpanded ? "拡張メニューを閉じる" : "拡張メニューを開く"}
                 >
                     <IconAdjustmentsHorizontal/>
                 </button>

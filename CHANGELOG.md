@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)
 - プレイヤー設定が「基本」と「コメント」に分割されました [#12](https://github.com/castella-cake/mintwatch/issues/12)
 - コメントリストの仮想化により、コメントの多い長尺動画でのパフォーマンスが大幅に向上しました
+- 一部の文章をよりわかりやすく変更しました
 
 ### Fixed
 - シークバーの要素が場合によってはみ出す問題を修正しました [#20](https://github.com/castella-cake/mintwatch/issues/20)

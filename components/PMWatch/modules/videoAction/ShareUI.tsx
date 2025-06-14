@@ -29,7 +29,7 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
 
     return <div className="share-container">
         <div className="videoaction-actiontitle">
-            現在の動画をソーシャルネットワークに共有<br/>
+            視聴中の動画をソーシャルネットワークに共有<br/>
             <span className="videoaction-actiontitle-subtitle">
                 インテントリンクを使用してお使いのSNSにリンクを共有できます
             </span>
@@ -56,13 +56,13 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
         </div>
         <div className="share-buttons">
             <a className="share-button share-button-x" href={shareIntents["twitter"]} target="_blank">
-                Xに共有
+                X に共有
             </a>
             <a className="share-button share-button-misskey" href={shareIntents["misskeyHub"]} target="_blank">
-                Misskeyに共有
+                Misskey に共有
             </a>
             <a className="share-button share-button-bluesky" href={shareIntents["bluesky"]} target="_blank">
-                Blueskyに共有
+                Bluesky に共有
             </a>
         </div>
     </div>
