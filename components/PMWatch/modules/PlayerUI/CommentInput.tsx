@@ -70,6 +70,8 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
             setCommentContent(commentDataResult)
             // 今はただ要素が利用可能であることだけ伝えます
             document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
+        } else {
+            alert(`コメントの投稿に失敗しました: ${commentPostResponse.meta.status}`)
         }
         if (commentBody === "＠ピザ" || commentBody === "@ピザ") {
             window.open("https://www.google.com/search?q=ピザ")
