@@ -28,6 +28,8 @@ function SeriesInfo() {
                         <br />
                         <a
                             href={`https://www.nicovideo.jp/series/${encodeURIComponent(seriesData.id)}`}
+                            data-pmw-type="series-title"
+                            data-pmw-value={seriesData.id}
                         >
                             {seriesData.title}
                         </a>
