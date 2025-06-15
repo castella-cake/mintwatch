@@ -255,15 +255,15 @@ function PlayerController(props: Props) {
 
     const onSkipSecondBack = useCallback(() => {
         onTimeControl("add", -10)
-    }, [])
+    }, [onTimeControl])
 
     const onSkipSecondForward = useCallback(() => {
         onTimeControl("add", 10)
-    }, [])
+    }, [onTimeControl])
 
     const onMuteToggle = useCallback(() => {
         setVolume(0, true)
-    }, [])
+    }, [setVolume])
 
     function onSeekPointerMove(e: PointerEvent) {
         if ( !isSeeking ) return
