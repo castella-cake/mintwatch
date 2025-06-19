@@ -89,7 +89,6 @@ function PlayerController(props: Props) {
     }
 
     const [isIconPlay, setIsIconPlay] = useState(false)
-    const [isIndexControl, setIsIndexControl] = useState([false, false])
 
     const [isMuted, setIsMuted] = useState(localStorage.playersettings.isMuted || false)
     const [videoVolume, setVideoVolume] = useState(localStorage.playersettings.volume || localStorage.playersettings.volume === 0 ? localStorage.playersettings.volume : 50)
@@ -180,13 +179,6 @@ function PlayerController(props: Props) {
         const updateCurrentTime = () => {
             if (videoRef.current!.currentTime !== currentTime && !isSeekingRef.current) {
                 setCurrentTime(videoRef.current!.currentTime)
-                if ( currentTime < 3 ) {
-                    setIsIndexControl([true, false])
-                } else if ( currentTime >= videoRef.current!.duration ) {
-                    setIsIndexControl([false, true])
-                } else {
-                    setIsIndexControl([false, false])
-                }
             }
         }
         const updateDuration = () => { if (videoRef.current!.duration !== duration ) setDuration(videoRef.current!.duration) }
@@ -203,6 +195,8 @@ function PlayerController(props: Props) {
     }, [isSeeking])
 
     if (!isLoaded) return <div>storage待機中...</div>
+
+    const isIndexControl = [currentTime < 3, currentTime >= duration]
 
     const video = videoRef.current
 
@@ -245,13 +239,13 @@ function PlayerController(props: Props) {
     const onSkipBack = useCallback(() => {
         onTimeControl("set", 0)
         if (isIndexControl[0] === true) playlistIndexControl(-1, localStorage.playersettings.enableShufflePlay)
-    }, [])
+    }, [video, isIndexControl])
 
     const onSkipForward = useCallback(() => {
         if (!video) return;
         onTimeControl("set", video.duration)
         if (isIndexControl[1] === true) playlistIndexControl(1, localStorage.playersettings.enableShufflePlay)
-    }, [video])
+    }, [video, isIndexControl])
 
     const onSkipSecondBack = useCallback(() => {
         onTimeControl("add", -10)
