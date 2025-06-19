@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画移動時に自動でページ最上部にスクロールするようになりました [#23](https://github.com/castella-cake/mintwatch/issues/23)
   詳細設定から自動スクロール位置をプレイヤーの位置に設定したり、無効化することができます。
 - フッターとRe:将棋盤にPAGE TOPボタンを追加しました [#21](https://github.com/castella-cake/mintwatch/issues/21)
+- 共有アクションで動画へのリンクをコピーできるようになりました
 
 ### Changed
 - Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)

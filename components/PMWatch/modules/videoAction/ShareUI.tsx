@@ -1,5 +1,5 @@
 import { VideoDataRootObject } from "@/types/VideoData";
-import { IconArrowBackUp, IconDots, IconPlus, IconRepeat } from "@tabler/icons-react";
+import { IconArrowBackUp, IconCopy, IconDots, IconPlus, IconRepeat } from "@tabler/icons-react";
 
 function returnMatchedKeyObject(objectArray: { [key: string]: any }[], keyName: string, value: string) {
     return objectArray.find( elem => elem[keyName] === value )
@@ -7,6 +7,7 @@ function returnMatchedKeyObject(objectArray: { [key: string]: any }[], keyName: 
 
 export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
     if (!videoInfo.data) return <></>
+    const [copiedLink, setCopiedLink] = useState("")
 
     const videoInfoResponse = videoInfo.data.response
     const shareURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
@@ -27,11 +28,17 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
     const ogpDescription = returnMatchedKeyObject(metaTags, "property", "og:description")
     const ogpSiteName = returnMatchedKeyObject(metaTags, "property", "og:site_name")
 
+    const handleLinkCopy = useCallback(() => {
+        navigator.clipboard.writeText(shareURL).then(() => {
+            setCopiedLink(shareURL)
+        })
+    }, [shareURL])
+
     return <div className="share-container">
         <div className="videoaction-actiontitle">
             視聴中の動画をソーシャルネットワークに共有<br/>
             <span className="videoaction-actiontitle-subtitle">
-                インテントリンクを使用してお使いのSNSにリンクを共有できます
+                インテントリンクまたは直接リンクを使用してお使いのSNSにリンクを共有できます
             </span>
         </div>
         <div className="share-preview">
@@ -64,6 +71,10 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
             <a className="share-button share-button-bluesky" href={shareIntents["bluesky"]} target="_blank">
                 Bluesky に共有
             </a>
+            <button className="share-button share-button-copy-url" onClick={handleLinkCopy}>
+                <IconCopy/>
+                <span>{copiedLink === shareURL ? "コピーしました" : "リンクをコピー"}</span>
+            </button>
         </div>
     </div>
 }

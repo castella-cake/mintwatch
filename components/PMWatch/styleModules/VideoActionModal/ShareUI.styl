@@ -103,6 +103,12 @@
     padding: 8px 12px;
     border-radius: var(--radius);
     font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border: none;
+    > * {
+        vertical-align: middle;
+    }
 }
 
 .share-button:hover {
@@ -125,4 +131,10 @@
     --share-bg: linear-gradient(345deg, #004ddc, #00a5b7);
     --share-fg: #fff;
     --share-bg-hover: linear-gradient(345deg, #0085d4, #00aed6);
+}
+
+.share-button-copy-url {
+    --share-bg: #555;
+    --share-fg: #fff;
+    --share-bg-hover: #666;
 }
