@@ -7,6 +7,13 @@ import { IconTransitionBottom } from "@tabler/icons-react";
 
 type lyricKeyRef = { [key: number]: HTMLDivElement | null }
 
+const artistRegex = /(.*)\s?[\/／]\s?(.*)/
+const removeZeroWidthSpacesRegex = /[\u200B-\u200D\uFEFF]/g
+
+function trimWithZeroWidthSpaces(str: string): string {
+    return str.replace(removeZeroWidthSpacesRegex, "").trim();
+}
+
 export default function Lyric() {
     const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
@@ -60,6 +67,16 @@ export default function Lyric() {
         Loading...
     </div>
 
+    const videoTitle = videoInfo.data.response.video.title
+    const ownerNickname = videoInfo.data.response.owner && videoInfo.data.response.owner.nickname
+    const titleRegexResult = artistRegex.exec(videoTitle)
+    const artistString = titleRegexResult && titleRegexResult[2]
+    // ゼロ幅スペースが仕込まれていても対応できるようにtrim
+    const isArtistNameIncludeOwnerNickName = artistString && trimWithZeroWidthSpaces(artistString).includes(trimWithZeroWidthSpaces(ownerNickname))
+
+    const greatestAvailableQuality = videoInfo.data.response.media.domand && returnGreatestQuality(videoInfo.data.response.media.domand.audios)
+    const audioQualityLabel = greatestAvailableQuality ? `${Math.floor(greatestAvailableQuality.bitRate / 1000)}kbps / ${greatestAvailableQuality.samplingRate}Hz` : "音声クオリティ不明"
+
     return <div className="lyrics-container">
         <div className="lyrics-title-container global-flex stacker-title">
             <div className="global-flex1 global-bold">
@@ -81,11 +98,18 @@ export default function Lyric() {
             </button>
         </div>
         <div className="lyrics-content" ref={lyricsContentRef} data-is-time-information={lyricData.data.hasTimeInformation}>
-            {lyricData.data.lyrics.map((lyricRow, i) => <div key={`${lyricData.data.videoId}-${i}`} className="lyric-row" ref={(e) => {
-                if (lyricRow.startMs) lyricRef.current[lyricRow.startMs] = e;
-            }} data-lyric-state={currentLyricKey === lyricRow.startMs ? 1 : (lyricRow.startMs !== null && currentLyricKey > lyricRow.startMs ? 2 : 0)}>
-                {lyricRow.lines.join("\n")}
-            </div>)}
+            <div className="lyrics-header">
+                <div className="lyrics-video-title">{titleRegexResult ? titleRegexResult[1] : videoTitle}</div>
+                {titleRegexResult && <div className="lyrics-video-artist">{isArtistNameIncludeOwnerNickName ? "" : `${ownerNickname} `}{artistString}</div>}
+                <div className="lyrics-video-quality">{audioQualityLabel}</div>
+            </div>
+            <div className="lyrics-list">
+                {lyricData.data.lyrics.map((lyricRow, i) => <div key={`${lyricData.data.videoId}-${i}`} className="lyric-row" ref={(e) => {
+                    if (lyricRow.startMs) lyricRef.current[lyricRow.startMs] = e;
+                }} data-lyric-state={currentLyricKey === lyricRow.startMs ? 1 : (lyricRow.startMs !== null && currentLyricKey > lyricRow.startMs ? 2 : 0)}>
+                    {lyricRow.lines.join("\n")}
+                </div>)}
+            </div>
         </div>
     </div>
 }   

@@ -11,11 +11,32 @@
 .lyrics-content {
     overflow-y: auto;
     flex: 1;
-    padding: 16px;
+    padding: 8px;
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.lyrics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 8px;
+}
+
+.lyrics-header {
+    padding-bottom: 1rem;
+    border-bottom: var(--border);
+    padding: 8px;
+}
+
+.lyrics-video-title {
+    font-size: 1.2rem;
+}
+
+.lyrics-video-quality {
+    opacity: 0.8;
 }
 
 .lyrics-content[data-is-time-information="true"] {
