@@ -2,8 +2,9 @@ import { useEffect, useRef } from "react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { wheelTranslator } from "../commonFunction";
 import { useCommonsRelativeData } from "@/hooks/apiHooks/watch/CommonsRelativeData";
+import { IconPlus } from "@tabler/icons-react";
 
-function BottomInfo() {
+function ContentTree() {
     const { videoInfo } = useVideoInfoContext();
 
     const commonsRelativeData = useCommonsRelativeData(videoInfo?.data.response.video.id, videoInfo && !videoInfo.data.response.external.commons.hasContentTree)
@@ -35,12 +36,14 @@ function BottomInfo() {
 
     return (
         <div
-            className="videoinfo-container bottominfo-container"
-            id="pmw-bottominfo"
+            className="contenttree-container"
+            id="pmw-contenttree"
         >
-            <div className="videoinfo-title">コンテンツツリー</div>
+            <div className="contenttree-title">コンテンツツリー</div>
+            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo?.data.response.video.id}/tree/children/edit`}><IconPlus/><span>自分の動画を登録する</span></a>
+            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo?.data.response.video.id}`}>ニコニ・コモンズで見る</a>
             <div className="contenttree-kind-container">
-                <div className="contenttree-title">親作品</div>
+                <div className="contenttree-kind-title">親作品 ({(commonsRelativeData && commonsRelativeData.data.parents.total) ?? 0})</div>
                 <div
                     className="contenttree-items-container"
                     ref={parentItemsContainerRef}
@@ -74,7 +77,7 @@ function BottomInfo() {
                 </div>
             </div>
             <div className="contenttree-kind-container">
-                <div className="contenttree-title">子作品</div>
+                <div className="contenttree-kind-title">子作品 ({(commonsRelativeData && commonsRelativeData.data.children.total) ?? 0})</div>
                 <div
                     className="contenttree-items-container"
                     ref={childrenItemsContainerRef}
@@ -111,4 +114,4 @@ function BottomInfo() {
     );
 }
 
-export default BottomInfo;
+export default ContentTree;

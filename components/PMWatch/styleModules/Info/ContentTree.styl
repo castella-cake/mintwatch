@@ -1,0 +1,116 @@
+[data-watch-type="3col"] .contenttree-container {
+    overflow: hidden;
+    margin-top: 0px;
+}
+
+.contenttree-container .contenttree-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    grid-column: 1 / 2;
+}
+
+.contenttree-container {
+    background: var(--bgcolor2);
+    border: var(--border);
+    padding: var(--info-block-padding);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    gap: var(--info-block-gap);
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
+    grid-template-rows: repeat(3, max-content);
+    overflow: hidden;
+}
+
+
+
+.contenttree-link {
+    background: var(--accent1);
+    color: var(--textcolor1);
+    transition: var(--transition-normal);
+    text-decoration: none;
+    border-radius: var(--radius);
+    padding: 4px 10px;
+    align-self: center;
+    font-size: 0.9rem;
+}
+
+.contenttree-link > svg {
+    height: 1.25em;
+    width: 1.25em;
+    vertical-align: text-bottom;
+}
+
+.contenttree-link:hover {
+    background: var(--hover1)
+}
+
+.contenttree-container .contenttree-link:nth-child(2) {
+    grid-column: 2 / 3;
+}
+.contenttree-container .contenttree-link:nth-child(3) {
+    grid-column: 3 / 4;
+}
+
+
+
+.contenttree-kind-container {
+    background: var(--accent1);
+    padding: 8px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    grid-column: 1 / 4;
+    .contenttree-kind-title {
+        padding: 4px;
+        font-weight: bold;
+    }
+}
+
+.contenttree-kind-container:nth-child(4) {
+    grid-row: 2 / 3;
+}
+
+.contenttree-kind-container:nth-child(5) {
+    grid-row: 3 / 4;
+}
+
+
+
+.contenttree-items-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 8px;
+    .contenttree-item {
+        display: block;
+        flex-basis: 8rem;
+        flex-shrink: 0;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        font-size: 0.8rem;
+        color: var(--textcolor1);
+        text-decoration: none;
+        border-radius: var(--radius);
+        padding: 4px;
+        transition: var(--transition-normal);
+        &:hover {
+            background: var(--hover1);
+        }
+    }
+    .contenttree-nothinghere {
+        color: var(--textcolor2);
+        text-align: center;
+        flex-basis: 100%;
+    }
+}
+
+.contenttree-item img {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    object-fit: contain;
+    background: var(--bgcolor3);
+    border-radius: var(--radius);
+}

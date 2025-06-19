@@ -8,7 +8,7 @@ import { Stacker } from "./modules/Stacker"
 import { NicoHarajukuLogo, Owner, Stats } from "./modules/ShinjukuUI"
 import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
-import BottomInfo from "./modules/Info/BottomInfo"
+import ContentTree from "./modules/Info/ContentTree"
 import Search from "../Global/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import VideoTitle from "./modules/Info/VideoTitle"
@@ -110,7 +110,7 @@ export function WatchContent(_props: Props) {
 
     const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
-    const bottomInfoElem = <BottomInfo key="watchui-bottominfo" />
+    const contentTreeElem = <ContentTree key="watchui-contenttree" />
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
     const hrjkLogoElem = <div className="hrjk-header" key="watchui-hrjkheader"><NicoHarajukuLogo />{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
@@ -118,12 +118,12 @@ export function WatchContent(_props: Props) {
     const layoutPresets: {
         [key: string]: JSX.Element[]
     } = {
-        "renew": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, searchElem, watchNextElem],
-        "recresc": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, bottomInfoElem, watchNextElem],
-        "stacked": [playerElem, rightActionElem, bottomInfoElem, seriesElem, searchElem, watchNextElem],
-        "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, bottomInfoElem, searchElem],
-        "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, bottomInfoElem, watchNextElem, searchElem],
-        "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, bottomInfoElem],
+        "renew": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, searchElem, watchNextElem],
+        "recresc": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, contentTreeElem, watchNextElem],
+        "stacked": [playerElem, rightActionElem, contentTreeElem, seriesElem, searchElem, watchNextElem],
+        "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, contentTreeElem, searchElem],
+        "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, watchNextElem, searchElem],
+        "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
     }
 
     const currentLayout = layoutPresets[layoutType]
