@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - プレイヤー設定が「基本」と「コメント」に分割されました [#12](https://github.com/castella-cake/mintwatch/issues/12)
 - コメントリストの仮想化により、コメントの多い長尺動画でのパフォーマンスが大幅に向上しました
 - 一部の文章をよりわかりやすく変更しました
+- 動画情報周りのスタイルを変更し、情報表示が詰まりすぎないように調整しました
 
 ### Fixed
 - シークバーの要素が場合によってはみ出す問題を修正しました [#20](https://github.com/castella-cake/mintwatch/issues/20)
