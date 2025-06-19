@@ -77,7 +77,7 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
             window.open("https://www.google.com/search?q=ピザ")
         }
         // TODO: コメント入力前から一時停止状態だったなら再生しない
-        if (localStorage.playersettings.pauseOnCommentInput && videoRef.current) {
+        if (localStorage.playersettings.pauseOnCommentInput && videoRef.current && videoRef.current.currentTime !== videoRef.current.duration) {
             videoRef.current.play()
         }
         setPreviewCommentItem(null)
