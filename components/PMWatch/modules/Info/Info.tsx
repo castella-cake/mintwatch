@@ -15,28 +15,53 @@ import OwnerInfo from "./Owner";
 import UserFollowButton from "./UserFollowButton";
 import Tags from "./Tags";
 import VideoTitle from "./VideoTitle";
+
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div");
     dummyDiv.innerHTML = htmlString;
     return dummyDiv.textContent || dummyDiv.innerText || "";
 }
 
+const reasonCodeLang = {
+    "INVALID_PARAMETER": "この動画は視聴できません",
+    "RIGHT_HOLDER_DELETE_VIDEO": "この動画は権利者の申し立てにより削除されたため視聴できません",
+    "HIDDEN_VIDEO": "この動画は非公開設定のため視聴できません",
+    "DOMESTIC_VIDEO": "現在のリージョン/ユーザーエージェントからは視聴できません(Domestic)",
+    "HIGH_RISK_COUNTRY_VIDEO": "現在のリージョン/ユーザーエージェントからは視聴できません(HighRiskCountry)",
+    "DELETED_CHANNEL_VIDEO": "チャンネルが閉鎖されたため視聴できません",
+    "ADMINISTRATOR_DELETE_VIDEO": "削除された動画のため視聴できません",
+    "HARMFUL_VIDEO": "センシティブな内容が含まれる可能性のある動画です"
+}
+
+function returnErrorMessage(errorResponse: ErrorResponse) {
+    const reasonCode = errorResponse.reasonCode
+    if ( reasonCode === "HIDDEN_VIDEO" && errorResponse.publishScheduledAt ) {
+        return <span>この動画は {new Date(errorResponse.publishScheduledAt).toLocaleString()} に公開されます</span>
+    } else if (reasonCode in reasonCodeLang) {
+        return <span>{reasonCodeLang[reasonCode as keyof typeof reasonCodeLang]}</span>
+    }
+    return <span>この動画は視聴できません</span>
+}
+
 function ErrorUI({ error }: { error: any }) {
-    if (!error || !error.data || !error.data.response)
+    if (!error.response || !error.response.data || !error.response.data.response)
         return (
             <div className="videoinfo-error-container">
                 動画の取得に失敗しました
             </div>
         );
-    const errorResponse: ErrorResponse = error.data.response;
+    const errorResponse: ErrorResponse = error.response.data.response;
     return (
         <div className="videoinfo-container errorinfo-container">
             <div className="videoinfo-titlecontainer">
                 <div className="videoinfo-titleinfo">
                     <div className="videotitle">
                         <IconExclamationCircleFilled />
-                        {errorResponse.statusCode}: {errorResponse.reasonCode}
+                        <span>
+                            {errorResponse.statusCode} {errorResponse.errorCode}: {returnErrorMessage(errorResponse)}
+                        </span>
                     </div>
+                    {(errorResponse.reasonCode === "RIGHT_HOLDER_DELETE_VIDEO" && errorResponse.deletedMessage) ?? ""}
                     動画の取得に失敗しました。動画が削除されたか、サーバーに接続できなかった可能性があります。
                     削除動画→
                     <a href="https://www.nicovideo.jp/watch/sm38213757">
