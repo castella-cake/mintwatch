@@ -29,11 +29,11 @@ importers:
         specifier: ^3.34.0
         version: 3.34.0(react@19.1.0)
       '@tanstack/react-query':
-        specifier: ^5.80.6
-        version: 5.80.6(react@19.1.0)
+        specifier: ^5.80.10
+        version: 5.80.10(react@19.1.0)
       '@xpadev-net/niconicomments':
-        specifier: ^0.2.75
-        version: 0.2.75
+        specifier: ^0.2.76
+        version: 0.2.76
       dompurify:
         specifier: ^3.2.6
         version: 3.2.6
@@ -45,7 +45,7 @@ importers:
         version: 1.6.5
       html-react-parser:
         specifier: 5.2.5
-        version: 5.2.5(@types/react@19.1.6)(react@19.1.0)
+        version: 5.2.5(@types/react@19.1.8)(react@19.1.0)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -57,13 +57,13 @@ importers:
         version: 6.0.0(react@19.1.0)
       react-focus-lock:
         specifier: 2.13.6
-        version: 2.13.6(@types/react@19.1.6)(react@19.1.0)
+        version: 2.13.6(@types/react@19.1.8)(react@19.1.0)
       react-markdown:
         specifier: ^10.1.0
-        version: 10.1.0(@types/react@19.1.6)(react@19.1.0)
+        version: 10.1.0(@types/react@19.1.8)(react@19.1.0)
       react-scan:
         specifier: ^0.3.4
-        version: 0.3.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.36.0)
+        version: 0.3.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.36.0)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -84,14 +84,14 @@ importers:
         specifier: ^3.5.31
         version: 3.5.32
       '@types/react':
-        specifier: ^19.1.6
-        version: 19.1.6
+        specifier: ^19.1.8
+        version: 19.1.8
       '@types/react-dom':
         specifier: ^19.1.6
-        version: 19.1.6(@types/react@19.1.6)
+        version: 19.1.6(@types/react@19.1.8)
       '@types/react-transition-group':
         specifier: ^4.4.11
-        version: 4.4.12(@types/react@19.1.6)
+        version: 4.4.12(@types/react@19.1.8)
       '@wxt-dev/module-react':
         specifier: ^1.1.1
         version: 1.1.3(vite@6.3.5(@types/node@22.13.10)(jiti@2.4.2)(stylus@0.64.0)(tsx@4.19.3)(yaml@2.7.0))(wxt@0.20.7(@types/node@22.13.10)(jiti@2.4.2)(rollup@4.36.0)(stylus@0.64.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -584,11 +584,11 @@ packages:
   '@tabler/icons@3.34.0':
     resolution: {integrity: sha512-jtVqv0JC1WU2TTEBN32D9+R6mc1iEBuPwLnBsWaR02SIEciu9aq5806AWkCHuObhQ4ERhhXErLEK7Fs+tEZxiA==}
 
-  '@tanstack/query-core@5.80.6':
-    resolution: {integrity: sha512-nl7YxT/TAU+VTf+e2zTkObGTyY8YZBMnbgeA1ee66lIVqzKlYursAII6z5t0e6rXgwUMJSV4dshBTNacNpZHbQ==}
+  '@tanstack/query-core@5.80.10':
+    resolution: {integrity: sha512-mUNQOtzxkjL6jLbyChZoSBP6A5gQDVRUiPvW+/zw/9ftOAz+H754zCj3D8PwnzPKyHzGkQ9JbH48ukhym9LK1Q==}
 
-  '@tanstack/react-query@5.80.6':
-    resolution: {integrity: sha512-izX+5CnkpON3NQGcEm3/d7LfFQNo9ZpFtX2QsINgCYK9LT2VCIdi8D3bMaMSNhrAJCznRoAkFic76uvLroALBw==}
+  '@tanstack/react-query@5.80.10':
+    resolution: {integrity: sha512-6zM098J8sLy9oU60XAdzUlAH4wVzoMVsWUWiiE/Iz4fd67PplxeyL4sw/MPcVJJVhbwGGXCsHn9GrQt2mlAzig==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -661,8 +661,8 @@ packages:
     peerDependencies:
       '@types/react': '*'
 
-  '@types/react@19.1.6':
-    resolution: {integrity: sha512-JeG0rEWak0N6Itr6QUx+X60uQmN+5t3j9r/OVDtWzFXKaj6kD1BwJzOksD0FF6iWxZlbE1kB0q9vtnU2ekqa1Q==}
+  '@types/react@19.1.8':
+    resolution: {integrity: sha512-AwAfQ2Wa5bCx9WP8nZL2uMZWod7J7/JSplxbTmBQ5ms6QpqNYm672H0Vu9ZVKVngQ+ii4R/byguVEUZQyeg44g==}
 
   '@types/sizzle@2.3.9':
     resolution: {integrity: sha512-xzLEyKB50yqCUPUJkIsrVvoWNfFUbIZI+RspLWt8u+tIW/BetMBZtgV2LY/2o+tYH8dRvQ+eoPf3NdhQCcLE2w==}
@@ -708,8 +708,9 @@ packages:
   '@wxt-dev/storage@1.1.1':
     resolution: {integrity: sha512-H1vYWeoWz03INV4r+sLYDFil88b3rgMMfgGp/EXy3bLbveJeiMiFs/G0bsBN2Ra87Iqlf2oVYRb/ABQpAugbew==}
 
-  '@xpadev-net/niconicomments@0.2.75':
-    resolution: {integrity: sha512-pLIW9NvbYOj5zSfYkHHyPLS5tHNj6ZsJRsSUkznLU1hX4dTm0G7pN4e71OqRhyEqjHeitwEPA5fyYyYxtl9ltg==}
+  '@xpadev-net/niconicomments@0.2.76':
+    resolution: {integrity: sha512-9UhCqWLoDLMuaZxdO1Q4VgdhCwTpWFf7Hvo9mpF8ickHRD5CwOQZyF/9IfNJ0Smub8ZfQD2mAqXjT4nJC4vE/w==}
+    engines: {node: '>=20.0.0'}
 
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
@@ -3168,11 +3169,11 @@ snapshots:
 
   '@tabler/icons@3.34.0': {}
 
-  '@tanstack/query-core@5.80.6': {}
+  '@tanstack/query-core@5.80.10': {}
 
-  '@tanstack/react-query@5.80.6(react@19.1.0)':
+  '@tanstack/react-query@5.80.10(react@19.1.0)':
     dependencies:
-      '@tanstack/query-core': 5.80.6
+      '@tanstack/query-core': 5.80.10
       react: 19.1.0
 
   '@types/babel__core@7.20.5':
@@ -3243,19 +3244,19 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/react-dom@19.1.6(@types/react@19.1.6)':
+  '@types/react-dom@19.1.6(@types/react@19.1.8)':
     dependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
-  '@types/react-reconciler@0.28.9(@types/react@19.1.6)':
+  '@types/react-reconciler@0.28.9(@types/react@19.1.8)':
     dependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
-  '@types/react-transition-group@4.4.12(@types/react@19.1.6)':
+  '@types/react-transition-group@4.4.12(@types/react@19.1.8)':
     dependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
-  '@types/react@19.1.6':
+  '@types/react@19.1.8':
     dependencies:
       csstype: 3.1.3
 
@@ -3314,7 +3315,7 @@ snapshots:
       async-mutex: 0.5.0
       dequal: 2.0.3
 
-  '@xpadev-net/niconicomments@0.2.75': {}
+  '@xpadev-net/niconicomments@0.2.76': {}
 
   acorn@8.14.1: {}
 
@@ -3365,9 +3366,9 @@ snapshots:
 
   big-integer@1.6.52: {}
 
-  bippy@0.3.8(@types/react@19.1.6)(react@19.1.0):
+  bippy@0.3.8(@types/react@19.1.8)(react@19.1.0):
     dependencies:
-      '@types/react-reconciler': 0.28.9(@types/react@19.1.6)
+      '@types/react-reconciler': 0.28.9(@types/react@19.1.8)
       react: 19.1.0
     transitivePeerDependencies:
       - '@types/react'
@@ -3979,7 +3980,7 @@ snapshots:
 
   html-escaper@3.0.3: {}
 
-  html-react-parser@5.2.5(@types/react@19.1.6)(react@19.1.0):
+  html-react-parser@5.2.5(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       domhandler: 5.0.3
       html-dom-parser: 5.1.1
@@ -3987,7 +3988,7 @@ snapshots:
       react-property: 2.0.2
       style-to-js: 1.1.16
     optionalDependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
   html-url-attributes@3.0.1: {}
 
@@ -4948,25 +4949,25 @@ snapshots:
       '@babel/runtime': 7.27.0
       react: 19.1.0
 
-  react-focus-lock@2.13.6(@types/react@19.1.6)(react@19.1.0):
+  react-focus-lock@2.13.6(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       '@babel/runtime': 7.26.10
       focus-lock: 1.3.6
       prop-types: 15.8.1
       react: 19.1.0
       react-clientside-effect: 1.2.7(react@19.1.0)
-      use-callback-ref: 1.3.3(@types/react@19.1.6)(react@19.1.0)
-      use-sidecar: 1.1.3(@types/react@19.1.6)(react@19.1.0)
+      use-callback-ref: 1.3.3(@types/react@19.1.8)(react@19.1.0)
+      use-sidecar: 1.1.3(@types/react@19.1.8)(react@19.1.0)
     optionalDependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
   react-is@16.13.1: {}
 
-  react-markdown@10.1.0(@types/react@19.1.6)(react@19.1.0):
+  react-markdown@10.1.0(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
       devlop: 1.1.0
       hast-util-to-jsx-runtime: 2.3.6
       html-url-attributes: 3.0.1
@@ -4984,7 +4985,7 @@ snapshots:
 
   react-refresh@0.14.2: {}
 
-  react-scan@0.3.4(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.36.0):
+  react-scan@0.3.4(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.36.0):
     dependencies:
       '@babel/core': 7.26.10
       '@babel/generator': 7.26.10
@@ -4995,7 +4996,7 @@ snapshots:
       '@preact/signals': 1.3.2(preact@10.26.4)
       '@rollup/pluginutils': 5.1.4(rollup@4.36.0)
       '@types/node': 20.17.24
-      bippy: 0.3.8(@types/react@19.1.6)(react@19.1.0)
+      bippy: 0.3.8(@types/react@19.1.8)(react@19.1.0)
       esbuild: 0.25.1
       estree-walker: 3.0.3
       kleur: 4.1.5
@@ -5444,20 +5445,20 @@ snapshots:
       semver: 7.7.1
       xdg-basedir: 5.1.0
 
-  use-callback-ref@1.3.3(@types/react@19.1.6)(react@19.1.0):
+  use-callback-ref@1.3.3(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       react: 19.1.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
-  use-sidecar@1.1.3(@types/react@19.1.6)(react@19.1.0):
+  use-sidecar@1.1.3(@types/react@19.1.8)(react@19.1.0):
     dependencies:
       detect-node-es: 1.1.0
       react: 19.1.0
       tslib: 2.8.1
     optionalDependencies:
-      '@types/react': 19.1.6
+      '@types/react': 19.1.8
 
   util-deprecate@1.0.2: {}
 
