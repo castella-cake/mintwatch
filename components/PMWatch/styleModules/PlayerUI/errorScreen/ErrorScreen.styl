@@ -17,9 +17,44 @@
     border-radius: var(--radius);
     width: 80%;
     padding: 2%;
+    position: relative;
 }
 
 .player-errorscreen-title {
     margin: 0;
     margin-bottom: 0.5rem;
+}
+
+.player-errorscreen-haiku {
+    white-space: pre;
+    text-align: right;
+    animation: haikushake 1s linear infinite;
+    width: max-content;
+    position: absolute;
+    right: 1.5rem;
+    bottom: 2rem;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    background: transparent;
+    color: #fff;
+    border: none;
+    display: block;
+}
+
+@keyframes haikushake {
+    0% {
+        transform: translate(0%, 0%) rotate(25deg)
+    }
+    25% {
+        transform: translate(0, 2px) rotate(25deg)
+    }
+    50% {
+        transform: translate(-5px, 2px) rotate(25deg)
+    }
+    75% {
+        transform: translate(-2px, 5px) rotate(25deg)
+    }
+    100% {
+        transform: translate(0%, 0%) rotate(25deg)
+    }
 }
