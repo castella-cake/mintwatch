@@ -21,7 +21,6 @@
             flex-direction: column;
             border-radius: var(--radius);
             border: var(--border);
-            border-top: none;
             box-shadow: var(--box-shadow);
             .stacker-title {
                 //box-shadow: 0px 0px 8px #000;
@@ -68,6 +67,7 @@
         gap: 0.25rem;
         margin: 0 calc(var(--radius) + 0.25rem);
         position: relative;
+        top: var(--border-width);
         //bottom: calc(var(--border-width) * -1);
         z-index: 1;
         .stacker-tabbutton {
@@ -103,7 +103,7 @@
         width: 1.8rem;
         height: 1.8rem;
         aspect-ratio: 1 / 1;
-        align-self: center;
+        align-self: start;
         margin-left: 4px;
         font-size: 1rem;
         font-weight: normal;
