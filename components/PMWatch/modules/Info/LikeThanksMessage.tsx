@@ -2,7 +2,7 @@ import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext";
 import { useLikeMessageDataQuery } from "@/hooks/apiHooks/watch/LikeMessageData";
 import { IconCopy, IconX } from "@tabler/icons-react";
 
-export default function LikeThanksMessage({ onMouseEnter, onMouseLeave, onClose, isPermament, iconUrl }: { onMouseEnter: () => void, onMouseLeave: () => void, onClose: () => void, isPermament: boolean, iconUrl?: string }) {
+export default function LikeThanksMessage({ onMouseEnter, onMouseLeave, onClose, isPermament, iconUrl }: { onMouseEnter: () => void, onMouseLeave: () => void, onClose: () => void, isPermament: boolean, iconUrl?: string | null }) {
     const {smId} = useSmIdContext()
     const [isLikeMsgCopied, setIsLikeMsgCopied] = useState(false);
 

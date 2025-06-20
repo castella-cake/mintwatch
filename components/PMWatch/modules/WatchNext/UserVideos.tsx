@@ -3,9 +3,9 @@ import { InfoCard } from "../Info/InfoCards";
 import { VideoOwner } from "@/types/VideoData";
 import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData";
 
-function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner }) {
+function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) {
     //const lang = useLang()
-    const userVideoData = useUserVideoData(videoOwnerData && videoOwnerData.id)
+    const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
         userVideoData && userVideoData.data.items.map((item) => {

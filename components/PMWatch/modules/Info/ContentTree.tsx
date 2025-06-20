@@ -7,7 +7,7 @@ import { IconPlus } from "@tabler/icons-react";
 function ContentTree() {
     const { videoInfo } = useVideoInfoContext();
 
-    const commonsRelativeData = useCommonsRelativeData(videoInfo?.data.response.video.id, videoInfo && !videoInfo.data.response.external.commons.hasContentTree)
+    const commonsRelativeData = useCommonsRelativeData(videoInfo?.data.response.video ? videoInfo?.data.response.video.id : undefined, videoInfo && !videoInfo.data.response.external.commons.hasContentTree)
     const parentItemsContainerRef = useRef<HTMLDivElement>(null);
     const childrenItemsContainerRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -32,7 +32,7 @@ function ContentTree() {
             );
         };
     });
-    if (!videoInfo) return <></>;
+    if (!videoInfo || !videoInfo?.data.response.video) return <></>;
 
     return (
         <div

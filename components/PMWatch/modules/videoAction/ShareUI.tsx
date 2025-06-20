@@ -10,6 +10,7 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
     const [copiedLink, setCopiedLink] = useState("")
 
     const videoInfoResponse = videoInfo.data.response
+    if (!videoInfoResponse.video) return
     const shareURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
     const hashtags = [videoInfoResponse.video.id, "ニコニコ動画", "PepperMintShare"]
     const ownerName = videoInfoResponse.owner ? videoInfoResponse.owner.nickname : (videoInfoResponse.channel ? videoInfoResponse.channel.name : "非公開または退会済みユーザー")

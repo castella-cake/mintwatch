@@ -67,12 +67,14 @@ export default function Lyric() {
         Loading...
     </div>
 
+    if (!videoInfo.data.response.video) return
+
     const videoTitle = videoInfo.data.response.video.title
     const ownerNickname = videoInfo.data.response.owner && videoInfo.data.response.owner.nickname
     const titleRegexResult = artistRegex.exec(videoTitle)
     const artistString = titleRegexResult && titleRegexResult[2]
     // ゼロ幅スペースが仕込まれていても対応できるようにtrim
-    const isArtistNameIncludeOwnerNickName = artistString && trimWithZeroWidthSpaces(artistString).includes(trimWithZeroWidthSpaces(ownerNickname))
+    const isArtistNameIncludeOwnerNickName = artistString && ownerNickname && trimWithZeroWidthSpaces(artistString).includes(trimWithZeroWidthSpaces(ownerNickname))
 
     const greatestAvailableQuality = videoInfo.data.response.media.domand && returnGreatestQuality(videoInfo.data.response.media.domand.audios)
     const audioQualityLabel = greatestAvailableQuality ? `${Math.floor(greatestAvailableQuality.bitRate / 1000)}kbps / ${greatestAvailableQuality.samplingRate}Hz` : "音声クオリティ不明"

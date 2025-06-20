@@ -28,7 +28,7 @@ interface Response {
     marquee: Marquee;
     media: Media;
     okReason: string;
-    owner: VideoOwner;
+    owner: VideoOwner | null;
     payment: Payment;
     pcWatchPage: PcWatchPage;
     player: Player;
