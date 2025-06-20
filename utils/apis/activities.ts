@@ -1,3 +1,5 @@
+import APIError from "../classes/APIError";
+
 /**
  * 動画投稿のフォロー新着を取得するAPI
  */

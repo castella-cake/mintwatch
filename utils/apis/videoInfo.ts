@@ -1,4 +1,5 @@
 import { VideoDataRootObject } from "@/types/VideoData"
+import APIError from "../classes/APIError";
 
 const manifestData = browser.runtime.getManifest();
 

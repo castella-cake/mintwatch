@@ -1,4 +1,5 @@
 import LyricDataRootObject from "@/types/lyricData";
+import APIError from "../classes/APIError";
 
 export async function getLyrics(smId: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/videos/${encodeURIComponent(smId)}/lyrics`, {

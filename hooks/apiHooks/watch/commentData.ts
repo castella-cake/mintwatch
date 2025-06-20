@@ -2,6 +2,7 @@ import { CommentDataRootObject } from "@/types/CommentData";
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData";
 import { NicoruPostBodyRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
 import { NvComment, VideoDataThread } from "@/types/VideoData";
+import APIError from "@/utils/classes/APIError";
 import { getCommentDataWithRetry, PairedThreadKeyRef } from "@/utils/getCommentDataWithRetry";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

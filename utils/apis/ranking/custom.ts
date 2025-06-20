@@ -1,4 +1,5 @@
 import { CustomRankingDataRootObject } from "@/types/ranking/customData";
+import APIError from "@/utils/classes/APIError";
 import { validateBaseResponse } from "@/utils/validateResponse";
 
 /**

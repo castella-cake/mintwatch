@@ -1,4 +1,4 @@
-class APIError extends Error {
+export default class APIError extends Error {
     response: {[key: string]: any} = {}
     constructor(message: string, response: {[key: string]: any}) {
         super(`called API returned error: ${response}`)

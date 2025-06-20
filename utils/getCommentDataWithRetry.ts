@@ -1,6 +1,7 @@
 import { CommentDataRootObject } from "@/types/CommentData";
 import { NvComment } from "@/types/VideoData";
 import { RefObject } from "react";
+import APIError from "./classes/APIError";
 
 export type PairedThreadKeyRef = {
     threadKey: string,

@@ -1,4 +1,5 @@
 import { LikesApi } from "@/types/likesApi";
+import APIError from "../classes/APIError";
 
 /**
  * いいね！を取得/追加/削除するAPI
