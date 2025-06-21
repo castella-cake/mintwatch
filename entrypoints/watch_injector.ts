@@ -175,6 +175,9 @@ export default defineUnlistedScript({
                         levelSelector.appendChild(option);
                     });
                 });
+                hls.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
+                    hls.currentLevel = data.levels.length - 1
+                })
                 if (levelSelector) levelSelector.addEventListener("change", (e) => {
                     if (e.target && e.target instanceof HTMLSelectElement) {
                         //console.log("change: ", e)
