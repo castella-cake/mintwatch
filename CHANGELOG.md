@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画情報周りのスタイルを変更し、情報表示が詰まりすぎないように調整しました
 - コンテンツツリーに新視聴と同様のリンクを追加しました(自分の動画を追加,コモンズで見る)
 - コンテンツツリーの要素IDやクラス名がよりわかりやすく変更されました
+- Re:将棋盤でFor Youページに移動した場合自動的にリダイレクトされるようになりました
+- カスタムランキング(メイン)のパスが通常のランキングページと同様の`/custom`に変更されました
 
 ### Fixed
 - シークバーの要素が場合によってはみ出す問題を修正しました [#20](https://github.com/castella-cake/mintwatch/issues/20)

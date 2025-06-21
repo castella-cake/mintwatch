@@ -16,7 +16,7 @@ export default function ShogiBody() {
             </div>
             <div className="shogi-type-selector">
                 <HistoryAnchor className="shogi-type-selector-button" aria-disabled="true">For you(Coming soon)</HistoryAnchor>
-                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.replace(/\?.*/, "") === "/ranking"} href="/ranking">メイン</HistoryAnchor>
+                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/custom")} href="/ranking">メイン</HistoryAnchor>
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">総合ランキング</HistoryAnchor>
             </div>
             <ShogiContent/>
