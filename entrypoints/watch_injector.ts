@@ -98,6 +98,7 @@ export default defineUnlistedScript({
             }
 
             let levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector");
+            let seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
 
             if (
                 videoInfo.data &&
@@ -175,6 +176,19 @@ export default defineUnlistedScript({
                         levelSelector.appendChild(option);
                     });
                 });
+                hls.on(Hls.Events.BUFFER_APPENDED, (e, data) => {
+                    if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
+                        const bufferedDuration = videoElement.buffered.end(videoElement.buffered.length - 1)
+                        const duration = videoElement.duration
+                        seekbarBuffered.style.width = `${Math.min(bufferedDuration / duration * 100, 100)}%`
+                    }
+                    //setBufferedDuration()
+                })
+                hls.on(Hls.Events.BUFFER_FLUSHED, (e, data) => {
+                    if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
+                        seekbarBuffered.style.width = `0%`
+                    }
+                })
                 hls.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
                     hls.currentLevel = data.levels.length - 1
                 })
