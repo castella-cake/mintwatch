@@ -153,5 +153,5 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
             if (uiRoot) uiRoot.unmount();
         }
     })
-    ui.mount()
+    ui.autoMount()
 }
