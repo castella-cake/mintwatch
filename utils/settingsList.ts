@@ -44,11 +44,6 @@ const settings: settingList = {
             default: "default",
         },
         {
-            type: "checkbox",
-            name: "pmwforcepagehls",
-            default: false,
-        },
-        {
             type: "group",
             name: "otherSettings",
             children: [
@@ -79,7 +74,12 @@ const settings: settingList = {
                     name: "autoScrollPositionOnVideoChange",
                     values: ["top", "player", "disable"],
                     default: "top",
-                }
+                },
+                {
+                    type: "checkbox",
+                    name: "pmwforcepagehls",
+                    default: false,
+                },
             ]
         }
     ],
