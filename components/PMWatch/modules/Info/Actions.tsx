@@ -190,8 +190,8 @@ function Actions({ children, onModalOpen }: Props) {
                 <IconGift />
             </button>
             {isLiked && likeThanksMsg &&
-                ((videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered) ||
-                    (!videoInfo.data.response.video.viewer.like.isLiked &&
+                ((videoInfo.data.response.video.viewer && videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered) ||
+                    (videoInfo.data.response.video.viewer && !videoInfo.data.response.video.viewer.like.isLiked &&
                         (!isLikeThanksMsgClosed || isLikeHovered))) && (
                     <LikeThanksMessage
                         onMouseEnter={onLikeMouseEnter}

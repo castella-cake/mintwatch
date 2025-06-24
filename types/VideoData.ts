@@ -43,7 +43,7 @@ interface Response {
     videoAds: VideoAds;
     // ライブ公開のオブジェクト？
     videoLive: any;
-    viewer?: ViewerInfo;
+    viewer?: ViewerInfo | null;
     waku: Waku;
 }
 
@@ -55,6 +55,7 @@ interface Waku {
     addVideo: any;
     tagRelatedBanner: TagRelatedBanner;
     tagRelatedMarquee: any;
+    pcWatchHeaderCustomBanner: any;
 }
 
 interface TagRelatedBanner {
@@ -71,6 +72,7 @@ interface TagRelatedBanner {
 interface Information {
     title: string;
     url: string;
+    isNewWindow: boolean;
 }
 
 export interface ViewerInfo {
@@ -90,7 +92,7 @@ interface Existence {
 interface VideoAds {
     additionalParams: AdditionalParams;
     items: any[];
-    reason: null;
+    reason: string | null;
 }
 
 interface AdditionalParams {
@@ -103,8 +105,8 @@ interface AdditionalParams {
     lang: string;
     watchTrackId: string;
     genre: string;
-    gender: string;
-    age: number;
+    gender?: string;
+    age?: number;
 }
 
 interface VideoInfo {
@@ -122,9 +124,10 @@ interface VideoInfo {
     isAuthenticationRequired: boolean;
     isEmbedPlayerAllowed: boolean;
     isGiftAllowed: boolean;
-    viewer: ViewerVideoState;
+    viewer: ViewerVideoState | null;
     watchableUserTypeForPayment: string;
     commentableUserTypeForPayment: string;
+    hasLyrics: boolean;
 }
 
 interface ViewerVideoState {
@@ -144,8 +147,8 @@ interface Rating {
 
 interface Thumbnail3 {
     url: string;
-    middleUrl: string;
-    largeUrl: string;
+    middleUrl: string | null;
+    largeUrl: string | null;
     player: string;
     ogp: string;
 }
@@ -155,13 +158,13 @@ export interface Tag {
     hasR18Tag: boolean;
     isPublishedNicoscript: boolean;
     edit: TagEditState;
-    viewer: TagEditState;
+    viewer: TagEditState | null;
 }
 
 interface TagEditState {
     isEditable: boolean;
-    uneditableReason: null;
-    editKey: string;
+    uneditableReason: null | string;
+    editKey: null | string;
 }
 
 interface TagItem {
@@ -204,7 +207,7 @@ export interface SeriesVideoItem {
     latestCommentSummary: string;
     isChannelVideo: boolean;
     isPaymentRequired: boolean;
-    playbackPosition: null;
+    playbackPosition: null | number;
     owner: SeriesOwner;
     requireSensitiveMasking: boolean;
     videoLive: null;
@@ -282,6 +285,7 @@ interface PcWatchPage {
     showOwnerMenu: boolean;
     showOwnerThreadCoEditingLink: boolean;
     showMymemoryEditingLink: boolean;
+    channelGtmContainerId: string;
 }
 
 interface VideoEnd {
@@ -320,7 +324,7 @@ export interface VideoOwner {
     isVideosPublic: boolean;
     isMylistsPublic: boolean;
     videoLiveNotice: null;
-    viewer: ViewerFollowing;
+    viewer: ViewerFollowing | null;
 }
 
 interface ViewerFollowing {
@@ -349,8 +353,13 @@ export interface AudioQualityItem {
     truePeak: number;
     qualityLevel: number;
     loudnessCollection: LoudnessCollection[];
+    label: AudioQualityLabel;
 }
 
+interface AudioQualityLabel {
+    quality: string;
+    bitrate: string;
+}
 interface LoudnessCollection {
     type: string;
     value: number;
@@ -417,6 +426,17 @@ interface Comment {
     ng: Ng;
     isAttentionRequired: boolean;
     nvComment: NvComment;
+    assist: CommentAssist;
+}
+
+interface CommentAssist {
+    sectionDurationSec: number;
+    minMatchCharacters: number;
+    ignorePostElapsedTimeSec: number;
+    ignoreCommentNgScoreThreshold: number;
+    commentCountThresholdList: number[][];
+    buttonDisplayDurationSec: number;
+    buttonDisplayOffsetSec: number;
 }
 
 export interface NvComment {
@@ -439,7 +459,7 @@ interface Ng {
     ngScore: NgScore;
     channel: any[];
     owner: any[];
-    viewer: NgData;
+    viewer: NgData | null;
 }
 
 export interface ViewerNg {
@@ -504,27 +524,22 @@ interface Client {
 }
 
 interface GoogleTagManager {
-    niconico: Niconico;
-    channel: null;
+    user: GoogleTagManagerUser;
+    content: GoogleTagManagerContent;
 }
 
-interface Niconico {
-    user: User;
-    content: Content;
-}
-
-interface Content {
+interface GoogleTagManagerContent {
     player_type: string;
     genre: string;
     content_type: string;
 }
 
-interface User {
-    user_id: string;
+interface GoogleTagManagerUser {
     login_status: string;
-    member_status: string;
-    ui_area: string;
-    ui_lang: string;
+    user_id?: string;
+    member_status?: string;
+    ui_area?: string;
+    ui_lang?: string;
 }
 
 interface Metadata {
@@ -647,7 +662,7 @@ interface Follow {
 
 interface Thumbnail {
     url: string;
-    smallUrl: string;
+    smallUrl?: string;
 }
 
 export interface ErrorResponse {
