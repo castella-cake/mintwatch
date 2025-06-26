@@ -39,6 +39,9 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
         if (!mainThreads) return
         const postKeyResponse: KeyRootObjectResponse = await getCommentPostKey(mainThreads?.id)
         if (postKeyResponse.meta.status !== 200) return 
+        if (postKeyResponse.data.challenge.isRequired) {
+            alert(`TurnstileによるCaptchaがコメントサーバーから要求されました。コメントを投稿できません。\nページをリロードしてもう一度お試しください。それでも投稿できない場合は、新視聴ページに切り替えて一度コメントを投稿してみてください。`)
+        }
         const reqBody: CommentPostBody = {videoId, commands: [...commentCommand, "184"], body: commentBody, vposMs, postKey: postKeyResponse.data.postKey}
         //console.log(reqBody)
         const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, reqBody)
@@ -71,7 +74,7 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
             // 今はただ要素が利用可能であることだけ伝えます
             document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
         } else {
-            alert(`コメントの投稿に失敗しました: ${commentPostResponse.meta.status}`)
+            alert(`コメントの投稿に失敗しました。\n連投対策(Turnstile)の影響で発生した可能性があります。\n${commentPostResponse.meta.status} ${commentPostResponse.meta.code ?? commentPostResponse.meta.errorCode ?? "PMW_UNKNOWN"}`)
         }
         if (commentBody === "＠ピザ" || commentBody === "@ピザ") {
             window.open("https://www.google.com/search?q=ピザ")

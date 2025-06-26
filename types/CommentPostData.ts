@@ -5,6 +5,10 @@ export interface KeyRootObjectResponse extends baseResponse {
 
 interface KeyData {
     postKey: string;
+    challenge: {
+        isRequired: boolean;
+        siteKey?: string;
+    }
 }
 
 //commentpost
