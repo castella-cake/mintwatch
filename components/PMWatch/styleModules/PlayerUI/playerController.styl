@@ -233,13 +233,13 @@
 }
 
 .playercontroller-volume-tooltip {
-    display: none;
     top: 12px;
-    font-size: .8em;
+    font-size: 0.8rem;
+    border: 1px solid #333;
     border-radius: var(--radius-mini);
     background: rgba(0,0,0,0.667);
     color: #fff;
-    padding: 0 4px;
+    padding: 2px 4px;
     white-space: nowrap;
     position: absolute;
     left: 0;
@@ -248,9 +248,18 @@
     width: fit-content;
     margin: 0 auto;
     pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    backdrop-filter: blur(4px);
+    transform: translateY(50%);
+    opacity: 0;
+    box-shadow: 0 0 4px #000a;
+    z-index: 2;
+    pointer-events: none;
 }
+
 .playercontroller-volume-container:hover .playercontroller-volume-tooltip {
-    display: inline;
+    opacity: 1;
+    transform: translateY(0)
 }
 .playercontroller-time {
     margin: 0 8px;
