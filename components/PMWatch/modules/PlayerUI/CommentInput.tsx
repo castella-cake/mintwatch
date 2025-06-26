@@ -5,6 +5,9 @@ import type { VideoDataRootObject } from "@/types/VideoData";
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData";
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData";
 import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider";
+
+
+
 //import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
 
@@ -15,9 +18,6 @@ type Props = {
     commentInputRef: RefObject<HTMLTextAreaElement | null>,
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
-
-
-
 function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem}: Props) {
     const { localStorage } = useStorageContext()
     const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
@@ -32,60 +32,104 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
 
     // idが遅い方のデフォルトの投稿ターゲット
     const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
+    /*useEffect(() => {
+        const messageHandler = (event: MessageEvent) => {
+            console.log(event)
+            if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "helloFromHandler") {
+                console.log("Turnstile handler is alive")
+                window.removeEventListener("message", messageHandler)
+            }
+        }
+        window.addEventListener("message", messageHandler)
+        window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
+    }, [])*/
 
     async function sendComment(videoId: string, commentBody: string, commentCommand: string[] = [], vposMs: number) {
         // {"videoId":"","commands":["184"],"body":"君ビートマニア上手いねぇ！","vposMs":147327,"postKey":""}
         //console.log(mainThreads)
         if (!mainThreads) return
         const postKeyResponse: KeyRootObjectResponse = await getCommentPostKey(mainThreads?.id)
-        if (postKeyResponse.meta.status !== 200) return 
-        if (postKeyResponse.data.challenge.isRequired) {
-            alert(`TurnstileによるCaptchaがコメントサーバーから要求されました。コメントを投稿できません。\nページをリロードしてもう一度お試しください。それでも投稿できない場合は、新視聴ページに切り替えて一度コメントを投稿してみてください。`)
-        }
-        const reqBody: CommentPostBody = {videoId, commands: [...commentCommand, "184"], body: commentBody, vposMs, postKey: postKeyResponse.data.postKey}
-        //console.log(reqBody)
-        const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, reqBody)
-        //console.log(commentPostResponse)
-        if ( commentPostResponse.meta.status === 201 && videoInfo.data ) {
-            const commentResponse = await reloadCommentContent()
-            if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
-            const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread, index) => {
-                const newComments = thread.comments.map((comment, index) => {
-                    if ( comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no ) {
-                        comment.commands = [...comment.commands, "nico:waku:#ff0"]
-                        return comment
-                    } else if (comment.isMyPost) {
-                        comment.commands = [...comment.commands, "nico:waku:#fb6"]
-                        return comment
-                    } else {
-                        return comment
+        if (postKeyResponse.meta.status !== 200) return
+        new Promise((resolve: (additionalBody?: { challengeToken?: string }) => void, reject) => {
+            if (postKeyResponse.data.challenge.isRequired && postKeyResponse.data.challenge.siteKey) {
+                // 念の為先に待ち受けて送信する
+                const messageHandler = (event: MessageEvent) => {
+                    if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "challengeTokenResponse") {
+                        if (event.data.data.status) {
+                            // ユーザーがチャレンジに成功したことを受け取ったらresolve
+                            window.removeEventListener("message", messageHandler)
+                            resolve({
+                                challengeToken: event.data.data.token,
+                            })
+                        } else {
+                            reject("Turnstile のチャレンジに失敗しました。コード: " + event.data.data.reason)
+                        }
                     }
-                })
-                return {...thread, comments: newComments}
-            })
-            const commentDataResult: CommentDataRootObject = {
-                meta: commentResponse.meta,
-                data: {
-                    ...commentResponse.data,
-                    threads: newThreads
                 }
+                window.addEventListener("message", messageHandler)
+                // ページスクリプト側にサイトキーを送信。
+                window.postMessage({ source: "mintWatchRender", type: "requestChallengeToken", data: { siteKey: postKeyResponse.data.challenge.siteKey } }, "https://www.nicovideo.jp")
+            } else if (postKeyResponse.data.challenge.isRequired === false) {
+                resolve({})
+            } else {
+                reject("failed")
             }
-            setCommentContent(commentDataResult)
-            // 今はただ要素が利用可能であることだけ伝えます
-            document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
-        } else {
-            alert(`コメントの投稿に失敗しました。\n連投対策(Turnstile)の影響で発生した可能性があります。\n${commentPostResponse.meta.status} ${commentPostResponse.meta.code ?? commentPostResponse.meta.errorCode ?? "PMW_UNKNOWN"}`)
-        }
-        if (commentBody === "＠ピザ" || commentBody === "@ピザ") {
-            window.open("https://www.google.com/search?q=ピザ")
-        }
-        // TODO: コメント入力前から一時停止状態だったなら再生しない
-        if (localStorage.playersettings.pauseOnCommentInput && videoRef.current && videoRef.current.currentTime !== videoRef.current.duration) {
-            videoRef.current.play()
-        }
-        setPreviewCommentItem(null)
-        if (commentInputRef.current) commentInputRef.current.value = ""
-        setDummyTextAreaContent("")
+        }).then(async additionalBody => {
+            const reqBody: CommentPostBody = {
+                videoId,
+                commands: [...commentCommand, "184"],
+                body: commentBody,
+                vposMs,
+                postKey: postKeyResponse.data.postKey,
+                ...additionalBody
+            }
+            //console.log(reqBody)
+            const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, reqBody)
+            //console.log(commentPostResponse)
+            if ( commentPostResponse.meta.status === 201 && videoInfo.data ) {
+                const commentResponse = await reloadCommentContent()
+                if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
+                const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread, index) => {
+                    const newComments = thread.comments.map((comment, index) => {
+                        if ( comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no ) {
+                            comment.commands = [...comment.commands, "nico:waku:#ff0"]
+                            return comment
+                        } else if (comment.isMyPost) {
+                            comment.commands = [...comment.commands, "nico:waku:#fb6"]
+                            return comment
+                        } else {
+                            return comment
+                        }
+                    })
+                    return {...thread, comments: newComments}
+                })
+                const commentDataResult: CommentDataRootObject = {
+                    meta: commentResponse.meta,
+                    data: {
+                        ...commentResponse.data,
+                        threads: newThreads
+                    }
+                }
+                setCommentContent(commentDataResult)
+                // 今はただ要素が利用可能であることだけ伝えます
+                document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
+                // TODO: コメント入力前から一時停止状態だったなら再生しない
+                if (localStorage.playersettings.pauseOnCommentInput && videoRef.current && videoRef.current.currentTime !== videoRef.current.duration) {
+                    videoRef.current.play()
+                }
+                if (commentBody === "＠ピザ" || commentBody === "@ピザ") {
+                    window.open("https://www.google.com/search?q=ピザ")
+                }
+                setPreviewCommentItem(null)
+                if (commentInputRef.current) commentInputRef.current.value = ""
+                setDummyTextAreaContent("")
+            } else {
+                alert(`コメントの投稿に失敗しました: ${commentPostResponse.meta.status}`)
+            }
+        }).catch((error) => {
+            console.error(error)
+            alert(`コメントの投稿に失敗しました: ${error}`)
+        })
     }
 
     function onKeydown(e: KeyboardEvent<HTMLTextAreaElement>) {
@@ -146,6 +190,7 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
             if (!commentInputRef.current || !videoRef.current || commentInputRef.current.value === "" || remainingLength < 0) return
             sendComment(videoId, commentInputRef.current.value, commandInput.current?.value.split(" "), Math.floor(videoRef.current.currentTime * 1000) )
         }} aria-disabled={!commentInputRef.current || commentInputRef.current.value === "" || remainingLength < 0}><IconSend2/><span>コメント</span></button>
+        <div id="pmw-turnstile-widget"></div>
     </div>
 }
 

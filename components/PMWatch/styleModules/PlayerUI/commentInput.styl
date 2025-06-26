@@ -2,6 +2,7 @@
     margin-top: 8px;
     border-radius: var(--radius);
     --border: 2px solid var(--accent1);
+    position: relative;
     > input, > .commentinput-textarea-container > .commentinput-input {
         background: var(--bgcolor1);
         color: var(--textcolor1);
@@ -86,4 +87,13 @@
 
 [data-watch-type="shinjuku"] .commentinput-container {
     margin-top: 0px;
+}
+
+#pmw-turnstile-widget > div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #000a;
+    display: flex;
+    justify-content: center;
 }

@@ -64,6 +64,12 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         head.appendChild(script);*/
         await injectScript('/watch_injector.js');
     }
+    // HACK: turnstileはscriptタグを要求し、そこで一部のモードを判断するので、実行されないダミーのscriptタグを事前に用意する
+    const dummyScript = document.createElement('script');
+    dummyScript.src = browser.runtime.getURL("/dummy_for_turnstile.js") + '?dummy=/turnstile/v0/api.js&render=explicit';
+    dummyScript.type = 'text/plain';
+    if (document.head) document.head.appendChild(dummyScript);
+    await injectScript('/load_turnstile.js')
     //console.log(document.documentElement.outerHTML)
 
     // わたってくるdocumentには既に動画情報のレスポンスが入っている。使えるならこっちを使って高速化してしまったほうが良いので、innerHTMLが書き換わる前に取得しておく
