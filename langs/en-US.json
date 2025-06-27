@@ -8,12 +8,12 @@
     "SETTINGS_ITEMS": {
         "pmwforcepagehls": {
             "name": "Force video to be loaded via page script",
-            "hint": "Always loads the video using the page script. (Default for Firefox environment)\nIt may help if the video doesn't load correctly in some environments, but please disable it if it works fine."
+            "hint": "Always use page scripts to load videos. (Default for Firefox environment)\nMay help if videos do not load properly in some environments, but should not be enabled if it is working properly."
         },
         "pmwlayouttype": {
             "name": "Layout of the watch page",
             "hint": "Specifies the appearance of MintWatch. Style changes when using Shinjuku.",
-            "select": ["Re-cresc.", "Re-Shinatsu", "Stacked", "3 Column", "Shinjuku", "Re:Re:(Temp)"]
+            "select": ["Re-cresc.", "Re-NewWatch", "Stacked", "3 Column", "Shinjuku", "Re:Re:(Temp)"]
         },
         "pmwplayertype": {
             "name": "Player theme",
