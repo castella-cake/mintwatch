@@ -147,7 +147,7 @@ function Player(props: Props) {
             localStorage.playersettings.requestMonitorFullscreen ?? true;
         if (!isFullscreenUi && shouldRequestFullscreen) {
             document.body.requestFullscreen();
-        } else {
+        } else if (document.fullscreenElement !== null) {
             document.exitFullscreen();
         }
         setIsFullscreenUi(!isFullscreenUi);
