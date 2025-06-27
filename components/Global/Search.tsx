@@ -36,7 +36,7 @@ function Search() {
         <div className="searchbox-typeselector">
             { Object.keys(searchTypes).map((elem, index) => {
                 const isActive = currentSearchType === index;
-                return <button key={index} className={`searchbox-type-item ${isActive && 'searchbox-type-active'}`} onClick={() => setSearchType(index)}>
+                return <button key={index} className={`searchbox-type-item${isActive ? ' searchbox-type-active' : ''}`} onClick={() => setSearchType(index)} title={searchTypeTexts[index]}>
                     {searchTypeIcons[index]}
                     <span className="searchbox-type-text">{searchTypeTexts[index]}</span>
                 </button>;

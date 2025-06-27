@@ -101,6 +101,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                 onMouseEnter={() => {if (isSetToQuickHeaderAction) onNotificationOpen()}}
                                 onMouseLeave={() => {if (isSetToQuickHeaderAction) setHeaderModalType(false)}}
                                 data-is-active={headerModalType === "notifications"}
+                                title="通知"
                             >
                                 { oshiraseBellData && oshiraseBellData.data.badge ? <IconBellRingingFilled/>  : <IconBell/> }
                             </button>
@@ -108,6 +109,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                 className="header-mymenubutton"
                                 onClick={onMyMenuOpen}
                                 data-is-active={headerModalType === "mymenu"}
+                                title="マイメニュー"
                             >
                                 <IconCategory/>
                             </button> }
