@@ -22,7 +22,10 @@ export function Stacker({ items }: { items: stackerItem[] }) {
                     title={item.isIconButton ? item.title : undefined}
                     data-is-icon-button={item.isIconButton}
                 >
-                    {item.isIconButton ? item.icon : item.title}
+                    {item.isIconButton ? item.icon : <span>{item.title}</span>}
+                    {!item.isIconButton && item.icon && <div className="stacker-tabbutton-icons">
+                        {item.icon}
+                    </div>}
                 </button>
             })}
         </div>

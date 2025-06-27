@@ -84,6 +84,9 @@
             border-bottom: transparent;
             box-shadow: var(--box-shadow);
             transition: var(--transition-normal);
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-content: center;
         }
 
         .stacker-tabbutton:hover {
@@ -95,6 +98,9 @@
             font-weight: bold;
             font-size: 1em;
             border-top: 2px solid var(--linktext3);
+        }
+        .stacker-tabbutton > span:nth-child(1) {
+            grid-column: 2/3;
         }
     }
     .stacker-tabbutton-container .stacker-tabbutton[data-is-icon-button="true"] {
@@ -119,6 +125,27 @@
     }
     .stacker-tabbutton-container .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
         border: 2px solid var(--linktext3);
+    }
+
+    .stacker-tabbutton-icons {
+        align-self: center;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        > svg {
+            height: 1.25em;
+            width: 1.25em;
+            transform: translateY(0%);
+            opacity: 1;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+    }
+    .stacker-tabbutton.stacker-tabbutton-active .stacker-tabbutton-icons > svg {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    .stacker-tabbutton .stacker-tabbutton-icons > svg:nth-child(2) {
+        transition-delay: 0.025s;
     }
 }
 

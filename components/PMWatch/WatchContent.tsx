@@ -13,7 +13,7 @@ import Search from "../Global/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
-import { IconPlaylist } from "@tabler/icons-react"
+import { IconArrowBigRightLine, IconArrowsShuffle, IconPlaylist } from "@tabler/icons-react"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -95,13 +95,24 @@ export function WatchContent(_props: Props) {
     const playListElem = <Playlist key="watchui-playlist" />
     const actionsElem = <Actions onModalOpen={(modalType: "mylist" | "share" | "help") => { onModalStateChanged(true, modalType) }} key="watchui-actions"></Actions>
     const lyricsElem = <Lyric key="watchui-lyrics"/>
+
+    const isContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
+    const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false;
     const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
         {layoutType === watchLayoutType.shinjuku ?
             <div className="watch-container-rightaction-hjleft">
                 <Stats />
             </div> : actionsElem
         }
-        <Stacker items={[{ title: "コメントリスト", content: commentListElem }, { title: "動画概要", content: infoElem, disabled: (layoutType !== watchLayoutType.Stacked) }, { title: "再生リスト", content: playListElem }, { title: "歌詞", icon: <IconPlaylist/>, content: lyricsElem, isIconButton: true }]} />
+        <Stacker items={[
+            { title: "コメントリスト", content: commentListElem },
+            { title: "動画概要", content: infoElem, disabled: (layoutType !== watchLayoutType.Stacked) },
+            { title: "再生リスト", content: playListElem, icon: <>
+                {isContinuousPlay && <IconArrowBigRightLine/>}
+                {isShufflePlay && <IconArrowsShuffle/>}
+            </> },
+            { title: "歌詞", icon: <IconPlaylist/>, content: lyricsElem, isIconButton: true }
+        ]} />
     </div>
 
     const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
