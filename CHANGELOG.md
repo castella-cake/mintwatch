@@ -16,8 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   詳細設定から自動スクロール位置をプレイヤーの位置に設定したり、無効化することができます。
 - フッターとRe:将棋盤にPAGE TOPボタンを追加しました [#21](https://github.com/castella-cake/mintwatch/issues/21)
 - 共有アクションで動画へのリンクをコピーできるようになりました
-- Turnstileによる認証が要求された場合にエラーメッセージを表示するようにしました ([#24](https://github.com/castella-cake/mintwatch/issues/24)の緩和)
+- コメント投稿時に要求に応じてTurnstileによるボット認証が行われるようになりました [#24](https://github.com/castella-cake/mintwatch/issues/24)
 - スキップ時間を5s,10s,15s,30sで指定できるようになりました
+- 外部HLSプラグインがバッファ表示に対応しました [#10](https://github.com/castella-cake/mintwatch/issues/10)
 
 ### Changed
 - Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)
@@ -31,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - カスタムランキング(メイン)のパスが通常のランキングページと同様の`/custom`に変更されました
 - 「強制的に動画をページスクリプトでロード」は詳細設定に移動されました
 - 音量ツールチップの表示が改善されました
+- 再生できない動画を開いた際に表示されるメッセージがよりわかりやすくなりました
+- 外部HLSプラグインは常に最高画質を要求するようになりました [#11](https://github.com/castella-cake/mintwatch/issues/11)
+- プレイヤーのロード画面に「不明なユーザー」が表示されないようになりました
 
 ### Fixed
 - シークバーの要素が場合によってはみ出す問題を修正しました [#20](https://github.com/castella-cake/mintwatch/issues/20)
@@ -42,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画の最終地点で一時停止している場合にコメントを投稿すると、先頭から再生される問題を修正しました
 - スタッカーの上部にある境界線が正しく表示されるようになりました
 - 一部の型付けを実態に即したものに変更しました
+- レンダーが稀に失敗する問題に対処しました [#18](https://github.com/castella-cake/mintwatch/issues/18)
+- コメント入力欄などへフォーカスされている場合にプレイヤーコントローラーが隠されないようになりました
+- 残っていたデバッグログを削除しました
 
 ## 0.7.0 - 2025/05/04
 
