@@ -47,7 +47,7 @@ export default function Lyric() {
     }, [lyricRef.current, lyricData, autoScroll, currentLyricKey])
 
     useEffect(() => {
-        console.log("lyricRef updated: ", lyricRef.current)
+        //console.log("lyricRef updated: ", lyricRef.current)
         if (!videoRef.current) return;
         videoRef.current.addEventListener("timeupdate", updateScrollPosition);
         return () =>

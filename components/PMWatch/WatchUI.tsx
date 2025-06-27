@@ -59,9 +59,9 @@ function CreateWatchUI() {
                 };
                 putPlaybackPosition(playbackPositionBody);
             }
-            console.log(
+            /*console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`
-            );
+            );*/
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
                 queryClient.invalidateQueries({ queryKey: ['commentData', smIdAfter, { logData: undefined }] })

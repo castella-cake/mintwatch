@@ -15,14 +15,14 @@ export default defineUnlistedScript({
                     const renderId = turnstile.render("#pmw-turnstile-widget", {
                         sitekey: event.data.data.siteKey,
                         callback: function (token) {
-                            console.log(`Challenge Success ${token}`);
+                            console.log(`Page Script Challenge Success ${token}`);
                             window.postMessage({ source: "mintWatchTurnstileHandler", type: "challengeTokenResponse", data: { status: true, token } }, TARGET_ORIGIN)
                             if (typeof renderId === "string") {
                                 setTimeout(() => turnstile.remove(renderId), 1000)
                             }
                         },
                         "error-callback": (reason) => {
-                            console.log(`Challenge Failed ${reason}`);
+                            console.log(`Page Script Challenge Failed ${reason}`);
                             window.postMessage({ source: "mintWatchTurnstileHandler", type: "challengeTokenResponse", data: { status: false, reason } }, TARGET_ORIGIN)
                             if (typeof renderId === "string") {
                                 setTimeout(() => turnstile.remove(renderId), 1000)
@@ -34,6 +34,6 @@ export default defineUnlistedScript({
                 }
             }
         })
-        console.log(window.turnstile);
+        //console.log(window.turnstile);
     }
 })

@@ -55,7 +55,7 @@ export function NavigationDndWrapper({ children }: { children: ReactNode }) {
     }
 
     function handleDragEnd(e: DragEndEvent) {
-        console.log(e)
+        //console.log(e)
         if (!e.active.id) return;
         const currentSettings = syncStorage.navBarCustomItemList ?? ["recommendations", "history", "ranking"]
         const thisActiveId = e.active.id.toString()
@@ -86,7 +86,7 @@ export function NavigationDndWrapper({ children }: { children: ReactNode }) {
         }
     }
     function handleDragStart(e: DragStartEvent) {
-        console.log(e)
+        //console.log(e)
         if (!e.active.id) return;
         if (e.active.id.toString().startsWith("sidemenu-")) {
             setCurrentDraggingItem(e.active.id.toString().replace("sidemenu-", ""));
