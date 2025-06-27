@@ -57,7 +57,7 @@ export default function Lyric() {
             );
     }, [lyricRef.current, lyricData, autoScroll, currentLyricKey])
 
-    if (error) return <div className="lyrics-container">
+    if (error) return <div className="lyrics-container" style={{ padding: "16px" }}>
         <span style={{ opacity: 0.5 }}>
             この動画には歌詞が登録されていません
         </span>
