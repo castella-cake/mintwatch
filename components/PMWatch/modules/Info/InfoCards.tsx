@@ -36,7 +36,17 @@ function Sortable({ id, obj, children }: { id: string, obj: any, children: React
     </div>
 }
 
-export function Card({ href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, ...additionalAttribute }: { href: string, thumbnailUrl?: string, thumbText?: string | ReactNode, subTitle?: string | ReactNode, additionalClassName?: string, children?: ReactNode, title: string }) {
+type CardProps = {
+    href: string,
+    thumbnailUrl?: string,
+    thumbText?: string | ReactNode,
+    subTitle?: string | ReactNode,
+    additionalClassName?: string,
+    children?: ReactNode,
+    title: string
+}
+export function Card(props: CardProps) {
+    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, ...additionalAttribute } = props
     return <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
         <a className="info-card-link" href={href} title={title}></a>
         { (thumbText) && <div className="info-card-thumbnail">
