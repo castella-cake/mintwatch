@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - スキップ時間を5s,10s,15s,30sで指定できるようになりました
 - 外部HLSプラグインがバッファ表示に対応しました [#10](https://github.com/castella-cake/mintwatch/issues/10)
 - 「再生リスト」タブがシャッフル再生と連続再生の状態を表示するようになりました
+- 再生キューに動画数と再生時間の表示を追加しました
 
 ### Changed
 - Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)

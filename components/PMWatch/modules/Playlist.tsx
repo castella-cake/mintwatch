@@ -6,6 +6,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider";
+import { secondsToTime } from "./commonFunction";
 
 export type playlistData = {
     type: "mylist" | "series" | "custom" | "none";
@@ -52,7 +53,7 @@ export function seriesToSimplifiedPlaylist(obj: SeriesResponseRootObject) {
 const playlistTypeString = {
     mylist: "マイリストからの",
     series: "シリーズからの",
-    custom: "カスタムの",
+    custom: "一時的な",
     none: "",
 };
 
@@ -129,6 +130,8 @@ function Playlist() {
         }
     }
 
+    const estimatedDuration = playlistData.items.reduce((acc, item) => acc + item.duration, 0);
+
     return (
         <div
             className={`playlist-container`}
@@ -138,13 +141,13 @@ function Playlist() {
             <div className="playlist-title-container global-flex stacker-title">
                 <div className="playlist-title global-flex1 global-bold">
                     {playlistTypeString[playlistData.type]}再生キュー
-                    {playlistData.type === "custom" ? " (一時的)" : ""}
+                    <span className="stacker-subtitle">({extendedItems.length} 動画 / {secondsToTime(estimatedDuration)})</span>
                 </div>
                 <button
                     title={
                         (isRemoveMode ?? false)
                             ? "削除モードを終了"
-                            : "プレイリストからアイテムを削除"
+                            : "再生キューからアイテムを削除"
                     }
                     onClick={() => setIsRemoveMode(!isRemoveMode)}
                     data-isenabled={
@@ -207,7 +210,7 @@ function Playlist() {
                 {extendedItems.length < 2 && (
                     <div className="playlist-nothinghere">
                         <p>
-                            ここに動画をドラッグ&ドロップしてプレイリストに追加...
+                            ここに動画をドラッグ&ドロップして再生キューに追加...
                         </p>
                     </div>
                 )}
