@@ -93,10 +93,11 @@ function Player(props: Props) {
     const isLoudnessEnabled =
         localStorage.playersettings.enableLoudnessData ?? true;
     const integratedLoudness =
-        (videoInfo?.data?.response.media.domand &&
-            videoInfo?.data.response.media.domand?.audios[0]
-                .loudnessCollection[0].value) ??
-        1;
+        (
+            videoInfo?.data?.response.media.domand && videoInfo?.data.response.media.domand?.audios.length > 0 &&
+            videoInfo?.data.response.media.domand.audios[0].loudnessCollection.length > 0 &&
+            videoInfo?.data.response.media.domand.audios[0].loudnessCollection[0].value
+        ) || 1;
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1;
     const { effectsState, setEffectsState, frequencies, handleEffectsChange } =
         useAudioEffects(

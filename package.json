@@ -14,7 +14,8 @@
         "zip": "wxt zip",
         "zip:firefox": "wxt zip -b firefox",
         "compile": "tsc --noEmit",
-        "postinstall": "wxt prepare"
+        "postinstall": "wxt prepare",
+        "e2e": "playwright test"
     },
     "dependencies": {
         "@dnd-kit/core": "6.3.1",
@@ -41,12 +42,14 @@
         "virtua": "^0.41.5"
     },
     "devDependencies": {
+        "@playwright/test": "^1.53.1",
         "@types/chrome": "^0.0.326",
         "@types/jquery": "^3.5.31",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
         "@types/react-transition-group": "^4.4.11",
         "@wxt-dev/module-react": "^1.1.1",
+        "playwright": "^1.53.1",
         "typescript": "^5.8.3",
         "wxt": "^0.20.7"
     },
