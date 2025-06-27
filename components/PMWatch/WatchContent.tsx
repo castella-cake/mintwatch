@@ -98,6 +98,7 @@ export function WatchContent(_props: Props) {
 
     const isContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
     const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false;
+
     const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
         {layoutType === watchLayoutType.shinjuku ?
             <div className="watch-container-rightaction-hjleft">
@@ -105,7 +106,7 @@ export function WatchContent(_props: Props) {
             </div> : actionsElem
         }
         <Stacker items={[
-            { title: "コメントリスト", content: commentListElem },
+            { title: (layoutType === watchLayoutType.Stacked ? "コメント" : "コメントリスト"), content: commentListElem },
             { title: "動画概要", content: infoElem, disabled: (layoutType !== watchLayoutType.Stacked) },
             { title: "再生リスト", content: playListElem, icon: <>
                 {isContinuousPlay && <IconArrowBigRightLine/>}

@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - レンダーが稀に失敗する問題に対処しました [#18](https://github.com/castella-cake/mintwatch/issues/18)
 - コメント入力欄などへフォーカスされている場合にプレイヤーコントローラーが隠されないようになりました
 - 残っていたデバッグログを削除しました
+- Stacked レイアウトでコメントリストのタイトルが短縮されるようになりました
 
 ## 0.7.0 - 2025/05/04
 
