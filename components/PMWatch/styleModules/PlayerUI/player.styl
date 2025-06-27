@@ -219,8 +219,11 @@
         }
     }
 
-    // フルスクリーンでダイナミック表示時にカーソルが動いている場合、もしくはホバーされている場合に不透明
-    .player-container[data-is-cursor-stopped="false"][data-is-dynamic-controller="true"] .player-bottom-container, [data-is-dynamic-controller="true"] .player-bottom-container:hover {
+    // フルスクリーンでダイナミック表示時にカーソルが動いている場合、もしくはホバーされている場合、もしくはコメントリストなどにフォーカスされている場合に不透明
+    .player-container[data-is-cursor-stopped="false"][data-is-dynamic-controller="true"] .player-bottom-container, 
+    .player-container[data-is-dynamic-controller="true"] .player-bottom-container:hover,
+    .player-container[data-is-dynamic-controller="true"] .player-bottom-container:has(input:focus),
+    .player-container[data-is-dynamic-controller="true"] .player-bottom-container:has(textarea:focus) {
         opacity: 1 !important;
     }
 }
