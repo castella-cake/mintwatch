@@ -80,6 +80,13 @@ export const playerSettings: PlayerSettingList = {
                 name: "レジューム再生",
                 hint: "プレミアム会員資格が必要です。"
             },
+            rewindTime: {
+                type: "select",
+                defaultValue: "10",
+                options: ["5", "10", "15", "30"],
+                texts: ["5秒", "10秒", "15秒", "30秒"],
+                name: "スキップボタンのシーク時間",
+            },
             enableWheelGesture: {
                 type: "checkbox",
                 defaultValue: true,

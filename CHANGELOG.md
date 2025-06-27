@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - フッターとRe:将棋盤にPAGE TOPボタンを追加しました [#21](https://github.com/castella-cake/mintwatch/issues/21)
 - 共有アクションで動画へのリンクをコピーできるようになりました
 - Turnstileによる認証が要求された場合にエラーメッセージを表示するようにしました ([#24](https://github.com/castella-cake/mintwatch/issues/24)の緩和)
+- スキップ時間を5s,10s,15s,30sで指定できるようになりました
 
 ### Changed
 - Tanstack Queryを使用したデータフェッチにほとんど移行しました [#14](https://github.com/castella-cake/mintwatch/issues/14)

@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
-import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindForward10, IconSettings, IconSettingsFilled, IconVolume, IconVolume3 } from "@tabler/icons-react";
+import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindBackward15, IconRewindBackward30, IconRewindBackward5, IconRewindForward10, IconRewindForward15, IconRewindForward30, IconRewindForward5, IconSettings, IconSettingsFilled, IconVolume, IconVolume3 } from "@tabler/icons-react";
 import type { Dispatch, JSX, ReactNode, RefObject, SetStateAction } from "react";
 import Hls from "hls.js";
 import type { effectsState } from "@/hooks/eqHooks";
@@ -248,12 +248,14 @@ function PlayerController(props: Props) {
     }, [video, isIndexControl])
 
     const onSkipSecondBack = useCallback(() => {
-        onTimeControl("add", -10)
-    }, [onTimeControl])
+        const rewindTime = localStorage.playersettings.rewindTime ?? 10
+        onTimeControl("add", Number(rewindTime) * -1)
+    }, [onTimeControl, localStorage.playersettings.rewindTime])
 
     const onSkipSecondForward = useCallback(() => {
-        onTimeControl("add", 10)
-    }, [onTimeControl])
+        const rewindTime = localStorage.playersettings.rewindTime ?? 10
+        onTimeControl("add", Number(rewindTime) * 1)
+    }, [onTimeControl, localStorage.playersettings.rewindTime])
 
     const onMuteToggle = useCallback(() => {
         setVolume(0, true)
@@ -310,8 +312,18 @@ function PlayerController(props: Props) {
     const skipBackElem = <PlayerControllerButton key="control-skipback" className="playercontroller-skipback" onClick={onSkipBack} title="開始地点にシーク">{ isIndexControl[0] ? <IconPlayerSkipBackFilled/> : <IconPlayerSkipBack/>}</PlayerControllerButton>
     const skipForwardElem = <PlayerControllerButton key="control-skipforward" className="playercontroller-skipforward" onClick={onSkipForward} title="終了地点にシーク">{ isIndexControl[1] ? <IconPlayerSkipForwardFilled/> : <IconPlayerSkipForward/>}</PlayerControllerButton>
 
-    const backwardElem = <PlayerControllerButton key="control-backward10s" className="playercontroller-backward10s" onClick={onSkipSecondBack} title="-10秒シーク"><IconRewindBackward10/></PlayerControllerButton>
-    const forwardElem = <PlayerControllerButton key="control-forward10s" className="playercontroller-forward10s" onClick={onSkipSecondForward} title="10秒シーク"><IconRewindForward10/></PlayerControllerButton>
+    const backwardElem = <PlayerControllerButton key="control-backward" className="playercontroller-backward" onClick={onSkipSecondBack} title={`${(localStorage.playersettings.rewindTime ?? 10) * -1}秒シーク`}>
+        {(localStorage.playersettings.rewindTime === "10" || typeof localStorage.playersettings.rewindTime !== "string") && <IconRewindBackward10/>}
+        {localStorage.playersettings.rewindTime === "15" && <IconRewindBackward15/>}
+        {localStorage.playersettings.rewindTime === "30" && <IconRewindBackward30/>}
+        {localStorage.playersettings.rewindTime === "5" && <IconRewindBackward5/>}
+    </PlayerControllerButton>
+    const forwardElem = <PlayerControllerButton key="control-forward" className="playercontroller-forward" onClick={onSkipSecondForward} title={`${(localStorage.playersettings.rewindTime ?? 10) * 1}秒シーク`}>
+        {(localStorage.playersettings.rewindTime === "10" || typeof localStorage.playersettings.rewindTime !== "string") && <IconRewindForward10/>}
+        {localStorage.playersettings.rewindTime === "15" && <IconRewindForward15/>}
+        {localStorage.playersettings.rewindTime === "30" && <IconRewindForward30/>}
+        {localStorage.playersettings.rewindTime === "5" && <IconRewindForward5/>}
+    </PlayerControllerButton>
 
     const togglePauseElem = <PlayerControllerButton key="control-togglepause" className="playercontroller-togglepause" onClick={toggleStopState} title={ isIconPlay ? "再生" : "一時停止" }>{ isIconPlay ? <IconPlayerPlayFilled/> : <IconPlayerPauseFilled/> }</PlayerControllerButton>
 
