@@ -62,14 +62,16 @@ export function CommentRender(props: {
         // Firefox は currentTime が 48ms 刻みでしか更新されていない！！！
         // このため、前のanimationFrameと同じcurrentTimeが来たら、その時の Performance.now() との差分を比較して加えることで、期待通りのフレームを描画する
         // これをやらないとどう頑張っても 20.833333333333332 fps にしかならない！！！！！！
-        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering) {
+        
+        // 以前と同じcurrentTimeを持っていない場合、またはそもそも補完処理が無効の場合、プレビュー中の場合、一時停止中の場合は補完しない
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering || previewCommentItem !== null || videoRef.current.paused) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
-        } else if (!videoRef.current.paused){
+        } else {
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
         }
         if (fpsRef.current == -1) animationFrameIdRef.current = requestAnimationFrame(drawWithAnimationFrame)
-    }, [fpsRef.current, videoRef.current, niconicommentsRef.current, enableInterpolateCommentRendering])
+    }, [fpsRef.current, videoRef.current, niconicommentsRef.current, enableInterpolateCommentRendering, previewCommentItem])
 
     useEffect(() => {
         if (
@@ -115,10 +117,10 @@ export function CommentRender(props: {
     useInterval(() => {
         if (!videoRef.current || !isCommentShown || !niconicommentsRef.current) return
         const thisPerformance = performance.now()
-        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering) {
+        if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering || previewCommentItem !== null || videoRef.current.paused) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
-        } else if (!videoRef.current.paused){
+        } else {
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
         }
     }, Math.floor(1000 / commentRenderFps))
