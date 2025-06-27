@@ -10,7 +10,7 @@ test('Modal open test', async ({ page, context, mockApi }) => {
 
     await page.getByRole('button', { name: '閉じる' }).click();
 
-    await page.getByTitle('マイリスト').click();
+    await page.locator('#pmw-videoactions').getByRole('button', { name: 'マイリスト' }).click();
     
     await expect(page.locator('#pmw-mylists')).toContainText('視聴中の動画をマイリストに追加For testing purpose only を追加します');
     await expect(page.locator('#pmw-mylists')).toContainText('TestMylist 0');
