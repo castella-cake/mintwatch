@@ -14,6 +14,7 @@ import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts
 import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPlaylist } from "@tabler/icons-react"
+import { useVideoInfoContext } from "../Global/Contexts/VideoDataProvider"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -41,6 +42,7 @@ export function WatchContent(_props: Props) {
         setIsFullscreenUi
     } = _props
     const { localStorage } = useStorageContext()
+    const { videoInfo } = useVideoInfoContext();
 
     useEffect(() => {
         document.dispatchEvent(
@@ -99,6 +101,8 @@ export function WatchContent(_props: Props) {
     const isContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
     const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false;
 
+    const shouldLyricTabGrayOut = !(videoInfo && videoInfo.data.response.video && videoInfo.data.response.video.hasLyrics)
+
     const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
         {layoutType === watchLayoutType.shinjuku ?
             <div className="watch-container-rightaction-hjleft">
@@ -106,13 +110,30 @@ export function WatchContent(_props: Props) {
             </div> : actionsElem
         }
         <Stacker items={[
-            { title: (layoutType === watchLayoutType.Stacked ? "コメント" : "コメントリスト"), content: commentListElem },
-            { title: "動画概要", content: infoElem, disabled: (layoutType !== watchLayoutType.Stacked) },
-            { title: "再生リスト", content: playListElem, icon: <>
-                {isContinuousPlay && <IconArrowBigRightLine/>}
-                {isShufflePlay && <IconArrowsShuffle/>}
-            </> },
-            { title: "歌詞", icon: <IconPlaylist/>, content: lyricsElem, isIconButton: true }
+            { 
+                title: (layoutType === watchLayoutType.Stacked ? "コメント" : "コメントリスト"),
+                content: commentListElem
+            },
+            {
+                title: "動画概要",
+                content: infoElem,
+                hidden: (layoutType !== watchLayoutType.Stacked)
+            },
+            {
+                title: "再生リスト",
+                content: playListElem,
+                icon: <>
+                    {isContinuousPlay && <IconArrowBigRightLine/>}
+                    {isShufflePlay && <IconArrowsShuffle/>}
+                </>
+            },
+            {
+                title: (shouldLyricTabGrayOut ? "歌詞が登録されていません" : "歌詞"),
+                icon: <IconPlaylist/>,
+                content: lyricsElem,
+                isIconButton: true,
+                disabled: shouldLyricTabGrayOut
+            }
         ]} />
     </div>
 
