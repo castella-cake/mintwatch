@@ -7,6 +7,7 @@ import { MintConfig } from "../Global/MintConfig";
 import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
 import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
 import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
+import Alert from "../Global/Alert";
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -96,5 +97,6 @@ export default function RouterUI() {
         <Match targetPathname="/ranking">
             <ShogiBody/>
         </Match>
+        <Alert/>
     </div>
 }
