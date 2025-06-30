@@ -63,6 +63,7 @@
     transition: var(--transition-normal);
     min-width: 8em;
     font-weight: bold;
+    line-height: 1rem;
     &:hover {
         background: var(--hover1);
     }
@@ -88,7 +89,9 @@
         --zmove: -10cm;
     }
     &[data-animation="entering"] {
-        perspective: 100cm;
+        > div {
+            perspective: 100cm;
+        }
         transition: opacity 0.1s ease;
         .alert-container {
             transition: transform 0.2s ease, filter 0.3s ease;
