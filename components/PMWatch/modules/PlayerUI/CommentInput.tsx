@@ -1,10 +1,11 @@
-import { IconSend2 } from "@tabler/icons-react";
+import { IconCircleX, IconSend2 } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 import type { ChangeEvent, Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData";
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData";
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData";
 import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider";
+import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider";
 
 
 
@@ -20,6 +21,7 @@ type Props = {
 }
 function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem}: Props) {
     const { localStorage } = useStorageContext()
+    const { showAlert } = useSetAlertContext()
     const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
 
@@ -124,11 +126,19 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
                 if (commentInputRef.current) commentInputRef.current.value = ""
                 setDummyTextAreaContent("")
             } else {
-                alert(`コメントの投稿に失敗しました: ${commentPostResponse.meta.status}`)
+                showAlert({
+                    title: "コメントの投稿に失敗しました",
+                    body: `サーバーがエラーを返しました: ${commentPostResponse.meta.status}`,
+                    icon: <IconCircleX/>
+                })
             }
         }).catch((error) => {
             console.error(error)
-            alert(`コメントの投稿に失敗しました: ${error}`)
+            showAlert({
+                title: "コメントの投稿に失敗しました",
+                body: `発生したエラー: ${error}`,
+                icon: <IconCircleX/>
+            })
         })
     }
 

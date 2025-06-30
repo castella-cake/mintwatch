@@ -1,6 +1,7 @@
 import { Tag } from "@/types/VideoData";
-import { IconCheck, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react";
+import { IconAlertTriangle, IconCheck, IconCircleX, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react";
 import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext";
+import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider";
 
 type compatibleTag = {
     name: string;
@@ -23,6 +24,7 @@ function tagLengthCounter(tagText: string) {
 
 export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
     const { smId } = useSmIdContext()
+    const { showAlert } = useSetAlertContext()
 
     const [tags, setTags] = useState<compatibleTag[]>(initialTagData.items);
 
@@ -61,7 +63,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             setIsEditable(false)
             setIsEditMode(false)
             setIsLockable(false)
-            alert("動画を再生していないため、動画のタグを編集できません。")
+            showAlert({ title: "動画を再生してください", body: "動画が再生されていないため、タグを登録できません。", icon: <IconCircleX/> })
             return
         }
         const response: TagsApiRootObject = await getTagsApi(smId)
@@ -75,7 +77,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             setIsEditable(false)
             setIsEditMode(false)
             setIsLockable(false)
-            alert("動画のタグを編集できません。これは、視聴時点では動画タグを編集可能であったが、その後に編集不可に変更された場合に発生します。")
+            showAlert({ title: "タグを編集できません", body: "編集を開始できません。\nこれは、視聴時点では動画タグを編集可能であったが、その後に編集不可に変更された場合に発生します。", icon: <IconCircleX/> })
         }
     }
 
@@ -90,13 +92,13 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             tags.length > 11
         ) return
         if (tagLengthCounter(tagInputRef.current.value) > 40) {
-            alert("タグは40文字以内で入力してください。(全角文字は2文字としてカウントされます)")
+            showAlert({ title: "タグを登録できません", body: "タグは40文字以内で入力してください。\n(全角文字は2文字としてカウントされます)", icon: <IconAlertTriangle/> })
         } else if (tags.some(elem => tagInputRef.current && elem.name === tagInputRef.current.value)) {
-            alert("このタグは既に登録されています。")
+            showAlert({ title: "タグを登録できません", body: "このタグは既に登録されています。", icon: <IconAlertTriangle/> })
         } else {
             const tagName = tagInputRef.current.value
             const response: TagsApiRootObject = await tagsEditApi(smId, tagName, "POST")
-            if (response.meta.status === 400 && response.meta.errorCode === "TAG_RESERVED") alert("400: 予約済みのタグは追加できません。")
+            if (response.meta.status === 400 && response.meta.errorCode === "TAG_RESERVED") showAlert({ title: "タグを登録できません", body: "400: 予約済みのタグは登録できません。", icon: <IconCircleX/> })
             if (response.meta.status !== 200) return
             setTags(response.data.tags)
         }
