@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.9.0 - 2025/07
 
+### Added
+- アラート表示が自作のもっとリッチな表示に変わりました [#32](https://github.com/castella-cake/mintwatch/issues/32)
+- マイリストへの追加成功時にアラートが表示されるようになりました
+
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
+
+### Fixed
+- コメントリストのオートスクロールが常に一個前の行へ追従する問題を修正しました
 
 ## 0.8.0 - 2025/06/27
 
