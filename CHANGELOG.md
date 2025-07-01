@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
 
 ### Fixed
-- コメントリストのオートスクロールが常に一個前の行へ追従する問題を修正しました
+- コメントリストのオートスクロールを修正しました
 
 ## 0.8.0 - 2025/06/27
 

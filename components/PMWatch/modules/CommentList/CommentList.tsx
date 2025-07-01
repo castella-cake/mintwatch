@@ -95,10 +95,10 @@ const Comments = ({
             .filter(c => c.vposMs <= currentTime * 1000) // 未来のキーを対象にしない
             .reduce((prev: null | Comment, current) => {
                 if (prev === null) return current
-                return Math.abs(current.vposMs - currentTime * 1000) < Math.abs(prev.vposMs - currentTime * 1000) ? current : prev;
+                return Math.abs(current.vposMs - currentTime * 1000) <= Math.abs(prev.vposMs - currentTime * 1000) ? current : prev;
             }, null);
         if (!nearestComment) return;
-        vlistRef.current.scrollToIndex(comments.findIndex(c => c.id === nearestComment.id) + 1, { align: "end", smooth: doSmoothScroll })
+        vlistRef.current.scrollToIndex(comments.findIndex(c => c.id === nearestComment.id), { align: "end", smooth: doSmoothScroll })
     }, [doAutoScroll])
 
     useEffect(() => {
