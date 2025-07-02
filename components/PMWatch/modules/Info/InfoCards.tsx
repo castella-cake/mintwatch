@@ -53,10 +53,8 @@ export function Card(props: CardProps) {
             <img src={thumbnailUrl} alt={`${title} のサムネイル`}/>
             <span className="info-card-durationtext">{thumbText}</span>
         </div>}
-        <div className="info-card-text">
-            { children && <div className="info-card-title">{children}</div> }
-            { ownerName && <div className="info-card-owner">{ownerName}</div> }
-        </div>
+        { children && <div className="info-card-title">{children}</div> }
+        { ownerName && <div className="info-card-owner">{ownerName}</div> }
     </div>
 }
 

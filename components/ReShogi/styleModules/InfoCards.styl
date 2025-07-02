@@ -39,7 +39,7 @@
             margin: 0 auto;
         }
 
-        .info-card-text {
+        .info-card-title, .info-card-owner {
             align-self: start;
             font-size: 0.9rem;
             max-width: 100%;
@@ -60,6 +60,7 @@
             display: inline-block;
             vertical-align: bottom;
             margin-top: 0.5em;
+            font-size: 0.8rem;
         }
     }
 
@@ -99,7 +100,7 @@
         }
     }
 
-    .info-card-text {
+    .info-card-title, .info-card-owner {
         color: var(--textcolor1);
         height: fit-content;
         align-self: center;
@@ -110,9 +111,7 @@
             width: 1em;
             margin-right: 0.25em;
         }
-        > div {
-            white-space: normal;
-        }
+        white-space: normal;
     }
     .info-card-nowplaying {
         background: var(--bgcolor3);
@@ -124,8 +123,6 @@
     }
 
     .info-card-owner {
-        font-size: 0.9em;
         opacity: 0.8;
     }
-   
 }

@@ -1,13 +1,15 @@
 div.info-card {
-    display: flex;
+    display: grid;
+    grid-template-columns: max-content max-content 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
     white-space: nowrap;
     height: 4em;
     padding: 6px;
-    gap: 0.5em;
+    gap: 0px 10px;
     text-decoration: none;
     overflow: hidden;
     border-radius: var(--radius);
-    position: relative;
 }
 
 a.info-card-link {
@@ -18,6 +20,10 @@ a.info-card-link {
 .info-card-thumbnail {
     position: relative;
     aspect-ratio: 16 / 9;
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    overflow: hidden;
+    align-self: stretch;
     img {
         width: 100%;
         height: 100%;
@@ -44,7 +50,7 @@ a.info-card-link {
     }
 }
 
-.info-card-text {
+.info-card-title, .info-card-owner {
     color: var(--textcolor1);
     height: fit-content;
     align-self: center;
@@ -53,15 +59,14 @@ a.info-card-link {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    > div {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        svg {
-            height: 1em;
-            width: 1em;
-            margin-right: 0.25em;
-        }
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 1.25rem;
+    svg {
+        height: 1em;
+        width: 1em;
+        margin-right: 0.25em;
     }
 }
 .info-card[data-nowplaying="true"] {
@@ -82,9 +87,27 @@ a.info-card-link {
     color: var(--linktext2);
 }
 
+.info-card-title {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    display: block;
+    align-self: end;
+
+    width: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    white-space: normal;
+    align-self: end;
+}
+
 .info-card-owner {
     font-size: 0.8rem;
     opacity: 0.8;
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    align-self: start;
 }
 
 .info-card-owner, .info-card-thumbnail {
@@ -117,11 +140,14 @@ a.info-card-link {
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin-bottom: 0.5em;
+    height: 4.5rem;
+    gap: 6px 10px;
 }
 
 .watch-container[data-use-card-recommend="true"] .watchnext-container {
     .info-card {
         --info-card-width: 11em;
+        display: flex;
         flex-direction: column;
         height: auto;
         white-space: wrap;
@@ -146,7 +172,7 @@ a.info-card-link {
             margin: 0 auto;
         }
 
-        .info-card-text {
+        .info-card-title, .info-card-owner {
             align-self: start;
             max-width: 100%;
             gap: 0.5rem;
