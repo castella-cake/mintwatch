@@ -10,6 +10,7 @@ div.info-card {
     text-decoration: none;
     overflow: hidden;
     border-radius: var(--radius);
+    position: relative;
 }
 
 a.info-card-link {
@@ -63,6 +64,7 @@ a.info-card-link {
     white-space: nowrap;
     overflow: hidden;
     line-height: 1.25rem;
+    font-size: 0.9rem;
     svg {
         height: 1em;
         width: 1em;
@@ -140,8 +142,12 @@ a.info-card-link {
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin-bottom: 0.5em;
-    height: 4.5rem;
+    height: 4.75rem;
     gap: 6px 10px;
+}
+
+.watchnext-container .info-card .info-card-title {
+    font-size: 0.95rem;
 }
 
 .watch-container[data-use-card-recommend="true"] .watchnext-container {
@@ -205,6 +211,7 @@ a.info-card-link {
         border: var(--border);
         box-shadow: 0 0 8px #000;
         opacity: 0.8;
+        display: flex;
         > :not(.info-card-thumbnail) {
             display: none;
         }
