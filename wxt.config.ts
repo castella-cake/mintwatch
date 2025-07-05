@@ -28,6 +28,7 @@ export default defineConfig({
                 "style/*",
                 "watch_injector.js",
                 "load_turnstile.js",
+                "content-scripts/sanitize.css",
                 "*://*.nicovideo.jp/*",
             ],
             "matches": [

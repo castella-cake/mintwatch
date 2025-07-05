@@ -138,6 +138,11 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         })
     }
 
+    const sanitizeStyleLink = document.createElement("link")
+    sanitizeStyleLink.rel = "stylesheet"
+    sanitizeStyleLink.href = browser.runtime.getURL("/content-scripts/sanitize.css" as any)
+    document.head.appendChild(sanitizeStyleLink)
+
 
     const ui = createIntegratedUi(ctx, {
         position: "inline",
