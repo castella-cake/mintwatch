@@ -17,7 +17,7 @@ function SortableCustomItem({ id: itemKey, isEditMode }: { id: keyof typeof Navi
         ...( isDragging && {pointerEvents: ("none" as React.CSSProperties["pointerEvents"]), zIndex: 1000})
     };
     const item = NavigationObject[itemKey]
-    return <a style={style} ref={setNodeRef} {...listeners} {...attributes} className="navbar-custom-area-item" href={item.href} title={item.label}>
+    return <a style={style} ref={setNodeRef} {...listeners} {...attributes} aria-disabled={undefined} className="navbar-custom-area-item" href={item.href} title={item.label}>
         {item.icon ?? <IconQuestionMark/>}
     </a>
 }

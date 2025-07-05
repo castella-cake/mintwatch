@@ -72,8 +72,6 @@ html:not([class*="PMDMP-"]), html.PMDMP-light, html.PMDMP-nordlight {
     --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg)
 }
 
-@import './styleModules/**/*.styl'
-
 body {
     --radius: 6px;
     --radius-mini: 4px;
@@ -124,4 +122,8 @@ a {
 }
 .global-bold {
     font-weight: bold;
+}
+
+button > svg {
+    box-sizing: content-box;
 }

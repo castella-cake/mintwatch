@@ -4,7 +4,7 @@ div.info-card {
     grid-template-rows: auto auto;
     align-items: center;
     white-space: nowrap;
-    height: 4em;
+    --thumb-height: 4rem;
     padding: 6px;
     gap: 0px 10px;
     text-decoration: none;
@@ -25,6 +25,7 @@ a.info-card-link {
     grid-row: 1 / 3;
     overflow: hidden;
     align-self: stretch;
+    height: var(--thumb-height);
     img {
         width: 100%;
         height: 100%;
@@ -85,7 +86,7 @@ a.info-card-link {
 }
 
 .info-card-playingtext {
-    vertical-align: middle;
+    vertical-align: baseline;
     color: var(--linktext2);
 }
 
@@ -142,7 +143,7 @@ a.info-card-link {
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin-bottom: 0.5em;
-    height: 4.75rem;
+    --thumb-height: 5rem;
     gap: 6px 10px;
 }
 
@@ -150,59 +151,73 @@ a.info-card-link {
     font-size: 0.95rem;
 }
 
-.watch-container[data-use-card-recommend="true"] .watchnext-container {
-    .info-card {
-        --info-card-width: 11em;
-        display: flex;
-        flex-direction: column;
+.watch-container[data-use-card-recommend="true"] .watchnext-container .info-card, .shogi-ranking-lane-videolist-item .info-card {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    white-space: wrap;
+    padding: 8px;
+    gap: 10px;
+    margin: 0;
+    /* height: 10em; */
+
+    .info-card-thumbnail {
+        aspect-ratio: 16 / 9;
+        width: 100%;
         height: auto;
-        white-space: wrap;
-        padding: 6px;
-        margin: 0;
-        /* height: 10em; */
+    }
 
-        .info-card-thumbnail {
-            aspect-ratio: 16 / 9;
-            width: 100%;
-        }
+    .info-card-thumbnail img {
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: 0 auto;
+    }
 
-        .info-card-thumbnail img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: 0 auto;
-        }
-
-        .info-card-title, .info-card-owner {
-            align-self: start;
-            max-width: 100%;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-        .info-card-title {
-            --max-line: 2
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: var(--max-line);
-            height: calc(1.5em * var(--max-line));
-            white-space: normal;
-            overflow: hidden;
-            display: -webkit-box;
-        }
-        .info-card-owner {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            width: 100% !important;
-            display: inline-block;
-        }
+    .info-card-title, .info-card-owner {
+        align-self: start;
+        max-width: 100%;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+    }
+    .info-card-title {
+        --max-line: 2
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--max-line);
+        height: calc(1.5em * var(--max-line));
+        white-space: normal;
+        overflow: hidden;
+        display: -webkit-box;
+    }
+    .info-card-owner {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100% !important;
+        display: inline-block;
+        font-size: 0.8rem;
     }
 }
 
+.shogi-ranking-lane-videolist-item .info-card {
+    width: 15rem;
+    gap: 8px;
+    background: var(--bgcolor2);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+    padding: 10px;
+    .info-card-title {
+        font-size: 0.9rem;
+    }
+    .info-card-owner {
+        font-size: 0.8rem;
+    }
+}
 .card-drag-overlay {
     .info-card {
         width: min-content;
