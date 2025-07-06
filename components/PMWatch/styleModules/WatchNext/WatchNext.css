@@ -2,13 +2,12 @@
     position: relative;
     overflow-x: hidden;
 }
+
 .watchnext-container {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
 }
+
 .watchnext-container .watchnext-content {
     overflow-y: auto;
 }
@@ -17,6 +16,7 @@
     .watchnext-container {
         position: static;
     }
+
     .watchnext-content {
         display: grid;
         grid-template-rows: repeat(2, 1fr);
@@ -25,8 +25,7 @@
         width: 100%;
         white-space: nowrap;
         gap: 8px;
-        overflow-x: auto;
-        overflow-y: visible;
+        overflow: auto visible;
         padding: 0;
     }
 }
@@ -38,6 +37,7 @@
     overflow-x: auto;
     white-space: nowrap;
 }
+
 .watchnext-selector button {
     border-radius: var(--radius);
     padding: 4px 8px;
@@ -46,12 +46,15 @@
     border: var(--border);
     transition: var(--transition-normal);
     cursor: pointer;
+
     &:hover {
         background: var(--hover1);
     }
+
     &:active {
         background: var(--bgcolor1);
     }
+
     &[data-active="true"] {
         background: var(--textcolor1);
         color: var(--bgcolor1);

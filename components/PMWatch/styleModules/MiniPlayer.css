@@ -9,11 +9,11 @@
     .watch-container {
         --page-padding: 0%;
     }
+
     .watch-container-grid {
-        grid-template-areas: "vid";
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
+        grid-template: "vid" 1fr / 1fr;
     }
+
     .watch-container-grid > :not(.player-container) {
         display: none;
     }
@@ -39,6 +39,7 @@
         backdrop-filter: blur(4px);
         box-shadow: 0 0 8px #000a;
     }
+
     .vefx-container, .playersettings-container {
         display: none;
     }

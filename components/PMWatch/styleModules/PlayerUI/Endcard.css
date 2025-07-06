@@ -1,13 +1,11 @@
 .endcard-container {
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: #000a;
     color: #fff;    
     z-index: 1;
     cursor: auto;
+
     --textcolor1: #fff;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
@@ -20,11 +18,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     .endcard-supporters {
         font-size: 1.5em;
         font-weight: bold;
         -webkit-text-stroke: 2px #fff5;
         margin: auto;
+
         .endcard-title {
             font-size: 1.5em;
         }
@@ -53,11 +53,13 @@
         border: 1px solid var(--textcolor3);
         border-left-width: 4px;
         border-radius: var(--radius);
+
         img {
             height: 4em;
             aspect-ratio: 16 / 9;
             object-fit: contain;
         }
+
         .endcard-currentvideo-text span {
             opacity: 0.8;
         }
@@ -68,15 +70,18 @@
         flex-direction: column;
         gap: 0.5em;
         font-size: 0.9em;
+
         .info-card {
             border: 1px solid var(--textcolor3);
             background: var(--bgcolor2);
             backdrop-filter: blur(4px);
             padding: 8px;
         }
+
         .info-card-title {
             -webkit-line-clamp: 1;
         }
+
         .info-card-playingtext {
             display: block;
             font-size: 0.8rem;

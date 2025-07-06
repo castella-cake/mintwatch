@@ -1,9 +1,6 @@
 .notifications-container {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
     padding: 8px;
     overflow-y: auto;
 }
@@ -17,8 +14,6 @@
     color: var(--textcolor1);
     text-decoration: none;
     border-bottom: 1px solid var(--accent1);
-    display: block;
-    padding: 8px;
     display: grid;
     grid-template-areas: "icon title" "icon content" "icon date";
     grid-template-columns: 3em 1fr;
@@ -32,7 +27,7 @@
     position: relative;
 
     // 新着通知
-    &[data-isread="false"]:before {
+    &[data-isread="false"]::before {
         content: "";
         width: 8px;
         height: 8px;
@@ -68,11 +63,9 @@
     align-items: center;
     gap: 8px;
     font-size: 0.8rem;
-}
-
-.notification-item-content {
     margin: 4px 0;
 }
+
 .notification-item-content-icon {
     height: 2rem;
     aspect-ratio: 16 / 9;

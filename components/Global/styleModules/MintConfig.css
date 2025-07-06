@@ -8,9 +8,7 @@
     --bg-hover: #555a;
     --fg: #fafafa;
     --fg-dark: #aaa;
-}
 
-.mintwatch-config {
     position: fixed;
     left: 0;
     top: 0;
@@ -36,6 +34,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         > button {
             background: transparent;
             color: #fff;
@@ -44,25 +43,30 @@
             cursor: pointer;
         }
     }
+
     .settings-area h1 {
         font-size: 1.25rem;
     }
+
     .settings-area:nth-child(2) h1 {
         display: none;
     }
+
     select {
         margin-left: 5px;
-        border: 0px solid #fff;
+        border: 0 solid #fff;
         border-radius: 2px;
         padding: 4px 6px;
         font-family: Lato, Meiryo, sans-serif;
         background: var(--bg);
         color: var(--fg);
+
         option {
             background: #252525;
             color: #fff;
         }
     }
+
     select:hover {
         background: var(--bg-hover);
     }
@@ -75,6 +79,7 @@
     .mintwatch-config-credit {
         opacity: 0.8;
         text-align: right;
+
         p {
             margin-bottom: 0;
         }
@@ -87,6 +92,7 @@
 	background: var(--bg);
 	border-radius: 4px;
 }
+
 .select-button {
 	background: var(--bg);
     color: var(--fg);
@@ -95,21 +101,25 @@
 	height: 24px;
 	font-family: unset;
 }
+
 .select-button + .select-button {
 	border-left: 1px solid var(--fg-dark);
-	border-bottom-left-radius: 0px;
-	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
 }
+
 .select-button:hover {
 	background: var(--bg-hover);
 }
+
 .select-button.select-button-current {
 	background: var(--primary);
 	font-weight: bold;
 }
+
 .select-button:not(:last-child) {
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .hint {
@@ -136,14 +146,15 @@
 .mintconfig-transition {
     &-enter, &-exit-active {
         --translateX: -110%;
-    }
-    &-enter-active, &-exit-active {
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    &-enter, &-exit-active {
+
         transform: translateX(var(--translateX));
         opacity: 0;
     }
+
+    &-enter-active, &-exit-active {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
     &-enter-done, &-enter-active {
         transform: translateX(0%);
         opacity: 1;

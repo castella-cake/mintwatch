@@ -12,15 +12,16 @@
     margin: 4px;
     border-radius: 6px;
     overflow: hidden;
-    background: rgba(255,255,255,0.867);
+    background: rgb(255 255 255 / 86.7%);
     color: #000;
     border: 1px solid #555a;
-    box-shadow: 0px 0px 4px #000;
+    box-shadow: 0 0 4px #000;
     cursor: auto; // 動画の上で動いてない判定されてカーソルが見えなくならないように
     ::-webkit-scrollbar {
         background: transparent;
     }
 }
+
 .vefx-container-inner {
     padding: 8px;
     padding-right: 4px;
@@ -28,6 +29,7 @@
     backdrop-filter: blur(8px);
     overflow: auto;
 }
+
 .vefx-title {
     margin: 0 0.25rem;
     margin-bottom: 0.5rem;
@@ -46,47 +48,58 @@
     text-align: center;
     margin-bottom: 16px;
 }
+
 .vefx-effectdisplay[is-glowing="true"] {
-    box-shadow: 0px 0px 8px var(--bg);
+    box-shadow: 0 0 8px var(--bg);
 }
+
 .vefx-module {
     padding: 8px;
-    box-shadow: 0px 0px 4px #0005;
+    box-shadow: 0 0 4px #0005;
     border-radius: 4px;
     margin-bottom: 8px;
+
     > .vefx-slidercontainer {
         display: flex;
+
         input[type="range"] {
             flex: 1;
         }
+
         label {
             flex: 0.6
         }
     }
+
     > label {
         display: block;
     }
+
     .vefx-title {
         font-weight: bold;
         margin-bottom: 16px;
     }
+
     .vefx-name {
         margin-right: 0.5em;
     }
+
     .vefx-value, .vefx-echo-value {
         letter-spacing: 1px;
         font-size: 0.9em;
         opacity: 0.8;
     }
+
     input[type="checkbox"] {
         appearance: none;
         background: #000a;
         width: 4rem;
-        padding: 0px;
+        padding: 0;
         margin: 0;
         margin-right: 0.5rem;
         border-radius: 4px;
-        &:before {
+
+        &::before {
             content: "OFF";
             line-height: 1.5rem;
             height: 1.5rem;
@@ -98,19 +111,20 @@
             display: inline-block;
             text-align: center;
             letter-spacing: 1px;
-            box-shadow: 0px 0px 4px #000a;
+            box-shadow: 0 0 4px #000a;
             border-radius: 4px;
             transition: margin-left 0.2s ease;
             vertical-align: middle;
         }
-        &:checked:before {
+
+        &:checked::before {
             content: "ON";
             font-size: 0.8rem;
             color: #fff;
             padding: 0 0.5rem;
             background: #0aea;
             margin-left: 1.5rem;
-            letter-spacing: 0px;
+            letter-spacing: 0;
             font-weight: bold;
         }
     }

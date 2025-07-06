@@ -14,20 +14,24 @@
         transform: scale(1);
         transition: background 0.2s ease, transform 0.05s ease;
         cursor: pointer;
+
         &:not([aria-disabled="true"]) {
             &:hover {
                 background: var(--hover1);
             }
+
             &:active {
                 transform: scale(0.95);
                 background: var(--bgcolor1);
             }
         }
+
         &[aria-disabled="true"] {
-            opacity: 0.5
+            opacity: 0.5;
             cursor: not-allowed;
         }
     }
+
     .comment-timemachine-description {
         font-size: 0.8rem;
         opacity: 0.8;

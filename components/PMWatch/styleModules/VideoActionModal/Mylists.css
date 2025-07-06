@@ -12,7 +12,7 @@
 }
 
 .mylists-container {
-    //box-shadow: 0px 0px 10px #0005;
+    // box-shadow: 0px 0px 10px #0005;
     border-radius: var(--radius);
     padding: 16px;
     background: var(--bgcolor1);
@@ -35,13 +35,16 @@
         color: var(--textcolor1);
         text-align: left;
         line-height: 1.4rem;
+
         &:hover {
             background: var(--hover1);
         }
+
         .mylist-desc {
             opacity: 0.8;
             font-size: 0.8rem;
         }
+
         svg {
             height: 1em;
             width: 1.2em;

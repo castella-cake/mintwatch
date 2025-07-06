@@ -1,13 +1,11 @@
 .fullscreen .watch-container[data-is-bigview="true"] {
-    //animation: sidebarslideleft 0.25s ease forwards 1;
+    // animation: sidebarslideleft 0.25s ease forwards 1;
     --right-width: 25%;
     --component-bg: transparent;
+
     .watch-container-grid {
         position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        inset: 0;
         margin: 0;
         background: var(--bgcolor1);
         grid-template-areas: "vid act" "vid act";
@@ -16,26 +14,31 @@
         gap: 0;
         z-index: 105;
     }
+
     &[data-watch-type="shinjuku"] .watch-container-grid {
         grid-template-areas: "spl spl" "spl spl" !important;
         grid-template-rows: max-content 1fr;
     }
+
     .videoinfo-container, .video-actions, .stacker-container {
         transition: opacity 0.3s ease;
         opacity: 1 !important;
     }
+
     .watch-container-grid:has(.player-container[data-is-dynamic-controller="true"][data-is-cursor-stopped="true"]):has(.player-video-container:hover) {
         // フルスクリーンでダイナミック表示時にカーソルが動いていない
         .videoinfo-container, .video-actions {
             transition: opacity 3s linear;
             opacity: 0.2 !important;
         }
+
         .stacker-container {
             transition: opacity 3s linear;
             opacity: 0.5 !important;
         }
     }
-    .watch-container-grid > div:not(.player-container):not(.watch-container-rightaction):not(.shinjuku-player-container) {
+
+    .watch-container-grid > div:not(.player-container, .watch-container-rightaction, .shinjuku-player-container) {
         display: none !important;
     }
 
@@ -62,8 +65,10 @@
         background: var(--component-bg);
         border: none;
     }
+
     .stacker-content {
         border: none;
+
         --radius: 0;
     }
 
@@ -76,6 +81,7 @@
     from {
         --right-width: 0%
     }
+
     to {
         --right-width: 25%
     }

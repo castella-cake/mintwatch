@@ -7,12 +7,15 @@
     position: relative;
     margin: 0 auto;
     gap: 1rem;
+
     a {
         color: var(--textcolor1);
     }
+
     > .shogi-genre-stats-page-selector {
-        grid-area: page
+        grid-area: page;
     }
+
     .shogi-genre-item {
         position: relative;
         border-radius: var(--radius);
@@ -21,13 +24,22 @@
     }
 
     .shogi-genre-item::before {
-        right: 0rem;
-        text-align: right;
+        position: absolute;
+        content: attr(data-index);
+        display: block;
+        right: 0;
         bottom: 0;
+        font-size: 2rem;
+        font-style: italic;
+        font-weight: bold;
+        text-align: right;
+        margin-right: 1rem;
+        opacity: 0.8;
     }
 
     .shogi-genre-item .info-card {
         --thumb-height: 9rem;
+
         padding: 16px;
         gap: 8px 10px;
     }
@@ -42,19 +54,6 @@
         line-height: 1.5rem;
     }
 
-    .shogi-genre-item:before {
-        position: absolute;
-        content: attr(data-index);
-        display: block;
-        right: 0;
-        font-size: 2rem;
-        font-style: italic;
-        font-weight: bold;
-        text-align: right;
-        margin-right: 1rem;
-        opacity: 0.8;
-    }
-
     img.shogi-video-owner-icon {
         height: 2rem;
         border-radius: 1024px;
@@ -65,16 +64,15 @@
     .shogi-video-owner {
         text-decoration: none;
         pointer-events: auto;
-    }
-
-    .shogi-video-owner {
         display: block;
+
         /* margin-top: 1rem; */
         width: max-content;
         max-width: 100%;
         padding: 4px 8px 4px 4px;
         border-radius: var(--radius);
     }
+
     .shogi-video-owner:hover {
         background: var(--hover1);
     }
@@ -88,6 +86,7 @@
         font-size: 0.9rem;
         line-height: 2rem;
     }
+
     .shogi-genre-teiban-selector-container {
         display: flex;
         flex-wrap: wrap;
@@ -101,6 +100,7 @@
         padding: 6px 12px;
         font-size: 0.9rem;
         text-align: center;
+
         &[data-is-active="true"] {
             background: var(--textcolor1);
             color: var(--bgcolor1);
@@ -119,8 +119,10 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+
         h3 {
             margin: 0;
+
             svg {
                 vertical-align: middle;
             }
@@ -150,6 +152,7 @@
         margin-right: 8px;
         border: var(--border);
         border-radius: var(--radius);
+
         &[data-is-active="true"] {
             background: var(--textcolor1);
             color: var(--bgcolor1);
@@ -173,6 +176,7 @@
     .shogi-genre-this-title-subtitle {
         opacity: 0.8;
         font-size: 0.9rem;
+
         > * {
             vertical-align: middle;
         }
@@ -190,7 +194,8 @@
         display: block;
         margin-bottom: 8px;
         margin-right: 0;
-        &:before {
+
+        &::before {
             content: "Page "
         }
     }
@@ -219,6 +224,7 @@
         border-radius: var(--radius);
         display: block;
         font-size: 1rem;
+
         &[data-is-active="true"] {
             background: var(--textcolor1);
             color: var(--bgcolor1);

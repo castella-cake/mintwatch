@@ -15,15 +15,15 @@
         background: transparent;
         color: var(--textcolor1);
         border: none;
-        border-radius: var(--radius);
         transition: var(--transition-normal);
-        padding: 8px;
         cursor: pointer;
         padding: 8px;
         border-radius: 1024px;
+
         &:hover {
             background: var(--hover1);
         }
+
         svg {
             vertical-align: middle;
         }

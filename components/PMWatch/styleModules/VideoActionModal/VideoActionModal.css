@@ -1,9 +1,6 @@
 .videoaction-modal-wrapper {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
     padding: 0;
     background: #000a;
     z-index: 110;
@@ -15,7 +12,6 @@
 
 .videoaction-modal-container {
     background: var(--modal-background);
-    padding: 2%;
     border-radius: var(--radius);
     width: min(50em,100vw);
     height: max(70vh, 480px);
@@ -35,37 +31,41 @@
         --blur: 8px;
         --zmove: -10cm;
     }
+
     &-enter-active {
         perspective: 100cm;
         transition: opacity 0.1s ease;
+
         .videoaction-modal-container {
             transition: transform 0.2s ease, filter 0.3s ease;
         }
     }
+
     &-exit-active {
         transition: opacity 0.3s ease;
+        opacity: 0;
+
         .videoaction-modal-container {
             transition: transform 0.2s ease, filter 0.3s ease;
+            filter: blur(var(--blur));
+            transform: translate3d(0, 0, var(--zmove)) rotate3d(1, 0, 0, 0deg);
         }
     }
+
     &-enter {
         opacity: 0;
+
         .videoaction-modal-container {
-            transform: translate3d(0px, 0px, var(--zmove)) rotate3d(1, 0, 0, var(--rotatedeg));
+            transform: translate3d(0, 0, var(--zmove)) rotate3d(1, 0, 0, var(--rotatedeg));
         }
     }
-    &-exit-active {
-        opacity: 0;
-        .videoaction-modal-container {
-            filter: blur(var(--blur));
-            transform: translate3d(0px, 0px, var(--zmove)) rotate3d(1, 0, 0, 0deg);
-        }
-    }
+
     &-enter-done, &-enter-active {
         opacity: 1;
+
         .videoaction-modal-container {
-            filter: blur(0px);
-            transform: translate3d(0px, 0px, 0px) rotate3d(1, 0, 0, 0deg);
+            filter: blur(0);
+            transform: translate3d(0, 0, 0) rotate3d(1, 0, 0, 0deg);
         }
     }
 }
@@ -85,6 +85,7 @@ button.videoaction-modal-close {
     color: var(--textcolor1);
     cursor: pointer;
     border-radius: var(--radius);
+
     svg {
         vertical-align: middle;
     }
@@ -111,6 +112,7 @@ button.videoaction-modal-close:hover {
     margin-right: 8px;
     color: var(--textcolor1);
     line-height: 3em;
+
     &:hover {
         background: var(--hover1);
     }
@@ -129,14 +131,16 @@ button.videoaction-modal-close:hover {
 
 .videoaction-left:has(.videoaction-select:not(.videoaction-select-bottom)[is-active="true"]) .videoaction-select:not(.videoaction-select-bottom) {
     border-radius: var(--radius) 0 0 var(--radius);
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .videoaction-select-separator {
     margin: 0 8px 0 0;
+
     &.videoaction-select-separator-bottom {
         margin-top: auto;
     }
+
     font-size: 0.8rem;
     color: var(--textcolor2);
     border-bottom: var(--border);
@@ -151,6 +155,7 @@ button.videoaction-modal-close:hover {
     padding: 4px 0;
     line-height: 1.4rem;
     margin-bottom: 8px;
+
     .videoaction-actiontitle-subtitle {
         font-size: 0.8rem;
         opacity: 0.8;

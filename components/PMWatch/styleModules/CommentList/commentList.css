@@ -21,28 +21,33 @@
         height: 2.8em;
         
         padding: 0 1em;
-    }*/
+    } */
 }
 
 .commentlist-list-container {
     font-size: 0.9em;
     flex: 1;
     overflow: hidden;
+
     .commentlist-list-item {
         padding: 6px;
-        //border-bottom: 1px solid var(--accent1);
+
+        // border-bottom: 1px solid var(--accent1);
         display: flex;
         max-width: 100%;
-        //height: 1.6em;
+
+        // height: 1.6em;
         align-items: center;
         gap: 4px;
         background: var(--item-bg, transparent);
+
         .commentlist-list-item-body {
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .commentlist-list-item-vpos {
             color: var(--textcolor2);
             background: transparent;
@@ -50,19 +55,24 @@
             cursor: pointer;
             font-family: inherit;
         }
+
         .commentlist-list-item-vpos:hover {
             text-decoration: underline
         }
     }
+
     .commentlist-list-item[nicoru-count="1"] {
         --item-bg: var(--nicoru1)
     }
+
     .commentlist-list-item[nicoru-count="2"] {
         --item-bg: var(--nicoru2)
     }
+
     .commentlist-list-item[nicoru-count="3"] {
         --item-bg: var(--nicoru3)
     }
+
     .commentlist-list-item[nicoru-count="4"] {
         --item-bg: var(--nicoru4)
     }
@@ -72,9 +82,11 @@
         min-height: 1.6em;
         flex-wrap: wrap;
         box-shadow: 0 0 4px #000;
+
         .commentlist-list-item-body {
             white-space: normal;
         }
+
         .commentlist-list-item-stats, .commentlist-list-item-actions {
             flex: 100%;
             opacity: 0.8;
@@ -89,6 +101,7 @@
     color: var(--textcolor1);
     font-family: inherit;
     cursor: pointer;
+
     &:hover {
         text-decoration: underline;
     }
@@ -127,13 +140,13 @@
     &[data-nicotta="true"] .nicoru-icon {
         transform: rotate(0deg);
         opacity: 1;
-    }
-    &[data-nicotta="true"] .nicoru-icon {
         fill: #000;
     }
+
     &[data-nicotta="false"] .nicoru-icon circle {
         fill: transparent !important;
     }
+
     &[data-nicotta="false"] .nicoru-icon path {
         fill: var(--textcolor1);
     }
@@ -142,6 +155,7 @@
         color: var(--textcolor3);
     }
 }
+
 .commentlist-list-item-nicorubutton:not([aria-disabled="true"]):hover {
     background: var(--hover1);
     cursor: pointer;
@@ -166,6 +180,7 @@
     background: #000;
     color: #fff;
 }
+
 .commentlist-list-toggletabindex[data-isopen="false"]:not(:focus-visible) {
     opacity: 0;
     font-size: 0;
@@ -199,11 +214,13 @@
         height: auto;
         margin: 4px 8px;
         border-radius: var(--radius);
-        background: var(--item-bg, var(--bgcolor2))
+        background: var(--item-bg, var(--bgcolor2));
         padding: 10px;
     }
+
     .commentlist-list-item-open {
         grid-template-rows: repeat(5, max-content);
+
         .commentlist-list-item-stats {
             grid-column: 1 / 3;
         }

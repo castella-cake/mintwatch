@@ -1,16 +1,17 @@
 .headeraction-modal-transition {
     &-enter, &-exit-active {
         --translateX: 110%;
-    }
-    &-enter-active, &-exit-active {
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    &-enter, &-exit-active {
+
         transform: translateX(var(--translateX));
         opacity: 0;
     }
+
+    &-enter-active, &-exit-active {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
     &-enter-done, &-enter-active {
-        transform: translateX(0%)
+        transform: translateX(0%);
         opacity: 1;
     }
 }
@@ -46,6 +47,7 @@
     cursor: pointer;
     border-bottom: 1px solid var(--accent1);
     padding: 8px;
+    flex: 1;
 }
 
 .headeraction-select svg {
@@ -65,7 +67,6 @@
     border: 0;
     color: var(--textcolor1);
     cursor: pointer;
-    padding: 4px;
     margin-left: auto;
     border-radius: var(--radius);
     padding: 8px;
@@ -83,18 +84,15 @@
     vertical-align: middle;
 }
 
-.headeraction-select {
-    flex: 1;
-}
-
 .headeraction-quickmodal-wrapper {
     position: relative;
     z-index: 101;
     text-align: left;
+
     > div {
         left: inherit;
         bottom: inherit;
-        top: var(--header-height)
+        top: var(--header-height);
         background: var(--bgcolor1);
         width: min(25em,98vw);
         height: 90vh;
@@ -109,16 +107,17 @@
 .headeraction-quickmodal-transition {
     &-enter, &-exit-active {
         --translateY: -10%;
+        
+        transform: translateY(var(--translateY));
+        opacity: 0;
     }
+
     &-enter-active, &-exit-active {
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
-    &-enter, &-exit-active {
-        transform: translateY(var(--translateY))
-        opacity: 0;
-    }
+
     &-enter-done, &-enter-active {
-        transform: translateY(0%)
+        transform: translateY(0%);
         opacity: 1;
     }
 }

@@ -1,10 +1,7 @@
 .mymenu-container {
     padding: 8px;
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
     overflow-y: auto;
 }
 
@@ -28,6 +25,7 @@
     font-size: 0.9rem;
     background: var(--bgcolor2);
     transition: var(--transition-normal);
+
     &:hover {
         background: var(--hover1);
     }
@@ -63,10 +61,12 @@
     padding: 8px;
     transition: var(--transition-normal);
     background: var(--bgcolor2);
+
     > svg {
         margin-left: auto;
         opacity: 0.8;
     }
+
     &:hover {
         background: var(--bgcolor2);
     }
@@ -91,7 +91,8 @@
 .mymenu-profile-button-container {
     margin: 8px 0;
     display: flex;
-    gap: 8px
+    gap: 8px;
+    
     a {
         flex: 1;
         text-align: center;
@@ -102,11 +103,13 @@
         border: var(--border);
         font-size: 0.8em;
         transition: var(--transition-normal);
+
         svg {
             width: 1.5em;
             height: 1.5em;
             vertical-align: bottom;
         }
+
         &:hover {
             background: var(--bgcolor2);
         }

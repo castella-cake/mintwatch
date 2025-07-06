@@ -1,20 +1,18 @@
 .whatsnew-container {
-    display: block;
     background: transparent;
     color: var(--textcolor1);
     font-size: inherit;
     text-align: left;
     border: none;
     font-family: inherit;
-
     display: grid;
     grid-template-columns: max-content max-content;
     grid-template-rows: max-content max-content;
     gap: 0 8px;
-
     padding: 4px;
     border-radius: var(--radius);
     cursor: pointer;
+
     &:hover {
         background: var(--hover1);
     }

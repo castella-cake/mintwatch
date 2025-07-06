@@ -32,15 +32,6 @@
 
 .channel-danime-links-watch-link {
     display: block;
-}
-
-.channel-danime-links-channel-status {
-    border: var(--border);
-    border-radius: var(--radius);
-    padding: 4px 8px;
-}
-
-.channel-danime-links-watch-link {
     text-decoration: none;
     margin-top: 16px;
     font-size: 0.9rem;
@@ -50,6 +41,12 @@
     border: var(--border);
     border-radius: var(--radius);
     transition: var(--transition-normal);
+}
+
+.channel-danime-links-channel-status {
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
 }
 
 .channel-danime-links-watch-link:hover {

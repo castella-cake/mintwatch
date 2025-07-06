@@ -8,13 +8,16 @@
     border: var(--border);
     box-shadow: var(--box-shadow);
 }
+
 .player-video-container {
     flex-grow: 1;
     width: 100%;
-    //max-height: 100%;
-    //height: 100%;
+
+    // max-height: 100%;
+    // height: 100%;
     overflow: hidden;
 }
+
 .player-video-container-inner {
     aspect-ratio: 16 / 9;
     width: 100%;
@@ -23,14 +26,17 @@
     overflow: hidden;
     margin: 0 auto;
     background: #000;
+
     video {
         display: block;
         width: 100%;
         height: 100%;
+
         /* display: none; */
         position: absolute;
         filter: contrast(1); // Chromiumでなぜかスケーリング品質がよくなる
     }
+
     canvas {
         position: absolute;
         width: 100%;
@@ -42,6 +48,7 @@
         aspect-ratio: 16 / 9;
         display: block;
     }
+
     .player-commentvideo-pip[data-disabled="true"] {
         display: none;
         pointer-events: none;
@@ -62,11 +69,13 @@
     transition: opacity 0.2s ease;
     text-align: left;
     backdrop-filter: blur(2px);
+
     .videotitle {
         font-weight: bold;
         font-size: 1.2rem;
     }
 }
+
 .player-container[data-is-cursor-stopped="false"]:hover .player-video-container-inner .videotitle-container {
     opacity: 1
 }
@@ -75,7 +84,9 @@
     width: 100%;
     height: 100%;
     position: absolute;
+
     --loading-blur: 16px;
+
     img.player-video-loading-thumbnail {
         width: 100%;
         height: 100%;
@@ -84,6 +95,7 @@
         position: absolute;
         filter: blur(var(--loading-blur));
     }
+
     .player-video-loading-text {
         position: absolute;
         right: 0;
@@ -95,6 +107,7 @@
         color: #fff;
         border-radius: 8px;
     }
+
     .player-video-loading-text-container {
         position: absolute;
         width: 100%;
@@ -111,18 +124,23 @@
         white-space: nowrap;
         color: #fff;
     }
+
     .player-video-loading-text-title {
         font-weight: bold;
         font-size: 1.5rem;
     }
+
     &.player-loading-transition {
         &-exit-active {
             --loading-blur: 32px;
+
             transition: --loading-blur 0.1s ease, opacity 0.1s ease;
         }
+
         &-enter, &-exit-active {
             opacity: 0;
         }
+
         &-enter-done, &-enter-active {
             opacity: 1;
         }
@@ -132,6 +150,8 @@
 .player-bottom-container {
     opacity: 1;
     transition: opacity 0.3s ease;
+    cursor: inherit;
+
     > div {
         margin-left: auto;
         margin-right: auto;
@@ -149,6 +169,7 @@
     padding-top: 16px;
     opacity: 1;
     transition: opacity 0.3s ease;
+
     --bgcolor1: #000a;
     --bgcolor2: #1a1a1aef;
     --bgcolor3: #3a3a3aaf;
@@ -181,10 +202,7 @@
 .fullscreen [data-is-bigview="false"] {
     .player-container {
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
+        inset: 0;
         padding: 0;
         align-items: center;
         overflow: hidden;
@@ -193,11 +211,13 @@
         border: none;
         border-radius: 0;
     }
+
     .playercontroller-container {
         width: 70vw;
         min-width: 800px;
         margin: 8px 32px;
     }
+
     .player-container[data-is-dynamic-controller="true"] {
         .player-bottom-container {
             position: absolute;
@@ -210,10 +230,12 @@
             z-index: 30;
             opacity: 0 !important; // フルスクリーンでダイナミック表示時にカーソルが動いていない
         }
+
         .player-bottom-container > div {
             margin-left: auto;
             margin-right: auto;
         }
+
         .playersettings-container, .vefx-container {
             bottom: 150px;
         }
@@ -234,13 +256,8 @@
     }
 }
 
-.player-bottom-container {
-    cursor: inherit;
-}
-
-
 [data-watch-type="shinjuku"] .player-container {
-    padding: 0px;
+    padding: 0;
 }
 
 .statsoverlay {
@@ -260,32 +277,41 @@
     &-vefx-enter, &-vefx-exit-active {
         --translateX: -100%;
     }
+
     &-settings-enter, &-settings-exit-active {
         --translateX: 100%;
     }
+
     &-vefx, &-settings {
         &-enter-active {
             transition: transform 0.3s ease;
+
             * {
                 transition: transform 0.35s ease;
             }
         }
+
         &-exit-active {
             transition: transform 0.35s ease;
+
             * {
                 transition: transform 0.3s ease;
             }
         }
+
         &-enter, &-exit-active {
-            transform: translateX(var(--translateX))
+            transform: translateX(var(--translateX));
+
             * {
-                transform: translateX(var(--translateX))
+                transform: translateX(var(--translateX));
             }
         }
+
         &-enter-done, &-enter-active {
-            transform: translateX(0%)
+            transform: translateX(0%);
+
             * {
-                transform: translateX(0%)
+                transform: translateX(0%);
             }
         }
     }
@@ -296,6 +322,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+
     .player-shortcut-feedback {
         width: max-content;
         margin: 16px auto;
@@ -308,19 +335,21 @@
         border: 1px solid #333;
     }
 }
+
 .player-shortcut-feedback-transition {
     &-enter, &-exit-active {
         --translateY: 50%;
+
+        transform: translateY(var(--translateY));
+        opacity: 0;
     }
+
     &-enter-active, &-exit-active {
         transition: transform 0.2s ease, opacity 0.2s ease;
     }
-    &-enter, &-exit-active {
-        transform: translateY(var(--translateY))
-        opacity: 0;
-    }
+
     &-enter-done, &-enter-active {
-        transform: translateY(0%)
+        transform: translateY(0%);
         opacity: 1;
     }
 }

@@ -1,8 +1,10 @@
 html:not([class*="PMDMP-"]) body {
     /* 基本背景色 */
     --bgcolor1: #f8f8fa;
+
     /* サブ背景色1 */
     --bgcolor2: #fff;
+
     /* サブ背景色2 */
     --bgcolor3: #e7e7e7;
     --bgcolor4: #c7c7c7;
@@ -19,12 +21,12 @@ html:not([class*="PMDMP-"]) body {
     --linktext1: #008cff;
     --linktext2: #4ac3ff;
     --linktext3: #5e9fc0;
-    --nicoru1: rgba(201,168,62,0.1);
-    --nicoru2: rgba(201,168,62,0.2);
-    --nicoru3: rgba(201,168,62,0.35);
-    --nicoru4: rgba(201,168,62,0.5);
-    --dangerous1: rgb(245, 71, 71);
-    --likecolor: #FF5588;
+    --nicoru1: rgb(201 168 62 / 10%);
+    --nicoru2: rgb(201 168 62 / 20%);
+    --nicoru3: rgb(201 168 62 / 35%);
+    --nicoru4: rgb(201 168 62 / 50%);
+    --dangerous1: rgb(245 71 71);
+    --likecolor: #F58;
     --likebg: #fff1f5;
 }
 
@@ -47,29 +49,34 @@ html:not([class*="PMDMP-"]) .container.fullscreen, html.PMDMP-light .container.f
     --likecolor: #f68;
     --likebg: #502834;
     --border: var(--border-width) var(--border-style) #444;
+
     color: var(--textcolor1);
+
     --modal-background: var(--bgcolor2);
 }
 
 html:not([class*="PMDMP-"]) {
     --hrjk-logo-filter: brightness(0.973);
 }
+
 html.PMDMP-pmcolor {
     --hrjk-logo-filter: brightness(0.86) invert(1);
 }
+
 html.PMDMP-spcolor {
     --hrjk-logo-filter: brightness(0.9) invert(1);
 }
+
 html.PMDMP-black {
     --hrjk-logo-filter: brightness(1) invert(1);
 }
 
 html {
-    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg)
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg")
 }
 
 html:not([class*="PMDMP-"]), html.PMDMP-light, html.PMDMP-nordlight {
-    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg)
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg")
 }
 
 body {
@@ -88,29 +95,32 @@ body {
     --info-block-gap: 10px;
     --blocks-gap: 8px;
     --transition-normal: background 0.1s ease, color 0.1s ease;
-}
-
-body {
+    
     margin: 0;
     color: var(--textcolor1);
 }
 
 .container {
     margin: 0 auto;
-    //overflow: scroll;
+
+    // overflow: scroll;
     button, input, select, textarea {
         font-family: inherit;
     }
 }
+
 .container.fullscreen {
     overflow: hidden;
 }
+
 .global-flex {
-    display: flex
+    display: flex;
+
     .global-flex1 {
         flex: 1
     }
 }
+
 .global-bold {
     font-weight: bold;
 }

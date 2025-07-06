@@ -34,11 +34,13 @@
     text-align: center;
     margin: 0 auto;
     padding: 4px 8px;
+
     svg {
         vertical-align: bottom;
         height: 1.2rem;
         width: 1.2rem;
     }
+
     &[aria-disabled="true"] {
         opacity: 0.3
     }
@@ -55,7 +57,7 @@
     overflow: visible;
 }
 
-.shogi-ranking-lane:first-child .shogi-ranking-lane-videolist-item:before {
+.shogi-ranking-lane:first-child .shogi-ranking-lane-videolist-item::before {
     position: absolute;
     content: attr(data-index);
     display: block;

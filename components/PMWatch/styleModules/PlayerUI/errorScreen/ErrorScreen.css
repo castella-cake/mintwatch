@@ -1,11 +1,8 @@
 .player-errorscreen-wrapper {
     z-index: 1;
     position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background: rgba(0, 0, 0, 0.867);
+    inset: 0;
+    background: rgb(0 0 0 / 86.7%);
     padding: 2%;
     display: flex;
     justify-content: center;
@@ -45,15 +42,19 @@
     0% {
         transform: translate(0%, 0%) rotate(25deg)
     }
+
     25% {
         transform: translate(0, 2px) rotate(25deg)
     }
+
     50% {
         transform: translate(-5px, 2px) rotate(25deg)
     }
+
     75% {
         transform: translate(-2px, 5px) rotate(25deg)
     }
+
     100% {
         transform: translate(0%, 0%) rotate(25deg)
     }

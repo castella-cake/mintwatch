@@ -5,22 +5,26 @@
     justify-content: center;
     margin: 0 auto;
     max-width: round(98vw, 1px);
+
     .watch-container-top {
         flex-basis: 100%;
         margin: 0 7.5%;
         display: flex;
         overflow: hidden;
         gap: 2em;
+
         .watch-container-top-right {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
     }
+
     .watch-container-left {
         min-width: 480px;
         flex: 0.6;
     }
+
     .watch-container-right {
         max-width: 25vw;
         height: auto;
@@ -29,10 +33,23 @@
         min-width: 400px;
         flex: 0.4;
     }
+
     .watch-container-bottom {
         flex-basis: 100%;
         margin: 0 7.5%;
         overflow: hidden;
+    }
+
+    &[data-settings-size="0"] {
+        --page-padding: 14%;
+    }
+
+    &[data-settings-size="1"] {
+        --page-padding: 8%;
+    }
+
+    &[data-settings-size="2"] {
+        --page-padding: 1%;
     }
 
     ::-webkit-scrollbar {
@@ -40,6 +57,7 @@
         width: 16px;
         height: 16px;
     }
+
     ::-webkit-scrollbar-thumb {
         background: var(--textcolor3);
         background-clip: content-box;
@@ -47,99 +65,22 @@
         border-radius: var(--radius-big);
     }
 }
-/*
-.watch-container[data-watch-type="3col"], .watch-container[data-watch-type="recresc"], .watch-container[data-watch-type="shinjuku"] {
-    .stacker-wrapper {
-        min-height: 0;
-    }
-}
 
-.watch-container:not([data-watch-type="3col"]):not([data-watch-type="shinjuku"]) {
-    &[data-settings-size="0"] .watch-container-left {
-        flex: 0.4
-    }
-    &[data-settings-size="1"] .watch-container-left {
-        flex: 0.6
-    }
-    &[data-settings-size="2"] .watch-container-left {
-        flex: 1
-    }
-}
-
-.watch-container[data-watch-type="shinjuku"] {
-    &[data-settings-size="0"] .watch-container-middle {
-        flex-basis: 60%
-    }
-    &[data-settings-size="1"] .watch-container-middle {
-        flex-basis: 80%
-    }
-    &[data-settings-size="2"] .watch-container-middle {
-        flex-basis: 100%
-    }
-}
-
-
-[data-watch-type="3col"] {
-    .watch-container-left {
-        flex: 0.2;
-        min-width: 0;
-        align-self: stretch;
-        position: relative;
-        overflow-y: scroll;
-    }
-
-    .watch-container-middle {
-        flex: 0.525;
-        align-self: center;
-    }
-
-    .watch-container-right {
-        min-width: 0;
-        flex: 0.3;
-        align-self: stretch;
-    }
-}
-
-[data-watch-type="recresc"], [data-watch-type="shinjuku"], [data-watch-type="3col"] {
-    .watch-container-rightaction {
-        min-height: 0;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-    }
-    .stacker-wrapper {
-        min-height: 0;
-    }
-}*/
 .watch-container-rightaction {
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
-.watch-container {
-    &[data-settings-size="0"] {
-        --page-padding: 14%;
-    }
-    &[data-settings-size="1"] {
-        --page-padding: 8%;
-    }
-    &[data-settings-size="2"] {
-        --page-padding: 1%;
-    }
-}
-
 .watch-container-grid {
     display: grid; 
     width: 100%;
-    //grid-auto-rows: 1fr; 
+
+    // grid-auto-rows: 1fr; 
     grid-template-rows: repeat(3, max-content);
     gap: var(--blocks-gap); 
-    /*grid-template-areas: 
+
+    /* grid-template-areas: 
         "vid act act"
         "inf rec rec"
         "btm rec rec"
@@ -147,15 +88,60 @@
         "sch rec rec"; */
     grid-template-areas: "inf inf sch" "vid act act" "rec rec rec" "btm srs srs";
     grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--page-padding) / 2), 1px), 320px);
-    margin: 0 round(var(--page-padding), 1px); 
+    margin: 0 round(var(--page-padding), 1px);
+
+    > .player-container {
+        grid-area: vid;
+    }
+
+    > .watch-container-rightaction {
+        grid-area: act;
+    }
+
+    > .watchnext-wrapper {
+        grid-area: rec;
+    }
+
+    > .videoinfo-container {
+        grid-area: inf;
+    }
+
+    > .contenttree-container {
+        grid-area: btm;
+    }
+
+    > .searchbox-container {
+        grid-area: sch;
+    }
+
+    > .videotitle-container {
+        grid-area: tit;
+    }
+
+    > .owner-container {
+        grid-area: own;
+    }
+
+    > .video-actions {
+        grid-area: sac;
+    }
+
+    > .shinjuku-player-container {
+        grid-area: spl;
+    }
+
+    > .seriesinfo-container {
+        grid-area: srs
+    }
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
     .container[data-disallow-grid-fallback="false"] {
         .watch-container-grid {
             display: flex;
             flex-direction: column;
         }
+
         .stacker-container {
             position: static;
             max-height: 80vh;
@@ -194,6 +180,7 @@
         .watchnext-container {
             position: static;
         }
+
         .seriesinfo-contaner {
             min-height: 0;
         }
@@ -203,8 +190,10 @@
 [data-watch-type="shinjuku"] .watch-container-grid, [data-watch-type="recresc"] .watch-container-grid {
     grid-template-columns: 1fr min(round(10%, 1px), 140px) max-content;
 }
+
 [data-watch-type="rerekari"] .watch-container-grid {
     grid-template-columns: 1fr min(round(32%, 1px), 440px);
+    grid-template-areas: "vid act" "inf inf" "rec rec" "btm srs" "sch sch" "trk trk";
 }
 
 [data-watch-type="renew"] .watch-container-grid {
@@ -219,6 +208,7 @@
     grid-template-columns: 22% 1fr 22%; 
     grid-template-rows: repeat(4, max-content);
     grid-template-areas: "tit tit tit" "inf vid act" "rec rec rec" "srs srs srs" "btm btm btm" "sch sch sch";
+
     --page-padding: 0%;
 }
 
@@ -227,88 +217,42 @@
     grid-template-areas: "shr shr shr" "inf inf own" "inf inf sac" "spl spl spl" "rec rec rec" "btm srs srs";
 }
 
-[data-watch-type="rerekari"] .watch-container-grid {
-    grid-template-areas: "vid act" "inf inf" "rec rec" "btm srs" "sch sch" "trk trk";
-}
-
-.watch-container-grid {
-    > .player-container {
-        grid-area: vid;
-    }
-
-    > .watch-container-rightaction {
-        grid-area: act;
-    }
-
-    > .watchnext-wrapper {
-        grid-area: rec;
-    }
-
-    > .videoinfo-container {
-        grid-area: inf;
-    }
-
-    > .contenttree-container {
-        grid-area: btm;
-    }
-
-    > .searchbox-container {
-        grid-area: sch;
-    }
-
-    > .videotitle-container {
-        grid-area: tit;
-    }
-
-    > .owner-container {
-        grid-area: own;
-    }
-
-    > .video-actions {
-        grid-area: sac;
-    }
-    > .shinjuku-player-container {
-        grid-area: spl;
-    }
-
-    > .seriesinfo-container {
-        grid-area: srs
-    }
-}
-
 .pmwatch-error-boundary-wrapper {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+
     h1 {
         margin: 0;
+
         svg {
             height: 1em;
             width: 1em;
             vertical-align: bottom;
         }
     }
+
     .pmwatch-error-boundary-container {
         padding: 2% 4%;
         border: 3px solid var(--textcolor1);
         background: var(--bgcolor2);
         outline: 5px solid var(--bgcolor2);
     }
+
     .pmwatch-error-boundary-msg {
         padding: 4px;
         background: var(--bgcolor1);
         border-radius: var(--radius);
     }
+
     .pmwatch-error-boundary-button-container {
         margin-bottom: 0;
         display: flex;
         justify-content: right;
         gap: 1em;
+
         > button, > a {
             text-decoration: none;
             color: var(--textcolor1) !important;
@@ -322,6 +266,7 @@
             line-height: 1.5em;
             border-radius: 10px;
             cursor: pointer;
+
             &:hover {
                 background: var(--textcolor1);
                 color: var(--bgcolor2) !important;

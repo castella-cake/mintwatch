@@ -1,19 +1,20 @@
 .watch-container-rightaction {
     .stacker-wrapper {
         flex: 1;
-        //overflow: hidden;
+
+        // overflow: hidden;
         position: relative;
-        //min-height: 640px;
+
+        // min-height: 640px;
     }
+
     .stacker-container {
-        //overflow: hidden;
+        // overflow: hidden;
         display: flex;
         flex-direction: column;
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        inset: 0;
+
         .stacker-content {
             overflow: hidden;
             flex: 1;
@@ -22,8 +23,9 @@
             border-radius: var(--radius);
             border: var(--border);
             box-shadow: var(--box-shadow);
+
             .stacker-title {
-                //box-shadow: 0px 0px 8px #000;
+                // box-shadow: 0px 0px 8px #000;
                 border-bottom: 1px solid var(--accent1);
                 gap: 4px;
                 padding: 0 0.8rem;
@@ -33,34 +35,39 @@
                 position: relative;
                 z-index: 2;
                 background: var(--bgcolor2);
+
                 .stacker-subtitle {
                     font-weight: normal;
                     opacity: 0.5;
                     font-size: 0.9em;
                     margin-left: 0.25em;
                 }
+
                 button {
                     background: transparent;
                     border: none;
                     color: var(--textcolor3);
-                    padding: 4px 6px;
                     cursor: pointer;
                     border-radius: var(--radius);
                     padding: 4px 5px;
                     transition: var(--transition-normal);
+
                     svg {
                         height: 1.8em;
                         width: 1.8em;
                         vertical-align: middle;
                     }
+
                     &:hover {
                         opacity: 1;
                         background: var(--hover1);
                     }
+
                     &[data-isenabled="true"] {
                         background: var(--textcolor2);
                         color: var(--bgcolor1);
                     }
+
                     &[aria-disabled="true"] {
                         opacity: 0.2
                     } 
@@ -68,14 +75,17 @@
             }
         }
     }
+
     .stacker-tabbutton-container {
         display: flex;
         gap: 0.25rem;
         margin: 0 calc(var(--radius) + 0.25rem);
         position: relative;
         top: var(--border-width);
-        //bottom: calc(var(--border-width) * -1);
+
+        // bottom: calc(var(--border-width) * -1);
         z-index: 1;
+
         .stacker-tabbutton {
             background: var(--accent1);
             color: var(--textcolor1);
@@ -112,10 +122,12 @@
             font-size: 1em;
             border-top: 2px solid var(--linktext3);
         }
+
         .stacker-tabbutton > span:nth-child(1) {
             grid-column: 2/3;
         }
     }
+
     .stacker-tabbutton-container .stacker-tabbutton[data-is-icon-button="true"] {
         flex: 0;
         padding: 0;
@@ -131,12 +143,14 @@
         justify-content: center;
         align-items: center;
         border: 2px solid var(--accent1);
+
         svg {
             height: 1rem;
             width: 1rem;
             padding: 0;
         }
     }
+
     .stacker-tabbutton-container .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
         border: 2px solid var(--linktext3);
     }
@@ -146,6 +160,7 @@
         display: flex;
         justify-content: end;
         align-items: center;
+
         > svg {
             height: 1.25em;
             width: 1.25em;
@@ -154,10 +169,12 @@
             transition: transform 0.2s ease, opacity 0.2s ease;
         }
     }
+
     .stacker-tabbutton.stacker-tabbutton-active .stacker-tabbutton-icons > svg {
         transform: translateY(50%);
         opacity: 0;
     }
+
     .stacker-tabbutton .stacker-tabbutton-icons > svg:nth-child(2) {
         transition-delay: 0.025s;
     }

@@ -4,10 +4,12 @@
         border: none;
         background: transparent;
     }
+
     .searchbox-container {
         box-shadow: none;
         background: transparent;
     }
+
     .watchnext-selector {
         justify-content: center;
     }

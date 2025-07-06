@@ -1,8 +1,10 @@
 html.ReShogi-Enabled:not([class*="PMDMP-"]) body {
     /* 基本背景色 */
     --bgcolor1: #f8f8fa;
+
     /* サブ背景色1 */
     --bgcolor2: #fff;
+
     /* サブ背景色2 */
     --bgcolor3: #e7e7e7;
     --bgcolor4: #c7c7c7;
@@ -19,32 +21,35 @@ html.ReShogi-Enabled:not([class*="PMDMP-"]) body {
     --linktext1: #008cff;
     --linktext2: #4ac3ff;
     --linktext3: #5e9fc0;
-    --nicoru1: rgba(201,168,62,0.1);
-    --nicoru2: rgba(201,168,62,0.2);
-    --nicoru3: rgba(201,168,62,0.35);
-    --nicoru4: rgba(201,168,62,0.5);
-    --dangerous1: rgb(245, 71, 71);
-    --likecolor: #FF5588;
+    --nicoru1: rgb(201 168 62 / 10%);
+    --nicoru2: rgb(201 168 62 / 20%);
+    --nicoru3: rgb(201 168 62 / 35%);
+    --nicoru4: rgb(201 168 62 / 50%);
+    --dangerous1: rgb(245 71 71);
+    --likecolor: #F58;
     --likebg: #fff1f5;
 }
 
 html.ReShogi-Enabled:not([class*="PMDMP-"]) {
     --hrjk-logo-filter: brightness(0.973);
 }
+
 html.ReShogi-Enabled.PMDMP-pmcolor {
     --hrjk-logo-filter: brightness(0.86) invert(1);
 }
+
 html.ReShogi-Enabled.PMDMP-spcolor {
     --hrjk-logo-filter: brightness(0.9) invert(1);
 }
+
 html.ReShogi-Enabled.PMDMP-black {
     --hrjk-logo-filter: brightness(1) invert(1);
 }
 
 html.ReShogi-Enabled {
-    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg)
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg")
 }
 
 html.ReShogi-Enabled:not([class*="PMDMP-"]), html.ReShogi-Enabled.PMDMP-light, html.ReShogi-Enabled.PMDMP-nordlight {
-    --navbar-logo-url: url(https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg)
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg")
 }

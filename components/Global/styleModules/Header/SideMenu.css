@@ -1,9 +1,6 @@
 .sidemenu-wrapper {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    inset: 0;
     z-index: 98;
     
 }
@@ -20,9 +17,11 @@
     z-index: 100;
     border-top: var(--border);
 }
+
 .header-container[data-is-fixed="false"] .sidemenu-wrapper{
     z-index: 101;
 }
+
 .header-container[data-is-fixed="false"] .sidemenu-container{
     top: 0;
     margin: 8px 0;
@@ -37,6 +36,7 @@
     padding: 8px;
     border-radius: var(--radius);
     color: var(--textcolor1);
+
     &:hover {
         background: var(--hover1)
     }
@@ -65,9 +65,11 @@
     text-align: center;
     align-self: end;
     display: none;
+
     &:hover {
         background: var(--hover1);
     }
+
     svg {
         vertical-align: middle;
         padding: 8px;
@@ -87,13 +89,16 @@
     text-align: left;
     padding: 8px;
     cursor: pointer;
+
     svg {
         vertical-align: middle;
         margin-right: 8px;
     }
+
     span {
         vertical-align: middle;
     }
+
     &:hover {
         background: var(--hover1);
     }
@@ -102,23 +107,27 @@
 .sidemenu-transition {
     &-enter, &-exit-active {
         --translateX: -110%;
-    }
-    &-enter-active, &-exit-active {
-        transition: background 0.3s ease, backdrop-filter 0.3s ease;
-        .sidemenu-container {
-            transition: transform 0.3s ease;
-        }
-    }
-    &-enter, &-exit-active {
-        background: rgb(0 0 0 / 0);
-        backdrop-filter: blur(0px);
+
+        background: rgb(0 0 0 / 0%);
+        backdrop-filter: blur(0);
+
         .sidemenu-container {
             transform: translateX(var(--translateX));
         }
     }
+
+    &-enter-active, &-exit-active {
+        transition: background 0.3s ease, backdrop-filter 0.3s ease;
+
+        .sidemenu-container {
+            transition: transform 0.3s ease;
+        }
+    }
+
     &-enter-done, &-enter-active {
-        background: rgb(0 0 0 / 0.5);
+        background: rgb(0 0 0 / 50%);
         backdrop-filter: blur(4px);
+
         .sidemenu-container {
             transform: translateX(0%);
         }

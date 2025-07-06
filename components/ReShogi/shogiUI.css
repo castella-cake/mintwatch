@@ -33,13 +33,16 @@
     transition: var(--transition-normal);
     text-decoration: none;
     font-size: 0.9rem;
+
     &[aria-disabled="true"] {
         opacity: 0.3;
     }
-    &:not([aria-disabled="true"]):not([data-is-active="true"]):hover {
+
+    &:not([aria-disabled="true"], [data-is-active="true"]):hover {
         background: var(--hover1);
         cursor: pointer;
     }
+
     &[data-is-active="true"] {
         background: var(--textcolor1);
         color: var(--bgcolor1);
@@ -66,9 +69,11 @@
     border-radius: var(--radius);
     cursor: pointer;
     padding: 4px 8px;
+
     &:hover {
         background: var(--hover1);
     }
+
     svg {
         vertical-align: text-bottom;
         height: 2em;

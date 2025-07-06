@@ -62,6 +62,7 @@
     font-size: 0.9rem;
     margin: 8px 0;
     margin-bottom: 16px;
+
     .share-ogp-thumbnail {
         grid-area: thumb;
         aspect-ratio: 1 / 1;
@@ -106,6 +107,7 @@
     cursor: pointer;
     transition: var(--transition-normal);
     border: none;
+
     > * {
         vertical-align: middle;
     }

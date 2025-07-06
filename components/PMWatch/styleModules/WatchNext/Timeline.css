@@ -59,9 +59,7 @@ img.video-timeline-activity-icon {
 
     .watchnext-content .video-timeline-container {
         display: flex;
-        width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: auto hidden;
         width: min-content; // max-contentにすると一部表示が崩れるのでminで
     }
 
@@ -74,8 +72,9 @@ img.video-timeline-activity-icon {
         overflow: hidden;
         white-space: nowrap;
         gap: 8px;
-        padding: 0px 8px;
+        padding: 0 8px;
         border-left: 1px solid var(--bgcolor2);
+
         .info-card {
             height: auto;
             margin: auto;

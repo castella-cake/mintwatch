@@ -6,9 +6,7 @@
 }
 
 .seriesinfo-content {
-    grid-template-areas: "tmb tit" "eps eps" "fir fir";
-    grid-template-columns: max-content 1fr;
-    grid-template-rows: max-content 1fr max-content;
+    grid-template: "tmb tit" max-content "eps eps" 1fr "fir fir" max-content / max-content 1fr;
     padding: var(--info-block-padding);
     background: var(--bgcolor2);
     border-radius: var(--radius);
@@ -22,6 +20,7 @@
     grid-area: tmb;
     height: 3.5rem;
 }
+
 .seriesinfo-content .seriesinfo-thumbnail {
     height: 100%;
     border-radius: var(--radius-mini);
@@ -33,19 +32,23 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .seriesinfo-title a {
     text-decoration: none;
     color: var(--textcolor1) !important;
     font-size: 1rem;
     font-weight: bold;
+
     &:hover {
         color: var(--linktext1) !important;
     }
 }
+
 .seriesinfo-seriestext {
     opacity: 0.8;
     font-size: 0.8em;
     line-height: 2em;
+
     svg {
         height: 2em;
         width: 1.5em;
@@ -53,7 +56,10 @@
     }
 }
 
-.seriesinfo-right {height: fit-content;align-self: center;}
+.seriesinfo-right {
+    height: fit-content;
+    align-self: center;
+}
 
 .seriesinfo-header {
     font-size: 1.2rem;
@@ -67,13 +73,16 @@
     display: flex;
     justify-content: right;
     align-items: center;
+
     .info-card {
         height: auto;
         display: flex;
     }
+
     .info-card-thumbnail, .info-card-owner, .info-card-content-title, .info-card-playingtext {
         display: none;
     }
+
     .draggable-infocard-wrapper {
         background: var(--accent1);
         border: var(--border);
@@ -81,6 +90,7 @@
         font-size: 0.9rem;
         padding: 2px 4px;
         transition: var(--transition-normal);
+
         &:hover {
             background: var(--hover1);
         }
@@ -89,43 +99,45 @@
 
 .seriesinfo-episodes {
     grid-area: eps;
+
     .info-card {
         background: var(--bgcolor1);
         border: var(--border);
+        padding: 8px;
     }
+
     .draggable-infocard-wrapper {
         flex: 1;
+
         &:first-child {
             margin-bottom: 8px;
         }
     }
+
     .seriesinfo-title a {
         font-size: 1.4rem;
     }
-    .info-card {
-        padding: 8px;
-    }
+
     .info-card-playingtext {
         display: block;
         font-size: 0.8rem;
         line-height: 1.2rem;
         color: var(--textcolor2) !important;
     }
+
     .info-card-title, .info-card-owner {
         font-size: 0.9rem;
+
         span svg {
             height: 1.2rem;
             width: 1rem;
             vertical-align: bottom;
         }
     }
+
     .info-card-owner {
         font-size: 0.8rem;
     }
-}
-
-.seriesinfo-episodes .draggable-infocard-wrapper:first-child {
-    margin-bottom: 8px;
 }
 
 .seriesinfo-no-video {
@@ -139,16 +151,16 @@
 
 .watch-container[data-use-card-recommend="false"] { 
     .seriesinfo-content {
-        grid-template-areas: "tmb tit fir" "eps eps eps";
-        grid-template-columns: max-content max-content 1fr;
-        grid-template-rows: max-content 1fr;
+        grid-template: "tmb tit fir" max-content "eps eps eps" 1fr / max-content max-content 1fr;
     }
+
     .seriesinfo-episodes {
         display: flex;
         overflow: hidden;
         gap: calc(var(--info-block-padding) / 2);
         font-size: 0.9rem;
         justify-content: center;
+
         .draggable-infocard-wrapper {
             overflow: hidden;
             margin-bottom: 0;
@@ -168,11 +180,9 @@
     .seriesinfo-container {
         min-height: 320px;
     }
+
     .seriesinfo-content {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        inset: 0;
     }
 }

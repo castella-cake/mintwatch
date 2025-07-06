@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: nowrap;
     white-space: nowrap;
+
     input {
         background: var(--bgcolor2);
         border: 1px solid var(--accent1);
@@ -11,6 +12,7 @@
         width: 16em;
         border-bottom-left-radius: var(--radius);
     }
+
     button {
         border: 1px solid var(--accent1);
         background: var(--bgcolor2);
@@ -18,12 +20,14 @@
         font-size: 1em;
         border-radius: 0 var(--radius) var(--radius) 0;
         cursor: pointer;
+
         .tabler-icon {
             height: 1.2em;
             width: 1.2em;
             vertical-align: middle;
         }
     }
+
     button:hover {
         background: var(--hover1);
     }
@@ -32,6 +36,7 @@
 .searchbox-typeselector {
     display: flex;
     gap: 4px;
+
     button.searchbox-type-item {
         background: var(--bgcolor2);
         border: none;
@@ -40,6 +45,7 @@
         border-radius: var(--radius) var(--radius) 0 0;
         vertical-align: bottom;
         cursor: pointer;
+
         svg {
             height: 1rem;
             vertical-align: text-bottom;
@@ -76,6 +82,7 @@
             border-radius: var(--radius);
             padding: 4px 8px;
         }
+
         button.searchbox-type-item.searchbox-type-active {
             background: var(--bgcolor3);
         }
@@ -83,12 +90,14 @@
 
     .searchbox-inputcontainer {
         flex: 1;
+
         input {
             flex: 1;
             border-radius: var(--radius) 0 0 var(--radius);
             background: var(--bgcolor3);
         }
-        input:placeholder {
+
+        input::placeholder {
             color: var(--bgcolor2);
         }
     }

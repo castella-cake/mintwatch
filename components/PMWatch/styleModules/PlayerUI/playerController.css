@@ -1,18 +1,22 @@
 .playercontroller-container {
     margin-top: 4px;
 }
+
 .seekbar-container {
     display: flex;
     padding: 4px;
     gap: 8px;
     align-items: center;
+
     .seekbar {
         flex: 1
     }
+
     .seekbar-time {
         font-size: 0.9em;
         color: var(--textcolor1)
     }
+
     .seekbar-storyboard {
         position: absolute;
         transform: translate(-50%,10%);
@@ -29,35 +33,44 @@
         backdrop-filter: blur(2px);
         box-shadow: 0 0 4px #000a;
         border: 1px solid #333;
+
         .seekbar-storyboard-time {
             text-align: center;
         }
     }
+
     .seekbar:hover .seekbar-storyboard {
         opacity: 0.9;
         transform: translate(-50%,0%);
         pointer-events: inherit;
+
         &:hover {
             opacity: 1;
         }
     }
 }
+
 .playercontroller-container-middle {
     display: flex;
 }
+
 .playercontroller-container-left {
     justify-content: start;
 }
+
 .playercontroller-container-center {
     justify-content: center;
 }
+
 .playercontroller-container-right {
     justify-content: end;
 }
+
 .playercontroller-container-right, .playercontroller-container-left, .playercontroller-container-center {
     display: flex;
     align-items: center;
-    flex: 1
+    flex: 1;
+
     button {
         display: block;
         background: transparent;
@@ -67,19 +80,30 @@
         padding: 5px 8px;
         border-radius: var(--radius);
         transition: background 0.1s ease, transform 0.05s ease;
+
         svg {
             vertical-align: middle;
         }
+
         position: relative;
+
         &:hover {
             background: var(--hover1);
             cursor: pointer;
         }
+
         &:active {
             transform: scale(0.95);
         }
     }
+
+    button:not(:hover, :focus-visible) .playercontroller-tooltip {
+        transform: translateX(-50%) translateY(50%);
+        opacity: 0;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+    }
 }
+
 .playercontroller-tooltip {
     display: block;
     transform: translateX(-50%);
@@ -90,43 +114,38 @@
     padding: 2px 4px;
     top: 3em;
     border: 1px solid #333;
-    box-shadow: 0px 0px 4px #000a;
+    box-shadow: 0 0 4px #000a;
     left: 50%;
     right: 50%;
     width: fit-content;
     border-radius: var(--radius-mini);
     pointer-events: none;
     white-space: nowrap;
-    background: #000a
+    background: #000a;
     color: #fff;
     position: absolute;
     margin: 0 auto;
 }
+
 .playercontroller-tooltip-transition {
     &-enter, &-exit-active {
         --translateY: 50%;
+
+        transform: translateX(-50%) translateY(var(--translateY));
+        opacity: 0;
     }
+
     &-enter-active {
         transition: transform 0.15s ease-out, opacity 0.15s ease-out;
     }
+
     &-exit-active {
         transition: transform 0.15s ease, opacity 0.15s ease;
     }
-    &-enter, &-exit-active {
-        transform: translateX(-50%) translateY(var(--translateY))
-        opacity: 0;
-    }
-    &-enter-done, &-enter-active {
-        transform: translateX(-50%) translateY(0%)
-        opacity: 1;
-    }
-}
 
-.playercontroller-container-right, .playercontroller-container-left, .playercontroller-container-center {
-    button:not(:hover):not(:focus-visible) .playercontroller-tooltip {
-        transform: translateX(-50%) translateY(50%)
-        opacity: 0;
-        transition: transform 0.15s ease, opacity 0.15s ease;
+    &-enter-done, &-enter-active {
+        transform: translateX(-50%) translateY(0%);
+        opacity: 1;
     }
 }
 
@@ -143,6 +162,7 @@
     cursor: pointer;
     transition: var(--transition-normal);
 }
+
 .playercontroller-qualityselect:hover, .playercontroller-qualityselect:focus {
     background: var(--hover1);
     color: var(--textcolor1);
@@ -161,11 +181,11 @@
 }
 
 .playercontroller-effectchange:hover {
-    background: var(--hover1)
+    background: var(--hover1);
 }
 
 .playercontroller-qualitydisplay {
-    color: var(--textcolor2)
+    color: var(--textcolor2);
     margin-right: 8px;
 }
 
@@ -173,10 +193,10 @@
     position: relative;
     vertical-align: middle;
     height: 10px;
+
     .playercontroller-volume {
         max-width: 100px;
         appearance: none;
-        -webkit-appearance: none;
         background: transparent;
         outline: none;
         cursor: pointer;
@@ -186,7 +206,8 @@
         height: 100%;
         vertical-align: top;
     }
-    .playercontroller-volume:before {
+
+    .playercontroller-volume::before {
         content: "";
         background: var(--linktext2);
         width: var(--width);
@@ -196,6 +217,7 @@
         bottom: 0;
         border-radius: var(--radius-mini);
     }
+
     .playercontroller-volume::-moz-range-progress {
         background: var(--linktext2);
         border-radius: var(--radius-mini);
@@ -209,11 +231,10 @@
     }
     
     .playercontroller-volume::-moz-range-thumb {
-        -webkit-appearance: none;
         appearance: none;
         height: 100%;
         background: var(--textcolor2);
-        width: 0px;
+        width: 0;
         border: none;
     }
 
@@ -224,11 +245,10 @@
     }
 
     .playercontroller-volume::-webkit-slider-thumb {
-        -webkit-appearance: none;
         appearance: none;
         height: 100%;
         background: var(--textcolor2);
-        width: 0px;
+        width: 0;
     }
 }
 
@@ -237,7 +257,7 @@
     font-size: 0.8rem;
     border: 1px solid #333;
     border-radius: var(--radius-mini);
-    background: rgba(0,0,0,0.667);
+    background: rgb(0 0 0 / 66.7%);
     color: #fff;
     padding: 2px 4px;
     white-space: nowrap;
@@ -247,7 +267,6 @@
     text-align: center;
     width: fit-content;
     margin: 0 auto;
-    pointer-events: none;
     transition: opacity 0.2s ease, transform 0.2s ease;
     backdrop-filter: blur(4px);
     transform: translateY(50%);
@@ -261,13 +280,15 @@
     opacity: 1;
     transform: translateY(0)
 }
+
 .playercontroller-time {
     margin: 0 8px;
 }
 
 .seekbar {
     flex: 1;
-    //background: var(--bgcolor3);
+
+    // background: var(--bgcolor3);
     height: 1rem;
     position: relative;
     border-radius: var(--radius-mini);
@@ -276,10 +297,7 @@
 
 .seekbar-bg {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     background: var(--bgcolor3);
     border-radius: var(--radius-mini);
 }
@@ -294,7 +312,7 @@
     background: var(--bgcolor2);
     border-radius: 16px;
     border: 2px solid var(--textcolor2);
-    box-shadow: 0px 0px 4px #000a;
+    box-shadow: 0 0 4px #000a;
     transform: translate(-50%, -10%);
 }
 
@@ -331,11 +349,12 @@
 
 .seekbar:hover {
     .seekbar-commentstats.global-flex {
-        background: linear-gradient(0deg, rgba(0,0,0,0.667), rgba(0,0,0,0.333));
+        background: linear-gradient(0deg, rgb(0 0 0 / 66.7%), rgb(0 0 0 / 33.3%));
+
         /* height: 10px; */
         align-items: end;
         gap: 4px;
-        padding: 0px 8px;
+        padding: 0 8px;
         border-radius: var(--radius-big) var(--radius-big) 0 0;
         opacity: 1;
 

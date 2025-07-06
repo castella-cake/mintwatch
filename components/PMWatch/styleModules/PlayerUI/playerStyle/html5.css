@@ -2,6 +2,7 @@
     margin-top: 0;
     background: #000;
     color: #fff;
+
     --textcolor1: #fff;
     --textcolor2: #ddd;
     --radius-mini: 3px;
@@ -18,8 +19,9 @@
     }
 
     .playercontroller-container-right button, .playercontroller-container-left button, .playercontroller-container-center button {
-        padding: 8px 8px;
+        padding: 8px;
         transition: color 0.1s ease;
+
         &:hover {
             background: transparent;
             color: var(--linktext3);
@@ -28,15 +30,18 @@
 
     select.playercontroller-qualityselect {
         padding: 4px 8px;
-        margin: 0px 2px;
+        margin: 0 2px;
         background: transparent;
         transition: color 0.1s ease, background 0.1s ease;    
+
         &:hover, &:active {
             background: #fff1;
         }
+
         option {
             background: #000;
             color: #fff;
+
             &:hover, &:active {
                 color: var(--linktext3);
             }
@@ -47,9 +52,11 @@
         height: inherit;
         transform: none;
     }
+
     .seekbar-thumb {
         display: none
     }
+
     .seekbar {
         height: 0.5em
     }
@@ -68,7 +75,7 @@
 }
 
 .player-container[data-is-integrated-controller="true"][data-player-type="html5"] .playercontroller-container {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.667) 80%, rgba(0, 0, 0, 0));
+    background: linear-gradient(0deg, rgb(0 0 0 / 66.7%) 80%, rgb(0 0 0 / 0%));
 }
 
 .fullscreen .player-container[data-is-dynamic-controller="true"][data-player-type="html5"] .playercontroller-container {

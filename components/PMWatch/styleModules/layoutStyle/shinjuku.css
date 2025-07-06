@@ -3,6 +3,7 @@
     --radius-mini: 0px;
     --radius-big: 0px;
     --box-shadow: none;
+
     .watch-container-left {
         display: none;
     }
@@ -15,6 +16,7 @@
         gap: 1em;
         flex-wrap: wrap;
         margin: 0 10%;
+
         .searchbox-container {
             flex-basis: 100%;
         }
@@ -41,6 +43,7 @@
         padding: 6px;
         background: linear-gradient(#222, #333);
     }
+
     .player-container {
         padding: 0;
         flex: 2.5;
@@ -85,6 +88,7 @@
             height: auto;
             align-self: stretch;
         }
+
         .stacker-tabbutton.stacker-tabbutton-active[data-is-icon-button="true"] {
             border: 3px solid var(--textcolor3);
             border-bottom: 3px solid transparent;
@@ -101,12 +105,14 @@
         padding: 0;
         margin: 0;
     }
+
     .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title button svg {
         height: 1.25rem;
         width: 1.25rem;
         padding: 2px;
         margin: 0;
     }
+
     .commentlist-fork-selector {
         border: 2px solid var(--textcolor3);
         border-image: linear-gradient(#666, #aaa) 2 / 1 / 0 stretch;
@@ -152,16 +158,20 @@
     .commentinput-container > input {
         padding: 2px 6px;
     }
+
     .commentinput-container > .commentinput-textarea-container > .commentinput-input {
         padding: 4px 5px;
     }
+
     .commentinput-container > .commentinput-textarea-container > .commentinput-textarea-dummy {
         padding: 6px 7px;
     }
+
     .commentinput-container svg {
         height: 1.5em;
         width: 1.5em;
     }
+
     .commentinput-submit {
         background: linear-gradient(#ff9e3c 1%,#ffa114 40%,#ff5919 60%,#f4781a 100%);
         color: #fff;
@@ -169,6 +179,7 @@
         text-shadow: 0 0 2px #000;
         padding: 2px 4px;
     }
+
     .commentinput-submit:not([aria-disabled="true"]):hover {
         background: linear-gradient(#ffac59 1%, #ffab2d 40%, #ff8d2d 60%, #ff9646 100%);
     }
@@ -179,23 +190,25 @@
         font-family: "MS Gothic", sans-serif;
         background: #222;
         color: #fff;
-        width: fit-content;
         white-space: nowrap;
         display: flex;
         gap: 0.5em;
         width: 100%;
         line-height: 1em;
     }
+
     .videostat-left-container {
         font-weight: bold;
         border: 1px solid #000;
         flex: 1;
     }
+
     .videostat-left-container > div {
         padding: 1px;
         background: linear-gradient(#333, #111, #333);
         display: flex;
         gap: 1em;
+
         > span:first-child {
             text-align-last: justify;
             width: 5em;
@@ -233,7 +246,7 @@
         padding: 6px;
         background: linear-gradient(#555, #888 30%, #555);
         letter-spacing: 0;
-        box-shadow: 0px 0px 4px #000c inset;
+        box-shadow: 0 0 4px #000c inset;
     }
 
     // 統計表示+スタッカー
@@ -261,6 +274,7 @@
         padding: 8px;
         background: var(--bgcolor3);
         height: fit-content;
+
         a {
             color: var(--textcolor1);
             display: flex;
@@ -268,12 +282,14 @@
             font-size: 0.9em;
             align-items: center;
             gap: 8px;
+
             img {
                 width: 3.5em;
                 height: 3.5em;
                 vertical-align: middle;
                 border: 3px solid var(--bgcolor3);
             }
+
             span {
                 text-decoration: underline;
                 font-weight: bold;
@@ -281,6 +297,7 @@
             }
         }
     }
+
     .videoinfo-owner-followbtn {
         margin: 0;
         display: flex;
@@ -301,7 +318,7 @@
     .videoinfo-container:not(.bottominfo-container) {
         padding: 0;
         align-items: start;
-        gap: 0px;
+        gap: 0;
     }
 
     // 動画概要
@@ -311,10 +328,12 @@
         margin-bottom: 4px;
         padding: 8px;
         align-self: stretch;
+
         summary {
             background: transparent;
             font-size: 0;
             padding: 0;
+
             span {
                 font-size: 1rem;
             }
@@ -335,12 +354,13 @@
     }
 
     .videodesc {
-        padding: 0px;
+        padding: 0;
     }
 
     // 投稿日時とランキング情報
     .uploaddate {
         color: var(--textcolor2);
+
         strong {
             font-weight: bold;
             color: var(--textcolor1);
@@ -357,12 +377,14 @@
         .harajuku-logo {
             display: block;
             height: max-content;
+
             > img {
                 filter: var(--hrjk-logo-filter);
                 height: 100%;
                 width: auto;
             }
         }
+
         .harajuku-header-migiue-filler {
             background: var(--bgcolor2);
             flex: 1;
@@ -382,6 +404,7 @@
     .searchbox-inputcontainer input {
         padding: 6px;
     }
+
     .searchbox-type-item {
         font-size: 0.8em;
         padding: 2px 8px !important;
@@ -391,6 +414,7 @@
     .commentlist-list-item {
         font-size: 0.9em;
     }
+
     .commentlist-list-item:not(.commentlist-list-item-open) {
         padding: 4px;
     }
@@ -406,8 +430,9 @@
         text-decoration: underline;
         margin-right: 0.25em;
         line-height: 1.2em;
+
         &.tags-item-locked {
-            text-decoration-color: rgb(212, 138, 0);
+            text-decoration-color: rgb(212 138 0);
         }
     }
 
@@ -418,6 +443,7 @@
     .tags-item-nicodic > img {
         vertical-align: text-bottom;
     }
+
     .tags-title span {
         padding: 2px 6px;
         background: linear-gradient(0deg, #000, #555);
@@ -439,15 +465,18 @@
         padding: 0;
         border: none;
         text-decoration: underline;
+
         &:hover {
             background: transparent;
             color: #f00;
         }
     }
-    .tags-editbutton:before {
+
+    .tags-editbutton::before {
         content: "【";
     }
-    .tags-editbutton:after {
+
+    .tags-editbutton::after {
         content: "】";
     }
 }

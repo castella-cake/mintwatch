@@ -4,9 +4,10 @@
     border-radius: 0;
     border: none;
     padding: 0;
+
     .player-video-container {
         background: var(--bgcolor2);
-        padding: 0px;
+        padding: 0;
         border-radius: var(--radius);
         box-shadow: var(--box-shadow);
         border: var(--border);
@@ -31,9 +32,11 @@
         padding: 8px;
         border-radius: 1024px;
         background: var(--accent1);
+
         &:hover {
             background: var(--hover1);
         }
+
         & svg {
             width: 22px;
             height: 22px;
@@ -57,7 +60,7 @@
     }
 
     .seekbar-container {
-        padding: 0px 10px;
+        padding: 0 10px;
         padding-top: 6px;
     }
     
@@ -68,12 +71,14 @@
     &[data-is-integrated-controller="true"] {
         .playercontroller-container {
             backdrop-filter: blur(8px);
-            box-shadow: 0px 0px 4px #000;
+            box-shadow: 0 0 4px #000;
         }
+
         .playersettings-container, .vefx-container {
             bottom: 96px;
         }
     }
+
     .playercontroller-tooltip {
         top: 3.5em;
     }
@@ -84,6 +89,7 @@
 
     .commentinput-container {
         box-shadow: var(--box-shadow);
+
         --border: 1px solid var(--accent1);
     }
 
@@ -96,11 +102,13 @@
 
 .fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"] {
     background: var(--bgcolor1);
+
     .playercontroller-container {
         background: transparent;
         border: none;
         box-shadow: none;
         padding: 0;
+
         --bgcolor1: #000a;
         --bgcolor2: #252525af;
         --bgcolor3: #4a4a4aaf;
@@ -113,12 +121,14 @@
         --textcolor2: #ddd;
         --textcolor3: #aaa;
     }
+
     .commentinput-container {
         margin-top: 0;
     }
+
     .player-video-container {
         background: #000;
-        padding: 0px;
+        padding: 0;
         border-radius: 0;
         box-shadow: none;
         border: 0;
