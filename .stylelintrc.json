@@ -9,5 +9,6 @@
             true,
             { "ignorePseudoElements": ["moz-range-thumb"] }
         ]
-    }
+    },
+    "ignoreFiles": ["node_modules/**/*", ".output/**/*"]
 }

@@ -1,7 +1,4 @@
 import { defineConfig } from 'wxt';
-import postcssNested from 'postcss-nested'
-import postcssScss from 'postcss-scss'
-
 // See https://wxt.dev/api/config.html
 
 export default defineConfig({
@@ -14,12 +11,6 @@ export default defineConfig({
                 '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
             },
         },
-        css: {
-            postcss: {
-                parser: postcssScss,
-                plugins: [postcssNested]
-            }
-        }
     }},
     manifest: {
         "name": "MintWatch (Beta)",
