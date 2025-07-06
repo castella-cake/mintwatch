@@ -6,7 +6,7 @@ import { StorageProvider } from "@/hooks/extensionHook";
 
 import { ErrorBoundary } from "react-error-boundary";
 
-import "./settingsUI.styl"
+import "./settingsUI.css"
 import settings from "@/utils/settingsList";
 import { IconBrandDiscord, IconBrandDiscordFilled, IconBrandGithub, IconBrandGithubFilled } from "@tabler/icons-react";
 

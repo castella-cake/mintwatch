@@ -110,14 +110,14 @@
         }
     }
     &-enter, &-exit-active {
-        background: @css{rgb(0 0 0 / 0)};
+        background: rgb(0 0 0 / 0);
         backdrop-filter: blur(0px);
         .sidemenu-container {
             transform: translateX(var(--translateX));
         }
     }
     &-enter-done, &-enter-active {
-        background: @css{rgb(0 0 0 / 0.5)};
+        background: rgb(0 0 0 / 0.5);
         backdrop-filter: blur(4px);
         .sidemenu-container {
             transform: translateX(0%);

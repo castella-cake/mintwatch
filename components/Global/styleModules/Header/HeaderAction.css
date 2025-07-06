@@ -6,7 +6,7 @@
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
     &-enter, &-exit-active {
-        transform: translateX(var(--translateX))
+        transform: translateX(var(--translateX));
         opacity: 0;
     }
     &-enter-done, &-enter-active {

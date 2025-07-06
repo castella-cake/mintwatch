@@ -1,9 +1,3 @@
-html.ReShogi-Enabled {
-    @import "../Global/baseUI.styl"
-    @import "./shogiUI.styl"
-    @import './styleModules/**/*.styl'
-}
-
 html.ReShogi-Enabled:not([class*="PMDMP-"]) body {
     /* 基本背景色 */
     --bgcolor1: #f8f8fa;

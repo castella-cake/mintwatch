@@ -55,6 +55,7 @@
             border: 1px solid #555a;
             padding: 4px 8px;
             cursor: pointer;
+            width: 100%;
             &:hover {
                 background: #ccc5;
             }
@@ -97,8 +98,4 @@
     flex: 1;
     display: flex;
     justify-content: space-between;
-}
-
-.playersettings-container .playersettings-item button {
-    width: 100%;
 }

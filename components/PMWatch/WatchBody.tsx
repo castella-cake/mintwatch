@@ -1,7 +1,7 @@
 import { SmIdProvider, WatchDataProvider } from "../Global/Contexts/WatchDataContext";
 import CreateWatchUI from "./WatchUI";
-import "./watchUI.styl"
-import.meta.glob("./styleModules/**/*.styl", {eager: true})
+import "./watchUI.css"
+import.meta.glob("./styleModules/**/*.css", {eager: true})
 
 export function WatchBody({}) {
     return <SmIdProvider>

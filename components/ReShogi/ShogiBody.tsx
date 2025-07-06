@@ -1,10 +1,10 @@
 import ShogiContent from "./ShogiContent";
 
-import "./shogiUI.styl"
+import "./shogiUI.css"
 import { useLocationContext } from "../Router/RouterContext";
 import { HistoryAnchor } from "../Router/HistoryAnchor";
 import { IconChevronUp } from "@tabler/icons-react";
-import.meta.glob("./styleModules/**/*.styl", {eager: true})
+import.meta.glob("./styleModules/**/*.css", {eager: true})
 
 export default function ShogiBody() {
     const location = useLocationContext()

@@ -17,12 +17,16 @@
     background: var(--modal-background);
     padding: 2%;
     border-radius: var(--radius);
-    width: @css{min(50em,100vw)};
-    height: @css{max(70vh, 480px)};
-    padding: @css{min(1%, 16px)};
+    width: min(50em,100vw);
+    height: max(70vh, 480px);
+    padding: min(1%, 16px);
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin: auto;
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    grid-template-rows: max-content 1fr;
+    min-width: 30em;
 }
 
 .videoaction-modal-transition {
@@ -73,14 +77,6 @@
 .videoaction-modal-header {
     padding: 0.5em 0;
     grid-column: 1 / 3;
-}
-
-
-.videoaction-modal-container {
-    display: grid;
-    grid-template-columns: 0.3fr 1fr;
-    grid-template-rows: max-content 1fr;
-    min-width: 30em;
 }
 
 button.videoaction-modal-close {

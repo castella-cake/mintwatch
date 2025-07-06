@@ -221,7 +221,7 @@ a.info-card-link {
 .card-drag-overlay {
     .info-card {
         width: min-content;
-        background: @css{rgb(from var(--bgcolor2) r g b / 0.8)};
+        background: rgb(from var(--bgcolor2) r g b / 0.8);
         backdrop-filter: blur(4px);
         border: var(--border);
         box-shadow: 0 0 8px #000;

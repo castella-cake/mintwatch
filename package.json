@@ -14,6 +14,7 @@
         "zip": "wxt zip",
         "zip:firefox": "wxt zip -b firefox",
         "compile": "tsc --noEmit",
+        "lint:style": "stylelint {entrypoints,components}/**/*.css",
         "postinstall": "wxt prepare",
         "e2e": "playwright test"
     },
@@ -52,6 +53,10 @@
         "@types/react-transition-group": "^4.4.11",
         "@wxt-dev/module-react": "^1.1.1",
         "playwright": "^1.53.1",
+        "postcss-nested": "^7.0.2",
+        "postcss-scss": "^4.0.9",
+        "stylelint": "^16.21.1",
+        "stylelint-config-standard-scss": "^15.0.1",
         "typescript": "^5.8.3",
         "wxt": "^0.20.7"
     },

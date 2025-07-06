@@ -6,14 +6,14 @@
     z-index: 100;
     margin-bottom: 16px;
     .header-upper-container {
-        background: @css{rgb(32 32 32 / 0.9)};
+        background: rgb(32 32 32 / 0.9);
         color: #fff;
         height: var(--header-height);
         backdrop-filter: blur(8px);
         z-index: 100;
     }
     .header-bottom-container {
-        background: @css{rgb(from var(--bgcolor2) r g b / 0.8);};
+        background: rgb(from var(--bgcolor2) r g b / 0.8);
         backdrop-filter: blur(8px);
         z-index: 99;
     }
@@ -23,7 +23,7 @@
     .header-center-container {
         justify-content: space-between;
         flex: 1.5 !important;
-        min-width: @css{min(var(--header-width), 80vw)};
+        min-width: min(var(--header-width), 80vw);
         > div {
             display: flex;
         }

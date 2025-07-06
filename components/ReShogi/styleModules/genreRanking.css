@@ -1,6 +1,6 @@
 .shogi-genre-ranking {
     display: grid;
-    width: @css{min(95vw, 91em)};
+    width: min(95vw, 91em);
     padding: 1rem 0;
     grid-template-columns: 1fr 50rem 1fr;
     grid-template-areas: "feat feat feat" ". items trend" ". page .";
@@ -99,7 +99,7 @@
         border-radius: var(--radius);
         border: var(--border);
         padding: 6px 12px;
-        font-size: 0.9rem
+        font-size: 0.9rem;
         text-align: center;
         &[data-is-active="true"] {
             background: var(--textcolor1);

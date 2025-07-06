@@ -23,7 +23,7 @@
     .seekbar-thumb {
         height: auto !important;
         width: 8px !important;
-        left: @css{max(var(--left), 9px)};
+        left: max(var(--left), 9px);
         transform: translate(-100%, 0);
         box-shadow: none;
         border-radius: 0;

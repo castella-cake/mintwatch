@@ -1,7 +1,7 @@
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext";
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData";
 
-import "../styleModules/Lyric.styl"
+import "../styleModules/Lyric.css"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { IconTransitionBottom } from "@tabler/icons-react";
 

@@ -3,8 +3,8 @@ import { ModalStateProvider } from "../Global/Contexts/ModalStateProvider";
 import { ErrorBoundary } from "react-error-boundary";
 import { IconBoom } from "@tabler/icons-react";
 import PluginList from "../Global/PluginList";
-import "../Global/baseUI.styl"
-import.meta.glob("../Global/styleModules/**/*.styl", {eager: true})
+import "../Global/baseUI.css"
+import.meta.glob("../Global/styleModules/**/*.css", {eager: true})
 import RouterUI from "./RouterUI";
 import { RouterProvider } from "./RouterContext";
 import { VideoRefContext } from "../Global/Contexts/VideoDataProvider";
