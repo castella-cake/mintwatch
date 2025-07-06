@@ -62,19 +62,19 @@
     }
 
     .commentlist-list-item[nicoru-count="1"] {
-        --item-bg: var(--nicoru1)
+        --item-bg: var(--nicoru1);
     }
 
     .commentlist-list-item[nicoru-count="2"] {
-        --item-bg: var(--nicoru2)
+        --item-bg: var(--nicoru2);
     }
 
     .commentlist-list-item[nicoru-count="3"] {
-        --item-bg: var(--nicoru3)
+        --item-bg: var(--nicoru3);
     }
 
     .commentlist-list-item[nicoru-count="4"] {
-        --item-bg: var(--nicoru4)
+        --item-bg: var(--nicoru4);
     }
     
     .commentlist-list-item-open {

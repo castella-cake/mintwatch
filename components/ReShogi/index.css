@@ -47,9 +47,9 @@ html.ReShogi-Enabled.PMDMP-black {
 }
 
 html.ReShogi-Enabled {
-    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg")
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
 }
 
 html.ReShogi-Enabled:not([class*="PMDMP-"]), html.ReShogi-Enabled.PMDMP-light, html.ReShogi-Enabled.PMDMP-nordlight {
-    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg")
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg");
 }

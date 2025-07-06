@@ -58,7 +58,7 @@
     }
 
     > input:first-child {
-        border-radius: var(--radius) 0 0 var(--radius)
+        border-radius: var(--radius) 0 0 var(--radius);
     }
 }
 

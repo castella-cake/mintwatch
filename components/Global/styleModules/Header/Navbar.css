@@ -55,7 +55,7 @@
 
         &:hover {
             background: var(--hover1);
-            color: var(--textcolor1); 
+            color: var(--textcolor1);
         }
     }
 

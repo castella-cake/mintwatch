@@ -42,7 +42,7 @@
 }
 
 .contenttree-link:hover {
-    background: var(--hover1)
+    background: var(--hover1);
 }
 
 .contenttree-container .contenttree-link:nth-child(2) {

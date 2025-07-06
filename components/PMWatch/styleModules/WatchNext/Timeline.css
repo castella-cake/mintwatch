@@ -23,7 +23,7 @@ img.video-timeline-activity-icon {
     aspect-ratio: 1 / 1;
     grid-area: img;
     border-radius: var(--radius);
-    background: var(--bgcolor1)
+    background: var(--bgcolor1);
 }
 
 .video-timeline-activity-message-actor {

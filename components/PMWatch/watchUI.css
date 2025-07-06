@@ -78,7 +78,7 @@
 
     // grid-auto-rows: 1fr; 
     grid-template-rows: repeat(3, max-content);
-    gap: var(--blocks-gap); 
+    gap: var(--blocks-gap);
 
     /* grid-template-areas: 
         "vid act act"

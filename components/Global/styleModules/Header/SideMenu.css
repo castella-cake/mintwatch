@@ -38,7 +38,7 @@
     color: var(--textcolor1);
 
     &:hover {
-        background: var(--hover1)
+        background: var(--hover1);
     }
 }
 

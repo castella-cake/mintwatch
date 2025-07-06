@@ -42,7 +42,7 @@
 
     &:hover {
         background: var(--textcolor1);
-        color: var(--bgcolor2)
+        color: var(--bgcolor2);
     }
 
     &.pmw-onboarding-popup-button-primary {

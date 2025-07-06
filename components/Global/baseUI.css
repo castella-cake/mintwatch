@@ -72,11 +72,11 @@ html.PMDMP-black {
 }
 
 html {
-    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg")
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
 }
 
 html:not([class*="PMDMP-"]), html.PMDMP-light, html.PMDMP-nordlight {
-    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg")
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg");
 }
 
 body {

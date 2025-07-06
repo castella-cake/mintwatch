@@ -79,11 +79,11 @@
 
 @keyframes sidebarslideleft {
     from {
-        --right-width: 0%
+        --right-width: 0%;
     }
 
     to {
-        --right-width: 25%
+        --right-width: 25%;
     }
 }
 
