@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal";
 import { useStorageContext } from "@/hooks/extensionHook";
-import { OnboardingPopup } from "./modules/Onboarding";
+import { OnboardingPopup } from "./modules/Onboarding/Onboarding";
 import { PlaylistDndWrapper } from "./modules/PlaylistDndWrapper";
 import { TitleElement } from "./modules/TitleElement";
 import { WatchContent, watchLayoutType } from "./WatchContent";

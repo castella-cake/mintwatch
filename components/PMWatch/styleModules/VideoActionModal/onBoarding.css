@@ -7,23 +7,25 @@
 
 .pmw-onboarding-popup {
     background: var(--bgcolor2);
-    padding: 16px;
+    padding: 20px;
     border-radius: 8px;
     margin: 8px;
     box-shadow: 0 0 8px #000a;
     border: 1px solid var(--accent1);
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 10px;
 }
 
 .pmw-onboarding-popup h2 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
 }
 
 .pmw-onboarding-popup-text {
     font-size: 0.9rem;
+    white-space: pre-wrap;
 }
 
 .pmw-onboarding-popup-buttons {
@@ -54,6 +56,11 @@
             color: var(--textcolor1);
         }
     }
+}
+
+.pmw-onboarding-popup-buttons > button.pmw-onboarding-popup-close-button {
+    margin-right: auto;
+    display: block;
 }
 
 // help

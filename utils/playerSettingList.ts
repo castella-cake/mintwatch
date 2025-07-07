@@ -30,6 +30,7 @@ export type PlayerSettingCategory = {
 export const playerSettingsLabel = {
     basic: "基本",
     comments: "コメント",
+    debug: "DEV"
 }
 
 export const playerSettings: PlayerSettingList = {
@@ -180,6 +181,17 @@ export const playerSettings: PlayerSettingList = {
                         step: 0.05,
                     }
                 }), {})
+            }
+        },
+    },
+    debug: {
+        label: "DEV",
+        visible: import.meta.env.DEV,
+        children: {
+            onboardingIgnored: {
+                type: "checkbox",
+                defaultValue: false,
+                name: "ONBOARDING"
             }
         },
     }
