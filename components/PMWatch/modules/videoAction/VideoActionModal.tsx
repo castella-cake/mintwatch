@@ -10,7 +10,7 @@ import {
 import ReactFocusLock from "react-focus-lock";
 import { Mylist } from "./MylistUI";
 import { Share } from "./ShareUI";
-import { RefObject } from "react";
+import { ReactNode, RefObject } from "react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import MarkdownHelp from "./MarkdownHelp";
 import KeyboardShortcuts from "./KeyboardShortcuts";
@@ -59,110 +59,92 @@ export function VideoActionModal({
                             </button>
                         </div>
                         <div className="videoaction-left">
-                        <div className="videoaction-select-separator">動画アクション</div>
-                            <button
-                                className="videoaction-select"
-                                onClick={() => {
-                                    setVideoActionModalState("mylist");
-                                }}
-                                is-active={
-                                    videoActionModalState === "mylist" ? "true" : "false"
-                                }
+                            <div className="videoaction-select-separator">動画アクション</div>
+                            <VideoActionTabButton
+                                stateKey={"mylist"}
                             >
                                 <IconFolder /> マイリスト
-                            </button>
-                            <button
-                                className="videoaction-select"
-                                onClick={() => {
-                                    setVideoActionModalState("share");
-                                }}
-                                is-active={
-                                    videoActionModalState === "share" ? "true" : "false"
-                                }
+                            </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey={"share"}
                             >
                                 <IconShare /> 共有
-                            </button>
-                            <button
-                                className="videoaction-select"
-                                onClick={() => {
-                                    setVideoActionModalState("ngcomments");
-                                }}
-                                is-active={
-                                    videoActionModalState === "ngcomments" ? "true" : "false"
-                                }
+                            </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey={"ngcomments"}
                             >
-                                <IconBubbleX/> NGコメント設定
-                            </button>
+                                <IconBubbleX /> NGコメント設定
+                            </VideoActionTabButton>
+
                             <div className="videoaction-select-separator videoaction-select-separator-bottom">ヘルプ</div>
-                            <button
-                                className="videoaction-select videoaction-select-bottom"
-                                onClick={() => {
-                                    setVideoActionModalState("whatsnew");
-                                }}
-                                is-active={
-                                    videoActionModalState === "whatsnew" ? "true" : "false"
-                                }
+
+                            <VideoActionTabButton
+                                stateKey={"whatsnew"}
+                                isBottom={true}
                             >
                                 <IconComet /> 更新情報
-                            </button>
-                            <button
-                                className="videoaction-select videoaction-select-bottom"
-                                onClick={() => {
-                                    setVideoActionModalState("shortcuts");
-                                }}
-                                is-active={
-                                    videoActionModalState === "shortcuts" ? "true" : "false"
-                                }
+                            </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey={"shortcuts"}
+                                isBottom={true}
                             >
                                 <IconKeyboard /> ショートカット
-                            </button>
-                            <button
-                                className="videoaction-select videoaction-select-bottom"
-                                onClick={() => {
-                                    setVideoActionModalState("help");
-                                }}
-                                is-active={
-                                    videoActionModalState === "help" ? "true" : "false"
-                                }
+                            </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey={"help"}
+                                isBottom={true}
                             >
                                 <IconHelpCircle /> はじめに
-                            </button>
-                            <button
-                                className="videoaction-select videoaction-select-bottom"
-                                onClick={() => {
-                                    setVideoActionModalState("about");
-                                }}
-                                is-active={
-                                    videoActionModalState === "about" ? "true" : "false"
-                                }
+                            </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey={"about"}
+                                isBottom={true}
                             >
                                 <MintWatchIcon /> MintWatch について
-                            </button>
+                            </VideoActionTabButton>
                         </div>
                         <div className="videoaction-content">
                             {videoActionModalState === "mylist" && (
-                                <Mylist onClose={() => {}} videoInfo={videoInfo} />
+                                <Mylist onClose={() => { }} videoInfo={videoInfo} />
                             )}
                             {videoActionModalState === "share" && (
                                 <Share videoInfo={videoInfo} />
                             )}
-                            {
-                                videoActionModalState === "ngcomments" && (
-                                    <NgComments/>
-                                )
-                            }
+                            {videoActionModalState === "ngcomments" && (
+                                <NgComments />
+                            )}
                             {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && <MarkdownHelp contentKey={videoActionModalState}>
                                 {videoActionModalState === "whatsnew" && <details>
                                     <summary>過去の更新情報</summary>
-                                    <MarkdownHelp contentKey="whatsnew_archive"/>
+                                    <MarkdownHelp contentKey="whatsnew_archive" />
                                 </details>}
                             </MarkdownHelp>}
-                            {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
-                            {videoActionModalState === "about" && <AboutMintWatch />}
+                            {videoActionModalState === "shortcuts" && (
+                                <KeyboardShortcuts />
+                            )}
+                            {videoActionModalState === "about" && (
+                                <AboutMintWatch />
+                            )}
                         </div>
                     </div>
                 </div>
             </ReactFocusLock>
         </CSSTransition>
     );
+}
+
+function VideoActionTabButton({ stateKey, isBottom, children }: { stateKey: ReturnType<typeof useVideoActionModalStateContext>, isBottom?: boolean, children: ReactNode }) {
+    const videoActionModalState = useVideoActionModalStateContext()
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    return <button
+        className={`videoaction-select ${isBottom ? "videoaction-select-bottom" : ""}`}
+        onClick={() => {
+            setVideoActionModalState(stateKey);
+        }}
+        is-active={
+            videoActionModalState === stateKey ? "true" : "false"
+        }
+    >
+        {children}
+    </button>
 }
