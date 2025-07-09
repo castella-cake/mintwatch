@@ -311,7 +311,7 @@
     border-radius: 16px;
     margin: auto 0;
     background: var(--linktext3);
-    border: 3px solid var(--textcolor1);
+    border: 3px solid #fafafa;
     box-shadow: 0 0 2px #000a !important;
     width: 12px;
     height: 18px;
