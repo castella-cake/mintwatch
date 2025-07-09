@@ -17,6 +17,8 @@ import KeyboardShortcuts from "./KeyboardShortcuts";
 import { CSSTransition } from "react-transition-group";
 import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 import NgComments from "./NgComments";
+import MintWatchIcon from "@/public/mintwatch-white.svg?react"
+import AboutMintWatch from "./About";
 
 export function VideoActionModal({
     nodeRef,
@@ -125,6 +127,17 @@ export function VideoActionModal({
                             >
                                 <IconHelpCircle /> はじめに
                             </button>
+                            <button
+                                className="videoaction-select videoaction-select-bottom"
+                                onClick={() => {
+                                    setVideoActionModalState("about");
+                                }}
+                                is-active={
+                                    videoActionModalState === "about" ? "true" : "false"
+                                }
+                            >
+                                <MintWatchIcon /> MintWatch について
+                            </button>
                         </div>
                         <div className="videoaction-content">
                             {videoActionModalState === "mylist" && (
@@ -145,6 +158,7 @@ export function VideoActionModal({
                                 </details>}
                             </MarkdownHelp>}
                             {videoActionModalState === "shortcuts" && <KeyboardShortcuts />}
+                            {videoActionModalState === "about" && <AboutMintWatch />}
                         </div>
                     </div>
                 </div>

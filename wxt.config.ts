@@ -1,4 +1,5 @@
 import { defineConfig } from 'wxt';
+import svgr from 'vite-plugin-svgr'
 // See https://wxt.dev/api/config.html
 
 export default defineConfig({
@@ -11,6 +12,9 @@ export default defineConfig({
                 '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
             },
         },
+        plugins: [
+            svgr()
+        ]
     }},
     manifest: {
         "name": "MintWatch (Beta)",
