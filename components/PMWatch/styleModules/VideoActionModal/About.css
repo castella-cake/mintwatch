@@ -32,3 +32,77 @@
         background: var(--hover1);
     }
 }
+
+.about-draggable {
+    display: inline-block;
+    background: var(--bgcolor2);
+    border-radius: 1024px;
+    padding: 4px;
+    cursor: grab;
+}
+
+.about-draggable svg {
+    height: 2rem;
+    width: 2rem;
+}
+
+.about-draggable + .about-mintwatch-buttonlink {
+    margin-left: 0.5rem;
+}
+
+.about-mintwatch-header button {
+    border: 2px outset #fff;
+    background: #eee;
+    color: #000;
+    font-family: "MS UI Gothic", sans-serif;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+@keyframes aboutshake {
+    0% {
+        transform: translate(0, 0)
+    }
+
+    20% {
+        transform: translate(5px, 0)
+    }
+
+    40% {
+        transform: translate(0, 5px)
+    }
+
+    60% {
+        transform: translate(-5px, 0)
+    }
+
+    80% {
+        transform: translate(0, -5px)
+    }
+
+    100% {
+        transform: translate(0, 0)
+    }
+}
+
+@keyframes aboutshow {
+    0% {
+        transform: translateX(0)
+    }
+
+    100% {
+        transform: translateX(75%)
+    }
+}
+
+@keyframes aboutboom {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(7);
+        opacity: 0;
+    }
+}

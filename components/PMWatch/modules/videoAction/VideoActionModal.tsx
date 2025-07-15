@@ -45,9 +45,7 @@ export function VideoActionModal({
                     <div className="videoaction-modal-container">
                         <div className="videoaction-modal-header global-flex">
                             <h2 className="global-flex1">
-                                {videoActionModalState === "help" || videoActionModalState === "shortcuts" || videoActionModalState === "whatsnew"
-                                    ? "ヘルプ"
-                                    : "動画アクション"}
+                                {returnTitle(videoActionModalState)}
                             </h2>
                             <button
                                 className="videoaction-modal-close"
@@ -147,4 +145,10 @@ function VideoActionTabButton({ stateKey, isBottom, children }: { stateKey: Retu
     >
         {children}
     </button>
+}
+
+function returnTitle(videoActionModalState: ReturnType<typeof useVideoActionModalStateContext>) {
+    if (videoActionModalState === "help" || videoActionModalState === "shortcuts" || videoActionModalState === "whatsnew") return "ヘルプ"
+    if (videoActionModalState === "about") return "MintWatch について"
+    return "動画アクション"
 }
