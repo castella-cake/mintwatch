@@ -1,16 +1,23 @@
-import { RefObject } from "react";
+import { ReactNode, RefObject } from "react";
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider";
 import SelectButton from "./SelectButton";
 import { watchLayoutType } from "../../WatchContent";
 
-const onboardPage = [
+type onboardingPage = {
+    title: ReactNode;
+    description: ReactNode;
+    selectors?: ReactNode;
+    hint?: ReactNode;
+}
+
+const onboardPages: onboardingPage[] = [
     {
         title: "MintWatch へようこそ",
         description: "現在 MintWatch を使って視聴中です。\nこのポップアップ内で簡単な設定を行ってみませんか？",
     },
     {
         title: "レイアウトを変更する",
-        description: "あなたが一番慣れ親しんだレイアウトを使えます。設定にはこれ以外にもレイアウトが用意されています。\nこの設定の変更中、現在視聴中の動画の再生状態がリセットされる可能性があります。",
+        description: "あなたが一番慣れ親しんだレイアウトを使えます。\n設定にはこれ以外にもレイアウトが用意されています。",
         selectors: <>
             <SelectButton title="Re:cresc" value={watchLayoutType.reimaginedOldWatch} storageKey="pmwlayouttype">
             </SelectButton>
@@ -18,11 +25,12 @@ const onboardPage = [
             </SelectButton>
             <SelectButton title="Shinjuku" value={watchLayoutType.shinjuku} storageKey="pmwlayouttype">
             </SelectButton>
-        </>
+        </>,
+        hint: "この設定の変更中、現在視聴中の動画の再生状態がリセットされる可能性があります。"
     },
     {
         title: "プレイヤーテーマ",
-        description: "自分好みのプレイヤーテーマを使用できます。\n前に「Shinjuku」レイアウトを選択した場合は、ここでも「Shinjuku」にしておくことをおすすめします。",
+        description: "自分好みのプレイヤーテーマを使用できます。",
         selectors: <>
             <SelectButton title="MintWatch" value={"default"} storageKey="pmwplayertype">
             </SelectButton>
@@ -32,7 +40,8 @@ const onboardPage = [
             </SelectButton>
             <SelectButton title="GINZA+" value={"ginzaplus"} storageKey="pmwplayertype">
             </SelectButton>
-        </>
+        </>,
+        hint: "前に「Shinjuku」レイアウトを選択した場合は、ここでも「Shinjuku」にしておくことをおすすめします。"
     },
     {
         title: "コメントリストの表示",
@@ -58,7 +67,7 @@ const onboardPage = [
     },
     {
         title: "完了しました",
-        description: "これで初期設定は終了です。これ以外にも、さまざまな設定をヘッダーのスパナアイコンから調整できます。\nプレイヤーの歯車マークから開けるプレイヤー設定や、「はじめに」も確認しておくことをおすすめします。"
+        description: "これで初期設定は終了です。\nこれ以外にも、さまざまな設定をヘッダーのスパナアイコンから調整できます。\n「はじめに」を確認しておくことをおすすめします。"
     }
 ]
 
@@ -76,7 +85,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
         setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
     }
 
-    const currentPage = onboardPage[pageIndex];
+    const currentPage = onboardPages[pageIndex];
 
     return <div className="pmw-onboarding-popup-wrapper" ref={nodeRef}>
         <div className="pmw-onboarding-popup">
@@ -87,10 +96,13 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
             { currentPage.selectors && <div className="pmw-onboarding-popup-childrens">
                 {currentPage.selectors}
             </div>}
+            { currentPage.hint && <small className="pmw-onboarding-popup-hint">
+                {currentPage.hint}
+            </small>}
             <div className="pmw-onboarding-popup-buttons">
                 <button onClick={() => {writePlayerSettings("onboardingIgnored", true)}} className="pmw-onboarding-popup-close-button">閉じる</button>
                 { pageIndex > 0 && <button className="pmw-onboarding-popup-button-primary" onClick={() => setPageIndex(i => i - 1)}>戻る</button> }
-                { pageIndex === onboardPage.length - 1 ? 
+                { pageIndex === onboardPages.length - 1 ? 
                     <button className="pmw-onboarding-popup-button-primary" onClick={() => {setVideoActionModalState("help");writePlayerSettings("onboardingIgnored", true)}}>MintWatch のはじめに</button> :
                     <button className="pmw-onboarding-popup-button-primary" onClick={() => setPageIndex(i => i + 1)}>次のステップへ</button>
                 }
