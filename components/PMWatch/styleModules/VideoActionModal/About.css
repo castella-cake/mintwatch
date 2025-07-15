@@ -2,6 +2,7 @@
     text-align: center;
     padding: 16px;
     background: var(--bgcolor2);
+    border-radius: var(--radius);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -57,6 +58,10 @@
     font-family: "MS UI Gothic", sans-serif;
     padding: 4px 8px;
     font-size: 12px;
+
+    &:active {
+        background: #ddd;
+    }
 }
 
 @keyframes aboutshake {
