@@ -31,7 +31,7 @@ function SideMenuItem({ item, isEditMode }: { item: SideMenuItem, isEditMode: bo
     const style = {
         ...( isDragging && {pointerEvents: ("none" as React.CSSProperties["pointerEvents"])})
     };
-    return <a href={item.href} className="sidemenu-item" ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    return <a href={item.href} className="sidemenu-item" ref={setNodeRef} {...attributes} {...listeners} style={style} aria-disabled="false">
         {item.icon ?? <></>}
         <span className="sidemenu-item-label">{item.label}</span>
     </a>
