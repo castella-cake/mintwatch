@@ -525,7 +525,7 @@ interface Client {
 
 interface GoogleTagManager {
     user: GoogleTagManagerUser;
-    content: GoogleTagManagerContent;
+    content?: GoogleTagManagerContent;
 }
 
 interface GoogleTagManagerContent {

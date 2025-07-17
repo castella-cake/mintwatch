@@ -1,12 +1,12 @@
 import { expect, test } from "../fixtures";
 
-test('Layout change test', async ({ page, context, mockApi }) => {
+test('Watch: Layout change test', async ({ page, context, mockApi }) => {
     await mockApi();
     
     await page.goto('https://www.nicovideo.jp/watch/sm0');
     await page.bringToFront();
 
-    await page.waitForSelector("#pmw-element-video")
+    await page.waitForSelector("#pmw-element-video");
 
     const watchType = ["recresc", "renew", "stacked", "3col", "shinjuku", "rerekari"]
     for (const type of watchType) {

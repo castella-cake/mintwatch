@@ -2,6 +2,9 @@ import { test as base, chromium, type BrowserContext } from "@playwright/test";
 import path from "path";
 import { watchTestData } from "./datas/watch";
 import { mylistsTestData } from "./datas/mylists";
+import { watchForbiddenTestData } from "./datas/forbiddenWatch";
+import { customRankingTestData } from "./datas/customRanking";
+import { genreRankingTestData } from "./datas/genreRanking";
 
 const pathToExtension = path.resolve(".output/chrome-mv3");
 
@@ -37,9 +40,10 @@ export const test = base.extend<{
     },
     mockApi: async ({ page }, use) => {
         async function applyMockApi() {
-            await page.route('**/*', route => route.abort());
+            await page.route('https://**/*', route => route.abort());
+            await page.route('http://**/*', route => route.abort());
     
-            await page.route('https://www.nicovideo.jp/watch/sm0', route => route.fulfill({
+            await page.route(/^https:\/\/www\.nicovideo\.jp\/(?!.*\?responseType=json).*$/, route => route.fulfill({
                 status: 200,
                 body: `<!DOCTYPE html><html lang="ja"><head></head><body></body></html>`,
             }));
@@ -49,9 +53,24 @@ export const test = base.extend<{
                 json: watchTestData,
             }));
 
+            await page.route('https://www.nicovideo.jp/watch/sm1?responseType=json', route => route.fulfill({
+                status: 400,
+                json: watchForbiddenTestData,
+            }));
+
             await page.route("https://nvapi.nicovideo.jp/v1/users/me/mylists", route => route.fulfill({
                 status: 200,
                 json: mylistsTestData,
+            }))
+
+            await page.route("https://www.nicovideo.jp/ranking/custom?responseType=json", route => route.fulfill({
+                status: 200,
+                json: customRankingTestData,
+            }))
+            
+            await page.route(/https:\/\/www\.nicovideo\.jp\/ranking\/genre\?responseType=json&page=.&term=.*/, route => route.fulfill({
+                status: 200,
+                json: genreRankingTestData,
             }))
         }
 

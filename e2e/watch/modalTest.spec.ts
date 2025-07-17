@@ -1,12 +1,12 @@
 import { expect, test } from "../fixtures";
 
-test('Modal open test', async ({ page, context, mockApi }) => {
+test('Watch: Modal open test', async ({ page, context, mockApi }) => {
     await mockApi();
     
     await page.goto('https://www.nicovideo.jp/watch/sm0');
     await page.bringToFront();
 
-    await page.waitForSelector("#pmw-element-video")
+    await page.waitForSelector("#pmw-element-video");
 
     await page.getByRole('button', { name: '閉じる' }).click();
 
