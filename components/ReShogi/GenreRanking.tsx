@@ -1,6 +1,6 @@
 import { GenreRankingDataRootObject } from "@/types/ranking/genreData";
-import { Card } from "../PMWatch/modules/Info/InfoCards";
-import { readableInt, secondsToTime } from "../PMWatch/modules/commonFunction";
+import { Card } from "@/components/Global/InfoCard";
+import { readableInt, secondsToTime } from "@/utils/readableValue";
 import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled, IconTag } from "@tabler/icons-react";
 import { useLocationContext } from "../Router/RouterContext";
 import { HistoryAnchor } from "../Router/HistoryAnchor";

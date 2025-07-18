@@ -4,7 +4,8 @@ import type { Dispatch, JSX, ReactNode, RefObject, SetStateAction } from "react"
 import Hls from "hls.js";
 import type { effectsState } from "@/hooks/eqHooks";
 import { Seekbar } from "./Seekbar";
-import { secondsToTime, timeCalc } from "../commonFunction";
+import { timeCalc } from "../commonFunction";
+import { secondsToTime } from "@/utils/readableValue";
 import { useStorageContext } from "@/hooks/extensionHook";
 import { CSSTransition } from "react-transition-group";
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData";

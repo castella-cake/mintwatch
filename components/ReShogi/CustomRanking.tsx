@@ -1,5 +1,5 @@
-import { Card } from "../PMWatch/modules/Info/InfoCards";
-import { readableInt, secondsToTime } from "../PMWatch/modules/commonFunction";
+import { Card } from "@/components/Global/InfoCard";
+import { readableInt, secondsToTime } from "@/utils/readableValue";
 import { IconFolderFilled, IconMessageFilled, IconPencil, IconPlayerPlayFilled } from "@tabler/icons-react";
 import relativeTimeFrom from "@/utils/relativeTimeFrom";
 import { useRankingCustomData } from "@/hooks/apiHooks/ranking/customData";

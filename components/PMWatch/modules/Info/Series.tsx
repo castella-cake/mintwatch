@@ -1,4 +1,4 @@
-import { SeriesVideoCard } from "./InfoCards";
+import { SeriesVideoCard } from "@/components/Global/InfoCard";
 import { IconListNumbers } from "@tabler/icons-react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 

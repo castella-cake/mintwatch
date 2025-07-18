@@ -1,12 +1,9 @@
-import { IconCircleMinus, IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react";
-import { secondsToTime } from "../commonFunction";
-import { playlistVideoItem } from "../Playlist";
-import { CSS } from "@dnd-kit/utilities";
+import { IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react";
 import { useDraggable } from "@dnd-kit/core";
 import { RecommendItem } from "@/types/RecommendData";
-import { useSortable } from "@dnd-kit/sortable";
 import { ReactNode } from "react";
 import { SeriesVideoItem } from "@/types/VideoData";
+import { secondsToTime } from "@/utils/readableValue";
 
 function Draggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
     const {attributes, listeners, setNodeRef, isDragging} = useDraggable({
@@ -17,21 +14,6 @@ function Draggable({ id, obj, children }: { id: string, obj: any, children: Reac
         ...( isDragging && {pointerEvents: ("none" as React.CSSProperties["pointerEvents"])})
     };
     return <div ref={setNodeRef} {...attributes} {...listeners} style={style} className="draggable-infocard-wrapper">
-        { children }
-    </div>
-}
-
-function Sortable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
-    const {attributes, listeners, setNodeRef, transform, transition, isDragging} = useSortable({
-        id: id,
-        data: obj
-    });
-    const style = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-        ...( isDragging && {pointerEvents: ("none" as React.CSSProperties["pointerEvents"]), zIndex: 1000})
-    };
-    return <div style={style} ref={setNodeRef} {...listeners} {...attributes} className="sortable-infocard-wrapper">
         { children }
     </div>
 }
@@ -79,6 +61,7 @@ export function VideoInfo({obj, additionalQuery, isNowPlaying, isNextVideo = fal
         </Card>
     </Draggable>
 }
+
 export function MylistInfo(props: { obj: RecommendItem }) {
     const obj = props.obj
     return (<Card
@@ -95,20 +78,10 @@ export function MylistInfo(props: { obj: RecommendItem }) {
     )
 }
 
-export function PlaylistVideoCard({obj, additionalQuery, isNowPlaying, isNextVideo = false, onRemove, isPreview = false}: { obj: playlistVideoItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, onRemove: () => void, isPreview?: boolean }) {
-    return <Sortable id={obj.itemId} obj={obj}>
-        <Card
-            thumbnailUrl={obj.thumbnailUrl}
-            title={obj.title}
-            href={`https://www.nicovideo.jp/watch/${obj.id}${additionalQuery || ""}`}
-            thumbText={secondsToTime(obj.duration)}
-            subTitle={<>{obj.ownerName || "非公開または退会済みユーザー"}{ !isNowPlaying && <button className="info-card-removebtn" onClick={onRemove} title="プレイリストから削除"><IconCircleMinus/></button> }</>}
-            data-nowplaying={isNowPlaying}
-            data-is-preview={isPreview}
-        >
-            { isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled/></span> }{ isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled/></span>}{obj.title}
-        </Card>
-    </Sortable>
+export function InfoCardFromRecommend({ obj, isNextVideo = false }: { obj: RecommendItem, isNextVideo?: boolean }) {
+    if (obj.contentType == "video") return <VideoInfo obj={obj} isNextVideo={isNextVideo}/>
+    if (obj.contentType == "mylist") return <MylistInfo obj={obj}/>
+    return <div>Unknown contentType</div>
 }
 
 export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: SeriesVideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
@@ -128,10 +101,4 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
             </span>
         </Card>
     </Draggable>
-}
-
-export function InfoCard({ obj, isNextVideo = false }: { obj: RecommendItem, isNextVideo?: boolean }) {
-    if (obj.contentType == "video") return <VideoInfo obj={obj} isNextVideo={isNextVideo}/>
-    if (obj.contentType == "mylist") return <MylistInfo obj={obj}/>
-    return <div>Unknown contentType</div>
 }

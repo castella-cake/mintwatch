@@ -10,8 +10,8 @@ import {
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
-import { Card } from "./Info/InfoCards";
-import { secondsToTime } from "./commonFunction";
+import { Card } from "@/components/Global/InfoCard";
+import { secondsToTime } from "@/utils/readableValue"
 import { SeriesVideoItem } from "@/types/VideoData";
 import { RecommendItem } from "@/types/RecommendData";
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext} from "@/components/Global/Contexts/PlaylistProvider";

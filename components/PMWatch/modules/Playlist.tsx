@@ -1,4 +1,4 @@
-import { PlaylistVideoCard } from "./Info/InfoCards";
+import { PlaylistVideoCard } from "./PlaylistInfoCard";
 import { MylistResponseRootObject } from "@/types/mylistData";
 import { SeriesResponseRootObject } from "@/types/seriesData";
 import { useDroppable } from "@dnd-kit/core";
@@ -6,7 +6,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider";
-import { secondsToTime } from "./commonFunction";
+import { secondsToTime } from "@/utils/readableValue";
 
 export type playlistData = {
     type: "mylist" | "series" | "custom" | "none";

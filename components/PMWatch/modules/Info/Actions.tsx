@@ -7,7 +7,7 @@ import {
     IconSpeakerphone,
 } from "@tabler/icons-react";
 import { ReactNode, useEffect, useState } from "react";
-import { readableInt } from "../commonFunction";
+import { readableInt } from "@/utils/readableValue";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import LikeThanksMessage from "./LikeThanksMessage";
 import { useQueryClient } from "@tanstack/react-query";

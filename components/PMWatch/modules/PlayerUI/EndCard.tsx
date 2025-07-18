@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InfoCard, SeriesVideoCard } from "../Info/InfoCards";
+import { InfoCardFromRecommend, SeriesVideoCard } from "@/components/Global/InfoCard"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
 import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData";
@@ -90,7 +90,7 @@ export function EndCard({ smId }: { smId: string }) {
                 <h2>おすすめの動画</h2>
                 <div className="endcard-upnext-container">
                     {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
-                        return <InfoCard key={`${elem.id}`} obj={elem}/>
+                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem}/>
                     })}
                 </div>
             </>}

@@ -1,5 +1,5 @@
 import { Comment } from "@/types/CommentData";
-import { secondsToTime } from "../commonFunction";
+import { secondsToTime } from "@/utils/readableValue";
 import NicoruSvg from "./nicoruSvg";
 
 type RowProps = {

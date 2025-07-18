@@ -1,6 +1,6 @@
+import { Card } from "@/components/Global/InfoCard";
 import { useVideoTimelineData } from "@/hooks/apiHooks/watch/videoTimelineData";
-import { Card } from "../Info/InfoCards";
-import { secondsToTime } from "../commonFunction";
+import { secondsToTime } from "@/utils/readableValue";
 
 const splitWithYMD = (items: VideoTimelineDataRootObject['activities']) => {
     const result: { [key: string]: VideoTimelineDataRootObject['activities'] } = {};

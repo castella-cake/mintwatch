@@ -1,7 +1,7 @@
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import { IconClockHour4Filled, IconCoinYenFilled, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { ReactNode } from "react";
-import { readableInt } from "../commonFunction";
+import { readableInt } from "@/utils/readableValue";
 
 export default function VideoTitle({ children, showStats }: { children?: ReactNode, showStats?: boolean }) {
     const { videoInfo } = useVideoInfoContext();

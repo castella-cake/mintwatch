@@ -1,7 +1,7 @@
 
 //import { useLang } from "../localizeHook";
-import { InfoCard } from "../Info/InfoCards";
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider";
+import { InfoCardFromRecommend } from "@/components/Global/InfoCard";
 function Recommend() {
     const recommendData = useRecommendContext();
 
@@ -12,7 +12,7 @@ function Recommend() {
     return (
         recommendData.data.items.map((elem, index) => {
             return (
-                <InfoCard
+                <InfoCardFromRecommend
                     key={`recommend-${elem.id}`}
                     obj={elem}
                 />

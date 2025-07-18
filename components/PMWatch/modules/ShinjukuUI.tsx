@@ -1,4 +1,4 @@
-import { readableInt } from "./commonFunction";
+import { readableInt } from "@/utils/readableValue";
 import { useEffect, useState } from "react";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
 import UserFollowButton from "./Info/UserFollowButton";

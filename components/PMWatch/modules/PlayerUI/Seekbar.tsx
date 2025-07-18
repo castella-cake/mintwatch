@@ -1,5 +1,5 @@
 import { Dispatch, PointerEvent, RefObject, SetStateAction, useMemo } from "react";
-import { secondsToTime } from "../commonFunction";
+import { secondsToTime } from "@/utils/readableValue";
 
 import type { Comment as CommentItem} from "@/types/CommentData";
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData";
