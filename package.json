@@ -14,6 +14,7 @@
         "zip": "wxt zip",
         "zip:firefox": "wxt zip -b firefox",
         "compile": "tsc --noEmit",
+        "lint:script": "eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:style": "stylelint {entrypoints,components}/**/*.css",
         "postinstall": "wxt prepare",
         "e2e": "playwright test"
