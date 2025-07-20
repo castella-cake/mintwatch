@@ -16,7 +16,7 @@
         "compile": "tsc --noEmit",
         "lint:script": "eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:style": "stylelint {entrypoints,components}/**/*.css",
-        "postinstall": "wxt prepare",
+        "postinstall": "wxt prepare && lefthook install",
         "e2e": "playwright test"
     },
     "dependencies": {
