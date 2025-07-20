@@ -14,8 +14,7 @@ export interface NicoruPostBodyRootObject {
     nicoruKey: string
 }
 
-export interface NicoruPostResponseRootObject {
-    meta: Meta
+export interface NicoruPostResponseRootObject extends baseResponse {
     data: NicoruPostResponseData
 }
 
@@ -24,7 +23,6 @@ interface NicoruPostResponseData {
     nicoruId: string
 }
 
-export interface NicoruRemoveRootObject {
-    meta: Meta
+export interface NicoruRemoveRootObject extends baseResponse {
     data: any[]
 }
