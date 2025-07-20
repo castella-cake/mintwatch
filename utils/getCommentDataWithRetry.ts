@@ -53,13 +53,11 @@ export async function getCommentDataWithRetry(nvComment: NvComment | undefined, 
                 ) {
                     throw new APIError("getCommentThread failed. (1 threadKey retry)", commentResponse)
                 }
-            }
-            else {
+            } else {
                 console.error("PMW: fetching threadKey failed.")
                 throw new APIError("fetching threadKey failed.", threadKeyResponse)
             }
-        }
-        else {
+        } else {
             throw new APIError("getCommentThread failed with unknown reason. (no threadKey retry)", commentResponse)
         }
     }

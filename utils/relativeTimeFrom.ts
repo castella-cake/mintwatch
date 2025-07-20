@@ -14,16 +14,13 @@ export default function relativeTimeFrom(date: Date): string {
     if (diffMilliseconds >= dayMs) {
         value = Math.floor(diffMilliseconds / dayMs)
         unit = "日前"
-    }
-    else if (diffMilliseconds >= hourMs) {
+    } else if (diffMilliseconds >= hourMs) {
         value = Math.floor(diffMilliseconds / hourMs)
         unit = "時間前"
-    }
-    else if (diffMilliseconds >= minuteMs) {
+    } else if (diffMilliseconds >= minuteMs) {
         value = Math.floor(diffMilliseconds / minuteMs)
         unit = "分前"
-    }
-    else {
+    } else {
         return `${Math.floor(diffMilliseconds / secondMs)}秒前`
     }
 

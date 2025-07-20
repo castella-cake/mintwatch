@@ -15,8 +15,7 @@ function tagLengthCounter(tagText: string) {
     for (let i = 0; i < tagText.length; i++) {
         if (tagText[i].match(/[ -~]/)) {
             length++
-        }
-        else {
+        } else {
             length += 2
         }
     }
@@ -78,8 +77,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             setIsEditable(response.data.isEditable)
             setIsEditMode(state => !state)
             setIsLockable(response.data.isLockable)
-        }
-        else {
+        } else {
             setIsEditable(false)
             setIsEditMode(false)
             setIsLockable(false)
@@ -99,11 +97,9 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
         ) return
         if (tagLengthCounter(tagInputRef.current.value) > 40) {
             showAlert({ title: "タグを登録できません", body: "タグは40文字以内で入力してください。\n(全角文字は2文字としてカウントされます)", icon: <IconAlertTriangle /> })
-        }
-        else if (tags.some(elem => tagInputRef.current && elem.name === tagInputRef.current.value)) {
+        } else if (tags.some(elem => tagInputRef.current && elem.name === tagInputRef.current.value)) {
             showAlert({ title: "タグを登録できません", body: "このタグは既に登録されています。", icon: <IconAlertTriangle /> })
-        }
-        else {
+        } else {
             const tagName = tagInputRef.current.value
             const response: TagsApiRootObject = await tagsEditApi(smId, tagName, "POST")
             if (response.meta.status === 400 && response.meta.errorCode === "TAG_RESERVED") showAlert({ title: "タグを登録できません", body: "400: 予約済みのタグは登録できません。", icon: <IconCircleX /> })

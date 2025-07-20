@@ -208,8 +208,7 @@ function PlayerController(props: Props) {
         if (!video) return
         if (video.paused) {
             video.play()
-        }
-        else {
+        } else {
             video.pause()
         }
         setIsIconPlay(video.paused)

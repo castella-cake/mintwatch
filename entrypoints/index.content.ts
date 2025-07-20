@@ -16,8 +16,7 @@ export default defineContentScript({
             const syncStorage: { [key: string]: any } = storages[0].status === "fulfilled" ? storages[0].value : {}
             if (watchPattern.includes(window.location.toString()) || (rankingPattern.includes(window.location.toString()) && syncStorage.enableReshogi)) {
                 initializeRouter(ctx, storages)
-            }
-            else {
+            } else {
                 ctx.addEventListener(window, "wxt:locationchange", ({ newUrl }) => {
                     if (watchPattern.includes(newUrl) || (rankingPattern.includes(window.location.toString()) && syncStorage.enableReshogi)) window.location.reload()// Promise.allSettled(storagePromises).then(initializeWatch, onError);
                 })

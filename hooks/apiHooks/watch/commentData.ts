@@ -29,8 +29,7 @@ export function useCommentData(
                     )
                 setCommentContent(commentResponse)
                 commentThreadKeyRef.current = nvComment.threadKey
-            }
-            catch (error) {
+            } catch (error) {
                 console.error(error)
             }
         }
@@ -87,8 +86,7 @@ export function useCommentData(
                         )
                         return
                     }
-                }
-                else {
+                } else {
                     console.error("PMW: fetching threadKey failed.")
                     return
                 }
@@ -154,12 +152,10 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
                     thisComment.nicoruCount = thisComment.nicoruCount - 1
                     thisComment.nicoruId = null
                     return commentContentCopy
-                }
-                else {
+                } else {
                     throw new APIError("removeNicoru failed.", response)
                 }
-            }
-            else {
+            } else {
                 const nicoruKeyResponse = await getNicoruKey(currentThread.id, currentThread.forkLabel)
                 if (nicoruKeyResponse.meta.status !== 200) throw new APIError("getNicoruKey failed.", nicoruKeyResponse)
                 const body: NicoruPostBodyRootObject = {
@@ -190,8 +186,7 @@ export function useCommentDataQuery(nvComment: NvComment | undefined, smId: stri
                     thisComment.nicoruCount = thisComment.nicoruCount + 1
                     thisComment.nicoruId = response.data.nicoruId
                     return commentContentCopy
-                }
-                else {
+                } else {
                     throw new APIError("postNicoru failed.", response)
                 }
             }

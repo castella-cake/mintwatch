@@ -77,11 +77,9 @@ export default function GenreRankingContent() {
         queryFn: () => {
             if (thisPath === "" || thisPath === "/") {
                 return getGenreRanking(pageParam, termParam)
-            }
-            else if (tagParam) {
+            } else if (tagParam) {
                 return getGenreRanking(pageParam, termParam, featuredKeyPathArray[0], tagParam)
-            }
-            else {
+            } else {
                 return getGenreRanking(pageParam, termParam, featuredKeyPathArray[0])
             }
         },

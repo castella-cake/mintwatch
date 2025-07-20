@@ -23,8 +23,7 @@ export default function blockScriptElement(element: Element) {
         }
         element.addEventListener("beforescriptexecute", onBeforeScriptExecute)
         element.remove()
-    }
-    else if (
+    } else if (
         element.tagName.toLowerCase() === "link"
         && typeof element.getAttribute("href") === "string"
         && href.includes("resource.video.nimg.jp")
@@ -32,8 +31,7 @@ export default function blockScriptElement(element: Element) {
         // console.log("blocked:",element);
         element.setAttribute("href", "")
         element.remove()
-    }
-    else {
+    } else {
         // console.log("not blocked:",element);
     }
 }

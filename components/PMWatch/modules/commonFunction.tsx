@@ -7,24 +7,19 @@ export function timeCalc(operation: string, time: number, currentTime: number, d
     if (operation == "add" && currentTime + time < 0) {
         // 足した結果が0未満
         return 0
-    }
-    else if (operation == "add" && currentTime + time < duration) {
+    } else if (operation == "add" && currentTime + time < duration) {
         // 足した結果が合計時間を超えない
         return time + currentTime
-    }
-    else if (operation == "add" && currentTime + time > duration) {
+    } else if (operation == "add" && currentTime + time > duration) {
         // 足した結果が合計時間を超える
         return duration
-    }
-    else if (operation == "set" && time >= 0) {
+    } else if (operation == "set" && time >= 0) {
         // 三項演算子 指定された時間が合計時間を超えるなら合計時間に
         return (time > duration ? duration : time)
-    }
-    else if (operation == "set" && time < 0) {
+    } else if (operation == "set" && time < 0) {
         // 指定された時間が0未満
         return 0
-    }
-    else {
+    } else {
         throw new Error("Operation not found")
     }
 }
@@ -45,8 +40,7 @@ export const handleCtrl = (
         if (video.paused) {
             video.play()
             setShortcutFeedback("再生")
-        }
-        else {
+        } else {
             video.pause()
             setShortcutFeedback("一時停止")
         }
@@ -93,8 +87,7 @@ export const handleCtrl = (
         e.preventDefault()
         if (video.muted) {
             setShortcutFeedback("ミュート解除")
-        }
-        else setShortcutFeedback("ミュート")
+        } else setShortcutFeedback("ミュート")
         video.muted = !video.muted
         return false
     }
@@ -167,11 +160,9 @@ export function wheelTranslator(e: WheelEvent) {
     e.preventDefault()
     if (e.currentTarget.scrollLeft + e.deltaY > e.currentTarget.scrollWidth - e.currentTarget.clientWidth) {
         e.currentTarget.scrollLeft = e.currentTarget.scrollWidth - e.currentTarget.clientWidth
-    }
-    else if (e.currentTarget.scrollLeft + e.deltaY < 0) {
+    } else if (e.currentTarget.scrollLeft + e.deltaY < 0) {
         e.currentTarget.scrollLeft = 0
-    }
-    else {
+    } else {
         e.currentTarget.scrollLeft += e.deltaY
     }
 }

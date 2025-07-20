@@ -82,12 +82,10 @@ export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoI
                         if (preferredLevel !== -1 && hls.currentLevel !== preferredLevel) hls.currentLevel = returnGreatestLevelNumber(preferredLevel, (data.levels.length - 1))
                     })
                     hlsRef.current = hls
-                }
-                else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
+                } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
                     videoRef.current.src = hlsResponse.data.contentUrl
                 }
-            }
-            else {
+            } else {
                 if (videoRef.current) videoRef.current.src = ""
             }
         }

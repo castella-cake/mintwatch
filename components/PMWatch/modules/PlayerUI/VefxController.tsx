@@ -8,11 +8,9 @@ import { effectsState } from "@/hooks/eqHooks"
 function delayString(delayTime: number, feedback: number) {
     if (feedback <= 0) {
         return "Delay"
-    }
-    else if (delayTime <= 0.15) {
+    } else if (delayTime <= 0.15) {
         return "Echo"
-    }
-    else {
+    } else {
         return "Reverb"
     }
 }
@@ -43,20 +41,17 @@ function VefxDisplay({ effectsState }: { effectsState: effectsState }) {
         text = "MULTIPLE EFFECTS"
         bgColor = "#ffe53d"
         textColor = "#2b2600"
-    }
-    else if (enabledEffects.length == 2) {
+    } else if (enabledEffects.length == 2) {
         text = enabledEffects
             .map((elem: string) => elem.toUpperCase())
             .join("/")
         bgColor = "#4d88ff"
         textColor = "#000729"
-    }
-    else if (enabledEffects.length == 1) {
+    } else if (enabledEffects.length == 1) {
         if (enabledEffects[0]) text = enabledEffects[0].toUpperCase()
         bgColor = "#3de8ff"
         textColor = "#002226"
-    }
-    else {
+    } else {
         text = "EFFECT OFF"
         bgColor = "#333"
         textColor = "#fff"

@@ -95,8 +95,7 @@ function Playlist() {
             sortKey: "addedAt",
             sortOrder: "asc",
         }
-    }
-    else if (playlistData.type === "series") {
+    } else if (playlistData.type === "series") {
         playlistQuery.context = { seriesId: Number(playlistData.id) }
     }
     const query = encodeURIComponent(btoa(JSON.stringify(playlistQuery)))
@@ -126,8 +125,7 @@ function Playlist() {
     if (previewPlaylistItem.item && !playlistData.items.some(item => item.itemId === previewPlaylistItem.item!.itemId)) {
         if (previewPlaylistItem.index !== -1) {
             extendedItems = playlistData.items.toSpliced(previewPlaylistItem.index, 0, previewPlaylistItem.item)
-        }
-        else {
+        } else {
             extendedItems = [...playlistData.items, previewPlaylistItem.item]
         }
     }

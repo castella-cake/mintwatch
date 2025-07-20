@@ -38,8 +38,7 @@ function CreateWatchUI() {
         const autoScrollSetting = syncStorage.autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
-        }
-        else if (autoScrollSetting === "player" && videoRef.current && doScroll) {
+        } else if (autoScrollSetting === "player" && videoRef.current && doScroll) {
             videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
         }
         // historyにpushして移動

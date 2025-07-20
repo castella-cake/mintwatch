@@ -21,8 +21,7 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         if (faviconElement) {
             faviconElement.href = ""
             faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
-        }
-        else {
+        } else {
             const linkElement = document.createElement("link")
             linkElement.rel = "shortcut icon"
             linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"

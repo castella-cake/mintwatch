@@ -22,6 +22,7 @@ export default defineConfig([
     },
     stylistic.configs.customize({
         indent: 4,
+        braceStyle: "1tbs",
         quotes: "double",
         semi: false,
     }),

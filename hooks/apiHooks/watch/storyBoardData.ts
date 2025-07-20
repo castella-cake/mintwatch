@@ -44,8 +44,7 @@ export function useStoryBoardData(
         }
         if (videoInfo?.data.response.media.domand?.isStoryboardAvailable) {
             getData()
-        }
-        else {
+        } else {
             _setStoryBoardData(null)
         }
     }, [smId, videoInfo])

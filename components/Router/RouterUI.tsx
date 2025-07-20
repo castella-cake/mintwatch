@@ -48,8 +48,7 @@ export default function RouterUI() {
                 e.preventDefault()
                 if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
                     setBackgroundPlaying(true)
-                }
-                else {
+                } else {
                     setBackgroundPlaying(false)
                 }
                 history.push(nearestAnchor.href)
@@ -61,8 +60,7 @@ export default function RouterUI() {
         return history.listen(({ location: newLocation }) => {
             if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
                 setBackgroundPlaying(true)
-            }
-            else {
+            } else {
                 setBackgroundPlaying(false)
             }
         })

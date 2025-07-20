@@ -12,8 +12,7 @@ export default function useServerContext() {
                 .getElementsByName("server-context")[0]
                 .getAttribute("content")!,
         ) as ServerContextRootObject
-    }
-    else {
+    } else {
         return null
     }
 }

@@ -59,8 +59,7 @@ function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
                     </Card>
                 )
             : null
-    }
-    else if (isValidSeriesVideoItem(draggingItem)) {
+    } else if (isValidSeriesVideoItem(draggingItem)) {
         const seriesVideoItem = draggingItem
         return (
             seriesVideoItem && (
@@ -150,8 +149,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
                 items: itemsAfter,
                 type: "custom",
             }))
-        }
-        else if (
+        } else if (
             e.over
             && e.active.id.toString().includes("-series")
             && e.active.data.current
@@ -172,8 +170,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
                 items: itemsAfter,
                 type: "custom",
             }))
-        }
-        else if (e.over && e.active && e.over.id !== e.active.id) {
+        } else if (e.over && e.active && e.over.id !== e.active.id) {
             setPlaylistData((playlistData) => {
                 const currentIdList = playlistData.items.map(elem => elem.itemId)
                 const oldIndex = currentIdList.indexOf(e.active.id.toString())
@@ -220,12 +217,10 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
                 setTimeout(() => {
                     canUpdatePreviewRef.current = true
                 }, PREVIEW_UPDATE_TIMEOUT)
-            }
-            else {
+            } else {
                 setPreviewPlaylistItem({ item: null, index: -1 })
             }
-        }
-        else if (
+        } else if (
             e.active.id.toString().includes("-series")
         ) {
             const data = e.active.data.current as SeriesVideoItem
@@ -244,8 +239,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
                 setTimeout(() => {
                     canUpdatePreviewRef.current = true
                 }, PREVIEW_UPDATE_TIMEOUT)
-            }
-            else {
+            } else {
                 setPreviewPlaylistItem({ item: null, index: -1 })
             }
         }

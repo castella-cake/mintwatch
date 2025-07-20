@@ -8,8 +8,7 @@ function ReturnErrorHaiku({ errorResponse }: { errorResponse: ErrorResponse }) {
     let haikus = errorHaiku["INVALID_PARAMETER"]
     if (errorResponse.reasonCode === "HIDDEN_VIDEO" && errorResponse.publishScheduledAt) {
         haikus = errorHaiku["SCHEDULED_VIDEO"]
-    }
-    else if (errorResponse.reasonCode in errorHaiku) {
+    } else if (errorResponse.reasonCode in errorHaiku) {
         haikus = errorHaiku[errorResponse.reasonCode as keyof typeof errorHaiku]
     }
     return (

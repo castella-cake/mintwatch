@@ -47,8 +47,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
                     videoId: videoInfo.data.response.video.id,
                     thumbnailSrc: videoInfo.data.response.video.thumbnail.player,
                 })
-            }
-            else {
+            } else {
                 setBackgroundPlayInfo({})
             }
             document.dispatchEvent(

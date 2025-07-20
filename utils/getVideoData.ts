@@ -16,8 +16,7 @@ export default async function getFastVideoData(smId: string) {
                 .getAttribute("content")!,
         ) as VideoDataRootObject
         // console.log("using initialResponse", initialResponse)
-    }
-    else {
+    } else {
         // console.log("not using initialResponse")
     }
     // HTMlのレスポンスが今フェッチしようとしているvideoのidと同じならこっちを使う
@@ -30,8 +29,7 @@ export default async function getFastVideoData(smId: string) {
         fetchedVideoInfo = initialResponse
         document.getElementsByName("server-response")[0].remove() // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。
         // console.log("using initialResponse")
-    }
-    else {
+    } else {
         // getVideoInfoが200以外だったらuseQuery側でハンドルしてもらう
         fetchedVideoInfo = await getVideoInfo(smId)
     }

@@ -12,8 +12,7 @@ const splitWithYMD = (items: VideoTimelineDataRootObject["activities"]) => {
 
         if (result[dateStr]) {
             result[dateStr].push(item)
-        }
-        else {
+        } else {
             result[dateStr] = [item]
         }
     })
@@ -29,14 +28,11 @@ const getRelativeDate = (dateStr: string) => {
 
     if (diffDays === 0) {
         return "今日"
-    }
-    else if (diffDays === 1) {
+    } else if (diffDays === 1) {
         return "昨日"
-    }
-    else if (diffDays < 7) {
+    } else if (diffDays < 7) {
         return `${diffDays}日前`
-    }
-    else {
+    } else {
         return dateStr.replace(/-/g, "/")
     }
 }

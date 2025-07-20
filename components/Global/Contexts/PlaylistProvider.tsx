@@ -101,8 +101,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     id: response.data.id.value,
                     items: mylistToSimplifiedPlaylist(response),
                 })
-            }
-            else if (
+            } else if (
                 playlistJson.type === "series"
                 && playlistJson.context.seriesId
             ) {
@@ -119,8 +118,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     id: playlistJson.context.seriesId,
                     items: seriesToSimplifiedPlaylist(response),
                 })
-            }
-            else if (videoInfo) {
+            } else if (videoInfo) {
                 // setFetchedPlaylistData(null)
                 setInitialPlaylistState()
             }
@@ -133,8 +131,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             const playlistJson: playlistQueryData = JSON.parse(decodedPlaylist)
             // setCurrentPlaylist(playlistJson)
             getData(playlistJson)
-        }
-        else if (!playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {
+        } else if (!playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {
             setInitialPlaylistState()
         }
     }, [_playlistData, videoInfo])

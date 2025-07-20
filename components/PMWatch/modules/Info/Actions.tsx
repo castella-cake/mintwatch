@@ -56,8 +56,7 @@ function Actions({ onModalOpen }: Props) {
                 }
             }
             getData()
-        }
-        else {
+        } else {
             setLikeThanksMsg(null)
         }
         setIsLikeThanksMsgClosed(false)
@@ -73,8 +72,7 @@ function Actions({ onModalOpen }: Props) {
         if (likeResponse) {
             if (!isLiked) {
                 setTemporalLikeModifier(temporalLikeModifier + 1)
-            }
-            else {
+            } else {
                 setTemporalLikeModifier(temporalLikeModifier - 1)
             }
             setIsLiked(!isLiked)

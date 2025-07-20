@@ -147,8 +147,7 @@ function Player(props: Props) {
             = localStorage.playersettings.requestMonitorFullscreen ?? true
         if (!isFullscreenUi && shouldRequestFullscreen) {
             document.body.requestFullscreen()
-        }
-        else if (document.fullscreenElement !== null) {
+        } else if (document.fullscreenElement !== null) {
             document.exitFullscreen()
         }
         setIsFullscreenUi(!isFullscreenUi)
@@ -204,8 +203,7 @@ function Player(props: Props) {
         const handleFullscreenChange = () => {
             if (!document.fullscreenElement) {
                 setIsFullscreenUi(false)
-            }
-            else {
+            } else {
                 setIsFullscreenUi(true)
             }
         }
@@ -282,8 +280,7 @@ function Player(props: Props) {
                 nextVideo = bagItems[pickedIndex]
                 // console.log(shuffleBag);
                 // console.log(bagItems);
-            }
-            else {
+            } else {
                 const currentVideoIndex = playlistData.items?.findIndex(
                     video => video.id === videoId,
                 )
@@ -306,8 +303,7 @@ function Player(props: Props) {
                     sortKey: "addedAt",
                     sortOrder: "asc",
                 }
-            }
-            else if (playlistData.type === "series") {
+            } else if (playlistData.type === "series") {
                 playlistQuery.context = { seriesId: Number(playlistData.id) }
             }
             if (!nextVideo) return
@@ -315,8 +311,7 @@ function Player(props: Props) {
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
                 !isAutoPlayTrigger,
             )
-        }
-        else if (
+        } else if (
             recommendData
             && recommendData.data?.items
             && recommendData.data.items[0]
@@ -360,8 +355,7 @@ function Player(props: Props) {
         if (!video) return
         if (video.paused) {
             video.play()
-        }
-        else {
+        } else {
             video.pause()
             onPause()
         }

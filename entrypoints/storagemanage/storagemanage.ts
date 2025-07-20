@@ -31,8 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 storageDataElem.style.backgroundColor = "#000"
                 storageDataElem.style.color = "#000"
                 this.textContent = "表示"
-            }
-            else {
+            } else {
                 storageDataElem.style.backgroundColor = "transparent"
                 storageDataElem.style.color = "inherit"
                 this.textContent = "非表示"
@@ -58,8 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
                 const newResult = await browser.storage.sync.get(null)
                 storageDataElem.textContent = JSON.stringify(newResult)
-            }
-            catch (err) {
+            } catch (err) {
                 const importResult = document.getElementById("importresult")
                 if (importResult) {
                     importResult.style.color = "red"

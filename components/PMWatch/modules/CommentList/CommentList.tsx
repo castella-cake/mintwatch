@@ -77,8 +77,7 @@ const Comments = ({
         setOpenedCommentItem((current) => {
             if (current === id) {
                 return ""
-            }
-            else {
+            } else {
                 return id
             }
         })

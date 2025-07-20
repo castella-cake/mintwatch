@@ -29,8 +29,7 @@ export const test = base.extend<{
                 if (pathToExtension.endsWith("-mv3")) {
                     [background] = context.serviceWorkers()
                     if (!background) background = await context.waitForEvent("serviceworker")
-                }
-                else {
+                } else {
                     [background] = context.backgroundPages()
                     if (!background)
                         background = await context.waitForEvent("backgroundpage")

@@ -36,8 +36,7 @@ export function readableInt(number: number, maxLength = Infinity) {
         const afterStringArray = splitArray.map((chars, index) => {
             if (splitArray[index - 1] && units[index - 1] && splitArray[index - 1].length === 4) {
                 return [units[index - 1], ...chars]
-            }
-            else {
+            } else {
                 return chars
             }
         })
@@ -46,8 +45,7 @@ export function readableInt(number: number, maxLength = Infinity) {
             return `${char}${units[((index) / 4) - 1] || ""}`
         }) */
         return afterStringArray.reverse().slice(0, maxLength).reduce((prev, current) => current.concat(prev), []).reverse().join("")
-    }
-    else {
+    } else {
         return number
     }
 }

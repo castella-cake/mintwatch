@@ -4,8 +4,7 @@ export async function openLink(href: string) {
         // NGだったらwindow.openにフォールバック
         window.open(href)
         window.close()
-    }
-    else {
+    } else {
         // OKだったらclose
         window.close()
     }

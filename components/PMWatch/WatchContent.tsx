@@ -60,8 +60,7 @@ export function WatchContent(_props: Props) {
     ) => {
         if (isModalOpen === false) {
             setVideoActionModalState(false)
-        }
-        else {
+        } else {
             setVideoActionModalState(modalType)
         }
     }, [])

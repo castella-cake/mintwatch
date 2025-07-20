@@ -46,16 +46,13 @@ export function VideoPlayer(props: VideoPlayerProps) {
             if (e.deltaY < 0) {
                 if (video.volume + wheelGestureAmount > 1) {
                     video.volume = 1
-                }
-                else {
+                } else {
                     video.volume += wheelGestureAmount
                 }
-            }
-            else {
+            } else {
                 if (video.volume - wheelGestureAmount < 0) {
                     video.volume = 0
-                }
-                else {
+                } else {
                     video.volume -= wheelGestureAmount
                 }
             }

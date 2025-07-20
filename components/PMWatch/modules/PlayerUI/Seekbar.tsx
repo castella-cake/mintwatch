@@ -77,8 +77,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
                     drawHeight = canvasWidth / sourceAspect
                     offsetX = 0
                     offsetY = (canvasHeight - drawHeight) / 2
-                }
-                else {
+                } else {
                     // 画像の方が縦長の場合
                     drawHeight = canvasHeight
                     drawWidth = canvasHeight * sourceAspect

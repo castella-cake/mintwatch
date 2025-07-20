@@ -44,8 +44,7 @@ function returnErrorMessage(errorResponse: ErrorResponse) {
                 に公開されます
             </span>
         )
-    }
-    else if (reasonCode in reasonCodeLang) {
+    } else if (reasonCode in reasonCodeLang) {
         return <span>{reasonCodeLang[reasonCode as keyof typeof reasonCodeLang]}</span>
     }
     return <span>この動画は視聴できません</span>

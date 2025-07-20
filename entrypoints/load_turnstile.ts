@@ -29,8 +29,7 @@ export default defineUnlistedScript({
                             }
                         },
                     })
-                }
-                else if (event.data.type === "checkHandler") {
+                } else if (event.data.type === "checkHandler") {
                     window.postMessage({ source: "mintWatchTurnstileHandler", type: "helloFromHandler" }, TARGET_ORIGIN)
                 }
             }

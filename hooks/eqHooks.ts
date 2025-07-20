@@ -37,13 +37,11 @@ function returnQValue(
         // 最初の周波数は次の周波数との差を使う
         f1 = f0
         f2 = (f0 + next) / 2
-    }
-    else if (prev !== null && next === null) {
+    } else if (prev !== null && next === null) {
         // 最後の周波数は前の周波数との差を使う
         f1 = (f0 + prev) / 2
         f2 = f0
-    }
-    else if (prev !== null && next !== null) {
+    } else if (prev !== null && next !== null) {
         // その他は前後の中間点を使う
         f1 = (f0 + prev) / 2
         f2 = (f0 + next) / 2

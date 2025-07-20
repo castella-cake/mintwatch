@@ -11,8 +11,7 @@ export default function UserFollowButton({ userId }: { userId: string | number }
             const response: UserFollowApiDataRootObject = await userFollowApi(userId, "GET")
             if (response.data && response.data.following) {
                 setIsFollowingData({ following: true, userId })
-            }
-            else {
+            } else {
                 setIsFollowingData({ following: false, userId })
             }
         }
@@ -23,8 +22,7 @@ export default function UserFollowButton({ userId }: { userId: string | number }
         if (isFollowingData && isFollowingData.following) {
             const response: UserFollowApiDataRootObject = await userFollowApi(userId, "DELETE")
             if (response.meta.status === 200) setIsFollowingData({ following: false, userId })
-        }
-        else {
+        } else {
             const response: UserFollowApiDataRootObject = await userFollowApi(userId, "POST")
             if (response.meta.status === 200) setIsFollowingData({ following: true, userId })
         }

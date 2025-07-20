@@ -60,8 +60,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                             resolve({
                                 challengeToken: event.data.data.token,
                             })
-                        }
-                        else {
+                        } else {
                             reject("Turnstile のチャレンジに失敗しました。コード: " + event.data.data.reason)
                         }
                     }
@@ -69,11 +68,9 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                 window.addEventListener("message", messageHandler)
                 // ページスクリプト側にサイトキーを送信。
                 window.postMessage({ source: "mintWatchRender", type: "requestChallengeToken", data: { siteKey: postKeyResponse.data.challenge.siteKey } }, "https://www.nicovideo.jp")
-            }
-            else if (postKeyResponse.data.challenge.isRequired === false) {
+            } else if (postKeyResponse.data.challenge.isRequired === false) {
                 resolve({})
-            }
-            else {
+            } else {
                 reject("failed")
             }
         }).then(async (additionalBody) => {
@@ -96,12 +93,10 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                         if (comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no) {
                             comment.commands = [...comment.commands, "nico:waku:#ff0"]
                             return comment
-                        }
-                        else if (comment.isMyPost) {
+                        } else if (comment.isMyPost) {
                             comment.commands = [...comment.commands, "nico:waku:#fb6"]
                             return comment
-                        }
-                        else {
+                        } else {
                             return comment
                         }
                     })
@@ -127,8 +122,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                 setPreviewCommentItem(null)
                 if (commentInputRef.current) commentInputRef.current.value = ""
                 setDummyTextAreaContent("")
-            }
-            else {
+            } else {
                 showAlert({
                     title: "コメントの投稿に失敗しました",
                     body: `サーバーがエラーを返しました: ${commentPostResponse.meta.status}`,
@@ -180,8 +174,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                         nicoruId: null,
                         source: "",
                     })
-                }
-                else {
+                } else {
                     setPreviewCommentItem(null)
                 }
             }, 100)

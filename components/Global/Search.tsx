@@ -26,11 +26,9 @@ function Search() {
         if (!inputRef.current) return
         if (currentSearchType === searchTypes.KEYWORD) {
             window.location.href = `https://www.nicovideo.jp/search/${inputRef.current.value}`
-        }
-        else if (currentSearchType === searchTypes.TAG) {
+        } else if (currentSearchType === searchTypes.TAG) {
             window.location.href = `https://www.nicovideo.jp/tag/${inputRef.current.value}`
-        }
-        else if (currentSearchType === searchTypes.MYLIST) {
+        } else if (currentSearchType === searchTypes.MYLIST) {
             window.location.href = `https://www.nicovideo.jp/mylist_search/${inputRef.current.value}`
         }
     }

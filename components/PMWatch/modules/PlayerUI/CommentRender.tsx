@@ -67,8 +67,7 @@ export function CommentRender(props: {
         if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering || previewCommentItem !== null || videoRef.current.paused) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
-        }
-        else {
+        } else {
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
         }
         if (fpsRef.current == -1) animationFrameIdRef.current = requestAnimationFrame(drawWithAnimationFrame)
@@ -84,8 +83,7 @@ export function CommentRender(props: {
             if (previewCommentItem && defaultPostTargetIndex !== -1) {
                 threads[defaultPostTargetIndex].comments = threads[defaultPostTargetIndex].comments.filter(comment => comment.id !== "-1") // ID-1はプレビューコメント。前回のプレビューが残らないように一旦消してからpushする。
                 threads[defaultPostTargetIndex].comments.push(previewCommentItem)
-            }
-            else if (defaultPostTargetIndex !== -1) {
+            } else if (defaultPostTargetIndex !== -1) {
                 threads[defaultPostTargetIndex].comments = threads[defaultPostTargetIndex].comments.filter(comment => comment.id !== "-1") // プレビューが終わった後も残らないように常にフィルターする。
             }
 
@@ -122,8 +120,7 @@ export function CommentRender(props: {
         if (videoRef.current.currentTime !== lastCurrentTimeRef.current.lastTime || !enableInterpolateCommentRendering || previewCommentItem !== null || videoRef.current.paused) {
             lastCurrentTimeRef.current = { lastTime: videoRef.current.currentTime, timeStamp: thisPerformance }
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100)
-        }
-        else {
+        } else {
             niconicommentsRef.current.drawCanvas(videoRef.current.currentTime * 100 + ((thisPerformance - lastCurrentTimeRef.current.timeStamp) * 0.1))
         }
     }, Math.floor(1000 / commentRenderFps))
