@@ -1,4 +1,4 @@
-import LyricDataRootObject from "@/types/lyricData"
+import { LyricDataRootObject } from "@/types/lyricData"
 import APIError from "../classes/APIError"
 
 export async function getLyrics(smId: string) {

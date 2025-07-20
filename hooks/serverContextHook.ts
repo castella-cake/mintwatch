@@ -1,4 +1,4 @@
-import ServerContextRootObject from "@/types/serverContextData"
+import { ServerContextRootObject } from "@/types/serverContextData"
 
 export default function useServerContext() {
     if (

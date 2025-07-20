@@ -1,4 +1,4 @@
-export default interface ServerContextRootObject {
+export interface ServerContextRootObject {
     urgentNotice: UrgentNotice
     i18n: I18n
     tracking: Tracking

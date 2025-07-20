@@ -1,4 +1,4 @@
-export default interface LyricDataRootObject extends baseResponse {
+export interface LyricDataRootObject extends baseResponse {
     data: Data
 }
 
