@@ -1,4 +1,4 @@
-import { GenreRankingDataRootObject } from "@/types/ranking/genreData";
+import { GenreRankingDataRootObject } from "@/types/ranking/genreData"
 
 /**
  * ジャンル別ランキングを取得するAPI
@@ -11,8 +11,8 @@ export async function getGenreRanking(page = "1", term = "24h", featuredKey?: st
     const baseUrl = new URL(`https://www.nicovideo.jp/ranking/genre${featuredKey ? "/" + encodeURIComponent(featuredKey) : ""}?responseType=json&page=${encodeURIComponent(page)}&term=${encodeURIComponent(term)}`)
     if (featuredKey && tag) baseUrl.searchParams.set("tag", tag)
     const response = await fetch(baseUrl, {
-        "method": "GET",
-        "credentials": "include"
-    });
+        method: "GET",
+        credentials: "include",
+    })
     return await response.json() as GenreRankingDataRootObject
 }

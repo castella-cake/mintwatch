@@ -5,10 +5,10 @@
         "source.fixAll.eslint": "explicit"
     },
     "eslint.rules.customizations": [
-        {
+        /*{
             "rule": "@stylistic/*",
             "fixable": true,
             "severity": "off"
-        }
+        }*/
     ]
 }

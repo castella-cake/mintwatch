@@ -1,43 +1,51 @@
 import {
     IconExclamationCircleFilled,
     IconTags,
-} from "@tabler/icons-react";
-import type { ErrorResponse } from "@/types/VideoData";
-import { MouseEvent, useState } from "react";
-import DOMPurify from "dompurify";
-import HTMLReactParser from "html-react-parser";
-import { useStorageContext } from "@/hooks/extensionHook";
+} from "@tabler/icons-react"
+import type { ErrorResponse } from "@/types/VideoData"
+import { MouseEvent, useState } from "react"
+import DOMPurify from "dompurify"
+import HTMLReactParser from "html-react-parser"
+import { useStorageContext } from "@/hooks/extensionHook"
 import {
     useVideoInfoContext,
     useVideoRefContext,
-} from "@/components/Global/Contexts/VideoDataProvider";
-import OwnerInfo from "./Owner";
-import UserFollowButton from "./UserFollowButton";
-import Tags from "./Tags";
-import VideoTitle from "./VideoTitle";
+} from "@/components/Global/Contexts/VideoDataProvider"
+import OwnerInfo from "./Owner"
+import UserFollowButton from "./UserFollowButton"
+import Tags from "./Tags"
+import VideoTitle from "./VideoTitle"
 
 function htmlToText(htmlString: string) {
-    const dummyDiv = document.createElement("div");
-    dummyDiv.innerHTML = htmlString;
-    return dummyDiv.textContent || dummyDiv.innerText || "";
+    const dummyDiv = document.createElement("div")
+    dummyDiv.innerHTML = htmlString
+    return dummyDiv.textContent || dummyDiv.innerText || ""
 }
 
 const reasonCodeLang = {
-    "INVALID_PARAMETER": "この動画は視聴できません",
-    "RIGHT_HOLDER_DELETE_VIDEO": "この動画は権利者の申し立てにより削除されたため視聴できません",
-    "HIDDEN_VIDEO": "この動画は非公開設定のため視聴できません",
-    "DOMESTIC_VIDEO": "現在のリージョン/ユーザーエージェントからは視聴できません(Domestic)",
-    "HIGH_RISK_COUNTRY_VIDEO": "現在のリージョン/ユーザーエージェントからは視聴できません(HighRiskCountry)",
-    "DELETED_CHANNEL_VIDEO": "チャンネルが閉鎖されたため視聴できません",
-    "ADMINISTRATOR_DELETE_VIDEO": "削除された動画のため視聴できません",
-    "HARMFUL_VIDEO": "センシティブな内容が含まれる可能性のある動画です"
+    INVALID_PARAMETER: "この動画は視聴できません",
+    RIGHT_HOLDER_DELETE_VIDEO: "この動画は権利者の申し立てにより削除されたため視聴できません",
+    HIDDEN_VIDEO: "この動画は非公開設定のため視聴できません",
+    DOMESTIC_VIDEO: "現在のリージョン/ユーザーエージェントからは視聴できません(Domestic)",
+    HIGH_RISK_COUNTRY_VIDEO: "現在のリージョン/ユーザーエージェントからは視聴できません(HighRiskCountry)",
+    DELETED_CHANNEL_VIDEO: "チャンネルが閉鎖されたため視聴できません",
+    ADMINISTRATOR_DELETE_VIDEO: "削除された動画のため視聴できません",
+    HARMFUL_VIDEO: "センシティブな内容が含まれる可能性のある動画です",
 }
 
 function returnErrorMessage(errorResponse: ErrorResponse) {
     const reasonCode = errorResponse.reasonCode
-    if ( reasonCode === "HIDDEN_VIDEO" && errorResponse.publishScheduledAt ) {
-        return <span>この動画は {new Date(errorResponse.publishScheduledAt).toLocaleString()} に公開されます</span>
-    } else if (reasonCode in reasonCodeLang) {
+    if (reasonCode === "HIDDEN_VIDEO" && errorResponse.publishScheduledAt) {
+        return (
+            <span>
+                この動画は
+                {new Date(errorResponse.publishScheduledAt).toLocaleString()}
+                {" "}
+                に公開されます
+            </span>
+        )
+    }
+    else if (reasonCode in reasonCodeLang) {
         return <span>{reasonCodeLang[reasonCode as keyof typeof reasonCodeLang]}</span>
     }
     return <span>この動画は視聴できません</span>
@@ -49,8 +57,8 @@ function ErrorUI({ error }: { error: any }) {
             <div className="videoinfo-error-container">
                 動画の取得に失敗しました
             </div>
-        );
-    const errorResponse: ErrorResponse = error.response.data.response;
+        )
+    const errorResponse: ErrorResponse = error.response.data.response
     return (
         <div className="videoinfo-container errorinfo-container">
             <div className="videoinfo-titlecontainer">
@@ -58,7 +66,12 @@ function ErrorUI({ error }: { error: any }) {
                     <div className="videotitle">
                         <IconExclamationCircleFilled />
                         <span>
-                            {errorResponse.statusCode} {errorResponse.errorCode}: {returnErrorMessage(errorResponse)}
+                            {errorResponse.statusCode}
+                            {" "}
+                            {errorResponse.errorCode}
+                            :
+                            {" "}
+                            {returnErrorMessage(errorResponse)}
                         </span>
                     </div>
                     {(errorResponse.reasonCode === "RIGHT_HOLDER_DELETE_VIDEO" && errorResponse.deletedMessage) ?? ""}
@@ -70,7 +83,7 @@ function ErrorUI({ error }: { error: any }) {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
@@ -81,12 +94,14 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
                     {isShinjukuLayout && <div className="uploaddate"></div>}
                     <div className="videotitle-container">
                         <div className="videotitle">読み込み中</div>
-                        {!isShinjukuLayout && <div className="videostats">
-                            <span className="videostats-item">
-                                <span style={{ display: "inline-block", width: "3em", height: "1.5em"}}>
+                        {!isShinjukuLayout && (
+                            <div className="videostats">
+                                <span className="videostats-item">
+                                    <span style={{ display: "inline-block", width: "3em", height: "1.5em" }}>
+                                    </span>
                                 </span>
-                            </span>
-                        </div>}
+                            </div>
+                        )}
                     </div>
                 </div>
                 {!isShinjukuLayout && <div className="videoinfo-owner"></div>}
@@ -98,33 +113,35 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
             <div className="tags-container">
                 <div className="tags-title">
                     <span>登録タグ</span>
-                    {!isShinjukuLayout && <button
-                        className="tags-editbutton"
-                        title="読み込み中"
-                        aria-disabled={true}
-                    >
-                        <IconTags />
-                        編集
-                    </button>}
+                    {!isShinjukuLayout && (
+                        <button
+                            className="tags-editbutton"
+                            title="読み込み中"
+                            aria-disabled={true}
+                        >
+                            <IconTags />
+                            編集
+                        </button>
+                    )}
 
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 type Props = {
-    isTitleShown: boolean;
-    isShinjukuLayout: boolean;
-};
+    isTitleShown: boolean
+    isShinjukuLayout: boolean
+}
 
 function Info({ isShinjukuLayout, isTitleShown }: Props) {
-    const { videoInfo, errorInfo } = useVideoInfoContext();
-    const videoRef = useVideoRefContext();
+    const { videoInfo, errorInfo } = useVideoInfoContext()
+    const videoRef = useVideoRefContext()
 
-    const { localStorage, setLocalStorageValue } = useStorageContext();
-    const localStorageRef = useRef<any>(null);
-    localStorageRef.current = localStorage;
+    const { localStorage, setLocalStorageValue } = useStorageContext()
+    const localStorageRef = useRef<any>(null)
+    localStorageRef.current = localStorage
     function writePlayerSettings(
         name: string,
         value: any,
@@ -134,54 +151,54 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
             "playersettings",
             { ...localStorageRef.current.playersettings, [name]: value },
             silent,
-        );
+        )
     }
     const [isDescOpen, setIsDescOpen] = useState<boolean>(
         localStorage.playersettings.descriptionOpen || false,
-    );
-    if (errorInfo) return <ErrorUI error={errorInfo} />;
-    if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />;
-    const videoInfoResponse = videoInfo.data.response;
+    )
+    if (errorInfo) return <ErrorUI error={errorInfo} />
+    if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />
+    const videoInfoResponse = videoInfo.data.response
 
     // Not scary!
     const sanitizedDesc = DOMPurify.sanitize(
         videoInfoResponse.video.description || "",
-    );
-    const descElem = HTMLReactParser(sanitizedDesc);
+    )
+    const descElem = HTMLReactParser(sanitizedDesc)
 
     const handleAnchorClick = (e: MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {
-            const nearestAnchor: HTMLAnchorElement | null =
-                e.target.closest("a");
+            const nearestAnchor: HTMLAnchorElement | null
+                = e.target.closest("a")
             if (nearestAnchor && nearestAnchor.getAttribute("data-seektime")) {
-                e.stopPropagation();
-                e.preventDefault();
+                e.stopPropagation()
+                e.preventDefault()
                 if (videoRef.current) {
                     const seekTimeArray = nearestAnchor
                         .getAttribute("data-seektime")
-                        ?.split(":");
+                        ?.split(":")
                     // 反転して秒:分:時:日としていき、順に秒に直したらreduceですべて加算
                     const seekToTime = seekTimeArray
                         ?.reverse()
                         .map((time, index) => {
-                            if (index === 0) return Number(time); // 秒
-                            if (index <= 2) return Number(time) * (60 ^ index); // 分/時
-                            return Number(time) * 172800; // 日
+                            if (index === 0) return Number(time) // 秒
+                            if (index <= 2) return Number(time) * (60 ^ index) // 分/時
+                            return Number(time) * 172800 // 日
                         })
-                        .reduce((prev, current) => prev + current);
-                    if (seekToTime) videoRef.current.currentTime = seekToTime;
+                        .reduce((prev, current) => prev + current)
+                    if (seekToTime) videoRef.current.currentTime = seekToTime
                 }
             }
         }
-    };
-    /*function ShareSelector() {
+    }
+    /* function ShareSelector() {
         return <select>
             <option value="x.com">X</option>
             {syncStorage.shareinstancelist && syncStorage.shareinstancelist.map((server: string, index: number) => {
                 return <option key={`shareinstancelist-${index}`} value={server}>{server}</option>
             })}
         </select>
-    }*/
+    } */
 
     return (
         <div className="videoinfo-container" id="pmw-videoinfo">
@@ -193,7 +210,8 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                                 {new Date(
                                     videoInfoResponse.video.registeredAt,
                                 ).toLocaleString("ja-JP")}
-                            </strong>{" "}
+                            </strong>
+                            {" "}
                             投稿の
                             {videoInfoResponse.channel ? "公式" : "ユーザー"}
                             動画
@@ -201,26 +219,35 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                             <strong>
                                 {videoInfoResponse.genre.isNotSet
                                     ? "未設定"
-                                    : videoInfoResponse.genre.label}{" "}
+                                    : videoInfoResponse.genre.label}
+                                {" "}
                             </strong>
                             カテゴリ
                             {videoInfoResponse.ranking.teiban
-                                ? <>
-                                    (<strong>{videoInfoResponse.ranking.teiban.label}</strong> 内現在順位: {videoInfoResponse.ranking.teiban.rank}位)
-                                </>
+                                ? (
+                                        <>
+                                            (
+                                            <strong>{videoInfoResponse.ranking.teiban.label}</strong>
+                                            {" "}
+                                            内現在順位:
+                                            {videoInfoResponse.ranking.teiban.rank}
+                                            位)
+                                        </>
+                                    )
                                 : ""}
                         </div>
                     )}
-                    {isTitleShown && <VideoTitle showStats={!isShinjukuLayout}/>}
+                    {isTitleShown && <VideoTitle showStats={!isShinjukuLayout} />}
                 </div>
-                {!isShinjukuLayout && (<>
+                {!isShinjukuLayout && (
+                    <>
                         {videoInfoResponse.owner && (
                             <OwnerInfo id={videoInfoResponse.owner.id} iconUrl={videoInfoResponse.owner.iconUrl} name={videoInfoResponse.owner.nickname}>
-                                <UserFollowButton userId={videoInfoResponse.owner.id}/>
+                                <UserFollowButton userId={videoInfoResponse.owner.id} />
                             </OwnerInfo>
                         )}
                         {videoInfoResponse.channel && (
-                            <OwnerInfo id={videoInfoResponse.channel.id} iconUrl={videoInfoResponse.channel.thumbnail.smallUrl} name={videoInfoResponse.channel.name} isChannel/>
+                            <OwnerInfo id={videoInfoResponse.channel.id} iconUrl={videoInfoResponse.channel.thumbnail.smallUrl} name={videoInfoResponse.channel.name} isChannel />
                         )}
                     </>
                 )}
@@ -229,44 +256,47 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                 <button
                     className="videoinfo-hjdesc-tabbutton"
                     onClick={() => {
-                        setIsDescOpen(!isDescOpen);
+                        setIsDescOpen(!isDescOpen)
                         writePlayerSettings(
                             "descriptionOpen",
                             !isDescOpen,
                             true,
-                        );
+                        )
                     }}
                 >
-                    {isDescOpen ? "▲" : "▼"} 動画概要
+                    {isDescOpen ? "▲" : "▼"}
+                    {" "}
+                    動画概要
                 </button>
             )}
             <details
                 open={isDescOpen && true}
                 onToggle={(e) => {
-                    setIsDescOpen(e.currentTarget.open);
+                    setIsDescOpen(e.currentTarget.open)
                     writePlayerSettings(
                         "descriptionOpen",
                         e.currentTarget.open,
                         true,
-                    );
+                    )
                 }}
             >
                 <summary>
-                    この動画の概要{" "}
+                    この動画の概要
+                    {" "}
                     {!isDescOpen && <span>{htmlToText(sanitizedDesc)}</span>}
                 </summary>
                 <div
                     className="videodesc"
                     onClickCapture={(e) => {
-                        handleAnchorClick(e);
+                        handleAnchorClick(e)
                     }}
                 >
                     {descElem}
                 </div>
             </details>
-            <Tags initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout}/>
+            <Tags initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout} />
         </div>
-    );
+    )
 }
 
-export default Info;
+export default Info

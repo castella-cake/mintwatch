@@ -1,23 +1,23 @@
-import { createContext, createRef, Dispatch, ReactNode, RefObject, SetStateAction } from "react";
+import { createContext, createRef, Dispatch, ReactNode, RefObject, SetStateAction } from "react"
 
 // playingのStateで視聴ページを保持し続けるかを管理し、refで戻る用のアドレスを保持し、backgroundInfoのStateでミニプレイヤーの情報を保持する
-const IBackgroundPlayingContext = createContext<boolean>(false);
-const ISetBackgroundPlayingContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { });
+const IBackgroundPlayingContext = createContext<boolean>(false)
+const ISetBackgroundPlayingContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { })
 
 type backgroundPlayingInfo = {
-    videoId?: string,
-    title?: string,
-    thumbnailSrc?: string,
+    videoId?: string
+    title?: string
+    thumbnailSrc?: string
 }
-const IBackgroundPlayInfoContext = createContext<backgroundPlayingInfo>({});
-const ISetBackgroundPlayInfoContext = createContext<Dispatch<SetStateAction<backgroundPlayingInfo>>>(() => { });
+const IBackgroundPlayInfoContext = createContext<backgroundPlayingInfo>({})
+const ISetBackgroundPlayInfoContext = createContext<Dispatch<SetStateAction<backgroundPlayingInfo>>>(() => { })
 
-export const BackgroundPlayHrefRefContext = createContext<RefObject<string | null>>(createRef<string | null>());
-const IBackgroundPlayHrefRef = createRef<string | null>();
+export const BackgroundPlayHrefRefContext = createContext<RefObject<string | null>>(createRef<string | null>())
+const IBackgroundPlayHrefRef = createRef<string | null>()
 
 export function BackgroundPlayProvider({ children }: { children: ReactNode }) {
-    const [backgroundPlaying, setBackgroundPlaying] = useState<boolean>(false);
-    const [backgroundPlayingInfo, setBackgroundPlayingInfo] = useState<backgroundPlayingInfo>({});
+    const [backgroundPlaying, setBackgroundPlaying] = useState<boolean>(false)
+    const [backgroundPlayingInfo, setBackgroundPlayingInfo] = useState<backgroundPlayingInfo>({})
 
     return (
         <ISetBackgroundPlayingContext value={setBackgroundPlaying}>
@@ -31,25 +31,25 @@ export function BackgroundPlayProvider({ children }: { children: ReactNode }) {
                 </ISetBackgroundPlayInfoContext>
             </IBackgroundPlayingContext>
         </ISetBackgroundPlayingContext>
-    );
+    )
 }
 
 export function useBackgroundPlayingContext() {
-    return useContext(IBackgroundPlayingContext);
+    return useContext(IBackgroundPlayingContext)
 }
 
 export function useSetBackgroundPlayingContext() {
-    return useContext(ISetBackgroundPlayingContext);
+    return useContext(ISetBackgroundPlayingContext)
 }
 
 export function useBackgroundPlayInfoContext() {
-    return useContext(IBackgroundPlayInfoContext);
+    return useContext(IBackgroundPlayInfoContext)
 }
 
 export function useSetBackgroundPlayInfoContext() {
-    return useContext(ISetBackgroundPlayInfoContext);
+    return useContext(ISetBackgroundPlayInfoContext)
 }
 
 export function useBackgroundPlayHrefRefContext() {
-    return useContext(BackgroundPlayHrefRefContext);
+    return useContext(BackgroundPlayHrefRefContext)
 }

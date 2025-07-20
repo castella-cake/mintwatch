@@ -1,22 +1,22 @@
-import PlaybackPositionBody from "@/types/playbackPositionBody";
+import PlaybackPositionBody from "@/types/playbackPositionBody"
 
 /**
  * レジューム再生の記録用API
  * @param body レジューム再生のオブジェクト
- * @returns 
+ * @returns
  */
 export async function putPlaybackPosition(body: PlaybackPositionBody) {
     const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/watch/history/playback-position", {
-        "headers": {
+        headers: {
             "content-type": "application/json",
             "x-frontend-id": "6",
             "x-frontend-version": "0",
-            "x-request-with": "https://www.nicovideo.jp"
+            "x-request-with": "https://www.nicovideo.jp",
         },
-        "body": JSON.stringify(body),
-        "method": "PUT",
-        "mode": "cors",
-        "credentials": "include"
-    });
+        body: JSON.stringify(body),
+        method: "PUT",
+        mode: "cors",
+        credentials: "include",
+    })
     return await response.json() as baseResponse
 }

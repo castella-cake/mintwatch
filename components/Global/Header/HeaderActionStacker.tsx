@@ -2,17 +2,17 @@ import {
     IconBell,
     IconCategory,
     IconX,
-} from "@tabler/icons-react";
-import ReactFocusLock from "react-focus-lock";
-import Notifications from "./Notifications";
-import MyMenu from "./MyMenu";
-import { CSSTransition } from "react-transition-group";
-import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../Contexts/ModalStateProvider";
-import { RefObject } from "react";
+} from "@tabler/icons-react"
+import ReactFocusLock from "react-focus-lock"
+import Notifications from "./Notifications"
+import MyMenu from "./MyMenu"
+import { CSSTransition } from "react-transition-group"
+import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../Contexts/ModalStateProvider"
+import { RefObject } from "react"
 
 export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
-    const headerActionState = useHeaderActionStateContext();
-    const setHeaderActionState = useSetHeaderActionStateContext();
+    const headerActionState = useHeaderActionStateContext()
+    const setHeaderActionState = useSetHeaderActionStateContext()
 
     return (
         <CSSTransition
@@ -30,29 +30,33 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                         <button
                             className="headeraction-select"
                             onClick={() => {
-                                setHeaderActionState("notifications");
+                                setHeaderActionState("notifications")
                             }}
                             data-is-active={
                                 headerActionState === "notifications" ? "true" : "false"
                             }
                         >
-                            <IconBell /> お知らせ
+                            <IconBell />
+                            {" "}
+                            お知らせ
                         </button>
                         <button
                             className="headeraction-select"
                             onClick={() => {
-                                setHeaderActionState("mymenu");
+                                setHeaderActionState("mymenu")
                             }}
                             data-is-active={
                                 headerActionState === "mymenu" ? "true" : "false"
                             }
                         >
-                            <IconCategory /> マイメニュー
+                            <IconCategory />
+                            {" "}
+                            マイメニュー
                         </button>
                         <button
                             className="headeraction-modal-close"
                             onClick={() => {
-                                setHeaderActionState(false);
+                                setHeaderActionState(false)
                             }}
                         >
                             <IconX />
@@ -69,5 +73,5 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                 </div>
             </ReactFocusLock>
         </CSSTransition>
-    );
+    )
 }

@@ -1,10 +1,10 @@
-//import { useLang } from "../localizeHook";
-import { InfoCardFromRecommend } from "@/components/Global/InfoCard";
-import { VideoOwner } from "@/types/VideoData";
-import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData";
+// import { useLang } from "../localizeHook";
+import { InfoCardFromRecommend } from "@/components/Global/InfoCard"
+import { VideoOwner } from "@/types/VideoData"
+import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 
 function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) {
-    //const lang = useLang()
+    // const lang = useLang()
     const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
@@ -19,9 +19,9 @@ function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) 
                         content: { ...item.essential },
                     }}
                 />
-            );
+            )
         })
-    );
+    )
 }
 
-export default UserVideos;
+export default UserVideos

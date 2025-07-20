@@ -12,7 +12,7 @@ export default defineConfig([
         files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
         plugins: {
             js,
-            '@stylistic': stylistic
+            "@stylistic": stylistic,
         },
         extends: ["js/recommended"],
     },
@@ -39,7 +39,7 @@ export default defineConfig([
             "@typescript-eslint/no-explicit-any": "off",
             "react/jsx-no-undef": ["error", {
                 allowGlobals: true,
-            }]
+            }],
         },
     },
 ])

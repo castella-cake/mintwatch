@@ -1,7 +1,7 @@
 export interface LikesApi extends baseResponse {
-    data: Data;
+    data: Data
 }
 
 interface Data {
-    thanksMessage?: string;
+    thanksMessage?: string
 }

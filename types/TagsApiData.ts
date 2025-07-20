@@ -1,17 +1,17 @@
 export interface TagsApiRootObject extends baseResponse {
-    data: Data;
+    data: Data
 }
 
 interface Data {
-    isLockable: boolean;
-    isEditable: boolean;
-    uneditableReason: null;
-    tags: Tag[];
+    isLockable: boolean
+    isEditable: boolean
+    uneditableReason: null
+    tags: Tag[]
 }
 
 interface Tag {
-    name: string;
-    isLocked: boolean;
-    isLockedBySystem: boolean;
-    isNicodicArticleExists: boolean;
+    name: string
+    isLocked: boolean
+    isLockedBySystem: boolean
+    isNicodicArticleExists: boolean
 }

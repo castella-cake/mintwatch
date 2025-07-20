@@ -1,6 +1,6 @@
 export interface CommentThreadKeyData extends baseResponse {
-    data: Data;
+    data: Data
 }
 interface Data {
-    threadKey: string;
+    threadKey: string
 }

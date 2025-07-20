@@ -1,9 +1,9 @@
-import ServerContextRootObject from "@/types/serverContextData";
+import ServerContextRootObject from "@/types/serverContextData"
 
 export default function useServerContext() {
     if (
-        document.getElementsByName("server-context").length > 0 &&
-        typeof document
+        document.getElementsByName("server-context").length > 0
+        && typeof document
             .getElementsByName("server-context")[0]
             .getAttribute("content") === "string"
     ) {
@@ -11,8 +11,9 @@ export default function useServerContext() {
             document
                 .getElementsByName("server-context")[0]
                 .getAttribute("content")!,
-        ) as ServerContextRootObject;
-    } else {
+        ) as ServerContextRootObject
+    }
+    else {
         return null
     }
 }

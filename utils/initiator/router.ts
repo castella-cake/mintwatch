@@ -1,79 +1,80 @@
-import { ContentScriptContext } from "#imports";
-import RouterRoot from "@/components/Router/RouterRoot";
-import { scan } from "react-scan";
-import { createRoot } from "react-dom/client";
+import { ContentScriptContext } from "#imports"
+import RouterRoot from "@/components/Router/RouterRoot"
+import { scan } from "react-scan"
+import { createRoot } from "react-dom/client"
 
 export default async function initiateRouter(ctx: ContentScriptContext, storages: any) {
-    const syncStorage: { [key: string]: any } = storages[0].value;
-    const localStorage: { [key: string]: any } = storages[1].value;
-    //if (!syncStorage.enablewatchpagereplace) return;
+    const syncStorage: { [key: string]: any } = storages[0].value
+    const localStorage: { [key: string]: any } = storages[1].value
+    // if (!syncStorage.enablewatchpagereplace) return;
 
     // nopmwだったら終了
-    const queryString = location.search;
-    const searchParams = new URLSearchParams(queryString);
-    if (searchParams.get("nopmw") == "true") return;
+    const queryString = location.search
+    const searchParams = new URLSearchParams(queryString)
+    if (searchParams.get("nopmw") == "true") return
 
     // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
-    //if (import.meta.env.FIREFOX) window.stop();
+    // if (import.meta.env.FIREFOX) window.stop();
     if (import.meta.env.FIREFOX) {
-        window.stop();
-        const faviconElement = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
+        window.stop()
+        const faviconElement = document.querySelector("link[rel=\"shortcut icon\"]") as HTMLLinkElement
         if (faviconElement) {
-            faviconElement.href = "";
-            faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
-        } else {
-            const linkElement = document.createElement('link');
-            linkElement.rel = 'shortcut icon';
-            linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico";
-            document.head.appendChild(linkElement);
+            faviconElement.href = ""
+            faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
+        }
+        else {
+            const linkElement = document.createElement("link")
+            linkElement.rel = "shortcut icon"
+            linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
+            document.head.appendChild(linkElement)
         }
     }
 
-    if (!document.documentElement) return;
+    if (!document.documentElement) return
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
     document.documentElement.querySelectorAll("script").forEach(
         blockScriptElement,
-    );
+    )
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
-            const addedNodes = record.addedNodes;
+            const addedNodes = record.addedNodes
             for (const node of addedNodes) {
-                //console.log("node: ", node)
-                const elem = node as Element;
+                // console.log("node: ", node)
+                const elem = node as Element
                 if (node.nodeType === Node.ELEMENT_NODE) {
-                    //console.log("nodetype")
-                    blockScriptElement(elem);
+                    // console.log("nodetype")
+                    blockScriptElement(elem)
                     elem.querySelectorAll("script").forEach(
                         blockScriptElement,
-                    );
+                    )
                 }
             }
-        });
-    });
+        })
+    })
     observer.observe(document.documentElement, {
         childList: true,
         subtree: true,
-    });
+    })
 
     // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
     if (import.meta.env.FIREFOX || syncStorage.pmwforcepagehls) {
-        /*const script = document.createElement("script");
+        /* const script = document.createElement("script");
         script.src = browser.runtime.getURL("/watch_injector.js");
         script.setAttribute("pmw-isplugin", "true");
-        head.appendChild(script);*/
-        await injectScript('/watch_injector.js');
+        head.appendChild(script); */
+        await injectScript("/watch_injector.js")
     }
     // HACK: turnstileはscriptタグを要求し、そこで一部のモードを判断するので、実行されないダミーのscriptタグを事前に用意する
-    const dummyScript = document.createElement('script');
-    dummyScript.src = browser.runtime.getURL("/dummy_for_turnstile.js") + '?dummy=/turnstile/v0/api.js&render=explicit';
-    dummyScript.type = 'text/plain';
-    if (document.head) document.head.appendChild(dummyScript);
-    await injectScript('/load_turnstile.js')
-    //console.log(document.documentElement.outerHTML)
+    const dummyScript = document.createElement("script")
+    dummyScript.src = browser.runtime.getURL("/dummy_for_turnstile.js") + "?dummy=/turnstile/v0/api.js&render=explicit"
+    dummyScript.type = "text/plain"
+    if (document.head) document.head.appendChild(dummyScript)
+    await injectScript("/load_turnstile.js")
+    // console.log(document.documentElement.outerHTML)
 
     // わたってくるdocumentには既に動画情報のレスポンスが入っている。使えるならこっちを使って高速化してしまったほうが良いので、innerHTMLが書き換わる前に取得しておく
-    /*const initialResponse =
+    /* const initialResponse =
         (document.getElementsByName("server-response").length > 0 &&
             document
                 .getElementsByName("server-response")[0]
@@ -82,17 +83,17 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     //console.log("DOM serverResponse", initialResponse)
     const initialClassNames =
         document.documentElement.classList.values();
-    const initialStyle = document.documentElement.style.cssText;*/
+    const initialStyle = document.documentElement.style.cssText; */
 
-    /*document.head.innerHTML = `
+    /* document.head.innerHTML = `
         <meta charset="utf-8">
         <link rel="shortcut icon" href="https://resource.video.nimg.jp/web/images/favicon/favicon.ico">
         <meta name="initial-response" content="{}">
-    `*/
-    if (document.body) document.body.innerHTML = "";
+    ` */
+    if (document.body) document.body.innerHTML = ""
     // cleanup
     const linkElements = [...document.head.getElementsByTagName("link")]
-    linkElements.forEach(elem => {
+    linkElements.forEach((elem) => {
         if (elem.rel === "modulepreload" && elem.href.startsWith("https://resource.video.nimg.jp/web/scripts/nvpc_next/")) elem.remove()
     })
     /*
@@ -127,10 +128,10 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         "style",
         `${document.documentElement.style.cssText}
         ${initialStyle}`,
-    );*/
+    ); */
 
     // watchPage は playersettings の値が何かしら入ってないと落ちるので絶対に書き込む
-    if (!localStorage.playersettings) browser.storage.local.set({ playersettings: {} });
+    if (!localStorage.playersettings) browser.storage.local.set({ playersettings: {} })
 
     if (import.meta.env.DEV) {
         scan({
@@ -143,26 +144,25 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
     sanitizeStyleLink.href = browser.runtime.getURL("/content-scripts/sanitize.css" as any)
     document.head.appendChild(sanitizeStyleLink)
 
-
     const ui = createIntegratedUi(ctx, {
         position: "inline",
         anchor: "body",
         onMount: (container) => {
             // root要素を足してレンダー！
-            const rootElem = document.createElement("div");
-            rootElem.id = "root-pmw";
-            container.appendChild(rootElem);
+            const rootElem = document.createElement("div")
+            rootElem.id = "root-pmw"
+            container.appendChild(rootElem)
             if (rootElem.childNodes.length != 0) {
-                console.error("ranking page replace failed: #root is not empty.");
-                return;
+                console.error("ranking page replace failed: #root is not empty.")
+                return
             }
             const uiRoot = createRoot(rootElem)
-            uiRoot.render(RouterRoot());
+            uiRoot.render(RouterRoot())
             return uiRoot
         },
         onRemove: (uiRoot) => {
-            if (uiRoot) uiRoot.unmount();
-        }
+            if (uiRoot) uiRoot.unmount()
+        },
     })
     ui.autoMount()
 }

@@ -1,4 +1,4 @@
-import { NgCommentsRootObject } from "@/types/NgCommentsApiData";
+import { NgCommentsRootObject } from "@/types/NgCommentsApiData"
 
 /**
  * NGワードを追加するAPI
@@ -9,8 +9,8 @@ import { NgCommentsRootObject } from "@/types/NgCommentsApiData";
  */
 export async function addNgComment(type: "word" | "id" | "command", source: string, languageId = "0") {
     const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/ng-comments/client", {
-        "credentials": "include",
-        "headers": {
+        credentials: "include",
+        headers: {
             "accept": "application/json;charset=utf-8",
             "content-type": "application/x-www-form-urlencoded",
             "X-Frontend-Id": "6",
@@ -18,9 +18,9 @@ export async function addNgComment(type: "word" | "id" | "command", source: stri
             "X-Niconico-Language": "ja-jp",
             "X-Request-With": "nicovideo",
         },
-        "body": `type=${encodeURIComponent(type)}&source=${encodeURIComponent(source)}&languageId=${encodeURIComponent(languageId)}`,
-        "method": "POST"
-    });
+        body: `type=${encodeURIComponent(type)}&source=${encodeURIComponent(source)}&languageId=${encodeURIComponent(languageId)}`,
+        method: "POST",
+    })
     return await response.json() as NgCommentsRootObject
 }
 
@@ -29,10 +29,10 @@ export async function addNgComment(type: "word" | "id" | "command", source: stri
  * @param body targetsにNGワードのtypeとsourceを指定してJSONで渡す
  * @returns 変更を反映した後のNGコメント
  */
-export async function deleteNgComments(body: { targets: {type: "word" | "id" | "command", source: string}[] }) {
+export async function deleteNgComments(body: { targets: { type: "word" | "id" | "command", source: string }[] }) {
     const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/ng-comments/client/items", {
-        "credentials": "include",
-        "headers": {
+        credentials: "include",
+        headers: {
             "content-type": "application/json",
             "accept": "application/json;charset=utf-8",
             "X-Frontend-Id": "6",
@@ -40,8 +40,8 @@ export async function deleteNgComments(body: { targets: {type: "word" | "id" | "
             "X-Niconico-Language": "ja-jp",
             "X-Request-With": "nicovideo",
         },
-        "body": JSON.stringify(body),
-        "method": "DELETE",
-    });
+        body: JSON.stringify(body),
+        method: "DELETE",
+    })
     return await response.json() as NgCommentsRootObject
 }

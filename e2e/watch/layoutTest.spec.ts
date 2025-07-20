@@ -1,23 +1,23 @@
-import { expect, test } from "../fixtures";
+import { expect, test } from "../fixtures"
 
-test('Watch: Layout change test', async ({ page, mockApi }) => {
-    await mockApi();
-    
-    await page.goto('https://www.nicovideo.jp/watch/sm0');
-    await page.bringToFront();
+test("Watch: Layout change test", async ({ page, mockApi }) => {
+    await mockApi()
 
-    await page.waitForSelector("#pmw-element-video");
+    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.bringToFront()
+
+    await page.waitForSelector("#pmw-element-video")
 
     const watchType = ["recresc", "renew", "stacked", "3col", "shinjuku", "rerekari"]
     for (const type of watchType) {
         // open settings
-        await page.getByRole('button', { name: 'MintWatch の設定' }).click();
+        await page.getByRole("button", { name: "MintWatch の設定" }).click()
         // set watch type
-        await page.getByLabel('Layout of the watch pageRe-').selectOption(type);
-    
+        await page.getByLabel("Layout of the watch pageRe-").selectOption(type)
+
         // close
-        await page.getByRole('heading', { name: 'MintWatch の設定' }).getByRole('button').click();
+        await page.getByRole("heading", { name: "MintWatch の設定" }).getByRole("button").click()
         // check attribute is correct
-        await expect(page.locator('.watch-container')).toHaveAttribute("data-watch-type", type)
+        await expect(page.locator(".watch-container")).toHaveAttribute("data-watch-type", type)
     }
-});
+})

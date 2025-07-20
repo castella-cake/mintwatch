@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
 
 export function useVideoTimelineData() {
     const { data: videoTimelineData } = useQuery({
-        queryKey: ['timelineData'],
+        queryKey: ["timelineData"],
         queryFn: () => {
             return getVideoTimeline()
         },

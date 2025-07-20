@@ -1,30 +1,30 @@
 export interface NicoruKeyResponseRootObject extends baseResponse {
-    data: NicoruKeyResponseData;
+    data: NicoruKeyResponseData
 }
 
 interface NicoruKeyResponseData {
-    nicoruKey: string;
+    nicoruKey: string
 }
 
 export interface NicoruPostBodyRootObject {
-    videoId: string;
-    fork: string;
-    no: number;
-    content: string;
-    nicoruKey: string;
+    videoId: string
+    fork: string
+    no: number
+    content: string
+    nicoruKey: string
 }
 
 export interface NicoruPostResponseRootObject {
-    meta: Meta;
-    data: NicoruPostResponseData;
+    meta: Meta
+    data: NicoruPostResponseData
 }
 
 interface NicoruPostResponseData {
-    nicoruCount: number;
-    nicoruId: string;
+    nicoruCount: number
+    nicoruId: string
 }
 
 export interface NicoruRemoveRootObject {
-    meta: Meta;
-    data: any[];
+    meta: Meta
+    data: any[]
 }

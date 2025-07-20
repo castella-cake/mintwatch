@@ -1,22 +1,22 @@
-import { createContext, Dispatch, ReactNode, SetStateAction } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
 
 type IAlertButton = {
-    text: string;
-    key: string;
-    disabled?: boolean;
-    primary?: boolean;
+    text: string
+    key: string
+    disabled?: boolean
+    primary?: boolean
 }
 
 type IAlert = {
-    icon?: ReactNode;
-    title: string;
-    body?: ReactNode;
-    type?: string;
-    customCloseButton?: IAlertButton[];
-    onClose?: (type: null | string) => void;
+    icon?: ReactNode
+    title: string
+    body?: ReactNode
+    type?: string
+    customCloseButton?: IAlertButton[]
+    onClose?: (type: null | string) => void
 }
-const IAlertContext = createContext<IAlert[]>([]);
-const ISetAlertContext = createContext<{ ISetAlertState: Dispatch<SetStateAction<IAlert[]>>, showAlert: (alert: IAlert) => void }>({ ISetAlertState: () => {}, showAlert: () => {}});
+const IAlertContext = createContext<IAlert[]>([])
+const ISetAlertContext = createContext<{ ISetAlertState: Dispatch<SetStateAction<IAlert[]>>, showAlert: (alert: IAlert) => void }>({ ISetAlertState: () => {}, showAlert: () => {} })
 
 export function AlertProvider({ children }: { children: ReactNode }) {
     const [IAlertState, ISetAlertState] = useState<IAlert[]>([])
@@ -29,13 +29,13 @@ export function AlertProvider({ children }: { children: ReactNode }) {
                 {children}
             </ISetAlertContext>
         </IAlertContext>
-    );
+    )
 }
 
 export function useAlertContext() {
-    return useContext(IAlertContext);
+    return useContext(IAlertContext)
 }
 
 export function useSetAlertContext() {
-    return useContext(ISetAlertContext);
+    return useContext(ISetAlertContext)
 }

@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import { MylistsResponseRootObject } from "@/types/mylistsData";
-import { VideoDataRootObject } from "@/types/VideoData";
-import { IconCheck } from "@tabler/icons-react";
-import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider";
+import { useEffect, useState } from "react"
+import { MylistsResponseRootObject } from "@/types/mylistsData"
+import { VideoDataRootObject } from "@/types/VideoData"
+import { IconCheck } from "@tabler/icons-react"
+import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider"
 
 type Props = {
-    onClose: () => void,
-    videoInfo: VideoDataRootObject,
+    onClose: () => void
+    videoInfo: VideoDataRootObject
 }
 
 export function Mylist({ videoInfo }: Props) {
-    const { showAlert } = useSetAlertContext();
+    const { showAlert } = useSetAlertContext()
 
-    const [ mylistsData, setMylistsData ] = useState<MylistsResponseRootObject | null>(null);
-    const [ addedMylists, setAddedMylists ] = useState<number[]>([]);
+    const [mylistsData, setMylistsData] = useState<MylistsResponseRootObject | null>(null)
+    const [addedMylists, setAddedMylists] = useState<number[]>([])
     useEffect(() => {
         async function getData() {
             const response: MylistsResponseRootObject = await getMylists()
@@ -26,32 +26,54 @@ export function Mylist({ videoInfo }: Props) {
     async function onAddToMylist(mylistId: number, itemId: string) {
         const response = await addItemToMylist(mylistId, itemId, location.href)
         if (response.meta.status === 201) {
-            setAddedMylists(( current ) => [ ...current, mylistId ])
-            showAlert({ title: "マイリストに追加しました", icon: <IconCheck/> })
+            setAddedMylists(current => [...current, mylistId])
+            showAlert({ title: "マイリストに追加しました", icon: <IconCheck /> })
             return true
         }
     }
     const videoTitle = (videoInfo.data.response && videoInfo.data.response.video && videoInfo.data.response.video.title) ? videoInfo.data.response.video.title : "タイトル不明"
-    return <div className="mylists-container" id="pmw-mylists">
-        <div className="mylists-title videoaction-actiontitle">
-            視聴中の動画をマイリストに追加<br/>
-            <span className="mylists-title-addingtitle videoaction-actiontitle-subtitle">
-                <span className="mylist-title-addingtitle-videotitle">{videoTitle}</span>
-                {" "}を追加します
-            </span>
+    return (
+        <div className="mylists-container" id="pmw-mylists">
+            <div className="mylists-title videoaction-actiontitle">
+                視聴中の動画をマイリストに追加
+                <br />
+                <span className="mylists-title-addingtitle videoaction-actiontitle-subtitle">
+                    <span className="mylist-title-addingtitle-videotitle">{videoTitle}</span>
+                    {" "}
+                    を追加します
+                </span>
+            </div>
+            <div className="mylist-item-container">
+                {
+                    mylistsData
+                        ? mylistsData.data.mylists.map((elem) => {
+                                return (
+                                    <button
+                                        key={elem.id}
+                                        className="mylist-item"
+                                        onClick={() => {
+                                            if (!addedMylists.includes(elem.id) && videoInfo.data) onAddToMylist(elem.id, videoInfo.data.response.video.id)
+                                        }}
+                                    >
+                                        {addedMylists.includes(elem.id) && (
+                                            <>
+                                                <IconCheck />
+                                                追加済み:
+                                                {" "}
+                                            </>
+                                        )}
+                                        <span className="mylist-title">{ elem.name }</span>
+                                        <br />
+                                        <span className="mylist-desc">
+                                            { elem.isPublic ? "公開" : "非公開" }
+                                            のマイリスト
+                                        </span>
+                                    </button>
+                                )
+                            })
+                        : <div>マイリスト取得中</div>
+                }
+            </div>
         </div>
-        <div className="mylist-item-container">
-            {
-                mylistsData ? mylistsData.data.mylists.map(elem => {
-                    return <button key={ elem.id } className="mylist-item" onClick={() => {
-                        if ( !addedMylists.includes(elem.id) && videoInfo.data ) onAddToMylist(elem.id, videoInfo.data.response.video.id)
-                    }}>
-                        {addedMylists.includes(elem.id) && <><IconCheck/>追加済み: </>}
-                        <span className="mylist-title">{ elem.name }</span><br/>
-                        <span className="mylist-desc">{ elem.isPublic ? "公開" : "非公開" }のマイリスト</span>
-                    </button>
-                }) : <div>マイリスト取得中</div>
-            }
-        </div>
-    </div>
+    )
 }

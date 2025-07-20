@@ -2,17 +2,17 @@ import { ReactNode, RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 
 type VideoPlayerProps = {
-    children?: ReactNode,
-    videoRef: RefObject<HTMLVideoElement | null>,
-    onPause: () => void,
-    onEnded: () => void,
-    onClick: () => void,
-    thumbnailSrc?: string,
-    enableVolumeGesture: boolean,
-    videoTitle?: string,
-    videoAuthor?: string,
-    videoGenre?: string,
-    setShortcutFeedback: (text: string) => void,
+    children?: ReactNode
+    videoRef: RefObject<HTMLVideoElement | null>
+    onPause: () => void
+    onEnded: () => void
+    onClick: () => void
+    thumbnailSrc?: string
+    enableVolumeGesture: boolean
+    videoTitle?: string
+    videoAuthor?: string
+    videoGenre?: string
+    setShortcutFeedback: (text: string) => void
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
@@ -42,22 +42,25 @@ export function VideoPlayer(props: VideoPlayerProps) {
             const wheelGestureAmount = (syncStorage.wheelGestureAmount ?? getDefault("wheelGestureAmount")) / 100
             const video = videoRef.current
             // 右クリックを押しながらホイールで音量を変更
-            if ( e.buttons < 2 || enableVolumeGesture === false || !video ) return;
-            if ( e.deltaY < 0 ) {
+            if (e.buttons < 2 || enableVolumeGesture === false || !video) return
+            if (e.deltaY < 0) {
                 if (video.volume + wheelGestureAmount > 1) {
                     video.volume = 1
-                } else {
-                    video.volume += wheelGestureAmount;
                 }
-            } else {
+                else {
+                    video.volume += wheelGestureAmount
+                }
+            }
+            else {
                 if (video.volume - wheelGestureAmount < 0) {
                     video.volume = 0
-                } else {
-                    video.volume -= wheelGestureAmount;
+                }
+                else {
+                    video.volume -= wheelGestureAmount
                 }
             }
             setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
-            e.preventDefault();
+            e.preventDefault()
             volumeGestureUsedRef.current = true
         }
         function preventContextMenu(e: Event) {
@@ -73,27 +76,39 @@ export function VideoPlayer(props: VideoPlayerProps) {
         }
     }, [syncStorage.wheelGestureAmount])
 
-    return (<div className="player-video-container">
-        <div className="player-video-container-inner" ref={videoContainerRef}>
-            <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={100} unmountOnExit classNames="player-loading-transition">
-                <div ref={nodeRef} className="player-video-loading-container">
-                    <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
-                    <div className="player-video-loading-text-container">
-                        <div className="player-video-loading-text-genre">
-                            {videoGenre}
+    return (
+        <div className="player-video-container">
+            <div className="player-video-container-inner" ref={videoContainerRef}>
+                <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={100} unmountOnExit classNames="player-loading-transition">
+                    <div ref={nodeRef} className="player-video-loading-container">
+                        <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
+                        <div className="player-video-loading-text-container">
+                            <div className="player-video-loading-text-genre">
+                                {videoGenre}
+                            </div>
+                            <div className="player-video-loading-text-title">
+                                {videoTitle}
+                            </div>
+                            <div className="player-video-loading-text-author">
+                                {videoAuthor}
+                            </div>
                         </div>
-                        <div className="player-video-loading-text-title">
-                            {videoTitle}
-                        </div>
-                        <div className="player-video-loading-text-author">
-                            {videoAuthor}
-                        </div>
+                        <div className="player-video-loading-text">Loading...</div>
                     </div>
-                    <div className="player-video-loading-text">Loading...</div>
-                </div>
-            </CSSTransition>
-            <video ref={videoRef} autoPlay onPause={() => {onPause()}} onEnded={onEnded} onCanPlay={() => {setCanPlay(true)}} width="1920" height="1080" id="pmw-element-video" onClick={onClick}></video>
-            { children }
+                </CSSTransition>
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    onPause={() => { onPause() }}
+                    onEnded={onEnded}
+                    onCanPlay={() => { setCanPlay(true) }}
+                    width="1920"
+                    height="1080"
+                    id="pmw-element-video"
+                    onClick={onClick}
+                />
+                { children }
+            </div>
         </div>
-    </div>);
+    )
 }

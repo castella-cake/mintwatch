@@ -8,13 +8,15 @@ export function useInterval(callback: () => void, delayMs: number) {
         callbackRef.current = callback
     }, [callback])
     useEffect(() => {
-        if (delayMs < 0) return;
+        if (delayMs < 0) return
         // 新しい関数でRefの関数を実行
-        const tick = () => { callbackRef.current() } 
+        const tick = () => {
+            callbackRef.current()
+        }
         const id = setInterval(tick, delayMs)
         // 終わったらこれも切る
         return () => {
-            clearInterval(id);
-        };
+            clearInterval(id)
+        }
     }, [delayMs])
 }

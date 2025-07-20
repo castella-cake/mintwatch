@@ -1,31 +1,31 @@
 export const watchForbiddenTestData: any = {
-    "meta": {
-        "status": 400,
-        "code": "FORBIDDEN"
+    meta: {
+        status: 400,
+        code: "FORBIDDEN",
     },
-    "data": {
-        "metadata": {
-            "title": "ニコニコ動画",
-            "linkTags": [
+    data: {
+        metadata: {
+            title: "ニコニコ動画",
+            linkTags: [
             ],
-            "metaTags": [
+            metaTags: [
             ],
-            "jsonLds": []
+            jsonLds: [],
         },
-        "googleTagManager": {
-            "user": {
-                "login_status": "not_login"
+        googleTagManager: {
+            user: {
+                login_status: "not_login",
             },
         },
-        "response": {
-            "statusCode": 400,
-            "errorCode": "FORBIDDEN",
-            "reasonCode": "ADMINISTRATOR_DELETE_VIDEO",
-            "deletedMessage": null,
-            "communityLink": null,
-            "publishScheduledAt": null,
-            "data": null
+        response: {
+            statusCode: 400,
+            errorCode: "FORBIDDEN",
+            reasonCode: "ADMINISTRATOR_DELETE_VIDEO",
+            deletedMessage: null,
+            communityLink: null,
+            publishScheduledAt: null,
+            data: null,
         },
-        "treatAs": false
-    }
+        treatAs: false,
+    },
 }

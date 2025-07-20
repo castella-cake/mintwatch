@@ -26,11 +26,11 @@ export const watchLayoutType = {
 }
 
 type Props = {
-    layoutType: string,
-    playerSize: number,
-    onChangeVideo: (smId: string, doScroll?: boolean) => void,
-    isFullscreenUi: boolean,
-    setIsFullscreenUi: Dispatch<SetStateAction<boolean>>,
+    layoutType: string
+    playerSize: number
+    onChangeVideo: (smId: string, doScroll?: boolean) => void
+    isFullscreenUi: boolean
+    setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
 }
 
 export function WatchContent(_props: Props) {
@@ -39,17 +39,17 @@ export function WatchContent(_props: Props) {
         playerSize,
         onChangeVideo,
         isFullscreenUi,
-        setIsFullscreenUi
+        setIsFullscreenUi,
     } = _props
     const { localStorage } = useStorageContext()
-    const { videoInfo } = useVideoInfoContext();
+    const { videoInfo } = useVideoInfoContext()
 
     useEffect(() => {
         document.dispatchEvent(
             new CustomEvent("pmw_initialRender", {
-                detail: ""
+                detail: "",
             }),
-        );
+        )
     }, [])
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
@@ -59,9 +59,10 @@ export function WatchContent(_props: Props) {
         modalType: "mylist" | "share" | "help" | "shortcuts",
     ) => {
         if (isModalOpen === false) {
-            setVideoActionModalState(false);
-        } else {
-            setVideoActionModalState(modalType);
+            setVideoActionModalState(false)
+        }
+        else {
+            setVideoActionModalState(modalType)
         }
     }, [])
 
@@ -78,75 +79,96 @@ export function WatchContent(_props: Props) {
         }
     }
 
+    const onModalOpen = (modalType: "mylist" | "share" | "help") => {
+        onModalStateChanged(true, modalType)
+    }
+
     const shouldUseCardRecommend = !(layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch) ? true : false
     const shouldUseHorizontalSearchLayout = !(layoutType === watchLayoutType.shinjuku || layoutType === watchLayoutType.reimaginedOldWatch) ? true : false
     const shouldUseCardInfo = !(layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku) ? true : false
     const shouldUseBigView = localStorage.playersettings.enableBigView ?? false
 
-    const playerElem = <Player
-        isFullscreenUi={isFullscreenUi}
-        setIsFullscreenUi={setIsFullscreenUi}
-        changeVideo={onChangeVideo}
-        onModalStateChanged={onModalStateChanged}
-        key="watchui-player"
-    />
+    const playerElem = (
+        <Player
+            isFullscreenUi={isFullscreenUi}
+            setIsFullscreenUi={setIsFullscreenUi}
+            changeVideo={onChangeVideo}
+            onModalStateChanged={onModalStateChanged}
+            key="watchui-player"
+        />
+    )
     const titleElem = <VideoTitle key="watch-container-title" showStats={true} />
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
 
     const commentListElem = <CommentList key="watchui-commentlist" />
     const playListElem = <Playlist key="watchui-playlist" />
-    const actionsElem = <Actions onModalOpen={(modalType: "mylist" | "share" | "help") => { onModalStateChanged(true, modalType) }} key="watchui-actions"></Actions>
-    const lyricsElem = <Lyric key="watchui-lyrics"/>
+    const actionsElem = <Actions onModalOpen={onModalOpen} key="watchui-actions" />
+    const lyricsElem = <Lyric key="watchui-lyrics" />
 
     const isContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
-    const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false;
+    const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false
 
     const shouldLyricTabGrayOut = !(videoInfo && videoInfo.data.response.video && videoInfo.data.response.video.hasLyrics)
 
-    const rightActionElem = <div className="watch-container-rightaction" key="watchui-rightaction">
-        {layoutType === watchLayoutType.shinjuku ?
-            <div className="watch-container-rightaction-hjleft">
-                <Stats />
-            </div> : actionsElem
-        }
-        <Stacker items={[
-            { 
-                title: (layoutType === watchLayoutType.Stacked ? "コメント" : "コメントリスト"),
-                content: commentListElem
-            },
-            {
-                title: "動画概要",
-                content: infoElem,
-                hidden: (layoutType !== watchLayoutType.Stacked)
-            },
-            {
-                title: "再生リスト",
-                content: playListElem,
-                icon: <>
-                    {isContinuousPlay && <IconArrowBigRightLine/>}
-                    {isShufflePlay && <IconArrowsShuffle/>}
-                </>
-            },
-            {
-                title: (shouldLyricTabGrayOut ? "歌詞が登録されていません" : "歌詞"),
-                icon: <IconPlaylist/>,
-                content: lyricsElem,
-                isIconButton: true,
-                disabled: shouldLyricTabGrayOut
-            }
-        ]} />
-    </div>
+    const rightActionElem = (
+        <div className="watch-container-rightaction" key="watchui-rightaction">
+            {layoutType === watchLayoutType.shinjuku
+                ? (
+                        <div className="watch-container-rightaction-hjleft">
+                            <Stats />
+                        </div>
+                    )
+                : actionsElem}
+            <Stacker items={[
+                {
+                    title: (layoutType === watchLayoutType.Stacked ? "コメント" : "コメントリスト"),
+                    content: commentListElem,
+                },
+                {
+                    title: "動画概要",
+                    content: infoElem,
+                    hidden: (layoutType !== watchLayoutType.Stacked),
+                },
+                {
+                    title: "再生リスト",
+                    content: playListElem,
+                    icon:
+                    <>
+                        {isContinuousPlay && <IconArrowBigRightLine />}
+                        {isShufflePlay && <IconArrowsShuffle />}
+                    </>,
+                },
+                {
+                    title: (shouldLyricTabGrayOut ? "歌詞が登録されていません" : "歌詞"),
+                    icon: <IconPlaylist />,
+                    content: lyricsElem,
+                    isIconButton: true,
+                    disabled: shouldLyricTabGrayOut,
+                },
+            ]}
+            />
+        </div>
+    )
 
-    const combinedPlayerElem = <div className="shinjuku-player-container" key="watchui-combinedplayer">
-        {playerElem}{rightActionElem}
-    </div>
+    const combinedPlayerElem = (
+        <div className="shinjuku-player-container" key="watchui-combinedplayer">
+            {playerElem}
+            {rightActionElem}
+        </div>
+    )
 
     const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
     const contentTreeElem = <ContentTree key="watchui-contenttree" />
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
-    const hrjkLogoElem = <div className="hrjk-header" key="watchui-hrjkheader"><NicoHarajukuLogo />{searchElem}<div className="harajuku-header-migiue-filler">MintWatch</div></div>
+    const hrjkLogoElem = (
+        <div className="hrjk-header" key="watchui-hrjkheader">
+            <NicoHarajukuLogo />
+            {searchElem}
+            <div className="harajuku-header-migiue-filler">MintWatch</div>
+        </div>
+    )
 
     const layoutPresets: {
         [key: string]: JSX.Element[]
@@ -161,18 +183,21 @@ export function WatchContent(_props: Props) {
 
     const currentLayout = layoutPresets[layoutType]
 
-    return <div className="watch-container"
-        data-is-bigview={shouldUseBigView}
-        data-watch-type={layoutType}
-        data-settings-size={playerSize}
-        data-use-card-recommend={shouldUseCardRecommend}
-        data-use-horizontal-search={shouldUseHorizontalSearchLayout}
-        data-use-card-info={shouldUseCardInfo}
-        id="pmw-container"
-        onClickCapture={(e) => { linkClickHandler(e) }}
-    >
-        <div className="watch-container-grid">
-            {currentLayout}
+    return (
+        <div
+            className="watch-container"
+            data-is-bigview={shouldUseBigView}
+            data-watch-type={layoutType}
+            data-settings-size={playerSize}
+            data-use-card-recommend={shouldUseCardRecommend}
+            data-use-horizontal-search={shouldUseHorizontalSearchLayout}
+            data-use-card-info={shouldUseCardInfo}
+            id="pmw-container"
+            onClickCapture={(e) => { linkClickHandler(e) }}
+        >
+            <div className="watch-container-grid">
+                {currentLayout}
+            </div>
         </div>
-    </div>
+    )
 }

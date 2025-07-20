@@ -1,9 +1,9 @@
 export interface baseResponse {
-    meta: Meta;
+    meta: Meta
 }
 
 interface Meta {
-    status: number;
-    errorCode?: string;
-    code?: string;
+    status: number
+    errorCode?: string
+    code?: string
 }

@@ -1,5 +1,5 @@
-import { MylistResponseRootObject } from "@/types/mylistData";
-import { MylistsResponseRootObject } from "@/types/mylistsData";
+import { MylistResponseRootObject } from "@/types/mylistData"
+import { MylistsResponseRootObject } from "@/types/mylistsData"
 
 /**
  * 指定したマイリストの内容を取得するAPI
@@ -9,15 +9,15 @@ import { MylistsResponseRootObject } from "@/types/mylistsData";
  */
 export async function getMylist(mylistId: string | number, sortKey: string, sortOrder: "asc" | "desc") {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/playlist/mylist/${encodeURIComponent(mylistId)}?sortKey=${encodeURIComponent(sortKey)}&sortOrder=${encodeURIComponent(sortOrder)}`, {
-        "credentials": "include",
-        "headers": {
+        credentials: "include",
+        headers: {
             "content-type": "application/json",
             "X-Frontend-Id": "6",
             "X-Frontend-Version": "0",
             "X-Niconico-Language": "ja-jp",
         },
-        "method": "GET",
-    });
+        method: "GET",
+    })
     return await response.json() as MylistResponseRootObject
 }
 
@@ -26,15 +26,15 @@ export async function getMylist(mylistId: string | number, sortKey: string, sort
  */
 export async function getMylists() {
     const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/mylists", {
-        "credentials": "include",
-        "headers": {
+        credentials: "include",
+        headers: {
             "X-Frontend-Id": "6",
             "X-Frontend-Version": "0",
             "X-Niconico-Language": "ja-jp",
         },
-        "method": "GET",
-        "mode": "cors"
-    });
+        method: "GET",
+        mode: "cors",
+    })
     return await response.json() as MylistsResponseRootObject
 }
 
@@ -43,20 +43,20 @@ export async function getMylists() {
  * @param mylistId マイリストのID
  * @param itemId 動画ID
  * @param requestWith これを行ったページのURL
- * @returns 
+ * @returns
  */
 export async function addItemToMylist(mylistId: string | number, itemId: string | number, requestWith: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/mylists/${encodeURIComponent(mylistId)}/items?itemId=${encodeURIComponent(itemId)}`, {
-        "credentials": "include",
-        "headers": {
+        credentials: "include",
+        headers: {
             "X-Frontend-Id": "6",
             "X-Frontend-Version": "0",
             "X-Niconico-Language": "ja-jp",
             "X-Request-With": requestWith,
         },
-        "referrer": "https://www.nicovideo.jp/",
-        "method": "POST",
-        "mode": "cors"
-    });
+        referrer: "https://www.nicovideo.jp/",
+        method: "POST",
+        mode: "cors",
+    })
     return await response.json() as baseResponse
 }

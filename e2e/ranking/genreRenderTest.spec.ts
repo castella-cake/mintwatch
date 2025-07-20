@@ -1,16 +1,16 @@
-import { expect, test } from "../fixtures";
+import { expect, test } from "../fixtures"
 
-test('Ranking: Genre rendering test', async ({ page, mockApi, extensionId }) => {
-    await mockApi();
-    
-    await page.goto(`chrome-extension://${extensionId}/settings.html`);
+test("Ranking: Genre rendering test", async ({ page, mockApi, extensionId }) => {
+    await mockApi()
 
-    await page.getByRole('checkbox', { name: 'Experimental: Enable' }).check();
+    await page.goto(`chrome-extension://${extensionId}/settings.html`)
 
-    await page.goto('https://www.nicovideo.jp/ranking/genre');
-    await page.bringToFront();
+    await page.getByRole("checkbox", { name: "Experimental: Enable" }).check()
 
-    await page.waitForSelector(".reshogi-container");
+    await page.goto("https://www.nicovideo.jp/ranking/genre")
+    await page.bringToFront()
 
-    await expect(page.locator('#root-pmw')).toContainText('For testing purposes only');
-});
+    await page.waitForSelector(".reshogi-container")
+
+    await expect(page.locator("#root-pmw")).toContainText("For testing purposes only")
+})

@@ -1,27 +1,27 @@
-import { Comment } from "@/types/CommentData";
-import { secondsToTime } from "@/utils/readableValue";
-import NicoruSvg from "./nicoruSvg";
+import { Comment } from "@/types/CommentData"
+import { secondsToTime } from "@/utils/readableValue"
+import NicoruSvg from "./nicoruSvg"
 
 type RowProps = {
-    comment: Comment;
-    isOpen: boolean;
-    listFocusable: boolean;
+    comment: Comment
+    isOpen: boolean
+    listFocusable: boolean
     onNicoru: (
         commentNo: number,
         commentBody: string,
         nicoruId: string | null,
         isMyPost: boolean,
-    ) => void;
-    onSeekTo: (currentTime: number) => void;
-    onItemExpand: (id: string) => void;
-};
+    ) => void
+    onSeekTo: (currentTime: number) => void
+    onItemExpand: (id: string) => void
+}
 
 function returnNicoruRank(nicoruCount: number) {
-    if (nicoruCount >= 9) return 4;
-    if (nicoruCount >= 5) return 3;
-    if (nicoruCount >= 3) return 2;
-    if (nicoruCount >= 1) return 1;
-    return 0;
+    if (nicoruCount >= 9) return 4
+    if (nicoruCount >= 5) return 3
+    if (nicoruCount >= 3) return 2
+    if (nicoruCount >= 1) return 1
+    return 0
 }
 
 export default function CommentRow({
@@ -47,13 +47,13 @@ export default function CommentRow({
                         comment.body,
                         comment.nicoruId,
                         comment.isMyPost,
-                    )
-                }
+                    )}
                 aria-disabled={comment.isMyPost ? true : false}
-                className={`commentlist-list-item-nicorubutton`}
+                className="commentlist-list-item-nicorubutton"
                 data-nicotta={comment.nicoruId ? true : false}
             >
-                <NicoruSvg/><span>{comment.nicoruCount}</span>
+                <NicoruSvg />
+                <span>{comment.nicoruCount}</span>
             </button>
             <div className="commentlist-list-item-body" title={comment.body}>
                 {comment.body}
@@ -63,7 +63,7 @@ export default function CommentRow({
                 tabIndex={listFocusable ? undefined : -1}
                 className="commentlist-list-item-vpos"
                 onClick={() => {
-                    onItemExpand(comment.id);
+                    onItemExpand(comment.id)
                 }}
                 title="コメントの詳細を開く"
             >
@@ -71,21 +71,28 @@ export default function CommentRow({
             </button>
             {isOpen && (
                 <>
-                    { comment.commands.length > 0 && <div className="commentlist-list-item-stats">
-                        {comment.commands.map(command => {
-                            return <code className="commentlist-list-item-command" key={command}>{command}</code>
-                        })}
-                    </div> }
+                    { comment.commands.length > 0 && (
+                        <div className="commentlist-list-item-stats">
+                            {comment.commands.map((command) => {
+                                return <code className="commentlist-list-item-command" key={command}>{command}</code>
+                            })}
+                        </div>
+                    ) }
                     <div className="commentlist-list-item-stats">
                         <span>
-                            コメ番: {comment.no} / 投稿日時:{" "}
+                            コメ番:
+                            {" "}
+                            {comment.no}
+                            {" "}
+                            / 投稿日時:
+                            {" "}
                             {new Date(comment.postedAt).toLocaleString()}
                         </span>
                     </div>
                     <div className="commentlist-list-item-actions">
                         <button
                             onClick={() => {
-                                onSeekTo(comment.vposMs / 1000);
+                                onSeekTo(comment.vposMs / 1000)
                             }}
                             className="commentlist-list-item-button"
                         >
@@ -103,5 +110,5 @@ export default function CommentRow({
                 </>
             )}
         </div>
-    );
+    )
 }

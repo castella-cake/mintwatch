@@ -1,11 +1,11 @@
-import { createBrowserHistory, History, Location } from "history";
-import { createContext, ReactNode, useLayoutEffect } from "react";
+import { createBrowserHistory, History, Location } from "history"
+import { createContext, ReactNode, useLayoutEffect } from "react"
 
-const IHistoryContext = createContext<History | null>(null);
-const ILocationContext = createContext<Location | null>(null);
+const IHistoryContext = createContext<History | null>(null)
+const ILocationContext = createContext<Location | null>(null)
 
 export function RouterProvider({ children }: { children: ReactNode }) {
-    const historyRef = useRef<History | null>(null);
+    const historyRef = useRef<History | null>(null)
     if (!historyRef.current) historyRef.current = createBrowserHistory()
     const [location, setLocation] = useState(historyRef.current?.location)
     useLayoutEffect(() => {
@@ -13,17 +13,19 @@ export function RouterProvider({ children }: { children: ReactNode }) {
             return historyRef.current.listen(({ location }) => setLocation(location))
         }
     }, [])
-    return <IHistoryContext value={historyRef.current}>
-        <ILocationContext value={location}>
-            {children}
-        </ILocationContext>
-    </IHistoryContext>
+    return (
+        <IHistoryContext value={historyRef.current}>
+            <ILocationContext value={location}>
+                {children}
+            </ILocationContext>
+        </IHistoryContext>
+    )
 }
 
 export function useHistoryContext() {
-    return useContext(IHistoryContext)!;
+    return useContext(IHistoryContext)!
 }
 
 export function useLocationContext() {
-    return useContext(ILocationContext)!;
+    return useContext(ILocationContext)!
 }

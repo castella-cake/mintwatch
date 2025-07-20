@@ -1,47 +1,47 @@
 export const genreRankingTestData = {
-    "meta": {
-        "status": 200,
-        "code": "HTTP_200"
+    meta: {
+        status: 200,
+        code: "HTTP_200",
     },
-    "data": {
-        "metadata": {
-            "title": "動画ランキング「総合」 - ニコニコ動画",
-            "linkTags": [
+    data: {
+        metadata: {
+            title: "動画ランキング「総合」 - ニコニコ動画",
+            linkTags: [
             ],
-            "metaTags": [
+            metaTags: [
             ],
-            "jsonLds": []
+            jsonLds: [],
         },
-        "googleTagManager": {
-            "user": {
-                "login_status": "not_login"
+        googleTagManager: {
+            user: {
+                login_status: "not_login",
             },
         },
-        "response": {
-            "$getTeibanRanking": {
-                "data": {
-                    "featuredKey": "e9uj2uks",
-                    "label": "総合",
-                    "tag": null,
-                    "maxItemCount": 10,
-                    "items": [
+        response: {
+            $getTeibanRanking: {
+                data: {
+                    featuredKey: "e9uj2uks",
+                    label: "総合",
+                    tag: null,
+                    maxItemCount: 10,
+                    items: [
                         {
                             "type": "essential",
                             "id": "sm0",
                             "title": "For testing purposes only",
                             "registeredAt": "1970-01-01T00:00:00.000Z",
                             "count": {
-                                "view": 0,
-                                "comment": 0,
-                                "mylist": 0,
-                                "like": 0
+                                view: 0,
+                                comment: 0,
+                                mylist: 0,
+                                like: 0,
                             },
                             "thumbnail": {
-                                "url": "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                                "middleUrl": "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                                "largeUrl": "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                                "listingUrl": "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                                "nHdUrl": "https://nicovideo.cdn.nimg.jp/thumbnails/9/9"
+                                url: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                                middleUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                                largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                                listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                                nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             },
                             "duration": 186,
                             "shortDescription": "TestDescriptionThatJustForTesting",
@@ -50,301 +50,301 @@ export const genreRankingTestData = {
                             "isPaymentRequired": false,
                             "playbackPosition": 0,
                             "owner": {
-                                "ownerType": "user",
-                                "type": "user",
-                                "visibility": "visible",
-                                "id": "92343354",
-                                "name": "CYakigasi",
-                                "iconUrl": "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg?1732190148"
+                                ownerType: "user",
+                                type: "user",
+                                visibility: "visible",
+                                id: "92343354",
+                                name: "CYakigasi",
+                                iconUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg?1732190148",
                             },
                             "requireSensitiveMasking": false,
                             "videoLive": null,
                             "isMuted": false,
                             "9d091f87": false,
-                            "acf68865": false
+                            "acf68865": false,
                         },
                     ],
-                    "hasNext": true
-                }
-            },
-            "$getTeibanRankingFeaturedKeyAndTrendTags": {
-                "data": {
-                    "featuredKey": "e9uj2uks",
-                    "label": "総合",
-                    "isTopLevel": true,
-                    "isImmoral": false,
-                    "trendTags": []
-                }
-            },
-            "$getTeibanRankingFeaturedKeys": {
-                "data": {
-                    "items": [
-                        {
-                            "featuredKey": "e9uj2uks",
-                            "label": "総合",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": true,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "4eet3ca4",
-                            "label": "ゲーム",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": true,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "zc49b03a",
-                            "label": "アニメ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": true,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "dshv5do5",
-                            "label": "ボカロ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": true,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "e2bi9pt8",
-                            "label": "音声合成実況・解説・劇場",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "8kjl94d9",
-                            "label": "エンタメ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "wq76qdin",
-                            "label": "音楽",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": true,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "1ya6bnqd",
-                            "label": "歌ってみた",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "6yuf530c",
-                            "label": "踊ってみた",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "6r5jr8nd",
-                            "label": "演奏してみた",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "v6wdx6p5",
-                            "label": "解説・講座",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "lq8d5918",
-                            "label": "料理",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "k1libcse",
-                            "label": "旅行・アウトドア",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "24aa8fkw",
-                            "label": "自然",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "3d8zlls9",
-                            "label": "乗り物",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "n46kcz9u",
-                            "label": "技術・工作",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "lzicx0y6",
-                            "label": "社会・政治・時事",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "p1acxuoz",
-                            "label": "MMD",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "6mkdo4xd",
-                            "label": "VTuber",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "oxzi6bje",
-                            "label": "ラジオ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "4w3p65pf",
-                            "label": "スポーツ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "ne72lua2",
-                            "label": "動物",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "ramuboyn",
-                            "label": "その他",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": false,
-                            "isEnabled": true
-                        },
-                        {
-                            "featuredKey": "d2um7mc4",
-                            "label": "例のソレ",
-                            "isEnabledTrendTag": false,
-                            "isMajorFeatured": false,
-                            "isTopLevel": false,
-                            "isImmoral": true,
-                            "isEnabled": true
-                        }
-                    ],
-                    "definition": {
-                        "maxItemCount": {
-                            "teiban": 1000,
-                            "trendTag": 300,
-                            "forYou": 15
-                        }
-                    }
-                }
-            },
-            "page": {
-                "pagination": {
-                    "page": 1,
-                    "pageSize": 1,
-                    "totalCount": 10,
-                    "maxPage": 10,
+                    hasNext: true,
                 },
-                "currentTag": null,
-                "currentTerm": "24h",
-                "availableTerms": [
+            },
+            $getTeibanRankingFeaturedKeyAndTrendTags: {
+                data: {
+                    featuredKey: "e9uj2uks",
+                    label: "総合",
+                    isTopLevel: true,
+                    isImmoral: false,
+                    trendTags: [],
+                },
+            },
+            $getTeibanRankingFeaturedKeys: {
+                data: {
+                    items: [
+                        {
+                            featuredKey: "e9uj2uks",
+                            label: "総合",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: true,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "4eet3ca4",
+                            label: "ゲーム",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: true,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "zc49b03a",
+                            label: "アニメ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: true,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "dshv5do5",
+                            label: "ボカロ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: true,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "e2bi9pt8",
+                            label: "音声合成実況・解説・劇場",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "8kjl94d9",
+                            label: "エンタメ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "wq76qdin",
+                            label: "音楽",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: true,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "1ya6bnqd",
+                            label: "歌ってみた",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "6yuf530c",
+                            label: "踊ってみた",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "6r5jr8nd",
+                            label: "演奏してみた",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "v6wdx6p5",
+                            label: "解説・講座",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "lq8d5918",
+                            label: "料理",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "k1libcse",
+                            label: "旅行・アウトドア",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "24aa8fkw",
+                            label: "自然",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "3d8zlls9",
+                            label: "乗り物",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "n46kcz9u",
+                            label: "技術・工作",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "lzicx0y6",
+                            label: "社会・政治・時事",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "p1acxuoz",
+                            label: "MMD",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "6mkdo4xd",
+                            label: "VTuber",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "oxzi6bje",
+                            label: "ラジオ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "4w3p65pf",
+                            label: "スポーツ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "ne72lua2",
+                            label: "動物",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "ramuboyn",
+                            label: "その他",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: false,
+                            isEnabled: true,
+                        },
+                        {
+                            featuredKey: "d2um7mc4",
+                            label: "例のソレ",
+                            isEnabledTrendTag: false,
+                            isMajorFeatured: false,
+                            isTopLevel: false,
+                            isImmoral: true,
+                            isEnabled: true,
+                        },
+                    ],
+                    definition: {
+                        maxItemCount: {
+                            teiban: 1000,
+                            trendTag: 300,
+                            forYou: 15,
+                        },
+                    },
+                },
+            },
+            page: {
+                pagination: {
+                    page: 1,
+                    pageSize: 1,
+                    totalCount: 10,
+                    maxPage: 10,
+                },
+                currentTag: null,
+                currentTerm: "24h",
+                availableTerms: [
                     {
-                        "label": "毎時",
-                        "value": "hour"
+                        label: "毎時",
+                        value: "hour",
                     },
                     {
-                        "label": "24時間",
-                        "value": "24h"
+                        label: "24時間",
+                        value: "24h",
                     },
                     {
-                        "label": "週間",
-                        "value": "week"
+                        label: "週間",
+                        value: "week",
                     },
                     {
-                        "label": "月間",
-                        "value": "month"
+                        label: "月間",
+                        value: "month",
                     },
                     {
-                        "label": "全期間",
-                        "value": "total"
-                    }
+                        label: "全期間",
+                        value: "total",
+                    },
                 ],
-                "niconewsRanking": [],
-                "foryouRanking": {
-                    "recommendId": "0",
-                    "featuredKey": "e9uj2uks",
-                    "label": "総合",
-                    "tag": "ForNonPersonalizedTesting",
-                    "items": []
-                }
-            }
-        }
-    }
+                niconewsRanking: [],
+                foryouRanking: {
+                    recommendId: "0",
+                    featuredKey: "e9uj2uks",
+                    label: "総合",
+                    tag: "ForNonPersonalizedTesting",
+                    items: [],
+                },
+            },
+        },
+    },
 }

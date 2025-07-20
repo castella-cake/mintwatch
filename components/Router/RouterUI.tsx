@@ -1,31 +1,31 @@
-import { ReactNode, useLayoutEffect } from "react";
-import { WatchBody } from "../PMWatch/WatchBody";
-import ShogiBody from "../ReShogi/ShogiBody";
-import { useHistoryContext, useLocationContext } from "./RouterContext";
-import Header from "../Global/Header/Header";
-import { MintConfig } from "../Global/MintConfig";
-import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider";
-import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider";
-import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider";
-import Alert from "../Global/Alert";
+import { ReactNode, useLayoutEffect } from "react"
+import { WatchBody } from "../PMWatch/WatchBody"
+import ShogiBody from "../ReShogi/ShogiBody"
+import { useHistoryContext, useLocationContext } from "./RouterContext"
+import Header from "../Global/Header/Header"
+import { MintConfig } from "../Global/MintConfig"
+import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSideMenuShownContext } from "../Global/Contexts/ModalStateProvider"
+import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider"
+import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
+import Alert from "../Global/Alert"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
     const location = useLocationContext()
     if (location.pathname.startsWith(targetPathname) || backgroundPlaying) return children
-    return <></>;
+    return <></>
 }
 
 function Match({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const location = useLocationContext()
     if (location.pathname.startsWith(targetPathname)) return children
-    return <></>;
+    return <></>
 }
 
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const {syncStorage} = useStorageContext()
+    const { syncStorage } = useStorageContext()
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()
@@ -37,9 +37,9 @@ export default function RouterUI() {
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
             // ここでのPath管理は完全にルーティングした先のコンポーネントに任せるため、単にページを切り替えるだけに留める。
             if (
-                nearestAnchor && 
-                !nearestAnchor.getAttribute("data-seektime") &&
-                (
+                nearestAnchor
+                && !nearestAnchor.getAttribute("data-seektime")
+                && (
                     targetPathnames.map(path => nearestAnchor.href.startsWith(nicovideoPrefix + path) && !location.pathname.startsWith(path)).some(path => path)
                 )
             ) {
@@ -48,7 +48,8 @@ export default function RouterUI() {
                 e.preventDefault()
                 if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
                     setBackgroundPlaying(true)
-                } else {
+                }
+                else {
                     setBackgroundPlaying(false)
                 }
                 history.push(nearestAnchor.href)
@@ -60,17 +61,18 @@ export default function RouterUI() {
         return history.listen(({ location: newLocation }) => {
             if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
                 setBackgroundPlaying(true)
-            } else {
+            }
+            else {
                 setBackgroundPlaying(false)
             }
         })
     }, [])
-    const mintConfigElemRef = useRef<HTMLDivElement>(null);
-    const headerActionStackerElemRef = useRef<HTMLDivElement>(null);
-    const sideMenuElemRef = useRef<HTMLDivElement>(null);
+    const mintConfigElemRef = useRef<HTMLDivElement>(null)
+    const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
+    const sideMenuElemRef = useRef<HTMLDivElement>(null)
 
-    const setHeaderActionState = useSetHeaderActionStateContext();
-    const setMintConfigShown = useSetMintConfigShownContext();
+    const setHeaderActionState = useSetHeaderActionStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
     const setSideMenuShown = useSetSideMenuShownContext()
 
     function handleKeydown(e: React.KeyboardEvent) {
@@ -87,16 +89,17 @@ export default function RouterUI() {
         if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
     }
 
-
-    return <div className="router" onClickCapture={linkClickHandler} onKeyDown={handleKeydown} onClick={onModalOutsideClick}>
-        <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef}/>
-        <MintConfig nodeRef={mintConfigElemRef} />
-        <MatchWatchPage targetPathname="/watch">
-            <WatchBody/>
-        </MatchWatchPage>
-        <Match targetPathname="/ranking">
-            <ShogiBody/>
-        </Match>
-        <Alert/>
-    </div>
+    return (
+        <div className="router" onClickCapture={linkClickHandler} onKeyDown={handleKeydown} onClick={onModalOutsideClick}>
+            <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
+            <MintConfig nodeRef={mintConfigElemRef} />
+            <MatchWatchPage targetPathname="/watch">
+                <WatchBody />
+            </MatchWatchPage>
+            <Match targetPathname="/ranking">
+                <ShogiBody />
+            </Match>
+            <Alert />
+        </div>
+    )
 }

@@ -1,4 +1,4 @@
-import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostResponseRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData";
+import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostResponseRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData"
 
 /**
  * ニコるに必要なキーを取得するAPI
@@ -7,14 +7,14 @@ import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostRespon
  */
 export async function getNicoruKey(threadId: string | number, fork: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/comment/keys/nicoru?threadId=${encodeURIComponent(threadId)}&fork=${encodeURIComponent(fork)}`, {
-        "headers": {
+        headers: {
             "x-frontend-id": "6",
             "x-frontend-version": "0",
-            "x-niconico-language": "ja-jp"
+            "x-niconico-language": "ja-jp",
         },
-        "method": "GET",
-        "credentials": "include"
-    });
+        method: "GET",
+        credentials: "include",
+    })
     return await response.json() as NicoruKeyResponseRootObject
 }
 
@@ -25,17 +25,17 @@ export async function getNicoruKey(threadId: string | number, fork: string) {
  */
 export async function postNicoru(threadId: string | number, body: NicoruPostBodyRootObject) {
     const response = await fetch(`https://public.nvcomment.nicovideo.jp/v1/threads/${encodeURIComponent(threadId)}/nicorus`, {
-        "headers": {
+        headers: {
             "x-client-os-type": "others",
             "x-frontend-id": "6",
-            "x-frontend-version": "0"
+            "x-frontend-version": "0",
         },
-        "body": JSON.stringify(body),
-        "method": "POST",
-        "mode": "cors",
-        "credentials": "omit",
-        "cache": "no-store"
-    });
+        body: JSON.stringify(body),
+        method: "POST",
+        mode: "cors",
+        credentials: "omit",
+        cache: "no-store",
+    })
     return await response.json() as NicoruPostResponseRootObject
 }
 
@@ -45,15 +45,15 @@ export async function postNicoru(threadId: string | number, body: NicoruPostBody
  */
 export async function removeNicoru(nicoruId: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/nicoru/send/${encodeURIComponent(nicoruId)}`, {
-        "headers": {
+        headers: {
             "x-frontend-id": "6",
             "x-frontend-version": "0",
             "x-niconico-language": "ja-jp",
-            "x-request-with": "nicovideo"
+            "x-request-with": "nicovideo",
         },
-        "method": "DELETE",
-        "mode": "cors",
-        "credentials": "include"
-    });
+        method: "DELETE",
+        mode: "cors",
+        credentials: "include",
+    })
     return await response.json() as NicoruRemoveRootObject
 }
