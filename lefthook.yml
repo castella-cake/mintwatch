@@ -4,7 +4,7 @@ pre-commit:
     commands:
         eslint:
             glob: '*.{js,jsx,ts,tsx}'
-            run: pnpm exec eslint {staged_files} --ignore-path .gitignore --fix
+            run: pnpm exec eslint {staged_files} --ignore-pattern .gitignore --fix
             stage_fixed: true
             skip:
                 - merge
