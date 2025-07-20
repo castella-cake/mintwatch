@@ -35,7 +35,7 @@ export default function CommentRow({
     return (
         <div
             className={`commentlist-list-item ${isOpen ? "commentlist-list-item-open" : ""}`}
-            nicoru-count={returnNicoruRank(comment.nicoruCount)}
+            data-nicoru-count={returnNicoruRank(comment.nicoruCount)}
             aria-hidden={!listFocusable}
         >
             <button

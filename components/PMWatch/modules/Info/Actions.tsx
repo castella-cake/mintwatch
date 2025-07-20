@@ -17,7 +17,7 @@ type Props = {
     onModalOpen: (modalType: "mylist" | "share" | "help") => void;
 };
 
-function Actions({ children, onModalOpen }: Props) {
+function Actions({ onModalOpen }: Props) {
     const { videoInfo } = useVideoInfoContext();
 
     const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -146,7 +146,7 @@ function Actions({ children, onModalOpen }: Props) {
                 onMouseLeave={onLikeMouseLeave}
                 className="video-action-likebutton"
                 title="いいね！"
-                is-liked={isLiked ? "true" : "false"}
+                data-is-liked={isLiked ? "true" : "false"}
             >
                 {isLiked ? <IconHeartFilled /> : <IconHeart />}
                 <span>

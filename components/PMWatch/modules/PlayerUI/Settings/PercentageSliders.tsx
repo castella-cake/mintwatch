@@ -17,7 +17,7 @@ export default function PercentageSliders({ settingKey, setting }: { settingKey:
 
     if (!setting.sliders) return
     return <>
-        {Object.keys(setting.sliders).map((key, i) => {
+        {Object.keys(setting.sliders).map((key) => {
             const currentValue = (localStorage.playersettings[settingKey] && localStorage.playersettings[settingKey][key]) ?? 1
             return <div key={key} className="playersettings-slider">
                 <label className="global-flex">

@@ -111,7 +111,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
                 return prev.concat(current)
             }, [] as CommentItem[])
             .sort((a, b) => a.vposMs - b.vposMs)
-        let commentStats: { [key: string]: number } = {}
+        const commentStats: { [key: string]: number } = {}
         if (!comments) return {}
         // 大体要素数が60くらいになるように
         const splitSeconds = duration / 60
@@ -147,7 +147,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
         >
-            <div className="seekbar-commentstats global-flex">{Object.keys(commentStatsCalc).map((keyname, index) => {
+            <div className="seekbar-commentstats global-flex">{Object.keys(commentStatsCalc).map((keyname) => {
                 return <span key={`${keyname}s-index`} className="global-flex1" style={{["--height" as any]: `${commentStatsCalc[keyname]}px`}}></span>
             })}</div>
             <div className="seekbar-bg"></div>

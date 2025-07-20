@@ -7,7 +7,7 @@ import { IconTransitionBottom } from "@tabler/icons-react";
 
 type lyricKeyRef = { [key: number]: HTMLDivElement | null }
 
-const artistRegex = /(.*)\s?[\/／]\s?(.*)/
+const artistRegex = /(.*)\s?[/／]\s?(.*)/
 const removeZeroWidthSpacesRegex = /[\u200B-\u200D\uFEFF]/g
 
 function trimWithZeroWidthSpaces(str: string): string {

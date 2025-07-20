@@ -36,10 +36,6 @@ async function getHls(
     const responseJson = await response.json();
     return responseJson;
 }
-interface Window {
-    __NV_PUBLIC_PATH__: string;
-}
-declare var window: Window;
 
 export default defineUnlistedScript({
     main() {
@@ -97,8 +93,8 @@ export default defineUnlistedScript({
                 if (pluginList) pluginList.appendChild(mediaInjectorContainer);
             }
 
-            let levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector");
-            let seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
+            const levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector");
+            const seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
 
             if (
                 videoInfo.data &&
@@ -144,7 +140,7 @@ export default defineUnlistedScript({
                 );
                 const hls = new Hls({
                     debug: false,
-                    xhrSetup: function (xhr, url) {
+                    xhrSetup: function (xhr) {
                         // xhrでクッキーを含める
                         xhr.withCredentials = true;
                     },
@@ -165,7 +161,7 @@ export default defineUnlistedScript({
                     //console.log("switched:", data)
                     if (levelSelector && (levelSelector instanceof HTMLSelectElement)) levelSelector.selectedIndex = data.level;
                 });
-                hls.on(Hls.Events.MANIFEST_LOADED, (e, data) => {
+                hls.on(Hls.Events.MANIFEST_LOADED, () => {
                     //console.log("levels",   hls.levels)
                     if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
                     levelSelector.innerHTML = "";
@@ -176,7 +172,7 @@ export default defineUnlistedScript({
                         levelSelector.appendChild(option);
                     });
                 });
-                hls.on(Hls.Events.BUFFER_APPENDED, (e, data) => {
+                hls.on(Hls.Events.BUFFER_APPENDED, () => {
                     if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
                         const bufferedDuration = videoElement.buffered.end(videoElement.buffered.length - 1)
                         const duration = videoElement.duration
@@ -184,7 +180,7 @@ export default defineUnlistedScript({
                     }
                     //setBufferedDuration()
                 })
-                hls.on(Hls.Events.BUFFER_FLUSHED, (e, data) => {
+                hls.on(Hls.Events.BUFFER_FLUSHED, () => {
                     if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
                         seekbarBuffered.style.width = `0%`
                     }

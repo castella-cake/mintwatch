@@ -39,7 +39,7 @@ export function NavigationDndWrapper({ children }: { children: ReactNode }) {
     const dropAnimation: DropAnimation = {
         duration: 400,
         easing: "ease",
-        keyframes: ((transform) => {
+        keyframes: (() => {
             return [
                 { opacity: 1, filter: "blur(0)" },
                 { opacity: 0, filter: "blur(16px)" },

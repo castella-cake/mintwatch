@@ -61,7 +61,7 @@ function VefxDisplay({ effectsState }: { effectsState: effectsState }) {
         <div
             className="vefx-effectdisplay"
             style={{ ["--bg" as any]: bgColor, ["--color" as any]: textColor }}
-            is-glowing={isGlowing ? "true" : "false"}
+            data-is-glowing={isGlowing ? "true" : "false"}
         >
             {text}
         </div>
@@ -176,7 +176,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.mono.enabled}
-                            onChange={(e) => handleEnabledEffect("mono")}
+                            onChange={() => handleEnabledEffect("mono")}
                         />
                         MONO
                     </label>
@@ -186,7 +186,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.equalizer.enabled}
-                            onChange={(e) => handleEnabledEffect("equalizer")}
+                            onChange={() => handleEnabledEffect("equalizer")}
                         />
                         EQUALIZER
                     </label>
@@ -230,7 +230,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.preamp.enabled}
-                            onChange={(e) => handleEnabledEffect("preamp")}
+                            onChange={() => handleEnabledEffect("preamp")}
                         />
                         <span className="vefx-name">PREAMP</span>
                         <span className="vefx-value">
@@ -261,7 +261,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.highpass.enabled}
-                            onChange={(e) => handleEnabledEffect("highpass")}
+                            onChange={() => handleEnabledEffect("highpass")}
                         />
                         <span className="vefx-name">HIGHPASS</span>
                     </label>
@@ -326,7 +326,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.lowpass.enabled}
-                            onChange={(e) => handleEnabledEffect("lowpass")}
+                            onChange={() => handleEnabledEffect("lowpass")}
                         />
                         <span className="vefx-name">LOWPASS</span>
                     </label>
@@ -398,7 +398,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.echo.enabled}
-                            onChange={(e) => handleEnabledEffect("echo")}
+                            onChange={() => handleEnabledEffect("echo")}
                         />
                         <span className="vefx-name">
                             {delayString(

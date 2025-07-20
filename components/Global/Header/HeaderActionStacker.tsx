@@ -32,7 +32,7 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                             onClick={() => {
                                 setHeaderActionState("notifications");
                             }}
-                            is-active={
+                            data-is-active={
                                 headerActionState === "notifications" ? "true" : "false"
                             }
                         >
@@ -43,7 +43,7 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                             onClick={() => {
                                 setHeaderActionState("mymenu");
                             }}
-                            is-active={
+                            data-is-active={
                                 headerActionState === "mymenu" ? "true" : "false"
                             }
                         >

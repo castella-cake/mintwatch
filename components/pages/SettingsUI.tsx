@@ -26,7 +26,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
     } else if ( setting.type === "desc") {
         return <div  className="desc">
             {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-            {setting.href && <a href={setting.href} target="_blank">{lang.SETTINGS_ITEMS[settingName].linktitle ?? "LINK"}</a>}
+            {setting.href && <a href={setting.href} target="_blank" rel="noreferrer">{lang.SETTINGS_ITEMS[settingName].linktitle ?? "LINK"}</a>}
         </div>
     } else if ( setting.type === "group") {
         return <details  className="settings-group">

@@ -135,7 +135,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             </button> }
         </div>
         <div className="tags-item-container" data-is-editmode={isEditMode}>
-            {tags.map((elem, index) => {
+            {tags.map((elem) => {
                 return (
                     <div
                         key={`tag-${elem.name}`}

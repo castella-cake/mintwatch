@@ -1,6 +1,6 @@
 import { IconCircleX, IconSend2 } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-import type { ChangeEvent, Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
+import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData";
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData";
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData";
@@ -91,8 +91,8 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
             if ( commentPostResponse.meta.status === 201 && videoInfo.data ) {
                 const commentResponse = await reloadCommentContent()
                 if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
-                const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread, index) => {
-                    const newComments = thread.comments.map((comment, index) => {
+                const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread) => {
+                    const newComments = thread.comments.map((comment) => {
                         if ( comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no ) {
                             comment.commands = [...comment.commands, "nico:waku:#ff0"]
                             return comment
@@ -151,7 +151,7 @@ function CommentInput({videoRef, videoId, videoInfo, commentInputRef, setPreview
         }
     }
     
-    function onChange(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
+    function onChange() {
         if (commentInputRef.current) setDummyTextAreaContent(commentInputRef.current.value)
         if ( localStorage.playersettings.pauseOnCommentInput && videoRef.current ) {
             if (!videoRef.current.paused) {

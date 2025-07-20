@@ -1,4 +1,4 @@
-interface CommonsRelativeRootObject extends baseResponse {
+export interface CommonsRelativeRootObject extends baseResponse {
     data: Data;
 }
 

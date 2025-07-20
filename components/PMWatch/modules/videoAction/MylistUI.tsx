@@ -9,7 +9,7 @@ type Props = {
     videoInfo: VideoDataRootObject,
 }
 
-export function Mylist({ onClose, videoInfo }: Props) {
+export function Mylist({ videoInfo }: Props) {
     const { showAlert } = useSetAlertContext();
 
     const [ mylistsData, setMylistsData ] = useState<MylistsResponseRootObject | null>(null);

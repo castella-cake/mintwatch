@@ -153,10 +153,10 @@ export default function MyMenu() {
                 </a>
             )}
             <div className="mymenu-profile-button-container">
-                <a href="https://point.nicovideo.jp/index/bank" target="_blank" className="mymenu-point-purchase-link">
+                <a href="https://point.nicovideo.jp/index/bank" target="_blank" className="mymenu-point-purchase-link" rel="noreferrer">
                     <IconCoins /> ポイント購入
                 </a>
-                <a href="https://account.nicovideo.jp/my/account" target="_blank" className="mymenu-account-link">
+                <a href="https://account.nicovideo.jp/my/account" target="_blank" className="mymenu-account-link" rel="noreferrer">
                     <IconSettings /> アカウント設定
                 </a>
             </div>

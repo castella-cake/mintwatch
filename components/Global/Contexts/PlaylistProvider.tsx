@@ -20,7 +20,7 @@ type ControlPlaylistContext = {
 }
 const IControlPlaylistContext = createContext<ControlPlaylistContext>({
     setPlaylistData: () => {},
-    updatePlaylistState: (search?: string) => {},
+    updatePlaylistState: () => {},
     setPreviewPlaylistItem: () => {},
 })
 

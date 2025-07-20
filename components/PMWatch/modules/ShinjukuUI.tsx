@@ -99,8 +99,8 @@ export function Owner() {
 }
 
 export function NicoHarajukuLogo() {
-    const [hidariueNumber, _setHidariueNumber] = useState(
-        [0, 0, 0].map((n) => Math.floor(Math.random() * 9)),
+    const [hidariueNumber] = useState(
+        [0, 0, 0].map(() => Math.floor(Math.random() * 9)),
     );
     return (
         <a href="https://www.nicovideo.jp/video_top" className="harajuku-logo">

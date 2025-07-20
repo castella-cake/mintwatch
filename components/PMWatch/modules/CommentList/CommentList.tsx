@@ -91,7 +91,7 @@ const Comments = ({
     const updateScrollPosition = useCallback((e?: Event, doSmoothScroll = true) => {
         if (!comments || !videoRef.current || !vlistRef.current || !doAutoScroll || isCommentListHovered.current) return
         const currentTime = videoRef.current.currentTime
-        let nearestComment = comments
+        const nearestComment = comments
             .filter(c => c.vposMs <= currentTime * 1000) // 未来のキーを対象にしない
             .reduce((prev: null | Comment, current) => {
                 if (prev === null) return current
@@ -126,7 +126,7 @@ const Comments = ({
         }}
     >
         <VList ref={vlistRef} count={comments.length}>
-            {comments.map((elem, index) => {
+            {comments.map((elem) => {
                 //console.log(elem)
                 return (
                     <CommentRow
@@ -263,7 +263,7 @@ function CommentList() {
                     data-isenabled={showTimemachineUi}
                     onClick={() => {
                         setShowTimemachineUi((state) => {
-                            return !showTimemachineUi;
+                            return !state;
                         });
                     }}
                     title={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
@@ -306,8 +306,7 @@ function CommentList() {
                 >
                     {videoInfo.data.response.comment.threads.map(
                         (elem, index) => {
-                            const key =
-                                elem.label as keyof typeof threadLabelLang;
+                            const key = elem.label as keyof typeof threadLabelLang;
                             return (
                                 <option
                                     key={`${index}-${elem.fork}-${elem.label}`}

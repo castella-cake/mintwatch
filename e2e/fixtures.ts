@@ -13,7 +13,7 @@ export const test = base.extend<{
     extensionId: string;
     mockApi: () => Promise<void>;
 }>({
-    context: async ({ }, use) => {
+    context: async (obj, use) => {
         const context = await chromium.launchPersistentContext("", {
             headless: false,
             args: [

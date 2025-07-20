@@ -124,12 +124,12 @@ button.videoaction-modal-close:hover {
     }
 }
 
-.videoaction-select[is-active="true"] {
+.videoaction-select[data-is-active="true"] {
     font-weight: bold;
     background: var(--bgcolor1);
 }
 
-.videoaction-left:has(.videoaction-select:not(.videoaction-select-bottom)[is-active="true"]) .videoaction-select:not(.videoaction-select-bottom) {
+.videoaction-left:has(.videoaction-select:not(.videoaction-select-bottom)[data-is-active="true"]) .videoaction-select:not(.videoaction-select-bottom) {
     border-radius: var(--radius) 0 0 var(--radius);
     margin-right: 0;
 }

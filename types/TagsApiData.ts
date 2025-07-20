@@ -1,5 +1,4 @@
-interface TagsApiRootObject extends baseResponse {
-    meta: Meta;
+export interface TagsApiRootObject extends baseResponse {
     data: Data;
 }
 

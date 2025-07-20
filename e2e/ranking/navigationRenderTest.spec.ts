@@ -1,6 +1,6 @@
 import { expect, test } from "../fixtures";
 
-test('Ranking: Navigation test', async ({ page, context, mockApi, extensionId }) => {
+test('Ranking: Navigation test', async ({ page, mockApi, extensionId }) => {
     await mockApi();
 
     await page.goto(`chrome-extension://${extensionId}/settings.html`);

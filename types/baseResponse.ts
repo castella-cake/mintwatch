@@ -1,4 +1,4 @@
-interface baseResponse {
+export interface baseResponse {
     meta: Meta;
 }
 

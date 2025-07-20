@@ -61,7 +61,7 @@ export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoI
 
                 // hls.jsがサポートするならhls.jsで再生し、そうでない(Safariなど)ならネイティブ再生する
                 if ( isSupportedBrowser ) {
-                    const hls = new Hls({ debug: false, xhrSetup: function(xhr, url) {
+                    const hls = new Hls({ debug: false, xhrSetup: function(xhr) {
                         // xhrでクッキーを含める
                         xhr.withCredentials = true
                     }, fetchSetup: function (context, initParams)

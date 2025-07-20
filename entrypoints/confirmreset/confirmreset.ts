@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const resultElem = document.getElementById('result')
     if (!resetButtonElem || !resultElem) return;
         resetButtonElem.addEventListener('click', function() {
-        let storageclear = browser.storage.sync.clear()
-        let localstorageclear = browser.storage.local.clear()
+        const storageclear = browser.storage.sync.clear()
+        const localstorageclear = browser.storage.local.clear()
         Promise.all([storageclear, localstorageclear]).then(() => {
             resultElem.textContent = 'リセットしました。5秒後にメイン設定に戻ります...'
             const buttonsAndAnchors = document.querySelectorAll('button, a');

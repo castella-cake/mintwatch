@@ -18,7 +18,7 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: {isStatsShown: boo
             この設定はローカルに保存されます。<br/>
             視聴ページの設定は左上のスパナアイコンから設定できます。<br/>
         </p>
-        <Stacker items={Object.keys(playerSettings).map((name, index) => {
+        <Stacker items={Object.keys(playerSettings).map((name) => {
             if (playerSettings[name].visible === false) return undefined
             return {
                 title: playerSettingsLabel[name as keyof typeof playerSettingsLabel],

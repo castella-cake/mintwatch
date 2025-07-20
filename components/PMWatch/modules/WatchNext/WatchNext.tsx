@@ -28,7 +28,7 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
                 wheelTranslator,
             );
         };
-    }), [enableWheelTranslate, contentRef.current];
+    }, [enableWheelTranslate, contentRef.current])
 
     return (
         <div className="watchnext-wrapper">

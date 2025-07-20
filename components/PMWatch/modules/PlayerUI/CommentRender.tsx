@@ -135,8 +135,8 @@ export function CommentRender(props: {
             width="1920"
             height="1080"
             data-disabled={enableCommentPiP ? "false" : "true"}
-            onPause={() => {videoRef.current && videoRef.current.pause()}}
-            onPlay={() => {videoRef.current && videoRef.current.play()}}
+            onPause={() => {if (videoRef.current) videoRef.current.pause()}}
+            onPlay={() => {if (videoRef.current) videoRef.current.play()}}
             onClick={videoOnClick}
         >
         </video>

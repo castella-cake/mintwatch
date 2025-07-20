@@ -27,7 +27,7 @@ export function useStoryBoardData(
                 return;
             const imagesResult = await fetch(rightsResult.data.contentUrl);
             if (!imagesResult.ok) return;
-            let imagesResultJson: StoryBoardImageRootObject =
+            const imagesResultJson: StoryBoardImageRootObject =
                 await imagesResult.json();
             _setStoryBoardData({
                 ...imagesResultJson,

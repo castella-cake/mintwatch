@@ -1,6 +1,5 @@
 import {
     DndContext,
-    DragCancelEvent,
     DragEndEvent,
     DragOverEvent,
     DragOverlay,
@@ -20,7 +19,7 @@ import { ReactNode } from "react";
 import { snapCenterToCursor } from "@dnd-kit/modifiers";
 import { isValidRecommendItem } from "@/utils/playlistUtils";
 
-let PREVIEW_UPDATE_TIMEOUT = 10
+const PREVIEW_UPDATE_TIMEOUT = 10
 /*
 function insertPlaylistVideoItem(playlist: playlistVideoItem[], targetId: string, playlistVideoItem: playlistVideoItem) {
     const playlistCopy = [...playlist]; // arrのコピーを生成
@@ -109,7 +108,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
     const dropAnimation: DropAnimation = {
         duration: 400,
         easing: "ease",
-        keyframes: ((transform) => {
+        keyframes: (() => {
             return [
                 { opacity: 1, filter: "blur(0)" },
                 { opacity: 0, filter: "blur(16px)" },
@@ -192,7 +191,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
         setCurrentDraggingItem(e.active.data.current);
         //setIsDraggingInfoCard(true)
     }
-    function handleDragCancel(e: DragCancelEvent) {
+    function handleDragCancel() {
         setPreviewPlaylistItem({ item: null, index: -1 })
     }
     function handleDragOver(e: DragOverEvent) {

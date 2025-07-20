@@ -35,7 +35,7 @@ export const playerTypes = {
     ginzaPlus: "ginzaplus",
 }
 
-const PlayerControllerButton = memo(function ({ onClick, title, className, children }: { onClick: any, title: string, className: string, children: ReactNode}) {
+const PlayerControllerButton = memo(function MemoizedPlayerControllerButton({ onClick, title, className, children }: { onClick: any, title: string, className: string, children: ReactNode}) {
     const [isHovered, setIsHovered] = useState(false)
     const spanRef = useRef(null)
     const buttonRef = useRef<HTMLButtonElement>(null)
@@ -135,17 +135,17 @@ function PlayerController(props: Props) {
 
     useEffect(() => {
         if (!hlsRef.current) return
-        hlsRef.current.on(Hls.Events.LEVEL_SWITCHED, (e, data) => {
+        hlsRef.current.on(Hls.Events.LEVEL_SWITCHED, () => {
             if (!hlsRef.current) return
             setHlsLevel(hlsRef.current.currentLevel)
         })
-        hlsRef.current.on(Hls.Events.BUFFER_APPENDED, (e, data) => {
+        hlsRef.current.on(Hls.Events.BUFFER_APPENDED, () => {
             if (videoRef.current?.buffered.length) {
                 setBufferedDuration(videoRef.current?.buffered.end(videoRef.current?.buffered.length - 1))
             }
             //setBufferedDuration()
         })
-        hlsRef.current.on(Hls.Events.BUFFER_FLUSHED, (e, data) => {
+        hlsRef.current.on(Hls.Events.BUFFER_FLUSHED, () => {
             setBufferedDuration(0)
         })
     }, [hlsRef.current])
@@ -362,7 +362,7 @@ function PlayerController(props: Props) {
     const currentLayout = controlLayouts[currentPlayerType] ?? controlLayouts.default
 
     return <div className={`playercontroller-container`} id="pmw-playercontroller"
-        player-type={currentPlayerType}
+        data-player-type={currentPlayerType}
     >
         {currentLayout.top}
         <div className="playercontroller-container-middle">

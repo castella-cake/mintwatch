@@ -15,7 +15,7 @@ function Search() {
     const startComposition = () => setIsComposing(true);
     const endComposition = () => setIsComposing(false);
     const searchTypeTexts = ["キーワード", "タグ", "マイリスト"]
-    const searchTypeIcons = [<IconMessageLanguage/>, <IconTag/>, <IconFolder/>]
+    const searchTypeIcons = [<IconMessageLanguage key="keyword"/>, <IconTag key="tag"/>, <IconFolder key="folder"/>]
 
     function handleEnter(keyName: string) {
         if (!isComposing && keyName === 'Enter') {

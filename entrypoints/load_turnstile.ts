@@ -4,7 +4,7 @@ import "url:https://challenges.cloudflare.com/turnstile/v0/api.js?render=explici
 interface NewWindow extends Window{
     turnstile?: Turnstile.Turnstile
 }
-declare var window: NewWindow;
+declare let window: NewWindow;
 
 export default defineUnlistedScript({
     main: () => {

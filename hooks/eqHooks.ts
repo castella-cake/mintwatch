@@ -30,8 +30,7 @@ function returnQValue(
 
     // 帯域幅を隣接する周波数を使って計算
     let f1 = 0,
-        f2 = 0,
-        bw;
+        f2 = 0
     if (prev === null && next === null) return 0;
 
     if (prev === null && next !== null) {
@@ -48,7 +47,7 @@ function returnQValue(
         f2 = (f0 + next) / 2;
     }
     // 帯域幅を計算
-    bw = f2 - f1;
+    const bw = f2 - f1;
 
     return f0 / bw;
 }

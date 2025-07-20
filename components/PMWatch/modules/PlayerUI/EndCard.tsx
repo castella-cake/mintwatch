@@ -49,11 +49,12 @@ export function EndCard({ smId }: { smId: string }) {
     );
     const showSeriesRecommend = seriesData && videoInfo?.data.response.channel && videoInfo?.data.response.genre.key === "anime"
 
+    /* eslint no-irregular-whitespace: 0 */
     return <div className="endcard-container global-flex">
         <div className="endcard-left">
             <div className="endcard-supporters">
             {supportersInfo?.data && supportersInfo?.data.supporters && <span className="endcard-title">提　供</span>}<br/><br/>
-            {supportersInfo?.data && supportersInfo?.data.supporters.map((elem,index) => {
+            {supportersInfo?.data && supportersInfo?.data.supporters.map((elem) => {
                 return <span key={`${elem.supporterName}-${elem.userId}-${elem.contribution}`}>
                     {elem.supporterName}<br/>
                 </span>
@@ -89,7 +90,7 @@ export function EndCard({ smId }: { smId: string }) {
             </> : <>
                 <h2>おすすめの動画</h2>
                 <div className="endcard-upnext-container">
-                    {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
+                    {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem) => {
                         return <InfoCardFromRecommend key={`${elem.id}`} obj={elem}/>
                     })}
                 </div>

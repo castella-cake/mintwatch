@@ -97,7 +97,7 @@ const IStorageContext = createContext<{
     localStorage: {[key: string]: any},
     setLocalStorageValue: (name: string, value: any, silent?: boolean) => void,
     isLoaded: boolean
-}>({ syncStorage: {}, setSyncStorageValue: (name: string, value: any, silent?: boolean) => {}, localStorage: {}, setLocalStorageValue: (name: string, value: any, silent?: boolean) => {}, isLoaded: false})
+}>({ syncStorage: {}, setSyncStorageValue: () => {}, localStorage: {}, setLocalStorageValue: () => {}, isLoaded: false})
 
 export function StorageProvider({ children }: { children: ReactNode }) {
     const {storages, setLocalStorageValue, setSyncStorageValue} = useStorage()

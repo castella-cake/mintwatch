@@ -3,7 +3,7 @@ document.querySelectorAll('a').forEach((elem) => {
         e.preventDefault();
         document.body.style.animation = 'fadeout 0.1s ease forwards 0s'
         if (e.target && e.target instanceof HTMLAnchorElement) {
-            let href = e.target.getAttribute('href')
+            const href = e.target.getAttribute('href')
             setTimeout(function () {
                 if (href) window.location.href = href
             }, 100)
@@ -12,8 +12,8 @@ document.querySelectorAll('a').forEach((elem) => {
 })
 
 document.addEventListener("DOMContentLoaded", async () => {
-    let result = await browser.storage.sync.get(null);
-    let storageText = JSON.stringify(result)
+    const result = await browser.storage.sync.get(null);
+    const storageText = JSON.stringify(result)
     const storageDataElem = document.getElementById('storage-data');
     if (!storageDataElem) return
     storageDataElem.textContent = storageText
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!input) return;
 
             try {
-                let importedStorage = JSON.parse(input);
+                const importedStorage = JSON.parse(input);
                 await browser.storage.sync.set(importedStorage)
                 const importResult = document.getElementById('importresult');
                 if (importResult) {
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    let localResult = await browser.storage.local.get(null)
-    let localStorageText = JSON.stringify(localResult)
-    let localStorageBlob = new Blob([localStorageText])
+    const localResult = await browser.storage.local.get(null)
+    const localStorageText = JSON.stringify(localResult)
+    const localStorageBlob = new Blob([localStorageText])
     const sizeElement = document.getElementById('localstoragesize')
     if (sizeElement) sizeElement.textContent = localStorageBlob.size.toString()
     // Rewrite this portion without jQuery

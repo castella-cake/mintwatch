@@ -47,7 +47,7 @@ function CreateWatchUI() {
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
-        const listenPopState = history.listen(({ action, location }) => {
+        const listenPopState = history.listen(({ location }) => {
             if (
                 smId &&
                 videoRef.current &&

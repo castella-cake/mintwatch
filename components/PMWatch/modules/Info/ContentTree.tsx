@@ -51,7 +51,7 @@ function ContentTree() {
                     {commonsRelativeData &&
                     commonsRelativeData.data.parents.total !== 0 ? (
                         commonsRelativeData.data.parents.contents.map(
-                            (elem, index) => {
+                            (elem) => {
                                 return (
                                     <a
                                         className="contenttree-item"
@@ -85,7 +85,7 @@ function ContentTree() {
                     {commonsRelativeData &&
                     commonsRelativeData.data.children.total !== 0 ? (
                         commonsRelativeData.data.children.contents.map(
-                            (elem, index) => {
+                            (elem) => {
                                 return (
                                     <a
                                         className="contenttree-item"

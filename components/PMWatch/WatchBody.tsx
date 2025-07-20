@@ -3,7 +3,7 @@ import CreateWatchUI from "./WatchUI";
 import "./watchUI.css"
 import.meta.glob("./styleModules/**/*.css", {eager: true})
 
-export function WatchBody({}) {
+export function WatchBody() {
     return <SmIdProvider>
         <WatchDataProvider>
             <CreateWatchUI />

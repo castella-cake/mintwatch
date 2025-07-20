@@ -1,4 +1,4 @@
-interface VideoTimelineDataRootObject {
+export interface VideoTimelineDataRootObject {
   activities: Activity[];
   code: string;
   impressionId: string;

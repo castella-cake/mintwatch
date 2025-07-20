@@ -185,7 +185,7 @@ function Player(props: Props) {
             }
         };
         // カーソルが動いたらTimeoutをリセット
-        const handleMouseMove = (e: MouseEvent) => {
+        const handleMouseMove = () => {
             clearTimeout(timeout);
             cursorStopRef.current = false;
             containerRef.current?.setAttribute("data-is-cursor-stopped", "false");
@@ -200,7 +200,7 @@ function Player(props: Props) {
         videoRef.current?.addEventListener("timeupdate", onTimeUpdate);
 
         // フルスクリーンから脱出した場合にUIを切り替え
-        const handleFullscreenChange = (e: Event) => {
+        const handleFullscreenChange = () => {
             if (!document.fullscreenElement) {
                 setIsFullscreenUi(false);
             } else {
@@ -293,7 +293,7 @@ function Player(props: Props) {
                     return;
                 nextVideo = playlistData.items[currentVideoIndex + add];
             }
-            let playlistQuery: { type: string; context: any } = {
+            const playlistQuery: { type: string; context: any } = {
                 type: playlistData.type,
                 context: {},
             };

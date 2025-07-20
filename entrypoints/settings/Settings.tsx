@@ -31,7 +31,7 @@ createRoot(rootElement).render(
                 </div>
                 <div className="settings-page-desc">{lang.SETTINGS_DESC}</div>
                 <div className="maincontainer">
-                    <ErrorBoundary fallbackRender={({ error, resetErrorBoundary }) => {
+                    <ErrorBoundary fallbackRender={({ error }) => {
                         return <div style={{ background: "var(--bgcolor3)", color: "var(--textcolor3)"}}>
                             表示中に重大なエラーが発生しました: {error.message}
                         </div>

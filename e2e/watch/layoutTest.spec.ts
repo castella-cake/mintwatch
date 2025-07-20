@@ -1,6 +1,6 @@
 import { expect, test } from "../fixtures";
 
-test('Watch: Layout change test', async ({ page, context, mockApi }) => {
+test('Watch: Layout change test', async ({ page, mockApi }) => {
     await mockApi();
     
     await page.goto('https://www.nicovideo.jp/watch/sm0');

@@ -139,7 +139,7 @@ function VideoActionTabButton({ stateKey, isBottom, children }: { stateKey: Retu
         onClick={() => {
             setVideoActionModalState(stateKey);
         }}
-        is-active={
+        data-is-active={
             videoActionModalState === stateKey ? "true" : "false"
         }
     >

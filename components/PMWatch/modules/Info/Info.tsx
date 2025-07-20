@@ -228,7 +228,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
             {isShinjukuLayout && (
                 <button
                     className="videoinfo-hjdesc-tabbutton"
-                    onClick={(e) => {
+                    onClick={() => {
                         setIsDescOpen(!isDescOpen);
                         writePlayerSettings(
                             "descriptionOpen",

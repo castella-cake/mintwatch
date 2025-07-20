@@ -70,7 +70,7 @@
         background: var(--likebg, #502834);
     }
 
-    > .video-action-likebutton[is-liked="true"] {
+    > .video-action-likebutton[data-is-liked="true"] {
         border: 1px solid var(--likecolor, #F58);
         background: var(--likebg, #502834);
         box-shadow: 0 0 4px var(--likecolor, #502834);

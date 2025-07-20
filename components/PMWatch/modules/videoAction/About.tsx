@@ -71,12 +71,12 @@ export default function AboutMintWatch() {
                 MintWatch はオープンソースです。GitHub にリポジトリが公開されています。<br/>
                 React + TypeScript の知識をお持ちであれば、コードを変更してプルリクエストを送ることで MintWatch へ貢献できます。
             </p>
-            <EasterDraggablePMFamilyLogo/><a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink">GitHub リポジトリを見る</a>
+            <EasterDraggablePMFamilyLogo/><a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">GitHub リポジトリを見る</a>
             <p>
                 もしバグや改善してほしい点を見つけた場合は、<br/>
                 気軽に Issue を建てるか、Discord サーバーを通して報告をお願いします。
             </p>
-            <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" className="about-mintwatch-buttonlink">NicoPM Community に参加する</a>
+            <a href="https://discord.com/invite/GNDtKuu5Rb" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">NicoPM Community に参加する</a>
             <h2>寄付する</h2>
             <p>
                 もし MintWatch や PepperMint+ があなたの役に立っているのであれば、<br/>
@@ -86,7 +86,7 @@ export default function AboutMintWatch() {
                 このプロジェクトはほぼ一人の手で、多くの時間を掛けて開発されています。<br/>
                 寄付はプロジェクトを維持するためのモチベーションの向上に繋がります。
             </p>
-            <a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink">Github Sponsors で寄付する</a>
+            <a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">Github Sponsors で寄付する</a>
             <h2>クレジット</h2>
             <p>
                 MintWatch のコメント描画には niconicomments を使用しています。<br/>

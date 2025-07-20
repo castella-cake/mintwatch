@@ -85,7 +85,7 @@ function Playlist() {
     const [isRemoveMode, setIsRemoveMode] = useState(false);
 
     //const [playlistData, setPlaylistData] = useState({} as any);
-    let playlistQuery: { type: string; context: any } = {
+    const playlistQuery: { type: string; context: any } = {
         type: playlistData.type,
         context: {},
     };

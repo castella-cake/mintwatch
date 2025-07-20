@@ -63,13 +63,13 @@ export function Share({ videoInfo }: { videoInfo: VideoDataRootObject } ) {
             </div>
         </div>
         <div className="share-buttons">
-            <a className="share-button share-button-x" href={shareIntents["twitter"]} target="_blank">
+            <a className="share-button share-button-x" href={shareIntents["twitter"]} target="_blank" rel="noreferrer">
                 X に共有
             </a>
-            <a className="share-button share-button-misskey" href={shareIntents["misskeyHub"]} target="_blank">
+            <a className="share-button share-button-misskey" href={shareIntents["misskeyHub"]} target="_blank" rel="noreferrer">
                 Misskey に共有
             </a>
-            <a className="share-button share-button-bluesky" href={shareIntents["bluesky"]} target="_blank">
+            <a className="share-button share-button-bluesky" href={shareIntents["bluesky"]} target="_blank" rel="noreferrer">
                 Bluesky に共有
             </a>
             <button className="share-button share-button-copy-url" onClick={handleLinkCopy}>
