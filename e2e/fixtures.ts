@@ -13,7 +13,7 @@ export const test = base.extend<{
     extensionId: string
     mockApi: () => Promise<void>
 }>({
-            context: async (obj, use) => {
+            context: async ({}, use) => { // eslint-disable-line no-empty-pattern
                 const context = await chromium.launchPersistentContext("", {
                     headless: false,
                     args: [
