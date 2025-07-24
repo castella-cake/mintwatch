@@ -2,6 +2,9 @@ import { ReactNode, RefObject } from "react"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import SelectButton from "./SelectButton"
 import { watchLayoutType } from "../../WatchContent"
+import OnboardingNewWatchPreview from "@/assets/onboarding/layout_newwatch.svg?react"
+import OnboardingOldWatchPreview from "@/assets/onboarding/layout_oldwatch.svg?react"
+import OnboardingShinjukuPreview from "@/assets/onboarding/layout_shinjuku.svg?react"
 
 type onboardingPage = {
     title: ReactNode
@@ -21,10 +24,13 @@ const onboardPages: onboardingPage[] = [
         description: "あなたが一番慣れ親しんだレイアウトを使えます。\n設定にはこれ以外にもレイアウトが用意されています。",
         selectors: <>
             <SelectButton title="Re:cresc" value={watchLayoutType.reimaginedOldWatch} storageKey="pmwlayouttype">
+                <OnboardingOldWatchPreview />
             </SelectButton>
             <SelectButton title="Re:新視聴" value={watchLayoutType.reimaginedNewWatch} storageKey="pmwlayouttype">
+                <OnboardingNewWatchPreview />
             </SelectButton>
             <SelectButton title="Shinjuku" value={watchLayoutType.shinjuku} storageKey="pmwlayouttype">
+                <OnboardingShinjukuPreview />
             </SelectButton>
         </>,
         hint: "この設定の変更中、現在視聴中の動画の再生状態がリセットされる可能性があります。",

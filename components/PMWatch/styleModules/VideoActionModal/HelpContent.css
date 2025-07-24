@@ -1,0 +1,55 @@
+.pmw-help-content {
+    font-size: 0.9rem;
+    padding: 1rem;
+    background: var(--bgcolor1);
+    border-radius: var(--radius);
+    line-height: 1.5rem;
+
+    h1 {
+        font-size: 1.5rem;
+        line-height: 2.5rem;
+        margin: 0.5rem 0;
+        border-left: 4px solid var(--textcolor2);
+        padding-left: 8px;
+    }
+
+    h2 {
+        margin: 1rem 0;
+        line-height: 2rem;
+        border-left: 2px solid var(--textcolor2);
+        padding-left: 0.5em;
+    }
+
+    h3 {
+        margin: 0.5rem 0;
+        border-left: 2px solid var(--accent1);
+        padding-left: 8px;
+    }
+
+    kbd {
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
+        padding: 0 4px;
+        display: inline-block;
+    }
+}
+
+// transition
+.pmw-onboarding-popup-transition {
+    &-enter, &-exit-active {
+        --translateY: 100%;
+
+        transform: translateY(var(--translateY));
+        opacity: 0;
+    }
+
+    &-enter-active, &-exit-active {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    &-enter-done, &-enter-active {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}

@@ -63,59 +63,51 @@
     display: block;
 }
 
-// help
-.pmw-help-content {
-    font-size: 0.9rem;
-    padding: 1rem;
-    background: var(--bgcolor1);
-    border-radius: var(--radius);
+.pmw-onboarding-select {
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    padding: 0;
     line-height: 1.5rem;
-
-    h1 {
-        font-size: 1.5rem;
-        line-height: 2.5rem;
-        margin: 0.5rem 0;
-        border-left: 4px solid var(--textcolor2);
-        padding-left: 8px;
-    }
-
-    h2 {
-        margin: 1rem 0;
-        line-height: 2rem;
-        border-left: 2px solid var(--textcolor2);
-        padding-left: 0.5em;
-    }
-
-    h3 {
-        margin: 0.5rem 0;
-        border-left: 2px solid var(--accent1);
-        padding-left: 8px;
-    }
-
-    kbd {
-        background: var(--bgcolor2);
-        border: var(--border);
-        border-radius: var(--radius);
-        padding: 0 4px;
-        display: inline-block;
-    }
+    border: var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: box-shadow 0.1s ease;
 }
 
-// transition
-.pmw-onboarding-popup-transition {
-    &-enter, &-exit-active {
-        --translateY: 100%;
+.pmw-onboarding-select:hover {
+    box-shadow: 0 0 4px var(--textcolor2);
+}
 
-        transform: translateY(var(--translateY));
-        opacity: 0;
-    }
+.pmw-onboarding-select[data-active="true"] {
+    color: var(--linktext1);
+    border-color: var(--linktext2);
+    box-shadow: 0 0 4px var(--linktext2);
+}
 
-    &-enter-active, &-exit-active {
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
+.pmw-onboarding-popup-childrens {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: end;
+}
 
-    &-enter-done, &-enter-active {
-        transform: translateY(0%);
-        opacity: 1;
-    }
+.pmw-onboarding-select-title {
+    padding: 4px 8px;
+}
+
+// プレビューがあるときだけボーダーを表示
+.pmw-onboarding-select-preview:has(svg) + .pmw-onboarding-select-title {
+    border-top: var(--border);
+}
+
+.pmw-onboarding-select-preview {
+    max-height: 8rem;
+    background: var(--bgcolor1);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.pmw-onboarding-select-preview svg {
+    height: 8rem;
 }
