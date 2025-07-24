@@ -30,7 +30,7 @@ export type PlayerSettingCategory = {
 export const playerSettingsLabel = {
     basic: "基本",
     comments: "コメント",
-    debug: "DEV"
+    debug: "DEV",
 }
 
 export const playerSettings: PlayerSettingList = {
@@ -191,10 +191,10 @@ export const playerSettings: PlayerSettingList = {
             onboardingIgnored: {
                 type: "checkbox",
                 defaultValue: false,
-                name: "ONBOARDING"
-            }
+                name: "ONBOARDING",
+            },
         },
-    }
+    },
 }
 
 export function toFlatPlayerSettings(playerSettingList: PlayerSettingList): { [key: string]: PlayerSetting } {
