@@ -5,81 +5,81 @@ import {
     IconHeartFilled,
     IconShare,
     IconSpeakerphone,
-} from "@tabler/icons-react";
-import { ReactNode, useEffect, useState } from "react";
-import { readableInt } from "../commonFunction";
-import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
-import LikeThanksMessage from "./LikeThanksMessage";
-import { useQueryClient } from "@tanstack/react-query";
+} from "@tabler/icons-react"
+import { ReactNode, useEffect, useState } from "react"
+import { readableInt } from "@/utils/readableValue"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import LikeThanksMessage from "./LikeThanksMessage"
+import { useQueryClient } from "@tanstack/react-query"
 
 type Props = {
-    children?: ReactNode;
-    onModalOpen: (modalType: "mylist" | "share" | "help") => void;
-};
+    children?: ReactNode
+    onModalOpen: (modalType: "mylist" | "share" | "help") => void
+}
 
-function Actions({ children, onModalOpen }: Props) {
-    const { videoInfo } = useVideoInfoContext();
+function Actions({ onModalOpen }: Props) {
+    const { videoInfo } = useVideoInfoContext()
 
-    const [isLiked, setIsLiked] = useState<boolean>(false);
-    const [likeThanksMsg, setLikeThanksMsg] = useState<string | null>(null);
-    const [isLikeThanksMsgClosed, setIsLikeThanksMsgClosed] = useState(false);
-    const [isLikeHovered, setIsLikeHovered] = useState(false);
-    const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0); // videoInfoに焼き込まれていない「いいね」のための加算。
+    const [isLiked, setIsLiked] = useState<boolean>(false)
+    const [likeThanksMsg, setLikeThanksMsg] = useState<string | null>(null)
+    const [isLikeThanksMsgClosed, setIsLikeThanksMsgClosed] = useState(false)
+    const [isLikeHovered, setIsLikeHovered] = useState(false)
+    const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0) // videoInfoに焼き込まれていない「いいね」のための加算。
 
     const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
 
     const queryClient = useQueryClient()
-    //const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
+    // const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
     useEffect(() => {
-        if (!videoInfo) return;
-        setTemporalLikeModifier(0);
+        if (!videoInfo) return
+        setTemporalLikeModifier(0)
         setIsLiked(
             videoInfo.data.response.video.viewer
                 ? videoInfo.data.response.video.viewer.like.isLiked
                 : false,
-        );
+        )
         if (
-            videoInfo.data.response.video.viewer &&
-            videoInfo.data.response.video.viewer.like.isLiked
+            videoInfo.data.response.video.viewer
+            && videoInfo.data.response.video.viewer.like.isLiked
         ) {
             async function getData() {
                 const likeResponse = await sendLike(
                     videoInfoResponse.video.id,
                     "GET",
-                );
+                )
                 if (
-                    likeResponse &&
-                    likeResponse.data &&
-                    likeResponse.data.thanksMessage
+                    likeResponse
+                    && likeResponse.data
+                    && likeResponse.data.thanksMessage
                 ) {
-                    setLikeThanksMsg(likeResponse.data.thanksMessage);
+                    setLikeThanksMsg(likeResponse.data.thanksMessage)
                 }
             }
-            getData();
+            getData()
         } else {
-            setLikeThanksMsg(null);
+            setLikeThanksMsg(null)
         }
-        setIsLikeThanksMsgClosed(false);
-    }, [videoInfo]);
-    if (!videoInfo) return <></>;
+        setIsLikeThanksMsgClosed(false)
+    }, [videoInfo])
+    if (!videoInfo) return <></>
 
-    const videoInfoResponse = videoInfo.data.response;
+    const videoInfoResponse = videoInfo.data.response
 
     async function likeChange() {
-        if (!videoInfo || !videoInfo.data.response.video.viewer) return;
-        const method = isLiked ? "DELETE" : "POST";
-        const likeResponse = await sendLike(videoInfoResponse.video.id, method);
+        if (!videoInfo || !videoInfo.data.response.video.viewer) return
+        const method = isLiked ? "DELETE" : "POST"
+        const likeResponse = await sendLike(videoInfoResponse.video.id, method)
         if (likeResponse) {
             if (!isLiked) {
-                setTemporalLikeModifier(temporalLikeModifier + 1);
+                setTemporalLikeModifier(temporalLikeModifier + 1)
             } else {
-                setTemporalLikeModifier(temporalLikeModifier - 1);
+                setTemporalLikeModifier(temporalLikeModifier - 1)
             }
-            setIsLiked(!isLiked);
+            setIsLiked(!isLiked)
             queryClient.setQueryData(["likeResponse", videoInfoResponse.video.id], likeResponse)
             if (likeResponse.data && likeResponse.data.thanksMessage) {
-                setLikeThanksMsg(likeResponse.data.thanksMessage);
-                setIsLikeThanksMsgClosed(false);
+                setLikeThanksMsg(likeResponse.data.thanksMessage)
+                setIsLikeThanksMsgClosed(false)
             }
         }
     }
@@ -90,7 +90,7 @@ function Actions({ children, onModalOpen }: Props) {
             `https://nicoad.nicovideo.jp/video/publish/${videoInfo.data.response.video.id}`,
             "_blank",
             "width=500,height=700,popup=yes",
-        );
+        )
     }
 
     function onGiftClicked() {
@@ -98,26 +98,26 @@ function Actions({ children, onModalOpen }: Props) {
         window.open(
             `https://gift.nicovideo.jp/video/${videoInfo.data.response.video.id}/purchase?frontend_id=6&frontend_version=0`,
             "_blank",
-            "width=500,height=700,popup=yes"
-        );
+            "width=500,height=700,popup=yes",
+        )
     }
 
     function onShareClicked() {
-        onModalOpen("share");
+        onModalOpen("share")
     }
 
     function onMylistClicked() {
-        onModalOpen("mylist");
+        onModalOpen("mylist")
     }
 
-    /*function ShareSelector() {
+    /* function ShareSelector() {
         return <select>
             <option value="x.com">X</option>
             {syncStorage.shareinstancelist && syncStorage.shareinstancelist.map((server: string, index: number) => {
                 return <option key={`shareinstancelist-${index}`} value={server}>{server}</option>
             })}
         </select>
-    }*/
+    } */
 
     function onLikeMouseEnter() {
         clearTimeout(likeMessageTimeoutRef.current)
@@ -132,8 +132,8 @@ function Actions({ children, onModalOpen }: Props) {
     }
 
     function onLikeClose() {
-        setIsLikeHovered(false);
-        setIsLikeThanksMsgClosed(true);
+        setIsLikeHovered(false)
+        setIsLikeThanksMsgClosed(true)
     }
 
     return (
@@ -146,14 +146,14 @@ function Actions({ children, onModalOpen }: Props) {
                 onMouseLeave={onLikeMouseLeave}
                 className="video-action-likebutton"
                 title="いいね！"
-                is-liked={isLiked ? "true" : "false"}
+                data-is-liked={isLiked ? "true" : "false"}
             >
                 {isLiked ? <IconHeartFilled /> : <IconHeart />}
                 <span>
                     いいね！
                     {readableInt(
-                        videoInfoResponse.video.count.like +
-                            temporalLikeModifier,
+                        videoInfoResponse.video.count.like
+                        + temporalLikeModifier,
                     )}
                 </span>
             </button>
@@ -189,20 +189,20 @@ function Actions({ children, onModalOpen }: Props) {
             >
                 <IconGift />
             </button>
-            {isLiked && likeThanksMsg &&
-                ((videoInfo.data.response.video.viewer && videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered) ||
-                    (videoInfo.data.response.video.viewer && !videoInfo.data.response.video.viewer.like.isLiked &&
-                        (!isLikeThanksMsgClosed || isLikeHovered))) && (
-                    <LikeThanksMessage
-                        onMouseEnter={onLikeMouseEnter}
-                        onMouseLeave={onLikeMouseLeave}
-                        onClose={onLikeClose}
-                        isPermament={!videoInfo.data.response.video.viewer.like.isLiked}
-                        iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
-                    />
-                )}
+            {isLiked && likeThanksMsg
+                && ((videoInfo.data.response.video.viewer && videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered)
+                    || (videoInfo.data.response.video.viewer && !videoInfo.data.response.video.viewer.like.isLiked
+                        && (!isLikeThanksMsgClosed || isLikeHovered))) && (
+                <LikeThanksMessage
+                    onMouseEnter={onLikeMouseEnter}
+                    onMouseLeave={onLikeMouseLeave}
+                    onClose={onLikeClose}
+                    isPermament={!videoInfo.data.response.video.viewer.like.isLiked}
+                    iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
+                />
+            )}
         </div>
-    );
+    )
 }
 
 /*
@@ -211,4 +211,4 @@ function Actions({ children, onModalOpen }: Props) {
     </div>
 */
 
-export default Actions;
+export default Actions

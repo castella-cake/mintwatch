@@ -1,14 +1,14 @@
-import { createContext, ReactNode } from "react";
-import { useSmIdContext } from "./WatchDataContext";
-import { RecommendDataRootObject } from "@/types/RecommendData";
-import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
+import { createContext, ReactNode } from "react"
+import { useSmIdContext } from "./WatchDataContext"
+import { RecommendDataRootObject } from "@/types/RecommendData"
+import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 
-const IRecommendContext = createContext<RecommendDataRootObject | undefined>(undefined);
+const IRecommendContext = createContext<RecommendDataRootObject | undefined>(undefined)
 
 export function RecommendProvider({ children }: { children: ReactNode }) {
-    const { smId } = useSmIdContext();
+    const { smId } = useSmIdContext()
 
-    const recommendData = useRecommendData(smId);
+    const recommendData = useRecommendData(smId)
 
     useEffect(() => {
         if (
@@ -18,17 +18,17 @@ export function RecommendProvider({ children }: { children: ReactNode }) {
                 new CustomEvent("pmw_recommendInformationReady", {
                     detail: JSON.stringify({ recommendData }),
                 }),
-            );
+            )
         }
-    }, [recommendData]);
+    }, [recommendData])
 
     return (
         <IRecommendContext value={recommendData}>
             {children}
         </IRecommendContext>
-    );
+    )
 }
 
 export function useRecommendContext() {
-    return useContext(IRecommendContext);
+    return useContext(IRecommendContext)
 }

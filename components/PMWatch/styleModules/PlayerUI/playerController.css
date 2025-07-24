@@ -7,6 +7,7 @@
     padding: 4px;
     gap: 8px;
     align-items: center;
+    margin-bottom: 2px;
 
     .seekbar {
         flex: 1
@@ -307,13 +308,15 @@
     top: 0;
     bottom: 0;
     left: var(--left);
-    width: 16px;
-    height: 16px;
-    background: var(--bgcolor2);
     border-radius: 16px;
-    border: 2px solid var(--textcolor2);
-    box-shadow: 0 0 4px #000a;
-    transform: translate(-50%, -10%);
+    margin: auto 0;
+    background: var(--linktext3);
+    border: 3px solid #fafafa;
+    box-shadow: 0 0 2px #000a !important;
+    width: 12px;
+    height: 18px;
+    transition: left 0.1s ease;
+    transform: translate(-50%, 0%);
 }
 
 .seekbar-played {
@@ -327,6 +330,9 @@
 
 .seekbar-buffered {
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     background: var(--textcolor1);
     border-radius: var(--radius-mini);
     opacity: 0.5;
@@ -334,7 +340,9 @@
 
 .seekbar-bg, .seekbar-buffered, .seekbar-played {
     height: 0.5rem;
-    transform: translate(0, 50%);
+    bottom: 0;
+    transform: none;
+    margin: auto 0;
 }
 
 .seekbar-commentstats {

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { InfoCard, SeriesVideoCard } from "../Info/InfoCards";
-import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider";
-import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData";
-import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData";
+import { useEffect, useState } from "react"
+import { InfoCardFromRecommend, SeriesVideoCard } from "@/components/Global/InfoCard"
+import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
+import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData"
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
@@ -27,12 +27,11 @@ export function EndCard({ smId }: { smId: string }) {
     }, [videoRef.current])
 
     useEffect(() => {
-        //console.log("vol set:", audioElemRef.current)
+        // console.log("vol set:", audioElemRef.current)
         if (!audioElemRef.current) return
 
         audioElemRef.current.volume = (localStorage.playersettings.volume ?? 50) * 0.01
         audioElemRef.current.muted = localStorage.playersettings.isMuted ?? false
-        
     }, [localStorage.playersettings, audioElemRef.current, currentTime])
 
     if (currentTime < duration) return null
@@ -43,57 +42,78 @@ export function EndCard({ smId }: { smId: string }) {
 
     const isKokenMuted = syncStorage.muteKokenVoice ?? getDefault("muteKokenVoice")
 
-    const seriesData = videoInfo?.data.response.series;
+    const seriesData = videoInfo?.data.response.series
     const playlist = btoa(
         `{"type":"series","context":{"seriesId":${(seriesData && seriesData.id) || 0}}}`,
-    );
+    )
     const showSeriesRecommend = seriesData && videoInfo?.data.response.channel && videoInfo?.data.response.genre.key === "anime"
 
-    return <div className="endcard-container global-flex">
-        <div className="endcard-left">
-            <div className="endcard-supporters">
-            {supportersInfo?.data && supportersInfo?.data.supporters && <span className="endcard-title">提　供</span>}<br/><br/>
-            {supportersInfo?.data && supportersInfo?.data.supporters.map((elem,index) => {
-                return <span key={`${elem.supporterName}-${elem.userId}-${elem.contribution}`}>
-                    {elem.supporterName}<br/>
-                </span>
-            })}
-            </div>
-            { supportersInfo?.data && !isKokenMuted && <audio autoPlay src={supportersInfo?.data.voiceUrl} ref={audioElemRef}/> }
-        </div>
-        <div className="endcard-right">
-            <h2>現在の動画</h2>
-            {videoInfo && <div className="endcard-currentvideo-container">
-                <img src={videoInfo.data.response.video.thumbnail.url}></img>
-                <div className="endcard-currentvideo-text">
-                    <strong>{videoInfo.data.response.video.title}</strong><br/>
-                    <span>{ownerName}</span>
-                </div>
-            </div>}
-            { showSeriesRecommend ? <>
-                <h2>次のエピソードを見る</h2>
-                <div className="endcard-upnext-container">
-                    { seriesData.video.next && <SeriesVideoCard
-                        seriesVideoItem={seriesData.video.next}
-                        playlistString={playlist}
-                        transitionId={seriesData.id}
-                        type={"next"}
-                    />}
-                    { seriesData.video.prev && <SeriesVideoCard
-                        seriesVideoItem={seriesData.video.prev}
-                        playlistString={playlist}
-                        transitionId={seriesData.id}
-                        type={"prev"}
-                    />}
-                </div>
-            </> : <>
-                <h2>おすすめの動画</h2>
-                <div className="endcard-upnext-container">
-                    {recommendData && recommendData.data && recommendData.data.items.slice(0,4).map((elem, index) => {
-                        return <InfoCard key={`${elem.id}`} obj={elem}/>
+    /* eslint no-irregular-whitespace: 0 */
+    return (
+        <div className="endcard-container global-flex">
+            <div className="endcard-left">
+                <div className="endcard-supporters">
+                    {supportersInfo?.data && supportersInfo?.data.supporters && <span className="endcard-title">提　供</span>}
+                    <br />
+                    <br />
+                    {supportersInfo?.data && supportersInfo?.data.supporters.map((elem) => {
+                        return (
+                            <span key={`${elem.supporterName}-${elem.userId}-${elem.contribution}`}>
+                                {elem.supporterName}
+                                <br />
+                            </span>
+                        )
                     })}
                 </div>
-            </>}
+                { supportersInfo?.data && !isKokenMuted && <audio autoPlay src={supportersInfo?.data.voiceUrl} ref={audioElemRef} /> }
+            </div>
+            <div className="endcard-right">
+                <h2>現在の動画</h2>
+                {videoInfo && (
+                    <div className="endcard-currentvideo-container">
+                        <img src={videoInfo.data.response.video.thumbnail.url}></img>
+                        <div className="endcard-currentvideo-text">
+                            <strong>{videoInfo.data.response.video.title}</strong>
+                            <br />
+                            <span>{ownerName}</span>
+                        </div>
+                    </div>
+                )}
+                { showSeriesRecommend
+                    ? (
+                            <>
+                                <h2>次のエピソードを見る</h2>
+                                <div className="endcard-upnext-container">
+                                    { seriesData.video.next && (
+                                        <SeriesVideoCard
+                                            seriesVideoItem={seriesData.video.next}
+                                            playlistString={playlist}
+                                            transitionId={seriesData.id}
+                                            type="next"
+                                        />
+                                    )}
+                                    { seriesData.video.prev && (
+                                        <SeriesVideoCard
+                                            seriesVideoItem={seriesData.video.prev}
+                                            playlistString={playlist}
+                                            transitionId={seriesData.id}
+                                            type="prev"
+                                        />
+                                    )}
+                                </div>
+                            </>
+                        )
+                    : (
+                            <>
+                                <h2>おすすめの動画</h2>
+                                <div className="endcard-upnext-container">
+                                    {recommendData && recommendData.data && recommendData.data.items.slice(0, 4).map((elem) => {
+                                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem} />
+                                    })}
+                                </div>
+                            </>
+                        )}
+            </div>
         </div>
-    </div>
+    )
 }

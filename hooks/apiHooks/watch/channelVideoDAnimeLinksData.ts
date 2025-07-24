@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
 
 export function useChannelVideoDAnimeLinksData(smId: string | undefined) {
     const { data: channelVideoDAnimeLinksData, isLoading } = useQuery({
-        queryKey: ['channelVideoDAnimeLinksData', smId],
+        queryKey: ["channelVideoDAnimeLinksData", smId],
         queryFn: () => {
-            if (!smId) throw new Error('no-smid') // 無効時には fetch させないように工夫
+            if (!smId) throw new Error("no-smid") // 無効時には fetch させないように工夫
             return getChannelVideoDAnimeLinks(smId)
         },
         enabled: !!smId, // smId が falsy（null, undefined, ''）ならフェッチしない
     })
-    return { channelVideoDAnimeLinksData, isLoading}
+    return { channelVideoDAnimeLinksData, isLoading }
 }

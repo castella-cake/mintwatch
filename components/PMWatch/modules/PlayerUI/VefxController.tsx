@@ -1,71 +1,71 @@
-//import { useEffect, useMemo, useState, useRef } from "react";
-//import { useStorageContext } from "../extensionHook";
-//import { useLang } from "../localizeHook";
+// import { useEffect, useMemo, useState, useRef } from "react";
+// import { useStorageContext } from "../extensionHook";
+// import { useLang } from "../localizeHook";
 
-import { RefObject } from "react";
-import { effectsState } from "@/hooks/eqHooks";
+import { RefObject } from "react"
+import { effectsState } from "@/hooks/eqHooks"
 
 function delayString(delayTime: number, feedback: number) {
     if (feedback <= 0) {
-        return "Delay";
+        return "Delay"
     } else if (delayTime <= 0.15) {
-        return "Echo";
+        return "Echo"
     } else {
-        return "Reverb";
+        return "Reverb"
     }
 }
 
 function VefxDisplay({ effectsState }: { effectsState: effectsState }) {
-    if (!effectsState) return <></>;
+    if (!effectsState) return <></>
     const enabledEffects = Object.keys(effectsState)
         .map((elem) => {
             if (
-                elem &&
-                effectsState[elem as keyof effectsState].enabled &&
-                elem === "echo"
+                elem
+                && effectsState[elem as keyof effectsState].enabled
+                && elem === "echo"
             )
                 return delayString(
                     effectsState.echo.delayTime,
                     effectsState.echo.feedback,
-                );
+                )
             if (elem && effectsState[elem as keyof effectsState].enabled)
-                return elem;
-            return false;
+                return elem
+            return false
         })
-        .filter((elem) => typeof elem === "string");
-    let bgColor = "";
-    let textColor = "";
-    let text = "";
-    let isGlowing = true;
+        .filter(elem => typeof elem === "string")
+    let bgColor = ""
+    let textColor = ""
+    let text = ""
+    let isGlowing = true
     if (enabledEffects.length >= 3) {
-        text = "MULTIPLE EFFECTS";
-        bgColor = "#ffe53d";
-        textColor = "#2b2600";
+        text = "MULTIPLE EFFECTS"
+        bgColor = "#ffe53d"
+        textColor = "#2b2600"
     } else if (enabledEffects.length == 2) {
         text = enabledEffects
             .map((elem: string) => elem.toUpperCase())
-            .join("/");
-        bgColor = "#4d88ff";
-        textColor = "#000729";
+            .join("/")
+        bgColor = "#4d88ff"
+        textColor = "#000729"
     } else if (enabledEffects.length == 1) {
-        if (enabledEffects[0]) text = enabledEffects[0].toUpperCase();
-        bgColor = "#3de8ff";
-        textColor = "#002226";
+        if (enabledEffects[0]) text = enabledEffects[0].toUpperCase()
+        bgColor = "#3de8ff"
+        textColor = "#002226"
     } else {
-        text = "EFFECT OFF";
-        bgColor = "#333";
-        textColor = "#fff";
-        isGlowing = false;
+        text = "EFFECT OFF"
+        bgColor = "#333"
+        textColor = "#fff"
+        isGlowing = false
     }
     return (
         <div
             className="vefx-effectdisplay"
             style={{ ["--bg" as any]: bgColor, ["--color" as any]: textColor }}
-            is-glowing={isGlowing ? "true" : "false"}
+            data-is-glowing={isGlowing ? "true" : "false"}
         >
             {text}
         </div>
-    );
+    )
 }
 
 function VefxController({
@@ -74,86 +74,86 @@ function VefxController({
     onEffectsChange,
     nodeRef,
 }: {
-    frequencies: number[];
-    effectsState: effectsState;
-    onEffectsChange: any;
-    nodeRef: RefObject<HTMLDivElement | null>;
+    frequencies: number[]
+    effectsState: effectsState
+    onEffectsChange: any
+    nodeRef: RefObject<HTMLDivElement | null>
 }) {
-    //const lang = useLang()
-    //const { syncStorage, setSyncStorageValue } = useStorageContext()
+    // const lang = useLang()
+    // const { syncStorage, setSyncStorageValue } = useStorageContext()
     const handleGainChange = (index: number, value: number) => {
-        const newGains = [...effectsState.equalizer.gains];
-        newGains[index] = value;
+        const newGains = [...effectsState.equalizer.gains]
+        newGains[index] = value
         onEffectsChange({
             ...effectsState,
             equalizer: { ...effectsState.equalizer, gains: newGains },
-        });
-    };
+        })
+    }
 
     const handleEchoDelayChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             echo: { ...effectsState.echo, delayTime: value },
-        });
-    };
+        })
+    }
 
     const handleEchoFeedbackChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             echo: { ...effectsState.echo, feedback: value },
-        });
-    };
+        })
+    }
     const handleEchoGainChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             echo: { ...effectsState.echo, gain: value },
-        });
-    };
+        })
+    }
 
     const handlePreampGainChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             preamp: { ...effectsState.preamp, gain: value },
-        });
-    };
+        })
+    }
 
     const handleHighpassCutoffFrequencyChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             highpass: { ...effectsState.highpass, cutoffFrequency: value },
-        });
-    };
+        })
+    }
     const handleHighpassQFactorChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             highpass: { ...effectsState.highpass, qFactor: value },
-        });
-    };
+        })
+    }
     const handleHighpassDetuneChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             highpass: { ...effectsState.highpass, detune: value },
-        });
-    };
+        })
+    }
 
     const handleLowpassCutoffFrequencyChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             lowpass: { ...effectsState.lowpass, cutoffFrequency: value },
-        });
-    };
+        })
+    }
     const handleLowpassQFactorChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             lowpass: { ...effectsState.lowpass, qFactor: value },
-        });
-    };
+        })
+    }
     const handleLowpassDetuneChange = (value: number) => {
         onEffectsChange({
             ...effectsState,
             lowpass: { ...effectsState.lowpass, detune: value },
-        });
-    };
+        })
+    }
 
     const handleEnabledEffect = (effectName: string) => {
         onEffectsChange({
@@ -163,8 +163,8 @@ function VefxController({
                 enabled:
                     !effectsState[effectName as keyof effectsState].enabled,
             },
-        });
-    };
+        })
+    }
 
     return (
         <div className="vefx-container" id="pmw-vefx" ref={nodeRef}>
@@ -176,7 +176,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.mono.enabled}
-                            onChange={(e) => handleEnabledEffect("mono")}
+                            onChange={() => handleEnabledEffect("mono")}
                         />
                         MONO
                     </label>
@@ -186,7 +186,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.equalizer.enabled}
-                            onChange={(e) => handleEnabledEffect("equalizer")}
+                            onChange={() => handleEnabledEffect("equalizer")}
                         />
                         EQUALIZER
                     </label>
@@ -197,7 +197,8 @@ function VefxController({
                                     {freq.toString().replace("000", "K")}
                                 </span>
                                 {effectsState.equalizer.gains[i] > 0 && "+"}
-                                {effectsState.equalizer.gains[i]}dB
+                                {effectsState.equalizer.gains[i]}
+                                dB
                             </label>
                             <input
                                 type="range"
@@ -205,12 +206,11 @@ function VefxController({
                                 max="10"
                                 step="1"
                                 value={effectsState.equalizer.gains[i]}
-                                onChange={(e) =>
+                                onChange={e =>
                                     handleGainChange(
                                         i,
                                         parseFloat(e.target.value),
-                                    )
-                                }
+                                    )}
                                 list="eq-list"
                                 disabled={!effectsState.equalizer.enabled}
                             />
@@ -220,7 +220,7 @@ function VefxController({
                         {[-15, -10, -5, 0, 5, 10, 15].map((elem) => {
                             return (
                                 <option key={`eq-list-${elem}`}>{elem}</option>
-                            );
+                            )
                         })}
                     </datalist>
                 </div>
@@ -230,12 +230,13 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.preamp.enabled}
-                            onChange={(e) => handleEnabledEffect("preamp")}
+                            onChange={() => handleEnabledEffect("preamp")}
                         />
                         <span className="vefx-name">PREAMP</span>
                         <span className="vefx-value">
                             {effectsState.preamp.gain > 0 && "+"}
-                            {effectsState.preamp.gain}dB
+                            {effectsState.preamp.gain}
+                            dB
                         </span>
                     </label>
                     <div className="vefx-slidercontainer">
@@ -246,11 +247,10 @@ function VefxController({
                             step="0.1"
                             value={effectsState.preamp.gain}
                             list="eq-list"
-                            onChange={(e) =>
+                            onChange={e =>
                                 handlePreampGainChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.preamp.enabled}
                         />
                     </div>
@@ -261,14 +261,21 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.highpass.enabled}
-                            onChange={(e) => handleEnabledEffect("highpass")}
+                            onChange={() => handleEnabledEffect("highpass")}
                         />
                         <span className="vefx-name">HIGHPASS</span>
                     </label>
                     <span className="vefx-echo-value">
-                        C{effectsState.highpass.cutoffFrequency}Hz / Q{" "}
-                        {effectsState.highpass.qFactor} D
-                        {effectsState.highpass.detune} Hz
+                        C
+                        {effectsState.highpass.cutoffFrequency}
+                        Hz / Q
+                        {" "}
+                        {effectsState.highpass.qFactor}
+                        {" "}
+                        D
+                        {effectsState.highpass.detune}
+                        {" "}
+                        Hz
                     </span>
                     <div className="vefx-slidercontainer">
                         <label>Cutoff</label>
@@ -278,11 +285,10 @@ function VefxController({
                             max="16000"
                             step="1"
                             value={effectsState.highpass.cutoffFrequency}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleHighpassCutoffFrequencyChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.highpass.enabled}
                         />
                     </div>
@@ -294,11 +300,10 @@ function VefxController({
                             max="1"
                             step="0.1"
                             value={effectsState.highpass.qFactor}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleHighpassQFactorChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.highpass.enabled}
                         />
                     </div>
@@ -311,11 +316,10 @@ function VefxController({
                             step="1"
                             list="filter-detune-list"
                             value={effectsState.highpass.detune}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleHighpassDetuneChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.highpass.enabled}
                         />
                     </div>
@@ -326,14 +330,21 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.lowpass.enabled}
-                            onChange={(e) => handleEnabledEffect("lowpass")}
+                            onChange={() => handleEnabledEffect("lowpass")}
                         />
                         <span className="vefx-name">LOWPASS</span>
                     </label>
                     <span className="vefx-echo-value">
-                        C{effectsState.lowpass.cutoffFrequency}Hz / Q{" "}
-                        {effectsState.lowpass.qFactor} D
-                        {effectsState.lowpass.detune} Hz
+                        C
+                        {effectsState.lowpass.cutoffFrequency}
+                        Hz / Q
+                        {" "}
+                        {effectsState.lowpass.qFactor}
+                        {" "}
+                        D
+                        {effectsState.lowpass.detune}
+                        {" "}
+                        Hz
                     </span>
                     <div className="vefx-slidercontainer">
                         <label>Cutoff</label>
@@ -343,11 +354,10 @@ function VefxController({
                             max="16000"
                             step="1"
                             value={effectsState.lowpass.cutoffFrequency}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleLowpassCutoffFrequencyChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.lowpass.enabled}
                         />
                     </div>
@@ -359,11 +369,10 @@ function VefxController({
                             max="1"
                             step="0.1"
                             value={effectsState.lowpass.qFactor}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleLowpassQFactorChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.lowpass.enabled}
                         />
                     </div>
@@ -376,11 +385,10 @@ function VefxController({
                             step="1"
                             list="filter-detune-list"
                             value={effectsState.lowpass.detune}
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleLowpassDetuneChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.lowpass.enabled}
                         />
                     </div>
@@ -389,7 +397,7 @@ function VefxController({
                     {[0].map((elem) => {
                         return (
                             <option key={`gain-list-${elem}`}>{elem}</option>
-                        );
+                        )
                     })}
                 </datalist>
 
@@ -398,7 +406,7 @@ function VefxController({
                         <input
                             type="checkbox"
                             checked={effectsState.echo.enabled}
-                            onChange={(e) => handleEnabledEffect("echo")}
+                            onChange={() => handleEnabledEffect("echo")}
                         />
                         <span className="vefx-name">
                             {delayString(
@@ -408,9 +416,13 @@ function VefxController({
                         </span>
                     </label>
                     <div className="vefx-echo-value">
-                        d{effectsState.echo.delayTime}s / f
-                        {effectsState.echo.feedback}x / g
-                        {effectsState.echo.gain}x
+                        d
+                        {effectsState.echo.delayTime}
+                        s / f
+                        {effectsState.echo.feedback}
+                        x / g
+                        {effectsState.echo.gain}
+                        x
                     </div>
                     <div className="vefx-slidercontainer">
                         <label>Delay Time</label>
@@ -421,11 +433,10 @@ function VefxController({
                             step="0.05"
                             value={effectsState.echo.delayTime}
                             list="gain-list"
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleEchoDelayChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.echo.enabled}
                         />
                     </div>
@@ -438,11 +449,10 @@ function VefxController({
                             step="0.05"
                             value={effectsState.echo.feedback}
                             list="gain-list"
-                            onChange={(e) =>
+                            onChange={e =>
                                 handleEchoFeedbackChange(
                                     parseFloat(e.target.value),
-                                )
-                            }
+                                )}
                             disabled={!effectsState.echo.enabled}
                         />
                     </div>
@@ -455,9 +465,8 @@ function VefxController({
                             step="0.05"
                             value={effectsState.echo.gain}
                             list="gain-list"
-                            onChange={(e) =>
-                                handleEchoGainChange(parseFloat(e.target.value))
-                            }
+                            onChange={e =>
+                                handleEchoGainChange(parseFloat(e.target.value))}
                             disabled={!effectsState.echo.enabled}
                         />
                     </div>
@@ -468,14 +477,14 @@ function VefxController({
                                     <option key={`gain-list-${elem}`}>
                                         {elem}
                                     </option>
-                                );
+                                )
                             },
                         )}
                     </datalist>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default VefxController;
+export default VefxController

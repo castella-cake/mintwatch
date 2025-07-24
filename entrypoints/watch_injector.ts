@@ -1,13 +1,13 @@
 // @unimport-disable
 // scriptタグ経由で注入される""ページスクリプト""。拡張機能APIは使えないことに注意。
-import Hls from "hls.js";
-import { VideoDataRootObject } from "@/types/VideoData";
+import Hls from "hls.js"
+import { VideoDataRootObject } from "@/types/VideoData"
 
 function returnGreatestQuality(array: any[]) {
     for (const elem of array) {
-        if (elem.isAvailable) return elem;
+        if (elem.isAvailable) return elem
     }
-    return false;
+    return false
 }
 
 async function getHls(
@@ -32,60 +32,56 @@ async function getHls(
             method: "POST",
             credentials: "include",
         },
-    );
-    const responseJson = await response.json();
-    return responseJson;
+    )
+    const responseJson = await response.json()
+    return responseJson
 }
-interface Window {
-    __NV_PUBLIC_PATH__: string;
-}
-declare var window: Window;
 
 export default defineUnlistedScript({
     main() {
-        //window.__NV_PUBLIC_PATH__ = "https://256.256.256.256";
+        // window.__NV_PUBLIC_PATH__ = "https://256.256.256.256";
         // ActionTrackIdで各レンダーを識別する
-        let previousATI = "";
+        let previousATI = ""
         // 動画変更の検出
-        let previousVideoId = "";
+        let previousVideoId = ""
         document.addEventListener("pmw_playerReady", (e: any) => {
             // CORS関係でオブジェクトはStringになって渡されます。
-            const detail = JSON.parse(e.detail);
+            const detail = JSON.parse(e.detail)
             /* Readonlyです {
             videoInfo: watch/<ID>?responseType=json で返ってくる動画情報のオブジェクト,
             actionTrackId: 現在のレンダーで使っているアクショントラックID,
             commentContent: /v1/threadsで返ってくるコメント情報のオブジェクト,
-        }*/
-            //console.log(detail)
+        } */
+            // console.log(detail)
             // 以前のATIと一緒ならスキップする
             if (detail.actionTrackId !== previousATI) {
-                //console.log("Player injecting...")
+                // console.log("Player injecting...")
                 /*
             ここに好きに処理を書く。引数でオブジェクトを渡して分離した関数で処理させることをおすすめします
             これでもなお二重実行されることがあるので、必ず要素をappendChildしたりする前に、
             その要素がすでにドキュメント上に存在していないか確認してください
             */
-                injectMediaToPlayer(detail);
+                injectMediaToPlayer(detail)
                 // 最後のATIを記録しておく
-                previousATI = detail.actionTrackId;
+                previousATI = detail.actionTrackId
             }
-        });
+        })
 
         async function injectMediaToPlayer({
             videoInfo,
             actionTrackId,
         }: {
-            videoInfo: VideoDataRootObject;
-            actionTrackId: string;
+            videoInfo: VideoDataRootObject
+            actionTrackId: string
         }) {
             //
             if (!document.getElementById("pmwp-cyaki-mediainjector")) {
-                console.log("PMW Plugin: 外部HLS プラグイン");
-                const pluginList = document.getElementById("pmw-plugin-list");
+                console.log("PMW Plugin: 外部HLS プラグイン")
+                const pluginList = document.getElementById("pmw-plugin-list")
 
-                const mediaInjectorContainer = document.createElement("div");
-                mediaInjectorContainer.id = "pmwp-cyaki-mediainjector";
-                mediaInjectorContainer.className = "plugin-list-item";
+                const mediaInjectorContainer = document.createElement("div")
+                mediaInjectorContainer.id = "pmwp-cyaki-mediainjector"
+                mediaInjectorContainer.className = "plugin-list-item"
                 mediaInjectorContainer.innerHTML = `
                     <div class="plugin-list-item-title">
                         外部HLS プラグイン (ビルトイン)
@@ -93,98 +89,98 @@ export default defineUnlistedScript({
                     <div class="plugin-list-item-desc">
                         ページスクリプトとしてHLSを実行し、一部のCORS問題を回避します。
                     </div>
-                `;
-                if (pluginList) pluginList.appendChild(mediaInjectorContainer);
+                `
+                if (pluginList) pluginList.appendChild(mediaInjectorContainer)
             }
 
-            let levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector");
-            let seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
+            const levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector")
+            const seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
 
             if (
-                videoInfo.data &&
-                videoInfo.data.response &&
-                videoInfo.data.response.media &&
-                videoInfo.data.response.media.domand &&
-                videoInfo.data.response.media.domand.accessRightKey &&
-                videoInfo.data.response.media.domand.videos &&
-                videoInfo.data.response.media.domand.audios &&
-                videoInfo.data.response.video.id !== previousVideoId
+                videoInfo.data
+                && videoInfo.data.response
+                && videoInfo.data.response.media
+                && videoInfo.data.response.media.domand
+                && videoInfo.data.response.media.domand.accessRightKey
+                && videoInfo.data.response.media.domand.videos
+                && videoInfo.data.response.media.domand.audios
+                && videoInfo.data.response.video.id !== previousVideoId
             ) {
                 // hlsの取得より先に動画が変更される可能性を考えて、とりあえず最初に前の動画IDを保存
-                previousVideoId = videoInfo.data.response.video.id;
+                previousVideoId = videoInfo.data.response.video.id
 
-                const accessRightKey =
-                    videoInfo.data.response.media.domand.accessRightKey;
-                const availableVideoQuality =
-                    videoInfo.data.response.media.domand.videos;
-                const availableAudioQuality =
-                    videoInfo.data.response.media.domand.audios;
+                const accessRightKey
+                    = videoInfo.data.response.media.domand.accessRightKey
+                const availableVideoQuality
+                    = videoInfo.data.response.media.domand.videos
+                const availableAudioQuality
+                    = videoInfo.data.response.media.domand.audios
 
                 const greatestAudioQuality = returnGreatestQuality(
                     availableAudioQuality,
-                );
+                )
                 // そもそも利用可能な音声クオリティがなかったら終了
-                if (!greatestAudioQuality) return false;
+                if (!greatestAudioQuality) return false
 
                 // 使えるやつを全部希望する。音声クオリティは常に一番良いものを希望する。
                 const hlsRequestBody = {
                     outputs: availableVideoQuality.map((elem) => {
-                        if (!elem.isAvailable) return null;
-                        return [elem.id, greatestAudioQuality.id];
+                        if (!elem.isAvailable) return null
+                        return [elem.id, greatestAudioQuality.id]
                     }).filter(quality => quality !== null),
-                };
-                const videoElement: any =
-                    document.getElementById("pmw-element-video"); // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
-                //testDiv.appendChild(videoElement)
+                }
+                const videoElement: any
+                    = document.getElementById("pmw-element-video") // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
+                // testDiv.appendChild(videoElement)
                 const hlsResponse = await getHls(
                     location.pathname.slice(7).replace(/\?.*/, ""),
                     JSON.stringify(hlsRequestBody),
                     actionTrackId,
                     accessRightKey,
-                );
+                )
                 const hls = new Hls({
                     debug: false,
-                    xhrSetup: function (xhr, url) {
+                    xhrSetup: function (xhr) {
                         // xhrでクッキーを含める
-                        xhr.withCredentials = true;
+                        xhr.withCredentials = true
                     },
                     fetchSetup: function (context, initParams) {
                         // クロスオリジンであってもクッキーを含める
-                        initParams.credentials = "include";
-                        return new Request(context.url, initParams);
+                        initParams.credentials = "include"
+                        return new Request(context.url, initParams)
                     },
-                });
+                })
                 // videoのrefにアタッチ
-                if (videoElement) hls.attachMedia(videoElement);
+                if (videoElement) hls.attachMedia(videoElement)
                 // 読み込み
-                hls.loadSource(hlsResponse.data.contentUrl);
+                hls.loadSource(hlsResponse.data.contentUrl)
                 hls.on(Hls.Events.ERROR, (err) => {
-                    console.log(err);
-                });
+                    console.log(err)
+                })
                 hls.on(Hls.Events.LEVEL_SWITCHED, (e, data) => {
-                    //console.log("switched:", data)
-                    if (levelSelector && (levelSelector instanceof HTMLSelectElement)) levelSelector.selectedIndex = data.level;
-                });
-                hls.on(Hls.Events.MANIFEST_LOADED, (e, data) => {
-                    //console.log("levels",   hls.levels)
+                    // console.log("switched:", data)
+                    if (levelSelector && (levelSelector instanceof HTMLSelectElement)) levelSelector.selectedIndex = data.level
+                })
+                hls.on(Hls.Events.MANIFEST_LOADED, () => {
+                    // console.log("levels",   hls.levels)
                     if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
-                    levelSelector.innerHTML = "";
+                    levelSelector.innerHTML = ""
                     hls.levels.forEach((level, index) => {
-                        const option = document.createElement("option");
-                        option.setAttribute("value", index.toString());
-                        option.textContent = `${level.height}p`;
-                        levelSelector.appendChild(option);
-                    });
-                });
-                hls.on(Hls.Events.BUFFER_APPENDED, (e, data) => {
+                        const option = document.createElement("option")
+                        option.setAttribute("value", index.toString())
+                        option.textContent = `${level.height}p`
+                        levelSelector.appendChild(option)
+                    })
+                })
+                hls.on(Hls.Events.BUFFER_APPENDED, () => {
                     if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
                         const bufferedDuration = videoElement.buffered.end(videoElement.buffered.length - 1)
                         const duration = videoElement.duration
                         seekbarBuffered.style.width = `${Math.min(bufferedDuration / duration * 100, 100)}%`
                     }
-                    //setBufferedDuration()
+                    // setBufferedDuration()
                 })
-                hls.on(Hls.Events.BUFFER_FLUSHED, (e, data) => {
+                hls.on(Hls.Events.BUFFER_FLUSHED, () => {
                     if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
                         seekbarBuffered.style.width = `0%`
                     }
@@ -194,11 +190,11 @@ export default defineUnlistedScript({
                 })
                 if (levelSelector) levelSelector.addEventListener("change", (e) => {
                     if (e.target && e.target instanceof HTMLSelectElement) {
-                        //console.log("change: ", e)
-                        hls.currentLevel = Number(e.target.value);
+                        // console.log("change: ", e)
+                        hls.currentLevel = Number(e.target.value)
                     }
-                });
+                })
             }
         }
     },
-});
+})

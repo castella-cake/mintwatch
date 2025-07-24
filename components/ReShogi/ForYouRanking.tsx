@@ -5,7 +5,9 @@ export default function ForYouRankingContent() {
     useEffect(() => {
         history.replace("/ranking/custom")
     }, [])
-    return <div className="reshogi-for-you-container">
+    return (
+        <div className="reshogi-for-you-container">
 
-    </div>
+        </div>
+    )
 }

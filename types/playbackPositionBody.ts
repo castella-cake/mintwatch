@@ -1,4 +1,4 @@
 export default interface PlaybackPositionBody {
-    watchId: string;
-    seconds: number;
+    watchId: string
+    seconds: number
 }

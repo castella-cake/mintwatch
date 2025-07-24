@@ -61,19 +61,19 @@
         }
     }
 
-    .commentlist-list-item[nicoru-count="1"] {
+    .commentlist-list-item[data-nicoru-count="1"] {
         --item-bg: var(--nicoru1);
     }
 
-    .commentlist-list-item[nicoru-count="2"] {
+    .commentlist-list-item[data-nicoru-count="2"] {
         --item-bg: var(--nicoru2);
     }
 
-    .commentlist-list-item[nicoru-count="3"] {
+    .commentlist-list-item[data-nicoru-count="3"] {
         --item-bg: var(--nicoru3);
     }
 
-    .commentlist-list-item[nicoru-count="4"] {
+    .commentlist-list-item[data-nicoru-count="4"] {
         --item-bg: var(--nicoru4);
     }
     

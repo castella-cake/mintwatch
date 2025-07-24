@@ -150,7 +150,7 @@
     }
 
     // コメント入力との区切り
-    .playercontroller-container[player-type="shinjuku"] {
+    .playercontroller-container[data-player-type="shinjuku"] {
         border-bottom: 1px solid #000;
     }
 

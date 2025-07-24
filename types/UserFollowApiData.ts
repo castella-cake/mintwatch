@@ -1,8 +1,7 @@
 export interface UserFollowApiDataRootObject extends baseResponse {
-    data?: Data;
+    data?: Data
 }
 
-
 interface Data {
-    following: boolean;
+    following: boolean
 }

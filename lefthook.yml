@@ -1,0 +1,11 @@
+min_version: 1.3.0
+pre-commit:
+    parallel: true
+    commands:
+        eslint:
+            glob: '*.{js,jsx,ts,tsx}'
+            run: pnpm exec eslint {staged_files} --ignore-pattern .gitignore --fix
+            stage_fixed: true
+            skip:
+                - merge
+                - rebase

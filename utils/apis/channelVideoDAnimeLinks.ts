@@ -1,4 +1,4 @@
-import { DAnimeLinksDataRootObject } from "@/types/DAnimeLinksData";
+import { DAnimeLinksDataRootObject } from "@/types/DAnimeLinksData"
 
 /**
  * チャンネル動画からdアニメストアニコニコ支店で投稿された動画へ移動するための情報を取得するAPI
@@ -6,12 +6,12 @@ import { DAnimeLinksDataRootObject } from "@/types/DAnimeLinksData";
  */
 export async function getChannelVideoDAnimeLinks(videoId: string) {
     const response = await fetch(`https://public-api.ch.nicovideo.jp/v1/user/channelVideoDAnimeLinks?videoId=${encodeURIComponent(videoId)}`, {
-        "headers": {
+        headers: {
             "x-frontend-id": "6",
-            "x-frontend-version": "0"
+            "x-frontend-version": "0",
         },
-        "method": "GET",
-        "credentials": "include"
-    });
+        method: "GET",
+        credentials: "include",
+    })
     return await response.json() as DAnimeLinksDataRootObject
 }

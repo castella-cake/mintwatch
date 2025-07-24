@@ -8,9 +8,11 @@ export default function WhatsNewTitle() {
         setVideoActionModalState("whatsnew")
     }, [])
     if (!location.pathname.startsWith("/watch")) return
-    return <button className="whatsnew-container" onClick={onClick}>
-        <div className="whatsnew-title">更新情報</div>
-        <div className="whatsnew-body">{whatsNewData.title}</div>
-        <div className="whatsnew-subtitle">{whatsNewData.subtitle}</div>
-    </button>
+    return (
+        <button className="whatsnew-container" onClick={onClick}>
+            <div className="whatsnew-title">更新情報</div>
+            <div className="whatsnew-body">{whatsNewData.title}</div>
+            <div className="whatsnew-subtitle">{whatsNewData.subtitle}</div>
+        </button>
+    )
 }

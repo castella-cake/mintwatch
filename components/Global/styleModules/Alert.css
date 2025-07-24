@@ -85,11 +85,12 @@
     padding: 24px;
     border-radius: var(--radius);
     box-shadow: 0 0 8px #000;
-    width: min(32rem, 90vw);
+    width: auto;
     display: grid;
     grid-template-columns: max-content 1fr;
     grid-template-rows: repeat(3, max-content);
     gap: 4px 1rem;
+    max-width: 90vw;
 }
 
 .alert-icon {

@@ -1,21 +1,21 @@
 // key
 export interface KeyRootObjectResponse extends baseResponse {
-    data: KeyData;
+    data: KeyData
 }
 
 interface KeyData {
-    postKey: string;
+    postKey: string
     challenge: {
-        isRequired: boolean;
-        siteKey?: string;
+        isRequired: boolean
+        siteKey?: string
     }
 }
 
-//commentpost
+// commentpost
 export interface CommentPostBody {
-    videoId: string;
-    commands: string[];
-    body: string;
-    vposMs: number;
-    postKey: string;
+    videoId: string
+    commands: string[]
+    body: string
+    vposMs: number
+    postKey: string
 }

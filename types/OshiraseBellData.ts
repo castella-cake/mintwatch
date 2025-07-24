@@ -1,8 +1,8 @@
 export interface OshiraseBellDataRootObject extends baseResponse {
-    data: Data;
+    data: Data
 }
 
 interface Data {
-    newestTimestamp: string;
-    badge: boolean;
+    newestTimestamp: string
+    badge: boolean
 }

@@ -1,14 +1,14 @@
-import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
-import { IconClockHour4Filled, IconCoinYenFilled, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react";
-import { ReactNode } from "react";
-import { readableInt } from "../commonFunction";
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { IconClockHour4Filled, IconCoinYenFilled, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react"
+import { ReactNode } from "react"
+import { readableInt } from "@/utils/readableValue"
 
 export default function VideoTitle({ children, showStats }: { children?: ReactNode, showStats?: boolean }) {
-    const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo) return;
-    const videoInfoResponse = videoInfo.data.response;
+    const { videoInfo } = useVideoInfoContext()
+    if (!videoInfo) return
+    const videoInfoResponse = videoInfo.data.response
 
-    const isPaidVideo = Object.keys(videoInfoResponse.payment.preview).some((key) => videoInfoResponse.payment.preview[key as keyof typeof videoInfoResponse.payment.preview].isEnabled);
+    const isPaidVideo = Object.keys(videoInfoResponse.payment.preview).some(key => videoInfoResponse.payment.preview[key as keyof typeof videoInfoResponse.payment.preview].isEnabled)
     const isPremiumOnlyVideo = videoInfoResponse.payment.preview.premium.isEnabled
 
     return (
@@ -54,23 +54,32 @@ export default function VideoTitle({ children, showStats }: { children?: ReactNo
                                 ? "未設定"
                                 : videoInfoResponse.genre.label}
                             {videoInfoResponse.ranking.teiban
-                                ? <>
-                                    (<strong>{videoInfoResponse.ranking.teiban.label}</strong> 内現在順位: {videoInfoResponse.ranking.teiban.rank}位)
-                                </>
+                                ? (
+                                        <>
+                                            (
+                                            <strong>{videoInfoResponse.ranking.teiban.label}</strong>
+                                            {" "}
+                                            内現在順位:
+                                            {videoInfoResponse.ranking.teiban.rank}
+                                            位)
+                                        </>
+                                    )
                                 : ""}
                         </span>
                     </span>
                     {
-                        isPaidVideo && <span className="videostats-item">
-                            <span className="videostats-paid-label">
-                                <IconCoinYenFilled/>
-                                <span>{ isPremiumOnlyVideo ? "P限" : "有料" }</span>
+                        isPaidVideo && (
+                            <span className="videostats-item">
+                                <span className="videostats-paid-label">
+                                    <IconCoinYenFilled />
+                                    <span>{ isPremiumOnlyVideo ? "P限" : "有料" }</span>
+                                </span>
                             </span>
-                        </span>
+                        )
                     }
                 </div>
             )}
             { children }
         </div>
-    );
+    )
 }

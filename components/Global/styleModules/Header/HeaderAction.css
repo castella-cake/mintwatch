@@ -56,7 +56,7 @@
     height: 1.5em;
 }
 
-.headeraction-select[is-active="true"] {
+.headeraction-select[data-is-active="true"] {
     border-bottom: 2.0px solid var(--linktext3);
     color: var(--linktext1);
     font-weight: bold;

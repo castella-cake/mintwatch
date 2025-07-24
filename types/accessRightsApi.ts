@@ -1,9 +1,9 @@
 export interface AccessRightsRootObject extends baseResponse {
-    data: Data;
+    data: Data
 }
 
 interface Data {
-    contentUrl: string;
-    createTime: string;
-    expireTime: string;
+    contentUrl: string
+    createTime: string
+    expireTime: string
 }

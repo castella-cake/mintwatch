@@ -1,17 +1,17 @@
 export type setting = {
-    type: string,
-    name: string,
-    values?: any[],
-    default?: any,
-    href?: string,
+    type: string
+    name: string
+    values?: any[]
+    default?: any
+    href?: string
     settingLink?: {
-        name: string,
+        name: string
         href: string
-    },
-    children?: setting[],
-    min?: number,
-    max?: number,
-    placeholder?: string,
+    }
+    children?: setting[]
+    min?: number
+    max?: number
+    placeholder?: string
 }
 
 export type settingList = {
@@ -23,24 +23,24 @@ const settings: settingList = {
             type: "select",
             name: "pmwlayouttype",
             values: ["recresc", "renew", "stacked", "3col", "shinjuku", "rerekari"],
-            default: "recresc"
+            default: "recresc",
         },
         {
             type: "select",
             name: "pmwplayertype",
             values: ["default", "classic", "html5", "shinjuku", "ginzaplus"],
-            default: "default"
+            default: "default",
         },
         {
             type: "selectButtons",
             name: "commentListType",
             values: ["default", "modern"],
-            default: "default"
+            default: "default",
         },
         {
             type: "selectButtons",
             name: "layoutDensity",
-            values: ["compact", "default",  "comfort"],
+            values: ["compact", "default", "comfort"],
             default: "default",
         },
         {
@@ -80,8 +80,8 @@ const settings: settingList = {
                     name: "pmwforcepagehls",
                     default: false,
                 },
-            ]
-        }
+            ],
+        },
     ],
     header: [
         {
@@ -93,13 +93,13 @@ const settings: settingList = {
             type: "selectButtons",
             name: "headerActionType",
             values: ["default", "quick"],
-            default: "default"
+            default: "default",
         },
         {
             type: "selectButtons",
             name: "navbarType",
             values: ["default", "dynamic", "disable"],
-            default: "default"
+            default: "default",
         },
     ],
     pageReplace: [
@@ -107,7 +107,7 @@ const settings: settingList = {
             type: "checkbox",
             name: "enableReshogi",
             default: false,
-        }
+        },
     ],
 } as const
 

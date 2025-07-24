@@ -1,16 +1,16 @@
-//import { useLang } from "../localizeHook";
-import { InfoCard } from "../Info/InfoCards";
-import { VideoOwner } from "@/types/VideoData";
-import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData";
+// import { useLang } from "../localizeHook";
+import { InfoCardFromRecommend } from "@/components/Global/InfoCard"
+import { VideoOwner } from "@/types/VideoData"
+import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 
 function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) {
-    //const lang = useLang()
+    // const lang = useLang()
     const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
         userVideoData && userVideoData.data.items.map((item) => {
             return (
-                <InfoCard
+                <InfoCardFromRecommend
                     key={`userVideos-${item.essential.id}`}
                     obj={{
                         id: item.essential.id,
@@ -19,9 +19,9 @@ function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) 
                         content: { ...item.essential },
                     }}
                 />
-            );
+            )
         })
-    );
+    )
 }
 
-export default UserVideos;
+export default UserVideos

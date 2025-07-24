@@ -1,12 +1,14 @@
-import { SmIdProvider, WatchDataProvider } from "../Global/Contexts/WatchDataContext";
-import CreateWatchUI from "./WatchUI";
+import { SmIdProvider, WatchDataProvider } from "../Global/Contexts/WatchDataContext"
+import CreateWatchUI from "./WatchUI"
 import "./watchUI.css"
-import.meta.glob("./styleModules/**/*.css", {eager: true})
+import.meta.glob("./styleModules/**/*.css", { eager: true })
 
-export function WatchBody({}) {
-    return <SmIdProvider>
-        <WatchDataProvider>
-            <CreateWatchUI />
-        </WatchDataProvider>
-    </SmIdProvider>
+export function WatchBody() {
+    return (
+        <SmIdProvider>
+            <WatchDataProvider>
+                <CreateWatchUI />
+            </WatchDataProvider>
+        </SmIdProvider>
+    )
 }

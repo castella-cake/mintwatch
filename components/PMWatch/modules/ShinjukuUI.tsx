@@ -1,47 +1,50 @@
-import { readableInt } from "./commonFunction";
-import { useEffect, useState } from "react";
-import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider";
-import UserFollowButton from "./Info/UserFollowButton";
+import { readableInt } from "@/utils/readableValue"
+import { useEffect, useState } from "react"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import UserFollowButton from "./Info/UserFollowButton"
 
-const weekDay = ["日", "月", "火", "水", "木", "金", "土"];
+const weekDay = ["日", "月", "火", "水", "木", "金", "土"]
 
 function Clock() {
-    const [clockString, setClockString] = useState<string>("");
+    const [clockString, setClockString] = useState<string>("")
     useEffect(() => {
         const interval = setInterval(() => {
-            const date = new Date();
+            const date = new Date()
             setClockString(
                 `${date.getMonth() + 1}/${date.getDate()} (${weekDay[date.getDay()]}) ${date.toLocaleTimeString("en-GB")}`,
-            ); // en-GBは24時間表記で返す(hh:mm:ss)
-        }, 500);
-        return () => clearInterval(interval);
-    }, []);
-    return <div className="videostat-clock">{clockString}</div>;
+            ) // en-GBは24時間表記で返す(hh:mm:ss)
+        }, 500)
+        return () => clearInterval(interval)
+    }, [])
+    return <div className="videostat-clock">{clockString}</div>
 }
 
 export function Stats() {
-    const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo || !videoInfo.data) return <></>;
+    const { videoInfo } = useVideoInfoContext()
+    if (!videoInfo || !videoInfo.data) return <></>
 
-    const videoInfoResponse = videoInfo.data.response;
+    const videoInfoResponse = videoInfo.data.response
 
     return (
         <div className="videostat-container" id="pmw-videostat">
             <div className="videostat-left-container">
                 <div>
-                    <span>再生</span>:
+                    <span>再生</span>
+                    :
                     <span>
                         {readableInt(videoInfoResponse.video.count.view)}
                     </span>
                 </div>
                 <div>
-                    <span>コメント</span>:
+                    <span>コメント</span>
+                    :
                     <span>
                         {readableInt(videoInfoResponse.video.count.comment)}
                     </span>
                 </div>
                 <div>
-                    <span>マイリスト</span>:
+                    <span>マイリスト</span>
+                    :
                     <span>
                         {readableInt(videoInfoResponse.video.count.mylist)}
                     </span>
@@ -54,31 +57,35 @@ export function Stats() {
                 <Clock />
             </div>
         </div>
-    );
+    )
 }
 
 export function Owner() {
-    const { videoInfo } = useVideoInfoContext();
-    if (!videoInfo) return <></>;
+    const { videoInfo } = useVideoInfoContext()
+    if (!videoInfo) return <></>
 
-    const videoInfoResponse = videoInfo.data.response;
+    const videoInfoResponse = videoInfo.data.response
 
     return (
         <div className="videoowner-container" id="pmw-videoowner">
-            {videoInfoResponse.owner && (<>
-                <a
-                    href={`https://www.nicovideo.jp/user/${videoInfoResponse.owner.id}`}
-                >
-                    {videoInfoResponse.owner.iconUrl && (
-                        <img src={videoInfoResponse.owner.iconUrl} />
-                    )}
-                    <div>
-                        ユーザー: <br />
-                        <span>{videoInfoResponse.owner.nickname}</span>
-                    </div>
-                </a>
-                <UserFollowButton userId={videoInfoResponse.owner.id}/>
-            </>)}
+            {videoInfoResponse.owner && (
+                <>
+                    <a
+                        href={`https://www.nicovideo.jp/user/${videoInfoResponse.owner.id}`}
+                    >
+                        {videoInfoResponse.owner.iconUrl && (
+                            <img src={videoInfoResponse.owner.iconUrl} />
+                        )}
+                        <div>
+                            ユーザー:
+                            {" "}
+                            <br />
+                            <span>{videoInfoResponse.owner.nickname}</span>
+                        </div>
+                    </a>
+                    <UserFollowButton userId={videoInfoResponse.owner.id} />
+                </>
+            )}
             {videoInfoResponse.channel && (
                 <a
                     href={`https://ch.nicovideo.jp/${videoInfoResponse.channel.id}`}
@@ -89,19 +96,21 @@ export function Owner() {
                         />
                     )}
                     <div>
-                        チャンネル: <br />
+                        チャンネル:
+                        {" "}
+                        <br />
                         <span>{videoInfoResponse.channel.name}</span>
                     </div>
                 </a>
             )}
         </div>
-    );
+    )
 }
 
 export function NicoHarajukuLogo() {
-    const [hidariueNumber, _setHidariueNumber] = useState(
-        [0, 0, 0].map((n) => Math.floor(Math.random() * 9)),
-    );
+    const [hidariueNumber] = useState(
+        [0, 0, 0].map(() => Math.floor(Math.random() * 9)),
+    )
     return (
         <a href="https://www.nicovideo.jp/video_top" className="harajuku-logo">
             <img
@@ -113,5 +122,5 @@ export function NicoHarajukuLogo() {
                 alt="ニコニコ動画"
             />
         </a>
-    );
+    )
 }

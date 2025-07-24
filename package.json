@@ -14,8 +14,9 @@
         "zip": "wxt zip",
         "zip:firefox": "wxt zip -b firefox",
         "compile": "tsc --noEmit",
+        "lint:script": "eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:style": "stylelint {entrypoints,components}/**/*.css",
-        "postinstall": "wxt prepare",
+        "postinstall": "wxt prepare && lefthook install",
         "e2e": "playwright test"
     },
     "dependencies": {
@@ -45,19 +46,27 @@
     },
     "devDependencies": {
         "@csstools/postcss-minify": "^2.0.4",
+        "@eslint/js": "^9.31.0",
         "@playwright/test": "^1.53.1",
+        "@stylistic/eslint-plugin": "5.2.0",
         "@types/chrome": "^0.0.326",
         "@types/jquery": "^3.5.31",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
         "@types/react-transition-group": "^4.4.11",
         "@wxt-dev/module-react": "^1.1.1",
+        "eslint": "9.31.0",
+        "eslint-plugin-react": "^7.37.5",
+        "globals": "^16.3.0",
+        "lefthook": "^1.12.2",
         "playwright": "^1.53.1",
         "postcss-nested": "^7.0.2",
         "postcss-scss": "^4.0.9",
         "stylelint": "^16.21.1",
         "stylelint-config-standard-scss": "^15.0.1",
         "typescript": "^5.8.3",
+        "typescript-eslint": "^8.37.0",
+        "vite-plugin-svgr": "^4.3.0",
         "wxt": "^0.20.7"
     },
     "engines": {
@@ -67,6 +76,7 @@
         "onlyBuiltDependencies": [
             "dtrace-provider",
             "esbuild",
+            "lefthook",
             "spawn-sync"
         ],
         "patchedDependencies": {

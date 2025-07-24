@@ -4,7 +4,7 @@ import { ReactNode } from "react"
 export type SideMenuItem = {
     label: string
     href: string
-    icon?: ReactNode,
+    icon?: ReactNode
     id: string
 }
 

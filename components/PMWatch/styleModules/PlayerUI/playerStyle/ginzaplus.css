@@ -1,4 +1,4 @@
-.playercontroller-container[player-type="ginzaplus"] {
+.playercontroller-container[data-player-type="ginzaplus"] {
     margin: 0;
 
     --ginza-blue-bg: linear-gradient(#1591d7, #10739d);
