@@ -112,3 +112,7 @@
     max-width: 10rem;
     border-radius: var(--radius) var(--radius) 0 0;
 }
+
+.pmw-onboarding-popup-hint {
+    opacity: 0.5;
+}
