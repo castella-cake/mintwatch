@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-export default function SelectButton({ title, value, storageKey, children }: { title: string, value: string, storageKey: string, children?: ReactNode }) {
+export default function SelectButton({ title, value, storageKey, children, ...attributes }: { title: string, value: string, storageKey: string, children?: ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
     const { syncStorage, setSyncStorageValue } = useStorageContext()
 
     return (
@@ -11,6 +11,7 @@ export default function SelectButton({ title, value, storageKey, children }: { t
                 data-value={value}
                 data-active={syncStorage[storageKey] === value}
                 onClick={() => setSyncStorageValue(storageKey, value)}
+                {...attributes}
             >
                 <div className="pmw-onboarding-select-preview">
                     {children}

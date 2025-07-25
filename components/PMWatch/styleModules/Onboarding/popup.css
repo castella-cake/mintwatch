@@ -90,7 +90,7 @@
     display: flex;
     gap: 16px;
     justify-content: center;
-    align-items: end;
+    align-items: center;
 }
 
 .pmw-onboarding-select-title {
@@ -110,4 +110,5 @@
 .pmw-onboarding-select-preview svg {
     max-height: 8rem;
     max-width: 10rem;
+    border-radius: var(--radius) var(--radius) 0 0;
 }

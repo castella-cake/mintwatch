@@ -76,11 +76,11 @@ const onboardPages: onboardingPage[] = [
         title: "UIの雰囲気を設定",
         description: "UI全体の丸みや余白を一括で自分好みに調整できます。",
         selectors: <>
-            <SelectButton title="かため" value="compact" storageKey="layoutDensity">
+            <SelectButton title="かため" value="compact" storageKey="layoutDensity" style={{ borderRadius: 4 }}>
             </SelectButton>
-            <SelectButton title="ふつう" value="default" storageKey="layoutDensity">
+            <SelectButton title="ふつう" value="default" storageKey="layoutDensity" style={{ borderRadius: 6, padding: "4px 8px" }}>
             </SelectButton>
-            <SelectButton title="やわめ" value="comfort" storageKey="layoutDensity">
+            <SelectButton title="やわめ" value="comfort" storageKey="layoutDensity" style={{ borderRadius: 12, padding: "8px 12px" }}>
             </SelectButton>
         </>,
     },
