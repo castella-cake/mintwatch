@@ -2,9 +2,15 @@ import { ReactNode, RefObject } from "react"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import SelectButton from "./SelectButton"
 import { watchLayoutType } from "../../WatchContent"
-import OnboardingNewWatchPreview from "@/assets/onboarding/layout_newwatch.svg?react"
-import OnboardingOldWatchPreview from "@/assets/onboarding/layout_oldwatch.svg?react"
-import OnboardingShinjukuPreview from "@/assets/onboarding/layout_shinjuku.svg?react"
+import PreviewNewWatch from "@/assets/onboarding/layout_newwatch.svg?react"
+import PreviewOldWatch from "@/assets/onboarding/layout_oldwatch.svg?react"
+import PreviewShinjukuWatch from "@/assets/onboarding/layout_shinjuku.svg?react"
+import PreviewMintPlayer from "@/assets/onboarding/player_mintwatch.svg?react"
+import PreviewHTML5Player from "@/assets/onboarding/player_html5.svg?react"
+import PreviewShinjukuPlayer from "@/assets/onboarding/player_shinjuku.svg?react"
+import PreviewGinzaPlayer from "@/assets/onboarding/player_ginza.svg?react"
+import PreviewDefaultComment from "@/assets/onboarding/comment_default.svg?react"
+import PreviewModernComment from "@/assets/onboarding/comment_modern.svg?react"
 
 type onboardingPage = {
     title: ReactNode
@@ -24,13 +30,13 @@ const onboardPages: onboardingPage[] = [
         description: "あなたが一番慣れ親しんだレイアウトを使えます。\n設定にはこれ以外にもレイアウトが用意されています。",
         selectors: <>
             <SelectButton title="Re:cresc" value={watchLayoutType.reimaginedOldWatch} storageKey="pmwlayouttype">
-                <OnboardingOldWatchPreview />
+                <PreviewOldWatch />
             </SelectButton>
             <SelectButton title="Re:新視聴" value={watchLayoutType.reimaginedNewWatch} storageKey="pmwlayouttype">
-                <OnboardingNewWatchPreview />
+                <PreviewNewWatch />
             </SelectButton>
             <SelectButton title="Shinjuku" value={watchLayoutType.shinjuku} storageKey="pmwlayouttype">
-                <OnboardingShinjukuPreview />
+                <PreviewShinjukuWatch />
             </SelectButton>
         </>,
         hint: "この設定の変更中、現在視聴中の動画の再生状態がリセットされる可能性があります。",
@@ -40,12 +46,16 @@ const onboardPages: onboardingPage[] = [
         description: "自分好みのプレイヤーテーマを使用できます。",
         selectors: <>
             <SelectButton title="MintWatch" value="default" storageKey="pmwplayertype">
+                <PreviewMintPlayer />
             </SelectButton>
             <SelectButton title="HTML5" value="html5" storageKey="pmwplayertype">
+                <PreviewHTML5Player />
             </SelectButton>
             <SelectButton title="Shinjuku" value="shinjuku" storageKey="pmwplayertype">
+                <PreviewShinjukuPlayer />
             </SelectButton>
             <SelectButton title="GINZA+" value="ginzaplus" storageKey="pmwplayertype">
+                <PreviewGinzaPlayer />
             </SelectButton>
         </>,
         hint: "前に「Shinjuku」レイアウトを選択した場合は、ここでも「Shinjuku」にしておくことをおすすめします。",
@@ -55,8 +65,10 @@ const onboardPages: onboardingPage[] = [
         description: "再デザイン後に準拠したコメントリストを使用できます。",
         selectors: <>
             <SelectButton title="eR以前" value="default" storageKey="commentListType">
+                <PreviewDefaultComment />
             </SelectButton>
             <SelectButton title="Re:turn" value="modern" storageKey="commentListType">
+                <PreviewModernComment />
             </SelectButton>
         </>,
     },

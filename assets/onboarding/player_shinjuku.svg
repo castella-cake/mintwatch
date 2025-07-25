@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:2;">
+    <g id="HTML5">
+        <rect x="0" y="0" width="1024" height="256" style="fill:url(#_OnboardPlayerShinjukuLinear1);"/>
+        <path d="M1024,0L1024,256L0,256L0,0L1024,0ZM1020,4L4,4L4,252L1020,252L1020,4Z" style="fill:#2b2b2b;"/>
+        <g>
+            <g transform="matrix(1.18202e-16,1.93038,-1.93038,1.18202e-16,508.519,-859.354)">
+                <path d="M508.422,151.155C509.1,149.8 510.485,148.944 512,148.944C513.515,148.944 514.9,149.8 515.578,151.155C521.972,163.945 535.241,190.482 541.106,202.211C541.726,203.451 541.659,204.924 540.93,206.103C540.202,207.282 538.914,208 537.528,208C525.257,208 498.743,208 486.472,208C485.086,208 483.798,207.282 483.07,206.103C482.341,204.924 482.274,203.451 482.894,202.211C488.759,190.482 502.028,163.945 508.422,151.155Z" style="fill:#fff;"/>
+            </g>
+            <g transform="matrix(1.16667,0,0,1,-4,0)">
+                <path d="M264,24L264,232L24,232L24,24L264,24ZM253.714,36L34.286,36L34.286,220L253.714,220L253.714,36Z" style="fill:url(#_OnboardPlayerShinjukuLinear2);"/>
+                <rect x="24" y="24" width="240" height="208" style="fill:none;stroke:#2f2f2f;stroke-width:3.68px;"/>
+            </g>
+        </g>
+        <g transform="matrix(0.742857,0,0,1,318.171,0)">
+            <g transform="matrix(1.16667,0,0,1,-4,0)">
+                <path d="M264,24L264,232L24,232L24,24L264,24ZM250.154,36L37.846,36L37.846,220L250.154,220L250.154,36Z" style="fill:url(#_OnboardPlayerShinjukuLinear3);"/>
+                <rect x="24" y="24" width="240" height="208" style="fill:none;stroke:#2f2f2f;stroke-width:4.27px;"/>
+            </g>
+            <g transform="matrix(1.34615,0,0,1,-428.308,0)">
+                <circle cx="440" cy="128" r="24" style="fill:#fff;"/>
+            </g>
+        </g>
+        <g transform="matrix(0.96875,0,0,1,584,80)">
+            <g>
+                <g transform="matrix(1,0,0,1.25,-3.41061e-13,-12)">
+                    <rect x="0" y="32" width="1024" height="32" style="fill:#bebebe;"/>
+                    <path d="M1034.32,72L-10.323,72L-10.323,24L1034.32,24L1034.32,72ZM1024,32L0,32L0,64L1024,64L1024,32Z" style="fill:#121212;"/>
+                </g>
+                <g transform="matrix(1,0,0,1.25,-3.41061e-13,-12)">
+                    <rect x="0" y="32" width="1024" height="32" style="fill:#fff;"/>
+                    <rect x="0" y="32" width="1024" height="32" style="fill:#fff;"/>
+                </g>
+            </g>
+            <g transform="matrix(2.06452,0,0,1.04348,-1205.68,-98.087)">
+                <rect x="664" y="48" width="24" height="184" style="fill:url(#_OnboardPlayerShinjukuLinear4);"/>
+                <path d="M688,48L688,232L664,232L664,48L688,48ZM684,55.667L668,55.667L668,224.333L684,224.333L684,55.667Z" style="fill:#1a1a1a;"/>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_OnboardPlayerShinjukuLinear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(4.18198e-13,-256,69.0502,1.55045e-12,-1.06581e-14,256)"><stop offset="0" style="stop-color:#2f2f2f;stop-opacity:1"/><stop offset="0.49" style="stop-color:#1a1a1a;stop-opacity:1"/><stop offset="0.5" style="stop-color:#313131;stop-opacity:1"/><stop offset="1" style="stop-color:#4f4f4f;stop-opacity:1"/></linearGradient>
+        <linearGradient id="_OnboardPlayerShinjukuLinear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.27363e-14,208,-208,1.27363e-14,264,24)"><stop offset="0" style="stop-color:#161616;stop-opacity:1"/><stop offset="1" style="stop-color:#808080;stop-opacity:1"/></linearGradient>
+        <linearGradient id="_OnboardPlayerShinjukuLinear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.27363e-14,208,-208,1.27363e-14,264,24)"><stop offset="0" style="stop-color:#161616;stop-opacity:1"/><stop offset="1" style="stop-color:#808080;stop-opacity:1"/></linearGradient>
+        <linearGradient id="_OnboardPlayerShinjukuLinear4" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(9.55225e-15,-184,156,1.12668e-14,676,232)"><stop offset="0" style="stop-color:#fff;stop-opacity:1"/><stop offset="0.49" style="stop-color:#a0a0a0;stop-opacity:1"/><stop offset="0.5" style="stop-color:#fff;stop-opacity:1"/><stop offset="1" style="stop-color:#d2d2d2;stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

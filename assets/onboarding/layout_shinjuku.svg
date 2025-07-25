@@ -6,7 +6,7 @@
     <g>
         <g id="Shinjuku">
             <g>
-                <rect x="32" y="144" width="960" height="512" style="fill:url(#_Linear1);"/>
+                <rect x="32" y="144" width="960" height="512" style="fill:url(#_OnboardLayoutShinjukuLinear1);"/>
                 <path d="M992,144l-0,512l-960,0l-0,-512l960,0Zm-4,4l-952,0l0,504l952,-0l-0,-504Z"/>
                 <rect x="48" y="608" width="592" height="32" style="fill:var(--bgcolor2,#fff);"/>
                 <path d="M640,608l0,32l-592,-0l-0,-32l592,0Zm-4,4l-584,0l-0,24l584,-0l0,-24Z" style="fill:#b0b0b0;"/>
@@ -14,7 +14,7 @@
                 <path d="M704,608l0,32l-64,-0l0,-32l64,0Zm-4,4l-56,0l0,24l56,-0l-0,-24Z" style="fill:#3d3d3d;"/>
                 <rect x="48" y="160" width="656" height="403.765" style="fill:#262626;"/>
                 <path d="M704,160l0,403.765l-656,-0l-0,-403.765l656,0Zm-4,4l-648,-0l-0,395.765l648,-0l-0,-395.765Z" style="fill:#70b9d8;"/>
-                <rect x="48" y="563.765" width="656" height="44.235" style="fill:url(#_Linear2);"/>
+                <rect x="48" y="563.765" width="656" height="44.235" style="fill:url(#_OnboardLayoutShinjukuLinear2);"/>
                 <path d="M704,563.765l0,44.235l-656,0l-0,-44.235l656,-0Zm-4,4l-648,-0l0,36.235l648,-0l-0,-36.235Z" style="fill:#2b2b2b;"/>
                 <path d="M401.689,341.789c2.71,1.355 4.422,4.125 4.422,7.155c0,3.03 -1.712,5.801 -4.422,7.156c-22.444,11.222 -65.485,32.742 -86.111,43.055c-2.48,1.24 -5.425,1.108 -7.784,-0.35c-2.358,-1.457 -3.794,-4.032 -3.794,-6.805c0,-21.554 0,-64.557 0,-86.111c0,-2.773 1.436,-5.348 3.794,-6.806c2.359,-1.457 5.304,-1.59 7.784,-0.35c20.626,10.313 63.667,31.834 86.111,43.056Z" style="fill:#ededed;"/>
                 <path d="M401.689,341.789c2.71,1.355 4.422,4.125 4.422,7.155c0,3.03 -1.712,5.801 -4.422,7.156l-86.111,43.055c-2.48,1.24 -5.425,1.108 -7.784,-0.35c-2.358,-1.457 -3.794,-4.032 -3.794,-6.805l0,-86.111c0,-2.773 1.436,-5.348 3.794,-6.806c2.359,-1.457 5.304,-1.59 7.784,-0.35l86.111,43.056Zm-1.789,3.578l-86.111,-43.056c-1.24,-0.62 -2.713,-0.554 -3.892,0.175c-1.179,0.729 -1.897,2.016 -1.897,3.403l0,86.111c0,1.386 0.718,2.674 1.897,3.403c1.179,0.728 2.652,0.795 3.892,0.175l86.111,-43.056c1.355,-0.678 2.211,-2.063 2.211,-3.578c0,-1.515 -0.856,-2.9 -2.211,-3.577Z" style="fill:#e3e3e3;"/>
@@ -46,7 +46,7 @@
         </g>
         <g>
             <g>
-                <rect x="32" y="144" width="960" height="512" style="fill:url(#_Linear3);"/>
+                <rect x="32" y="144" width="960" height="512" style="fill:url(#_OnboardLayoutShinjukuLinear3);"/>
                 <path d="M992,144l-0,512l-960,0l-0,-512l960,0Zm-4,4l-952,0l0,504l952,-0l-0,-504Z"/>
                 <rect x="48" y="608" width="592" height="32" style="fill:var(--bgcolor2,#fff);"/>
                 <path d="M640,608l0,32l-592,-0l-0,-32l592,0Zm-4,4l-584,0l-0,24l584,-0l0,-24Z" style="fill:#b0b0b0;"/>
@@ -54,7 +54,7 @@
                 <path d="M704,608l0,32l-64,-0l0,-32l64,0Zm-4,4l-56,0l0,24l56,-0l-0,-24Z" style="fill:#3d3d3d;"/>
                 <rect x="48" y="160" width="656" height="403.765" style="fill:#262626;"/>
                 <path d="M704,160l0,403.765l-656,-0l-0,-403.765l656,0Zm-4,4l-648,-0l-0,395.765l648,-0l-0,-395.765Z" style="fill:#70b9d8;"/>
-                <rect x="48" y="563.765" width="656" height="44.235" style="fill:url(#_Linear4);"/>
+                <rect x="48" y="563.765" width="656" height="44.235" style="fill:url(#_OnboardLayoutShinjukuLinear4);"/>
                 <path d="M704,563.765l0,44.235l-656,0l-0,-44.235l656,-0Zm-4,4l-648,-0l0,36.235l648,-0l-0,-36.235Z" style="fill:#2b2b2b;"/>
                 <path d="M401.689,341.789c2.71,1.355 4.422,4.125 4.422,7.155c0,3.03 -1.712,5.801 -4.422,7.156c-22.444,11.222 -65.485,32.742 -86.111,43.055c-2.48,1.24 -5.425,1.108 -7.784,-0.35c-2.358,-1.457 -3.794,-4.032 -3.794,-6.805c0,-21.554 0,-64.557 0,-86.111c0,-2.773 1.436,-5.348 3.794,-6.806c2.359,-1.457 5.304,-1.59 7.784,-0.35c20.626,10.313 63.667,31.834 86.111,43.056Z" style="fill:#ededed;"/>
                 <path d="M401.689,341.789c2.71,1.355 4.422,4.125 4.422,7.155c0,3.03 -1.712,5.801 -4.422,7.156l-86.111,43.055c-2.48,1.24 -5.425,1.108 -7.784,-0.35c-2.358,-1.457 -3.794,-4.032 -3.794,-6.805l0,-86.111c0,-2.773 1.436,-5.348 3.794,-6.806c2.359,-1.457 5.304,-1.59 7.784,-0.35l86.111,43.056Zm-1.789,3.578l-86.111,-43.056c-1.24,-0.62 -2.713,-0.554 -3.892,0.175c-1.179,0.729 -1.897,2.016 -1.897,3.403l0,86.111c0,1.386 0.718,2.674 1.897,3.403c1.179,0.728 2.652,0.795 3.892,0.175l86.111,-43.056c1.355,-0.678 2.211,-2.063 2.211,-3.578c0,-1.515 -0.856,-2.9 -2.211,-3.577Z" style="fill:#e3e3e3;"/>
@@ -86,21 +86,21 @@
         </g>
     </g>
     <defs>
-        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.42901e-14,-512,560,3.1351e-14,992,656)">
+        <linearGradient id="_OnboardLayoutShinjukuLinear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.42901e-14,-512,560,3.1351e-14,992,656)">
             <stop offset="0" style="stop-color:#222;stop-opacity:1"/>
             <stop offset="1" style="stop-color:#333;stop-opacity:1"/>
         </linearGradient>
-        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.67908e-13,-44.2353,44.2353,2.67908e-13,48,608)">
+        <linearGradient id="_OnboardLayoutShinjukuLinear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.67908e-13,-44.2353,44.2353,2.67908e-13,48,608)">
             <stop offset="0" style="stop-color:#333;stop-opacity:1"/>
             <stop offset="0.49" style="stop-color:#2b2b2b;stop-opacity:1"/>
             <stop offset="0.5" style="stop-color:#373737;stop-opacity:1"/>
             <stop offset="1" style="stop-color:#828282;stop-opacity:1"/>
         </linearGradient>
-        <linearGradient id="_Linear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.42901e-14,-512,560,3.1351e-14,992,656)">
+        <linearGradient id="_OnboardLayoutShinjukuLinear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(3.42901e-14,-512,560,3.1351e-14,992,656)">
             <stop offset="0" style="stop-color:#222;stop-opacity:1"/>
             <stop offset="1" style="stop-color:#333;stop-opacity:1"/>
         </linearGradient>
-        <linearGradient id="_Linear4" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.67908e-13,-44.2353,44.2353,2.67908e-13,48,608)">
+        <linearGradient id="_OnboardLayoutShinjukuLinear4" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.67908e-13,-44.2353,44.2353,2.67908e-13,48,608)">
             <stop offset="0" style="stop-color:#333;stop-opacity:1"/>
             <stop offset="0.49" style="stop-color:#2b2b2b;stop-opacity:1"/>
             <stop offset="0.5" style="stop-color:#373737;stop-opacity:1"/>

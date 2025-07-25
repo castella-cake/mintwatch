@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="HTML5">
+        <rect x="0" y="0" width="1024" height="256" style="fill:#000;"/>
+        <g transform="matrix(8.29485e-17,1.35465,-1.35465,8.29485e-17,345.768,-525.582)">
+            <path d="M508.422,151.155C509.1,149.8 510.485,148.944 512,148.944C513.515,148.944 514.9,149.8 515.578,151.155C521.972,163.945 535.241,190.482 541.106,202.211C541.726,203.451 541.659,204.924 540.93,206.103C540.202,207.282 538.914,208 537.528,208C525.257,208 498.743,208 486.472,208C485.086,208 483.798,207.282 483.07,206.103C482.341,204.924 482.274,203.451 482.894,202.211C488.759,190.482 502.028,163.945 508.422,151.155Z" style="fill:#fff;"/>
+        </g>
+        <g transform="matrix(2,0,0,2,-160,-184)">
+            <circle cx="192" cy="176" r="16" style="fill:#828282;"/>
+        </g>
+        <g transform="matrix(2,0,0,2,-48,-184)">
+            <circle cx="192" cy="176" r="16" style="fill:#828282;"/>
+        </g>
+        <g transform="matrix(0.96875,0,0,1,32,16)">
+            <rect x="0" y="32" width="1024" height="32" style="fill:#bebebe;"/>
+            <g transform="matrix(0.3125,0,0,1,0,0)">
+                <rect x="0" y="32" width="1024" height="32" style="fill:#70b9d8;"/>
+            </g>
+        </g>
+        <g transform="matrix(0.213068,0,0,1,416,120)">
+            <g transform="matrix(1.32,1.09912e-16,0,1,2.8859e-13,-1.42109e-14)">
+                <rect x="0" y="32" width="1024" height="32" style="fill:#bebebe;"/>
+            </g>
+            <g transform="matrix(0.68,0,0,1,0,0)">
+                <rect x="0" y="32" width="1024" height="32" style="fill:#70b9d8;"/>
+            </g>
+        </g>
+    </g>
+</svg>

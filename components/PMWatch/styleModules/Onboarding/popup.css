@@ -103,11 +103,11 @@
 }
 
 .pmw-onboarding-select-preview {
-    max-height: 8rem;
     background: var(--bgcolor1);
     border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .pmw-onboarding-select-preview svg {
-    height: 8rem;
+    max-height: 8rem;
+    max-width: 10rem;
 }
