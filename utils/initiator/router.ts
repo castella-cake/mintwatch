@@ -31,6 +31,10 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
 
     if (!document.documentElement) return
 
+    if (syncStorage.colorPalette) {
+        document.body.setAttribute("data-mw-palette", syncStorage.colorPalette)
+    }
+
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
     document.documentElement.querySelectorAll("script").forEach(
         blockScriptElement,
@@ -147,20 +151,26 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
         position: "inline",
         anchor: "body",
         onMount: (container) => {
+            const unwatchPalette = storage.watch<string>("sync:colorPalette", (newPalette) => {
+                if (newPalette) document.body.setAttribute("data-mw-palette", newPalette)
+            })
             // root要素を足してレンダー！
             const rootElem = document.createElement("div")
             rootElem.id = "root-pmw"
             container.appendChild(rootElem)
             if (rootElem.childNodes.length != 0) {
                 console.error("ranking page replace failed: #root is not empty.")
-                return
+                return {}
             }
             const uiRoot = createRoot(rootElem)
             uiRoot.render(RouterRoot())
-            return uiRoot
+            return { uiRoot, unwatchPalette }
         },
-        onRemove: (uiRoot) => {
-            if (uiRoot) uiRoot.unmount()
+        onRemove: (cleanup) => {
+            if (!cleanup) return
+
+            if (cleanup.uiRoot) cleanup.uiRoot.unmount()
+            if (cleanup.unwatchPalette) cleanup.unwatchPalette()
         },
     })
     ui.autoMount()

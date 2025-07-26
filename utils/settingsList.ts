@@ -44,6 +44,12 @@ const settings: settingList = {
             default: "default",
         },
         {
+            type: "selectButtons",
+            name: "colorPalette",
+            values: ["default", "light", "dark"],
+            default: "default",
+        },
+        {
             type: "group",
             name: "otherSettings",
             children: [

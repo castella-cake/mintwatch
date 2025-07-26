@@ -30,6 +30,11 @@
             "hint": "Specifies the overall padding, corner rounding, and other styles",
             "select": ["Compact", "Default", "Spacious"]
         },
+        "colorPalette": {
+            "name": "Theme",
+            "select": ["Default", "Light", "Dark"],
+            "hint": "If you are using PM+, it is recommended to leave it as default"
+        },
 
         "enableReshogi": {
             "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",
