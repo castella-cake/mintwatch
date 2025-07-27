@@ -22,9 +22,11 @@
     grid-template-columns: auto max-content 1fr;
     gap: 0 8px;
     align-items: center;
+    
+    --bezier: cubic-bezier(0,0,.25,1.2);
 
     &[data-animation="entering"] {
-        transition: transform 0.4s cubic-bezier(0,.65,.5,1.2);
+        transition: transform 0.3s var(--bezier);
     }
 
     &[data-animation="exiting"]  {
