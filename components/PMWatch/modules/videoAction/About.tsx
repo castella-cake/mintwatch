@@ -7,6 +7,7 @@ import { CSS } from "@dnd-kit/utilities"
 const manifestData = browser.runtime.getManifest()
 
 export default function AboutMintWatch() {
+    const { setSyncStorageValue } = useStorageContext()
     const { showAlert } = useSetAlertContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
     const sensors = useSensors(
@@ -26,6 +27,8 @@ export default function AboutMintWatch() {
         if (event.over && event.over.id === "droppableLogo" && progress === 2) {
             setProgress(3)
             setTimeout(() => {
+                setSyncStorageValue("unlockStarNightSetting", true)
+                setSyncStorageValue("starNightPalette", true)
                 showAlert({
                     title: "You did a thing!",
                     body: (

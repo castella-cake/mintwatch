@@ -35,6 +35,10 @@
             "select": ["Auto", "Light", "Dark"],
             "hint": "If PM+ palette settings are enabled, this setting will not be applied"
         },
+        "starNightPalette": {
+            "name": "🌠",
+            "hint": "Use StarNight for the dark palette."
+        },
 
         "enableReshogi": {
             "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",

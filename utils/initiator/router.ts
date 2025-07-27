@@ -31,7 +31,9 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
 
     if (!document.documentElement) return
 
-    if (syncStorage.colorPalette) {
+    if (syncStorage.starNightPalette) {
+        document.body.setAttribute("data-mw-palette", "starnight")
+    } else if (syncStorage.colorPalette) {
         document.body.setAttribute("data-mw-palette", syncStorage.colorPalette)
     }
 
@@ -154,6 +156,19 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
             const unwatchPalette = storage.watch<string>("sync:colorPalette", (newPalette) => {
                 if (newPalette) document.body.setAttribute("data-mw-palette", newPalette)
             })
+            const unwatchEasterEgg = storage.watch<string>("sync:starNightPalette", (newPalette) => {
+                if (newPalette) {
+                    document.body.setAttribute("data-mw-palette", "starnight")
+                } else {
+                    storage.getItem("sync:colorPalette").then((c) => {
+                        if (typeof c === "string") {
+                            document.body.setAttribute("data-mw-palette", c)
+                        } else {
+                            document.body.setAttribute("data-mw-palette", "default")
+                        }
+                    })
+                }
+            })
             // root要素を足してレンダー！
             const rootElem = document.createElement("div")
             rootElem.id = "root-pmw"
@@ -164,13 +179,14 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
             }
             const uiRoot = createRoot(rootElem)
             uiRoot.render(RouterRoot())
-            return { uiRoot, unwatchPalette }
+            return { uiRoot, unwatchPalette, unwatchEasterEgg }
         },
         onRemove: (cleanup) => {
             if (!cleanup) return
 
             if (cleanup.uiRoot) cleanup.uiRoot.unmount()
             if (cleanup.unwatchPalette) cleanup.unwatchPalette()
+            if (cleanup.unwatchEasterEgg) cleanup.unwatchEasterEgg()
         },
     })
     ui.autoMount()

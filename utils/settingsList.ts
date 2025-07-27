@@ -12,6 +12,7 @@ export type setting = {
     min?: number
     max?: number
     placeholder?: string
+    unlockFlag?: string
 }
 
 export type settingList = {
@@ -48,6 +49,12 @@ const settings: settingList = {
             name: "colorPalette",
             values: ["default", "light", "dark"],
             default: "default",
+        },
+        {
+            type: "checkbox",
+            name: "starNightPalette",
+            default: false,
+            unlockFlag: "unlockStarNightSetting",
         },
         {
             type: "group",

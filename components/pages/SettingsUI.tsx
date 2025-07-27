@@ -102,6 +102,9 @@ function HintElem({ setting }: { setting: setting }) {
 
 function CreateSettingsRow({ setting }: { setting: setting }) {
     // console.log(syncStorage[settings.name])
+    const { syncStorage } = useStorageContext()
+    if (setting.unlockFlag && !syncStorage[setting.unlockFlag]) return
+
     let elemList = [<CreateSettingsControl setting={setting} key={setting.name} />]
     if (setting.children && setting.type !== "group") {
         // console.log(settings.children)

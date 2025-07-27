@@ -35,6 +35,10 @@
             "select": ["自動", "ライト", "ダーク"],
             "hint": "PM+ のパレット設定が優先されます"
         },
+        "starNightPalette": {
+            "name": "🌠",
+            "hint": "ダークパレットに StarNight を使用します"
+        },
 
         "enableReshogi": {
             "name": "実験的: ランキングページの置き換えを有効化 (Re:将棋盤)",
