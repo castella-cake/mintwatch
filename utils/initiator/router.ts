@@ -31,10 +31,13 @@ export default async function initiateRouter(ctx: ContentScriptContext, storages
 
     if (!document.documentElement) return
 
-    if (syncStorage.starNightPalette) {
-        document.body.setAttribute("data-mw-palette", "starnight")
-    } else if (syncStorage.colorPalette) {
-        document.body.setAttribute("data-mw-palette", syncStorage.colorPalette)
+    if (document.body) {
+        document.body.classList.add("MW-Enabled")
+        if (syncStorage.starNightPalette) {
+            document.body.setAttribute("data-mw-palette", "starnight")
+        } else if (syncStorage.colorPalette) {
+            document.body.setAttribute("data-mw-palette", syncStorage.colorPalette)
+        }
     }
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
