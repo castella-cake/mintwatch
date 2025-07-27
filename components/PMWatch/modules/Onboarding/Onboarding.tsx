@@ -15,6 +15,7 @@ import PreviewModernComment from "@/assets/onboarding/comment_modern.svg?react"
 type onboardingPage = {
     title: ReactNode
     description: ReactNode
+    key: string
     selectors?: ReactNode
     hint?: ReactNode
 }
@@ -24,6 +25,7 @@ const onboardPages: onboardingPage[] = [
     {
         title: "MintWatch へようこそ",
         description: "現在 MintWatch を使って視聴中です。\nこのポップアップ内で完結する、簡単な初期設定を行ってみませんか？",
+        key: "welcome",
     },
     {
         title: "レイアウトを変更する",
@@ -40,6 +42,7 @@ const onboardPages: onboardingPage[] = [
             </SelectButton>
         </>,
         hint: "この設定の変更中、現在視聴中の動画の再生状態がリセットされる場合があります。",
+        key: "layout",
     },
     {
         title: "プレイヤーテーマ",
@@ -59,6 +62,7 @@ const onboardPages: onboardingPage[] = [
             </SelectButton>
         </>,
         hint: "Shinjuku レイアウトを選択した場合は、ここでも同じように選択しておくことをおすすめします。",
+        key: "player",
     },
     {
         title: "コメントリストの表示",
@@ -71,6 +75,7 @@ const onboardPages: onboardingPage[] = [
                 <PreviewModernComment />
             </SelectButton>
         </>,
+        key: "commentlist",
     },
     {
         title: "UIの雰囲気を設定",
@@ -83,11 +88,33 @@ const onboardPages: onboardingPage[] = [
             <SelectButton title="やわめ" value="comfort" storageKey="layoutDensity" style={{ borderRadius: 12, padding: "8px 12px" }}>
             </SelectButton>
         </>,
+        key: "comfort",
+    },
+    {
+        title: "パレット設定",
+        description: "ページに使用するパレットを設定します。",
+        selectors: (
+            <>
+                <SelectButton title="自動設定" value="default" storageKey="colorPalette">
+                </SelectButton>
+                <SelectButton title="ライト" value="light" storageKey="colorPalette">
+                </SelectButton>
+                <SelectButton title="ダーク" value="dark" storageKey="colorPalette">
+                </SelectButton>
+                <div className="pmw-onboarding-palette-unavailable">
+                    既に PepperMint+ 経由のカラーパレットを使用中のようです。
+                    <br />
+                    「次のステップへ」をクリックしてください。
+                </div>
+            </>
+        ),
+        key: "palette",
     },
     {
         title: "Thank you!",
         description: "これで初期設定は終了です。\n閉じて視聴を続けるか、「はじめに」を確認することができます。",
         hint: "後でヘッダーのスパナアイコンからさまざまな設定を調整できます。",
+        key: "complete",
     },
 ]
 
@@ -109,7 +136,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
 
     return (
         <div className="pmw-onboarding-popup-wrapper" ref={nodeRef}>
-            <div className="pmw-onboarding-popup">
+            <div className="pmw-onboarding-popup" data-page-key={currentPage.key}>
                 <h2>{currentPage.title}</h2>
                 <div className="pmw-onboarding-popup-text">
                     {currentPage.description}

@@ -116,3 +116,23 @@
 .pmw-onboarding-popup-hint {
     opacity: 0.5;
 }
+
+.pmw-onboarding-palette-unavailable {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    border: var(--border);
+    padding: 8px;
+    border-radius: var(--radius);
+    display: none;
+}
+
+html[class*="PMDMP-"] .pmw-onboarding-popup[data-page-key="palette"] .pmw-onboarding-popup-childrens {
+    > *:not(.pmw-onboarding-palette-unavailable) {
+        display: none;
+    }
+
+    .pmw-onboarding-palette-unavailable {
+        display: block;
+        text-align: center;
+    }
+}
