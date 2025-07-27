@@ -37,7 +37,7 @@
         },
         "starNightPalette": {
             "name": "🌠",
-            "hint": "Use StarNight for the dark palette."
+            "hint": "Override the palette with StarNight"
         },
 
         "enableReshogi": {

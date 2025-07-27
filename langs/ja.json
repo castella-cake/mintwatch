@@ -37,7 +37,7 @@
         },
         "starNightPalette": {
             "name": "🌠",
-            "hint": "ダークパレットに StarNight を使用します"
+            "hint": "パレットを StarNight でオーバーライドします"
         },
 
         "enableReshogi": {
