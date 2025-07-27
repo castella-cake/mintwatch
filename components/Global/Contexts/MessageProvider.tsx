@@ -22,6 +22,7 @@ export type IToast = {
     title: string
     body?: ReactNode
     additionalButton?: IMessageButton[]
+    customTimeout?: number
 }
 
 const IAlertContext = createContext<IAlert[]>([])

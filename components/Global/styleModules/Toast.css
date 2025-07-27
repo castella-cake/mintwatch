@@ -17,12 +17,13 @@
     color: var(--bgcolor1);
     border-color: var(--textcolor3);
     padding: 12px;
-    width: 24rem;
+    min-width: 24rem;
     display: grid;
     grid-template-columns: auto max-content 1fr;
     gap: 0 8px;
     align-items: center;
-    
+    position: relative;
+
     --bezier: cubic-bezier(0,0,.25,1.2);
 
     &[data-animation="entering"] {
@@ -82,4 +83,15 @@
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     font-size: 0.8rem;
+}
+
+.toast-timer {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: var(--width);
+    transition: width 0.1s ease, opacity 0.2s ease;
+    height: 4px;
+    background: var(--bgcolor1);
+    z-index: 501;
 }

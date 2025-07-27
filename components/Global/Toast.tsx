@@ -25,19 +25,42 @@ export default function Toast() {
 }
 
 function ToastItem({ toast, onClose }: { toast: IToast, onClose: () => void }) {
+    const [isHovering, setIsHovering] = useState(false)
+    const [timeoutTimer, setTimeoutTimer] = useState(0)
     const [{ status, isMounted }, toggle] = useTransitionState({
         timeout: { enter: 500, exit: 300 },
         mountOnEnter: true,
         unmountOnExit: true,
         preEnter: true,
     })
-    if (!isMounted) toggle(true)
+
+    const timeoutMs = (toast.customTimeout ?? 10000)
+
     function handleClose() {
         toggle(false)
         setTimeout(onClose, 300)
     }
+
+    useInterval(() => {
+        if (isHovering || timeoutTimer < 0) return
+        if (timeoutTimer >= timeoutMs) {
+            handleClose()
+            setTimeoutTimer(-1) // 一回実行したら-1にしてその後はreturnしてもらう
+        } else {
+            setTimeoutTimer(c => c + 50)
+        }
+    }, 50)
+
+    if (!isMounted) toggle(true)
+
     return (
-        <div className="toast-container" key={toast.key} data-animation={status}>
+        <div
+            className="toast-container"
+            key={toast.key}
+            data-animation={status}
+            onMouseEnter={() => { setIsHovering(true) }}
+            onMouseLeave={() => { setIsHovering(false) }}
+        >
             <div className="toast-icon">{toast.icon ?? <IconInfoCircle />}</div>
             <div className="toast-title">{toast.title}</div>
             { toast.body && <div className="toast-body">{toast.body}</div> }
@@ -50,6 +73,7 @@ function ToastItem({ toast, onClose }: { toast: IToast, onClose: () => void }) {
                     <IconX />
                 </button>
             </div>
+            <div className="toast-timer" style={{ ["--width" as any]: `${Math.min(Math.max(timeoutTimer / timeoutMs * 100, 0), 100)}%`, opacity: isHovering ? 0.5 : 1 }}></div>
         </div>
     )
 }
