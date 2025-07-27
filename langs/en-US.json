@@ -32,8 +32,8 @@
         },
         "colorPalette": {
             "name": "Theme",
-            "select": ["Default", "Light", "Dark"],
-            "hint": "If you are using PM+, it is recommended to leave it as default"
+            "select": ["Auto", "Light", "Dark"],
+            "hint": "If PM+ palette settings are enabled, this setting will not be applied"
         },
 
         "enableReshogi": {
