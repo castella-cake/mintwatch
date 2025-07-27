@@ -8,6 +8,7 @@ import { useSetHeaderActionStateContext, useSetMintConfigShownContext, useSetSid
 import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider"
 import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
 import Alert from "../Global/Alert"
+import Toast from "../Global/Toast"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -98,6 +99,7 @@ export default function RouterUI() {
                 <ShogiBody />
             </Match>
             <Alert />
+            <Toast />
         </div>
     )
 }

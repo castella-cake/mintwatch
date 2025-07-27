@@ -1,0 +1,83 @@
+.toast-wrapper {
+    position: fixed;
+    z-index: 500;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-container {
+    border-radius: 8px;
+    margin: 8px;
+    box-shadow: 0 0 8px #000a;
+    border: 1px solid var(--accent1);
+    background: var(--textcolor2);
+    color: var(--bgcolor1);
+    border-color: var(--textcolor3);
+    padding: 12px;
+    width: 24rem;
+    display: grid;
+    grid-template-columns: auto max-content 1fr;
+    gap: 0 8px;
+    align-items: center;
+
+    &[data-animation="entering"] {
+        transition: transform 0.4s cubic-bezier(0,.65,.5,1.2);
+    }
+
+    &[data-animation="exiting"]  {
+        transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    &[data-animation="preEnter"] {
+        transform: translateX(-100%);
+    }
+
+    &[data-animation="exiting"], &[data-animation="exited"] {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateX(-100%);
+    }
+
+    &[data-animation="entering"], &[data-animation="entered"] {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+.toast-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: var(--radius);
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--textcolor1);
+    }
+}
+
+.toast-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.toast-button > svg {
+    vertical-align: middle;
+}
+
+.toast-buttons {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: end;
+}
+
+.toast-body {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    font-size: 0.8rem;
+}

@@ -10,7 +10,7 @@ import { RouterProvider } from "./RouterContext"
 import { VideoRefContext } from "../Global/Contexts/VideoDataProvider"
 import { BackgroundPlayProvider } from "../Global/Contexts/BackgroundPlayProvider"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { AlertProvider } from "../Global/Contexts/AlertProvider"
+import { MessageProvider } from "../Global/Contexts/MessageProvider"
 
 const IVideoRef = createRef<HTMLVideoElement>()
 
@@ -73,12 +73,12 @@ export default function RouterRoot() {
                         <ModalStateProvider>
                             <VideoRefContext value={IVideoRef}>
                                 <BackgroundPlayProvider>
-                                    <AlertProvider>
+                                    <MessageProvider>
                                         <RouterProvider>
                                             <RouterUI />
                                             <PluginList />
                                         </RouterProvider>
-                                    </AlertProvider>
+                                    </MessageProvider>
                                 </BackgroundPlayProvider>
                             </VideoRefContext>
                         </ModalStateProvider>

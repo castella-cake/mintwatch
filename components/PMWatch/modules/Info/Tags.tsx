@@ -1,7 +1,7 @@
 import { Tag } from "@/types/VideoData"
 import { IconAlertTriangle, IconCheck, IconCircleX, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react"
 import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext"
-import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 
 type compatibleTag = {
     name: string
@@ -24,7 +24,7 @@ function tagLengthCounter(tagText: string) {
 
 export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
     const { smId } = useSmIdContext()
-    const { showAlert } = useSetAlertContext()
+    const { showAlert } = useSetMessageContext()
 
     const [tags, setTags] = useState<compatibleTag[]>(initialTagData.items)
 

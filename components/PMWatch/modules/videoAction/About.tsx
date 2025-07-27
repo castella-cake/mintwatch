@@ -1,4 +1,4 @@
-import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import MintWatchLogo from "@/public/mintwatch.svg?react"
 import PMFamilyLogo from "@/public/pmfamily.svg?react"
 import { DndContext, DragEndEvent, DragOverEvent, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from "@dnd-kit/core"
@@ -8,7 +8,7 @@ const manifestData = browser.runtime.getManifest()
 
 export default function AboutMintWatch() {
     const { setSyncStorageValue } = useStorageContext()
-    const { showAlert } = useSetAlertContext()
+    const { showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
     const sensors = useSensors(
         useSensor(PointerSensor, {

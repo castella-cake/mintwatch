@@ -1,5 +1,5 @@
 import ReactFocusLock from "react-focus-lock"
-import { useAlertContext, useSetAlertContext } from "./Contexts/AlertProvider"
+import { useAlertContext, useSetMessageContext } from "./Contexts/MessageProvider"
 import { IconInfoCircle } from "@tabler/icons-react"
 import useTransitionState from "react-transition-state"
 
@@ -11,7 +11,7 @@ export default function Alert() {
         preEnter: true,
     })
     const alertState = useAlertContext()
-    const { ISetAlertState } = useSetAlertContext()
+    const { ISetAlertState } = useSetMessageContext()
 
     const closeAlert = () => {
         ISetAlertState(current => current.slice(1))

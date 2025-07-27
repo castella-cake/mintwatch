@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { MylistsResponseRootObject } from "@/types/mylistsData"
 import { VideoDataRootObject } from "@/types/VideoData"
 import { IconCheck } from "@tabler/icons-react"
-import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 
 type Props = {
     onClose: () => void
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function Mylist({ videoInfo }: Props) {
-    const { showAlert } = useSetAlertContext()
+    const { showAlert } = useSetMessageContext()
 
     const [mylistsData, setMylistsData] = useState<MylistsResponseRootObject | null>(null)
     const [addedMylists, setAddedMylists] = useState<number[]>([])

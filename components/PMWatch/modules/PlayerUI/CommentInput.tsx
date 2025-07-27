@@ -5,7 +5,7 @@ import type { VideoDataRootObject } from "@/types/VideoData"
 import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
-import { useSetAlertContext } from "@/components/Global/Contexts/AlertProvider"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
@@ -18,7 +18,7 @@ type Props = {
 }
 function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
     const { localStorage } = useStorageContext()
-    const { showAlert } = useSetAlertContext()
+    const { showAlert } = useSetMessageContext()
     const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
 
