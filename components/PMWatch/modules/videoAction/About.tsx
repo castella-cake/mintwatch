@@ -3,10 +3,12 @@ import MintWatchLogo from "@/public/mintwatch.svg?react"
 import PMFamilyLogo from "@/public/pmfamily.svg?react"
 import { DndContext, DragEndEvent, DragOverEvent, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from "@dnd-kit/core"
 import { CSS } from "@dnd-kit/utilities"
+import { IconComet } from "@tabler/icons-react"
 
 const manifestData = browser.runtime.getManifest()
 
 export default function AboutMintWatch() {
+    const { showToast } = useSetMessageContext()
     const { setSyncStorageValue } = useStorageContext()
     const { showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
@@ -29,14 +31,12 @@ export default function AboutMintWatch() {
             setTimeout(() => {
                 setSyncStorageValue("unlockStarNightSetting", true)
                 setSyncStorageValue("starNightPalette", true)
+                showToast({ icon: <IconComet />, title: "You did a thing!", body: "パレットが StarNight に変更されました。" })
                 showAlert({
-                    title: "You did a thing!",
+                    title: "And now we present...",
                     body: (
                         <div>
                             <p>
-                                And now we present...
-                                <br />
-                                <br />
                                 nothing?
                                 <br />
                             </p>

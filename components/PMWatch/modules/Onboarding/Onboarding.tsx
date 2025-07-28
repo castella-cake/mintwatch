@@ -11,6 +11,7 @@ import PreviewShinjukuPlayer from "@/assets/onboarding/player_shinjuku.svg?react
 import PreviewGinzaPlayer from "@/assets/onboarding/player_ginza.svg?react"
 import PreviewDefaultComment from "@/assets/onboarding/comment_default.svg?react"
 import PreviewModernComment from "@/assets/onboarding/comment_modern.svg?react"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 
 type onboardingPage = {
     title: ReactNode
@@ -122,6 +123,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
     const [pageIndex, setPageIndex] = useState(0)
 
     const { localStorage, setLocalStorageValue } = useStorageContext()
+    const { showToast } = useSetMessageContext()
 
     const localStorageRef = useRef<any>(null)
     localStorageRef.current = localStorage
@@ -130,6 +132,11 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
 
     function writePlayerSettings(name: string, value: any) {
         setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
+    }
+
+    function handleOnboardingClose() {
+        writePlayerSettings("onboardingIgnored", true)
+        if (pageIndex !== onboardPages.length - 1) showToast({ title: "オンボーディングを中止しました", body: "後でヘッダーのスパナアイコンから設定を調整できます。" })
     }
 
     const currentPage = onboardPages[pageIndex]
@@ -152,7 +159,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
                     </small>
                 )}
                 <div className="pmw-onboarding-popup-buttons">
-                    <button onClick={() => { writePlayerSettings("onboardingIgnored", true) }} className="pmw-onboarding-popup-close-button">閉じる</button>
+                    <button onClick={handleOnboardingClose} className="pmw-onboarding-popup-close-button">閉じる</button>
                     { pageIndex > 0 && <button className="pmw-onboarding-popup-button-primary" onClick={() => setPageIndex(i => i - 1)}>戻る</button> }
                     { pageIndex === onboardPages.length - 1
                         ? (
