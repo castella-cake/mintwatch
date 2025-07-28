@@ -124,7 +124,7 @@ function Player(props: Props) {
     const shouldUseContentScriptHls = !(
         import.meta.env.FIREFOX || syncStorage.pmwforcepagehls
     )
-    const hlsRef = useHlsVideo(
+    const { hlsRef, errorInfo } = useHlsVideo(
         videoRef,
         videoInfo,
         videoId,
@@ -522,7 +522,7 @@ function Player(props: Props) {
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
-                <ErrorScreen />
+                <ErrorScreen hlsErrorInfo={errorInfo} />
                 {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">

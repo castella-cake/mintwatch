@@ -25,6 +25,7 @@ function returnGreatestLevelNumber(preferValue: number, max: number) {
 export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | undefined, videoId: string, actionTrackId: string, isEnabled = true, preferredLevel = -1) {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), [])
     const hlsRef = useRef<Hls>(null!)
+    const [errorInfo, setErrorInfo] = useState<any | null>(null)
     useEffect(() => {
         async function getSrc() {
             if (!isEnabled) return
@@ -57,7 +58,11 @@ export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoI
                 // APIから取得
                 const hlsResponse = await getHls(videoId, JSON.stringify(hlsRequestBody), actionTrackId, accessRightKey)
                 // 作られてないとかデータが足りないとかだったら終了
-                if (hlsResponse.meta.status != 201 || !hlsResponse.data || !hlsResponse.data.contentUrl || !videoRef.current) return
+                if (hlsResponse.meta.status != 201 || !hlsResponse.data || !hlsResponse.data.contentUrl || !videoRef.current) {
+                    setErrorInfo(hlsResponse)
+                    return
+                }
+                setErrorInfo(null)
 
                 // hls.jsがサポートするならhls.jsで再生し、そうでない(Safariなど)ならネイティブ再生する
                 if (isSupportedBrowser) {
@@ -91,5 +96,5 @@ export function useHlsVideo(videoRef: RefObject<HTMLVideoElement | null>, videoI
         }
         getSrc()
     }, [videoInfo])
-    return hlsRef
+    return { hlsRef, errorInfo }
 }

@@ -18,7 +18,7 @@ function ReturnErrorHaiku({ errorResponse }: { errorResponse: ErrorResponse }) {
     )
 }
 
-export function ErrorScreen() {
+export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: AccessRightsRootObject }) {
     const { videoInfo, errorInfo } = useVideoInfoContext()
     if (errorInfo && errorInfo.response) {
         const errorResponse: ErrorResponse = errorInfo.response.data.response
@@ -30,6 +30,26 @@ export function ErrorScreen() {
                         この動画は再生できません。
                     </p>
                     <ReturnErrorHaiku errorResponse={errorResponse} />
+                </div>
+            </div>
+        )
+    }
+
+    if (hlsErrorInfo !== null) {
+        return (
+            <div className="player-errorscreen-wrapper">
+                <div className="player-errorscreen">
+                    <h2 className="player-errorscreen-title">再生に失敗しました</h2>
+                    <p>
+                        HLS 再生に失敗しました。
+                        <br />
+                        ページの再読み込みを試すか、時間を置いて再度お試しください。
+                    </p>
+                    <p>
+                        問題が継続していて、新視聴ページで問題なく再生できる場合は、
+                        <br />
+                        MintWatch の開発者へ報告をお願いします。
+                    </p>
                 </div>
             </div>
         )
