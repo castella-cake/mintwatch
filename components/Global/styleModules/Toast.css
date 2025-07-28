@@ -1,6 +1,6 @@
 .toast-wrapper {
     position: fixed;
-    z-index: 500;
+    z-index: 1100;
     left: 0;
     bottom: 0;
     display: flex;
@@ -93,5 +93,5 @@
     transition: width 0.1s ease, opacity 0.2s ease;
     height: 4px;
     background: var(--bgcolor1);
-    z-index: 501;
+    z-index: 1101;
 }
