@@ -34,10 +34,10 @@ export function Card(props: CardProps) {
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
-            { (thumbText) && (
+            { thumbnailUrl && (
                 <div className="info-card-thumbnail">
                     <img src={thumbnailUrl} alt={`${title} のサムネイル`} />
-                    <span className="info-card-durationtext">{thumbText}</span>
+                    { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
                 </div>
             )}
             { children && <div className="info-card-title">{children}</div> }

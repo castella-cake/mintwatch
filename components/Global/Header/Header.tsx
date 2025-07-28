@@ -1,5 +1,5 @@
 // import { useState } from "react";
-import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconDoorExit, IconTool } from "@tabler/icons-react"
+import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconDoorExit, IconStar, IconStarFilled, IconTool } from "@tabler/icons-react"
 import { useVideoInfoContext } from "../Contexts/VideoDataProvider"
 import useOshiraseBellQuery from "@/hooks/apiHooks/global/oshiraseBell"
 import { useHeaderActionStateContext, useSetHeaderActionStateContext, useSetMintConfigShownContext } from "../Contexts/ModalStateProvider"
@@ -12,6 +12,7 @@ import Navbar from "./Navbar/Navbar"
 import SideMenu from "./Navbar/SideMenu"
 import { NavigationDndWrapper } from "./Navbar/NavigationCustomDragContext"
 import useServerContext from "@/hooks/serverContextHook"
+import HeaderActivities from "./Activities"
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`
@@ -42,6 +43,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
 
     const notificationElemWrapperRef = useRef(null)
     const myMenuElemWrapperRef = useRef(null)
+    const activitiesElemWrapperRef = useRef(null)
 
     const isFixedHeaderEnabled = syncStorage.enableFixedHeader ?? getDefault("enableFixedHeader")
     const navbarType = (syncStorage.pmwlayouttype === "shinjuku" && !syncStorage.shinjukuEnableNavbar) ? "disable" : syncStorage.navbarType ?? getDefault("navbarType")
@@ -56,6 +58,9 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     }
     function onMyMenuOpen() {
         setHeaderModalType(state => state !== "mymenu" || isSetToQuickHeaderAction ? "mymenu" : false)
+    }
+    function onActivitiesOpen() {
+        setHeaderModalType(state => state !== "activities" || isSetToQuickHeaderAction ? "activities" : false)
     }
 
     return (
@@ -97,6 +102,16 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                         </div>
                         <div className="header-center-right">
                             <div className="global-flex header-usercontainer">
+                                <button
+                                    className="header-notificationbutton"
+                                    onClick={onActivitiesOpen}
+                                    onMouseEnter={() => { if (isSetToQuickHeaderAction) onActivitiesOpen() }}
+                                    onMouseLeave={() => { if (isSetToQuickHeaderAction) setHeaderModalType(false) }}
+                                    data-is-active={headerModalType === "activities"}
+                                    title="フォロー新着"
+                                >
+                                    { oshiraseBellData && oshiraseBellData.data.badge ? <IconStarFilled /> : <IconStar /> }
+                                </button>
                                 <button
                                     className="header-notificationbutton"
                                     onClick={onNotificationOpen}
@@ -145,6 +160,17 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                         { isSetToQuickHeaderAction && <IconChevronDown /> }
                                     </a>
                                 )}
+                                <CSSTransition
+                                    nodeRef={activitiesElemWrapperRef}
+                                    in={headerModalType === "activities" && isSetToQuickHeaderAction}
+                                    timeout={300}
+                                    unmountOnExit
+                                    classNames="headeraction-quickmodal-transition"
+                                >
+                                    <div className="headeraction-quickmodal-wrapper" ref={activitiesElemWrapperRef} onMouseEnter={onActivitiesOpen} onMouseLeave={() => setHeaderModalType(false)}>
+                                        <HeaderActivities />
+                                    </div>
+                                </CSSTransition>
                                 <CSSTransition
                                     nodeRef={notificationElemWrapperRef}
                                     in={headerModalType === "notifications" && isSetToQuickHeaderAction}

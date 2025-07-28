@@ -2,8 +2,8 @@ import { Card } from "@/components/Global/InfoCard"
 import { useVideoTimelineData } from "@/hooks/apiHooks/watch/videoTimelineData"
 import { secondsToTime } from "@/utils/readableValue"
 
-const splitWithYMD = (items: VideoTimelineDataRootObject["activities"]) => {
-    const result: { [key: string]: VideoTimelineDataRootObject["activities"] } = {}
+const splitWithYMD = (items: Activity[]) => {
+    const result: { [key: string]: Activity[] } = {}
 
     items.forEach((item) => {
         // createdAt を日付文字列に変換(YYYY-MM-DD)

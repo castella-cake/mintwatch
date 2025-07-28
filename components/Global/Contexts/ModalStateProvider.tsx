@@ -5,8 +5,10 @@ type videoModalState = false | "mylist" | "share" | "ngcomments" | "help" | "sho
 const IVideoModalStateContext = createContext<videoModalState>(false)
 const ISetVideoModalStateContext = createContext<Dispatch<SetStateAction<videoModalState>>>(() => { })
 
-const IHeaderActionStateContext = createContext<false | "notifications" | "mymenu">(false)
-const ISetHeaderActionStateContext = createContext<Dispatch<SetStateAction<false | "notifications" | "mymenu">>>(null!)
+type HeaderActionState = false | "notifications" | "mymenu" | "activities"
+
+const IHeaderActionStateContext = createContext<HeaderActionState>(false)
+const ISetHeaderActionStateContext = createContext<Dispatch<SetStateAction<HeaderActionState>>>(null!)
 
 const IMintConfigShownContext = createContext<boolean>(false)
 const ISetMintConfigShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { })
@@ -16,9 +18,7 @@ const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>
 
 export function ModalStateProvider({ children }: { children: ReactNode }) {
     const [videoActionModalState, setVideoActionModalState] = useState<videoModalState>(false)
-    const [headerActionState, setHeaderActionState] = useState<
-        false | "notifications" | "mymenu"
-    >(false)
+    const [headerActionState, setHeaderActionState] = useState<HeaderActionState>(false)
     const [mintConfigShown, setMintConfigShown] = useState(false)
     const [isSideMenuShown, setIsSideMenuShown] = useState(false)
 

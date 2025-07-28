@@ -1,16 +1,16 @@
-export interface VideoTimelineDataRootObject {
+export interface ActivitiesDataRootObject {
     activities: Activity[]
     code: string
     impressionId: string
     nextCursor: string
 }
 
-interface Activity {
+export interface Activity {
     sensitive: boolean
     message: Message
     thumbnailUrl: string
     label: Message
-    content: ActivityContent
+    content: Content
     id: string
     kind: string
     createdAt: string
@@ -26,13 +26,19 @@ interface Actor {
     isLive: boolean
 }
 
-interface ActivityContent {
+interface Content {
     type: string
     id: string
     title: string
     url: string
     startedAt: string
-    video: Video
+    video?: Video
+    program?: Program
+}
+
+interface Program {
+    statusCode: string
+    providerType: string
 }
 
 interface Video {
