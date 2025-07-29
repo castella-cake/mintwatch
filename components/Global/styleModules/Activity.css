@@ -51,6 +51,7 @@
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     opacity: 0.8;
+    font-size: 0.8rem;
 }
 
 .activities-item-container {
