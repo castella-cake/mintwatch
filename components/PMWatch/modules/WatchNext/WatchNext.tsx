@@ -1,10 +1,10 @@
 import { useEffect } from "react"
 // import { useLang } from "../localizeHook";
-import { Timeline } from "./Timeline"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { wheelTranslator } from "../commonFunction"
 import Recommend from "./Recommend"
 import UserVideos from "./UserVideos"
+import { VideoActivities } from "@/components/Global/Activities/VideoActivities"
 
 function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean }) {
     const { videoInfo } = useVideoInfoContext()
@@ -60,7 +60,7 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
                 <div className="watchnext-content" ref={contentRef}>
                     {recommendDisplayType === "recommend" && <Recommend />}
                     {recommendDisplayType === "userVideos" && <UserVideos videoOwnerData={videoOwnerData} />}
-                    {recommendDisplayType === "timeline" && <Timeline />}
+                    {recommendDisplayType === "timeline" && <VideoActivities />}
                 </div>
             </div>
         </div>
