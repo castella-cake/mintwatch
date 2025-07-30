@@ -105,9 +105,9 @@
             height: 1.5rem;
             font-size: 0.7rem;
             color: #fff;
-            padding: 0 0.5rem;
             background: #aaaa;
-            width: 1.5rem;
+            width: 2.5rem;
+            padding: 0;
             display: inline-block;
             text-align: center;
             letter-spacing: 1px;
