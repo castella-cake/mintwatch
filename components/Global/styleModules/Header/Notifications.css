@@ -1,8 +1,11 @@
 .notifications-container {
     position: absolute;
     inset: 0;
-    padding: 8px;
     overflow-y: auto;
+}
+
+.notifications-content {
+    padding: 8px;
 }
 
 .notifications-title {

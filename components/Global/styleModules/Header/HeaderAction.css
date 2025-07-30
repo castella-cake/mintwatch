@@ -96,7 +96,6 @@
         background: var(--bgcolor1);
         width: min(25em,98vw);
         height: 90vh;
-        padding: 16px;
         border: var(--border);
         border-radius: var(--radius);
         font-size: 1rem;
@@ -120,4 +119,25 @@
         transform: translateY(0%);
         opacity: 1;
     }
+}
+
+.header-action-title {
+    display: flex;
+    background: var(--bgcolor2);
+    padding: 10px;
+    border-bottom: var(--border);
+    border-radius: var(--radius) var(--radius) 0 0;
+
+    > div {
+        flex: 1;
+    }
+
+    .header-action-title-center {
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.headeraction-modal-container .header-action-title {
+    display: none;
 }
