@@ -1,4 +1,5 @@
 import { PublishActivities } from "../Activities/PublishActivities"
+import { Actors } from "../Actor"
 
 export default function HeaderActivities() {
     return (
@@ -9,6 +10,7 @@ export default function HeaderActivities() {
                 <div className="header-action-title-right"></div>
             </div>
             <div className="header-activities-content">
+                <Actors />
                 <PublishActivities />
             </div>
         </div>
