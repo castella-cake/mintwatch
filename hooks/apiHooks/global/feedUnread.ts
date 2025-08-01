@@ -1,17 +1,24 @@
-import { OshiraseBellDataRootObject } from "@/types/OshiraseBellData"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { FeedUnreadDataRootObject } from "@/types/FeedUnreadData"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export default function useUnreadQuery() {
+export default function useFeedUnreadQuery() {
     const queryClient = useQueryClient()
-    const { data: oshiraseBellData } = useQuery({
+    const { data: feedUnreadData } = useQuery({
         queryKey: ["unreadQuery"],
         queryFn: () => {
-            return getOshiraseBell()
+            return getFeedUnread()
         },
     })
 
-    function setOshiraseBellData(data: OshiraseBellDataRootObject) {
-        queryClient.setQueryData(["oshiraseBell"], data)
+    const queryFeedRead = useMutation({
+        mutationFn: async (requestWith: string) => {
+            return await postFeedRead(requestWith)
+        },
+        onSuccess: () => { setFeedUnreadData({ code: "ok", isUnread: false }) },
+    })
+
+    function setFeedUnreadData(data: FeedUnreadDataRootObject) {
+        queryClient.setQueryData(["unreadQuery"], data)
     }
-    return { oshiraseBellData, setOshiraseBellData }
+    return { feedUnreadData, queryFeedRead, setFeedUnreadData }
 }

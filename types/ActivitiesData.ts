@@ -1,6 +1,5 @@
-export interface ActivitiesDataRootObject {
+export interface ActivitiesDataRootObject extends feedBaseResponse {
     activities: Activity[]
-    code: string
     impressionId: string
     nextCursor: string
 }

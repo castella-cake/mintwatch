@@ -33,6 +33,26 @@ export async function getPublishTimeline(context = "header_timeline") {
     return responseJson
 }
 
+/**
+ * 未読のフォロー新着があるかを返すAPI
+ */
+export async function getFeedUnread() {
+    const response = await fetch("https://api.feed.nicovideo.jp/v1/unread", {
+        headers: {
+            "x-frontend-id": "6",
+        },
+        method: "GET",
+        credentials: "include",
+    })
+    const responseJson = await response.json() as FeedUnreadDataRootObject
+    if (responseJson.code !== "ok") throw new APIError("postFeedRead failed: response code is not ok", responseJson)
+    return responseJson
+}
+
+/**
+ * フォロー新着を既読としてマーク
+ * @param requestWith 現在のURL
+ */
 export async function postFeedRead(requestWith: string) {
     const response = await fetch("https://api.feed.nicovideo.jp/v1/read", {
         headers: {
@@ -44,20 +64,7 @@ export async function postFeedRead(requestWith: string) {
         credentials: "include",
     })
 
-    const responseJson = await response.json()
-    if (responseJson.code !== "ok") throw new APIError("postFeedRead failed: response code is not ok", responseJson)
-    return responseJson
-}
-
-export async function getFeedUnread() {
-    const response = await fetch("https://api.feed.nicovideo.jp/v1/unread", {
-        headers: {
-            "x-frontend-id": "6",
-        },
-        method: "GET",
-        credentials: "include",
-    })
-    const responseJson = await response.json() as { code: string, isUnread: boolean }
+    const responseJson = await response.json() as feedBaseResponse
     if (responseJson.code !== "ok") throw new APIError("postFeedRead failed: response code is not ok", responseJson)
     return responseJson
 }

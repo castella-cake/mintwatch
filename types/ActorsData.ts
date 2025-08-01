@@ -1,6 +1,5 @@
-export interface ActorsDataRootObject {
+export interface ActorsDataRootObject extends feedBaseResponse {
     actors: Actor[]
-    code: string
 }
 
 interface Actor {

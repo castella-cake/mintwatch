@@ -13,6 +13,7 @@ import SideMenu from "./Navbar/SideMenu"
 import { NavigationDndWrapper } from "./Navbar/NavigationCustomDragContext"
 import useServerContext from "@/hooks/serverContextHook"
 import HeaderActivities from "./Activities"
+import useFeedUnreadQuery from "@/hooks/apiHooks/global/feedUnread"
 
 function onVanillaPageReturn() {
     location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`
@@ -41,6 +42,8 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
 
     const { oshiraseBellData, setOshiraseBellData } = useOshiraseBellQuery()
 
+    const { feedUnreadData, queryFeedRead } = useFeedUnreadQuery()
+
     const notificationElemWrapperRef = useRef(null)
     const myMenuElemWrapperRef = useRef(null)
     const activitiesElemWrapperRef = useRef(null)
@@ -61,6 +64,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     }
     function onActivitiesOpen() {
         setHeaderModalType(state => state !== "activities" || isSetToQuickHeaderAction ? "activities" : false)
+        if (feedUnreadData?.isUnread) queryFeedRead.mutate(location.toString())
     }
 
     return (
@@ -110,7 +114,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                     data-is-active={headerModalType === "activities"}
                                     title="フォロー新着"
                                 >
-                                    { oshiraseBellData && oshiraseBellData.data.badge ? <IconStarFilled /> : <IconStar /> }
+                                    { feedUnreadData?.isUnread ? <IconStarFilled /> : <IconStar /> }
                                 </button>
                                 <button
                                     className="header-notificationbutton"
