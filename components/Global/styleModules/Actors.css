@@ -1,0 +1,42 @@
+.actors-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 8px;
+    border-bottom: var(--border);
+}
+
+.actors-title {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.actors {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.actor {
+    padding: 4px;
+    border-radius: 1024px;
+}
+
+.actor[data-is-live="false"] {
+    display: none;
+}
+
+.actor[data-is-live="true"] {
+    border: 2px solid var(--textcolornew);
+}
+
+.actor-icon {
+    height: 3rem;
+    border-radius: 1024px;
+}
+
+.actors-nouser {
+    font-size: 0.8rem;
+    opacity: 0.5;
+}

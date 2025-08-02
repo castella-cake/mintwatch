@@ -1,54 +1,4 @@
-.video-timeline-date-title {
-    border-bottom: 2px solid var(--bgcolor3);
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.video-timeline-activity-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.video-timeline-activity-message-container {
-    display: grid;
-    grid-template-areas: "img own" "img msg";
-    grid-template-columns: 3em 1fr;
-    gap: 0 0.5em;
-    margin-bottom: 8px;
-}
-
-img.video-timeline-activity-icon {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    grid-area: img;
-    border-radius: var(--radius);
-    background: var(--bgcolor1);
-}
-
-.video-timeline-activity-message-actor {
-    grid-area: own;
-    font-size: 1rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.video-timeline-activity-message {
-    grid-area: msg;
-    opacity: 0.8;
-}
-
-.video-timeline-activity {
-    padding: 8px;
-    border: var(--border);
-    border-radius: var(--radius);
-}
-
-.watchnext-content {
-    margin-right: 4px;
-}
-
-.video-timeline-activity .info-card {
+.activity .info-card {
     margin-bottom: 0 !important;
 }
 
@@ -63,11 +13,11 @@ img.video-timeline-activity-icon {
         width: min-content; // max-contentにすると一部表示が崩れるのでminで
     }
 
-    .video-timeline-activity-container {
+    .activities-item-container {
         display: grid;
         font-size: 0.9em;
         grid-template-rows: repeat(2, 1fr);
-        grid-auto-columns: 12rem;
+        grid-auto-columns: auto;
         grid-auto-flow: column;
         overflow: hidden;
         white-space: nowrap;
@@ -78,21 +28,21 @@ img.video-timeline-activity-icon {
         .info-card {
             height: auto;
             margin: auto;
-            width: auto;
+            width: 100%;
+            place-self: stretch;
+            margin-top: 8px;
         }
     }
 
-    .video-timeline-date-title {
+    .activities-date-title {
         border-left: 2px solid var(--bgcolor3);
         padding-left: 8px
     }
 
-    .video-timeline-activity {
+    .activity {
         border-radius: var(--radius-mini);
-    }
-
-    .video-timeline-activity-message-container {
-        margin-right: 8px;
-        margin-bottom: 4px;
+        overflow: hidden;
+        width: 13rem;
+        text-overflow: ellipsis;
     }
 }

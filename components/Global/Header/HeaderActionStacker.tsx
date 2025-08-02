@@ -1,6 +1,7 @@
 import {
     IconBell,
     IconCategory,
+    IconStar,
     IconX,
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
@@ -9,6 +10,7 @@ import MyMenu from "./MyMenu"
 import { CSSTransition } from "react-transition-group"
 import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../Contexts/ModalStateProvider"
 import { RefObject } from "react"
+import HeaderActivities from "./Activities"
 
 export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const headerActionState = useHeaderActionStateContext()
@@ -27,6 +29,19 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
             <ReactFocusLock>
                 <div className="headeraction-modal-container" ref={nodeRef}>
                     <div className="headeraction-modal-header global-flex">
+                        <button
+                            className="headeraction-select"
+                            onClick={() => {
+                                setHeaderActionState("activities")
+                            }}
+                            data-is-active={
+                                headerActionState === "activities" ? "true" : "false"
+                            }
+                        >
+                            <IconStar />
+                            {" "}
+                            新着
+                        </button>
                         <button
                             className="headeraction-select"
                             onClick={() => {
@@ -51,7 +66,7 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                         >
                             <IconCategory />
                             {" "}
-                            マイメニュー
+                            メニュー
                         </button>
                         <button
                             className="headeraction-modal-close"
@@ -68,6 +83,9 @@ export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivEle
                         )}
                         {headerActionState === "mymenu" && (
                             <MyMenu />
+                        )}
+                        {headerActionState === "activities" && (
+                            <HeaderActivities />
                         )}
                     </div>
                 </div>

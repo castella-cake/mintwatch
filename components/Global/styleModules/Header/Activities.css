@@ -1,0 +1,17 @@
+.header-activities-container {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+}
+
+.header-activities-content {
+    grid-area: content;
+    background: var(--bgcolor1);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.8rem;
+    margin: 4px 0;
+    padding: 8px;
+}
