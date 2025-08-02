@@ -32,7 +32,7 @@ export default function RouterUI() {
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
     const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
-    function linkClickHandler(e: React.MouseEvent) {
+    const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
@@ -56,7 +56,7 @@ export default function RouterUI() {
                 window.scroll({ top: 0 })
             }
         }
-    }
+    }, [setBackgroundPlaying, location, history])
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
             if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
@@ -74,19 +74,19 @@ export default function RouterUI() {
     const setMintConfigShown = useSetMintConfigShownContext()
     const setSideMenuShown = useSetSideMenuShownContext()
 
-    function handleKeydown(e: React.KeyboardEvent) {
+    const handleKeydown = useCallback((e: React.KeyboardEvent) => {
         if (e.key === "Escape") {
             setHeaderActionState(false)
             setMintConfigShown(false)
             setSideMenuShown(false)
         }
-    }
+    }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
-    function onModalOutsideClick(e: React.MouseEvent<HTMLDivElement>) {
+    const onModalOutsideClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
         if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setMintConfigShown(false)
         if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
-    }
+    }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
     return (
         <div className="router" onClickCapture={linkClickHandler} onKeyDown={handleKeydown} onClick={onModalOutsideClick}>
