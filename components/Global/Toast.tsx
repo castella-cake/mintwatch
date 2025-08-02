@@ -13,6 +13,8 @@ export default function Toast() {
         ])
     }
 
+    if (toastState.length < 1) return
+
     return (
         <div className="toast-wrapper">
             <ReactFocusLock>
