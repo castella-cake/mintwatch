@@ -10,12 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - アラート表示が自作のもっとリッチな表示に変わりました [#32](https://github.com/castella-cake/mintwatch/issues/32)
 - マイリストへの追加成功時にアラートが表示されるようになりました
+- トースト通知を追加しました [#13](https://github.com/castella-cake/mintwatch/issues/13)
+- 「MintWatch について」ヘルプを追加しました
+- オンボーディングを追加しました [#37](https://github.com/castella-cake/mintwatch/issues/37)
+- ヘッダーからフォロー新着が読めるようになりました [#28](https://github.com/castella-cake/mintwatch/issues/28)
 
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
 
 ### Fixed
 - コメントリストのオートスクロールを修正しました
+- ランキングページのタブ切り替えができない問題を修正しました [#36](https://github.com/castella-cake/mintwatch/issues/36)
 
 ## 0.8.0 - 2025/06/27
 
