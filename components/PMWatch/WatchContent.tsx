@@ -192,7 +192,7 @@ export function WatchContent(_props: Props) {
             data-use-horizontal-search={shouldUseHorizontalSearchLayout}
             data-use-card-info={shouldUseCardInfo}
             id="pmw-container"
-            onClickCapture={(e) => { linkClickHandler(e) }}
+            onClickCapture={linkClickHandler}
         >
             <div className="watch-container-grid">
                 {currentLayout}

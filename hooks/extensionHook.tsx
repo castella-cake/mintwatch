@@ -53,7 +53,7 @@ export function useManifestData() {
 
 export function useStorage() {
     const [storages, _setStorageVar] = useState<{ local: { [key: string]: any }, sync: { [key: string]: any }, isLoaded: boolean }>({ local: {}, sync: {}, isLoaded: false })
-    function setLocalStorageValue(name: string, value: any, silent = false) {
+    const setLocalStorageValue = useCallback((name: string, value: any, silent = false) => {
         if (!silent) {
             _setStorageVar((current) => {
                 return {
@@ -66,8 +66,8 @@ export function useStorage() {
             })
         }
         browser.storage.local.set({ [name]: value })
-    }
-    function setSyncStorageValue(name: string, value: any) {
+    }, [_setStorageVar])
+    const setSyncStorageValue = useCallback((name: string, value: any) => {
         _setStorageVar((current) => {
             return {
                 ...current,
@@ -78,7 +78,7 @@ export function useStorage() {
             }
         })
         browser.storage.sync.set({ [name]: value })
-    }
+    }, [_setStorageVar])
     useEffect(() => {
         async function setStorage() {
             const localStorage = await getLocalStorageData()

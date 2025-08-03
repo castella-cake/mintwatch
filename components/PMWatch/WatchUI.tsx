@@ -43,7 +43,7 @@ function CreateWatchUI() {
         }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [videoRef.current, smId, syncStorage])
+    }, [smId, syncStorage.autoScrollPositionOnVideoChange])
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する

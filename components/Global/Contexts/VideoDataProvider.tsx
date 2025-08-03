@@ -23,11 +23,11 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     const setBackgroundPlayInfo = useSetBackgroundPlayInfoContext()
     const { videoInfo, errorInfo } = useVideoDataQuery(smId)
     // console.log(videoInfo)
-    const [actionTrackId, setActionTrackId] = useState(generateActionTrackId())
+    const actionTrackId = useRef(generateActionTrackId())
 
     useEffect(() => {
         const newActionTrackId = generateActionTrackId()
-        setActionTrackId(newActionTrackId)
+        actionTrackId.current = newActionTrackId
         document.dispatchEvent(
             new CustomEvent("pmw_actionTrackIdGenerated", {
                 detail: newActionTrackId,
@@ -39,7 +39,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
         if (
             videoInfo
             && videoInfo.meta?.status === 200
-            && actionTrackId !== ""
+            && actionTrackId.current !== ""
         ) {
             if (videoInfo.data.response.video) {
                 setBackgroundPlayInfo({
@@ -59,7 +59,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     }, [videoInfo])
 
     return (
-        <IActionTrackDataContext.Provider value={actionTrackId}>
+        <IActionTrackDataContext.Provider value={actionTrackId.current}>
             <IVideoInfoContext.Provider value={{ videoInfo, errorInfo }}>
                 {children}
             </IVideoInfoContext.Provider>

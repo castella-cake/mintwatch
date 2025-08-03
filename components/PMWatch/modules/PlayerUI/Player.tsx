@@ -57,7 +57,6 @@ function Player(props: Props) {
 
     const videoId = videoInfo?.data?.response.video.id ?? ""
 
-    // const lang = useLang()
     const { localStorage, setLocalStorageValue, syncStorage }
         = useStorageContext()
 
