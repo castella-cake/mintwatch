@@ -110,3 +110,28 @@ export function StorageProvider({ children }: { children: ReactNode }) {
 export function useStorageContext() {
     return useContext(IStorageContext)
 }
+
+/**
+ * 拡張機能ストレージから必要なキーのみを取得するフック
+ * @param keys 取得するキーの配列(as const を使うこと)
+ * @param type 種別 (デフォルトはsync)
+ * @returns 統合されたオブジェクト
+ */
+export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync" | "local" | "session" | "managed" = "sync"): { [P in K[number]]?: any } {
+    const [storageObject, setStorageObject] = useState<{ [P in K[number]]: string }>({} as { [P in K[number]]: string })
+    useEffect(() => {
+        storage.getItems(keys.map(k => `${type}:${k}` as StorageItemKey)).then(i => setStorageObject({ ...i.reduce((p, c) => ({ ...p, [c.key.replace(`${type}:`, "")]: c.value }), {}) } as { [P in K[number]]: string }))
+        const unwatchFunctions = keys.map(k => storage.watch(`${type}:${k}` as StorageItemKey, n => setStorageObject(s => ({ ...s, [k]: n } as { [P in K[number]]: string }))))
+        return () => {
+            for (const unwatch of unwatchFunctions) {
+                unwatch()
+            }
+        }
+    }, [])
+    return storageObject
+}
+
+export function usePlayerSettings() {
+    const { playersettings } = useStorageVar(["playersettings"] as const, "local")
+    return playersettings ?? {}
+}
