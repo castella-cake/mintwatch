@@ -87,7 +87,7 @@ function PlayerController(props: Props) {
     const [isIconPlay, setIsIconPlay] = useState(false)
 
     const [isMuted, setIsMuted] = useState(localStorage.isMuted || false)
-    const [videoVolume, setVideoVolume] = useState(localStorage.volume || localStorage.volume === 0 ? localStorage.volume : 50)
+    const [videoVolume, setVideoVolume] = useState(localStorage.volume ?? 50)
     const [isLoop, setIsLoop] = useState<boolean>(localStorage.isLoop || false)
 
     const isMutedRef = useRef(isMuted)
@@ -120,6 +120,12 @@ function PlayerController(props: Props) {
     }
 
     useEffect(() => {
+        if (localStorage.isMuted) setIsMuted(localStorage.isMuted)
+        if (localStorage.isLoop) setIsLoop(localStorage.isLoop)
+        if (localStorage.volume) setVideoVolume(localStorage.volume)
+    }, [localStorage.isMuted, localStorage.isLoop, localStorage.volume])
+
+    useEffect(() => {
         const video = videoRef.current
         if (video) {
             video.volume = videoVolume / 100
@@ -150,11 +156,11 @@ function PlayerController(props: Props) {
         const setIconToPlay = () => setIsIconPlay(true)
         const updateVolumeState = () => {
             if (!videoRef.current) return
-            if (videoRef.current.volume !== videoVolumeRef.current / 100) {
+            if (videoRef.current.volume !== videoVolume / 100) {
                 setVideoVolume(videoRef.current.volume * 100)
                 storage.setItem("local:volume", videoRef.current.volume * 100)
             }
-            if (videoRef.current.muted !== isMutedRef.current) {
+            if (videoRef.current.muted !== isMuted) {
                 setIsMuted(videoRef.current.muted)
                 storage.setItem("local:isMuted", videoRef.current.muted)
             }
@@ -169,7 +175,7 @@ function PlayerController(props: Props) {
             videoRef.current?.removeEventListener("pause", setIconToPlay)
             videoRef.current?.removeEventListener("volumechange", updateVolumeState)
         }
-    }, [videoRef.current])
+    }, [videoRef.current, videoVolume, isMuted])
 
     useEffect(() => {
         const updateCurrentTime = () => {
