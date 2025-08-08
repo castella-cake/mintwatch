@@ -31,19 +31,19 @@ export default function RouterRoot() {
             <ErrorBoundary
                 fallbackRender={({ error }: { error: Error }) => {
                     return (
-                        <div className="pmwatch-error-boundary-wrapper">
-                            <div className="pmwatch-error-boundary-container">
-                                <h1>
+                        <div className="pmwatch-outofbound-wrapper">
+                            <div className="pmwatch-outofbound-container">
+                                <h2>
                                     <IconBoom />
                                     {" "}
-                                    Aw, snap!
-                                </h1>
+                                    <span>Aw, snap!</span>
+                                </h2>
                                 <p>
                                     申し訳ありません。MintWatch の表示中に重大なエラーが発生しました。
                                     <br />
                                     この問題を開発者に Github もしくは Discord 経由で報告してください。
                                 </p>
-                                <p className="pmwatch-error-boundary-msg">
+                                <p className="pmwatch-outofbound-msg">
                                     <code>{error.message}</code>
                                 </p>
                                 {error.stack && (
@@ -51,12 +51,12 @@ export default function RouterRoot() {
                                         <p>
                                             コールスタック:
                                         </p>
-                                        <pre className="pmwatch-error-boundary-msg">
+                                        <pre className="pmwatch-outofbound-msg">
                                             <code>{error.stack}</code>
                                         </pre>
                                     </>
                                 )}
-                                <p className="pmwatch-error-boundary-button-container">
+                                <p className="pmwatch-outofbound-button-container">
                                     ページを再読み込みして再試行できます。
                                     <br />
                                     <a href="https://www.nicovideo.jp/video_top">

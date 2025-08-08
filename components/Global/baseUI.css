@@ -1,4 +1,4 @@
-html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette="starnight"]) {
+html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]) {
     /* 基本背景色 */
     --bgcolor1: #f8f8fa;
 
@@ -33,7 +33,7 @@ html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette=
     --hrjk-logo-filter: brightness(0.973);
 }
 
-html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette="starnight"]) .container.fullscreen, html.PMDMP-light .container.fullscreen, html.PMDMP-nordlight .container.fullscreen {
+html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]) .container.fullscreen, html.PMDMP-light .container.fullscreen, html.PMDMP-nordlight .container.fullscreen {
     --bgcolor1: #252525;
     --bgcolor2: #333;
     --bgcolor3: #666;
@@ -57,7 +57,7 @@ html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette=
     --modal-background: var(--bgcolor2);
 }
 
-html.PMDMP-pmcolor, html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"]) {
+html.PMDMP-pmcolor, html:not([class*="PMDMP-"], [data-mw-palette="dark"]) {
     --hrjk-logo-filter: brightness(0.86) invert(1);
 }
 
@@ -73,12 +73,12 @@ html {
     --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
 }
 
-html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette="starnight"]), html.PMDMP-light, html.PMDMP-nordlight {
+html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]), html.PMDMP-light, html.PMDMP-nordlight {
     --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_black.svg");
 }
 
 @media (prefers-color-scheme: dark) {
-    html:not([class*="PMDMP-"]) body:not([data-mw-palette="light"], [data-mw-palette="starnight"]) {
+    html:not([class*="PMDMP-"], [data-mw-palette="light"], [data-mw-palette="starnight"]) {
         --bgcolor1: #252525;
         --bgcolor2: #333;
         --bgcolor3: #666;
@@ -108,7 +108,7 @@ html:not([class*="PMDMP-"]) body:not([data-mw-palette="dark"], [data-mw-palette=
 }
 
 
-body[data-mw-palette="starnight"] {
+html[data-mw-palette="starnight"] body {
     --bgcolor1: #090f14;
     --bgcolor2: #0d1925;
     --bgcolor3: #243a4e;
@@ -153,7 +153,7 @@ body {
     --transition-normal: background 0.1s ease, color 0.1s ease;
 }
 
-body.MW-Enabled {
+html.MW-Enabled body {
     background: var(--bgcolor1);
     color: var(--textcolor1);
     font-family: Avenir, Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, "メイリオ", "Noto Sans JP", "IBM Plex Sans JP", sans-serif;

@@ -2,14 +2,14 @@ import { ServerContextRootObject } from "@/types/serverContextData"
 
 export default function useServerContext() {
     if (
-        document.getElementsByName("server-context").length > 0
+        document.getElementsByName("server-context-mw").length > 0
         && typeof document
-            .getElementsByName("server-context")[0]
+            .getElementsByName("server-context-mw")[0]
             .getAttribute("content") === "string"
     ) {
         return JSON.parse(
             document
-                .getElementsByName("server-context")[0]
+                .getElementsByName("server-context-mw")[0]
                 .getAttribute("content")!,
         ) as ServerContextRootObject
     } else {

@@ -18,7 +18,6 @@ import { StatsOverlay } from "./StatsOverlay"
 import { CSSTransition } from "react-transition-group"
 import { EndCard } from "./EndCard"
 import { effectsState, useAudioEffects } from "@/hooks/eqHooks"
-import { useStorageContext } from "@/hooks/extensionHook"
 import { ErrorScreen } from "./ErrorScreen"
 import { CommentRender } from "./CommentRender"
 import { VideoPlayer } from "./VideoPlayer"
@@ -36,6 +35,7 @@ import BackgroundController from "./BackgroundController"
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider"
 import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 type Props = {
     isFullscreenUi: boolean
@@ -47,6 +47,7 @@ type Props = {
 function Player(props: Props) {
     const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged } = props
 
+    const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
     const commentContent = useCommentContentContext()
     const videoRef = useVideoRefContext()
@@ -55,10 +56,35 @@ function Player(props: Props) {
     const recommendData = useRecommendContext()
     const { ngData } = useViewerNgContext()
 
-    const videoId = videoInfo?.data?.response.video.id ?? ""
+    const videoId = smId ?? ""
 
-    const { localStorage, setLocalStorageValue, syncStorage }
-        = useStorageContext()
+    const localStorage = useStorageVar([
+        "enableLoudnessData",
+        "vefxSettings",
+        "preferredLevel",
+        "resumePlayback",
+        "requestMonitorFullscreen",
+        "playbackRate",
+        "sharedNgLevel",
+        "customCommentOpacity",
+        "enableContinuousPlay",
+        "continuousPlayWithRecommend",
+        "isLoop",
+        "enableShufflePlay",
+        "commentRenderFps",
+        "enableCommentPiP",
+        "integratedControl",
+        "enableWheelGesture",
+        "commentOpacity",
+        "disableCommentOutline",
+        "enableFancyRendering",
+        "enableInterpolateCommentRendering",
+        "enableBigView",
+    ] as const, "local")
+    const syncStorage = useStorageVar([
+        "pmwplayertype",
+        "pmwforcepagehls",
+    ] as const)
 
     const [isVefxShown, setIsVefxShown] = useState(false)
     const [isSettingsShown, setIsSettingsShown] = useState(false)
@@ -90,7 +116,7 @@ function Player(props: Props) {
     const settingsElemRef = useRef<HTMLDivElement>(null)
 
     const isLoudnessEnabled
-        = localStorage.playersettings.enableLoudnessData ?? true
+        = localStorage.enableLoudnessData ?? true
     const integratedLoudness
         = (
             videoInfo?.data?.response.media.domand && videoInfo?.data.response.media.domand?.audios.length > 0
@@ -98,21 +124,19 @@ function Player(props: Props) {
             && videoInfo?.data.response.media.domand.audios[0].loudnessCollection[0].value
         ) || 1
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1
-    const { effectsState, setEffectsState, frequencies, handleEffectsChange }
-        = useAudioEffects(
-            videoRef,
-            loudnessData,
-            localStorage.playersettings.vefxSettings,
-        )
+    const { effectsState, setEffectsState, frequencies, handleEffectsChange } = useAudioEffects(
+        videoRef,
+        loudnessData,
+        localStorage.vefxSettings,
+    )
     // エフェクト設定をリストア
     useEffect(() => {
         if (
             !localStorage
-            || !localStorage.playersettings
-            || !localStorage.playersettings.vefxSettings
+            || !localStorage.vefxSettings
         )
             return
-        setEffectsState(localStorage.playersettings.vefxSettings)
+        setEffectsState(localStorage.vefxSettings)
         handleEffectsChange(effectsState)
     }, [])
 
@@ -129,7 +153,7 @@ function Player(props: Props) {
         videoId,
         actionTrackId,
         shouldUseContentScriptHls,
-        localStorage.playersettings.preferredLevel || -1,
+        localStorage.preferredLevel || -1,
     )
 
     // ストーリーボード
@@ -138,12 +162,12 @@ function Player(props: Props) {
     useResumePlayback(
         videoRef,
         videoInfo,
-        localStorage.playersettings.resumePlayback,
+        localStorage.resumePlayback,
     )
 
     const toggleFullscreen = () => {
         const shouldRequestFullscreen
-            = localStorage.playersettings.requestMonitorFullscreen ?? true
+            = localStorage.requestMonitorFullscreen ?? true
         if (!isFullscreenUi && shouldRequestFullscreen) {
             document.body.requestFullscreen()
         } else if (document.fullscreenElement !== null) {
@@ -242,7 +266,7 @@ function Player(props: Props) {
     useEffect(() => {
         if (videoRef.current)
             videoRef.current.playbackRate
-                = localStorage.playersettings.playbackRate || 1.0
+                = localStorage.playbackRate || 1.0
     }, [localStorage])
 
     const filteredComments = useMemo(() => {
@@ -250,16 +274,16 @@ function Player(props: Props) {
         const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
-                (localStorage.playersettings.sharedNgLevel
+                (localStorage.sharedNgLevel
                     ?? "mid") as keyof typeof sharedNgLevelScore
             ],
             ngData,
         )
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
-        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.playersettings.customCommentOpacity ?? {})
+        const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
         return threadsOpacityApplied
-    }, [commentContent, videoInfo, localStorage.playersettings.sharedNgLevel, localStorage.playersettings.customCommentOpacity])
+    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
@@ -331,19 +355,19 @@ function Player(props: Props) {
             seconds: videoRef.current.currentTime,
         }
         putPlaybackPosition(playbackPositionBody)
-    }, [videoRef, videoId])
+    }, [videoRef, videoInfo])
 
     const onEnded = () => {
-        const enableContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
-        const withRecommend = localStorage.playersettings.continuousPlayWithRecommend ?? false
+        const enableContinuousPlay = localStorage.enableContinuousPlay ?? true
+        const withRecommend = localStorage.continuousPlayWithRecommend ?? false
 
         if (
             (enableContinuousPlay && (playlistData.items.length > 1 || withRecommend))
-            && !localStorage.playersettings.isLoop
+            && !localStorage.isLoop
         ) {
             playlistIndexControl(
                 1,
-                localStorage.playersettings.enableShufflePlay,
+                localStorage.enableShufflePlay,
                 true,
             )
         }
@@ -374,8 +398,8 @@ function Player(props: Props) {
     }, [videoInfo])
 
     const preferredCommentFps
-        = localStorage.playersettings.commentRenderFps ?? 60 // 未指定の場合は60にフォールバック
-    const commentRenderFps = localStorage.playersettings.enableCommentPiP
+        = localStorage.commentRenderFps ?? 60 // 未指定の場合は60にフォールバック
+    const commentRenderFps = localStorage.enableCommentPiP
         ? 60
         : preferredCommentFps // PiPでコメント表示する場合はメモリリークを防ぐために60FPSで固定する
     // .map() から生成されている string[] の一次元配列なら大丈夫だと信じて.reverse()する
@@ -393,17 +417,17 @@ function Player(props: Props) {
             className="player-container"
             id="pmw-player"
             data-is-pipvideo={
-                localStorage.playersettings.enableCommentPiP && isCommentShown
+                localStorage.enableCommentPiP && isCommentShown
                     ? "true"
                     : "false"
             }
             data-is-dynamic-controller={
-                localStorage.playersettings.integratedControl !== "never"
+                localStorage.integratedControl !== "never"
                     ? "true"
                     : "false"
             }
             data-is-integrated-controller={
-                localStorage.playersettings.integratedControl === "always"
+                localStorage.integratedControl === "always"
                 && !isFullscreenUi
                     ? "true"
                     : "false"
@@ -422,7 +446,7 @@ function Player(props: Props) {
                 videoAuthor={thisVideoAuthor}
                 videoGenre={videoInfo?.data.response.genre.label}
                 enableVolumeGesture={
-                    localStorage.playersettings.enableWheelGesture
+                    localStorage.enableWheelGesture
                 }
                 setShortcutFeedback={setShortcutFeedback}
             >
@@ -432,24 +456,24 @@ function Player(props: Props) {
                         pipVideoRef={pipVideoRef}
                         isCommentShown={isCommentShown}
                         commentOpacity={
-                            localStorage.playersettings.commentOpacity || 1
+                            localStorage.commentOpacity || 1
                         }
                         threads={filteredComments}
                         videoOnClick={videoOnClick}
                         enableCommentPiP={
-                            localStorage.playersettings.enableCommentPiP
+                            localStorage.enableCommentPiP
                             && !previewCommentItem
                         }
                         disableCommentOutline={
-                            localStorage.playersettings.disableCommentOutline
+                            localStorage.disableCommentOutline
                             ?? false
                         }
                         enableFancyRendering={
-                            localStorage.playersettings.enableFancyRendering
+                            localStorage.enableFancyRendering
                             ?? false
                         }
                         enableInterpolateCommentRendering={
-                            localStorage.playersettings.enableInterpolateCommentRendering
+                            localStorage.enableInterpolateCommentRendering
                             ?? true
                         }
                         commentRenderFps={commentRenderFps}
@@ -473,14 +497,7 @@ function Player(props: Props) {
                         frequencies={frequencies}
                         effectsState={effectsState}
                         onEffectsChange={(state: effectsState) => {
-                            setLocalStorageValue(
-                                "playersettings",
-                                {
-                                    ...localStorage.playersettings,
-                                    vefxSettings: state,
-                                },
-                                true,
-                            )
+                            storage.setItem("local:vefxSettings", state)
                             // 反映して再レンダリング
                             handleEffectsChange(state)
                             setEffectsState(state)
@@ -522,7 +539,7 @@ function Player(props: Props) {
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
                 <ErrorScreen hlsErrorInfo={errorInfo} />
-                {isFullscreenUi && localStorage.playersettings.enableBigView && <VideoTitle showStats={true} />}
+                {isFullscreenUi && localStorage.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">
                 <PlayerController

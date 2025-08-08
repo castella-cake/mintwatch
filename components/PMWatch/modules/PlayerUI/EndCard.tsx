@@ -8,7 +8,8 @@ export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
     const recommendData = useRecommendData(smId)
-    const { localStorage, syncStorage } = useStorageContext()
+    const syncStorage = useStorageVar(["muteKokenVoice"] as const, "sync")
+    const localStorage = useStorageVar(["isMuted", "volume", "isLoop", "enableShufflePlay", "rewindTime", "enableBigView"] as const, "local")
     const supportersInfo = usePickupSupportersData(smId)
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [duration, setDuration] = useState<number>(Infinity)
@@ -30,9 +31,9 @@ export function EndCard({ smId }: { smId: string }) {
         // console.log("vol set:", audioElemRef.current)
         if (!audioElemRef.current) return
 
-        audioElemRef.current.volume = (localStorage.playersettings.volume ?? 50) * 0.01
-        audioElemRef.current.muted = localStorage.playersettings.isMuted ?? false
-    }, [localStorage.playersettings, audioElemRef.current, currentTime])
+        audioElemRef.current.volume = (localStorage.volume ?? 50) * 0.01
+        audioElemRef.current.muted = localStorage.isMuted ?? false
+    }, [localStorage.volume, localStorage.isMuted, audioElemRef.current, currentTime])
 
     if (currentTime < duration) return null
 

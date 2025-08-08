@@ -217,14 +217,14 @@
     grid-template-areas: "shr shr shr" "inf inf own" "inf inf sac" "spl spl spl" "rec rec rec" "btm srs srs";
 }
 
-.pmwatch-error-boundary-wrapper {
+.pmwatch-outofbound-wrapper {
     position: fixed;
     inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    h1 {
+    h2 {
         margin: 0;
 
         svg {
@@ -232,22 +232,26 @@
             width: 1em;
             vertical-align: bottom;
         }
+        
+        svg, span {
+            vertical-align: middle;
+        }
     }
 
-    .pmwatch-error-boundary-container {
+    .pmwatch-outofbound-container {
         padding: 2% 4%;
         border: 3px solid var(--textcolor1);
         background: var(--bgcolor2);
         outline: 5px solid var(--bgcolor2);
     }
 
-    .pmwatch-error-boundary-msg {
+    .pmwatch-outofbound-msg {
         padding: 4px;
         background: var(--bgcolor1);
         border-radius: var(--radius);
     }
 
-    .pmwatch-error-boundary-button-container {
+    .pmwatch-outofbound-button-container {
         margin-bottom: 0;
         display: flex;
         justify-content: right;

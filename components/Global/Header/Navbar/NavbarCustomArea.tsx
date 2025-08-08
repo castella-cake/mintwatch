@@ -39,11 +39,11 @@ function removeDuplicatesOrdered<T>(array: T[]): T[] {
 }
 
 export default function NavbarCustomArea({ isEditMode, setIsEditMode }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> }) {
-    const { syncStorage } = useStorageContext()
+    const { navBarCustomItemList } = useStorageVar(["navBarCustomItemList"] as const)
     const { setNodeRef } = useDroppable({
         id: "navbar-droppable",
     })
-    const customItemListBase: (keyof typeof NavigationObject)[] = syncStorage.navBarCustomItemList ?? ["recommendations", "history", "ranking"]
+    const customItemListBase: (keyof typeof NavigationObject)[] = navBarCustomItemList ?? ["recommendations", "history", "ranking"]
 
     const customItemList = removeDuplicatesOrdered(customItemListBase)
     return (

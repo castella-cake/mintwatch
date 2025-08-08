@@ -1,25 +1,25 @@
 export default function PercentageSliders({ settingKey, setting }: { settingKey: string, setting: PlayerSetting }) {
-    const { localStorage, setLocalStorageValue } = useStorageContext()
-    const localStorageRef = useRef<any>(null)
-    localStorageRef.current = localStorage
-    function writePlayerSettings(name: string, value: any) {
-        setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
-    }
+    const settingStorage = useStorageVar([settingKey], "local")
 
     // 地獄？
-    const [percentages, setPercentages] = useState<{ [key: string]: number }>(Object.keys(setting.sliders ?? {}).reduce((prev, key) => ({ ...prev, [key]: (localStorage.playersettings[settingKey] && localStorage.playersettings[settingKey][key]) ?? 1 }), {}))
+    const [percentages, setPercentages] = useState<{ [key: string]: number }>(Object.keys(setting.sliders ?? {}).reduce((prev, key) => ({ ...prev, [key]: (settingStorage[settingKey] && settingStorage[settingKey][key]) ?? 1 }), {}))
+
+    // need better solution
+    useEffect(() => {
+        if (settingStorage[settingKey]) setPercentages(settingStorage[settingKey])
+    }, [settingStorage]) // there is only settingsKey in storage, so we don't need to watch specific key
 
     const sliderRefs = useRef<{ [key: string]: HTMLInputElement }>({})
 
     const handleSliderApply = () => {
-        writePlayerSettings(settingKey, percentages)
+        storage.setItem(`local:${settingKey}`, percentages)
     }
 
     if (!setting.sliders) return
     return (
         <>
             {Object.keys(setting.sliders).map((key) => {
-                const currentValue = (localStorage.playersettings[settingKey] && localStorage.playersettings[settingKey][key]) ?? 1
+                const currentValue = percentages[key] ?? 1
                 return (
                     <div key={key} className="playersettings-slider">
                         <label className="global-flex">
@@ -35,7 +35,7 @@ export default function PercentageSliders({ settingKey, setting }: { settingKey:
                             min={setting.sliders![key].min}
                             max={setting.sliders![key].max}
                             step={setting.sliders![key].step}
-                            defaultValue={currentValue}
+                            value={currentValue}
                             onChange={(e) => {
                                 setPercentages({ ...percentages, [key]: Number(e.currentTarget.value) })
                             }}

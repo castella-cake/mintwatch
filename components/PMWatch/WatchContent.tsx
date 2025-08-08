@@ -26,7 +26,6 @@ export const watchLayoutType = {
 }
 
 type Props = {
-    layoutType: string
     playerSize: number
     onChangeVideo: (smId: string, doScroll?: boolean) => void
     isFullscreenUi: boolean
@@ -35,14 +34,22 @@ type Props = {
 
 export function WatchContent(_props: Props) {
     const {
-        layoutType,
         playerSize,
         onChangeVideo,
         isFullscreenUi,
         setIsFullscreenUi,
     } = _props
-    const { localStorage } = useStorageContext()
+    const {
+        enableBigView,
+        enableContinuousPlay,
+        enableShufflePlay,
+    } = useStorageVar(["enableBigView", "enableContinuousPlay", "enableShufflePlay"] as const, "local")
     const { videoInfo } = useVideoInfoContext()
+
+    const {
+        pmwlayouttype,
+    } = useStorageVar(["pmwlayouttype"] as const, "sync")
+    const layoutType = pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
 
     useEffect(() => {
         document.dispatchEvent(
@@ -85,7 +92,7 @@ export function WatchContent(_props: Props) {
     const shouldUseCardRecommend = !(layoutType === watchLayoutType.Stacked || layoutType === watchLayoutType.reimaginedNewWatch) ? true : false
     const shouldUseHorizontalSearchLayout = !(layoutType === watchLayoutType.shinjuku || layoutType === watchLayoutType.reimaginedOldWatch) ? true : false
     const shouldUseCardInfo = !(layoutType === watchLayoutType.reimaginedOldWatch || layoutType === watchLayoutType.shinjuku) ? true : false
-    const shouldUseBigView = localStorage.playersettings.enableBigView ?? false
+    const shouldUseBigView = enableBigView ?? false
 
     const playerElem = (
         <Player
@@ -104,8 +111,8 @@ export function WatchContent(_props: Props) {
     const actionsElem = <Actions onModalOpen={onModalOpen} key="watchui-actions" />
     const lyricsElem = <Lyric key="watchui-lyrics" />
 
-    const isContinuousPlay = localStorage.playersettings.enableContinuousPlay ?? true
-    const isShufflePlay = localStorage.playersettings.enableShufflePlay ?? false
+    const isContinuousPlay = enableContinuousPlay ?? true
+    const isShufflePlay = enableShufflePlay ?? false
 
     const shouldLyricTabGrayOut = !(videoInfo && videoInfo.data.response.video && videoInfo.data.response.video.hasLyrics)
 

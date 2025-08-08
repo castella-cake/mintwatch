@@ -1,19 +1,17 @@
 import { setting, settingList } from "../../utils/settingsList"
-import { useStorageContext } from "@/hooks/extensionHook"
 import { useLang } from "@/hooks/localizeHook"
+import { useStorageVar } from "@/hooks/extensionHook"
 
 function CreateSettingsControl({ setting }: { setting: setting }) {
     // console.log(lang.SETTINGS_ITEMS[settings.name].name)
     const lang: any = useLang()
-    const { syncStorage, setSyncStorageValue } = useStorageContext()
-
-    if (!setting) return
+    const syncStorage = useStorageVar([setting.name])
 
     const settingName = setting.name as keyof typeof lang.SETTINGS_ITEMS
     if (setting.type === "checkbox") {
         return (
             <label>
-                <input type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => { setSyncStorageValue(setting.name, e.currentTarget.checked) }} />
+                <input type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.checked) }} />
                 {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
             </label>
         )
@@ -24,7 +22,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         return (
             <label>
                 {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                <select onChange={(e) => { setSyncStorageValue(setting.name, e.currentTarget.value) }} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select>
+                <select onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select>
             </label>
         )
     } else if (setting.type === "selectButtons" && setting.values) {
@@ -33,7 +31,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
                 <button
                     type="button"
                     key={elem}
-                    onClick={() => { setSyncStorageValue(setting.name, elem) }}
+                    onClick={() => { storage.setItem(`sync:${setting.name}`, elem) }}
                     className={"select-button" + ((syncStorage[setting.name] ?? setting.default) == elem ? " select-button-current" : "")}
                 >
                     {lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}
@@ -50,7 +48,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         return (
             <label>
                 {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                <input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => { setSyncStorageValue(setting.name, Number(e.currentTarget.value)) }} />
+                <input type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, Number(e.currentTarget.value)) }} />
             </label>
         )
     } else if (setting.type === "inputString") {
@@ -58,7 +56,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         return (
             <label>
                 {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                <input type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { setSyncStorageValue(setting.name, e.currentTarget.value) }} />
+                <input type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
             </label>
         )
     } else if (setting.type === "desc") {
@@ -102,7 +100,7 @@ function HintElem({ setting }: { setting: setting }) {
 
 function CreateSettingsRow({ setting }: { setting: setting }) {
     // console.log(syncStorage[settings.name])
-    const { syncStorage } = useStorageContext()
+    const syncStorage = useStorageVar(setting.unlockFlag ? [setting.unlockFlag] : [])
     if (setting.unlockFlag && !syncStorage[setting.unlockFlag]) return
 
     let elemList = [<CreateSettingsControl setting={setting} key={setting.name} />]

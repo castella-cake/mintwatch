@@ -5,14 +5,14 @@ export default async function getFastVideoData(smId: string) {
     let initialResponse: VideoDataRootObject | null = null
     let fetchedVideoInfo: VideoDataRootObject | null = null
     if (
-        document.getElementsByName("server-response").length > 0
+        document.getElementsByName("server-response-mw").length > 0
         && typeof document
-            .getElementsByName("server-response")[0]
+            .getElementsByName("server-response-mw")[0]
             .getAttribute("content") === "string"
     ) {
         initialResponse = JSON.parse(
             document
-                .getElementsByName("server-response")[0]
+                .getElementsByName("server-response-mw")[0]
                 .getAttribute("content")!,
         ) as VideoDataRootObject
         // console.log("using initialResponse", initialResponse)
@@ -27,7 +27,7 @@ export default async function getFastVideoData(smId: string) {
         && initialResponse.data?.response.video.id === smId
     ) {
         fetchedVideoInfo = initialResponse
-        document.getElementsByName("server-response")[0].remove() // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。
+        document.getElementsByName("server-response-mw")[0].remove() // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。
         // console.log("using initialResponse")
     } else {
         // getVideoInfoが200以外だったらuseQuery側でハンドルしてもらう

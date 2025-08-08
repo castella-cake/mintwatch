@@ -6,7 +6,6 @@ import type { ErrorResponse } from "@/types/VideoData"
 import { MouseEvent, useState } from "react"
 import DOMPurify from "dompurify"
 import HTMLReactParser from "html-react-parser"
-import { useStorageContext } from "@/hooks/extensionHook"
 import {
     useVideoInfoContext,
     useVideoRefContext,
@@ -138,22 +137,11 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     const { videoInfo, errorInfo } = useVideoInfoContext()
     const videoRef = useVideoRefContext()
 
-    const { localStorage, setLocalStorageValue } = useStorageContext()
-    const localStorageRef = useRef<any>(null)
-    localStorageRef.current = localStorage
-    function writePlayerSettings(
-        name: string,
-        value: any,
-        silent: boolean = false,
-    ) {
-        setLocalStorageValue(
-            "playersettings",
-            { ...localStorageRef.current.playersettings, [name]: value },
-            silent,
-        )
-    }
+    const {
+        descriptionOpen,
+    } = useStorageVar(["descriptionOpen"] as const, "local")
     const [isDescOpen, setIsDescOpen] = useState<boolean>(
-        localStorage.playersettings.descriptionOpen || false,
+        descriptionOpen || false,
     )
     if (errorInfo) return <ErrorUI error={errorInfo} />
     if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />
@@ -256,10 +244,9 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     className="videoinfo-hjdesc-tabbutton"
                     onClick={() => {
                         setIsDescOpen(!isDescOpen)
-                        writePlayerSettings(
-                            "descriptionOpen",
+                        storage.setItem(
+                            "local:descriptionOpen",
                             !isDescOpen,
-                            true,
                         )
                     }}
                 >
@@ -272,10 +259,9 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                 open={isDescOpen && true}
                 onToggle={(e) => {
                     setIsDescOpen(e.currentTarget.open)
-                    writePlayerSettings(
-                        "descriptionOpen",
+                    storage.setItem(
+                        "local:descriptionOpen",
                         e.currentTarget.open,
-                        true,
                     )
                 }}
             >

@@ -21,7 +21,7 @@ function onVanillaPageReturn() {
 
 function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionStackerElemRef: RefObject<HTMLDivElement | null>, sideMenuElemRef: RefObject<HTMLDivElement | null> }) {
     // const [hover, setHover] = useState(false)
-    const { syncStorage } = useStorageContext()
+    const syncStorage = useStorageVar(["enableFixedHeader", "pmwlayouttype", "shinjukuEnableNavbar", "navbarType", "headerActionType"] as const)
     const { videoInfo } = useVideoInfoContext()
     const contextData = useServerContext()
     const videoViewerInfo = videoInfo?.data.response.viewer

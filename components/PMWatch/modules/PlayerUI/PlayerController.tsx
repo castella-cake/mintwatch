@@ -6,7 +6,6 @@ import type { effectsState } from "@/hooks/eqHooks"
 import { Seekbar } from "./Seekbar"
 import { timeCalc } from "../commonFunction"
 import { secondsToTime } from "@/utils/readableValue"
-import { useStorageContext } from "@/hooks/extensionHook"
 import { CSSTransition } from "react-transition-group"
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData"
 type Props = {
@@ -83,18 +82,13 @@ function PlayerController(props: Props) {
         storyBoardData,
         currentPlayerType,
     } = props
-    const { localStorage, setLocalStorageValue, isLoaded } = useStorageContext()
-    const localStorageRef = useRef<any>(null)
-    localStorageRef.current = localStorage
-    function writePlayerSettings(name: string, value: any, silent?: boolean) {
-        setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value }, (silent ?? false))
-    }
+    const localStorage = useStorageVar(["isMuted", "volume", "isLoop", "enableShufflePlay", "rewindTime", "enableBigView"] as const, "local")
 
     const [isIconPlay, setIsIconPlay] = useState(false)
 
-    const [isMuted, setIsMuted] = useState(localStorage.playersettings.isMuted || false)
-    const [videoVolume, setVideoVolume] = useState(localStorage.playersettings.volume || localStorage.playersettings.volume === 0 ? localStorage.playersettings.volume : 50)
-    const [isLoop, setIsLoop] = useState<boolean>(localStorage.playersettings.isLoop || false)
+    const [isMuted, setIsMuted] = useState(localStorage.isMuted || false)
+    const [videoVolume, setVideoVolume] = useState(localStorage.volume || localStorage.volume === 0 ? localStorage.volume : 50)
+    const [isLoop, setIsLoop] = useState<boolean>(localStorage.isLoop || false)
 
     const isMutedRef = useRef(isMuted)
     isMutedRef.current = isMuted
@@ -158,11 +152,11 @@ function PlayerController(props: Props) {
             if (!videoRef.current) return
             if (videoRef.current.volume !== videoVolumeRef.current / 100) {
                 setVideoVolume(videoRef.current.volume * 100)
-                writePlayerSettings("volume", videoRef.current.volume * 100, true)
+                storage.setItem("local:volume", videoRef.current.volume * 100)
             }
             if (videoRef.current.muted !== isMutedRef.current) {
                 setIsMuted(videoRef.current.muted)
-                writePlayerSettings("isMuted", videoRef.current.muted, true)
+                storage.setItem("local:isMuted", videoRef.current.muted)
             }
         }
 
@@ -198,8 +192,6 @@ function PlayerController(props: Props) {
         }
     }, [isSeeking])
 
-    if (!isLoaded) return <div>storage待機中...</div>
-
     const isIndexControl = [currentTime < 3, currentTime >= duration]
 
     const video = videoRef.current
@@ -222,11 +214,11 @@ function PlayerController(props: Props) {
     function setVolume(volume: number, isMuteToggle = false) {
         if (isMuteToggle) {
             setIsMuted(!isMuted)
-            writePlayerSettings("isMuted", !isMuted, true)
+            storage.setItem("local:isMuted", !isMuted)
             return
         }
         setVideoVolume(volume)
-        writePlayerSettings("volume", volume, true)
+        storage.setItem("local:volume", volume)
     }
 
     function tempSeekHandle(clientX: number) {
@@ -241,24 +233,24 @@ function PlayerController(props: Props) {
 
     const onSkipBack = useCallback(() => {
         onTimeControl("set", 0)
-        if (isIndexControl[0] === true) playlistIndexControl(-1, localStorage.playersettings.enableShufflePlay)
+        if (isIndexControl[0] === true) playlistIndexControl(-1, localStorage.enableShufflePlay)
     }, [video, isIndexControl])
 
     const onSkipForward = useCallback(() => {
         if (!video) return
         onTimeControl("set", video.duration)
-        if (isIndexControl[1] === true) playlistIndexControl(1, localStorage.playersettings.enableShufflePlay)
+        if (isIndexControl[1] === true) playlistIndexControl(1, localStorage.enableShufflePlay)
     }, [video, isIndexControl])
 
     const onSkipSecondBack = useCallback(() => {
-        const rewindTime = localStorage.playersettings.rewindTime ?? 10
+        const rewindTime = localStorage.rewindTime ?? 10
         onTimeControl("add", Number(rewindTime) * -1)
-    }, [onTimeControl, localStorage.playersettings.rewindTime])
+    }, [onTimeControl, localStorage.rewindTime])
 
     const onSkipSecondForward = useCallback(() => {
-        const rewindTime = localStorage.playersettings.rewindTime ?? 10
+        const rewindTime = localStorage.rewindTime ?? 10
         onTimeControl("add", Number(rewindTime) * 1)
-    }, [onTimeControl, localStorage.playersettings.rewindTime])
+    }, [onTimeControl, localStorage.rewindTime])
 
     const onMuteToggle = useCallback(() => {
         setVolume(0, true)
@@ -330,19 +322,19 @@ function PlayerController(props: Props) {
     const skipForwardElem = <PlayerControllerButton key="control-skipforward" className="playercontroller-skipforward" onClick={onSkipForward} title="終了地点にシーク">{isIndexControl[1] ? <IconPlayerSkipForwardFilled /> : <IconPlayerSkipForward />}</PlayerControllerButton>
 
     const backwardElem = (
-        <PlayerControllerButton key="control-backward" className="playercontroller-backward" onClick={onSkipSecondBack} title={`${(localStorage.playersettings.rewindTime ?? 10) * -1}秒シーク`}>
-            {(localStorage.playersettings.rewindTime === "10" || typeof localStorage.playersettings.rewindTime !== "string") && <IconRewindBackward10 />}
-            {localStorage.playersettings.rewindTime === "15" && <IconRewindBackward15 />}
-            {localStorage.playersettings.rewindTime === "30" && <IconRewindBackward30 />}
-            {localStorage.playersettings.rewindTime === "5" && <IconRewindBackward5 />}
+        <PlayerControllerButton key="control-backward" className="playercontroller-backward" onClick={onSkipSecondBack} title={`${(localStorage.rewindTime ?? 10) * -1}秒シーク`}>
+            {(localStorage.rewindTime === "10" || typeof localStorage.rewindTime !== "string") && <IconRewindBackward10 />}
+            {localStorage.rewindTime === "15" && <IconRewindBackward15 />}
+            {localStorage.rewindTime === "30" && <IconRewindBackward30 />}
+            {localStorage.rewindTime === "5" && <IconRewindBackward5 />}
         </PlayerControllerButton>
     )
     const forwardElem = (
-        <PlayerControllerButton key="control-forward" className="playercontroller-forward" onClick={onSkipSecondForward} title={`${(localStorage.playersettings.rewindTime ?? 10) * 1}秒シーク`}>
-            {(localStorage.playersettings.rewindTime === "10" || typeof localStorage.playersettings.rewindTime !== "string") && <IconRewindForward10 />}
-            {localStorage.playersettings.rewindTime === "15" && <IconRewindForward15 />}
-            {localStorage.playersettings.rewindTime === "30" && <IconRewindForward30 />}
-            {localStorage.playersettings.rewindTime === "5" && <IconRewindForward5 />}
+        <PlayerControllerButton key="control-forward" className="playercontroller-forward" onClick={onSkipSecondForward} title={`${(localStorage.rewindTime ?? 10) * 1}秒シーク`}>
+            {(localStorage.rewindTime === "10" || typeof localStorage.rewindTime !== "string") && <IconRewindForward10 />}
+            {localStorage.rewindTime === "15" && <IconRewindForward15 />}
+            {localStorage.rewindTime === "30" && <IconRewindForward30 />}
+            {localStorage.rewindTime === "5" && <IconRewindForward5 />}
         </PlayerControllerButton>
     )
 
@@ -410,7 +402,7 @@ function PlayerController(props: Props) {
                                         onChange={(e) => {
                                             if (!hlsRef.current) return
                                             hlsRef.current.currentLevel = Number(e.currentTarget.value)
-                                            writePlayerSettings("preferredLevel", Number(e.currentTarget.value), true)
+                                            storage.setItem("local:preferredLevel", Number(e.currentTarget.value))
                                             // setHlsLevel(Number(e.currentTarget.value))
                                         }}
                                         value={hlsLevel}
@@ -429,7 +421,7 @@ function PlayerController(props: Props) {
                     <PlayerControllerButton className="playercontroller-commenttoggle" onClick={() => { setIsCommentShown(!isCommentShown) }} title={isCommentShown ? "コメントを非表示" : "コメントを表示"}>{isCommentShown ? <IconMessage2 /> : <IconMessage2Off />}</PlayerControllerButton>
                     <PlayerControllerButton className="playercontroller-fullscreen" onClick={toggleFullscreen} title={isFullscreenUi ? "フルスクリーンを終了" : "フルスクリーン"}>{isFullscreenUi ? <IconMinimize /> : <IconMaximize />}</PlayerControllerButton>
                     <PlayerControllerButton className="playercontroller-settings" onClick={() => { setIsSettingsShown(!isSettingsShown) }} title="プレイヤーの設定">{isSettingsShown ? <IconSettingsFilled /> : <IconSettings />}</PlayerControllerButton>
-                    {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => { writePlayerSettings("enableBigView", !(localStorage.playersettings.enableBigView ?? false)) }} title={localStorage.playersettings.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>{(localStorage.playersettings.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled /> : <IconLayoutSidebarRightExpand />}</PlayerControllerButton>}
+                    {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => { storage.setItem("local:enableBigView", !(localStorage.enableBigView ?? false)) }} title={localStorage.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>{(localStorage.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled /> : <IconLayoutSidebarRightExpand />}</PlayerControllerButton>}
                 </div>
             </div>
         </div>

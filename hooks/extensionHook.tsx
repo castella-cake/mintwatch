@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, createContext, ReactNode } from "react"
+import { useState, useEffect, useContext, createContext, ReactNode, useSyncExternalStore } from "react"
 
 async function getSyncStorageData() {
     return await browser.storage.sync.get(null)
@@ -118,20 +118,39 @@ export function useStorageContext() {
  * @returns 統合されたオブジェクト
  */
 export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync" | "local" | "session" | "managed" = "sync"): { [P in K[number]]?: any } {
-    const [storageObject, setStorageObject] = useState<{ [P in K[number]]: string }>({} as { [P in K[number]]: string })
-    useEffect(() => {
-        storage.getItems(keys.map(k => `${type}:${k}` as StorageItemKey)).then(i => setStorageObject({ ...i.reduce((p, c) => ({ ...p, [c.key.replace(`${type}:`, "")]: c.value }), {}) } as { [P in K[number]]: string }))
-        const unwatchFunctions = keys.map(k => storage.watch(`${type}:${k}` as StorageItemKey, n => setStorageObject(s => ({ ...s, [k]: n } as { [P in K[number]]: string }))))
+    const _storageRef = useRef<{ [P in K[number]]: any }>({} as { [P in K[number]]: any })
+    const subscribe = useCallback((onUpdate: () => void) => {
+        let aborted = false
+        storage.getItems(keys.map(k => `${type}:${k}` as StorageItemKey)).then((item) => {
+            if (!aborted) {
+                // { key: string, value: any }[] から { [key: string]: any, ... } の形へ変換する
+                _storageRef.current = { ...item.reduce((prev, current) => ({ ...prev, [current.key.replace(`${type}:`, "")]: current.value }), {}) } as { [P in K[number]]: string }
+                onUpdate()
+            }
+        })
+        const unwatchFunctions = keys.map(k => storage.watch(`${type}:${k}` as StorageItemKey, (n) => {
+            if (!aborted) {
+                _storageRef.current = { ..._storageRef.current, [k]: n } as { [P in K[number]]: string }
+                onUpdate()
+            }
+        }))
         return () => {
+            aborted = true
             for (const unwatch of unwatchFunctions) {
                 unwatch()
             }
         }
     }, [])
+    const storageObject = useSyncExternalStore(subscribe, () => _storageRef.current)
     return storageObject
 }
 
 export function usePlayerSettings() {
     const { playersettings } = useStorageVar(["playersettings"] as const, "local")
-    return playersettings ?? {}
+    const writePlayerSettings = useCallback((key: string, value: any) => {
+        storage.getItem<{ [key: string]: any }>("local:playersettings").then((s) => {
+            storage.setItem("local:playersettings", { ...s, [key]: value })
+        })
+    }, [])
+    return { playerSettings: playersettings ?? {}, writePlayerSettings }
 }

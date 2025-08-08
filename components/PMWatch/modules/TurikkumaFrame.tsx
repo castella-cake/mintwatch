@@ -1,7 +1,7 @@
 import { CSSTransition } from "react-transition-group"
 
 export function TurikkumaFrame() {
-    const { syncStorage, setSyncStorageValue } = useStorageContext()
+    const syncStorage = useStorageVar(["turikkumaPortalOpened"] as const)
     const [openMessageShown, setOpenMessageShown] = useState(false)
     const [isRodClicked, setIsRodClicked] = useState(false)
     const rodButtonRef = useRef<HTMLButtonElement>(null)
@@ -12,7 +12,7 @@ export function TurikkumaFrame() {
         if (!openerInputRef.current) return
         const value = openerInputRef.current.value
         if (value === "つりっくま") {
-            setSyncStorageValue("turikkumaPortalOpened", true)
+            storage.setItem("sync:turikkumaPortalOpened", true)
             setOpenMessageShown(true)
             setTimeout(() => setOpenMessageShown(false), 5000)
         }

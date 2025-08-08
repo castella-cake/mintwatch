@@ -17,7 +17,7 @@ type Props = {
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
 function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
-    const { localStorage } = useStorageContext()
+    const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
     const { showAlert } = useSetMessageContext()
     const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
@@ -113,7 +113,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                 // 今はただ要素が利用可能であることだけ伝えます
                 document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
                 // TODO: コメント入力前から一時停止状態だったなら再生しない
-                if (localStorage.playersettings.pauseOnCommentInput && videoRef.current && videoRef.current.currentTime !== videoRef.current.duration) {
+                if (pauseOnCommentInput && videoRef.current && videoRef.current.currentTime !== videoRef.current.duration) {
                     videoRef.current.play()
                 }
                 if (commentBody === "＠ピザ" || commentBody === "@ピザ") {
@@ -150,12 +150,12 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     function onChange() {
         if (commentInputRef.current) setDummyTextAreaContent(commentInputRef.current.value)
-        if (localStorage.playersettings.pauseOnCommentInput && videoRef.current) {
+        if (pauseOnCommentInput && videoRef.current) {
             if (!videoRef.current.paused) {
                 videoRef.current.pause()
             }
         }
-        if (localStorage.playersettings.pauseOnCommentInput) {
+        if (pauseOnCommentInput) {
             clearTimeout(previewUpdateTimeout.current)
             previewUpdateTimeout.current = setTimeout(() => {
                 if (videoInfo && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {

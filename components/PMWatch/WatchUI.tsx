@@ -2,11 +2,10 @@ import { useEffect, useState, useRef } from "react"
 // import { useLang } from "./localizeHook";
 import { CSSTransition } from "react-transition-group"
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal"
-import { useStorageContext } from "@/hooks/extensionHook"
 import { OnboardingPopup } from "./modules/Onboarding/Onboarding"
 import { PlaylistDndWrapper } from "./modules/PlaylistDndWrapper"
 import { TitleElement } from "./modules/TitleElement"
-import { WatchContent, watchLayoutType } from "./WatchContent"
+import { WatchContent } from "./WatchContent"
 import { useSmIdContext } from "../Global/Contexts/WatchDataContext"
 import {
     useVideoInfoContext,
@@ -23,7 +22,15 @@ function CreateWatchUI() {
     const { smId, setSmId } = useSmIdContext()
     const history = useHistoryContext()
 
-    const { syncStorage, localStorage, isLoaded } = useStorageContext()
+    const {
+        autoScrollPositionOnVideoChange,
+        layoutDensity,
+        disallowGridFallback,
+    } = useStorageVar(["autoScrollPositionOnVideoChange", "layoutDensity", "disallowGridFallback"] as const, "sync")
+    const {
+        playerAreaSize,
+        onboardingIgnored,
+    } = useStorageVar(["playerAreaSize", "onboardingIgnored"] as const, "local")
 
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
 
@@ -35,7 +42,7 @@ function CreateWatchUI() {
 
     // ナビゲーション処理はlistenPopStateで行います
     const changeVideo = useCallback((videoUrl: string, doScroll = true) => {
-        const autoScrollSetting = syncStorage.autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
+        const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
         } else if (autoScrollSetting === "player" && videoRef.current && doScroll) {
@@ -43,7 +50,7 @@ function CreateWatchUI() {
         }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [smId, syncStorage.autoScrollPositionOnVideoChange])
+    }, [smId, autoScrollPositionOnVideoChange])
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
@@ -73,7 +80,7 @@ function CreateWatchUI() {
         return () => {
             listenPopState() // unlisten
         }
-    }, [videoInfo])
+    }, [smId, videoInfo])
 
     // transition / outside click detection refs
     const videoActionModalElemRef = useRef<HTMLDivElement>(null)
@@ -82,23 +89,7 @@ function CreateWatchUI() {
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const backgroundPlaying = useBackgroundPlayingContext()
 
-    // console.log(videoInfo)
-    if (!isLoaded)
-        return (
-            <div style={{ minHeight: "100vh" }}>
-                <div className="header-container global-flex"></div>
-            </div>
-        )
-
-    const layoutType
-        = syncStorage.pmwlayouttype || watchLayoutType.reimaginedOldWatch
-    const playerSize
-        = (localStorage
-            && localStorage.playersettings
-            && localStorage.playersettings.playerAreaSize)
-        || 1
-
-    const layoutDensity = syncStorage.layoutDensity ?? getDefault("layoutDensity")
+    const playerSize = playerAreaSize ?? 1
 
     function handleKeydown(e: React.KeyboardEvent) {
         if (e.key === "Escape") {
@@ -110,22 +101,20 @@ function CreateWatchUI() {
         if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
     }
 
-    const disallowGridFallback = syncStorage.disallowGridFallback ?? getDefault("disallowGridFallback")
-
     return (
         <div
             className={isFullscreenUi ? "container fullscreen" : "container"}
             onKeyDown={handleKeydown}
             onClick={onModalOutsideClick}
-            data-disallow-grid-fallback={disallowGridFallback.toString()}
+            data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
             data-background-playing={backgroundPlaying}
-            data-layout-density={layoutDensity}
+            data-layout-density={layoutDensity ?? getDefault("layoutDensity")}
         >
             <TitleElement />
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}
                 in={
-                    !localStorage.playersettings.onboardingIgnored
+                    !onboardingIgnored
                     && !isFullscreenUi
                 }
                 timeout={300}
@@ -143,7 +132,6 @@ function CreateWatchUI() {
 
             <PlaylistDndWrapper>
                 <WatchContent
-                    layoutType={layoutType}
                     playerSize={playerSize}
                     onChangeVideo={changeVideo}
                     isFullscreenUi={isFullscreenUi}

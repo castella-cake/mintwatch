@@ -6,7 +6,6 @@ import {
 } from "../commonFunction"
 import type { Comment, CommentDataRootObject } from "@/types/CommentData"
 import { VideoDataRootObject } from "@/types/VideoData"
-import { useStorageContext } from "@/hooks/extensionHook"
 import { IconAdjustmentsHorizontal, IconBubbleX, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"
 import { TimeMachine } from "./TimeMachineUi"
 import {
@@ -157,8 +156,8 @@ function CommentList() {
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const { ngData } = useViewerNgContext()
 
-    // const lang = useLang()
-    const { localStorage, syncStorage } = useStorageContext()
+    const { commentListType } = useStorageVar(["commentListType"] as const)
+    const { sharedNgLevel } = useStorageVar(["sharedNgLevel"] as const, "local")
     const [currentForkType, setCurrentForkType] = useState(-1)
 
     const [autoScroll, setAutoScroll] = useState(true)
@@ -192,7 +191,7 @@ function CommentList() {
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
-                (localStorage.playersettings.sharedNgLevel
+                (sharedNgLevel
                     ?? "mid") as keyof typeof sharedNgLevelScore
             ],
             ngData,
@@ -201,7 +200,7 @@ function CommentList() {
     }, [
         currentForkType,
         commentContent,
-        localStorage.playersettings.sharedNgLevel,
+        sharedNgLevel,
         onlyShowMyselfComments,
         videoInfo,
         ngData,
@@ -243,10 +242,8 @@ function CommentList() {
 
     // const videoInfo = videoInfo.data.response
 
-    const commentListType = syncStorage.commentListType ?? getDefault("commentListType")
-
     return (
-        <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType}>
+        <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType ?? getDefault("commentListType")}>
             <div className="commentlist-title-container global-flex stacker-title">
                 <div className="global-flex1 global-bold">
                     {commentCount}

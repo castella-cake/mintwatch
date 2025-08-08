@@ -29,7 +29,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
         videoGenre,
         setShortcutFeedback,
     } = props
-    const { syncStorage } = useStorageContext()
+    const syncStorage = useStorageVar(["wheelGestureAmount"] as const)
 
     const [canPlay, setCanPlay] = useState(false)
     const nodeRef = useRef(null)

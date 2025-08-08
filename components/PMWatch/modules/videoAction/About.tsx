@@ -9,7 +9,6 @@ const manifestData = browser.runtime.getManifest()
 
 export default function AboutMintWatch() {
     const { showToast } = useSetMessageContext()
-    const { setSyncStorageValue } = useStorageContext()
     const { showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
     const sensors = useSensors(
@@ -29,8 +28,8 @@ export default function AboutMintWatch() {
         if (event.over && event.over.id === "droppableLogo" && progress === 2) {
             setProgress(3)
             setTimeout(() => {
-                setSyncStorageValue("unlockStarNightSetting", true)
-                setSyncStorageValue("starNightPalette", true)
+                storage.setItem("sync:unlockStarNightSetting", true)
+                storage.setItem("sync:starNightPalette", true)
                 showToast({ icon: <IconComet />, title: "You did a thing!", body: "パレットが StarNight に変更されました。" })
                 showAlert({
                     title: "And now we present...",

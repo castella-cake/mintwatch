@@ -26,7 +26,7 @@ function Match({ targetPathname, children }: { targetPathname: string, children:
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const { syncStorage } = useStorageContext()
+    const syncStorage = useStorageVar(["enableReshogi"] as const)
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()

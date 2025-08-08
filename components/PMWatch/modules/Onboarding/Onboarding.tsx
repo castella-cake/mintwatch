@@ -122,20 +122,13 @@ const onboardPages: onboardingPage[] = [
 export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const [pageIndex, setPageIndex] = useState(0)
 
-    const { localStorage, setLocalStorageValue } = useStorageContext()
+    // const localStorage = useStorageVar(["onboardingIgnored"] as const, "local")
     const { showToast } = useSetMessageContext()
-
-    const localStorageRef = useRef<any>(null)
-    localStorageRef.current = localStorage
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
 
-    function writePlayerSettings(name: string, value: any) {
-        setLocalStorageValue("playersettings", { ...localStorageRef.current.playersettings, [name]: value })
-    }
-
     function handleOnboardingClose() {
-        writePlayerSettings("onboardingIgnored", true)
+        storage.setItem("local:onboardingIgnored", true)
         if (pageIndex !== onboardPages.length - 1) showToast({ title: "オンボーディングを中止しました", body: "後でヘッダーのスパナアイコンから設定を調整できます。" })
     }
 
@@ -167,7 +160,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
                                     className="pmw-onboarding-popup-button-primary"
                                     onClick={() => {
                                         setVideoActionModalState("help")
-                                        writePlayerSettings("onboardingIgnored", true)
+                                        storage.setItem("local:onboardingIgnored", true)
                                     }}
                                 >
                                     MintWatch のはじめに

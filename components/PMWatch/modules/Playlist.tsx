@@ -63,15 +63,10 @@ function Playlist() {
     const previewPlaylistItem = usePreviewPlaylistItemContext()
     const { setPlaylistData } = useControlPlaylistContext()
 
-    const { localStorage, setLocalStorageValue } = useStorageContext()
-    const localStorageRef = useRef<any>(null)
-    localStorageRef.current = localStorage
-    function writePlayerSettings(name: string, value: any) {
-        setLocalStorageValue("playersettings", {
-            ...localStorageRef.current.playersettings,
-            [name]: value,
-        })
-    }
+    const {
+        enableContinuousPlay,
+        enableShufflePlay,
+    } = useStorageVar(["enableContinuousPlay", "enableShufflePlay"] as const, "local")
     const { setNodeRef: droppableWrapperRef } = useDroppable({
         id: "playlist-droppable-wrapper",
     })
@@ -100,15 +95,13 @@ function Playlist() {
     }
     const query = encodeURIComponent(btoa(JSON.stringify(playlistQuery)))
     function onRandomShuffle() {
-        const currentShufflePlayState
-            = localStorage.playersettings.enableShufflePlay ?? false
-        writePlayerSettings("enableShufflePlay", !currentShufflePlayState)
+        const currentShufflePlayState = enableShufflePlay ?? false
+        storage.setItem("local:enableShufflePlay", !currentShufflePlayState)
     }
 
     function onContinuousPlayToggle() {
-        const currentContinuousPlayState
-            = localStorage.playersettings.enableContinuousPlay ?? true
-        writePlayerSettings("enableContinuousPlay", !currentContinuousPlayState)
+        const currentContinuousPlayState = enableContinuousPlay ?? true
+        storage.setItem("local:enableContinuousPlay", !currentContinuousPlayState)
     }
     function removeVideo(index: number) {
         const playlistItemsAfter = playlistData.items.filter(
@@ -166,26 +159,26 @@ function Playlist() {
                 </button>
                 <button
                     title={
-                        (localStorage.playersettings.enableContinuousPlay ?? true)
+                        (enableContinuousPlay ?? true)
                             ? "連続再生を無効化"
                             : "連続再生を有効化"
                     }
                     onClick={onContinuousPlayToggle}
                     data-isenabled={
-                        localStorage.playersettings.enableContinuousPlay ?? true
+                        enableContinuousPlay ?? true
                     }
                 >
                     <IconArrowBigRightLine />
                 </button>
                 <button
                     title={
-                        (localStorage.playersettings.enableShufflePlay ?? false)
+                        (enableShufflePlay ?? false)
                             ? "シャッフル再生を無効化"
                             : "シャッフル再生を有効化"
                     }
                     onClick={onRandomShuffle}
                     data-isenabled={
-                        localStorage.playersettings.enableShufflePlay ?? false
+                        enableShufflePlay ?? false
                     }
                 >
                     <IconArrowsShuffle />
@@ -199,8 +192,7 @@ function Playlist() {
                     <div className="playlist-droppable-area-upper" ref={droppableTopRef}></div>
                     {extendedItems.length > 0
                         && extendedItems?.map((item, index) => {
-                            const isNowPlaying
-                                = videoInfo?.data?.response.video.id === item.id
+                            const isNowPlaying = videoInfo?.data?.response.video.id === item.id
                             return (
                                 <PlaylistVideoCard
                                     key={`playlist-${item.itemId}`}
