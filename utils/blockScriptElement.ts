@@ -25,11 +25,14 @@ export default function blockScriptElement(element: Element) {
         element.remove()
     } else if (
         element.tagName.toLowerCase() === "link"
+        && element instanceof HTMLLinkElement
+        && element.rel !== "shortcut icon"
+        && element.rel !== "icon"
         && typeof element.getAttribute("href") === "string"
         && href.includes("resource.video.nimg.jp")
     ) {
         // console.log("blocked:",element);
-        element.setAttribute("href", "")
+        element.setAttribute("href", browser.runtime.getURL("/dummy.js"))
         element.remove()
     } else {
         // console.log("not blocked:",element);

@@ -6,24 +6,55 @@ import { getStorageItemsWithObject } from "../storageControl"
 // import MigrateRoot from "@/components/Safemode/MigrateRoot"
 
 export default async function initiateRouter(ctx: ContentScriptContext) {
+    document.getElementById("root")?.remove()
+    const observer = new MutationObserver((records) => {
+        records.forEach((record) => {
+            const addedNodes = record.addedNodes
+            for (const node of addedNodes) {
+                // console.log("node: ", node)
+                const elem = node as Element
+                if (elem.id === "root") {
+                    elem.remove()
+                    console.log("blacklist element removed")
+                }
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    // console.log("nodetype")
+                    blockScriptElement(elem)
+                    elem.querySelectorAll("script").forEach(
+                        blockScriptElement,
+                    )
+                }
+            }
+            const targetElem = record.target as Element
+            targetElem.querySelectorAll("script").forEach(
+                blockScriptElement,
+            )
+        })
+    })
+    if (!document.documentElement) return
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+    })
+    setTimeout(() => {
+        observer.disconnect()
+    }, 500)
+
     const currentStorage = await getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "local:playersettings"] as const)
 
-    // nopmwだったら終了
-    const queryString = location.search
-    const searchParams = new URLSearchParams(queryString)
-    if (searchParams.get("nopmw") == "true") return
-
-    if (!document.documentElement) return
-
+    // HACK: 元のスクリプトがheadのタグを全削除する問題に対処するため、セレクターから避けるように属性を変更する
     const metaTags = document.getElementsByTagName("meta")
     for (const meta of metaTags) {
-        meta.setAttribute("data-server", "protected")
         if (meta.getAttribute("name") === "server-context") {
             meta.setAttribute("name", "server-context-mw")
         }
         if (meta.getAttribute("name") === "server-response") {
             meta.setAttribute("name", "server-response-mw")
         }
+    }
+    const protectTarget = document.querySelectorAll("[data-server=\"1\"]")
+    for (const protectTargetElement of protectTarget) {
+        protectTargetElement.setAttribute("data-server", "protected")
     }
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
@@ -34,26 +65,16 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         blockScriptElement(linkElement)
     }
 
-    const observer = new MutationObserver((records) => {
-        records.forEach((record) => {
-            const addedNodes = record.addedNodes
-            for (const node of addedNodes) {
-                // console.log("node: ", node)
-                const elem = node as Element
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                    // console.log("nodetype")
-                    blockScriptElement(elem)
-                    elem.querySelectorAll("script").forEach(
-                        blockScriptElement,
-                    )
-                }
-            }
-        })
-    })
-    observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true,
-    })
+    const faviconElement = document.querySelector("link[rel=\"shortcut icon\"]") as HTMLLinkElement
+    if (faviconElement) {
+        faviconElement.href = ""
+        faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
+    } else {
+        const linkElement = document.createElement("link")
+        linkElement.rel = "shortcut icon"
+        linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
+        document.head.appendChild(linkElement)
+    }
 
     // cleanup
     const linkElements = [...document.head.getElementsByTagName("link")]
@@ -75,16 +96,6 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
     // if (import.meta.env.FIREFOX) window.stop();
     if (import.meta.env.FIREFOX) {
         window.stop()
-        const faviconElement = document.querySelector("link[rel=\"shortcut icon\"]") as HTMLLinkElement
-        if (faviconElement) {
-            faviconElement.href = ""
-            faviconElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
-        } else {
-            const linkElement = document.createElement("link")
-            linkElement.rel = "shortcut icon"
-            linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
-            document.head.appendChild(linkElement)
-        }
     }
 
     // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
