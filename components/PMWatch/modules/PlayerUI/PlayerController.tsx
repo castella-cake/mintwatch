@@ -151,7 +151,7 @@ function PlayerController(props: Props) {
                 : (enabledEffects.length > 0) ? <IconAdjustmentsCheck /> : <IconAdjustments />}
         </PlayerControllerButton>
     )
-    const volumeElem = <VolumeController />
+    const volumeElem = <VolumeController key="control-volume" />
 
     const skipBackElem = <PlayerControllerButton key="control-skipback" className="playercontroller-skipback" onClick={onSkipBack} title="開始地点にシーク">{isIndexControl[0] ? <IconPlayerSkipBackFilled /> : <IconPlayerSkipBack />}</PlayerControllerButton>
     const skipForwardElem = <PlayerControllerButton key="control-skipforward" className="playercontroller-skipforward" onClick={onSkipForward} title="終了地点にシーク">{isIndexControl[1] ? <IconPlayerSkipForwardFilled /> : <IconPlayerSkipForward />}</PlayerControllerButton>
@@ -177,7 +177,7 @@ function PlayerController(props: Props) {
 
     const toggleLoopElem = <PlayerControllerButton key="control-toggleloop" className="playercontroller-toggleloop" onClick={toggleLoopState} title={isLoop ? "ループ再生を解除" : "ループ再生を有効化"}>{isLoop ? <IconRepeat /> : <IconRepeatOff />}</PlayerControllerButton>
 
-    const timeElem = <Time />
+    const timeElem = <Time key="control-time" />
 
     const controlLayouts: { [key: string]: { top: JSX.Element[], left: JSX.Element[], center: JSX.Element[], right: JSX.Element[] } } = {
         default: {
