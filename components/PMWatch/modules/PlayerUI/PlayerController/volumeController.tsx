@@ -21,15 +21,15 @@ export function VolumeController() {
         setVideoVolume(Math.floor(e.currentTarget.valueAsNumber))
         videoRef.current.volume = Math.floor(e.currentTarget.valueAsNumber) * 0.01
         startTransition(() => {
-            storage.setItem("local:videoVolume", Math.floor(e.currentTarget.valueAsNumber))
+            storage.setItem("local:volume", Math.floor(e.currentTarget.valueAsNumber))
         })
     }, [setVideoVolume])
 
     useEffect(() => {
-        getStorageItemsWithObject(["local:videoVolume", "local:isMuted"]).then((object) => {
+        getStorageItemsWithObject(["local:volume", "local:isMuted"]).then((object) => {
             if (!videoRef.current) return
-            setVideoVolume(object["local:videoVolume"] ?? 50)
-            videoRef.current.volume = (object["local:videoVolume"] ?? 50) * 0.01
+            setVideoVolume(object["local:volume"] ?? 50)
+            videoRef.current.volume = (object["local:volume"] ?? 50) * 0.01
             setIsMuted(object["local:isMuted"])
             videoRef.current.muted = object["local:isMuted"] ?? false
         })
