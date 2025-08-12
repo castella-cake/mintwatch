@@ -121,16 +121,19 @@ export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync"
     const _storageRef = useRef<{ [P in K[number]]: any }>({} as { [P in K[number]]: any })
     const subscribe = useCallback((onUpdate: () => void) => {
         let aborted = false
-        storage.getItems(keys.map(k => `${type}:${k}` as StorageItemKey)).then((item) => {
+        // StorageItemKey の形に直して取得
+        getStorageItemsWithObject(keys.map(key => `${type}:${key}` as StorageItemKey)).then((object) => {
             if (!aborted) {
-                // { key: string, value: any }[] から { [key: string]: any, ... } の形へ変換する
-                _storageRef.current = { ...item.reduce((prev, current) => ({ ...prev, [current.key.replace(`${type}:`, "")]: current.value }), {}) } as { [P in K[number]]: string }
+                _storageRef.current = Object.keys(object).map((key) => {
+                    return { [key.replace(`${type}:`, "")]: object[key as keyof typeof object] } as { [P in K[number]]: string }
+                }).reduce((p, c) => Object.assign(p, c), {} as { [P in K[number]]: string })
                 onUpdate()
             }
         })
-        const unwatchFunctions = keys.map(k => storage.watch(`${type}:${k}` as StorageItemKey, (n) => {
+        // watch は unwatch の関数を返す
+        const unwatchFunctions = keys.map(key => storage.watch(`${type}:${key}` as StorageItemKey, (n) => {
             if (!aborted) {
-                _storageRef.current = { ..._storageRef.current, [k]: n } as { [P in K[number]]: string }
+                _storageRef.current = { ..._storageRef.current, [key]: n } as { [P in K[number]]: string }
                 onUpdate()
             }
         }))
@@ -143,14 +146,4 @@ export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync"
     }, [])
     const storageObject = useSyncExternalStore(subscribe, () => _storageRef.current)
     return storageObject
-}
-
-export function usePlayerSettings() {
-    const { playersettings } = useStorageVar(["playersettings"] as const, "local")
-    const writePlayerSettings = useCallback((key: string, value: any) => {
-        storage.getItem<{ [key: string]: any }>("local:playersettings").then((s) => {
-            storage.setItem("local:playersettings", { ...s, [key]: value })
-        })
-    }, [])
-    return { playerSettings: playersettings ?? {}, writePlayerSettings }
 }
