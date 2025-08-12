@@ -1,24 +1,18 @@
-import { Dispatch, PointerEvent, RefObject, SetStateAction, useMemo } from "react"
+import { RefObject, useMemo } from "react"
 import { secondsToTime } from "@/utils/readableValue"
 
-import type { Comment as CommentItem } from "@/types/CommentData"
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData"
-import { useCommentContentContext } from "@/components/Global/Contexts/CommentDataProvider"
+import { CommentStats } from "./CommentStats"
+import { useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
+import Hls from "hls.js"
 
 type Props = {
-    currentTime: number
-    duration: number
     showTime: boolean
-    bufferedDuration: number
-    isSeeking: boolean
-    setIsSeeking: Dispatch<SetStateAction<boolean>>
-    tempSeekHandle: (clientX: number) => void
-    seekbarRef: RefObject<HTMLDivElement>
     storyBoardData?: StoryBoardImageRootObject | null
+    hlsRef: RefObject<Hls>
 }
 
-export function Seekbar({ currentTime, duration, showTime, bufferedDuration, setIsSeeking, tempSeekHandle, seekbarRef, storyBoardData }: Props) {
-    const commentContent = useCommentContentContext()
+export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
     const [storyBoardX, setStoryBoardX] = useState<number>(0)
     const storyboardCanvasRef = useRef<HTMLCanvasElement>(null)
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -34,7 +28,85 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
         })
     }, [storyBoardData])
 
-    const onPointerMove = (e: PointerEvent) => {
+    const videoRef = useVideoRefContext()
+    const [bufferedDuration, setBufferedDuration] = useState(0)
+
+    const [currentTime, setCurrentTime] = useState(0)
+    const [duration, setDuration] = useState(0)
+
+    const seekbarRef = useRef<HTMLDivElement>(null!)
+    const [isSeeking, setIsSeeking] = useState(false)
+    const isSeekingRef = useRef(false)
+    isSeekingRef.current = isSeeking
+
+    // 渡されたコールバックでRef作成
+    const doSeekRef = useRef(() => {
+        if (!videoRef.current) return
+        videoRef.current.currentTime = currentTime
+        // 元々clientXから再計算してたけど素直に突っ込んだ方が早かった！！！！！！！
+    })
+    // callbackが更新されたりしたらRef更新
+    doSeekRef.current = () => {
+        if (!videoRef.current) return
+        videoRef.current.currentTime = currentTime
+    }
+
+    useEffect(() => {
+        const controller = new AbortController()
+        const { signal } = controller
+        const updateCurrentTime = () => {
+            if (videoRef.current!.currentTime !== currentTime && !isSeekingRef.current) {
+                setCurrentTime(videoRef.current!.currentTime)
+            }
+        }
+        const updateDuration = () => {
+            if (videoRef.current!.duration !== duration) setDuration(videoRef.current!.duration)
+        }
+        function onSeekPointerMove(e: PointerEvent) {
+            if (!isSeeking) return
+            tempSeekHandle(e.clientX)
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+        function onSeekPointerUp(e: Event) {
+            if (!isSeeking) return
+            doSeekRef.current()
+            setIsSeeking(false)
+            e.preventDefault()
+            e.stopPropagation()
+        }
+        document.addEventListener("pointermove", onSeekPointerMove, { signal })
+        document.addEventListener("pointerup", onSeekPointerUp, { signal })
+        videoRef.current?.addEventListener("timeupdate", updateCurrentTime, { signal })
+        videoRef.current?.addEventListener("durationchange", updateDuration, { signal })
+
+        return () => controller.abort()
+    }, [isSeeking])
+
+    function tempSeekHandle(clientX: number) {
+        const boundingClientRect = seekbarRef.current?.getBoundingClientRect()
+        if (!boundingClientRect || !videoRef.current) return
+        // console.log((clientX - boundingClientRect.left) / boundingClientRect.width * 100)
+        let scale = ((clientX - boundingClientRect.left) / boundingClientRect.width)
+        if (scale > 1) scale = 1
+        if (scale < 0) scale = 0
+        setCurrentTime(duration * (scale <= 1 ? scale : 1))
+    }
+
+    useEffect(() => {
+        if (!hlsRef.current) return
+        hlsRef.current.on(Hls.Events.BUFFER_APPENDED, () => {
+            if (videoRef.current?.buffered.length) {
+                setBufferedDuration(videoRef.current?.buffered.end(videoRef.current?.buffered.length - 1))
+            }
+        })
+        hlsRef.current.on(Hls.Events.BUFFER_FLUSHED, () => {
+            setBufferedDuration(0)
+        })
+    }, [hlsRef.current])
+
+    const onPointerMove = (e: React.PointerEvent) => {
         const boundingClientRect = seekbarRef.current?.getBoundingClientRect()
         if (!boundingClientRect) return
         let scale = ((e.clientX - boundingClientRect.left) / boundingClientRect.width)
@@ -101,38 +173,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
         }
     }
 
-    const commentStatsCalc = useMemo(() => {
-        if (!commentContent) return {}
-        const comments = commentContent.data?.threads
-            .map(elem => elem.comments)
-            .reduce((prev, current) => {
-                return prev.concat(current)
-            }, [] as CommentItem[])
-            .sort((a, b) => a.vposMs - b.vposMs)
-        const commentStats: { [key: string]: number } = {}
-        if (!comments) return {}
-        // 大体要素数が60くらいになるように
-        const splitSeconds = duration / 60
-        const setMax = 50
-        let maxLength = -1
-
-        for (let i = 0; i < (Math.floor(duration) / splitSeconds); i++) {
-            // 前の範囲以上、今の範囲内のvposMsでフィルターして数を記録
-            const thisLength = comments.filter(elem => elem.vposMs < (i + 1) * (splitSeconds * 1000) && elem.vposMs > i * (splitSeconds * 1000)).length
-            commentStats[i * splitSeconds] = thisLength
-            // 最高値なら代入
-            if (maxLength < thisLength) maxLength = thisLength
-        }
-        // maxLength は setMax の何倍か
-        const lengthScale = maxLength / setMax
-        // lengthScaleの値で commentStats をスケール
-        for (const key in commentStats) {
-            commentStats[key] = Math.floor(commentStats[key] / lengthScale)
-        }
-        return commentStats
-    }, [commentContent, duration])
-
-    function onPointerDown(e: PointerEvent) {
+    function onPointerDown(e: React.PointerEvent) {
         setIsSeeking(true)
         tempSeekHandle(e.clientX)
         e.preventDefault()
@@ -149,11 +190,7 @@ export function Seekbar({ currentTime, duration, showTime, bufferedDuration, set
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
             >
-                <div className="seekbar-commentstats global-flex">
-                    {Object.keys(commentStatsCalc).map((keyname) => {
-                        return <span key={`${keyname}s-index`} className="global-flex1" style={{ ["--height" as any]: `${commentStatsCalc[keyname]}px` }}></span>
-                    })}
-                </div>
+                <CommentStats duration={duration} />
                 <div className="seekbar-bg"></div>
                 <div className="seekbar-buffered" style={{ width: `${Math.min(bufferedDuration / duration * 100, 100)}%` }}></div>
                 <div className="seekbar-played" style={{ width: `${Math.min(currentTime / duration * 100, 100)}%` }}></div>
