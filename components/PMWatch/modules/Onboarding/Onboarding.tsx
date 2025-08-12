@@ -31,84 +31,82 @@ const onboardPages: onboardingPage[] = [
     {
         title: "レイアウトを変更する",
         description: "あなたが一番慣れ親しんだレイアウトを使えます。\n設定にはこれ以外にもレイアウトが用意されています。",
-        selectors: <>
-            <SelectButton title="Re:cresc" value={watchLayoutType.reimaginedOldWatch} storageKey="pmwlayouttype">
+        selectors: [
+            <SelectButton title="Re:cresc" value={watchLayoutType.reimaginedOldWatch} storageKey="pmwlayouttype" key="pmwlayouttype-recresc">
                 <PreviewOldWatch />
-            </SelectButton>
-            <SelectButton title="Re:新視聴" value={watchLayoutType.reimaginedNewWatch} storageKey="pmwlayouttype">
+            </SelectButton>,
+            <SelectButton title="Re:新視聴" value={watchLayoutType.reimaginedNewWatch} storageKey="pmwlayouttype" key="pmwlayouttype-newwatch">
                 <PreviewNewWatch />
-            </SelectButton>
-            <SelectButton title="Shinjuku" value={watchLayoutType.shinjuku} storageKey="pmwlayouttype">
+            </SelectButton>,
+            <SelectButton title="Shinjuku" value={watchLayoutType.shinjuku} storageKey="pmwlayouttype" key="pmwlayouttype-shinjuku">
                 <PreviewShinjukuWatch />
-            </SelectButton>
-        </>,
+            </SelectButton>,
+        ],
         hint: "この設定の変更中、現在視聴中の動画の再生状態がリセットされる場合があります。",
         key: "layout",
     },
     {
         title: "プレイヤーテーマ",
         description: "自分好みのプレイヤーテーマを使用できます。",
-        selectors: <>
-            <SelectButton title="MintWatch" value="default" storageKey="pmwplayertype">
+        selectors: [
+            <SelectButton title="MintWatch" value="default" storageKey="pmwplayertype" key="pmwplayertype-default">
                 <PreviewMintPlayer />
-            </SelectButton>
-            <SelectButton title="HTML5" value="html5" storageKey="pmwplayertype">
+            </SelectButton>,
+            <SelectButton title="HTML5" value="html5" storageKey="pmwplayertype" key="pmwplayertype-html5">
                 <PreviewHTML5Player />
-            </SelectButton>
-            <SelectButton title="GINZA+" value="ginzaplus" storageKey="pmwplayertype">
+            </SelectButton>,
+            <SelectButton title="GINZA+" value="ginzaplus" storageKey="pmwplayertype" key="pmwplayertype-ginzaplus">
                 <PreviewGinzaPlayer />
-            </SelectButton>
-            <SelectButton title="Shinjuku" value="shinjuku" storageKey="pmwplayertype">
+            </SelectButton>,
+            <SelectButton title="Shinjuku" value="shinjuku" storageKey="pmwplayertype" key="pmwplayertype-shinjuku">
                 <PreviewShinjukuPlayer />
-            </SelectButton>
-        </>,
+            </SelectButton>,
+        ],
         hint: "Shinjuku レイアウトを選択した場合は、ここでも同じように選択しておくことをおすすめします。",
         key: "player",
     },
     {
         title: "コメントリストの表示",
         description: "コメントリストのデザインを選択できます。",
-        selectors: <>
-            <SelectButton title="eR以前" value="default" storageKey="commentListType">
+        selectors: [
+            <SelectButton title="eR以前" value="default" storageKey="commentListType" key="commentListType-default">
                 <PreviewDefaultComment />
-            </SelectButton>
-            <SelectButton title="Re:turn以降" value="modern" storageKey="commentListType">
+            </SelectButton>,
+            <SelectButton title="Re:turn以降" value="modern" storageKey="commentListType" key="commentListType-modern">
                 <PreviewModernComment />
-            </SelectButton>
-        </>,
+            </SelectButton>,
+        ],
         key: "commentlist",
     },
     {
         title: "UIの雰囲気を設定",
         description: "UI全体の丸みや余白を一括で自分好みに調整できます。",
-        selectors: <>
-            <SelectButton title="かため" value="compact" storageKey="layoutDensity" style={{ borderRadius: 4 }}>
-            </SelectButton>
-            <SelectButton title="ふつう" value="default" storageKey="layoutDensity" style={{ borderRadius: 6, padding: "4px 8px" }}>
-            </SelectButton>
-            <SelectButton title="やわめ" value="comfort" storageKey="layoutDensity" style={{ borderRadius: 12, padding: "8px 12px" }}>
-            </SelectButton>
-        </>,
+        selectors: [
+            <SelectButton title="かため" value="compact" storageKey="layoutDensity" style={{ borderRadius: 4 }} key="layoutDensity-compact">
+            </SelectButton>,
+            <SelectButton title="ふつう" value="default" storageKey="layoutDensity" style={{ borderRadius: 6, padding: "4px 8px" }} key="layoutDensity-default">
+            </SelectButton>,
+            <SelectButton title="やわめ" value="comfort" storageKey="layoutDensity" style={{ borderRadius: 12, padding: "8px 12px" }} key="layoutDensity-comfort">
+            </SelectButton>,
+        ],
         key: "comfort",
     },
     {
         title: "パレット設定",
         description: "ページに使用するパレットを設定します。",
-        selectors: (
-            <>
-                <SelectButton title="自動設定" value="default" storageKey="colorPalette">
-                </SelectButton>
-                <SelectButton title="ライト" value="light" storageKey="colorPalette">
-                </SelectButton>
-                <SelectButton title="ダーク" value="dark" storageKey="colorPalette">
-                </SelectButton>
-                <div className="pmw-onboarding-palette-unavailable">
-                    既に PepperMint+ 経由のカラーパレットを使用中のようです。
-                    <br />
-                    「次のステップへ」をクリックしてください。
-                </div>
-            </>
-        ),
+        selectors: [
+            <SelectButton title="自動設定" value="default" storageKey="colorPalette" key="colorPalette-default">
+            </SelectButton>,
+            <SelectButton title="ライト" value="light" storageKey="colorPalette" key="colorPalette-light">
+            </SelectButton>,
+            <SelectButton title="ダーク" value="dark" storageKey="colorPalette" key="colorPalette-dark">
+            </SelectButton>,
+            <div className="pmw-onboarding-palette-unavailable" key="colorPalette-hellopmuser">
+                既に PepperMint+ 経由のカラーパレットを使用中のようです。
+                <br />
+                「次のステップへ」をクリックしてください。
+            </div>,
+        ],
         key: "palette",
     },
     {

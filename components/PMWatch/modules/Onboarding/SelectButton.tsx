@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 export default function SelectButton({ title, value, storageKey, children, ...attributes }: { title: string, value: string, storageKey: string, children?: ReactNode } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
-    const { syncStorage } = useStorageVar([storageKey])
+    const syncStorage = useStorageVar([storageKey])
 
     return (
         <>

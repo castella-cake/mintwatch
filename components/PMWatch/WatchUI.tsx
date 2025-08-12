@@ -114,7 +114,7 @@ function CreateWatchUI() {
             <CSSTransition
                 nodeRef={onboardingPopupElemRef}
                 in={
-                    !onboardingIgnored
+                    !(onboardingIgnored === undefined ? true : onboardingIgnored)
                     && !isFullscreenUi
                 }
                 timeout={300}
