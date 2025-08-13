@@ -197,7 +197,7 @@ export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync"
         })
         // watch は unwatch の関数を返す
         const unwatchFunctions = keys.map(key => storageManager?.current.watch(`${type}:${key}` as StorageItemKey, (n) => {
-            if (!aborted) {
+            if (!aborted && !Object.is(_storageRef.current[key as keyof typeof _storageRef.current], n)) {
                 _storageRef.current = { ..._storageRef.current, [key]: n } as { [P in K[number]]: string }
                 onUpdate()
             }

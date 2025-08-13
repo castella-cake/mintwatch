@@ -61,42 +61,43 @@ export function scaleToDecibel(value: number) {
     return 20 * Math.log10(value)
 }
 
+const frequencies = [
+    31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000,
+]
+const defaultEffectsState: effectsState = {
+    equalizer: {
+        enabled: false,
+        gains: new Array(frequencies.length).fill(0),
+    },
+    highpass: {
+        enabled: false,
+        cutoffFrequency: 0,
+        qFactor: 0.5,
+        detune: 0,
+    },
+    lowpass: {
+        enabled: false,
+        cutoffFrequency: 16000,
+        qFactor: 0.5,
+        detune: 0,
+    },
+    echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 0 },
+    preamp: { enabled: false, gain: 1 },
+    mono: { enabled: false },
+}
+
 // Thank you ChatGPT
 export const useAudioEffects = (
     videoRef: RefObject<unknown>,
     loudnessControl: number,
     vefxSettings: any,
 ) => {
-    const [frequencies] = useState([
-        31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000,
-    ])
-    const defaultEffectsState: effectsState = {
-        equalizer: {
-            enabled: false,
-            gains: new Array(frequencies.length).fill(0),
-        },
-        highpass: {
-            enabled: false,
-            cutoffFrequency: 0,
-            qFactor: 0.5,
-            detune: 0,
-        },
-        lowpass: {
-            enabled: false,
-            cutoffFrequency: 16000,
-            qFactor: 0.5,
-            detune: 0,
-        },
-        echo: { enabled: false, delayTime: 0.25, feedback: 0.5, gain: 0 },
-        preamp: { enabled: false, gain: 1 },
-        mono: { enabled: false },
-    }
     const [effectsState, setEffectsState] = useState<effectsState>({
         ...defaultEffectsState,
         ...vefxSettings,
     })
 
-    const handleEffectsChange = (newState: effectsState) => {
+    const handleEffectsChange = useCallback((newState: effectsState) => {
         setEffectsState(newState)
 
         // 各エフェクトの更新処理
@@ -117,7 +118,7 @@ export const useAudioEffects = (
             newState.highpass.detune,
         )
         updatePreampGain(decibelToScale(effectsState.preamp.gain))
-    }
+    }, [])
 
     const audioContextRef = useRef<AudioContext>(null!)
 
@@ -148,7 +149,7 @@ export const useAudioEffects = (
         key => effectsState[key as keyof typeof effectsState].enabled,
     )
 
-    function refreshConnection() {
+    const refreshConnection = () => {
         if (mediaElementSourceRef.current) {
             let lastNode: any = mediaElementSourceRef.current
             // 一旦繋がるノードを切断してから接続するようにした
@@ -173,8 +174,7 @@ export const useAudioEffects = (
             })
 
             // ノードを順次接続
-            if (loudnessGainNodeRef.current)
-                loudnessGainNodeRef.current.gain.value = loudnessControl
+            if (loudnessGainNodeRef.current) loudnessGainNodeRef.current.gain.value = loudnessControl
             lastNode.connect(loudnessGainNodeRef.current)
             lastNode = loudnessGainNodeRef.current
 
@@ -348,14 +348,14 @@ export const useAudioEffects = (
     }, [frequencies, ...effectEnableState, loudnessControl])
 
     // イコライザーのゲイン更新
-    const updateEqualizer = (gains: number[]) => {
+    const updateEqualizer = useCallback((gains: number[]) => {
         biquadFiltersRef.current.forEach((filter, i) => {
             filter.gain.value = gains[i]
         })
-    }
+    }, [])
 
     // エコーの設定更新
-    const updateEcho = (time: number, feedback: number, gain: number) => {
+    const updateEcho = useCallback((time: number, feedback: number, gain: number) => {
         if (
             echoDelayNodeRef.current
             && echoFeedbackNodeRef.current
@@ -371,9 +371,9 @@ export const useAudioEffects = (
             echoFeedbackNodeRef.current.gain.value = feedback
             echoGainNodeRef.current.gain.value = gain
         }
-    }
+    }, [])
 
-    const updateHighpass = (
+    const updateHighpass = useCallback((
         cutoffFrequency: number,
         qFactor: number,
         detune: number,
@@ -384,9 +384,9 @@ export const useAudioEffects = (
             highpassBiquadFilterRef.current.Q.value = qFactor ?? 0.5
             highpassBiquadFilterRef.current.detune.value = detune ?? 0
         }
-    }
+    }, [])
 
-    const updateLowpass = (
+    const updateLowpass = useCallback((
         cutoffFrequency: number,
         qFactor: number,
         detune: number,
@@ -397,10 +397,10 @@ export const useAudioEffects = (
             lowpassBiquadFilterRef.current.Q.value = qFactor ?? 0.5
             lowpassBiquadFilterRef.current.detune.value = detune ?? 0
         }
-    }
+    }, [])
 
     // プリアンプのゲイン更新
-    const updatePreampGain = (gain: number) => {
+    const updatePreampGain = useCallback((gain: number) => {
         if (gainNodeRef.current) {
             /* if (!effectsState.preamp.enabled) {
                 gainNodeRef.current.gain.value = 0;
@@ -408,11 +408,14 @@ export const useAudioEffects = (
             } */
             gainNodeRef.current.gain.value = gain
         }
-    }
+    }, [])
 
     const updateLoudnessControl = (gain: number) => {
-        if (loudnessGainNodeRef.current)
+        if (loudnessGainNodeRef.current) {
             loudnessGainNodeRef.current.gain.value = gain
+        } else {
+            throw new Error("cannot apply loudness control. loudnessGainNodeRef is falsy.")
+        }
     }
 
     return {

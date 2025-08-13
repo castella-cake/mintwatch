@@ -94,35 +94,32 @@ function Player(props: Props) {
     const pipVideoRef = useRef<HTMLVideoElement>(null)
     const commentInputRef = useRef<HTMLTextAreaElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-    const [previewCommentItem, setPreviewCommentItem]
-        = useState<Comment | null>(null) // プレビューコメント
+    const [previewCommentItem, setPreviewCommentItem] = useState<Comment | null>(null) // プレビューコメント
 
     // ショートカットのフィードバックツールチップ
     const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false)
     const [shortcutFeedbackText, _setShortcutFeedbackText] = useState<string | null>(null)
     const shortcutFeedbackElemRef = useRef<HTMLDivElement>(null)
     const shortcutFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
-    function setShortcutFeedback(text: string) {
+    const setShortcutFeedback = useCallback((text: string) => {
         _setShortcutFeedbackText(text)
         _setShortcutFeedbackShown(true)
         clearTimeout(shortcutFeedbackTimeoutRef.current)
         shortcutFeedbackTimeoutRef.current = setTimeout(() => {
             _setShortcutFeedbackShown(false)
         }, 1500)
-    }
+    }, [])
 
     // for transition
     const vefxElemRef = useRef<HTMLDivElement>(null)
     const settingsElemRef = useRef<HTMLDivElement>(null)
 
-    const isLoudnessEnabled
-        = localStorage.enableLoudnessData ?? true
-    const integratedLoudness
-        = (
-            videoInfo?.data?.response.media.domand && videoInfo?.data.response.media.domand?.audios.length > 0
-            && videoInfo?.data.response.media.domand.audios[0].loudnessCollection.length > 0
-            && videoInfo?.data.response.media.domand.audios[0].loudnessCollection[0].value
-        ) || 1
+    const isLoudnessEnabled = localStorage.enableLoudnessData ?? true
+    const integratedLoudness = (
+        videoInfo?.data?.response.media.domand && videoInfo?.data.response.media.domand?.audios.length > 0
+        && videoInfo?.data.response.media.domand.audios[0].loudnessCollection.length > 0
+        && videoInfo?.data.response.media.domand.audios[0].loudnessCollection[0].value
+    ) || 1
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1
     const { effectsState, setEffectsState, frequencies, handleEffectsChange } = useAudioEffects(
         videoRef,
