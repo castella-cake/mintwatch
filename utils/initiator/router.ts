@@ -130,17 +130,17 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         anchor: "body",
         onMount: (container) => {
             const unwatchPalette = storage.watch<string>("sync:colorPalette", (newPalette) => {
-                if (newPalette) document.body.setAttribute("data-mw-palette", newPalette)
+                if (newPalette) document.documentElement.setAttribute("data-mw-palette", newPalette)
             })
             const unwatchEasterEgg = storage.watch<string>("sync:starNightPalette", (newPalette) => {
                 if (newPalette) {
-                    document.body.setAttribute("data-mw-palette", "starnight")
+                    document.documentElement.setAttribute("data-mw-palette", "starnight")
                 } else {
                     storage.getItem("sync:colorPalette").then((c) => {
                         if (typeof c === "string") {
-                            document.body.setAttribute("data-mw-palette", c)
+                            document.documentElement.setAttribute("data-mw-palette", c)
                         } else {
-                            document.body.setAttribute("data-mw-palette", "default")
+                            document.documentElement.setAttribute("data-mw-palette", "default")
                         }
                     })
                 }
