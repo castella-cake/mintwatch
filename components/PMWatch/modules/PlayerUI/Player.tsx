@@ -150,7 +150,7 @@ function Player(props: Props) {
         videoId,
         actionTrackId,
         shouldUseContentScriptHls,
-        localStorage.preferredLevel || -1,
+        localStorage.preferredLevel ?? -1,
     )
 
     // ストーリーボード
@@ -241,6 +241,7 @@ function Player(props: Props) {
                 toggleFullscreen,
                 setShortcutFeedback,
                 onModalStateChanged,
+                setIsCommentShown,
             )
         document.body.addEventListener("keydown", onKeydown)
 
