@@ -97,31 +97,34 @@ type StorageVarManager = {
     _cachedStorage: Map<StorageItemKey, any>
 }
 
-const IStorageContext = createContext<RefObject<StorageVarManager> | null>(null)
+const IStorageContext = createContext<[RefObject<StorageVarManager> | null, boolean]>([null, false])
 
 export function StorageProvider({ children }: { children: ReactNode }) {
     const storageVarRef = useRef(storageVar())
+    const [isPrecacheDone, setIsPrecacheDone] = useState(false)
     useEffect(() => {
-        storage.snapshot("sync").then((snapshot) => {
-            const prefixedSnapshot = Object.keys(snapshot).map((key) => {
-                return { [`sync:${key}`]: snapshot[key as keyof typeof snapshot] }
-            }).reduce((p, c) => Object.assign(p, c), {})
-            for (const key in prefixedSnapshot) {
-                storageVarRef.current._cachedStorage.set(key as StorageItemKey, prefixedSnapshot[key as keyof typeof prefixedSnapshot])
+        Promise.allSettled([storage.snapshot("sync"), storage.snapshot("local")]).then((result) => {
+            if (result[0].status === "fulfilled") {
+                const syncSnapshot = result[0].value
+                const prefixedSnapshot = prefixObject(syncSnapshot, "sync:")
+                for (const key in prefixedSnapshot) {
+                    storageVarRef.current._cachedStorage.set(key as StorageItemKey, prefixedSnapshot[key as keyof typeof prefixedSnapshot])
+                }
             }
-        })
-        storage.snapshot("local").then((snapshot) => {
-            const prefixedSnapshot = Object.keys(snapshot).map((key) => {
-                return { [`local:${key}`]: snapshot[key as keyof typeof snapshot] }
-            }).reduce((p, c) => Object.assign(p, c), {})
-            for (const key in prefixedSnapshot) {
-                storageVarRef.current._cachedStorage.set(key as StorageItemKey, prefixedSnapshot[key as keyof typeof prefixedSnapshot])
+            if (result[1].status === "fulfilled") {
+                const localSnapshot = result[1].value
+                const prefixedSnapshot = prefixObject(localSnapshot, "local:")
+                for (const key in prefixedSnapshot) {
+                    storageVarRef.current._cachedStorage.set(key as StorageItemKey, prefixedSnapshot[key as keyof typeof prefixedSnapshot])
+                }
             }
+            setIsPrecacheDone(true)
         })
     }, [])
+
     return (
-        <IStorageContext value={storageVarRef}>
-            {children}
+        <IStorageContext value={[storageVarRef, isPrecacheDone]}>
+            {isPrecacheDone && children}
         </IStorageContext>
     )
 }
@@ -181,23 +184,13 @@ export function storageVar(): StorageVarManager {
  * @returns 統合されたオブジェクト
  */
 export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync" | "local" | "session" | "managed" = "sync"): { [P in K[number]]?: any } {
-    const storageManager = useStorageContext()
-    const _storageRef = useRef<{ [P in K[number]]: any }>({} as { [P in K[number]]: any })
+    const [storageManager] = useStorageContext()
+    const _storageRef = useRef<{ [P in K[number]]: any } | null>(null)
     const subscribe = useCallback((onUpdate: () => void) => {
         let aborted = false
-        // StorageItemKey の形に直して取得
-        storageManager?.current.getItems(keys.map(key => `${type}:${key}` as StorageItemKey)).then((object) => {
-            if (!aborted) {
-                // keyからtypeを取り除く
-                _storageRef.current = Object.keys(object).map((key) => {
-                    return { [key.replace(`${type}:`, "")]: object[key as keyof typeof object] } as { [P in K[number]]: string }
-                }).reduce((p, c) => Object.assign(p, c), {} as { [P in K[number]]: string })
-                onUpdate()
-            }
-        })
         // watch は unwatch の関数を返す
         const unwatchFunctions = keys.map(key => storageManager?.current.watch(`${type}:${key}` as StorageItemKey, (n) => {
-            if (!aborted && !Object.is(_storageRef.current[key as keyof typeof _storageRef.current], n)) {
+            if (!aborted && (_storageRef.current === null || !Object.is(_storageRef.current[key as keyof typeof _storageRef.current], n))) {
                 _storageRef.current = { ..._storageRef.current, [key]: n } as { [P in K[number]]: string }
                 onUpdate()
             }
@@ -209,6 +202,24 @@ export function useStorageVar<K extends readonly string[]>(keys: K, type: "sync"
             }
         }
     }, [storageManager])
-    const storageObject = useSyncExternalStore(subscribe, () => _storageRef.current)
-    return storageObject
+    const returnLatestSnapshot = useCallback(() => {
+        if (storageManager && _storageRef.current === null) {
+            _storageRef.current = unPrefixObject(Object.fromEntries(storageManager?.current._cachedStorage), `${type}:`) as { [P in K[number]]: any }
+        }
+        return _storageRef.current
+    }, [storageManager])
+    const storageObject = useSyncExternalStore(subscribe, returnLatestSnapshot)
+    return storageObject ?? {}
+}
+
+function unPrefixObject(object: { [prefixedKey: string]: any }, prefix: string) {
+    return Object.keys(object).map((key) => {
+        return { [key.replace(prefix, "")]: object[key as keyof typeof object] }
+    }).reduce((p, c) => Object.assign(p, c), {})
+}
+
+function prefixObject(object: { [prefixedKey: string]: any }, prefix: string) {
+    return Object.keys(object).map((key) => {
+        return { [`${prefix}${key}`]: object[key as keyof typeof object] }
+    }).reduce((p, c) => Object.assign(p, c), {})
 }
