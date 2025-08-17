@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:2;">
+    <g transform="matrix(1.12427e-16,1.83607,-1.04918,6.42438e-17,535.607,-438.033)">
+        <path d="M349.414,309.2L412.857,419L412.857,480L378,480L256,266.5L378,53L412.857,53L412.857,114L349.414,223.8L482.571,223.8L500,266.5L482.571,309.2L349.414,309.2Z" style="fill:#f4b5b5;"/>
+        <clipPath id="_clip1">
+            <path d="M349.414,309.2L412.857,419L412.857,480L378,480L256,266.5L378,53L412.857,53L412.857,114L349.414,223.8L482.571,223.8L500,266.5L482.571,309.2L349.414,309.2Z"/>
+        </clipPath>
+        <g clip-path="url(#_clip1)">
+            <g transform="matrix(1,0,-1.84889e-32,1,5.0462,-18.3017)">
+                <path d="M334.626,322.254L313.535,284.955L334.626,247.656" style="fill:none;stroke:#ff553d;stroke-width:5.35px;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,81.8939,-18.3017)">
+                <path d="M334.626,322.254L313.535,284.955L334.626,247.656" style="fill:none;stroke:#ff553d;stroke-width:5.35px;"/>
+            </g>
+        </g>
+        <path d="M349.414,309.2L412.857,419L412.857,480L378,480L256,266.5L378,53L412.857,53L412.857,114L349.414,223.8L482.571,223.8L500,266.5L482.571,309.2L349.414,309.2ZM476.966,290.138L486.614,266.5L476.966,242.862L322.908,242.862L401.964,106.042L401.964,72.063L382.512,72.062L271.405,266.5L382.512,460.938L401.964,460.938L401.964,426.958L322.908,290.138L476.966,290.138Z" style="fill:url(#_somedancegamearrow_Linear2);"/>
+        <path d="M370.618,324.45L418.985,408.157L421.571,419L421.571,480L412.857,495.25L378,495.25L371.838,490.783L249.838,277.283L249.838,255.717L371.838,42.217L378,37.75L412.857,37.75L421.571,53L421.571,114L418.985,124.843L370.618,208.55L482.571,208.55L489.663,214.936L507.091,257.636L507.091,275.364L489.663,318.064L482.571,324.45L370.618,324.45ZM349.414,309.2L482.571,309.2L500,266.5L482.571,223.8L349.414,223.8L412.857,114L412.857,53L378,53L256,266.5L378,480L412.857,480L412.857,419L349.414,309.2Z"/>
+    </g>
+    <defs>
+        <linearGradient id="_somedancegamearrow_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(244,0,0,427,256,266.5)"><stop offset="0" style="stop-color:#ff8a8a;stop-opacity:1"/><stop offset="1" style="stop-color:#ff2314;stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

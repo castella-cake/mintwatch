@@ -53,3 +53,62 @@
         opacity: 1;
     }
 }
+
+.pmw-keyboard-dance {
+    transition: opacity 0.5s ease;
+    margin: 1em 0;
+    text-align: center;
+}
+
+.pmw-keyboard-help:not(:focus) .pmw-keyboard-dance {
+    opacity: 0.25;
+}
+
+.pmw-keyboard-dance > svg {
+    height: 3rem;
+    display: inline;
+    width: 3rem;
+}
+
+.pmw-keyboard-dance > svg[data-direction="left"] {
+    rotate: -90deg;
+}
+
+.pmw-keyboard-dance > svg[data-direction="right"] {
+    rotate: 90deg;
+}
+
+.pmw-keyboard-dance > svg[data-direction="down"] {
+    rotate: 180deg;
+}
+
+.pmw-keyboard-dance > svg[data-is-pressed="false"] {
+    filter: grayscale(1) invert(1);
+}
+
+.pmw-keyboard-dance > svg[data-is-pressed="true"][data-direction="left"], .pmw-keyboard-dance > svg[data-is-pressed="true"][data-direction="right"] {
+    filter: hue-rotate(240deg);
+}
+
+.pmw-keyboard-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 1em 0;
+    gap: 8px;
+}
+
+.pmw-keyboard-shortcut {
+    border-radius: var(--radius);
+    border: var(--border);
+    padding: 8px;
+}
+
+.pmw-keyboard-shortcut-title {
+    font-size: 0.9em;
+}
+
+.pmw-keyboard-shortcut-key-text {
+    opacity: 0.8;
+    font-size: 0.8rem;
+    margin: 0 0.5em;
+}
