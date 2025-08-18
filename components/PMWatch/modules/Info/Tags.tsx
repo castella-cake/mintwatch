@@ -70,8 +70,15 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             showAlert({ title: "動画を再生してください", body: "動画が再生されていないため、タグを登録できません。", icon: <IconCircleX /> })
             return
         }
-        const response: TagsApiRootObject = await getTagsApi(smId)
-        if (response.meta.status !== 200) return
+        if (!initialTagData.edit.editKey) {
+            showAlert({ title: `タグを編集できません`, body: "タグ編集を開始するためのキーが存在しないため、編集を開始できません。", icon: <IconCircleX /> })
+            return
+        }
+        const response: TagsApiRootObject = await getTagsApi(smId, initialTagData.edit.editKey)
+        if (response.meta.status !== 200) {
+            showAlert({ title: `タグを編集できません: ${response.meta.status}`, body: "リクエストに失敗したため、編集を開始できません。", icon: <IconCircleX /> })
+            return
+        }
         setTags(response.data.tags)
         if (response.data.isEditable) {
             setIsEditable(response.data.isEditable)
@@ -99,9 +106,11 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             showAlert({ title: "タグを登録できません", body: "タグは40文字以内で入力してください。\n(全角文字は2文字としてカウントされます)", icon: <IconAlertTriangle /> })
         } else if (tags.some(elem => tagInputRef.current && elem.name === tagInputRef.current.value)) {
             showAlert({ title: "タグを登録できません", body: "このタグは既に登録されています。", icon: <IconAlertTriangle /> })
+        } else if (!initialTagData.edit.editKey) {
+            showAlert({ title: "タグを登録できません", body: "タグ編集を開始するためのキーが存在しないため、タグを登録できません。", icon: <IconAlertTriangle /> })
         } else {
             const tagName = tagInputRef.current.value
-            const response: TagsApiRootObject = await tagsEditApi(smId, tagName, "POST")
+            const response: TagsApiRootObject = await tagsEditApi(smId, initialTagData.edit.editKey, tagName, "POST")
             if (response.meta.status === 400 && response.meta.errorCode === "TAG_RESERVED") showAlert({ title: "タグを登録できません", body: "400: 予約済みのタグは登録できません。", icon: <IconCircleX /> })
             if (response.meta.status !== 200) return
             setTags(response.data.tags)
@@ -109,15 +118,15 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     }
 
     async function onTagRemove(tagName: string, isLocked: boolean) {
-        if (!isEditable || isLocked || !smId) return
-        const response: TagsApiRootObject = await tagsEditApi(smId, tagName, "DELETE")
+        if (!isEditable || isLocked || !smId || !initialTagData.edit.editKey) return
+        const response: TagsApiRootObject = await tagsEditApi(smId, initialTagData.edit.editKey, tagName, "DELETE")
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
     }
 
     async function onTagLockEdit(tagName: string, isLocked: boolean) {
-        if (!isLockable || !isEditable || !smId) return
-        const response: TagsApiRootObject = await tagsLockApi(smId, tagName, isLocked)
+        if (!isLockable || !isEditable || !smId || !initialTagData.edit.editKey) return
+        const response: TagsApiRootObject = await tagsLockApi(smId, initialTagData.edit.editKey, tagName, isLocked)
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
     }

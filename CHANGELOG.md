@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - コメントリストのオートスクロールを修正しました
 - ランキングページのタブ切り替えができない問題を修正しました [#36](https://github.com/castella-cake/mintwatch/issues/36)
+- タグ編集API v2に対応しました[#45](https://github.com/castella-cake/mintwatch/issues/45)
 
 ## 0.8.0 - 2025/06/27
 
