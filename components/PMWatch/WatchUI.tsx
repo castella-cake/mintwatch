@@ -71,9 +71,11 @@ function CreateWatchUI() {
             ); */
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
-                queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
-                queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
-                setSmId(smIdAfter)
+                if (smId !== smIdAfter) {
+                    queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
+                    queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
+                    setSmId(smIdAfter)
+                }
                 updatePlaylistState(location.search)
             };
         })
