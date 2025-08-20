@@ -34,6 +34,14 @@ export default function CustomRankingContent() {
                                                 title={video.title}
                                                 subTitle={(
                                                     <>
+                                                        {relativeTimeFrom(new Date(video.registeredAt))}
+                                                        {" "}
+                                                        / by
+                                                        {video.owner.name}
+                                                    </>
+                                                )}
+                                                counts={(
+                                                    <>
                                                         <span className="shogi-video-count">
                                                             <IconPlayerPlayFilled />
                                                             {readableInt(video.count.view, 1)}
@@ -46,11 +54,6 @@ export default function CustomRankingContent() {
                                                             <IconFolderFilled />
                                                             {readableInt(video.count.mylist, 1)}
                                                         </span>
-                                                        <br />
-                                                        {relativeTimeFrom(new Date(video.registeredAt))}
-                                                        {" "}
-                                                        / by
-                                                        {video.owner.name}
                                                     </>
                                                 )}
                                                 thumbnailUrl={video.thumbnail.listingUrl}

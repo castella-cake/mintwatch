@@ -231,13 +231,6 @@ interface SeriesThumbnail {
     nHdUrl: string
 }
 
-interface Count {
-    view: number
-    comment: number
-    mylist: number
-    like: number
-}
-
 interface Ranking {
     genre: Genre2 | null
     popularTag: PopularTag[]

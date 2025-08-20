@@ -68,13 +68,6 @@ interface Thumbnail {
     nHdUrl: string
 }
 
-interface Count {
-    view: number
-    comment: number
-    mylist: number
-    like: number
-}
-
 interface GetCustomRankingSettings {
     data: CustomTeibanRankingData
 }

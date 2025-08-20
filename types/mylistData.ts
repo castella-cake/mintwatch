@@ -50,13 +50,6 @@ interface Thumbnail {
     nHdUrl: string
 }
 
-interface Count {
-    view: number
-    comment: number
-    mylist: number
-    like: number
-}
-
 interface Meta2 {
     title: string
     ownerName: string

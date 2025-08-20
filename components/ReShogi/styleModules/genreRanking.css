@@ -50,7 +50,7 @@
         -webkit-line-clamp: 1;
     } 
 
-    .info-card-title, .info-card-owner {
+    .info-card-title, .info-card-subtitle {
         line-height: 1.5rem;
     }
 

@@ -3,15 +3,19 @@ export default function relativeTimeFrom(date: Date): string {
     const diffMilliseconds = now.getTime() - date.getTime()
 
     // 各単位のミリ秒
-    const dayMs = 86400000 // 24 * 60 * 60 * 1000
-    const hourMs = 3600000 // 60 * 60 * 1000
-    const minuteMs = 60000
     const secondMs = 1000
+    const minuteMs = secondMs * 60
+    const hourMs = minuteMs * 60
+    const dayMs = hourMs * 24
+    const yearMs = dayMs * 365
 
     let value: number
     let unit: string
 
-    if (diffMilliseconds >= dayMs) {
+    if (diffMilliseconds >= yearMs) {
+        value = Math.floor(diffMilliseconds / yearMs)
+        unit = "年前"
+    } else if (diffMilliseconds >= dayMs) {
         value = Math.floor(diffMilliseconds / dayMs)
         unit = "日前"
     } else if (diffMilliseconds >= hourMs) {

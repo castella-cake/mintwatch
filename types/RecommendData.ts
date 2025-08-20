@@ -101,13 +101,6 @@ interface SeriesThumbnail {
     nHdUrl: string
 }
 
-interface Count {
-    view: number
-    comment: number
-    mylist: number
-    like: number
-}
-
 interface Recipe {
     id: string
     meta: null

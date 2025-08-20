@@ -79,7 +79,7 @@
         display: flex;
     }
 
-    .info-card-thumbnail, .info-card-owner, .info-card-content-title, .info-card-playingtext {
+    .info-card-thumbnail, .info-card-subtitle, .info-card-content-title, .info-card-playingtext {
         display: none;
     }
 
@@ -125,7 +125,7 @@
         color: var(--textcolor2) !important;
     }
 
-    .info-card-title, .info-card-owner {
+    .info-card-title, .info-card-subtitle {
         font-size: 0.9rem;
 
         span svg {
@@ -135,7 +135,7 @@
         }
     }
 
-    .info-card-owner {
+    .info-card-subtitle {
         font-size: 0.8rem;
     }
 }

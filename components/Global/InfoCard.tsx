@@ -1,4 +1,4 @@
-import { IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react"
+import { IconClockFilled, IconFolderFilled, IconHeartFilled, IconListNumbers, IconMessageFilled, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
@@ -23,14 +23,15 @@ function Draggable({ id, obj, children }: { id: string, obj: any, children: Reac
 type CardProps = {
     href: string
     thumbnailUrl?: string
-    thumbText?: string | ReactNode
-    subTitle?: string | ReactNode
+    thumbText?: ReactNode
+    subTitle?: ReactNode
+    counts?: ReactNode
     additionalClassName?: string
     children?: ReactNode
     title: string
 }
 export function Card(props: CardProps) {
-    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, ...additionalAttribute } = props
+    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, ...additionalAttribute } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
@@ -41,7 +42,8 @@ export function Card(props: CardProps) {
                 </div>
             )}
             { children && <div className="info-card-title">{children}</div> }
-            { ownerName && <div className="info-card-owner">{ownerName}</div> }
+            { counts && <div className="info-card-counts">{counts}</div>}
+            { ownerName && <div className="info-card-subtitle">{ownerName}</div> }
         </div>
     )
 }
@@ -56,6 +58,7 @@ export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = fa
                 thumbnailUrl={obj.content.thumbnail && (obj.content.thumbnail.listingUrl ?? obj.content.thumbnail.url ?? "")}
                 thumbText={obj.content.duration ? secondsToTime(obj.content.duration) : "??:??"}
                 subTitle={obj.content.owner.name}
+                counts={obj.content.count && <InfoCardCount count={obj.content.count} registeredAt={obj.content.registeredAt} />}
                 href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
                 data-nowplaying={isNowPlaying}
                 title={obj.content.title ?? "タイトル不明"}
@@ -119,5 +122,34 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
                 </span>
             </Card>
         </Draggable>
+    )
+}
+
+export function InfoCardCount({ count, registeredAt }: { count: Count, registeredAt?: string }) {
+    return (
+        <>
+            <span className="info-card-count">
+                <IconPlayerPlayFilled />
+                {readableInt(count.view, 1)}
+            </span>
+            <span className="info-card-count">
+                <IconMessageFilled />
+                {readableInt(count.comment, 1)}
+            </span>
+            <span className="info-card-count">
+                <IconFolderFilled />
+                {readableInt(count.mylist, 1)}
+            </span>
+            <span className="info-card-count">
+                <IconHeartFilled />
+                {readableInt(count.like, 1)}
+            </span>
+            {registeredAt && (
+                <span className="info-card-count">
+                    <IconClockFilled />
+                    {relativeTimeFrom(new Date(registeredAt))}
+                </span>
+            )}
+        </>
     )
 }
