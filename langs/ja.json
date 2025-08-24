@@ -35,6 +35,10 @@
             "select": ["自動", "ライト", "ダーク"],
             "hint": "PM+ のパレット設定が優先されます"
         },
+        "showExtendedRecommend": {
+            "name": "動画カードに統計情報を表示",
+            "hint": "おすすめなどの動画カードに統計情報を表示します"
+        },
         "starNightPalette": {
             "name": "🌠",
             "hint": "パレットを StarNight でオーバーライドします"

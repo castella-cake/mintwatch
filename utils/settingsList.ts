@@ -52,6 +52,11 @@ const settings: settingList = {
         },
         {
             type: "checkbox",
+            name: "showExtendedRecommend",
+            default: false,
+        },
+        {
+            type: "checkbox",
             name: "starNightPalette",
             default: false,
             unlockFlag: "unlockStarNightSetting",

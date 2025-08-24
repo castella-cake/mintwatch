@@ -35,6 +35,10 @@
             "select": ["Auto", "Light", "Dark"],
             "hint": "If PM+ palette settings are enabled, this setting will not be applied"
         },
+        "showExtendedRecommend": {
+            "name": "Display Statistics on Video Cards",
+            "hint": "Displays statistics on video cards in the recommendations section"
+        },
         "starNightPalette": {
             "name": "🌠",
             "hint": "Override the palette with StarNight"

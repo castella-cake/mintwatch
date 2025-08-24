@@ -5,6 +5,7 @@ import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 
 function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) {
     // const lang = useLang()
+    const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
@@ -18,6 +19,7 @@ function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) 
                         recommendType: "",
                         content: { ...item.essential },
                     }}
+                    isExtendedView={showExtendedRecommend}
                 />
             )
         })

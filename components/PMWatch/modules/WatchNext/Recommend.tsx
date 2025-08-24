@@ -2,6 +2,7 @@
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider"
 import { InfoCardFromRecommend } from "@/components/Global/InfoCard"
 function Recommend() {
+    const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const recommendData = useRecommendContext()
 
     if (!recommendData || !recommendData.data)
@@ -14,6 +15,7 @@ function Recommend() {
                 <InfoCardFromRecommend
                     key={`recommend-${elem.id}`}
                     obj={elem}
+                    isExtendedView={showExtendedRecommend}
                 />
             )
         })

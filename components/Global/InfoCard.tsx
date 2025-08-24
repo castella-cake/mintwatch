@@ -30,9 +30,10 @@ type CardProps = {
     children?: ReactNode
     title: string
     shortDescription?: ReactNode
+    leftMarker?: ReactNode
 }
 export function Card(props: CardProps) {
-    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, ...additionalAttribute } = props
+    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, leftMarker, ...additionalAttribute } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
@@ -43,6 +44,7 @@ export function Card(props: CardProps) {
                 </div>
             )}
             <div className="info-card-datacolumn">
+                { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
                 { children && <div className="info-card-title">{children}</div> }
                 { shortDescription && <div className="info-card-desc">{shortDescription}</div>}
                 { counts && <div className="info-card-counts">{counts}</div>}
@@ -52,7 +54,7 @@ export function Card(props: CardProps) {
     )
 }
 
-export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = false }: { obj: RecommendItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean }) {
+export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = false, isExtendedView = false }: { obj: RecommendItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, isExtendedView?: boolean }) {
     const thisVideoId = obj.id || (obj.content && obj.content.id) || null
 
     if (!thisVideoId) return <div className="info-card">表示に失敗しました</div>
@@ -62,7 +64,7 @@ export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = fa
                 thumbnailUrl={obj.content.thumbnail && (obj.content.thumbnail.listingUrl ?? obj.content.thumbnail.url ?? "")}
                 thumbText={obj.content.duration ? secondsToTime(obj.content.duration) : "??:??"}
                 subTitle={obj.content.owner.name}
-                counts={obj.content.count && <InfoCardCount count={obj.content.count} registeredAt={obj.content.registeredAt} />}
+                counts={isExtendedView && obj.content.count && <InfoCardCount count={obj.content.count} registeredAt={obj.content.registeredAt} />}
                 href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
                 data-nowplaying={isNowPlaying}
                 title={obj.content.title ?? "タイトル不明"}
@@ -99,9 +101,9 @@ export function MylistInfo(props: { obj: RecommendItem }) {
     )
 }
 
-export function InfoCardFromRecommend({ obj, isNextVideo = false }: { obj: RecommendItem, isNextVideo?: boolean }) {
-    if (obj.contentType == "video") return <VideoInfo obj={obj} isNextVideo={isNextVideo} />
-    if (obj.contentType == "mylist") return <MylistInfo obj={obj} />
+export function InfoCardFromRecommend(props: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean }) {
+    if (props.obj.contentType == "video") return <VideoInfo {...props} />
+    if (props.obj.contentType == "mylist") return <MylistInfo {...props} />
     return <div>Unknown contentType</div>
 }
 
