@@ -106,6 +106,10 @@
         padding: 8px;
     }
 
+    .info-card-datacolumn {
+        gap: 0;
+    }
+
     .draggable-infocard-wrapper {
         flex: 1;
 

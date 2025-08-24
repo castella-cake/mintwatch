@@ -29,9 +29,10 @@ type CardProps = {
     additionalClassName?: string
     children?: ReactNode
     title: string
+    shortDescription?: ReactNode
 }
 export function Card(props: CardProps) {
-    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, ...additionalAttribute } = props
+    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, ...additionalAttribute } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
@@ -41,9 +42,12 @@ export function Card(props: CardProps) {
                     { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
                 </div>
             )}
-            { children && <div className="info-card-title">{children}</div> }
-            { counts && <div className="info-card-counts">{counts}</div>}
-            { ownerName && <div className="info-card-subtitle">{ownerName}</div> }
+            <div className="info-card-datacolumn">
+                { children && <div className="info-card-title">{children}</div> }
+                { shortDescription && <div className="info-card-desc">{shortDescription}</div>}
+                { counts && <div className="info-card-counts">{counts}</div>}
+                { ownerName && <div className="info-card-subtitle">{ownerName}</div> }
+            </div>
         </div>
     )
 }

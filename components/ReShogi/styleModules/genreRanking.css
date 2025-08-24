@@ -40,8 +40,8 @@
     .shogi-genre-item .info-card {
         --thumb-height: 9rem;
 
-        padding: 16px;
-        gap: 8px 10px;
+        gap: 12px;
+        padding: 14px;
     }
 
     .info-card-title {
@@ -77,14 +77,13 @@
         background: var(--hover1);
     }
 
-    .shogi-short-desc {
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
     .shogi-video-count {
         font-size: 0.9rem;
-        line-height: 2rem;
+        line-height: 1.2em;
+    }
+
+    .info-card-counts svg {
+        vertical-align: baseline;
     }
 
     .shogi-genre-teiban-selector-container {

@@ -169,38 +169,40 @@ export default function GenreRankingContent() {
                                 title={video.title}
                                 subTitle={(
                                     <>
-                                        <div className="shogi-short-desc">{video.shortDescription}</div>
                                         <a href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} className="shogi-video-owner">
                                             <img src={video.owner.iconUrl} className="shogi-video-owner-icon" alt={`${video.owner.name} のアイコン`} />
                                             <span className="shogi-video-owner-name">{video.owner.name}</span>
                                         </a>
-
                                     </>
                                 )}
+                                shortDescription={video.shortDescription}
                                 counts={(
-                                    <div className="shogi-video-counts">
-                                        <span className="shogi-video-count">
-                                            <IconPlayerPlayFilled />
-                                            {readableInt(video.count.view, 1)}
-                                        </span>
-                                        <span className="shogi-video-count">
-                                            <IconMessageFilled />
-                                            {readableInt(video.count.comment, 1)}
-                                        </span>
-                                        <span className="shogi-video-count">
-                                            <IconFolderFilled />
-                                            {readableInt(video.count.mylist, 1)}
-                                        </span>
-                                        <span className="shogi-video-count">
-                                            <IconClock />
-                                            {relativeTimeFrom(new Date(video.registeredAt))}
-                                        </span>
-                                    </div>
+                                    <>
+                                        <div className="shogi-video-counts">
+                                            <span className="shogi-video-count">
+                                                <IconPlayerPlayFilled />
+                                                {readableInt(video.count.view, 1)}
+                                            </span>
+                                            <span className="shogi-video-count">
+                                                <IconMessageFilled />
+                                                {readableInt(video.count.comment, 1)}
+                                            </span>
+                                            <span className="shogi-video-count">
+                                                <IconFolderFilled />
+                                                {readableInt(video.count.mylist, 1)}
+                                            </span>
+                                            <span className="shogi-video-count">
+                                                <IconClock />
+                                                {relativeTimeFrom(new Date(video.registeredAt))}
+                                            </span>
+                                        </div>
+                                    </>
                                 )}
                                 thumbnailUrl={video.thumbnail.listingUrl}
                                 thumbText={`${secondsToTime(video.duration)}`}
                             >
                                 {video.title}
+
                             </Card>
                         </div>
                     )

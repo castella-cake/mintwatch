@@ -1,14 +1,11 @@
 div.info-card {
-    display: grid;
-    grid-template-columns: max-content max-content 1fr;
-    grid-template-rows: auto auto;
-    align-items: center;
-    white-space: nowrap;
-
     --thumb-height: 4rem;
 
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
     padding: 6px;
-    gap: 0 10px;
+    gap: 10px;
     text-decoration: none;
     overflow: hidden;
     border-radius: var(--radius);
@@ -23,11 +20,10 @@ a.info-card-link {
 .info-card-thumbnail {
     position: relative;
     aspect-ratio: 16 / 9;
-    grid-column: 1 / 3;
-    grid-row: 1 / 3;
     overflow: hidden;
     align-self: stretch;
     height: var(--thumb-height);
+    flex-shrink: 0;
 
     img {
         width: 100%;
@@ -56,10 +52,17 @@ a.info-card-link {
     }
 }
 
+.info-card-datacolumn {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
 .info-card-title, .info-card-subtitle, .info-card-counts {
     color: var(--textcolor1);
     height: fit-content;
-    align-self: center;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -97,22 +100,20 @@ a.info-card-link {
 }
 
 .info-card-title {
-    grid-column: 3 / 4;
-    grid-row: 1 / 2;
     width: auto;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     white-space: normal;
-    align-self: end;
+}
+
+.info-card-datacolumn:has(.info-card-counts) .info-card-title {
+    -webkit-line-clamp: 1;
 }
 
 .info-card-subtitle {
     font-size: 0.8rem;
     opacity: 0.8;
-    grid-column: 3 / 4;
-    grid-row: 2 / 3;
-    align-self: start;
 }
 
 .info-card-subtitle, .info-card-thumbnail {
@@ -157,6 +158,31 @@ a.info-card-link {
     font-size: 0.95rem;
 }
 
+.info-card-counts {
+    flex-direction: row;
+    justify-content: start;
+    width: 100%;
+    opacity: 0.8;
+    grid-column: 3/4;
+    line-height: 1em !important;
+    font-size: 0.8rem;
+    gap: 4px;
+}
+
+.info-card-count svg {
+    vertical-align: bottom;
+}
+
+.info-card-desc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 0.9em;
+    opacity: 0.7;
+    padding-left: 8px;
+    border-left: var(--border);
+    border-left-width: 2px;
+}
+
 .watch-container[data-use-card-recommend="true"] .watchnext-container .info-card, .shogi-ranking-lane-videolist-item .info-card {
     display: flex;
     flex-direction: column;
@@ -165,6 +191,11 @@ a.info-card-link {
     padding: 8px;
     gap: 10px;
     margin: 0;
+
+    .info-card-datacolumn {
+        gap: 10px;
+        width: 100%;
+    }
 
     /* height: 10em; */
 
