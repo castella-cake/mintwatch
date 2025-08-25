@@ -52,6 +52,11 @@ a.info-card-link {
     }
 }
 
+.info-card[data-is-live="true"] .info-card-durationtext {
+    background: #f02000;
+    color: #fff;
+}
+
 .info-card-datacolumn {
     display: flex;
     flex-direction: column;

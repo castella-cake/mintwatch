@@ -80,6 +80,9 @@
         "shinjukuEnableNavbar": {
             "name": "Show navigation bar in Shinjuku layout"
         },
+        "showLiveInRecommend": {
+            "name": "Show live stream in recommend section"
+        },
         "autoScrollPositionOnVideoChange": {
             "name": "Automatic scroll position when moving video",
             "select": ["Page top", "Player", "Disable"]

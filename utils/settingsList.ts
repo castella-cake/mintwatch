@@ -98,6 +98,11 @@ const settings: settingList = {
                     name: "pmwforcepagehls",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "showLiveInRecommend",
+                    default: false,
+                },
             ],
         },
     ],

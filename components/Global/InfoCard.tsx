@@ -101,9 +101,30 @@ export function MylistInfo(props: { obj: RecommendItem }) {
     )
 }
 
-export function InfoCardFromRecommend(props: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean }) {
-    if (props.obj.contentType == "video") return <VideoInfo {...props} />
-    if (props.obj.contentType == "mylist") return <MylistInfo {...props} />
+export function LiveInfo(props: { obj: RecommendItem }) {
+    const obj = props.obj
+    return (
+        <Card
+            href={`https://live.nicovideo.jp/watch/${obj.id}`}
+            title={`ライブ配信: ${obj.content.title}`}
+            subTitle={obj.content.owner.name}
+            thumbnailUrl={obj.content.thumbnail && obj.content.thumbnail.url}
+            thumbText="LIVE"
+            data-is-live={true}
+        >
+            <span className="info-card-content-title">
+                {obj.content.title}
+            </span>
+        </Card>
+    )
+}
+
+export function InfoCardFromRecommend(props: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean, omitTypes?: ("video" | "mylist" | "live")[] }) {
+    const omitTypes = props.omitTypes ?? []
+    if (omitTypes.some(t => t === props.obj.contentType)) return
+    if (props.obj.contentType === "video") return <VideoInfo {...props} />
+    if (props.obj.contentType === "mylist") return <MylistInfo {...props} />
+    if (props.obj.contentType === "live") return <LiveInfo {...props} />
     return <div>Unknown contentType</div>
 }
 
