@@ -250,6 +250,10 @@ a.info-card-link {
         display: inline-block;
         font-size: 0.8rem;
     }
+
+    .info-card-count[data-count-type="like"], .info-card-count[data-count-type="registeredAt"] {
+        display: none;
+    }
 }
 
 .shogi-ranking-lane-videolist-item .info-card {

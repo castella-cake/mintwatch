@@ -155,24 +155,24 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
 export function InfoCardCount({ count, registeredAt }: { count: Count, registeredAt?: string }) {
     return (
         <>
-            <span className="info-card-count">
+            <span className="info-card-count" data-count-type="view">
                 <IconPlayerPlayFilled />
                 {readableInt(count.view, 1)}
             </span>
-            <span className="info-card-count">
+            <span className="info-card-count" data-count-type="comment">
                 <IconMessageFilled />
                 {readableInt(count.comment, 1)}
             </span>
-            <span className="info-card-count">
+            <span className="info-card-count" data-count-type="mylist">
                 <IconFolderFilled />
                 {readableInt(count.mylist, 1)}
             </span>
-            <span className="info-card-count">
+            <span className="info-card-count" data-count-type="like">
                 <IconHeartFilled />
                 {readableInt(count.like, 1)}
             </span>
             {registeredAt && (
-                <span className="info-card-count">
+                <span className="info-card-count" data-count-type="registeredAt">
                     <IconClockFilled />
                     {relativeTimeFrom(new Date(registeredAt))}
                 </span>
