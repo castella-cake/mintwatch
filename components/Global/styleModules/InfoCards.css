@@ -60,6 +60,10 @@ a.info-card-link {
     overflow: hidden;
 }
 
+.info-card-datacolumn:not(:has(.info-card-counts)) {
+    gap: 4px;
+}
+
 .info-card-title, .info-card-subtitle, .info-card-counts {
     color: var(--textcolor1);
     height: fit-content;
