@@ -173,9 +173,10 @@ a.info-card-link {
     width: 100%;
     opacity: 0.8;
     grid-column: 3/4;
-    line-height: 1em !important;
+    line-height: 1em;
     font-size: 0.8rem;
     gap: 4px;
+    pointer-events: none;
 }
 
 .info-card-count svg {
