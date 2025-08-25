@@ -109,7 +109,7 @@ export function EndCard({ smId }: { smId: string }) {
                                 <h2>おすすめの動画</h2>
                                 <div className="endcard-upnext-container">
                                     {recommendData && recommendData.data && recommendData.data.items.slice(0, 4).map((elem) => {
-                                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem} />
+                                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem} omitTypes={["live"]} />
                                     })}
                                 </div>
                             </>
