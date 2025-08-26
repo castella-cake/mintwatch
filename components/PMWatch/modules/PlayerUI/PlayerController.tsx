@@ -54,10 +54,9 @@ function PlayerController(props: Props) {
         currentPlayerType,
     } = props
     const localStorage = useStorageVar(["isMuted", "volume", "isLoop", "enableShufflePlay", "rewindTime", "enableBigView"] as const, "local")
+    const isLoop = localStorage.isLoop
 
     const [isIconPlay, setIsIconPlay] = useState(false)
-
-    const [isLoop, setIsLoop] = useState<boolean>(localStorage.isLoop || false)
 
     const [hlsLevel, setHlsLevel] = useState(0)
 
@@ -122,8 +121,12 @@ function PlayerController(props: Props) {
     }, [onTimeControl, localStorage.rewindTime])
 
     const toggleLoopState = useCallback(() => {
-        setIsLoop(l => !l)
-    }, [])
+        if (video) {
+            storage.setItem("local:isLoop", !video.loop)
+            video.loop = !video.loop
+        }
+    }, [video])
+    if (video) video.loop = isLoop
 
     const enabledEffects = Object.keys(effectsState).map((elem) => {
         if (elem && effectsState[elem as keyof effectsState].enabled) return elem
