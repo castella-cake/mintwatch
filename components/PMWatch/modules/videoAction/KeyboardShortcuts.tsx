@@ -111,9 +111,8 @@ export default function KeyboardShortcuts() {
         <div className="pmw-help-content pmw-keyboard-help" onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex={-1}>
             <h1>MintWatch のキーボードショートカット</h1>
             <p>
-                ショートカットキーは開発中で、限定的です。
-                <br />
-                現在は以下のショートカットキーが使用できます:
+                MintWatch にはまだ基本的なキーボードショートカットのみを実装しています。
+                現在は以下のショートカットキーが使用できます。
             </p>
             <div className="pmw-keyboard-shortcuts">
                 <KeyShortcutBlock title="再生/一時停止">

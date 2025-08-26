@@ -14,14 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 「MintWatch について」ヘルプを追加しました
 - オンボーディングを追加しました [#37](https://github.com/castella-cake/mintwatch/issues/37)
 - ヘッダーからフォロー新着が読めるようになりました [#28](https://github.com/castella-cake/mintwatch/issues/28)
+- 「動画カードに統計情報を表示」を追加しました [#41](https://github.com/castella-cake/mintwatch/issues/41)
+- キーボードショートカットを追加しました
 
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
+- ストレージ関連の実装を再実装し、より適切なタイミングでコンポーネントが再レンダリングするようになりました
 
 ### Fixed
 - コメントリストのオートスクロールを修正しました
 - ランキングページのタブ切り替えができない問題を修正しました [#36](https://github.com/castella-cake/mintwatch/issues/36)
+- `/ranking` にアクセスした場合に正しくリダイレクトされない場合がある問題を修正しました
 - タグ編集API v2に対応しました[#45](https://github.com/castella-cake/mintwatch/issues/45)
+- ナビゲーション時の不必要な更新を緩和しました
 
 ## 0.8.0 - 2025/06/27
 
