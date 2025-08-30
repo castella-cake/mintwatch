@@ -24,8 +24,8 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
             <div className="mintwatch-config" id="pmw-config" ref={nodeRef}>
                 <h2>
                     MintWatch の設定
-                    <button onClick={() => { setMintConfigShown("settings") }}><IconMaximize /></button>
-                    <button onClick={() => { setMintConfigShown(false) }}><IconX /></button>
+                    <button onClick={() => { setMintConfigShown("settings") }} title="モーダルで開く"><IconMaximize /></button>
+                    <button onClick={() => { setMintConfigShown(false) }} title="閉じる"><IconX /></button>
                 </h2>
                 <CreateSettingsList settings={settingsObject} />
                 <div className="mintwatch-config-credit">

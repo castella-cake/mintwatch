@@ -16,7 +16,7 @@ test("Watch: Layout change test", async ({ page, mockApi }) => {
         await page.getByLabel("Layout of the watch pageRe-").selectOption(type)
 
         // close
-        await page.getByRole("heading", { name: "MintWatch の設定" }).getByRole("button").click()
+        await page.getByRole("heading", { name: "MintWatch の設定" }).getByRole("button", { name: "閉じる" }).click()
         // check attribute is correct
         await expect(page.locator(".watch-container")).toHaveAttribute("data-watch-type", type)
     }

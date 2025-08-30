@@ -18,14 +18,14 @@ export default function HelpTools() {
     }, [])
     return (
         <div className="navbar-helptool-container">
-            <button onClick={onKeyboardClick} className="navbar-helptool-button">
+            <button onClick={onKeyboardClick} className="navbar-helptool-button" title="キーボードショートカット">
                 <IconKeyboard />
             </button>
-            <button onClick={onHelpClick} className="navbar-helptool-button">
+            <button onClick={onHelpClick} className="navbar-helptool-button" title="MintWatch のはじめに">
                 <IconHelpCircle />
             </button>
             <div className="whatsnew-wrapper">
-                <button onClick={onWhatsNewClick} className="navbar-helptool-button">
+                <button onClick={onWhatsNewClick} className="navbar-helptool-button" title="更新情報">
                     <IconComet />
                 </button>
                 <WhatsNewTitle />

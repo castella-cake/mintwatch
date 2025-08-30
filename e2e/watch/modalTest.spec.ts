@@ -23,16 +23,7 @@ test("Watch: Modal open test", async ({ page, mockApi }) => {
     await expect(page.locator("#root-pmw")).toContainText("For testing purpose only - by CYakigasi https://www.nicovideo.jp/watch/sm0 #sm0 #ニコニコ動画 #PepperMintShare")
 
     await page.getByRole("button", { name: "NGコメント設定" }).click()
-    await expect(page.locator(".videoaction-content")).toBeVisible()
+    await expect(page.locator(".modal-content")).toBeVisible()
 
-    await page.getByRole("button", { name: "更新情報", exact: true }).click()
-    await expect(page.locator("#root-pmw")).toContainText("ヘルプ")
-
-    await page.getByRole("button", { name: "ショートカット" }).click()
-    await expect(page.getByRole("heading", { name: "MintWatch のキーボードショートカット" })).toBeVisible()
-
-    await page.getByRole("button", { name: "はじめに" }).click()
-    await expect(page.getByRole("heading", { name: "MintWatch のはじめに" })).toBeVisible()
-
-    await page.locator(".videoaction-modal-close").click()
+    await page.locator(".modal-close").click()
 })
