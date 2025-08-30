@@ -7,7 +7,7 @@ import { IconComet } from "@tabler/icons-react"
 
 const manifestData = browser.runtime.getManifest()
 
-export default function AboutMintWatch() {
+export function AboutMintWatch() {
     const { showToast } = useSetMessageContext()
     const { showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)

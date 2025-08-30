@@ -30,7 +30,7 @@ export const handleCtrl = (
     commentInput: HTMLTextAreaElement | null,
     onToggleFullscreen: () => void,
     setShortcutFeedback: (text: string) => void,
-    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help" | "shortcuts") => void,
+    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void,
     onCommentDisplayChanged: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
     if (e.ctrlKey) return true
@@ -124,11 +124,6 @@ export const handleCtrl = (
             setShortcutFeedback("ミュート解除")
         } else setShortcutFeedback("ミュート")
         video.muted = !video.muted
-        return false
-    }
-    if (e.key.toLowerCase() === "?") {
-        e.preventDefault()
-        onModalStateChanged(true, "shortcuts")
         return false
     }
 }

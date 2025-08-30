@@ -41,7 +41,7 @@ type Props = {
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
     changeVideo: (videoId: string, doScroll?: boolean) => void
-    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share" | "help" | "shortcuts") => void
+    onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void
 }
 
 function Player(props: Props) {

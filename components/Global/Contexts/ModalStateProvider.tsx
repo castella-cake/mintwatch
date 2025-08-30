@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
 
-type videoModalState = false | "mylist" | "share" | "ngcomments" | "help" | "shortcuts" | "whatsnew" | "about"
+type videoModalState = false | "mylist" | "share" | "ngcomments"
 
 const IVideoModalStateContext = createContext<videoModalState>(false)
 const ISetVideoModalStateContext = createContext<Dispatch<SetStateAction<videoModalState>>>(() => { })
@@ -10,8 +10,10 @@ type HeaderActionState = false | "notifications" | "mymenu" | "activities"
 const IHeaderActionStateContext = createContext<HeaderActionState>(false)
 const ISetHeaderActionStateContext = createContext<Dispatch<SetStateAction<HeaderActionState>>>(null!)
 
-const IMintConfigShownContext = createContext<boolean>(false)
-const ISetMintConfigShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { })
+type MintConfigState = false | "quick" | "settings" | "help" | "shortcuts" | "whatsnew" | "about"
+
+const IMintConfigShownContext = createContext<MintConfigState>(false)
+const ISetMintConfigShownContext = createContext<Dispatch<SetStateAction<MintConfigState>>>(() => { })
 
 const ISideMenuShownContext = createContext<boolean>(false)
 const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>>(() => { })
@@ -19,7 +21,7 @@ const ISetSideMenuShownContext = createContext<Dispatch<SetStateAction<boolean>>
 export function ModalStateProvider({ children }: { children: ReactNode }) {
     const [videoActionModalState, setVideoActionModalState] = useState<videoModalState>(false)
     const [headerActionState, setHeaderActionState] = useState<HeaderActionState>(false)
-    const [mintConfigShown, setMintConfigShown] = useState(false)
+    const [mintConfigShown, setMintConfigShown] = useState<MintConfigState>(false)
     const [isSideMenuShown, setIsSideMenuShown] = useState(false)
 
     return (

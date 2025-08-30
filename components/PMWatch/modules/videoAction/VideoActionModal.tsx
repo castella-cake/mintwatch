@@ -1,9 +1,7 @@
 import {
     IconBubbleX,
-    IconComet,
     IconFolder,
     IconHelpCircle,
-    IconKeyboard,
     IconShare,
     IconX,
 } from "@tabler/icons-react"
@@ -12,13 +10,9 @@ import { Mylist } from "./MylistUI"
 import { Share } from "./ShareUI"
 import { ReactNode, RefObject } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
-import MarkdownHelp from "./MarkdownHelp"
-import KeyboardShortcuts from "./KeyboardShortcuts"
 import { CSSTransition } from "react-transition-group"
-import { useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import NgComments from "./NgComments"
-import MintWatchIcon from "@/public/mintwatch-white.svg?react"
-import AboutMintWatch from "./About"
 
 export function VideoActionModal({
     nodeRef,
@@ -29,6 +23,7 @@ export function VideoActionModal({
 
     const videoActionModalState = useVideoActionModalStateContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const setIsMintConfigShown = useSetMintConfigShownContext()
 
     if (!videoInfo) return <></>
 
@@ -38,17 +33,17 @@ export function VideoActionModal({
             in={videoActionModalState !== false}
             timeout={300}
             unmountOnExit
-            classNames="videoaction-modal-transition"
+            classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="videoaction-modal-wrapper" ref={nodeRef}>
-                    <div className="videoaction-modal-container">
-                        <div className="videoaction-modal-header global-flex">
+                <div className="modal-wrapper" ref={nodeRef}>
+                    <div className="modal-container">
+                        <div className="modal-header global-flex">
                             <h2 className="global-flex1">
-                                {returnTitle(videoActionModalState)}
+                                動画アクション
                             </h2>
                             <button
-                                className="videoaction-modal-close"
+                                className="modal-close"
                                 onClick={() => {
                                     setVideoActionModalState(false)
                                 }}
@@ -56,8 +51,8 @@ export function VideoActionModal({
                                 <IconX />
                             </button>
                         </div>
-                        <div className="videoaction-left">
-                            <div className="videoaction-select-separator">動画アクション</div>
+                        <div className="modal-selector">
+                            <div className="modal-select-separator">動画アクション</div>
                             <VideoActionTabButton
                                 stateKey="mylist"
                             >
@@ -79,43 +74,21 @@ export function VideoActionModal({
                                 {" "}
                                 NGコメント設定
                             </VideoActionTabButton>
-
-                            <div className="videoaction-select-separator videoaction-select-separator-bottom">ヘルプ</div>
-
-                            <VideoActionTabButton
-                                stateKey="whatsnew"
-                                isBottom={true}
-                            >
-                                <IconComet />
-                                {" "}
-                                更新情報
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="shortcuts"
-                                isBottom={true}
-                            >
-                                <IconKeyboard />
-                                {" "}
-                                ショートカット
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="help"
-                                isBottom={true}
+                            <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
+                            <button
+                                className="modal-select modal-select-bottom"
+                                onClick={(e) => {
+                                    setIsMintConfigShown("help")
+                                    setVideoActionModalState(false)
+                                    e.stopPropagation()
+                                }}
                             >
                                 <IconHelpCircle />
                                 {" "}
-                                はじめに
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="about"
-                                isBottom={true}
-                            >
-                                <MintWatchIcon />
-                                {" "}
-                                MintWatch について
-                            </VideoActionTabButton>
+                                MintWatch ヘルプ
+                            </button>
                         </div>
-                        <div className="videoaction-content">
+                        <div className="modal-content">
                             {videoActionModalState === "mylist" && (
                                 <Mylist onClose={() => { }} videoInfo={videoInfo} />
                             )}
@@ -124,22 +97,6 @@ export function VideoActionModal({
                             )}
                             {videoActionModalState === "ngcomments" && (
                                 <NgComments />
-                            )}
-                            {(videoActionModalState === "help" || videoActionModalState === "whatsnew") && (
-                                <MarkdownHelp contentKey={videoActionModalState}>
-                                    {videoActionModalState === "whatsnew" && (
-                                        <details>
-                                            <summary>過去の更新情報</summary>
-                                            <MarkdownHelp contentKey="whatsnew_archive" />
-                                        </details>
-                                    )}
-                                </MarkdownHelp>
-                            )}
-                            {videoActionModalState === "shortcuts" && (
-                                <KeyboardShortcuts />
-                            )}
-                            {videoActionModalState === "about" && (
-                                <AboutMintWatch />
                             )}
                         </div>
                     </div>
@@ -154,7 +111,7 @@ function VideoActionTabButton({ stateKey, isBottom, children }: { stateKey: Retu
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     return (
         <button
-            className={`videoaction-select ${isBottom ? "videoaction-select-bottom" : ""}`}
+            className={`modal-select ${isBottom ? "modal-select-bottom" : ""}`}
             onClick={() => {
                 setVideoActionModalState(stateKey)
             }}
@@ -165,10 +122,4 @@ function VideoActionTabButton({ stateKey, isBottom, children }: { stateKey: Retu
             {children}
         </button>
     )
-}
-
-function returnTitle(videoActionModalState: ReturnType<typeof useVideoActionModalStateContext>) {
-    if (videoActionModalState === "help" || videoActionModalState === "shortcuts" || videoActionModalState === "whatsnew") return "ヘルプ"
-    if (videoActionModalState === "about") return "MintWatch について"
-    return "動画アクション"
 }

@@ -4,7 +4,7 @@ import { IconArrowsMove } from "@tabler/icons-react"
 const initializeEggCommand = "U,U,D,D,L,R,L,R,b,a"
 const lessonEggCommand = "R,L,U,U,D,D,U,U,U,D,R,L,R,L,L,R,R,L,L,L,R,R,R,R,L,L,R,L,R,LR,LR,LR,D,D,R,D,D,R,D,D,R,D,D,R" // Lesson by DJ
 
-export default function KeyboardShortcuts() {
+export function KeyboardShortcuts() {
     const { showToast, showAlert } = useSetMessageContext()
     const [keyPress, setKeyPress] = useState({ left: false, down: false, up: false, right: false })
     const commandHistory = useRef<string[]>([])

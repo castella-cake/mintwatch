@@ -9,6 +9,7 @@ import { useVideoRefContext } from "../Global/Contexts/VideoDataProvider"
 import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
 import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
+import { MintWatchModal } from "../Global/Settings/Modal"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -67,6 +68,7 @@ export default function RouterUI() {
         })
     }, [])
     const mintConfigElemRef = useRef<HTMLDivElement>(null)
+    const mintModalElemRef = useRef<HTMLDivElement>(null)
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
     const sideMenuElemRef = useRef<HTMLDivElement>(null)
 
@@ -74,24 +76,42 @@ export default function RouterUI() {
     const setMintConfigShown = useSetMintConfigShownContext()
     const setSideMenuShown = useSetSideMenuShownContext()
 
-    const handleKeydown = useCallback((e: React.KeyboardEvent) => {
+    const handleKeydown = useCallback((e: KeyboardEvent) => {
         if (e.key === "Escape") {
             setHeaderActionState(false)
             setMintConfigShown(false)
             setSideMenuShown(false)
+            return false
         }
+        if (e.ctrlKey) return true
+        if (e.target instanceof Element) {
+            if (e.target.closest("input, textarea")) return true
+        }
+        if (e.key.toLowerCase() === "?") {
+            e.preventDefault()
+            setMintConfigShown("shortcuts")
+            return false
+        }
+    }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
+
+    useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+        document.body.addEventListener("keydown", handleKeydown, { signal })
+        return () => controller.abort()
     }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
     const onModalOutsideClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
-        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target)) setMintConfigShown(false)
+        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target) && !mintModalElemRef.current?.contains(e.target)) setMintConfigShown(false)
         if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
     }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
     return (
-        <div className="router" onClickCapture={linkClickHandler} onKeyDown={handleKeydown} onClick={onModalOutsideClick}>
+        <div className="router" onClickCapture={linkClickHandler} onClick={onModalOutsideClick}>
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
+            <MintWatchModal nodeRef={mintModalElemRef} />
             <MatchWatchPage targetPathname="/watch">
                 <WatchBody />
             </MatchWatchPage>

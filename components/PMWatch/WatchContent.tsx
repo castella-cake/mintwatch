@@ -63,7 +63,7 @@ export function WatchContent(_props: Props) {
 
     const onModalStateChanged = useCallback((
         isModalOpen: boolean,
-        modalType: "mylist" | "share" | "help" | "shortcuts",
+        modalType: "mylist" | "share",
     ) => {
         if (isModalOpen === false) {
             setVideoActionModalState(false)
@@ -85,7 +85,7 @@ export function WatchContent(_props: Props) {
         }
     }
 
-    const onModalOpen = (modalType: "mylist" | "share" | "help") => {
+    const onModalOpen = (modalType: "mylist" | "share") => {
         onModalStateChanged(true, modalType)
     }
 

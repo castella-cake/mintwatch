@@ -1,13 +1,12 @@
 import whatsNewData from "@/assets/whatsnew.json"
-import { useSetVideoActionModalStateContext } from "../../Contexts/ModalStateProvider"
-import { useLocationContext } from "@/components/Router/RouterContext"
+import { useSetMintConfigShownContext } from "../../Contexts/ModalStateProvider"
+
 export default function WhatsNewTitle() {
-    const location = useLocationContext()
-    const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const onClick = useCallback(() => {
-        setVideoActionModalState("whatsnew")
+    const setMintConfigShown = useSetMintConfigShownContext()
+    const onClick = useCallback((e: React.MouseEvent) => {
+        setMintConfigShown("whatsnew")
+        e.stopPropagation()
     }, [])
-    if (!location.pathname.startsWith("/watch")) return
     return (
         <button className="whatsnew-container" onClick={onClick}>
             <div className="whatsnew-title">更新情報</div>

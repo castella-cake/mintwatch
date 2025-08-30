@@ -74,7 +74,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                     <div className="global-flex1 header-left-container global-flex">
                         <button
                             onClick={() => {
-                                setIsMintConfigShown(current => !current)
+                                setIsMintConfigShown(current => current === false ? "quick" : false)
                             }}
                             title="MintWatch の設定"
                         >

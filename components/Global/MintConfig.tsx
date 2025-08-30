@@ -1,6 +1,6 @@
 import CreateSettingsList from "@/components/pages/SettingsUI"
 import settings from "@/utils/settingsList"
-import { IconX } from "@tabler/icons-react"
+import { IconMaximize, IconX } from "@tabler/icons-react"
 import { RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
@@ -15,7 +15,7 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
         <CSSTransition
             nodeRef={nodeRef}
             in={
-                mintConfigShown
+                mintConfigShown === "quick"
             }
             timeout={300}
             unmountOnExit
@@ -24,6 +24,7 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
             <div className="mintwatch-config" id="pmw-config" ref={nodeRef}>
                 <h2>
                     MintWatch の設定
+                    <button onClick={() => { setMintConfigShown("settings") }}><IconMaximize /></button>
                     <button onClick={() => { setMintConfigShown(false) }}><IconX /></button>
                 </h2>
                 <CreateSettingsList settings={settingsObject} />

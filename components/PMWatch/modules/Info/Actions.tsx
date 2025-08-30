@@ -14,7 +14,7 @@ import { useQueryClient } from "@tanstack/react-query"
 
 type Props = {
     children?: ReactNode
-    onModalOpen: (modalType: "mylist" | "share" | "help") => void
+    onModalOpen: (modalType: "mylist" | "share") => void
 }
 
 function Actions({ onModalOpen }: Props) {
