@@ -43,6 +43,7 @@ export function MintWatchModal({ nodeRef }: { nodeRef: RefObject<HTMLDivElement 
                                 onClick={() => {
                                     setMintModalState(false)
                                 }}
+                                title="閉じる"
                             >
                                 <IconX />
                             </button>
