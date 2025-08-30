@@ -1,0 +1,20 @@
+.navbar-helptool-container {
+    display: flex;
+    gap: 8px;
+}
+
+.navbar-helptool-container .navbar-helptool-button {
+    border: none;
+    background: none;
+    color: var(--textcolor2);
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+    transition: var(--transition-normal);
+    padding: 0;
+    border-radius: var(--radius);
+
+    &:hover {
+        background: var(--hover1);
+    }
+}

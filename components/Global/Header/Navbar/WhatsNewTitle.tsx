@@ -1,17 +1,16 @@
 import whatsNewData from "@/assets/whatsnew.json"
-import { useSetMintConfigShownContext } from "../../Contexts/ModalStateProvider"
 
 export default function WhatsNewTitle() {
-    const setMintConfigShown = useSetMintConfigShownContext()
-    const onClick = useCallback((e: React.MouseEvent) => {
-        setMintConfigShown("whatsnew")
-        e.stopPropagation()
+    const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
+    const onClick = useCallback(() => {
+        storage.setItem("sync:lastCheckedUpdate", whatsNewData.version)
     }, [])
+    if (lastCheckedUpdate === whatsNewData.version) return
     return (
-        <button className="whatsnew-container" onClick={onClick}>
-            <div className="whatsnew-title">更新情報</div>
+        <div className="whatsnew-container">
             <div className="whatsnew-body">{whatsNewData.title}</div>
             <div className="whatsnew-subtitle">{whatsNewData.subtitle}</div>
-        </button>
+            <button className="whatsnew-gotit" onClick={onClick}>OK</button>
+        </div>
     )
 }
