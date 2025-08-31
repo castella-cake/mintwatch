@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function Mylist({ videoInfo }: Props) {
-    const { showAlert } = useSetMessageContext()
+    const { showToast } = useSetMessageContext()
 
     const [mylistsData, setMylistsData] = useState<MylistsResponseRootObject | null>(null)
     const [addedMylists, setAddedMylists] = useState<number[]>([])
@@ -27,7 +27,7 @@ export function Mylist({ videoInfo }: Props) {
         const response = await addItemToMylist(mylistId, itemId, location.href)
         if (response.meta.status === 201) {
             setAddedMylists(current => [...current, mylistId])
-            showAlert({ title: "マイリストに追加しました", icon: <IconCheck /> })
+            showToast({ title: "マイリストに追加しました", icon: <IconCheck /> })
             return true
         }
     }

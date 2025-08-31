@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - アラート表示が自作のもっとリッチな表示に変わりました [#32](https://github.com/castella-cake/mintwatch/issues/32)
-- マイリストへの追加成功時にアラートが表示されるようになりました
 - トースト通知を追加しました [#13](https://github.com/castella-cake/mintwatch/issues/13)
+- マイリストへの追加成功時にトーストが表示されるようになりました
 - 「MintWatch について」ヘルプを追加しました
 - オンボーディングを追加しました [#37](https://github.com/castella-cake/mintwatch/issues/37)
 - ヘッダーからフォロー新着が読めるようになりました [#28](https://github.com/castella-cake/mintwatch/issues/28)
@@ -18,12 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - キーボードショートカットを追加しました
 - 動画アクションからヘルプ類を分離し、ヘルプモーダルを新設しました [#48](https://github.com/castella-cake/mintwatch/issues/48)
 - 詳細設定に「おすすめにライブ配信を表示」を追加しました
+- おすすめなどの動画カードに「再生キューに追加」ボタンを追加しました [#49](https://github.com/castella-cake/mintwatch/issues/49)
 
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
 - ストレージ関連の実装を再実装し、より適切なタイミングでコンポーネントが再レンダリングするようになりました
 - 相対日時表示が「1ヶ月前」や「2年前」のような表示を用いるようになりました
 - 各種ページ内ドキュメントを更新しました
+- 再生キューのデザインが変更されました
+- エンドカードの「現在の動画」デザインが調整されました
 
 ### Fixed
 - コメントリストのオートスクロールを修正しました
