@@ -275,44 +275,37 @@
 
 .player-transition {
     &-vefx-enter, &-vefx-exit-active {
-        --translateX: -100%;
+        --translateX: -125%;
+        --blur: 8px;
     }
 
     &-settings-enter, &-settings-exit-active {
-        --translateX: 100%;
+        --translateX: 125%;
+        --blur: 8px;
     }
 
     &-vefx, &-settings {
         &-enter-active {
-            transition: transform 0.3s ease;
-
-            * {
-                transition: transform 0.35s ease;
-            }
+            transition: transform 0.3s ease, filter 0.2s ease, opacity 0.3s ease;
+            filter: blur(0);
+            opacity: 1;
         }
 
         &-exit-active {
-            transition: transform 0.35s ease;
-
-            * {
-                transition: transform 0.3s ease;
-            }
+            transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+            filter: blur(var(--blur));
         }
 
         &-enter, &-exit-active {
             transform: translateX(var(--translateX));
-
-            * {
-                transform: translateX(var(--translateX));
-            }
+            filter: blur(var(--blur));
+            opacity: 0;
         }
 
         &-enter-done, &-enter-active {
             transform: translateX(0%);
-
-            * {
-                transform: translateX(0%);
-            }
+            opacity: 1;
+            filter: blur(0);
         }
     }
 }
