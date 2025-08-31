@@ -67,3 +67,7 @@
     box-shadow: 0 0 4px #000a;
     background: var(--bgcolor1);
 }
+
+.playlist-droppable-area-upper + .sortable-infocard-wrapper > .info-card {
+    border-top: var(--border);
+}
