@@ -72,11 +72,11 @@ export function EndCard({ smId }: { smId: string }) {
                 <h2>現在の動画</h2>
                 {videoInfo && (
                     <div className="endcard-currentvideo-container">
-                        <img src={videoInfo.data.response.video.thumbnail.url}></img>
+                        <img className="endcard-currentvideo-thumbnail" src={videoInfo.data.response.video.thumbnail.player} alt={`${videoInfo.data.response.video.title} のサムネイル`}></img>
                         <div className="endcard-currentvideo-text">
-                            <strong>{videoInfo.data.response.video.title}</strong>
+                            <strong className="endcard-currentvideo-title">{videoInfo.data.response.video.title}</strong>
                             <br />
-                            <span>{ownerName}</span>
+                            <span className="endcard-currentvideo-owner">{ownerName}</span>
                         </div>
                     </div>
                 )}

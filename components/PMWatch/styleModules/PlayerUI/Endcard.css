@@ -48,20 +48,23 @@
         display: flex;
         align-items: center;
         background: var(--bgcolor2);
-        padding: 8px 4px;
         backdrop-filter: blur(4px);
         border: 1px solid var(--textcolor3);
         border-left-width: 4px;
         border-radius: var(--radius);
+        gap: 10px;
+        padding: 8px;
 
-        img {
+        .endcard-currentvideo-thumbnail {
             height: 4em;
             aspect-ratio: 16 / 9;
             object-fit: contain;
+            border-radius: var(--radius-mini);
         }
 
-        .endcard-currentvideo-text span {
+        .endcard-currentvideo-text .endcard-currentvideo-owner {
             opacity: 0.8;
+            font-size: 0.9em;
         }
     }
 
