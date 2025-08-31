@@ -58,10 +58,10 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
     }
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
-    for (const scriptElement of document.head.getElementsByTagName("script")) {
+    for (const scriptElement of document.getElementsByTagName("script")) {
         blockScriptElement(scriptElement)
     }
-    for (const linkElement of [...document.head.getElementsByTagName("link")]) {
+    for (const linkElement of [...document.getElementsByTagName("link")]) {
         blockScriptElement(linkElement)
     }
 
@@ -73,14 +73,17 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         const linkElement = document.createElement("link")
         linkElement.rel = "shortcut icon"
         linkElement.href = "https://resource.video.nimg.jp/web/images/favicon/favicon.ico"
-        document.head.appendChild(linkElement)
+        if (document.head) document.head.appendChild(linkElement)
     }
 
     // cleanup
-    const linkElements = [...document.head.getElementsByTagName("link")]
-    linkElements.forEach((elem) => {
-        if (elem.rel === "modulepreload" && elem.href.startsWith("https://resource.video.nimg.jp/web/scripts/nvpc_next/")) elem.remove()
-    })
+    if (document.head) {
+        const linkElements = [...document.head.getElementsByTagName("link")]
+        linkElements.forEach((elem) => {
+            if (elem.rel === "modulepreload" && elem.href.startsWith("https://resource.video.nimg.jp/web/scripts/nvpc_next/")) elem.remove()
+        })
+    }
+
     if (document.body) {
         document.body.innerHTML = ""
     }
