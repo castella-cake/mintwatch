@@ -57,7 +57,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --modal-background: var(--bgcolor2);
 }
 
-html.PMDMP-pmcolor, html:not([class*="PMDMP-"], [data-mw-palette="dark"]) {
+html.PMDMP-pmcolor {
     --hrjk-logo-filter: brightness(0.86) invert(1);
 }
 
@@ -104,6 +104,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
         --likecolor: #f68;
         --likebg: #502834;
         --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
+        --hrjk-logo-filter: brightness(0.86) invert(1);
     }
 }
 
@@ -133,6 +134,7 @@ html[data-mw-palette="dark"] {
     --likecolor: #f68;
     --likebg: #502834;
     --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
+    --hrjk-logo-filter: brightness(0.86) invert(1);
 }
 
 
