@@ -1,5 +1,6 @@
 import {
     IconComet,
+    IconCookie,
     IconHelpCircle,
     IconKeyboard,
     IconTool,
@@ -16,6 +17,7 @@ import { AboutMintWatch } from "./About"
 
 import settings from "@/utils/settingsList"
 import CreateSettingsList from "@/components/pages/SettingsUI"
+import { useSetMessageContext } from "../Contexts/MessageProvider"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
 // nodeRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
@@ -104,6 +106,7 @@ export function MintWatchModal({ nodeRef }: { nodeRef: RefObject<HTMLDivElement 
                                         <details>
                                             <summary>過去の更新情報</summary>
                                             <MarkdownHelp contentKey="whatsnew_archive" />
+                                            <ForgottenThing />
                                         </details>
                                     )}
                                 </MarkdownHelp>
@@ -144,4 +147,21 @@ function returnTitle(videoActionModalState: ReturnType<typeof useMintConfigShown
     if (videoActionModalState === "help" || videoActionModalState === "shortcuts" || videoActionModalState === "whatsnew") return "ヘルプ"
     if (videoActionModalState === "about") return "MintWatch について"
     return "MintWatch の設定"
+}
+
+function ForgottenThing() {
+    const { showToast } = useSetMessageContext()
+    const [clicked, setClicked] = useState(false)
+    if (clicked) return
+    return (
+        <button
+            title="Remember?"
+            onClick={() => {
+                showToast({ title: "忘れ去られた日々", body: "PepperMint農園は覚えている。", icon: <IconCookie /> })
+                setClicked(true)
+            }}
+        >
+            🍪
+        </button>
+    )
 }
