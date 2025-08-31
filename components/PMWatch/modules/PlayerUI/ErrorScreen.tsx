@@ -19,6 +19,7 @@ function ReturnErrorHaiku({ errorResponse }: { errorResponse: ErrorResponse }) {
 }
 
 export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: AccessRightsRootObject }) {
+    const { flagHlsErrorScreenEnable } = useStorageVar(["flagHlsErrorScreenEnable"])
     const { videoInfo, errorInfo } = useVideoInfoContext()
     if (errorInfo && errorInfo.response) {
         const errorResponse: ErrorResponse = errorInfo.response.data.response
@@ -35,7 +36,7 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: AccessRightsRootOb
         )
     }
 
-    if (hlsErrorInfo !== null) {
+    if (hlsErrorInfo !== null && flagHlsErrorScreenEnable) {
         return (
             <div className="player-errorscreen-wrapper">
                 <div className="player-errorscreen">
