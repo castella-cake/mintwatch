@@ -1,5 +1,5 @@
 import { ReactNode, RefObject } from "react"
-import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import SelectButton from "./SelectButton"
 import { watchLayoutType } from "../../WatchContent"
 import PreviewNewWatch from "@/assets/onboarding/layout_newwatch.svg?react"
@@ -123,7 +123,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
     // const localStorage = useStorageVar(["onboardingIgnored"] as const, "local")
     const { showToast } = useSetMessageContext()
 
-    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
 
     function handleOnboardingClose() {
         storage.setItem("local:onboardingIgnored", true)
@@ -156,9 +156,10 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
                         ? (
                                 <button
                                     className="pmw-onboarding-popup-button-primary"
-                                    onClick={() => {
-                                        setVideoActionModalState("help")
+                                    onClick={(e) => {
+                                        setMintConfigShown("help")
                                         storage.setItem("local:onboardingIgnored", true)
+                                        e.stopPropagation()
                                     }}
                                 >
                                     MintWatch のはじめに
