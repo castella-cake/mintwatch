@@ -116,7 +116,7 @@ const settings: settingList = {
             type: "selectButtons",
             name: "headerActionType",
             values: ["default", "quick"],
-            default: "default",
+            default: "quick",
         },
         {
             type: "selectButtons",
