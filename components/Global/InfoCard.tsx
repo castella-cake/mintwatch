@@ -1,9 +1,12 @@
-import { IconClockFilled, IconFolderFilled, IconHeartFilled, IconListNumbers, IconMessageFilled, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react"
+import { IconCheck, IconClockFilled, IconFolderFilled, IconHeartFilled, IconListNumbers, IconMessageFilled, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
 import { SeriesVideoItem } from "@/types/VideoData"
 import { secondsToTime } from "@/utils/readableValue"
+import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
+import { useSetMessageContext } from "./Contexts/MessageProvider"
+import { playlistVideoItem } from "../PMWatch/modules/Playlist"
 
 function Draggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -24,6 +27,7 @@ type CardProps = {
     href: string
     thumbnailUrl?: string
     thumbText?: ReactNode
+    thumbChildren?: ReactNode
     subTitle?: ReactNode
     counts?: ReactNode
     additionalClassName?: string
@@ -33,7 +37,7 @@ type CardProps = {
     leftMarker?: ReactNode
 }
 export function Card(props: CardProps) {
-    const { href, thumbnailUrl, thumbText, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, leftMarker, ...additionalAttribute } = props
+    const { href, thumbnailUrl, thumbText, thumbChildren, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, leftMarker, ...additionalAttribute } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
@@ -41,6 +45,7 @@ export function Card(props: CardProps) {
                 <div className="info-card-thumbnail">
                     <img src={thumbnailUrl} alt={`${title} のサムネイル`} />
                     { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
+                    {thumbChildren}
                 </div>
             )}
             <div className="info-card-datacolumn">
@@ -63,6 +68,7 @@ export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = fa
             <Card
                 thumbnailUrl={obj.content.thumbnail && (obj.content.thumbnail.listingUrl ?? obj.content.thumbnail.url ?? "")}
                 thumbText={obj.content.duration ? secondsToTime(obj.content.duration) : "??:??"}
+                thumbChildren={<InfoCardAddToPlaylist obj={recommendItemToPlaylistItem(obj)} />}
                 subTitle={obj.content.owner.name}
                 counts={isExtendedView && obj.content.count && <InfoCardCount count={obj.content.count} registeredAt={obj.content.registeredAt} />}
                 href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
@@ -134,6 +140,7 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
             <Card
                 thumbnailUrl={seriesVideoItem.thumbnail && (seriesVideoItem.thumbnail.listingUrl ?? seriesVideoItem.thumbnail.url ?? "")}
                 thumbText={seriesVideoItem.duration ? secondsToTime(seriesVideoItem.duration) : "??:??"}
+                thumbChildren={<InfoCardAddToPlaylist obj={seriesItemToPlaylistItem(seriesVideoItem)} />}
                 subTitle={seriesVideoItem.owner.name || "非公開または退会済みユーザー"}
                 href={`https://www.nicovideo.jp/watch/${encodeURIComponent(seriesVideoItem.id)}?ref=series&playlist=${playlistString}&transition_type=series&transition_id=${transitionId}`}
                 additionalClassName=""
@@ -178,5 +185,32 @@ export function InfoCardCount({ count, registeredAt }: { count: Count, registere
                 </span>
             )}
         </>
+    )
+}
+
+export function InfoCardAddToPlaylist({ obj }: { obj: playlistVideoItem | undefined }) {
+    const { setPlaylistData } = useControlPlaylistContext()
+    const { showToast } = useSetMessageContext()
+    const [added, setAdded] = useState(false)
+    if (!obj) return
+    return (
+        <button
+            className="info-card-thumbnail-button"
+            title="再生キューに追加"
+            onClick={() => {
+                setAdded(true)
+                showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
+                setPlaylistData((playlistData) => {
+                    const itemsAfter = [...playlistData.items, obj]
+                    return {
+                        ...playlistData,
+                        items: itemsAfter,
+                        type: "custom",
+                    }
+                })
+            }}
+        >
+            { added ? <IconCheck /> : <IconPlaylistAdd /> }
+        </button>
     )
 }
