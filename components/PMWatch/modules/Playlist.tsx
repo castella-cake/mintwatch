@@ -201,6 +201,7 @@ function Playlist() {
                                     isNowPlaying={isNowPlaying}
                                     onRemove={() => removeVideo(index)}
                                     isPreview={item.isPreview ?? false}
+                                    markerIndex={index}
                                 />
                             )
                         })}

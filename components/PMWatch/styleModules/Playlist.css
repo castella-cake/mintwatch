@@ -15,7 +15,6 @@
     overflow: hidden auto;
     max-height: 100%;
     flex: 1;
-    padding: 0 8px;
     display: flex;
     flex-direction: column;
 }
@@ -51,4 +50,20 @@
     color: #000a;
     padding: 16px;
     text-align: center;
+}
+
+.playlist-items-container[data-is-removemode="true"] .info-card-marker-index {
+    display: none;
+}
+
+.playlist-items-container .info-card {
+    gap: 8px;
+    padding: 8px;
+    border-radius: 0;
+    border-bottom: var(--border);
+}
+
+.playlist-items-container .info-card[data-nowplaying="true"] {
+    box-shadow: 0 0 4px #000a;
+    background: var(--bgcolor1);
 }

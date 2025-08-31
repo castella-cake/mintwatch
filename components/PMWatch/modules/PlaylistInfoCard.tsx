@@ -23,7 +23,7 @@ function Sortable({ id, obj, children }: { id: string, obj: any, children: React
     )
 }
 
-export function PlaylistVideoCard({ obj, additionalQuery, isNowPlaying, isNextVideo = false, onRemove, isPreview = false }: { obj: playlistVideoItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, onRemove: () => void, isPreview?: boolean }) {
+export function PlaylistVideoCard({ obj, additionalQuery, isNowPlaying, markerIndex, isNextVideo = false, onRemove, isPreview = false }: { obj: playlistVideoItem, additionalQuery?: string, isNowPlaying?: boolean, markerIndex?: number, isNextVideo?: boolean, onRemove: () => void, isPreview?: boolean }) {
     return (
         <Sortable id={obj.itemId} obj={obj}>
             <Card
@@ -34,14 +34,19 @@ export function PlaylistVideoCard({ obj, additionalQuery, isNowPlaying, isNextVi
                 subTitle={(
                     <>
                         {obj.ownerName || "非公開または退会済みユーザー"}
-                        { !isNowPlaying && <button className="info-card-removebtn" onClick={onRemove} title="プレイリストから削除"><IconCircleMinus /></button> }
+                    </>
+                )}
+                leftMarker={(
+                    <>
+                        {!isNowPlaying && <button className="info-card-removebtn" onClick={onRemove} title="プレイリストから削除"><IconCircleMinus /></button>}
+                        { isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled /></span> }
+                        { isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled /></span>}
+                        { !isNowPlaying && markerIndex !== undefined && <span className="info-card-marker-index">{markerIndex % 100 + 1}</span>}
                     </>
                 )}
                 data-nowplaying={isNowPlaying}
                 data-is-preview={isPreview}
             >
-                { isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled /></span> }
-                { isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled /></span>}
                 {obj.title}
             </Card>
         </Sortable>

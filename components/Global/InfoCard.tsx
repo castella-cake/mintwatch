@@ -41,6 +41,7 @@ export function Card(props: CardProps) {
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
+            { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
             { thumbnailUrl && (
                 <div className="info-card-thumbnail">
                     <img src={thumbnailUrl} alt={`${title} のサムネイル`} />
@@ -49,7 +50,6 @@ export function Card(props: CardProps) {
                 </div>
             )}
             <div className="info-card-datacolumn">
-                { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
                 { children && <div className="info-card-title">{children}</div> }
                 { shortDescription && <div className="info-card-desc">{shortDescription}</div>}
                 { counts && <div className="info-card-counts">{counts}</div>}
