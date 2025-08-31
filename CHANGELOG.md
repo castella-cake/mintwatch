@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.9.0 - 2025/07
+## 0.9.0 - 2025/09
 
 ### Added
 - アラート表示が自作のもっとリッチな表示に変わりました [#32](https://github.com/castella-cake/mintwatch/issues/32)
@@ -16,10 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ヘッダーからフォロー新着が読めるようになりました [#28](https://github.com/castella-cake/mintwatch/issues/28)
 - 「動画カードに統計情報を表示」を追加しました [#41](https://github.com/castella-cake/mintwatch/issues/41)
 - キーボードショートカットを追加しました
+- 動画アクションからヘルプ類を分離し、ヘルプモーダルを新設しました [#48](https://github.com/castella-cake/mintwatch/issues/48)
+- 詳細設定に「おすすめにライブ配信を表示」を追加しました
 
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
 - ストレージ関連の実装を再実装し、より適切なタイミングでコンポーネントが再レンダリングするようになりました
+- 相対日時表示が「1ヶ月前」や「2年前」のような表示を用いるようになりました
+- 各種ページ内ドキュメントを更新しました
 
 ### Fixed
 - コメントリストのオートスクロールを修正しました
