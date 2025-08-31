@@ -107,6 +107,34 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     }
 }
 
+html[data-mw-palette="dark"] {
+    --bgcolor1: #252525;
+    --bgcolor2: #333;
+    --bgcolor3: #666;
+    --bgcolor4: #aaa;
+    --bgcolorab: rgba(#252525, 0.25);
+    --bgcoloraw: rgba(#fff, 0.25);
+    --textcolor1: #fff;
+    --textcolor2: #ddd;
+    --textcolor3: #aaa;
+    --textcolornew: #e05050;
+    --accent1: #444;
+    --accent2: #888;
+    --hover1: #666;
+    --hover2: #aaa;
+    --linktext1: #8fb9df;
+    --linktext2: #8ed9ff;
+    --linktext3: #008acf;
+    --nicoru1: rgb(201 168 62 / 10%);
+    --nicoru2: rgb(201 168 62 / 20%);
+    --nicoru3: rgb(201 168 62 / 35%);
+    --nicoru4: rgb(201 168 62 / 50%);
+    --dangerous1: rgb(245 71 71);
+    --likecolor: #f68;
+    --likebg: #502834;
+    --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
+}
+
 
 html[data-mw-palette="starnight"] body {
     --bgcolor1: #090f14;
