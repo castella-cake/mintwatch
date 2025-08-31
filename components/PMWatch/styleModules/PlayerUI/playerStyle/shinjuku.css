@@ -116,16 +116,16 @@
 
 
     .seekbar-bg, .seekbar-buffered, .seekbar-played {
-        height: inherit;
+        height: 6px;
         transform: none;
     }
 
     .seekbar-thumb {
         position: relative;
         height: 24px;
-        width: 4px;
+        width: 6px;
         background: linear-gradient(#ddd 1%, #ddd 2%, #ddd 49%, #555 50%, #eee 100%);
-        bottom: 16px;
+        bottom: 9px;
         top: inherit;
         transform: none;
         border-radius: 0;
@@ -133,7 +133,7 @@
     }
 
     .seekbar {
-        height: 6px;
+        height: 10px;
         border: 2px solid #111;
         background: linear-gradient(#232323, #1c1c1c 20%, #333 70%);
     }
