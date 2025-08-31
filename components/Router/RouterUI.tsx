@@ -28,11 +28,13 @@ const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
     const syncStorage = useStorageVar(["enableReshogi"] as const)
+    const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
+
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
-    const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
+
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -60,6 +62,10 @@ export default function RouterUI() {
     }, [setBackgroundPlaying, location, history])
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
+            if (!targetPathnames.some(path => location.pathname.startsWith(path))) {
+                console.log("out of bounds")
+                window.location.reload()
+            }
             if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
                 setBackgroundPlaying(true)
             } else {
