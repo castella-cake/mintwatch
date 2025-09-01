@@ -23,6 +23,12 @@ export const test = base.extend<FixtureType>({
                 `--load-extension=${pathToExtension}`,
             ],
         })
+        context.on("page", async (page) => {
+            const url = page.url()
+            if (url.includes("welcome.html")) {
+                await page.close()
+            }
+        })
         await use(context)
         await context.close()
     },
