@@ -120,7 +120,7 @@
             background: var(--bgcolor2);
             font-weight: bold;
             font-size: 1em;
-            border-top: 2px solid var(--linktext3);
+            border-top: 2px solid var(--primary1);
         }
 
         .stacker-tabbutton > span:nth-child(1) {

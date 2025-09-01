@@ -63,10 +63,10 @@
 }
 
 .commentinput-submit {
-    background: var(--linktext3);
-    color: var(--textcolor1);
+    background: var(--primary1);
+    color: var(--primary-text1);
     border-radius: 0 var(--radius) var(--radius) 0;
-    border: 2px solid var(--linktext3);
+    border: 2px solid var(--primary1);
     padding: 4px 8px;
     transition: background 0.1s ease, color 0.1s ease, border-color 0.1s ease, opacity 0.1s ease;
     opacity: 1;
@@ -80,14 +80,14 @@
     }
 
     &[aria-disabled="false"]:hover {
-        background: var(--bgcolor1);
+        background: var(--primary-hover1);
         cursor: pointer
     }
 
     &[aria-disabled="true"] {
-        background: var(--bgcolor3);
-        border-color: var(--bgcolor3);
-        color: var(--textcolor2);
+        background: var(--primary2);
+        border-color: var(--primary2);
+        color: var(--primary-text2);
         opacity: 0.8;
     }
 }

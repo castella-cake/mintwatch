@@ -1,9 +1,9 @@
 html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]) {
     /* 基本背景色 */
-    --bgcolor1: #f8f8fa;
+    --bgcolor1: #f5f5f8;
 
     /* サブ背景色1 */
-    --bgcolor2: #fff;
+    --bgcolor2: #fafafe;
 
     /* サブ背景色2 */
     --bgcolor3: #e7e7e7;
@@ -18,9 +18,9 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --accent2: #bababa;
     --hover1: #e0e0e0;
     --hover2: #d0d0d0;
-    --linktext1: #278cebff;
+    --linktext1: #5e9fc0;
     --linktext2: #4ac3ff;
-    --linktext3: #5e9fc0;
+    --linktext3: #008acf;
     --nicoru1: rgb(201 168 62 / 10%);
     --nicoru2: rgb(201 168 62 / 20%);
     --nicoru3: rgb(201 168 62 / 35%);
@@ -28,6 +28,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --dangerous1: rgb(245 71 71);
     --likecolor: #F58;
     --likebg: #fff1f5;
+    --primary-text-override: var(--bgcolor2);
 
     // 原宿ロゴが浮かないための調整
     --hrjk-logo-filter: brightness(0.973);
@@ -38,7 +39,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --bgcolor2: #333;
     --bgcolor3: #666;
     --bgcolor4: #aaa;
-    --textcolor1: #fff;
+    --textcolor1: #fafafe;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
     --accent1: #444;
@@ -51,6 +52,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --likecolor: #f68;
     --likebg: #502834;
     --border: var(--border-width) var(--border-style) #444;
+    --primary-text-override: var(--textcolor1);
 
     color: var(--textcolor1);
 
@@ -85,7 +87,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
         --bgcolor4: #aaa;
         --bgcolorab: rgba(#252525, 0.25);
         --bgcoloraw: rgba(#fff, 0.25);
-        --textcolor1: #fff;
+        --textcolor1: #fafafe;
         --textcolor2: #ddd;
         --textcolor3: #aaa;
         --textcolornew: #e05050;
@@ -105,6 +107,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
         --likebg: #502834;
         --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
         --hrjk-logo-filter: brightness(0.86) invert(1);
+        --primary-text-override: var(--textcolor1);
     }
 }
 
@@ -115,7 +118,7 @@ html[data-mw-palette="dark"] {
     --bgcolor4: #aaa;
     --bgcolorab: rgba(#252525, 0.25);
     --bgcoloraw: rgba(#fff, 0.25);
-    --textcolor1: #fff;
+    --textcolor1: #fafafe;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
     --textcolornew: #e05050;
@@ -154,8 +157,8 @@ html[data-mw-palette="starnight"] body {
     --hover1: #525250;
     --hover2: #858585;
     --linktext1: #dfc08f;
-    --linktext2: #fecd30;
-    --linktext3: #fff074;
+    --linktext2: #fff074;
+    --linktext3: #fecd30;
     --nicoru1: rgb(201 168 62 / 10%);
     --nicoru2: rgb(201 168 62 / 20%);
     --nicoru3: rgb(201 168 62 / 35%);
@@ -181,6 +184,11 @@ body {
     --info-block-gap: 10px;
     --blocks-gap: 8px;
     --transition-normal: background 0.1s ease, color 0.1s ease;
+    --primary1: var(--linktext3);
+    --primary-text1: var(--primary-text-override, var(--textcolor1));
+    --primary2: lch(from var(--primary1) calc(l - 20) calc(c - 20) h);
+    --primary-text2: lch(from var(--primary-text1) calc(l - 20) c h);
+    --primary-hover1: lch(from var(--primary1) calc(l + 10) c h);
 }
 
 html.MW-Enabled body {

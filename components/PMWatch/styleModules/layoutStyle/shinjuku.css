@@ -175,6 +175,7 @@
     .commentinput-submit {
         background: linear-gradient(#ff9e3c 1%,#ffa114 40%,#ff5919 60%,#f4781a 100%);
         color: #fff;
+        border-color: #eee;
         font-weight: bold;
         text-shadow: 0 0 2px #000;
         padding: 2px 4px;
