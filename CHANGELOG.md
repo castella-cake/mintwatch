@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画アクションからヘルプ類を分離し、ヘルプモーダルを新設しました [#48](https://github.com/castella-cake/mintwatch/issues/48)
 - 詳細設定に「おすすめにライブ配信を表示」を追加しました
 - おすすめなどの動画カードに「再生キューに追加」ボタンを追加しました [#49](https://github.com/castella-cake/mintwatch/issues/49)
+- PepperMint+ をインストールしていなくてもダークモードを使用できるようになりました [#38](https://github.com/castella-cake/mintwatch/issues/38)  
+  ライトモード時の一部のパレットがこれに合わせて調整されています。
 
 ### Changed
 - 歌詞データがない場合に歌詞タブボタンがグレーアウトするようになりました [#25](https://github.com/castella-cake/mintwatch/issues/25)
