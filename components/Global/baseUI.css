@@ -186,7 +186,7 @@ body {
     --transition-normal: background 0.1s ease, color 0.1s ease;
     --primary1: var(--linktext3);
     --primary-text1: var(--primary-text-override, var(--textcolor1));
-    --primary2: lch(from var(--primary1) calc(l - 20) calc(c - 20) h);
+    --primary2: lch(from var(--primary1) calc(l - 20) calc(c - 40) h);
     --primary-text2: lch(from var(--primary-text1) calc(l - 20) c h);
     --primary-hover1: lch(from var(--primary1) calc(l + 10) c h);
 }
