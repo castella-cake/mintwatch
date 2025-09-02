@@ -18,4 +18,5 @@ export interface CommentPostBody {
     body: string
     vposMs: number
     postKey: string
+    challengeToken?: string
 }
