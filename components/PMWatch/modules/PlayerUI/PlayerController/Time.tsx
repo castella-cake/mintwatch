@@ -15,6 +15,7 @@ export function Time() {
         const updateDuration = () => {
             if (videoRef.current!.duration !== duration) setDuration(videoRef.current!.duration)
         }
+        updateDuration()
         videoRef.current?.addEventListener("timeupdate", updateCurrentTime, { signal })
         videoRef.current?.addEventListener("durationchange", updateDuration, { signal })
 

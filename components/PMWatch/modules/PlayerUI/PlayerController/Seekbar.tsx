@@ -62,6 +62,14 @@ export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
         const updateDuration = () => {
             if (videoRef.current!.duration !== duration) setDuration(videoRef.current!.duration)
         }
+        videoRef.current?.addEventListener("timeupdate", updateCurrentTime, { signal })
+        videoRef.current?.addEventListener("durationchange", updateDuration, { signal })
+        updateDuration()
+        return () => controller.abort()
+    }, [])
+    useEffect(() => {
+        const controller = new AbortController()
+        const { signal } = controller
         function onSeekPointerMove(e: PointerEvent) {
             if (!isSeeking) return
             tempSeekHandle(e.clientX)
@@ -78,10 +86,6 @@ export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
         }
         document.addEventListener("pointermove", onSeekPointerMove, { signal })
         document.addEventListener("pointerup", onSeekPointerUp, { signal })
-        videoRef.current?.addEventListener("timeupdate", updateCurrentTime, { signal })
-        videoRef.current?.addEventListener("durationchange", updateDuration, { signal })
-
-        return () => controller.abort()
     }, [isSeeking])
 
     function tempSeekHandle(clientX: number) {
