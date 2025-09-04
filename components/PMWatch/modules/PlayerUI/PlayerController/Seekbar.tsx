@@ -51,6 +51,16 @@ export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
         videoRef.current.currentTime = currentTime
     }
 
+    const tempSeekHandle = useCallback((clientX: number) => {
+        const boundingClientRect = seekbarRef.current?.getBoundingClientRect()
+        if (!boundingClientRect || !videoRef.current) return
+        // console.log((clientX - boundingClientRect.left) / boundingClientRect.width * 100)
+        let scale = ((clientX - boundingClientRect.left) / boundingClientRect.width)
+        if (scale > 1) scale = 1
+        if (scale < 0) scale = 0
+        setCurrentTime(duration * (scale <= 1 ? scale : 1))
+    }, [setCurrentTime, duration])
+
     useEffect(() => {
         const controller = new AbortController()
         const { signal } = controller
@@ -64,39 +74,27 @@ export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
         }
         videoRef.current?.addEventListener("timeupdate", updateCurrentTime, { signal })
         videoRef.current?.addEventListener("durationchange", updateDuration, { signal })
-        updateDuration()
-        return () => controller.abort()
-    }, [])
-    useEffect(() => {
-        const controller = new AbortController()
-        const { signal } = controller
+
         function onSeekPointerMove(e: PointerEvent) {
-            if (!isSeeking) return
+            if (!isSeekingRef.current) return
             tempSeekHandle(e.clientX)
             e.preventDefault()
             e.stopPropagation()
         }
 
         function onSeekPointerUp(e: Event) {
-            if (!isSeeking) return
+            if (!isSeekingRef.current) return
             doSeekRef.current()
             setIsSeeking(false)
             e.preventDefault()
             e.stopPropagation()
         }
+
         document.addEventListener("pointermove", onSeekPointerMove, { signal })
         document.addEventListener("pointerup", onSeekPointerUp, { signal })
-    }, [isSeeking])
-
-    function tempSeekHandle(clientX: number) {
-        const boundingClientRect = seekbarRef.current?.getBoundingClientRect()
-        if (!boundingClientRect || !videoRef.current) return
-        // console.log((clientX - boundingClientRect.left) / boundingClientRect.width * 100)
-        let scale = ((clientX - boundingClientRect.left) / boundingClientRect.width)
-        if (scale > 1) scale = 1
-        if (scale < 0) scale = 0
-        setCurrentTime(duration * (scale <= 1 ? scale : 1))
-    }
+        updateDuration()
+        return () => controller.abort()
+    }, [tempSeekHandle])
 
     useEffect(() => {
         if (!hlsRef.current) return
@@ -193,6 +191,7 @@ export function Seekbar({ showTime, storyBoardData, hlsRef }: Props) {
                 onDragOver={(e) => { e.preventDefault() }}
                 onPointerDown={onPointerDown}
                 onPointerMove={onPointerMove}
+                data-is-seeking={isSeeking}
             >
                 <CommentStats duration={duration} />
                 <div className="seekbar-bg"></div>

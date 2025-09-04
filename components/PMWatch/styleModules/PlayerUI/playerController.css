@@ -316,8 +316,11 @@
     box-shadow: 0 0 2px #000a !important;
     width: 12px;
     height: 18px;
-    transition: left 0.1s ease;
     transform: translate(-50%, 0%);
+}
+
+.seekbar[data-is-seeking="false"] .seekbar-thumb {
+    transition: left 0.1s ease;
 }
 
 .seekbar-played {
