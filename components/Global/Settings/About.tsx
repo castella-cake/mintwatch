@@ -9,7 +9,6 @@ const manifestData = browser.runtime.getManifest()
 
 export function AboutMintWatch() {
     const { showToast } = useSetMessageContext()
-    const { showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -31,40 +30,6 @@ export function AboutMintWatch() {
                 storage.setItem("sync:unlockStarNightSetting", true)
                 storage.setItem("sync:starNightPalette", true)
                 showToast({ icon: <IconComet />, title: "You did a thing!", body: "パレットが StarNight に変更されました。" })
-                showAlert({
-                    title: "And now we present...",
-                    body: (
-                        <div>
-                            <p>
-                                nothing?
-                                <br />
-                            </p>
-                            <p>
-                                そうです。今はベータ期間です。
-                                <br />
-                                ベータテストに参加してくださった方の名前をここに乗せる予定です。
-                                <br />
-                                それまでは…登録用のフォームに記入しますか？
-                            </p>
-                        </div>
-                    ),
-                    customCloseButton: [
-                        {
-                            text: "フォームへ記入",
-                            key: "openForm",
-                            primary: true,
-                        },
-                        {
-                            text: "閉じる",
-                            key: "ok",
-                        },
-                    ],
-                    onClose: (type) => {
-                        if (type === "openForm") {
-                            window.open("https://docs.google.com/forms/d/e/1FAIpQLSeOKWLQbKity9CgayHl6wpwsbaGhTtmrYeEC3JHJ2ti9EGuaQ/viewform?usp=header")
-                        }
-                    },
-                })
             }, 1000)
         }
     }
