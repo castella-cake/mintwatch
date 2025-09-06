@@ -5,6 +5,7 @@ const initializeEggCommand = "U,U,D,D,L,R,L,R,b,a"
 const lessonEggCommand = "R,L,U,U,D,D,U,U,U,D,R,L,R,L,L,R,R,L,L,L,R,R,R,R,L,L,R,L,R,LR,LR,LR,D,D,R,D,D,R,D,D,R,D,D,R" // Lesson by DJ
 
 export function KeyboardShortcuts() {
+    const { rewindTime } = useStorageVar(["rewindTime"], "local")
     const { showToast, showAlert } = useSetMessageContext()
     const [keyPress, setKeyPress] = useState({ left: false, down: false, up: false, right: false })
     const commandHistory = useRef<string[]>([])
@@ -119,14 +120,14 @@ export function KeyboardShortcuts() {
                 <KeyShortcutBlock title="再生/一時停止">
                     <kbd>Space</kbd>
                 </KeyShortcutBlock>
-                <KeyShortcutBlock title="10秒送り/戻し">
+                <KeyShortcutBlock title={`${rewindTime ?? 10} 秒送り/戻し`}>
                     <kbd>←</kbd>
                     <span className="pmw-keyboard-shortcut-key-text">
                         /
                     </span>
                     <kbd>→</kbd>
                 </KeyShortcutBlock>
-                <KeyShortcutBlock title="1/60秒送り/戻し">
+                <KeyShortcutBlock title="1/60 秒送り/戻し">
                     <kbd>,</kbd>
                     <span className="pmw-keyboard-shortcut-key-text">
                         /

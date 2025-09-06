@@ -80,6 +80,7 @@ function Player(props: Props) {
         "enableFancyRendering",
         "enableInterpolateCommentRendering",
         "enableBigView",
+        "rewindTime",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -242,6 +243,7 @@ function Player(props: Props) {
                 setShortcutFeedback,
                 onModalStateChanged,
                 setIsCommentShown,
+                localStorage.rewindTime,
             )
         document.body.addEventListener("keydown", onKeydown)
 
@@ -259,7 +261,7 @@ function Player(props: Props) {
             )
             videoRef.current?.removeEventListener("timeupdate", onTimeUpdate)
         }
-    }, [])
+    }, [localStorage.rewindTime])
 
     useEffect(() => {
         if (videoRef.current)

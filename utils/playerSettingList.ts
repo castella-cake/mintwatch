@@ -86,7 +86,7 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: "10",
                 options: ["5", "10", "15", "30"],
                 texts: ["5秒", "10秒", "15秒", "30秒"],
-                name: "スキップボタンのシーク時間",
+                name: "スキップ操作のシーク時間",
             },
             enableWheelGesture: {
                 type: "checkbox",

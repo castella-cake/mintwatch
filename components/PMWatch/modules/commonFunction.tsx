@@ -32,7 +32,9 @@ export const handleCtrl = (
     setShortcutFeedback: (text: string) => void,
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void,
     onCommentDisplayChanged: React.Dispatch<React.SetStateAction<boolean>>,
+    rewindTime: string | undefined,
 ) => {
+    const eachSkipTime = Number(rewindTime ?? 10)
     if (e.ctrlKey) return true
     if (e.target instanceof Element) {
         if (e.target.closest("input, textarea")) return true
@@ -50,14 +52,14 @@ export const handleCtrl = (
     }
     if (e.key === "ArrowLeft" && video) {
         e.preventDefault()
-        video.currentTime = timeCalc("add", -10, video.currentTime, video.duration)
-        setShortcutFeedback("-10 秒")
+        video.currentTime = timeCalc("add", -eachSkipTime, video.currentTime, video.duration)
+        setShortcutFeedback(`${eachSkipTime} 秒戻し`)
         return false
     }
     if (e.key === "ArrowRight" && video) {
         e.preventDefault()
-        video.currentTime = timeCalc("add", 10, video.currentTime, video.duration)
-        setShortcutFeedback("+10 秒")
+        video.currentTime = timeCalc("add", eachSkipTime, video.currentTime, video.duration)
+        setShortcutFeedback(`${eachSkipTime} 秒送り`)
         return false
     }
     if (e.shiftKey && e.key === "ArrowUp" && video) {
