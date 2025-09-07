@@ -28,6 +28,7 @@ type CardProps = {
     thumbnailUrl?: string
     thumbText?: ReactNode
     thumbChildren?: ReactNode
+    thumbMarkAsLazy?: boolean
     subTitle?: ReactNode
     counts?: ReactNode
     additionalClassName?: string
@@ -37,14 +38,28 @@ type CardProps = {
     leftMarker?: ReactNode
 }
 export function Card(props: CardProps) {
-    const { href, thumbnailUrl, thumbText, thumbChildren, subTitle: ownerName, additionalClassName, children, title, counts, shortDescription, leftMarker, ...additionalAttribute } = props
+    const {
+        href,
+        thumbnailUrl,
+        thumbText,
+        thumbChildren,
+        subTitle: ownerName,
+        additionalClassName,
+        children,
+        title,
+        counts,
+        shortDescription,
+        leftMarker,
+        thumbMarkAsLazy,
+        ...additionalAttribute
+    } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
             <a className="info-card-link" href={href} title={title}></a>
             { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
             { thumbnailUrl && (
                 <div className="info-card-thumbnail">
-                    <img src={thumbnailUrl} alt={`${title} のサムネイル`} />
+                    <img src={thumbnailUrl} alt={`${title} のサムネイル`} loading={thumbMarkAsLazy ? "lazy" : undefined} />
                     { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
                     {thumbChildren}
                 </div>
@@ -59,7 +74,7 @@ export function Card(props: CardProps) {
     )
 }
 
-export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = false, isExtendedView = false }: { obj: RecommendItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, isExtendedView?: boolean }) {
+export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = false, isExtendedView = false, ...additionalProps }: { obj: RecommendItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, isExtendedView?: boolean }) {
     const thisVideoId = obj.id || (obj.content && obj.content.id) || null
 
     if (!thisVideoId) return <div className="info-card">表示に失敗しました</div>
@@ -74,6 +89,7 @@ export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = fa
                 href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
                 data-nowplaying={isNowPlaying}
                 title={obj.content.title ?? "タイトル不明"}
+                {...additionalProps}
             >
                 {isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled /></span> }
                 { isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled /></span>}
@@ -86,7 +102,7 @@ export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = fa
 }
 
 export function MylistInfo(props: { obj: RecommendItem }) {
-    const obj = props.obj
+    const { obj, ...additionalProps } = props
     return (
         <Card
             href={`https://www.nicovideo.jp/mylist/${obj.id}`}
@@ -99,6 +115,7 @@ export function MylistInfo(props: { obj: RecommendItem }) {
                     {obj.content.itemsCount}
                 </>
             )}
+            {...additionalProps}
         >
             <span className="info-card-content-title">
                 {obj.content.name}
@@ -108,7 +125,7 @@ export function MylistInfo(props: { obj: RecommendItem }) {
 }
 
 export function LiveInfo(props: { obj: RecommendItem }) {
-    const obj = props.obj
+    const { obj, ...additionalProps } = props
     return (
         <Card
             href={`https://live.nicovideo.jp/watch/${obj.id}`}
@@ -117,6 +134,7 @@ export function LiveInfo(props: { obj: RecommendItem }) {
             thumbnailUrl={obj.content.thumbnail && obj.content.thumbnail.url}
             thumbText="LIVE"
             data-is-live={true}
+            {...additionalProps}
         >
             <span className="info-card-content-title">
                 {obj.content.title}
@@ -125,12 +143,11 @@ export function LiveInfo(props: { obj: RecommendItem }) {
     )
 }
 
-export function InfoCardFromRecommend(props: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean, omitTypes?: ("video" | "mylist" | "live")[] }) {
-    const omitTypes = props.omitTypes ?? []
-    if (omitTypes.some(t => t === props.obj.contentType)) return
-    if (props.obj.contentType === "video") return <VideoInfo {...props} />
-    if (props.obj.contentType === "mylist") return <MylistInfo {...props} />
-    if (props.obj.contentType === "live") return <LiveInfo {...props} />
+export function InfoCardFromRecommend({ omitTypes = [], obj, isExtendedView, ...otherProps }: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean, omitTypes?: ("video" | "mylist" | "live")[], thumbMarkAsLazy?: boolean }) {
+    if (omitTypes.some(t => t === obj.contentType)) return
+    if (obj.contentType === "video") return <VideoInfo obj={obj} isExtendedView={isExtendedView} {...otherProps} />
+    if (obj.contentType === "mylist") return <MylistInfo obj={obj} {...otherProps} />
+    if (obj.contentType === "live") return <LiveInfo obj={obj} {...otherProps} />
     return <div>Unknown contentType</div>
 }
 

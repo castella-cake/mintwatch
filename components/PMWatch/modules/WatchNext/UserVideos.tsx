@@ -9,7 +9,7 @@ function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) 
     const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
-        userVideoData && userVideoData.data.items.map((item) => {
+        userVideoData && userVideoData.data.items.map((item, index) => {
             return (
                 <InfoCardFromRecommend
                     key={`userVideos-${item.essential.id}`}
@@ -20,6 +20,7 @@ function UserVideos({ videoOwnerData }: { videoOwnerData?: VideoOwner | null }) 
                         content: { ...item.essential },
                     }}
                     isExtendedView={showExtendedRecommend}
+                    thumbMarkAsLazy={index >= 8}
                 />
             )
         })

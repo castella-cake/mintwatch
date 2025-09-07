@@ -10,13 +10,14 @@ function Recommend() {
             <span>レコメンド取得中</span>
         )
     return (
-        recommendData.data.items.map((elem) => {
+        recommendData.data.items.map((elem, index) => {
             return (
                 <InfoCardFromRecommend
                     key={`recommend-${elem.id}`}
                     obj={elem}
                     isExtendedView={showExtendedRecommend}
                     omitTypes={showLiveInRecommend ? [] : ["live"]}
+                    thumbMarkAsLazy={index >= 8}
                 />
             )
         })

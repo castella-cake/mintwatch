@@ -59,7 +59,7 @@ function ContentTree() {
                         && commonsRelativeData.data.parents.total !== 0
                         ? (
                                 commonsRelativeData.data.parents.contents.map(
-                                    (elem) => {
+                                    (elem, index) => {
                                         return (
                                             <a
                                                 className="contenttree-item"
@@ -71,6 +71,7 @@ function ContentTree() {
                                                 <img
                                                     src={elem.thumbnailURL}
                                                     alt={`${elem.title} のサムネイル`}
+                                                    loading={index > 2 ? "lazy" : undefined}
                                                 />
                                                 {elem.title}
                                             </a>

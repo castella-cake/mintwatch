@@ -43,8 +43,8 @@ export function Activities({ timeline }: { timeline: ActivitiesDataRootObject })
             <div key={`activities-date-${key}`} className="activities-date">
                 <div className="activities-date-title">{getRelativeDate(key)}</div>
                 <div className="activities-item-container">
-                    {splittedActivities[key].map((item: Activity) => {
-                        return <ActivityCard item={item} key={item.id} />
+                    {splittedActivities[key].map((item: Activity, index) => {
+                        return <ActivityCard item={item} key={item.id} markAsLazy={index >= 5} />
                     })}
                 </div>
             </div>

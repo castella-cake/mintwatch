@@ -5,10 +5,10 @@ export interface OshiraseBoxRootObject extends baseResponse {
 interface Data {
     nextUrl: string
     importantUnreadCount: number
-    notifications: Notification[]
+    notifications: OshiraseNotification[]
 }
 
-interface Notification {
+export interface OshiraseNotification {
     id: string
     read: boolean
     createdAt: string

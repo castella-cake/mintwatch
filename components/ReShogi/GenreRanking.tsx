@@ -200,6 +200,7 @@ export default function GenreRankingContent() {
                                 )}
                                 thumbnailUrl={video.thumbnail.listingUrl}
                                 thumbText={`${secondsToTime(video.duration)}`}
+                                thumbMarkAsLazy={index >= 5}
                             >
                                 {video.title}
 
