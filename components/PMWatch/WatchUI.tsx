@@ -32,6 +32,7 @@ function CreateWatchUI() {
         onboardingIgnored,
     } = useStorageVar(["playerAreaSize", "onboardingIgnored"] as const, "local")
 
+    const isBackgroundPlaying = useBackgroundPlayingContext()
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
 
     const videoRef = useVideoRefContext()
@@ -83,6 +84,17 @@ function CreateWatchUI() {
             listenPopState() // unlisten
         }
     }, [smId, videoInfo])
+
+    // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
+    const previousBackgroundStateRef = useRef(false)
+    useEffect(() => {
+        if (!isBackgroundPlaying && videoRef.current && previousBackgroundStateRef.current) {
+            // 一瞬最上部に移動してから下へスムーズスクロール
+            window.scroll({ top: 0 })
+            videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+        }
+        previousBackgroundStateRef.current = isBackgroundPlaying
+    }, [isBackgroundPlaying])
 
     // transition / outside click detection refs
     const videoActionModalElemRef = useRef<HTMLDivElement>(null)
