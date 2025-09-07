@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Firefox環境ではエンドカードに4:3サムネイルを用いるように戻しました [#51](https://github.com/castella-cake/mintwatch/issues/51)
+- 秒数表示がNaNだった場合に常に`00:00`として表示するようになりました
 
 ## 0.9.0 - 2025/09/04
 

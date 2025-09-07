@@ -1,9 +1,11 @@
 /**
  * 秒 から HH:MM:SS に変換する関数
  * @param seconds 秒数
- * @returns HH:MM:SS でフォーマットされたstring
+ * @returns HH:MM:SS でフォーマットされたstring (Hourは省略される場合がある)
  */
 export function secondsToTime(seconds: number) {
+    if (Number.isNaN(seconds)) return `00:00`
+
     const second = Math.floor(seconds % 60)
     const minute = Math.floor((seconds / 60) % 60)
     const hour = Math.floor((seconds / 60) / 60)
