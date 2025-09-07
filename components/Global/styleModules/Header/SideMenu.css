@@ -126,7 +126,7 @@
 
     &-enter-done, &-enter-active {
         background: rgb(0 0 0 / 50%);
-        backdrop-filter: blur(4px);
+        backdrop-filter: var(--backdrop-blur-normal);
 
         .sidemenu-container {
             transform: translateX(0%);

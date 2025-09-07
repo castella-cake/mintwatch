@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - キーボードショートカットのスキップ操作が設定を尊重するようになりました [#50](https://github.com/castella-cake/mintwatch/issues/50)
 - フォロー新着,通知,ランキング,おすすめ,ユーザーの投稿動画は、最初の数項目を除いてビューポートに入ってから読み込むようになりました [#52](https://github.com/castella-cake/mintwatch/issues/52)
+- 将来のカスタマイズのために、0pxを除く背景ぼかし効果はvarに分離されました
 
 ### Fixed
 - Firefox環境ではエンドカードに4:3サムネイルを用いるように戻しました [#51](https://github.com/castella-cake/mintwatch/issues/51)

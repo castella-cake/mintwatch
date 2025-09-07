@@ -36,7 +36,7 @@
 
     .player-container {
         background: var(--bgcolor2);
-        backdrop-filter: blur(4px);
+        backdrop-filter: var(--backdrop-blur-normal);
         box-shadow: 0 0 8px #000a;
     }
 

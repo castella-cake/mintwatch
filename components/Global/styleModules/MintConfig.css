@@ -24,7 +24,7 @@
     color: #fff;
     margin: 48px 16px;
     font-size: 0.9em;
-    backdrop-filter: blur(10px);
+    backdrop-filter: var(--backdrop-blur-high);
     border: 1px solid #aaa8;
     box-shadow: 2px 2px 16px #000;
 }

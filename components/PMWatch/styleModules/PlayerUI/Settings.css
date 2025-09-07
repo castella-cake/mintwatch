@@ -8,7 +8,7 @@
     // height: 100%;
     background: #111e;
     color: #fff;
-    backdrop-filter: blur(8px);
+    backdrop-filter: var(--backdrop-blur-high);
     padding: 16px;
     z-index: 2;
     overflow: auto;

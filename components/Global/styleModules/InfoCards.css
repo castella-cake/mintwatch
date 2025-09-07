@@ -314,7 +314,7 @@ a.info-card-link {
     .info-card {
         width: min-content;
         background: rgb(from var(--bgcolor2) r g b / 80%);
-        backdrop-filter: blur(4px);
+        backdrop-filter: var(--backdrop-blur-normal);
         border: var(--border);
         box-shadow: 0 0 8px #000;
         opacity: 0.8;

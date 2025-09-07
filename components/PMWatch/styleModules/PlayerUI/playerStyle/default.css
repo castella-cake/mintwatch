@@ -70,7 +70,7 @@
     
     &[data-is-integrated-controller="true"] {
         .playercontroller-container {
-            backdrop-filter: blur(8px);
+            backdrop-filter: var(--backdrop-blur-high);
             box-shadow: 0 0 4px #000;
         }
 

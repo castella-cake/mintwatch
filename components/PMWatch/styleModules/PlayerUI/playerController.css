@@ -31,7 +31,7 @@
         opacity: 0;
         pointer-events: none;
         z-index: 1;
-        backdrop-filter: blur(2px);
+        backdrop-filter: var(--backdrop-blur-normal);
         box-shadow: 0 0 4px #000a;
         border: 1px solid #333;
 
@@ -112,7 +112,7 @@
     text-align: center;
     font-size: 0.9em;
     z-index: 1;
-    backdrop-filter: blur(2px);
+    backdrop-filter: var(--backdrop-blur-normal);
     padding: 2px 4px;
     top: 3em;
     border: 1px solid #333;
@@ -270,7 +270,7 @@
     width: fit-content;
     margin: 0 auto;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    backdrop-filter: blur(4px);
+    backdrop-filter: var(--backdrop-blur-normal);
     transform: translateY(50%);
     opacity: 0;
     box-shadow: 0 0 4px #000a;

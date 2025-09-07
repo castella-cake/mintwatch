@@ -48,7 +48,7 @@
         display: flex;
         align-items: center;
         background: var(--bgcolor2);
-        backdrop-filter: blur(4px);
+        backdrop-filter: var(--backdrop-blur-normal);
         border: 1px solid var(--textcolor3);
         border-left-width: 4px;
         border-radius: var(--radius);
@@ -77,7 +77,7 @@
         .info-card {
             border: 1px solid var(--textcolor3);
             background: var(--bgcolor2);
-            backdrop-filter: blur(4px);
+            backdrop-filter: var(--backdrop-blur-normal);
             padding: 8px;
         }
 

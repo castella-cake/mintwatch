@@ -189,6 +189,8 @@ body {
     --primary2: lch(from var(--primary1) calc(l - 20) calc(c - 40) h);
     --primary-text2: lch(from var(--primary-text1) calc(l - 20) c h);
     --primary-hover1: lch(from var(--primary1) calc(l + 10) c h);
+    --backdrop-blur-normal: blur(4px);
+    --backdrop-blur-high: blur(8px);
 }
 
 html.MW-Enabled body {

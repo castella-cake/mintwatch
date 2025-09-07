@@ -11,13 +11,13 @@
         background: rgb(32 32 32 / 90%);
         color: #fff;
         height: var(--header-height);
-        backdrop-filter: blur(8px);
+        backdrop-filter: var(--backdrop-blur-high);
         z-index: 100;
     }
 
     .header-bottom-container {
         background: rgb(from var(--bgcolor2) r g b / 80%);
-        backdrop-filter: blur(8px);
+        backdrop-filter: var(--backdrop-blur-high);
         z-index: 99;
     }
 

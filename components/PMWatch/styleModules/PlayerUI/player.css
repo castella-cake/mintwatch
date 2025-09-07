@@ -68,7 +68,7 @@
     opacity: 0;
     transition: opacity 0.2s ease;
     text-align: left;
-    backdrop-filter: blur(2px);
+    backdrop-filter: var(--backdrop-blur-normal);
 
     .videotitle {
         font-weight: bold;
@@ -320,7 +320,7 @@
         width: max-content;
         margin: 16px auto;
         background: #000a;
-        backdrop-filter: blur(8px);
+        backdrop-filter: var(--backdrop-blur-high);
         color: #fff;
         padding: 4px 8px;
         box-shadow: 0 0 8px #000;
