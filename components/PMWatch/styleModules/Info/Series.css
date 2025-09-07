@@ -145,12 +145,21 @@
 }
 
 .seriesinfo-no-video {
-	flex: 1;
 	background: var(--bgcolor1);
 	border-radius: var(--radius);
 	border: 1px solid var(--bgcolor2);
 	padding: 4px;
 	color: var(--textcolor3);
+}
+
+.seriesinfo-first .seriesinfo-no-video {
+    padding: 8px 12px;
+}
+
+.seriesinfo-episodes .seriesinfo-no-video {
+    flex: 1;
+    height: calc(4rem + 16px);
+    padding: 8px;
 }
 
 .watch-container[data-use-card-recommend="false"] { 

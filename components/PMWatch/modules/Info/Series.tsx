@@ -49,7 +49,7 @@ function SeriesInfo() {
                                         )
                                     : (
                                             <div className="seriesinfo-no-video">
-                                                最初の動画はありません
+                                                最初の動画が登録されていません
                                             </div>
                                         )}
                             </div>
@@ -64,7 +64,7 @@ function SeriesInfo() {
                                         )
                                     : (
                                             <div className="seriesinfo-no-video">
-                                                前の動画はありません
+                                                前の動画が登録されていません
                                             </div>
                                         )}
                                 {seriesData.video.next
@@ -78,7 +78,7 @@ function SeriesInfo() {
                                         )
                                     : (
                                             <div className="seriesinfo-no-video">
-                                                次の動画はありません
+                                                次の動画が登録されていません
                                             </div>
                                         )}
                             </div>
