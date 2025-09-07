@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased - 2025/09
+
+### Changed
+- キーボードショートカットのスキップ操作が設定を尊重するようになりました [#50](https://github.com/castella-cake/mintwatch/issues/50)
+
+### Fixed
+- Firefox環境ではエンドカードに4:3サムネイルを用いるように戻しました [#51](https://github.com/castella-cake/mintwatch/issues/51)
+
 ## 0.9.0 - 2025/09/04
 
 ### Added
