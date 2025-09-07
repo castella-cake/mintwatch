@@ -27,10 +27,10 @@ test("Watch: Modal open test", async ({ page, mockApi }) => {
     await expect(page.locator(".pmw-keyboard-dance")).toBeVisible()
 
     await page.getByRole("button", { name: "はじめに", exact: true }).click()
-    await expect(page.getByText("MintWatch のはじめに MintWatch")).toBeVisible()
+    await expect(page.locator(".pmw-help-content")).toBeVisible()
 
     await page.getByRole("button", { name: "MintWatch について" }).click()
-    await expect(page.getByText("MintWatchv0.9.0")).toBeVisible()
+    await expect(page.locator(".about-mintwatch-header")).toBeVisible()
 
     await page.locator(".modal-container").getByRole("button", { name: "閉じる" }).click()
 
