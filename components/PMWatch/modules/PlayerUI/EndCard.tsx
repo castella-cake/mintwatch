@@ -49,6 +49,9 @@ export function EndCard({ smId }: { smId: string }) {
     )
     const showSeriesRecommend = seriesData && videoInfo?.data.response.channel && videoInfo?.data.response.genre.key === "anime"
 
+    // Firefox環境ではpreload済みのサムネイルを読み込まない(失敗する)
+    const currentVideoThumbnailSrc = videoInfo && (import.meta.env.FIREFOX ? videoInfo.data.response.video.thumbnail.url : videoInfo.data.response.video.thumbnail.player)
+
     /* eslint no-irregular-whitespace: 0 */
     return (
         <div className="endcard-container global-flex">
@@ -72,7 +75,7 @@ export function EndCard({ smId }: { smId: string }) {
                 <h2>現在の動画</h2>
                 {videoInfo && (
                     <div className="endcard-currentvideo-container">
-                        <img className="endcard-currentvideo-thumbnail" src={videoInfo.data.response.video.thumbnail.player} alt={`${videoInfo.data.response.video.title} のサムネイル`}></img>
+                        <img className="endcard-currentvideo-thumbnail" src={currentVideoThumbnailSrc} alt={`${videoInfo.data.response.video.title} のサムネイル`} />
                         <div className="endcard-currentvideo-text">
                             <strong className="endcard-currentvideo-title">{videoInfo.data.response.video.title}</strong>
                             <br />
