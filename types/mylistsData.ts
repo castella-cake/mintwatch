@@ -6,7 +6,7 @@ interface Data {
     mylists: Mylist[]
 }
 
-interface Mylist {
+export interface Mylist {
     id: number
     isPublic: boolean
     name: string
