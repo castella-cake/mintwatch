@@ -1,0 +1,58 @@
+.mylistspopup-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.5em;
+    z-index: 100;
+    background: var(--bgcolor1);
+    border: var(--border);
+    padding: var(--info-block-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 4px #0008;
+
+    &[data-animation="entering"] {
+        transition: transform 0.3s ease;
+    }
+
+    &[data-animation="exiting"]  {
+        transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+    }
+
+    &[data-animation="preEnter"] {
+        transform: translateY(5%);
+    }
+
+    &[data-animation="exiting"], &[data-animation="exited"] {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(5%);
+        pointer-events: none;
+    }
+
+    &[data-animation="entering"], &[data-animation="entered"] {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+
+    .mylist-item-container {
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+
+    .mylist-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0;
+        border-radius: 0;
+        border: none;
+        border-bottom: var(--border);
+    }
+}
+
+.mylistspopup-title {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
