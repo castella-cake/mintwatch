@@ -6,7 +6,7 @@ import {
     IconShare,
     IconSpeakerphone,
 } from "@tabler/icons-react"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, startTransition, useEffect, useState } from "react"
 import { readableInt } from "@/utils/readableValue"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import LikeThanksMessage from "./LikeThanksMessage"
@@ -110,7 +110,12 @@ function Actions({ onModalOpen }: Props) {
     }
 
     function onMylistClicked() {
-        onModalOpen("mylist")
+        startTransition(() => {
+            onModalOpen("mylist")
+        })
+        // すぐにマイリストポップアップを閉じる
+        setIsMylistsPopupOpen(false)
+        clearTimeout(mylistsPopupTimeoutRef.current)
     }
 
     function onMylistMouseEnter() {
@@ -218,7 +223,7 @@ function Actions({ onModalOpen }: Props) {
                     iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
                 />
             )}
-            <MylistsPopup isOpen={isMylistsPopupOpen} onMouseEnter={onMylistMouseEnter} onMouseLeave={onMylistMouseLeave} />
+            <MylistsPopup isOpen={isMylistsPopupOpen} onMouseEnter={onMylistMouseEnter} onMouseLeave={onMylistMouseLeave} onMoreButtonClick={onMylistClicked} />
         </div>
     )
 }

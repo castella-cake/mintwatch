@@ -1,7 +1,10 @@
 import { useTransitionState } from "react-transition-state"
 import { Mylists } from "../Mylists"
 
-export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave }: { isOpen: boolean, onMouseEnter: (e: React.MouseEvent) => void, onMouseLeave: (e: React.MouseEvent) => void }) {
+export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave, onMoreButtonClick }: { isOpen: boolean, onMouseEnter: (e: React.MouseEvent) => void, onMouseLeave: (e: React.MouseEvent) => void, onMoreButtonClick: (e: React.MouseEvent) => void }) {
+    const {
+        mylistsPopupLimit,
+    } = useStorageVar(["mylistsPopupLimit"])
     const [{ status, isMounted }, toggle] = useTransitionState({
         timeout: { enter: 300, exit: 300 },
         mountOnEnter: true,
@@ -15,9 +18,18 @@ export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave }: { isOpen: b
     return (
         <div className="mylistspopup-container" data-animation={status} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             <div className="mylistspopup-title">
-                マイリストに追加
+                マイリストに追加 (最初の
+                {" "}
+                {mylistsPopupLimit ?? 8}
+                {" "}
+                件を表示中)
             </div>
-            <Mylists compact={true} />
+            <Mylists
+                compact={true}
+                limit={mylistsPopupLimit ?? 8}
+                showMoreButton={true}
+                onMoreButtonClick={onMoreButtonClick}
+            />
         </div>
     )
 }

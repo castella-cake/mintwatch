@@ -1,9 +1,9 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
-import { IconAlertTriangle, IconCheck, IconLock, IconWorld } from "@tabler/icons-react"
+import { IconAlertTriangle, IconCheck, IconFolder, IconLock, IconWorld } from "@tabler/icons-react"
 
-export function Mylists({ compact = false }: { compact?: boolean }) {
+export function Mylists({ compact = false, limit = Infinity, showMoreButton, onMoreButtonClick }: { compact?: boolean, limit?: number, showMoreButton?: boolean, onMoreButtonClick?: (e: React.MouseEvent) => void }) {
     const { videoInfo } = useVideoInfoContext()
     const { showToast, showAlert } = useSetMessageContext()
 
@@ -39,7 +39,7 @@ export function Mylists({ compact = false }: { compact?: boolean }) {
         <div className="mylist-item-container" data-is-compact={compact}>
             {
                 mylistsData
-                    ? mylistsData.data.mylists.map((mylist) => {
+                    ? mylistsData.data.mylists.slice(0, limit).map((mylist) => {
                             return (
                                 <button
                                     key={mylist.id}
@@ -84,6 +84,17 @@ export function Mylists({ compact = false }: { compact?: boolean }) {
                         })
                     : <div>マイリスト取得中</div>
             }
+            { mylistsData && mylistsData.data.mylists.length > limit && showMoreButton && (
+                <button className="mylist-showmore" onClick={onMoreButtonClick}>
+                    <IconFolder />
+                    {" "}
+                    全
+                    {" "}
+                    {mylistsData.data.mylists.length}
+                    {" "}
+                    件のマイリストを表示…
+                </button>
+            ) }
         </div>
     )
 }

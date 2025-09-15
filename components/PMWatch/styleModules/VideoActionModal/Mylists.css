@@ -62,3 +62,24 @@
         justify-content: space-between;
     }
 }
+
+.mylist-showmore {
+    text-align: center;
+    background: transparent;
+    color: var(--textcolor2);
+    border: none;
+    width: 100%;
+    padding: 8px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    &:hover {
+        background: var(--hover1);
+    }
+}

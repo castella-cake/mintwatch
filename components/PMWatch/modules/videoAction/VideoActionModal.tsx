@@ -19,11 +19,16 @@ export function VideoActionModal({
 }: {
     nodeRef: RefObject<HTMLDivElement | null>
 }) {
+    const containerRef = useRef<HTMLDivElement>(null)
     const { videoInfo } = useVideoInfoContext()
 
     const videoActionModalState = useVideoActionModalStateContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setIsMintConfigShown = useSetMintConfigShownContext()
+
+    const onWrapperClick = useCallback((e: React.MouseEvent) => {
+        if (e.target instanceof HTMLElement && containerRef.current && !containerRef.current.contains(e.target)) setVideoActionModalState(false)
+    }, [])
 
     if (!videoInfo) return <></>
 
@@ -36,8 +41,8 @@ export function VideoActionModal({
             classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef}>
-                    <div className="modal-container">
+                <div className="modal-wrapper" ref={nodeRef} onClick={onWrapperClick}>
+                    <div className="modal-container" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
                                 動画アクション
