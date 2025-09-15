@@ -2,7 +2,7 @@
     "name": "mintwatch",
     "description": "ニコニコ動画用のカスタマイズ可能な動画プレイヤー",
     "private": true,
-    "version": "0.9.1",
+    "version": "0.10.0",
     "type": "module",
     "license": "MIT",
     "homepage": "https://github.com/castella-cake/niconico-peppermint-extension#readme",
