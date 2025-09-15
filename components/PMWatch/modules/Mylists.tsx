@@ -1,9 +1,9 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
-import { IconAlertTriangle, IconCheck } from "@tabler/icons-react"
+import { IconAlertTriangle, IconCheck, IconLock, IconWorld } from "@tabler/icons-react"
 
-export function Mylists() {
+export function Mylists({ compact = false }: { compact?: boolean }) {
     const { videoInfo } = useVideoInfoContext()
     const { showToast, showAlert } = useSetMessageContext()
 
@@ -36,35 +36,49 @@ export function Mylists() {
     if (!videoInfo) return
 
     return (
-        <div className="mylist-item-container">
+        <div className="mylist-item-container" data-is-compact={compact}>
             {
                 mylistsData
-                    ? mylistsData.data.mylists.map((elem) => {
+                    ? mylistsData.data.mylists.map((mylist) => {
                             return (
                                 <button
-                                    key={elem.id}
+                                    key={mylist.id}
                                     className="mylist-item"
                                     onClick={() => {
-                                        if (!addedMylists.includes(elem.id) && videoInfo.data) onAddToMylist(elem.id, videoInfo.data.response.video.id)
+                                        if (!addedMylists.includes(mylist.id) && videoInfo.data) onAddToMylist(mylist.id, videoInfo.data.response.video.id)
                                     }}
+                                    data-added={addedMylists.includes(mylist.id)}
                                 >
-                                    {addedMylists.includes(elem.id) && (
-                                        <>
-                                            <IconCheck />
-                                            追加済み:
+                                    <div className="mylist-title">
+                                        <span className="mylist-title-state" title={mylist.isPublic ? "公開のマイリスト" : "非公開のマイリスト"}>{mylist.isPublic ? <IconWorld /> : <IconLock />}</span>
+                                        <span className="mylist-title-name">{mylist.name}</span>
+                                    </div>
+                                    <div className="mylist-description">
+                                        {addedMylists.includes(mylist.id) && (
+                                            <strong className="mylist-description-added">
+                                                <IconCheck />
+                                                {" "}
+                                                追加済み
+                                            </strong>
+                                        )}
+                                        <span className="mylist-description-count">
+                                            全
                                             {" "}
-                                        </>
-                                    )}
-                                    <span className="mylist-title">{ elem.name }</span>
-                                    <br />
-                                    <span className="mylist-desc">
-                                        { elem.isPublic ? "公開" : "非公開" }
-                                        のマイリスト /
-                                        {" "}
-                                        { elem.itemsCount}
-                                        {" "}
-                                        個の動画
-                                    </span>
+                                            {mylist.itemsCount}
+                                            {" "}
+                                            件
+                                        </span>
+                                        { !compact && (
+                                            <>
+                                                {" / "}
+                                                <span className="mylist-description-count">
+                                                    作成日時
+                                                    {" "}
+                                                    {new Date(mylist.createdAt).toLocaleDateString()}
+                                                </span>
+                                            </>
+                                        )}
+                                    </div>
                                 </button>
                             )
                         })

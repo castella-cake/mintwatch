@@ -14,7 +14,7 @@
     box-shadow: 0 0 4px #0008;
 
     &[data-animation="entering"] {
-        transition: transform 0.3s ease;
+        transition: opacity 0.3s ease;
     }
 
     &[data-animation="exiting"]  {
@@ -22,7 +22,7 @@
     }
 
     &[data-animation="preEnter"] {
-        transform: translateY(5%);
+        opacity: 0;
     }
 
     &[data-animation="exiting"], &[data-animation="exited"] {
@@ -35,20 +35,6 @@
     &[data-animation="entering"], &[data-animation="entered"] {
         opacity: 1;
         transform: translateY(0%);
-    }
-
-    .mylist-item-container {
-        border-radius: var(--radius);
-        overflow: hidden;
-    }
-
-    .mylist-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0;
-        border-radius: 0;
-        border: none;
-        border-bottom: var(--border);
     }
 }
 

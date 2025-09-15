@@ -34,12 +34,12 @@ const ISetMessageContext = createContext<{
     ISetToastState: Dispatch<SetStateAction<IToast[]>>
     showToast: (toast: Omit<IToast, "key">) => void
 }>({
-            ISetAlertState: () => {},
-            showAlert: () => {},
+    ISetAlertState: () => {},
+    showAlert: () => {},
 
-            ISetToastState: () => {},
-            showToast: () => {},
-        })
+    ISetToastState: () => {},
+    showToast: () => {},
+})
 
 export function MessageProvider({ children }: { children: ReactNode }) {
     const [IAlertState, ISetAlertState] = useState<IAlert[]>([])

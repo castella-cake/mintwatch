@@ -18,13 +18,20 @@
         border: var(--border);
         border-radius: var(--radius);
         width: 100%;
-        cursor: pointer;
         color: var(--textcolor1);
         text-align: left;
         line-height: 1.4rem;
 
-        &:hover {
-            background: var(--hover1);
+        &[data-added="false"] {
+            cursor: pointer;
+
+            &:hover {
+                background: var(--hover1);
+            }
+        }
+
+        &[data-added="true"] {
+            background: var(--bgcolor1);
         }
 
         .mylist-desc {
@@ -33,9 +40,25 @@
         }
 
         svg {
-            height: 1em;
-            width: 1.2em;
-            vertical-align: middle;
+            width: 1.25em;
+            height: 1.25em;
+            vertical-align: text-top;
         }
+
+        .mylist-description-count {
+            opacity: 0.8;
+        }
+
+        .mylist-title, .mylist-description {
+            display: flex;
+            gap: 0.25em;
+        }
+    }
+}
+
+.mylist-item-container[data-is-compact="true"] {
+    .mylist-item {
+        display: flex;
+        justify-content: space-between;
     }
 }

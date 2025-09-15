@@ -3,7 +3,7 @@ import { Mylists } from "../Mylists"
 
 export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave }: { isOpen: boolean, onMouseEnter: (e: React.MouseEvent) => void, onMouseLeave: (e: React.MouseEvent) => void }) {
     const [{ status, isMounted }, toggle] = useTransitionState({
-        timeout: { enter: 500, exit: 300 },
+        timeout: { enter: 300, exit: 300 },
         mountOnEnter: true,
         unmountOnExit: true,
         preEnter: true,
@@ -17,7 +17,7 @@ export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave }: { isOpen: b
             <div className="mylistspopup-title">
                 マイリストに追加
             </div>
-            <Mylists />
+            <Mylists compact={true} />
         </div>
     )
 }
