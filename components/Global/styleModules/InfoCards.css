@@ -228,6 +228,7 @@ a.info-card-link {
     padding-left: 8px;
     border-left: var(--border);
     border-left-width: 2px;
+    pointer-events: none;
 }
 
 .watch-container[data-use-card-recommend="true"] .watchnext-container .info-card, .shogi-ranking-lane-videolist-item .info-card {

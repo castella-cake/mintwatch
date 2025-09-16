@@ -154,7 +154,7 @@
 
 .navbar-background-player-container {
     display: flex;
-    max-height: calc(var(--navbar-height) - 16px);
+    max-height: calc(var(--navbar-height) - 8px);
     align-items: center;
     gap: 8px;
     background: var(--bgcolor1);

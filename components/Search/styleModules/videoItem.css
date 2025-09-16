@@ -1,8 +1,8 @@
 .videoitem-wrapper {
     position: relative;
-    border-radius: var(--radius);
-    background: var(--bgcolor2);
-    border: var(--border);
+    background: none;
+    border-bottom: var(--border);
+    border-radius: 0;
 }
 
 .videoitem-wrapper .info-card {
@@ -36,7 +36,8 @@
     }
 
     .info-card-counts svg {
-        vertical-align: baseline;
+        height: 1.25em;
+        vertical-align: top;
     }
 }
 
