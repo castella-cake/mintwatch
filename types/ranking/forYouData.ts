@@ -24,43 +24,7 @@ interface ForYouTeibanRankingItem {
     featuredKey: string
     label: string
     tag: string
-    items: Item[]
-}
-
-interface Item {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: Thumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null
-    owner: Owner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface Thumbnail {
-    url: string
-    middleUrl: null | string | string
-    largeUrl: null | string | string
-    listingUrl: string
-    nHdUrl: string
+    items: VideoItem[]
 }
 
 interface GoogleTagManager {

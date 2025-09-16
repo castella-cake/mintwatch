@@ -2,7 +2,6 @@ import { IconCheck, IconClockFilled, IconFolderFilled, IconHeartFilled, IconList
 import { useDraggable } from "@dnd-kit/core"
 import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
-import { SeriesVideoItem } from "@/types/VideoData"
 import { secondsToTime } from "@/utils/readableValue"
 import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
 import { useSetMessageContext } from "./Contexts/MessageProvider"
@@ -151,7 +150,7 @@ export function InfoCardFromRecommend({ omitTypes = [], obj, isExtendedView, ...
     return <div>Unknown contentType</div>
 }
 
-export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: SeriesVideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
+export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: VideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
     return (
         <Draggable id={`${seriesVideoItem.id.toString()}-series-${type || "prev"}`} obj={seriesVideoItem}>
             <Card
@@ -176,7 +175,7 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
     )
 }
 
-export function InfoCardCount({ count, registeredAt }: { count: Count, registeredAt?: string }) {
+export function InfoCardCount({ count, registeredAt }: { count: GenericCount, registeredAt?: string }) {
     return (
         <>
             <span className="info-card-count" data-count-type="view">

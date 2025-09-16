@@ -1,0 +1,31 @@
+.pageselector-stats-pagination {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+}
+
+.pageselector-page-button {
+    text-decoration: none;
+    padding: 4px 8px;
+    background: var(--bgcolor2);
+    margin-right: 8px;
+    border: var(--border);
+    border-radius: var(--radius);
+    color: var(--textcolor1);
+
+    &[data-is-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor1);
+        font-weight: bold;
+    }
+}
+
+.pageselector-container[data-is-vertical="true"] .pageselector-page-button {
+    display: block;
+    margin-bottom: 8px;
+    margin-right: 0;
+
+    &::before {
+        content: "Page "
+    }
+}

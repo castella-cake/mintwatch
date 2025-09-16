@@ -1,7 +1,10 @@
 import { IconFolder, IconMessageLanguage, IconSearch, IconTag } from "@tabler/icons-react"
 import { useRef, useState } from "react"
+import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 
 function Search() {
+    const location = useLocationContext()
+    const history = useHistoryContext()
     const [isComposing, setIsComposing] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
     const searchTypes = {
@@ -24,13 +27,13 @@ function Search() {
     }
     function onSearch() {
         if (!inputRef.current) return
-        if (currentSearchType === searchTypes.KEYWORD) {
-            window.location.href = `https://www.nicovideo.jp/search/${inputRef.current.value}`
-        } else if (currentSearchType === searchTypes.TAG) {
-            window.location.href = `https://www.nicovideo.jp/tag/${inputRef.current.value}`
+        let href = `https://www.nicovideo.jp/search/${inputRef.current.value}`
+        if (currentSearchType === searchTypes.TAG) {
+            href = `https://www.nicovideo.jp/tag/${inputRef.current.value}`
         } else if (currentSearchType === searchTypes.MYLIST) {
-            window.location.href = `https://www.nicovideo.jp/mylist_search/${inputRef.current.value}`
+            href = `https://www.nicovideo.jp/mylist_search/${inputRef.current.value}`
         }
+        history.push(href)
     }
     return (
         <div className="searchbox-container" id="pmw-searchbox">
@@ -46,7 +49,16 @@ function Search() {
                 })}
             </div>
             <div className="searchbox-inputcontainer">
-                <input type="text" ref={inputRef} placeholder={`${searchTypeTexts[currentSearchType]}で検索...`} onKeyDown={(e) => { handleEnter(e.key) }} onCompositionStart={startComposition} onCompositionEnd={endComposition} />
+                <input
+                    type="text"
+                    ref={inputRef}
+                    placeholder={`${searchTypeTexts[currentSearchType]}で検索...`}
+                    onKeyDown={(e) => { handleEnter(e.key) }}
+                    onCompositionStart={startComposition}
+                    onCompositionEnd={endComposition}
+                    defaultValue={returnSearchWord(location.pathname)}
+                    key={location.pathname}
+                />
                 <button onClick={() => { onSearch() }} type="button" title="検索"><IconSearch /></button>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { searchPagePaths } from "@/utils/searchPagePaths"
 import { createBrowserHistory, History, Location } from "history"
 import { createContext, ReactNode, useLayoutEffect } from "react"
 
@@ -5,8 +6,14 @@ const IHistoryContext = createContext<History | null>(null)
 const ILocationContext = createContext<Location | null>(null)
 
 export function RouterProvider({ children }: { children: ReactNode }) {
-    const syncStorage = useStorageVar(["enableReshogi"] as const)
-    const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const targetPathnames = [
+        "/watch/",
+        ...(syncStorage.enableReshogi ? ["/ranking"] : []),
+        ...(syncStorage.enableSearchPage
+            ? searchPagePaths
+            : []),
+    ]
 
     const historyRef = useRef<History | null>(null)
     if (!historyRef.current) historyRef.current = createBrowserHistory()
@@ -16,7 +23,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
             return historyRef.current.listen(({ location }) => {
                 setLocation(location)
                 if (!targetPathnames.some(path => location.pathname.startsWith(path))) {
-                    window.location.href = "https://www.nicovideo.jp" + location.pathname + location.search
+                    // window.location.href = "https://www.nicovideo.jp" + location.pathname + location.search
                 }
             })
         }

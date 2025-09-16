@@ -5,38 +5,7 @@ import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPl
 import { useLocationContext } from "../Router/RouterContext"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useQuery } from "@tanstack/react-query"
-
-function PageSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
-    const location = useLocationContext()
-    return (
-        <div className="shogi-genre-stats-page-selector">
-            <div className="shogi-genre-stats-pagination">
-                ページ
-                {" "}
-                {page.pagination.page}
-                {" "}
-                -
-                {" "}
-                {page.pagination.totalCount}
-                {" "}
-                件中
-                {" "}
-                {page.pagination.pageSize}
-                {" "}
-                件
-            </div>
-            {[...Array(page.pagination.totalCount / page.pagination.pageSize)].map((_, index) => {
-                const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
-                pathUrl.searchParams.set("page", (index + 1).toString())
-                return (
-                    <HistoryAnchor key={index} className="shogi-genre-page-button" data-is-active={index === (page.pagination.page - 1)} href={pathUrl.toString()}>
-                        {index + 1}
-                    </HistoryAnchor>
-                )
-            })}
-        </div>
-    )
-}
+import { PageSelector } from "../Global/PageSelector"
 
 function TermSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
     const location = useLocationContext()
@@ -156,7 +125,7 @@ export default function GenreRankingContent() {
                         </>
                     )}
                 </div>
-                <PageSelector page={page} />
+                <PageSelector pagination={page.pagination} vertical={true} />
                 <TermSelector page={page} />
             </div>
             <div className="shogi-genre-items">
@@ -203,13 +172,12 @@ export default function GenreRankingContent() {
                                 thumbMarkAsLazy={index >= 5}
                             >
                                 {video.title}
-
                             </Card>
                         </div>
                     )
                 })}
             </div>
-            <PageSelector page={page} />
+            <PageSelector pagination={page.pagination} />
         </div>
     )
 }

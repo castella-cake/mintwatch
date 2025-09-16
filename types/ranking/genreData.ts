@@ -16,7 +16,7 @@ interface Response {
 }
 
 interface Page {
-    pagination: Pagination
+    pagination: GenericPagination
     currentTag: null
     currentTerm: string
     availableTerms: AvailableTerm[]
@@ -28,7 +28,7 @@ interface ForyouRanking {
     featuredKey: string
     label: string
     tag: string
-    items: GenreTeibanRankingItem[]
+    items: VideoItem[]
 }
 
 interface NiconewsRanking {
@@ -43,12 +43,6 @@ interface NiconewsRanking {
 interface AvailableTerm {
     label: string
     value: string
-}
-
-interface Pagination {
-    page: number
-    pageSize: number
-    totalCount: number
 }
 
 interface GetTeibanRankingFeaturedKeys {
@@ -101,44 +95,8 @@ interface GenreTeibanRankingData {
     label: string
     tag: null | string
     maxItemCount: number
-    items: GenreTeibanRankingItem[]
+    items: VideoItem[]
     hasNext: boolean
-}
-
-interface GenreTeibanRankingItem {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: Thumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null
-    owner: Owner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface Thumbnail {
-    url: string
-    middleUrl: null | string
-    largeUrl: null | string
-    listingUrl: string
-    nHdUrl: string
 }
 
 interface GoogleTagManager {

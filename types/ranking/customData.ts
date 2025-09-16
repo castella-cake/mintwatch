@@ -29,43 +29,7 @@ interface Data2 {
     isDefault: boolean
     defaultTitle: string
     hasNext: boolean
-    videoList: VideoList[]
-}
-
-interface VideoList {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: Thumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null | null | number
-    owner: Owner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface Thumbnail {
-    url: string
-    middleUrl: null | string
-    largeUrl: null | string
-    listingUrl: string
-    nHdUrl: string
+    videoList: VideoItem[]
 }
 
 interface GetCustomRankingSettings {

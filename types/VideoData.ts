@@ -113,7 +113,7 @@ interface VideoInfo {
     id: string
     title: string
     description: string
-    count: Count
+    count: GenericCount
     duration: number
     thumbnail: Thumbnail3
     rating: Rating
@@ -190,45 +190,9 @@ interface Series {
 }
 
 interface SeriesVideos {
-    prev?: SeriesVideoItem
-    next?: SeriesVideoItem
-    first?: SeriesVideoItem
-}
-
-export interface SeriesVideoItem {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: SeriesThumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null | number
-    owner: SeriesOwner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface SeriesOwner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface SeriesThumbnail {
-    url: string
-    middleUrl: string
-    largeUrl: string
-    listingUrl: string
-    nHdUrl: string
+    prev?: VideoItem
+    next?: VideoItem
+    first?: VideoItem
 }
 
 interface Ranking {
