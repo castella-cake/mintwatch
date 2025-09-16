@@ -5,10 +5,10 @@
     grid-template-columns: 1fr 60rem 1fr;
     position: relative;
     margin: 0 auto;
-    gap: 1rem;
+    gap: 0.5rem 1rem;
 
     .pageselector-container[data-is-vertical="true"] {
-        grid-row: 2/3;
+        grid-row: 2/4;
     }
 }
 
@@ -39,4 +39,96 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    grid-row: 2/4;
+}
+
+.search-display-selector {
+    grid-row: 2/3;
+}
+
+.search-display-selector button {
+    background: var(--bgcolor2);
+    border: var(--border);
+    color: var(--textcolor1);
+    padding: 4px 8px;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+}
+
+.search-display-selector button svg {
+    height: 1.25rem;
+}
+
+.search-display-selector button:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.search-display-selector button:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.search-display-selector button[data-is-active="true"] {
+    background: var(--textcolor1);
+    color: var(--bgcolor1);
+}
+
+.search-result-items[data-is-grid-layout="true"] {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 8px;
+
+    .info-card.videoitem-card {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+        padding: 8px;
+
+        --thumb-height: auto;
+    }
+
+    .videoitem-wrapper .info-card-datacolumn {
+        display: flex;
+        gap: 6px;
+    }
+
+    .search-container {
+        width: min(90vw, 95rem);
+        grid-template-columns: 1fr 65% 1fr;
+    }
+
+    .videoitem-wrapper .info-card .info-card-title {
+        font-size: 0.95rem;
+        max-lines: 2;
+        height: 3rem;
+    }
+
+    .info-card-desc {
+        display: none;
+    }
+
+    .info-card-counts {
+        font-size: 0.7rem;
+    }
+
+    span.videoitem-count {
+        font-size: 0.8rem;
+    }
+
+    img.videoitem-owner-icon {
+        height: 1.5rem;
+    }
+
+    span.videoitem-owner-name {
+        vertical-align: middle;
+    }
+
+    .videoitem-wrapper {
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
+    }
 }

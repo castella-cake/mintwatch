@@ -4,10 +4,11 @@ import "./styleModules/videoItem.css"
 import "./styleModules/KeywordSearch.css"
 import { VideoItemCard } from "./VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
-import { IconTag } from "@tabler/icons-react"
+import { IconLayoutGrid, IconListDetails, IconTag } from "@tabler/icons-react"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 
 export function KeywordSearch() {
+    const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
     const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
@@ -85,7 +86,11 @@ export function KeywordSearch() {
                 {" "}
                 件見つかりました
             </div>
-            <div className="search-result-items">
+            <div className="search-display-selector">
+                <button title="リスト表示" data-is-active={!searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", false) }}><IconListDetails /></button>
+                <button title="グリッド表示" data-is-active={searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", true) }}><IconLayoutGrid /></button>
+            </div>
+            <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                 {getSearchVideoData.items.map((video, index) => {
                     return (
                         <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
