@@ -4,6 +4,22 @@
     color: var(--textcolor2);
 }
 
+.pageselector-container[data-is-vertical="false"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.25em;
+}
+
+.pageselector-container[data-is-vertical="false"] .pageselector-stats-pagination {
+    margin-bottom: 0;
+}
+
+.pageselector-container[data-is-vertical="false"] .pageselector-page-button {
+    margin-right: 0;
+}
+
+
 .pageselector-page-button {
     text-decoration: none;
     padding: 4px 8px;

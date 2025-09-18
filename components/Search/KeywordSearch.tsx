@@ -76,7 +76,6 @@ export function KeywordSearch() {
     const page = keywordSearchData.data.response.page.common
     return (
         <div className="search-container">
-            <PageSelector pagination={page.pagination} vertical={true} />
             <div className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
                 {" "}
@@ -86,17 +85,7 @@ export function KeywordSearch() {
                 {" "}
                 件見つかりました
             </div>
-            <div className="search-display-selector">
-                <button title="リスト表示" data-is-active={!searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", false) }}><IconListDetails /></button>
-                <button title="グリッド表示" data-is-active={searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", true) }}><IconLayoutGrid /></button>
-            </div>
-            <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                {getSearchVideoData.items.map((video, index) => {
-                    return (
-                        <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
-                    )
-                })}
-            </div>
+            <PageSelector pagination={page.pagination} vertical={true} />
             <div className="search-result-relatedtags">
                 <h3>
                     <IconTag />
@@ -110,6 +99,18 @@ export function KeywordSearch() {
                     )
                 })}
             </div>
+            <div className="search-display-selector">
+                <button title="リスト表示" data-is-active={!searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", false) }}><IconListDetails /></button>
+                <button title="グリッド表示" data-is-active={searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", true) }}><IconLayoutGrid /></button>
+            </div>
+            <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
+                {getSearchVideoData.items.map((video, index) => {
+                    return (
+                        <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
+                    )
+                })}
+            </div>
+            <PageSelector pagination={page.pagination} />
         </div>
     )
 }

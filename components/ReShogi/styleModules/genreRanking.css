@@ -12,7 +12,7 @@
         color: var(--textcolor1);
     }
 
-    > .shogi-genre-stats-page-selector {
+    > .pageselector-container[data-is-vertical="false"] {
         grid-area: page;
     }
 

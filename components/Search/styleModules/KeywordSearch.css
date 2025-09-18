@@ -10,6 +10,10 @@
     .pageselector-container[data-is-vertical="true"] {
         grid-row: 2/4;
     }
+
+    .pageselector-container[data-is-vertical="false"] {
+        grid-column: 2/3;
+    }
 }
 
 .search-result-items {
@@ -40,6 +44,7 @@
     flex-direction: column;
     gap: 8px;
     grid-row: 2/4;
+    grid-column: 3/4;
 }
 
 .search-display-selector {
