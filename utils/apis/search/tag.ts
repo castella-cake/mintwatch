@@ -1,12 +1,11 @@
-import { SearchDataRootObject } from "@/types/search/searchData"
 import APIError from "@/utils/classes/APIError"
 import { validateBaseResponse } from "@/utils/validateResponse"
 
 /**
  * キーワード検索を取得するAPI
  */
-export async function getKeywordSearch(keyword: string, options: VideoSearchQuery = {}) {
-    const requestUrl = new URL(`https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}?responseType=json`)
+export async function getTagSearch(keyword: string, options: VideoSearchQuery = {}) {
+    const requestUrl = new URL(`https://www.nicovideo.jp/tag/${encodeURIComponent(keyword)}?responseType=json`)
     for (const optionKey in options) {
         const option = options[optionKey as keyof typeof options]
         if (typeof option === "string") {
@@ -19,7 +18,7 @@ export async function getKeywordSearch(keyword: string, options: VideoSearchQuer
         method: "GET",
         credentials: "include",
     })
-    const responseJson = await response.json() as SearchDataRootObject
-    if (!validateBaseResponse(responseJson)) throw new APIError("getKeywordSearch failed.", responseJson)
+    const responseJson = await response.json() as SearchTagDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getTagSearch failed.", responseJson)
     return responseJson
 }

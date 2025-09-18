@@ -1,4 +1,3 @@
-import { useSearchKeywordData } from "@/hooks/apiHooks/search/keywordData"
 import { useLocationContext } from "../Router/RouterContext"
 import "./styleModules/videoItem.css"
 import "./styleModules/KeywordSearch.css"
@@ -8,8 +7,9 @@ import { IconTag } from "@tabler/icons-react"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./FilterSelector"
 import { OptionSelector } from "./OptionSelector"
+import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 
-export function KeywordSearch() {
+export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
@@ -19,9 +19,9 @@ export function KeywordSearch() {
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
-    const { searchKeywordData: keywordSearchData, error } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
+    const { searchTagData: tagSearchData, error } = useSearchTagData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
-        if (!keywordSearchData && error && error.name === "SyntaxError") {
+        if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({
                 title: "エラーが発生しました",
                 body: (
@@ -51,8 +51,8 @@ export function KeywordSearch() {
                 },
             })
         }
-    }, [keywordSearchData, error])
-    if (!keywordSearchData && error) {
+    }, [tagSearchData, error])
+    if (!tagSearchData && error) {
         return (
             <div className="search-error">
                 <p>
@@ -73,19 +73,19 @@ export function KeywordSearch() {
             </div>
         )
     }
-    if (!keywordSearchData) return (
+    if (!tagSearchData) return (
         <div className="loading-container">
             Loading...
         </div>
     )
-    const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
-    const page = keywordSearchData.data.response.page.common
+    const getSearchVideoData = tagSearchData?.data.response.$getSearchVideoV2.data
+    const page = tagSearchData.data.response.page.common
     return (
         <div className="search-container">
             <div className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
                 {" "}
-                からのキーワード検索結果が
+                からのタグ検索結果が
                 {" "}
                 {getSearchVideoData.totalCount}
                 {" "}

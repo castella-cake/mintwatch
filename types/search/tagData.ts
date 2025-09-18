@@ -1,4 +1,4 @@
-export interface SearchDataRootObject extends baseResponse {
+export interface SearchTagDataRootObject extends baseResponse {
     data: Data2
 }
 
@@ -15,7 +15,20 @@ interface Response {
 
 interface Page {
     common: SearchPageCommon
+    nicodic: Nicodic
+    nicoadGroupsRequestIdMap: NicoadGroupsRequestIdMap
     playlist: string
+}
+
+interface NicoadGroupsRequestIdMap {
+    nicodic: number
+}
+
+interface Nicodic {
+    url: string
+    title: string
+    summary: string
+    advertisable: boolean
 }
 
 interface GoogleTagManager {
