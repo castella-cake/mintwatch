@@ -13,6 +13,7 @@
 
     .pageselector-container[data-is-vertical="false"] {
         grid-column: 2/3;
+        grid-row: 6/7;
     }
 }
 
@@ -21,6 +22,7 @@
     flex-direction: column;
     gap: 0;
     grid-column: 2/3;
+    grid-row: 3/6
 }
 
 .search-title {
@@ -43,15 +45,32 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    grid-row: 2/4;
+    grid-row: 2/5;
     grid-column: 3/4;
 }
 
-.search-display-selector {
+.search-options {
     grid-row: 2/3;
+    display: flex;
+    gap: 8px;
 }
 
-.search-display-selector button {
+.search-sortkey-selector {
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    padding: 4px;
+}
+
+.search-option-switcher {
+    &[data-is-active="false"] {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.search-option-switcher button {
     background: var(--bgcolor2);
     border: var(--border);
     color: var(--textcolor1);
@@ -63,21 +82,57 @@
     }
 }
 
-.search-display-selector button svg {
+.search-option-switcher button svg {
     height: 1.25rem;
 }
 
-.search-display-selector button:first-child {
+.search-option-switcher button:first-child {
     border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.search-display-selector button:last-child {
+.search-option-switcher button:last-child {
     border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.search-display-selector button[data-is-active="true"] {
+.search-option-switcher button[data-is-active="true"] {
     background: var(--textcolor1);
     color: var(--bgcolor1);
+}
+
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    grid-column: 1/2;
+    grid-row: 4/5;
+}
+
+.search-preset-label {
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+    margin-bottom: 8px;
+}
+
+.search-preset-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-preset-selector {
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-preset-selector[data-is-active="true"] {
+    background: var(--textcolor1);
+    color: var(--bgcolor1);
+    font-weight: bold;
 }
 
 .search-result-items[data-is-grid-layout="true"] {

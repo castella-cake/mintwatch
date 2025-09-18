@@ -5,8 +5,17 @@ import { validateBaseResponse } from "@/utils/validateResponse"
 /**
  * キーワード検索を取得するAPI
  */
-export async function getKeywordSearch(keyword: string, page = 1) {
-    const response = await fetch(`https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}?responseType=json&page=${encodeURIComponent(page)}`, {
+export async function getKeywordSearch(keyword: string, options: { page?: number, sort?: string, order?: string, kind?: string, l_range?: number, f_range?: number, genre?: string } = {}) {
+    const requestUrl = new URL(`https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}?responseType=json`)
+    for (const optionKey in options) {
+        const option = options[optionKey as keyof typeof options]
+        if (typeof option === "string") {
+            requestUrl.searchParams.set(optionKey, option)
+        } else if (typeof option === "number") {
+            requestUrl.searchParams.set(optionKey, option.toString())
+        }
+    }
+    const response = await fetch(requestUrl.toString(), {
         method: "GET",
         credentials: "include",
     })

@@ -22,57 +22,9 @@ interface Common {
     searchWord: string
     searchWords: string[]
     searchType: string
-    option: Option
+    option: SearchOption
     pagination: GenericPagination
     isImmoralSearch: boolean
-}
-interface Option {
-    sort: Sort
-    presetFilter: PresetFilter[]
-    dateRangeFilter: DateRangeFilter
-}
-
-interface DateRangeFilter {
-    start: Start
-    end: Start
-}
-
-interface Start {
-    label: string
-    value: null
-}
-
-interface PresetFilter {
-    label: string
-    query: string
-    items: Item2[]
-}
-
-interface Item2 {
-    label: string
-    value: number | string
-    active: boolean
-    default: boolean
-}
-
-interface Sort {
-    key: Key[]
-    order: Order[]
-}
-
-interface Order {
-    label: string
-    value: string
-    active: boolean
-    default: boolean
-}
-
-interface Key {
-    label: string
-    value: string
-    active: boolean
-    default: boolean
-    orderable: boolean
 }
 
 interface GetSearchVideoV2 {

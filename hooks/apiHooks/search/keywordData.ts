@@ -1,11 +1,11 @@
 import { getKeywordSearch } from "@/utils/apis/search/keyword"
 import { useQuery } from "@tanstack/react-query"
 
-export function useSearchKeywordData(keyword: string, page = 1) {
+export function useSearchKeywordData(keyword: string, options: { page?: number, sort?: string, order?: string, kind?: string, l_range?: number, f_range?: number, genre?: string } = {}) {
     const { data: searchKeywordData, error } = useQuery({
-        queryKey: ["search", "keyword", keyword, page],
+        queryKey: ["search", "keyword", keyword, options],
         queryFn: () => {
-            return getKeywordSearch(keyword, page)
+            return getKeywordSearch(keyword, options)
         },
     })
     return { searchKeywordData, error }
