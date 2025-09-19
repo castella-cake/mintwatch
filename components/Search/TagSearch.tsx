@@ -8,6 +8,7 @@ import { FilterSelector } from "./FilterSelector"
 import { OptionSelector } from "./OptionSelector"
 import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 import { AdditionalRelatedTags } from "./RelatedTags"
+import { DictionarySummaryTitle } from "./DictionarySummary"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -80,20 +81,28 @@ export function TagSearch() {
     )
     const getSearchVideoData = tagSearchData?.data.response.$getSearchVideoV2.data
     const page = tagSearchData.data.response.page.common
+    const nicodic = tagSearchData.data.response.page.nicodic
     return (
-        <div className="search-container">
-            <div className="search-title">
+        <div className="search-container" data-is-nicodic-article-exists={nicodic.summary !== null}>
+            <h2 className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
-                {" "}
-                からのタグ検索結果が
-                {" "}
-                {getSearchVideoData.totalCount}
-                {" "}
-                件見つかりました
-            </div>
+                <span className="search-title-totalcount">
+                    {getSearchVideoData.totalCount
+                        ? (
+                                <>
+                                    {" - "}
+                                    <strong>{getSearchVideoData.totalCount}</strong>
+                                    {" "}
+                                    件の検索結果
+                                </>
+                            )
+                        : ""}
+                </span>
+            </h2>
+            <DictionarySummaryTitle nicodic={nicodic} />
+            <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
             <PageSelector pagination={page.pagination} vertical={true} />
             <FilterSelector option={page.option} />
-            <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
             <OptionSelector option={page.option} />
             <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                 {getSearchVideoData.items.map((video, index) => {

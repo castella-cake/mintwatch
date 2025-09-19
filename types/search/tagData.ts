@@ -15,7 +15,7 @@ interface Response {
 
 interface Page {
     common: SearchPageCommon
-    nicodic: Nicodic
+    nicodic: SearchNicodic
     nicoadGroupsRequestIdMap: NicoadGroupsRequestIdMap
     playlist: string
 }
@@ -24,7 +24,7 @@ interface NicoadGroupsRequestIdMap {
     nicodic: number
 }
 
-interface Nicodic {
+export interface SearchNicodic {
     url: string
     title: string
     summary: string

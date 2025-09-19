@@ -6,14 +6,21 @@
     position: relative;
     margin: 0 auto;
     gap: 0.5rem 1rem;
+    grid-template-areas:
+        "title title title"
+        "dict dict ."
+        "pagel options related"
+        "pagel result related"
+        "filter result related"
+        ". result related"
+        ". pageb pageb";
 
     .pageselector-container[data-is-vertical="true"] {
-        grid-row: 2/4;
+        grid-area: pagel;
     }
 
     .pageselector-container[data-is-vertical="false"] {
-        grid-column: 2/3;
-        grid-row: 6/7;
+        grid-area: pageb;
     }
 }
 
@@ -21,12 +28,64 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    grid-column: 2/3;
-    grid-row: 3/6
+    grid-area: result;
 }
 
 .search-title {
-    grid-column: 1/3;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+    grid-area: title;
+}
+
+.search-title-totalcount {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.search-nicodic-container {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    grid-area: dict;
+}
+
+.search-nicodic-summary {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    max-width: 60em;
+    border-left: 4px solid var(--accent1);
+    padding: 4px 12px;
+}
+
+.search-nicodic-summary[data-is-active="false"] {
+    opacity: 0.5;
+}
+
+a.search-nicodic-link {
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: var(--radius);
+    display: inline-block;
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+    font-size: 0.9rem;
+}
+
+.search-result-relatedtags {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    grid-row: 2/5;
+    grid-column: 3/4;
+    grid-area: related;
+}
+
+.search-result-relatedtags h3 {
+    margin: 0;
 }
 
 .search-result-relatedtags-tag {
@@ -37,20 +96,8 @@
     padding: 4px 12px;
 }
 
-.search-result-relatedtags h3 {
-    margin: 0;
-}
-
-.search-result-relatedtags {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    grid-row: 2/5;
-    grid-column: 3/4;
-}
-
 .search-options {
-    grid-row: 2/3;
+    grid-area: options;
     display: flex;
     gap: 8px;
 }
@@ -103,8 +150,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    grid-column: 1/2;
-    grid-row: 4/5;
+    grid-area: filter;
 }
 
 .search-preset-label {
