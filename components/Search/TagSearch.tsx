@@ -3,11 +3,11 @@ import "./styleModules/videoItem.css"
 import "./styleModules/KeywordSearch.css"
 import { VideoItemCard } from "./VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
-import { IconTag } from "@tabler/icons-react"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./FilterSelector"
 import { OptionSelector } from "./OptionSelector"
 import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
+import { AdditionalRelatedTags } from "./RelatedTags"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -93,19 +93,7 @@ export function TagSearch() {
             </div>
             <PageSelector pagination={page.pagination} vertical={true} />
             <FilterSelector option={page.option} />
-            <div className="search-result-relatedtags">
-                <h3>
-                    <IconTag />
-                    関連するタグで検索
-                </h3>
-                {getSearchVideoData.additionals.tags.map((tag) => {
-                    return (
-                        <div className="search-result-relatedtags-tag" key={`${tag.type}-${tag.text}`}>
-                            {tag.text}
-                        </div>
-                    )
-                })}
-            </div>
+            <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
             <OptionSelector option={page.option} />
             <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                 {getSearchVideoData.items.map((video, index) => {
