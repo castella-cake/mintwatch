@@ -113,13 +113,24 @@
     }
 
     .searchbox-type-text {
-        display: none;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        line-height: 1em;
+        height: 1em;
+        text-align:center;
     }
 
     .searchbox-type-item {
-        padding: 4px;
-        border-radius: 8px;
+        display: grid;
+        grid-template-columns: auto 0;
+        text-align: left;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 4px 6px;
+        border-radius: 6px;
         color: var(--textcolor3);
+        transition: var(--transition-normal), grid-template-columns 0.15s ease;
 
         svg {
             width: 1.25rem;
@@ -129,7 +140,7 @@
 
     .searchbox-type-item.searchbox-type-active {
         color: var(--textcolor1);
-        padding: 4px;
+        padding: 4px 6px;
     }
 
     .searchbox-inputcontainer {
@@ -137,6 +148,8 @@
             border: none;
             border-left: var(--border);
             border-radius: 0;
+            padding: 0 0.5em;
+            width: 20em;
         }
 
         button {
@@ -148,6 +161,15 @@
                 height: 1.4rem;
                 width: 1.4rem;
             }
+        }
+    }
+
+    &[data-in-search-page="true"] {
+        .searchbox-type-item.searchbox-type-active {
+            grid-template-columns: auto 5em;
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+            font-weight: bold;
         }
     }
 }

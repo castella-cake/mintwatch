@@ -11,6 +11,7 @@
         padding: 0.5em;
         width: 16em;
         border-bottom-left-radius: var(--radius);
+        transition: width 0.2s ease;
     }
 
     button {
@@ -37,7 +38,7 @@
     display: flex;
     gap: 4px;
 
-    button.searchbox-type-item {
+    .searchbox-type-item {
         background: var(--bgcolor2);
         border: none;
         color: var(--textcolor1);
@@ -53,7 +54,11 @@
         }
     }
 
-    button.searchbox-type-item.searchbox-type-active {
+    .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
+        display: none;
+    }
+
+    .searchbox-type-item.searchbox-type-active {
         background: var(--bgcolor3);
         padding: 4px 8px;
     }

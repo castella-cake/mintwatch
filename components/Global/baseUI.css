@@ -204,15 +204,14 @@ html.MW-Enabled body {
     button > svg {
         box-sizing: content-box;
     }
+    
+    button, input, select, textarea {
+        font-family: inherit;
+    }
 }
 
 .container {
     margin: 0 auto;
-
-    // overflow: scroll;overflow
-    button, input, select, textarea {
-        font-family: inherit;
-    }
 }
 
 .container.fullscreen {
