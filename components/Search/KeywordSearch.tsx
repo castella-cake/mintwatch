@@ -81,34 +81,37 @@ export function KeywordSearch() {
     const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
     const page = keywordSearchData.data.response.page.common
     return (
-        <div className="search-container" data-is-fetching={isFetching}>
-            <h2 className="search-title">
-                <strong>{getSearchVideoData.keyword}</strong>
-                <span className="search-title-totalcount">
-                    {getSearchVideoData.totalCount
-                        ? (
-                                <>
-                                    {" - "}
-                                    <strong>{getSearchVideoData.totalCount}</strong>
-                                    {" "}
-                                    件の動画が見つかりました
-                                </>
-                            )
-                        : ""}
-                </span>
-            </h2>
-            <PageSelector pagination={page.pagination} vertical={true} />
-            <FilterSelector option={page.option} />
-            <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
-            <OptionSelector option={page.option} />
-            <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                {getSearchVideoData.items.map((video, index) => {
-                    return (
-                        <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
-                    )
-                })}
+        <>
+            <title>{keywordSearchData.data.metadata.title}</title>
+            <div className="search-container" data-is-fetching={isFetching}>
+                <h2 className="search-title">
+                    <strong>{getSearchVideoData.keyword}</strong>
+                    <span className="search-title-totalcount">
+                        {getSearchVideoData.totalCount
+                            ? (
+                                    <>
+                                        {" - "}
+                                        <strong>{getSearchVideoData.totalCount}</strong>
+                                        {" "}
+                                        件の動画が見つかりました
+                                    </>
+                                )
+                            : ""}
+                    </span>
+                </h2>
+                <PageSelector pagination={page.pagination} vertical={true} />
+                <FilterSelector option={page.option} />
+                <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
+                <OptionSelector option={page.option} />
+                <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
+                    {getSearchVideoData.items.map((video, index) => {
+                        return (
+                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
+                        )
+                    })}
+                </div>
+                <PageSelector pagination={page.pagination} />
             </div>
-            <PageSelector pagination={page.pagination} />
-        </div>
+        </>
     )
 }
