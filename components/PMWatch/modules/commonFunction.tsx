@@ -139,10 +139,10 @@ export const sharedNgLevelScore = {
     none: -1000000,
 }
 
-export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewerNg?: NgData | null) {
+export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewerNg?: NgData | null, externalNgUserId?: string[]) {
     const threadsAfter = threads.map((thread) => {
         if (thread.fork === "owner") return thread
-        const comments = doFilterComments(thread.comments, sharedNgLevel, viewerNg)
+        const comments = doFilterComments(thread.comments, sharedNgLevel, viewerNg, false, externalNgUserId)
         return { ...thread, comments }
     })
     return threadsAfter
@@ -156,7 +156,7 @@ export function applyOpacityToThreads(threads: Thread[], threadLabels: string[],
     })
 }
 
-export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: NgData | null, onlyShowMyselfComments?: boolean) {
+export function doFilterComments(comments: Comment[], sharedNgLevel: number, viewerNg?: NgData | null, onlyShowMyselfComments?: boolean, externalNgUserId: string[] = []) {
     return comments.filter((comment) => {
         if (onlyShowMyselfComments && !comment.isMyPost) return false
         if (comment.score < sharedNgLevel) return false
@@ -166,6 +166,7 @@ export function doFilterComments(comments: Comment[], sharedNgLevel: number, vie
             if (elem.type === "word" && comment.body.includes(elem.source)) return true
             return false
         }) !== -1) return false
+        if (externalNgUserId.length > 0 && externalNgUserId.some(id => id === comment.userId)) return false
         return true
     })
 }

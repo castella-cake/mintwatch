@@ -21,6 +21,8 @@ import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts
 import CommentRow from "./CommentRow"
 import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -149,7 +151,9 @@ const ariaDetails
     = "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。"
 
 function CommentList() {
+    const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
+    const { lyricData } = useLyricData(smId)
     const commentContent = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
     const videoRef = useVideoRefContext()
@@ -188,6 +192,7 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
+        const lyricNgIds = lyricData ? doLyricCommentNg([currentThread], lyricData) : []
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
@@ -196,6 +201,7 @@ function CommentList() {
             ],
             ngData,
             onlyShowMyselfComments,
+            lyricNgIds,
         )
     }, [
         currentForkType,

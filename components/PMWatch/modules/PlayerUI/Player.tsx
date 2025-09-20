@@ -36,6 +36,7 @@ import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvide
 import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 
 type Props = {
     isFullscreenUi: boolean
@@ -54,6 +55,7 @@ function Player(props: Props) {
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
+    const { lyricData } = useLyricData(smId)
     const { ngData } = useViewerNgContext()
 
     const videoId = smId ?? ""
@@ -271,6 +273,7 @@ function Player(props: Props) {
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
+        const levensteinBasedLyricNg = lyricData ? doLyricCommentNg(commentContent.data.threads, lyricData) : []
         const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
@@ -278,12 +281,13 @@ function Player(props: Props) {
                     ?? "mid") as keyof typeof sharedNgLevelScore
             ],
             ngData,
+            levensteinBasedLyricNg,
         )
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
         return threadsOpacityApplied
-    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity])
+    }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
