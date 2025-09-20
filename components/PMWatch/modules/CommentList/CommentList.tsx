@@ -19,6 +19,8 @@ import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import APIError from "@/utils/classes/APIError"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -158,6 +160,10 @@ function CommentList() {
     const { videoInfo } = useVideoInfoContext()
     const { commentContent } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
+
+    const { smId } = useSmIdContext()
+    const { lyricData } = useLyricData(smId)
+
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const { ngData } = useViewerNgContext()
@@ -188,6 +194,7 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
+        const lyricNgIds = lyricData ? doLyricCommentNg([currentThread], lyricData) : []
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
@@ -196,6 +203,7 @@ function CommentList() {
             ],
             ngData,
             onlyShowMyselfComments,
+            lyricNgIds,
         )
     }, [
         currentForkType,
