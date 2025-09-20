@@ -165,6 +165,10 @@
     }
 
     &[data-in-search-page="true"] {
+        .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
+            display: grid;
+        }
+
         .searchbox-type-item.searchbox-type-active {
             grid-template-columns: auto 5em;
             background: var(--textcolor1);
