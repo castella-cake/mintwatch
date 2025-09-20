@@ -1,6 +1,6 @@
 import { SearchNicodic } from "@/types/search/tagData"
 
-export function DictionarySummaryTitle({ nicodic }: { nicodic: SearchNicodic }) {
+export function DictionarySummaryTitle({ nicodic, originalKeyword }: { nicodic: SearchNicodic, originalKeyword?: string }) {
     return (
         <div className="search-nicodic-container">
             <p className="search-nicodic-summary" data-is-active={nicodic.summary !== null}>
@@ -13,7 +13,10 @@ export function DictionarySummaryTitle({ nicodic }: { nicodic: SearchNicodic }) 
                         )
                     : "このタグの単語記事がまだありません。"}
             </p>
-            <a href={nicodic.url} target="_blank" rel="noreferrer noopener" className="search-nicodic-link">{nicodic.summary ? "ニコニコ大百科で記事を読む" : "ニコニコ大百科で記事ページを開く" }</a>
+            <a href={nicodic.url} target="_blank" rel="noreferrer noopener" className="search-nicodic-link">
+                {nicodic.title !== originalKeyword && `${nicodic.title} の`}
+                {nicodic.summary ? "記事を読む" : "記事ページを開く"}
+            </a>
         </div>
     )
 }

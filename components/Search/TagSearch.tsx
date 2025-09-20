@@ -99,7 +99,7 @@ export function TagSearch() {
                         : ""}
                 </span>
             </h2>
-            <DictionarySummaryTitle nicodic={nicodic} />
+            <DictionarySummaryTitle nicodic={nicodic} originalKeyword={getSearchVideoData.keyword} />
             <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
             <PageSelector pagination={page.pagination} vertical={true} />
             <FilterSelector option={page.option} />
