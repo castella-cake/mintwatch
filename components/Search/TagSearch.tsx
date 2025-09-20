@@ -93,7 +93,7 @@ export function TagSearch() {
                                     {" - "}
                                     <strong>{getSearchVideoData.totalCount}</strong>
                                     {" "}
-                                    件の検索結果
+                                    件の動画が見つかりました
                                 </>
                             )
                         : ""}

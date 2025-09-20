@@ -82,15 +82,21 @@ export function KeywordSearch() {
     const page = keywordSearchData.data.response.page.common
     return (
         <div className="search-container" data-is-fetching={isFetching}>
-            <div className="search-title">
+            <h2 className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
-                {" "}
-                からのキーワード検索結果が
-                {" "}
-                {getSearchVideoData.totalCount}
-                {" "}
-                件見つかりました
-            </div>
+                <span className="search-title-totalcount">
+                    {getSearchVideoData.totalCount
+                        ? (
+                                <>
+                                    {" - "}
+                                    <strong>{getSearchVideoData.totalCount}</strong>
+                                    {" "}
+                                    件の動画が見つかりました
+                                </>
+                            )
+                        : ""}
+                </span>
+            </h2>
             <PageSelector pagination={page.pagination} vertical={true} />
             <FilterSelector option={page.option} />
             <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
