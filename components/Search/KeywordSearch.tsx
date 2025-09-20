@@ -19,7 +19,7 @@ export function KeywordSearch() {
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
-    const { searchKeywordData: keywordSearchData, error } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
+    const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -81,7 +81,7 @@ export function KeywordSearch() {
     const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
     const page = keywordSearchData.data.response.page.common
     return (
-        <div className="search-container">
+        <div className="search-container" data-is-fetching={isFetching}>
             <div className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
                 {" "}

@@ -20,7 +20,7 @@ export function TagSearch() {
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
-    const { searchTagData: tagSearchData, error } = useSearchTagData(returnSearchWord(location.pathname), reducedObj)
+    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
         if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -83,7 +83,7 @@ export function TagSearch() {
     const page = tagSearchData.data.response.page.common
     const nicodic = tagSearchData.data.response.page.nicodic
     return (
-        <div className="search-container" data-is-nicodic-article-exists={nicodic.summary !== null}>
+        <div className="search-container" data-is-nicodic-article-exists={nicodic.summary !== null} data-is-fetching={isFetching}>
             <h2 className="search-title">
                 <strong>{getSearchVideoData.keyword}</strong>
                 <span className="search-title-totalcount">

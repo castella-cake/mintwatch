@@ -22,6 +22,10 @@
     .pageselector-container[data-is-vertical="false"] {
         grid-area: pageb;
     }
+
+    &[data-is-fetching="true"] {
+        opacity: 0.5;
+    }
 }
 
 .search-result-items {
