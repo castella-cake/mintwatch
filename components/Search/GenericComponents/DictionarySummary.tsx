@@ -1,4 +1,5 @@
 import { SearchNicodic } from "@/types/search/tagData"
+import "./styles/DictionarySummary.css"
 
 export function DictionarySummaryTitle({ nicodic, originalKeyword }: { nicodic: SearchNicodic, originalKeyword?: string }) {
     return (

@@ -1,7 +1,7 @@
 export interface SearchOption {
     sort: Sort
-    presetFilter: PresetFilter[]
-    dateRangeFilter: DateRangeFilter
+    presetFilter: PresetFilter[] | null
+    dateRangeFilter: DateRangeFilter | null
 }
 
 interface DateRangeFilter {

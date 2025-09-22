@@ -1,10 +1,11 @@
-import { useHistoryContext } from "../Router/RouterContext"
+import { useHistoryContext } from "../../Router/RouterContext"
+import "./styles/FilterSelector.css"
 
 export function FilterSelector({ option }: { option: SearchOption }) {
     const history = useHistoryContext()
     return (
         <div className="search-filters">
-            {option.presetFilter.map((preset) => {
+            {option.presetFilter && option.presetFilter.map((preset) => {
                 return (
                     <div className="search-preset" key={preset.query}>
                         <div className="search-preset-label">

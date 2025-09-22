@@ -1,12 +1,13 @@
 import { IconLayoutGrid, IconListDetails, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
-import { useHistoryContext } from "../Router/RouterContext"
+import { useHistoryContext } from "../../Router/RouterContext"
+import "./styles/OptionSelector.css"
 
-export function OptionSelector(page: { option: SearchOption }) {
+export function OptionSelector(page: { option: SearchOption, isGridOptionUnavailable?: boolean }) {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const history = useHistoryContext()
     return (
         <div className="search-options">
-            <div className="search-option-switcher" data-switcher-type="sortorder" data-is-active={page.option.sort.key.find(key => key.active)?.orderable}>
+            <div className="search-option-switcher" data-switcher-type="sortorder" aria-disabled={!page.option.sort.key.find(key => key.active)?.orderable}>
                 { page.option.sort.order.map((order) => {
                     return (
                         <button
@@ -45,7 +46,7 @@ export function OptionSelector(page: { option: SearchOption }) {
                     )
                 })}
             </select>
-            <div className="search-option-switcher" data-switcher-type="display">
+            <div className="search-option-switcher" data-switcher-type="display" aria-disabled={page.isGridOptionUnavailable}>
                 <button title="リスト表示" data-is-active={!searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", false) }}><IconListDetails /></button>
                 <button title="グリッド表示" data-is-active={searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", true) }}><IconLayoutGrid /></button>
             </div>

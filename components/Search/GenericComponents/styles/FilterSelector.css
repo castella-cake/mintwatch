@@ -1,0 +1,34 @@
+.search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    grid-area: filter;
+}
+
+.search-preset-label {
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+    margin-bottom: 8px;
+}
+
+.search-preset-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-preset-selector {
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-preset-selector[data-is-active="true"] {
+    background: var(--textcolor1);
+    color: var(--bgcolor1);
+    font-weight: bold;
+}

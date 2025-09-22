@@ -1,5 +1,6 @@
 import { IconClock, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react"
-import { Card } from "../Global/InfoCard"
+import { Card } from "../../Global/InfoCard"
+import "./styles/videoItem.css"
 
 export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean }) {
     return (

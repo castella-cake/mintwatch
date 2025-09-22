@@ -1,5 +1,6 @@
 import { IconTag } from "@tabler/icons-react"
-import { HistoryAnchor } from "../Router/HistoryAnchor"
+import { HistoryAnchor } from "../../Router/HistoryAnchor"
+import "./styles/RelatedTags.css"
 
 export function AdditionalRelatedTags({ getSearchVideoData }: { getSearchVideoData: GetSearchVideoV2 }) {
     return (

@@ -1,0 +1,50 @@
+.search-options {
+    grid-area: options;
+    display: flex;
+    gap: 8px;
+}
+
+.search-sortkey-selector {
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    padding: 4px;
+}
+
+.search-option-switcher {
+    &[aria-disabled="true"] {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+}
+
+.search-option-switcher button {
+    background: var(--bgcolor2);
+    border: var(--border);
+    color: var(--textcolor1);
+    padding: 4px 8px;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+}
+
+.search-option-switcher button svg {
+    height: 1.25rem;
+}
+
+.search-option-switcher button:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.search-option-switcher button:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.search-option-switcher button[data-is-active="true"] {
+    background: var(--textcolor1);
+    color: var(--bgcolor1);
+}

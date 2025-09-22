@@ -1,13 +1,12 @@
 import { useSearchKeywordData } from "@/hooks/apiHooks/search/keywordData"
 import { useLocationContext } from "../Router/RouterContext"
-import "./styleModules/videoItem.css"
-import "./styleModules/KeywordSearch.css"
-import { VideoItemCard } from "./VideoItemCard"
+import "./styleModules/Search.css"
+import { VideoItemCard } from "./GenericComponents/VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
-import { FilterSelector } from "./FilterSelector"
-import { OptionSelector } from "./OptionSelector"
-import { AdditionalRelatedTags } from "./RelatedTags"
+import { FilterSelector } from "./GenericComponents/FilterSelector"
+import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")

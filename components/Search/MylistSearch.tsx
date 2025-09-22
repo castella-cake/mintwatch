@@ -1,15 +1,13 @@
 import { useLocationContext } from "../Router/RouterContext"
 import "./styleModules/Search.css"
-import { VideoItemCard } from "./GenericComponents/VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
-import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
-import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
-import { DictionarySummaryTitle } from "./GenericComponents/DictionarySummary"
+import { useSearchMylistData } from "@/hooks/apiHooks/search/mylistData"
+import { MylistItemCard } from "./GenericComponents/MylistItemCard"
 
-export function TagSearch() {
+export function MylistSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
@@ -19,9 +17,9 @@ export function TagSearch() {
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
-    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj)
+    const { searchMylistData: mylistSearchData, error, isFetching } = useSearchMylistData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
-        if (!tagSearchData && error && error.name === "SyntaxError") {
+        if (!mylistSearchData && error && error.name === "SyntaxError") {
             showAlert({
                 title: "エラーが発生しました",
                 body: (
@@ -51,8 +49,8 @@ export function TagSearch() {
                 },
             })
         }
-    }, [tagSearchData, error])
-    if (!tagSearchData && error) {
+    }, [mylistSearchData, error])
+    if (!mylistSearchData && error) {
         return (
             <div className="search-error">
                 <p>
@@ -73,44 +71,41 @@ export function TagSearch() {
             </div>
         )
     }
-    if (!tagSearchData) return (
+    if (!mylistSearchData) return (
         <div className="loading-container">
             Loading...
         </div>
     )
-    const getSearchVideoData = tagSearchData?.data.response.$getSearchVideoV2.data
-    const page = tagSearchData.data.response.page.common
-    const nicodic = tagSearchData.data.response.page.nicodic
+    const getSearchListData = mylistSearchData?.data.response.$getSearchList.data
+    const page = mylistSearchData.data.response.page.common
     return (
         <>
-            <title>{tagSearchData.data.metadata.title}</title>
-            <div className="search-container" data-is-nicodic-article-exists={nicodic.summary !== null} data-is-fetching={isFetching}>
+            <title>{mylistSearchData.data.metadata.title}</title>
+            <div className="search-container" data-is-fetching={isFetching}>
                 <h2 className="search-title">
-                    <strong>{getSearchVideoData.keyword}</strong>
+                    <strong>{returnSearchWord(location.pathname)}</strong>
                     <span className="search-title-totalcount">
-                        {getSearchVideoData.totalCount
+                        {getSearchListData.totalCount
                             ? (
                                     <>
                                         {" - "}
-                                        <strong>{getSearchVideoData.totalCount}</strong>
+                                        <strong>{getSearchListData.totalCount}</strong>
                                         {" "}
-                                        件の動画が見つかりました
+                                        件のマイリストが見つかりました
                                     </>
                                 )
                             : ""}
                     </span>
                 </h2>
-                <DictionarySummaryTitle nicodic={nicodic} originalKeyword={getSearchVideoData.keyword} />
-                <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
                 <PageSelector pagination={page.pagination} vertical={true} />
                 <FilterSelector option={page.option} />
                 <OptionSelector option={page.option} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                    {getSearchVideoData.items.map((video, index) => {
-                        return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
-                        )
-                    })}
+                    {
+                        getSearchListData.items.map((item, index) => {
+                            return <MylistItemCard key={item.id} mylist={item} markAsLazy={index > 5} />
+                        })
+                    }
                 </div>
                 <PageSelector pagination={page.pagination} />
             </div>
