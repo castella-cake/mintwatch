@@ -4,10 +4,10 @@ import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
-import { useSearchMylistData } from "@/hooks/apiHooks/search/mylistData"
 import { GenericListItemCard } from "./GenericComponents/GenericListItemCard"
+import { useSearchSeriesData } from "@/hooks/apiHooks/search/seriesData"
 
-export function MylistSearch() {
+export function SeriesSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
@@ -17,7 +17,7 @@ export function MylistSearch() {
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
-    const { searchMylistData: mylistSearchData, error, isFetching } = useSearchMylistData(returnSearchWord(location.pathname), reducedObj)
+    const { searchMylistData: mylistSearchData, error, isFetching } = useSearchSeriesData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
         if (!mylistSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -91,7 +91,7 @@ export function MylistSearch() {
                                         {" - "}
                                         <strong>{getSearchListData.totalCount}</strong>
                                         {" "}
-                                        件のマイリストが見つかりました
+                                        件のシリーズが見つかりました
                                     </>
                                 )
                             : ""}

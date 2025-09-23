@@ -1,4 +1,4 @@
-export interface SearchMylistDataRootObject extends baseResponse {
+export interface SearchListDataRootObject extends baseResponse {
     data: Data
 }
 
@@ -25,12 +25,12 @@ interface Data2 {
     searchId: string
     totalCount: number
     hasNext: boolean
-    items: SearchMylistItem[]
+    items: GenericListItem[]
 }
 
-export interface SearchMylistItem {
+export interface GenericListItem {
     id: number
-    type: string
+    type: "mylist" | "series"
     title: string
     description: string
     thumbnailUrl: string

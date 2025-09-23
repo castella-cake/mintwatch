@@ -37,25 +37,13 @@ function Search() {
     }
     function onSearch() {
         if (!inputRef.current) return
-        let href = `https://www.nicovideo.jp/search/${inputRef.current.value}`
-        if (currentSearchType === "tag") {
-            href = `https://www.nicovideo.jp/tag/${inputRef.current.value}`
-        } else if (currentSearchType === "mylist") {
-            href = `https://www.nicovideo.jp/mylist_search/${inputRef.current.value}`
-        }
+        const href = returnHrefFromSearchType(inputRef.current.value, currentSearchType)
         history.push(href)
     }
     function handleSearchTypeChange(key: keyof typeof searchType) {
         if (inputRef.current && returnSearchWord(location.pathname) === inputRef.current.value && inputRef.current.value.trim() !== "") {
-            let href = `https://www.nicovideo.jp/search/${inputRef.current.value}`
-            if (key === "tag") {
-                href = `https://www.nicovideo.jp/tag/${inputRef.current.value}`
-            } else if (key === "mylist") {
-                href = `https://www.nicovideo.jp/mylist_search/${inputRef.current.value}`
-            }
-            startTransition(() => {
-                history.push(href)
-            })
+            const href = returnHrefFromSearchType(inputRef.current.value, key)
+            startTransition(() => history.push(href))
         }
         setSearchType(key)
     }
@@ -88,6 +76,20 @@ function Search() {
             </div>
         </div>
     )
+}
+
+function returnHrefFromSearchType(keyword: string, type: keyof typeof searchType) {
+    let href = `https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}`
+    if (type === "tag") {
+        href = `https://www.nicovideo.jp/tag/${encodeURIComponent(keyword)}`
+    } else if (type === "mylist") {
+        href = `https://www.nicovideo.jp/mylist_search/${encodeURIComponent(keyword)}`
+    } else if (type === "series") {
+        href = `https://www.nicovideo.jp/series_search/${encodeURIComponent(keyword)}`
+    } else if (type === "user") {
+        href = `https://www.nicovideo.jp/user_search/${encodeURIComponent(keyword)}`
+    }
+    return href
 }
 
 export default Search

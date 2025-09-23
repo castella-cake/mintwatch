@@ -3,10 +3,10 @@ import APIError from "@/utils/classes/APIError"
 import { validateBaseResponse } from "@/utils/validateResponse"
 
 /**
- * マイリスト検索結果を取得するAPI
+ * シリーズ検索結果を取得するAPI
  */
-export async function getMylistSearch(keyword: string, options: VideoSearchQuery = {}) {
-    const requestUrl = new URL(`https://www.nicovideo.jp/mylist_search/${encodeURIComponent(keyword)}?responseType=json`)
+export async function getSeriesSearch(keyword: string, options: VideoSearchQuery = {}) {
+    const requestUrl = new URL(`https://www.nicovideo.jp/series_search/${encodeURIComponent(keyword)}?responseType=json`)
     for (const optionKey in options) {
         const option = options[optionKey as keyof typeof options]
         if (typeof option === "string") {
@@ -20,6 +20,6 @@ export async function getMylistSearch(keyword: string, options: VideoSearchQuery
         credentials: "include",
     })
     const responseJson = await response.json() as SearchListDataRootObject
-    if (!validateBaseResponse(responseJson)) throw new APIError("getMylistSearch failed.", responseJson)
+    if (!validateBaseResponse(responseJson)) throw new APIError("getSeriesSearch failed.", responseJson)
     return responseJson
 }
