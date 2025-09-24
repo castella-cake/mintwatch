@@ -1,0 +1,34 @@
+.useritem-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 16px;
+    padding: 8px;
+    border-bottom: var(--border);
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+img.useritem-icon {
+    grid-row: 1/4;
+    height: 7rem;
+    border-radius: var(--radius);
+}
+
+.useritem-nickname {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.useritem-strippeddesc {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.useritem-count {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.5em;
+}
