@@ -2,9 +2,7 @@ export interface SearchListDataRootObject extends baseResponse {
     data: Data
 }
 
-interface Data {
-    metadata: Metadata
-    googleTagManager: GoogleTagManager
+interface Data extends jsonResponseData {
     response: Response
 }
 
@@ -47,44 +45,4 @@ interface SampleItem {
     videoId: string
     status: string
     video: VideoItem
-}
-
-interface GoogleTagManager {
-    user: User
-}
-
-interface User {
-    login_status: string
-    user_id: string
-    member_status: string
-    ui_area: string
-    ui_lang: string
-}
-
-interface Metadata {
-    title: string
-    linkTags: LinkTag[]
-    metaTags: MetaTag[]
-    jsonLds: any[]
-}
-
-interface MetaTag {
-    name?: string
-    content: string
-    property?: string
-}
-
-interface LinkTag {
-    rel: string
-    href: string
-    attrs: Attr | any[] | Attrs3
-}
-
-interface Attrs3 {
-    type: string
-    sizes: string
-}
-
-interface Attr {
-    as: string
 }
