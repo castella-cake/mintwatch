@@ -1,7 +1,6 @@
 .useritem-wrapper {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 4px 16px;
+    display: flex;
+    gap: 16px;
     padding: 8px;
     border-bottom: var(--border);
     align-items: center;
@@ -9,15 +8,18 @@
     color: inherit;
 }
 
-img.useritem-icon {
-    grid-row: 1/4;
+.useritem-icon {
     height: 7rem;
     border-radius: var(--radius);
 }
 
+.useritem-datacolumn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .useritem-nickname {
-    grid-column: 2/3;
-    grid-row: 1/2;
     font-size: 1.2rem;
     font-weight: bold;
 }

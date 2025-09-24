@@ -144,4 +144,22 @@
     .videoitem-owner-name, .mylistitem-owner-name {
         vertical-align: middle;
     }
+
+    .useritem-wrapper {
+        flex-direction: column;
+        overflow: hidden;
+        align-items: start;
+    }
+
+    .useritem-strippeddesc {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .useritem-datacolumn {
+        overflow: hidden;
+        max-width: 14rem;
+    }
 }
