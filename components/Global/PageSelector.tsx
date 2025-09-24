@@ -1,10 +1,10 @@
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useLocationContext } from "../Router/RouterContext"
 
-export function PageSelector({ pagination, vertical = false }: { pagination: GenericPagination, vertical?: boolean }) {
+export function PageSelector({ pagination, currentItemCount, vertical = false }: { pagination: GenericPagination, currentItemCount?: number, vertical?: boolean }) {
     const location = useLocationContext()
 
-    const pages = getPaginationRange(pagination.page, pagination.maxPage ?? Math.ceil(pagination.totalCount / pagination.pageSize))
+    const pages = getPaginationRange(pagination.page, Math.min(pagination.maxPage ?? Infinity, Math.ceil(pagination.totalCount / pagination.pageSize)))
     return (
         <div className="pageselector-container" data-is-vertical={vertical}>
             <div className="pageselector-stats-pagination">
@@ -14,13 +14,12 @@ export function PageSelector({ pagination, vertical = false }: { pagination: Gen
                 {" "}
                 -
                 {" "}
+                計
+                {" "}
                 {pagination.totalCount}
                 {" "}
-                件中
-                {" "}
-                {pagination.pageSize}
-                {" "}
                 件
+                {currentItemCount && `中 ${currentItemCount} 件`}
             </div>
             {pages.map((p, index) => {
                 if (p === "…") {

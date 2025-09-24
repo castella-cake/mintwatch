@@ -98,7 +98,7 @@ export function KeywordSearch() {
                             : ""}
                     </span>
                 </h2>
-                <PageSelector pagination={page.pagination} vertical={true} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
                 <OptionSelector option={page.option} />
@@ -109,7 +109,7 @@ export function KeywordSearch() {
                         )
                     })}
                 </div>
-                <PageSelector pagination={page.pagination} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} />
             </div>
         </>
     )

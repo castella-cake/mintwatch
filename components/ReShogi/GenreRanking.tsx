@@ -125,7 +125,7 @@ export default function GenreRankingContent() {
                         </>
                     )}
                 </div>
-                <PageSelector pagination={page.pagination} vertical={true} />
+                <PageSelector pagination={page.pagination} currentItemCount={teibanRanking.data.items.length} vertical={true} />
                 <TermSelector page={page} />
             </div>
             <div className="shogi-genre-items">
@@ -177,7 +177,7 @@ export default function GenreRankingContent() {
                     )
                 })}
             </div>
-            <PageSelector pagination={page.pagination} />
+            <PageSelector pagination={page.pagination} currentItemCount={teibanRanking.data.items.length} />
         </div>
     )
 }

@@ -97,7 +97,7 @@ export function SeriesSearch() {
                             : ""}
                     </span>
                 </h2>
-                <PageSelector pagination={page.pagination} vertical={true} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchListData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <OptionSelector option={page.option} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
@@ -107,7 +107,7 @@ export function SeriesSearch() {
                         })
                     }
                 </div>
-                <PageSelector pagination={page.pagination} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchListData.items.length} />
             </div>
         </>
     )

@@ -97,7 +97,7 @@ export function UserSearch() {
                             : ""}
                     </span>
                 </h2>
-                <PageSelector pagination={page.pagination} vertical={true} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchUserData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <OptionSelector option={page.option} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
@@ -109,7 +109,7 @@ export function UserSearch() {
                         })
                     }
                 </div>
-                <PageSelector pagination={page.pagination} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchUserData.items.length} />
             </div>
         </>
     )

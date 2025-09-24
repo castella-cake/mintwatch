@@ -102,7 +102,7 @@ export function TagSearch() {
                 </h2>
                 <DictionarySummaryTitle nicodic={nicodic} originalKeyword={getSearchVideoData.keyword} />
                 <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
-                <PageSelector pagination={page.pagination} vertical={true} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <OptionSelector option={page.option} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
@@ -112,7 +112,7 @@ export function TagSearch() {
                         )
                     })}
                 </div>
-                <PageSelector pagination={page.pagination} />
+                <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} />
             </div>
         </>
     )
