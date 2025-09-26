@@ -180,6 +180,27 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             }, 100)
         }
     }
+
+    const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
+    const isPaymentPreviewing = commentableUser === "purchaser" && videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
+
+    if (commentableUser === "nobody" || isPaymentPreviewing || !videoInfo?.data.response.viewer) {
+        return (
+            <div className="commentinput-container global-flex" id="pmw-commentinput">
+                <div className="commentinput-disabled">
+                    { isPaymentPreviewing
+                        ? "未購入のため"
+                        : (
+                                !videoInfo?.data.response.viewer
+                                    ? "未ログインのため"
+                                    : "この動画には"
+                            )}
+                    コメントできません
+                </div>
+            </div>
+        )
+    }
+
     const commentMaxLength = 75
     const remainingLength = commentMaxLength - dummyTextAreaContent.length
     const remainingTextOpacity = dummyTextAreaContent.length > 0 ? 0.8 : 0
