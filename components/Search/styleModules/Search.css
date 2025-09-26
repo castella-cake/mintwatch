@@ -149,6 +149,9 @@
         flex-direction: column;
         overflow: hidden;
         align-items: start;
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
     }
 
     .useritem-strippeddesc {
@@ -161,5 +164,11 @@
     .useritem-datacolumn {
         overflow: hidden;
         max-width: 14rem;
+        justify-content: space-between;
+    }
+
+    .useritem-count-item {
+        display: flex;
+        flex-direction: column;
     }
 }

@@ -9,22 +9,24 @@ export function UserItemCard({ user, markAsLazy }: { user: SearchUserItem, markA
                 <div className="useritem-nickname">
                     {user.nickname}
                 </div>
-                <div className="useritem-strippeddesc">
-                    {user.strippedDescription}
-                </div>
-                <div className="useritem-count">
-                    <span>
-                        フォロワー
+                {user.strippedDescription.length > 0 && (
+                    <div className="useritem-strippeddesc">
+                        {user.strippedDescription}
+                    </div>
+                )}
+                <div className="useritem-count-container">
+                    <span className="useritem-count-item">
+                        <span className="useritem-count-label">フォロワー</span>
                         {" "}
                         <strong>{user.followerCount}</strong>
                     </span>
-                    <span>
-                        動画
+                    <span className="useritem-count-item">
+                        <span className="useritem-count-label">動画</span>
                         {" "}
                         <strong>{user.videoCount}</strong>
                     </span>
-                    <span>
-                        番組
+                    <span className="useritem-count-item">
+                        <span className="useritem-count-label">番組</span>
                         {" "}
                         <strong>
                             {user.liveCount}

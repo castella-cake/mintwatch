@@ -17,11 +17,15 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex: 1;
 }
 
 .useritem-nickname {
     font-size: 1.2rem;
     font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .useritem-strippeddesc {
@@ -29,8 +33,12 @@
     font-size: 0.9rem;
 }
 
-.useritem-count {
+.useritem-count-container {
     font-size: 0.9rem;
     display: flex;
     gap: 0.5em;
+}
+
+.useritem-count-label {
+    color: var(--textcolor2);
 }
