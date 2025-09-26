@@ -5,7 +5,7 @@ export function useSearchSeriesData(keyword: string, options: VideoSearchQuery =
         queryKey: ["search", "series", keyword, options],
         placeholderData: prev => prev,
         queryFn: () => {
-            return getSeriesSearch(keyword, options)
+            return getFastSeriesSearch(keyword, options)
         },
     })
     return { searchMylistData, error, isFetching }

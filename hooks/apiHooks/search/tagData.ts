@@ -5,7 +5,7 @@ export function useSearchTagData(keyword: string, options: VideoSearchQuery = {}
         queryKey: ["search", "tag", keyword, options],
         placeholderData: prev => prev,
         queryFn: () => {
-            return getTagSearch(keyword, options)
+            return getFastTagSearch(keyword, options)
         },
     })
     return { searchTagData, error, isFetching }

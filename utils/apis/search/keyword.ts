@@ -23,3 +23,7 @@ export async function getKeywordSearch(keyword: string, options: VideoSearchQuer
     if (!validateBaseResponse(responseJson)) throw new APIError("getKeywordSearch failed.", responseJson)
     return responseJson
 }
+
+export async function getFastKeywordSearch(keyword: string, options: VideoSearchQuery = {}) {
+    return await initialResponse(`/search/${encodeURIComponent(keyword)}`, getKeywordSearch, keyword, options)
+}

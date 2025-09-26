@@ -22,3 +22,7 @@ export async function getTagSearch(keyword: string, options: VideoSearchQuery = 
     if (!validateBaseResponse(responseJson)) throw new APIError("getTagSearch failed.", responseJson)
     return responseJson
 }
+
+export async function getFastTagSearch(keyword: string, options: VideoSearchQuery = {}) {
+    return await initialResponse(`/tag/${encodeURIComponent(keyword)}`, getTagSearch, keyword, options)
+}

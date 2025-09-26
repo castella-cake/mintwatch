@@ -9,13 +9,14 @@ export default async function getFastVideoData(smId: string) {
         && typeof document
             .getElementsByName("server-response-mw")[0]
             .getAttribute("content") === "string"
+            && document.getElementsByName("server-response-mw")[0].getAttribute("data-pathname") === `/watch/${smId}`
     ) {
         initialResponse = JSON.parse(
             document
                 .getElementsByName("server-response-mw")[0]
                 .getAttribute("content")!,
         ) as VideoDataRootObject
-        // console.log("using initialResponse", initialResponse)
+        console.log("using initialResponse", initialResponse)
     } else {
         // console.log("not using initialResponse")
     }
