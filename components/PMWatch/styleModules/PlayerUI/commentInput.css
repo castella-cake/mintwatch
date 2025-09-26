@@ -100,6 +100,16 @@
     margin-top: 0;
 }
 
+.commentinput-disabled {
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    color: var(--textcolor2);
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    font-size: 0.9em;
+}
+
 #pmw-turnstile-widget > div {
     position: absolute;
     left: 0;
