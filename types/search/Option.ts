@@ -11,7 +11,7 @@ interface DateRangeFilter {
 
 interface Range {
     label: string
-    value: null
+    value: null | string
 }
 
 interface PresetFilter {
