@@ -1,4 +1,5 @@
 import { GenreRankingDataRootObject } from "@/types/ranking/genreData"
+import APIError from "@/utils/classes/APIError"
 
 /**
  * ジャンル別ランキングを取得するAPI
@@ -14,5 +15,7 @@ export async function getGenreRanking(page = "1", term = "24h", featuredKey?: st
         method: "GET",
         credentials: "include",
     })
-    return await response.json() as GenreRankingDataRootObject
+    const responseJson = await response.json() as GenreRankingDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getGenreRanking failed.", responseJson)
+    return responseJson
 }

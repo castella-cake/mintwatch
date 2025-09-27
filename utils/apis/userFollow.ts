@@ -1,4 +1,5 @@
 import { UserFollowApiDataRootObject } from "@/types/UserFollowApiData"
+import APIError from "../classes/APIError"
 
 /**
  * ユーザーフォローを行うAPI
@@ -15,5 +16,7 @@ export async function userFollowApi(userId: string | number, method: "GET" | "PO
         method: method,
         credentials: "include",
     })
-    return await response.json() as UserFollowApiDataRootObject
+    const responseJson = await response.json() as UserFollowApiDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("UserFollow API failed.", responseJson)
+    return responseJson
 }

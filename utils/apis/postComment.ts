@@ -1,5 +1,6 @@
 import { CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
+import APIError from "../classes/APIError"
 
 /**
  * コメント投稿のキーを取得するAPI
@@ -17,7 +18,9 @@ export async function getCommentPostKey(threadId: string | number) {
         mode: "cors",
         credentials: "include",
     })
-    return await response.json() as KeyRootObjectResponse
+    const responseJson = await response.json() as KeyRootObjectResponse
+    if (!validateBaseResponse(responseJson)) throw new APIError("Comment post key fetch failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -38,5 +41,7 @@ export async function postComment(threadId: string | number, body: CommentPostBo
         mode: "cors",
         credentials: "omit",
     })
-    return await response.json() as CommentResponseRootObject
+    const responseJson = await response.json() as CommentResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Comment post failed.", responseJson)
+    return responseJson
 }

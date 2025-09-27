@@ -1,4 +1,4 @@
-import { PickupSupportersRootObject } from "@/types/pickupSupportersData"
+import APIError from "../classes/APIError"
 
 /**
  * ニコニ広告者を取得するAPI
@@ -7,5 +7,7 @@ import { PickupSupportersRootObject } from "@/types/pickupSupportersData"
  */
 export async function getPickupSupporters(videoId: string, limit: number) {
     const response = await fetch(`https://api.nicoad.nicovideo.jp/v1/contents/video/${encodeURIComponent(videoId)}/pickup_supporters?limit=${encodeURIComponent(limit)}`)
-    return await response.json() as PickupSupportersRootObject
+    const responseJson = await response.json() as PickupSupportersRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Pickup supporters fetch failed.", responseJson)
+    return responseJson
 }

@@ -1,4 +1,3 @@
-import { CommentDataRootObject } from "@/types/CommentData"
 import { NvComment } from "@/types/VideoData"
 import { RefObject } from "react"
 import APIError from "./classes/APIError"
@@ -20,7 +19,7 @@ export async function getCommentDataWithRetry(nvComment: NvComment | undefined, 
         },
         threadKey: commentThreadKeyRef.current.threadKey,
     }
-    let commentResponse: CommentDataRootObject = await getCommentThread(
+    let commentResponse = await getCommentThread(
         nvComment.server,
         JSON.stringify(commentRequestBody),
     )

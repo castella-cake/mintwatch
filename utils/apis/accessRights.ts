@@ -1,4 +1,5 @@
 import { AccessRightsRootObject } from "@/types/accessRightsApi"
+import APIError from "../classes/APIError"
 
 /**
  * HLS/Storyboard のリソース(アクセス権限)を取得するAPI
@@ -24,5 +25,6 @@ export async function getHls(videoId: string, body: string, actionTrackId: strin
         credentials: "include",
     })
     const responseJson: AccessRightsRootObject = await response.json()
+    if (!validateBaseResponse(responseJson)) throw new APIError("AccessRights fetch failed.", responseJson)
     return responseJson
 }

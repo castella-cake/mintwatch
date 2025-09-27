@@ -1,4 +1,6 @@
 import PlaybackPositionBody from "@/types/playbackPositionBody"
+import { baseResponse } from "@/types/baseResponse"
+import APIError from "../classes/APIError"
 
 /**
  * レジューム再生の記録用API
@@ -18,5 +20,7 @@ export async function putPlaybackPosition(body: PlaybackPositionBody) {
         mode: "cors",
         credentials: "include",
     })
-    return await response.json() as baseResponse
+    const responseJson = await response.json() as baseResponse
+    if (!validateBaseResponse(responseJson)) throw new APIError("Playback position update failed.", responseJson)
+    return responseJson
 }

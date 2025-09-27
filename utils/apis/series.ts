@@ -1,4 +1,5 @@
 import { SeriesResponseRootObject } from "@/types/seriesData"
+import APIError from "../classes/APIError"
 
 /**
  * シリーズ情報を取得するAPI
@@ -12,5 +13,7 @@ export async function getSeriesInfo(seriesId: string) {
             "X-Frontend-Version": "0",
         },
     })
-    return await response.json() as SeriesResponseRootObject
+    const responseJson = await response.json() as SeriesResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Series info fetch failed.", responseJson)
+    return responseJson
 }
