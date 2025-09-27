@@ -1,4 +1,5 @@
 import { UserVideoData } from "@/types/UserVideoData"
+import APIError from "../classes/APIError"
 
 /**
  * 指定したユーザーの投稿動画を取得するAPI
@@ -17,5 +18,7 @@ export async function getUserVideo(userId: string | number, sortKey: string, sor
         },
         method: "GET",
     })
-    return await response.json() as UserVideoData
+    const responseJson = await response.json() as UserVideoData
+    if (!validateBaseResponse(responseJson)) throw new APIError("UserVideo fetch failed.", responseJson)
+    return responseJson
 }

@@ -1,4 +1,5 @@
 import { RecommendDataRootObject } from "@/types/RecommendData"
+import APIError from "../classes/APIError"
 
 /**
  * 指定した動画に関連したおすすめ動画を取得するAPI
@@ -9,6 +10,7 @@ export async function getRecommend(smId: string) {
         credentials: "include",
         method: "GET",
     })
-    const json: RecommendDataRootObject = await response.json()
-    return json
+    const responseJson: RecommendDataRootObject = await response.json()
+    if (!validateBaseResponse(responseJson)) throw new APIError("Recommend API failed.", responseJson)
+    return responseJson
 }

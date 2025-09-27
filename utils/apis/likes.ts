@@ -20,9 +20,8 @@ export async function sendLike(smId: string, method: "GET" | "POST" | "DELETE") 
         credentials: "include",
     })
     const json: LikesApi = await response.json()
-    if (json.meta.status == 200 || json.meta.status == 201) {
-        return json
-    } else {
+    if (!validateBaseResponse(json)) {
         throw new APIError("sendLike failed.", json)
     }
+    return json
 }

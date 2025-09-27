@@ -1,3 +1,5 @@
+import APIError from "../classes/APIError"
+
 /**
  * 指定した動画のコンテンツツリーを取得するAPI
  * @param videoId 動画ID
@@ -9,6 +11,7 @@ export async function getCommonsRelatives(videoId: string, limit = 15) {
         mode: "cors",
         credentials: "include",
     })
-    if (!response.ok) return null
-    return await response.json() as CommonsRelativeRootObject
+    const responseJson = await response.json() as CommonsRelativeRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getCommonsRelatives failed.", responseJson)
+    return responseJson
 }

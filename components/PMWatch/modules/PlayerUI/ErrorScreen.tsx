@@ -79,7 +79,7 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: AccessRightsRootOb
                         {isPremiumOnly && <p>この動画は現在プレミアム限定動画です。プレミアム会員に加入することで視聴できます。</p>}
                     </p>
                 </div>
-                <DAnimeLinks />
+                { videoInfo.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED" && <DAnimeLinks /> }
             </div>
         </div>
     )

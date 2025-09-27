@@ -1,4 +1,4 @@
-import { NicoruKeyResponseRootObject, NicoruPostBodyRootObject, NicoruPostResponseRootObject, NicoruRemoveRootObject } from "@/types/NicoruPostData"
+import APIError from "../classes/APIError"
 
 /**
  * ニコるに必要なキーを取得するAPI
@@ -15,7 +15,9 @@ export async function getNicoruKey(threadId: string | number, fork: string) {
         method: "GET",
         credentials: "include",
     })
-    return await response.json() as NicoruKeyResponseRootObject
+    const responseJson = await response.json() as NicoruKeyResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Nicoru key fetch failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -36,7 +38,9 @@ export async function postNicoru(threadId: string | number, body: NicoruPostBody
         credentials: "omit",
         cache: "no-store",
     })
-    return await response.json() as NicoruPostResponseRootObject
+    const responseJson = await response.json() as NicoruPostResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Nicoru post failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -55,5 +59,7 @@ export async function removeNicoru(nicoruId: string) {
         mode: "cors",
         credentials: "include",
     })
-    return await response.json() as NicoruRemoveRootObject
+    const responseJson = await response.json() as NicoruRemoveRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Nicoru remove failed.", responseJson)
+    return responseJson
 }
