@@ -7,6 +7,7 @@ export function HistoryAnchor({ href, beforePush, children, title, className, di
         e.preventDefault()
         if (beforePush) beforePush()
         if (href && !disabled) history.push(href)
+        window.scroll({ top: 0 })
     }, [href, beforePush])
     return (
         <a href={href || "#"} title={title || undefined} onClick={onAnchorClick} aria-disabled={disabled} className={className} {...additionalAttributes}>
