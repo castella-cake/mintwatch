@@ -93,6 +93,10 @@
     opacity: 0.8;
 }
 
+.search-error {
+    text-align: center;
+}
+
 .search-result-items[data-is-grid-layout="true"] {
     display: grid;
     overflow: hidden;

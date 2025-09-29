@@ -8,6 +8,7 @@ import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import { DictionarySummaryTitle } from "./GenericComponents/DictionarySummary"
+import APIError from "@/utils/classes/APIError"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -53,6 +54,44 @@ export function TagSearch() {
         }
     }, [tagSearchData, error])
     if (!tagSearchData && error) {
+        if (error instanceof APIError) {
+            return (
+                <div className="search-error">
+                    <h2>
+                        {
+                            error.response.meta.status === 404
+                                ? "検索結果が見つかりません"
+                                : "APIの呼び出し中にエラーが発生しました"
+                        }
+                    </h2>
+                    <small className="search-error-name">
+                        {error.name}
+                        :
+                        {" "}
+                        {error.response?.meta?.status}
+                    </small>
+                    <p className="search-error-message">
+                        {
+                            error.response.meta.status === 404
+                                ? (
+                                        <>
+                                            この条件に該当する動画が一つも見つかりませんでした。
+                                            <br />
+                                            キーワードやフィルター条件を変更して、再度お試しください。
+                                        </>
+                                    )
+                                : (
+                                        <>
+                                            予期されていないエラーが発生しました。
+                                            <br />
+                                            500エラーの場合は、時間を置いてから再度お試しください。
+                                        </>
+                                    )
+                        }
+                    </p>
+                </div>
+            )
+        }
         return (
             <div className="search-error">
                 <p>

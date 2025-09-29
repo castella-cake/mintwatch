@@ -6,6 +6,7 @@ import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { useSearchMylistData } from "@/hooks/apiHooks/search/mylistData"
 import { GenericListItemCard } from "./GenericComponents/GenericListItemCard"
+import APIError from "@/utils/classes/APIError"
 
 export function MylistSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -51,6 +52,44 @@ export function MylistSearch() {
         }
     }, [mylistSearchData, error])
     if (!mylistSearchData && error) {
+        if (error instanceof APIError) {
+            return (
+                <div className="search-error">
+                    <h2>
+                        {
+                            error.response.meta.status === 404
+                                ? "検索結果が見つかりません"
+                                : "APIの呼び出し中にエラーが発生しました"
+                        }
+                    </h2>
+                    <small className="search-error-name">
+                        {error.name}
+                        :
+                        {" "}
+                        {error.response?.meta?.status}
+                    </small>
+                    <p className="search-error-message">
+                        {
+                            error.response.meta.status === 404
+                                ? (
+                                        <>
+                                            この条件に該当するマイリストが一つも見つかりませんでした。
+                                            <br />
+                                            キーワードやフィルター条件を変更して、再度お試しください。
+                                        </>
+                                    )
+                                : (
+                                        <>
+                                            予期されていないエラーが発生しました。
+                                            <br />
+                                            500エラーの場合は、時間を置いてから再度お試しください。
+                                        </>
+                                    )
+                        }
+                    </p>
+                </div>
+            )
+        }
         return (
             <div className="search-error">
                 <p>
