@@ -12,7 +12,7 @@
         padding: 0.5em;
         width: 16em;
         border-bottom-left-radius: var(--radius);
-        transition: width 0.2s ease;
+        transition: width 0.2s ease, var(--transition-normal);
     }
 
     > button {
