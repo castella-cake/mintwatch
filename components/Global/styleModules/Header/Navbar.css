@@ -152,7 +152,7 @@
             width: 20em;
         }
 
-        button {
+        > button {
             background: var(--accent1);
             border: none;
             padding: 6px 12px;

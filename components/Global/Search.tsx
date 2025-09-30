@@ -1,6 +1,7 @@
 import { IconFolder, IconListNumbers, IconMessageLanguage, IconSearch, IconTag, IconUser } from "@tabler/icons-react"
-import { startTransition, useRef, useState } from "react"
+import { startTransition, useEffect, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
+import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
 
 const searchType = {
     search: ["キーワード", "で"],
@@ -19,6 +20,8 @@ function Search() {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const [currentSearchType, setSearchType] = useState<keyof typeof searchType>("search")
+    const [query, setQuery] = useState("")
+    const { data: expandData } = useSearchExpandData(query)
 
     useEffect(() => {
         const currentSearchType = returnSearchWhatWeReIn(location.pathname)
@@ -47,14 +50,23 @@ function Search() {
         }
         setSearchType(key)
     }
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setQuery(event.target.value)
+    }
 
     return (
         <div className="searchbox-container" id="pmw-searchbox" data-in-search-page={returnSearchWhatWeReIn(location.pathname) !== undefined}>
             <div className="searchbox-typeselector">
-                { searchTypeKeys.map((elem, index) => {
+                {searchTypeKeys.map((elem, index) => {
                     const isActive = currentSearchType === elem
                     return (
-                        <button key={elem} className={`searchbox-type-item${isActive ? " searchbox-type-active" : ""}`} onClick={() => handleSearchTypeChange(elem as keyof typeof searchType)} title={searchType[elem as keyof typeof searchType][0]} data-searchtype={elem}>
+                        <button
+                            key={elem}
+                            className={`searchbox-type-item${isActive ? " searchbox-type-active" : ""}`}
+                            onClick={() => handleSearchTypeChange(elem as keyof typeof searchType)}
+                            title={searchType[elem as keyof typeof searchType][0]}
+                            data-searchtype={elem}
+                        >
                             {searchTypeIcons[index]}
                             <span className="searchbox-type-text">{searchType[elem as keyof typeof searchType][0]}</span>
                         </button>
@@ -66,13 +78,43 @@ function Search() {
                     type="text"
                     ref={inputRef}
                     placeholder={`${searchType[currentSearchType][0]}${searchType[currentSearchType][1]}検索...`}
-                    onKeyDown={(e) => { handleEnter(e.key) }}
+                    onKeyDown={(e) => {
+                        handleEnter(e.key)
+                    }}
                     onCompositionStart={startComposition}
                     onCompositionEnd={endComposition}
                     defaultValue={returnSearchWord(location.pathname)}
                     key={location.pathname}
+                    onChange={handleInputChange}
                 />
-                <button onClick={() => { onSearch() }} type="button" title="検索"><IconSearch /></button>
+                <button onClick={() => onSearch()} type="button" title="検索">
+                    <IconSearch />
+                </button>
+                {expandData?.candidates && (
+                    <div className="searchbox-expand">
+                        {expandData.candidates.map(candidate => (
+                            <button
+                                key={candidate}
+                                className="searchbox-expand-item"
+                                onClick={(e) => {
+                                    if (e.shiftKey) {
+                                        const href = returnHrefFromSearchType(candidate, currentSearchType)
+                                        startTransition(() => history.push(href))
+                                    } else {
+                                        setQuery(candidate)
+                                        if (inputRef.current) {
+                                            inputRef.current.value = candidate
+                                            inputRef.current.focus()
+                                        }
+                                    }
+                                }}
+                                title={`選択して ${candidate} を入力欄に反映 (Shift+選択で直接検索)`}
+                            >
+                                {candidate}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     )
