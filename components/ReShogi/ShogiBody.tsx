@@ -3,7 +3,7 @@ import ShogiContent from "./ShogiContent"
 import "./shogiUI.css"
 import { useLocationContext } from "../Router/RouterContext"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
-import { IconChevronUp } from "@tabler/icons-react"
+import { PageTopButton } from "../Global/PageTopButton"
 import.meta.glob("./styleModules/**/*.css", { eager: true })
 
 export default function ShogiBody() {
@@ -21,7 +21,7 @@ export default function ShogiBody() {
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">総合ランキング</HistoryAnchor>
             </div>
             <ShogiContent />
-            <button className="shogi-pagetop-button" onClick={() => { window.scroll({ top: 0, behavior: "smooth" }) }} title="PAGE TOP"><IconChevronUp /></button>
+            <PageTopButton isLabelShown={false} isFixed={true} />
         </div>
     )
 }

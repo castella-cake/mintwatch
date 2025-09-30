@@ -4,6 +4,7 @@ import { MylistSearch } from "./MylistSearch"
 import { SeriesSearch } from "./SeriesSearch"
 import { TagSearch } from "./TagSearch"
 import { UserSearch } from "./UserSearch"
+import { PageTopButton } from "../Global/PageTopButton"
 
 export function SearchBody() {
     const location = useLocationContext()
@@ -14,6 +15,7 @@ export function SearchBody() {
             {location.pathname.startsWith("/mylist_search/") && <MylistSearch />}
             {location.pathname.startsWith("/series_search/") && <SeriesSearch />}
             {location.pathname.startsWith("/user_search/") && <UserSearch />}
+            <PageTopButton isLabelShown={false} isFixed={true} />
         </div>
     )
 }
