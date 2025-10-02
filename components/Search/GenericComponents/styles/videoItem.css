@@ -76,3 +76,7 @@
     grid-template-columns: 1fr auto;
     width: 100%;
 }
+
+.videoitem-wrapper .info-card, .videoitem-wrapper .info-card .info-card-thumbnail {
+    overflow: visible;
+}

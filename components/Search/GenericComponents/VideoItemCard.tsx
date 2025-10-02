@@ -1,6 +1,7 @@
-import { IconClock, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react"
+import { IconClock, IconDots, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react"
 import { Card } from "../../Global/InfoCard"
 import "./styles/videoItem.css"
+import { useTransitionState } from "react-transition-state"
 
 export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean }) {
     return (
@@ -41,9 +42,38 @@ export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { 
                 thumbnailUrl={video.thumbnail.listingUrl}
                 thumbText={`${secondsToTime(video.duration)}`}
                 thumbMarkAsLazy={markAsLazy}
+                thumbChildren={(
+                    <ExternalButton />
+                )}
             >
                 {video.title}
             </Card>
+        </div>
+    )
+}
+
+function ExternalButton() {
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 200,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+        preExit: true,
+    })
+    return (
+        <div className="info-card-externalbutton-wrapper">
+            <button
+                className="info-card-externalbutton"
+                onClick={() => { toggle(!isMounted) }}
+            >
+                <IconDots />
+            </button>
+            { isMounted && (
+                <div className="info-card-externalbutton-context" data-animation={status}>
+                    <button>DummyButton1</button>
+                    <button>DummyButton2</button>
+                </div>
+            )}
         </div>
     )
 }

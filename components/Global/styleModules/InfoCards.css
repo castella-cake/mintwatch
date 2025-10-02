@@ -37,10 +37,15 @@ a.info-card-link {
     pointer-events: none;
 }
 
-.info-card-thumbnail-button {
+.info-card-externalbutton-wrapper {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.info-card-externalbutton {
     color: rgb(255 255 255);
     font-size: 0.7rem;
     line-height: 1rem;
@@ -63,10 +68,50 @@ a.info-card-link {
     }
 }
 
-.info-card:not(:focus-visible, :hover) .info-card-thumbnail-button {
+.info-card:not(:focus-visible, :hover) .info-card-externalbutton-wrapper:not(:has(.info-card-externalbutton-context)) .info-card-externalbutton {
     pointer-events: none;
     opacity: 0;
     transform: translateX(-50%);
+}
+
+.info-card-externalbutton-context {
+    pointer-events: auto;
+    background: var(--modal-background);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 0 4px #0008;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 4px;
+    width: fit-content;
+    gap: 4px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        opacity: 0;
+        transform: translateY(-10%);
+    }
+
+    &[data-animation="exited"] {
+        display: none;
+    }
+}
+
+.info-card-externalbutton-context button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: var(--transition-normal);
+    
+    &:hover {
+        background: var(--hover1);
+    }
 }
 
 .info-card-durationtext {

@@ -210,23 +210,25 @@ export function InfoCardAddToPlaylist({ obj }: { obj: playlistVideoItem | undefi
     const [added, setAdded] = useState(false)
     if (!obj) return
     return (
-        <button
-            className="info-card-thumbnail-button"
-            title="再生キューに追加"
-            onClick={() => {
-                setAdded(true)
-                showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
-                setPlaylistData((playlistData) => {
-                    const itemsAfter = [...playlistData.items, obj]
-                    return {
-                        ...playlistData,
-                        items: itemsAfter,
-                        type: "custom",
-                    }
-                })
-            }}
-        >
-            { added ? <IconCheck /> : <IconPlaylistAdd /> }
-        </button>
+        <div className="info-card-externalbutton-wrapper">
+            <button
+                className="info-card-externalbutton"
+                title="再生キューに追加"
+                onClick={() => {
+                    setAdded(true)
+                    showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
+                    setPlaylistData((playlistData) => {
+                        const itemsAfter = [...playlistData.items, obj]
+                        return {
+                            ...playlistData,
+                            items: itemsAfter,
+                            type: "custom",
+                        }
+                    })
+                }}
+            >
+                { added ? <IconCheck /> : <IconPlaylistAdd /> }
+            </button>
+        </div>
     )
 }
