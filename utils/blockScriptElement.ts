@@ -22,7 +22,7 @@ export default function blockScriptElement(element: Element) {
             )
         }
         element.addEventListener("beforescriptexecute", onBeforeScriptExecute)
-        element.remove()
+        if (src !== "https://challenges.cloudflare.com/turnstile/v0/api.js&render=explicit") element.remove()
     } else if (
         element.tagName.toLowerCase() === "link"
         && element instanceof HTMLLinkElement
