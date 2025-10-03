@@ -182,7 +182,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     }
 
     const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
-    const isPaymentPreviewing = commentableUser === "purchaser" && videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
+    const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
     if (commentableUser === "nobody" || isPaymentPreviewing || !videoInfo?.data.response.viewer) {
         return (
