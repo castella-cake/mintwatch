@@ -112,8 +112,8 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
 
     // HACK: turnstileはscriptタグを要求し、そこで一部のモードを判断するので、実行されないダミーのscriptタグを事前に用意する
     const dummyScript = document.createElement("script")
-    dummyScript.src = browser.runtime.getURL("/dummy.js") + "?dummy=https://challenges.cloudflare.com/turnstile/v0/api.js&render=explicit"
-    dummyScript.type = "javascript/blocked"
+    dummyScript.src = "https://challenges.cloudflare.com/turnstile/v0/api.js&render=explicit"
+    dummyScript.type = "text/plain"
     if (document.head) document.head.appendChild(dummyScript)
     await injectScript("/load_turnstile.js")
 
