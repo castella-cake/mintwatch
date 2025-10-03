@@ -1,6 +1,6 @@
 import { VideoDataRootObject } from "@/types/VideoData"
 
-export const watchTestData: VideoDataRootObject = {
+export const ppvForbiddenWatchTestData: VideoDataRootObject = {
     meta: {
         status: 200,
         code: "HTTP_200",
@@ -21,18 +21,35 @@ export const watchTestData: VideoDataRootObject = {
             },
             content: {
                 player_type: "er",
-                genre: "音楽・サウンド",
+                genre: "アニメ",
                 content_type: "user",
             },
         },
         response: {
             ads: null,
             category: null,
-            channel: null,
+            channel: {
+                id: "ch1",
+                name: "Test Channel",
+                isOfficialAnime: true,
+                isDisplayAdBanner: true,
+                thumbnail: {
+                    url: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
+                    smallUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
+                },
+                viewer: {
+                    follow: {
+                        isFollowed: false,
+                        isBookmarked: false,
+                        token: "",
+                        tokenTimestamp: 0,
+                    },
+                },
+            },
             client: {
                 nicosid: "",
-                watchId: "sm0",
-                watchTrackId: "aaaaaaaaaa_0000000000000",
+                watchId: "so1",
+                watchTrackId: "a_1",
             },
             comment: {
                 server: {
@@ -41,8 +58,7 @@ export const watchTestData: VideoDataRootObject = {
                 keys: {
                     userKey: "",
                 },
-                layers: [
-                ],
+                layers: [],
                 threads: [],
                 ng: {
                     ngScore: {
@@ -54,22 +70,10 @@ export const watchTestData: VideoDataRootObject = {
                 },
                 isAttentionRequired: false,
                 nvComment: {
-                    threadKey: "noThreadKey4U",
+                    threadKey: "",
                     server: "https://public.nvcomment.nicovideo.jp",
                     params: {
                         targets: [
-                            {
-                                id: "0",
-                                fork: "owner",
-                            },
-                            {
-                                id: "1",
-                                fork: "main",
-                            },
-                            {
-                                id: "2",
-                                fork: "easy",
-                            },
                         ],
                         language: "ja-jp",
                     },
@@ -80,9 +84,18 @@ export const watchTestData: VideoDataRootObject = {
                     ignorePostElapsedTimeSec: 0,
                     ignoreCommentNgScoreThreshold: -1000,
                     commentCountThresholdList: [
-                        [4, 6],
-                        [14, 18],
-                        [26, 1500],
+                        [
+                            4,
+                            6,
+                        ],
+                        [
+                            14,
+                            18,
+                        ],
+                        [
+                            26,
+                            1500,
+                        ],
                     ],
                     buttonDisplayDurationSec: 6,
                     buttonDisplayOffsetSec: 2,
@@ -101,8 +114,8 @@ export const watchTestData: VideoDataRootObject = {
                 },
             },
             genre: {
-                key: "music_sound",
-                label: "音楽・サウンド",
+                key: "anime",
+                label: "\u30a2\u30cb\u30e1",
                 isImmoral: false,
                 isDisabled: false,
                 isNotSet: false,
@@ -112,147 +125,25 @@ export const watchTestData: VideoDataRootObject = {
                 tagRelatedLead: null,
             },
             media: {
-                domand: {
-                    videos: [
-                        {
-                            id: "video-h264-8640p",
-                            isAvailable: true,
-                            label: "8640p (niconico in 2125)",
-                            bitRate: 1,
-                            width: 15360,
-                            height: 8640,
-                            qualityLevel: 8,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-4320p",
-                            isAvailable: true,
-                            label: "4320p (definitely does not exist)",
-                            bitRate: 1,
-                            width: 7680,
-                            height: 4320,
-                            qualityLevel: 7,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-2160p",
-                            isAvailable: true,
-                            label: "2160p (does not exist)",
-                            bitRate: 1,
-                            width: 3840,
-                            height: 2160,
-                            qualityLevel: 6,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-1440p",
-                            isAvailable: true,
-                            label: "1440p (does not exist)",
-                            bitRate: 1,
-                            width: 2560,
-                            height: 1440,
-                            qualityLevel: 5,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-1080p",
-                            isAvailable: true,
-                            label: "1080p",
-                            bitRate: 1,
-                            width: 1920,
-                            height: 1080,
-                            qualityLevel: 4,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-720p",
-                            isAvailable: true,
-                            label: "720p",
-                            bitRate: 1,
-                            width: 1280,
-                            height: 720,
-                            qualityLevel: 3,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-540p",
-                            isAvailable: true,
-                            label: "540p",
-                            bitRate: 1,
-                            width: 960,
-                            height: 540,
-                            qualityLevel: 2,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-360p-low",
-                            isAvailable: true,
-                            label: "360p(低)",
-                            bitRate: 1,
-                            width: 640,
-                            height: 360,
-                            qualityLevel: 1,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                        {
-                            id: "video-h264-360p-lowest",
-                            isAvailable: true,
-                            label: "低画質",
-                            bitRate: 1,
-                            width: 640,
-                            height: 360,
-                            qualityLevel: 0,
-                            recommendedHighestAudioQualityLevel: 1,
-                        },
-                    ],
-                    audios: [
-                        {
-                            id: "audio-aac-192kbps",
-                            isAvailable: true,
-                            bitRate: 192000,
-                            samplingRate: 48000,
-                            integratedLoudness: 0,
-                            truePeak: 1,
-                            qualityLevel: 1,
-                            loudnessCollection: [
-                            ],
-                            label: {
-                                quality: "標準音質",
-                                bitrate: "192kbps",
-                            },
-                        },
-                    ],
-                    isStoryboardAvailable: false,
-                    accessRightKey: "N0AcCes5R1GhtKeyF0rU",
-                },
+                domand: null,
                 delivery: null,
                 deliveryLegacy: null,
             },
-            okReason: "PURELY",
-            owner: {
-                id: 92343354,
-                nickname: "CYakigasi",
-                iconUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
-                channel: null,
-                live: null,
-                isVideosPublic: true,
-                isMylistsPublic: true,
-                videoLiveNotice: null,
-                viewer: null,
-            },
+            okReason: "PAYMENT_PREVIEW_SUPPORTED",
+            owner: null,
             payment: {
                 video: {
-                    isPpv: false,
+                    isPpv: true,
                     isAdmission: false,
                     isContinuationBenefit: false,
                     isPremium: false,
-                    watchableUserType: "all",
-                    commentableUserType: "all",
-                    billingType: "free",
+                    watchableUserType: "purchaser",
+                    commentableUserType: "purchaser",
+                    billingType: "custom",
                 },
                 preview: {
                     ppv: {
-                        isEnabled: false,
+                        isEnabled: true,
                     },
                     admission: {
                         isEnabled: false,
@@ -283,15 +174,13 @@ export const watchTestData: VideoDataRootObject = {
                 },
                 layerMode: 0,
             },
-            ppv: null,
+            ppv: {
+                accessFrom: null,
+            },
             ranking: {
                 genre: null,
                 popularTag: [],
-                teiban: {
-                    featuredKey: "aaaaaaaa",
-                    label: "Something",
-                    rank: 1,
-                },
+                teiban: null,
             },
             series: {
                 id: 1,
@@ -411,7 +300,7 @@ export const watchTestData: VideoDataRootObject = {
             },
             smartphone: null,
             system: {
-                serverTime: "1970-01-01T00:00:00.000Z",
+                serverTime: "2025-10-02T19:40:16+09:00",
                 isPeakTime: true,
                 isStellaAlive: true,
             },
@@ -436,14 +325,18 @@ export const watchTestData: VideoDataRootObject = {
                 isPublishedNicoscript: false,
                 edit: {
                     isEditable: false,
-                    uneditableReason: "NEED_LOGIN",
+                    uneditableReason: "USER_FORBIDDEN",
                     editKey: null,
                 },
-                viewer: null,
+                viewer: {
+                    isEditable: false,
+                    uneditableReason: "USER_FORBIDDEN",
+                    editKey: null,
+                },
             },
             video: {
-                id: "sm0",
-                title: "For testing purpose only",
+                id: "so1",
+                title: "For PPV testing purpose only",
                 description: "MintWatch no tanoshimiha mugendai desu",
                 count: {
                     view: 0,
@@ -466,17 +359,23 @@ export const watchTestData: VideoDataRootObject = {
                 isPrivate: false,
                 isDeleted: false,
                 isNoBanner: false,
-                isAuthenticationRequired: false,
+                isAuthenticationRequired: true,
                 isEmbedPlayerAllowed: true,
-                isGiftAllowed: true,
-                viewer: null,
-                watchableUserTypeForPayment: "all",
-                commentableUserTypeForPayment: "all",
-                hasLyrics: true,
+                isGiftAllowed: false,
+                viewer: {
+                    isOwner: false,
+                    like: {
+                        isLiked: false,
+                        count: null,
+                    },
+                },
+                watchableUserTypeForPayment: "purchaser",
+                commentableUserTypeForPayment: "purchaser",
+                hasLyrics: false,
             },
             videoAds: {
                 additionalParams: {
-                    videoId: "sm0",
+                    videoId: "so1",
                     videoDuration: 0,
                     isAdultRatingNG: false,
                     isAuthenticationRequired: false,
@@ -485,18 +384,25 @@ export const watchTestData: VideoDataRootObject = {
                     lang: "ja-jp",
                     watchTrackId: "aaaaaaaaaa_0000000000000",
                     genre: "something",
+                    age: 0,
                 },
                 items: [],
                 reason: null,
             },
             videoLive: null,
-            viewer: null,
-            waku: {
-                information: {
-                    title: "Testing",
-                    url: "https://www.nicovideo.jp/",
-                    isNewWindow: false,
+            viewer: {
+                id: 0,
+                nickname: "TestUser",
+                isPremium: true,
+                allowSensitiveContents: true,
+                existence: {
+                    age: 0,
+                    prefecture: "Earth",
+                    sex: "other",
                 },
+            },
+            waku: {
+                information: null,
                 bgImages: [],
                 addContents: null,
                 addVideo: null,
@@ -512,9 +418,6 @@ export const watchTestData: VideoDataRootObject = {
                 },
                 tagRelatedMarquee: null,
                 pcWatchHeaderCustomBanner: null,
-            },
-            pcweb: {
-                prebidAdSlotName: "",
             },
         },
     },
