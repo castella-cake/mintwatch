@@ -45,11 +45,12 @@ interface Response {
     videoLive: any
     viewer?: ViewerInfo | null
     waku: Waku
+    pcweb?: PcWeb
 }
 
 interface Waku {
     // とりあえずnullはanyに直しておく
-    information: Information
+    information: Information | null
     bgImages: any[]
     addContents: any
     addVideo: any
@@ -104,6 +105,7 @@ interface AdditionalParams {
     nicosid: string
     lang: string
     watchTrackId: string
+    channelId?: string
     genre: string
     gender?: string
     age?: number
@@ -325,7 +327,7 @@ interface ViewerFollowing {
 }
 
 interface Media {
-    domand?: Domand
+    domand: Domand | null
     delivery: null
     deliveryLegacy: null
 }
@@ -482,7 +484,7 @@ export interface VideoDataThread {
     isLeafRequired: boolean
     isOwnerThread: boolean
     isThreadkeyRequired: boolean
-    threadkey: null
+    threadkey: null | ""
     is184Forced: boolean
     hasNicoscript: boolean
     label: string
@@ -638,7 +640,7 @@ interface Channel {
     name: string
     isOfficialAnime: boolean
     isDisplayAdBanner: boolean
-    thumbnail: Thumbnail
+    thumbnail: ChannelThumbnail
     viewer: Viewer
 }
 
@@ -653,7 +655,7 @@ interface Follow {
     tokenTimestamp: number
 }
 
-interface Thumbnail {
+interface ChannelThumbnail {
     url: string
     smallUrl?: string
 }
@@ -667,4 +669,8 @@ export interface ErrorResponse {
     communityLink: null
     publishScheduledAt: null
     data: null
+}
+
+interface PcWeb {
+    prebidAdSlotName: string
 }

@@ -5,6 +5,9 @@ import { mylistsTestData } from "./datas/mylists"
 import { watchForbiddenTestData } from "./datas/forbiddenWatch"
 import { customRankingTestData } from "./datas/customRanking"
 import { genreRankingTestData } from "./datas/genreRanking"
+import { channelVideoDAnimeLinksTestData } from "./datas/channelVideoDAnimeLinks"
+import { ppvForbiddenWatchTestData } from "./datas/ppvForbiddenWatch"
+import { admissionForbiddenWatchTestData } from "./datas/admissionForbiddenWatch"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -56,11 +59,25 @@ export const test = base.extend<FixtureType>({
                 body: `<!DOCTYPE html><html lang="ja"><head></head><body></body></html>`,
             }))
 
+            // 通常動画, PURELY
             await page.route("https://www.nicovideo.jp/watch/sm0?responseType=json", route => route.fulfill({
                 status: 200,
                 json: watchTestData,
             }))
 
+            // PPV, 未レンタル
+            await page.route("https://www.nicovideo.jp/watch/so1?responseType=json", route => route.fulfill({
+                status: 200,
+                json: ppvForbiddenWatchTestData,
+            }))
+
+            // Admission, 未加入
+            await page.route("https://www.nicovideo.jp/watch/so2?responseType=json", route => route.fulfill({
+                status: 200,
+                json: admissionForbiddenWatchTestData,
+            }))
+
+            // 削除動画
             await page.route("https://www.nicovideo.jp/watch/sm1?responseType=json", route => route.fulfill({
                 status: 400,
                 json: watchForbiddenTestData,
@@ -80,8 +97,12 @@ export const test = base.extend<FixtureType>({
                 status: 200,
                 json: genreRankingTestData,
             }))
-        }
 
+            await page.route(/https:\/\/public-api.ch.nicovideo.jp\/v1\/user\/channelVideoDAnimeLinks\?videoId=.*/, route => route.fulfill({
+                status: 404,
+                json: channelVideoDAnimeLinksTestData,
+            }))
+        }
         await use(applyMockApi)
     },
 })
