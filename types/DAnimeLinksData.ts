@@ -1,5 +1,5 @@
 export interface DAnimeLinksDataRootObject extends baseResponse {
-    data: Data
+    data?: Data
 }
 
 interface Data {

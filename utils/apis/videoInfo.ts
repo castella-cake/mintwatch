@@ -17,6 +17,6 @@ export async function getVideoInfo(smId: string) {
         method: "GET",
     })
     const responseJson: VideoDataRootObject = await response.json()
-    if (responseJson.meta.status !== 200) throw new APIError("VideoData fetch failed.", responseJson)
+    if (!validateBaseResponse(responseJson)) throw new APIError("VideoData fetch failed.", responseJson)
     return responseJson
 }

@@ -1,4 +1,4 @@
-import { NgCommentsRootObject } from "@/types/NgCommentsApiData"
+import APIError from "../classes/APIError"
 
 /**
  * NGワードを追加するAPI
@@ -21,7 +21,9 @@ export async function addNgComment(type: "word" | "id" | "command", source: stri
         body: `type=${encodeURIComponent(type)}&source=${encodeURIComponent(source)}&languageId=${encodeURIComponent(languageId)}`,
         method: "POST",
     })
-    return await response.json() as NgCommentsRootObject
+    const responseJson = await response.json() as NgCommentsRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("NG comment add failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -43,5 +45,7 @@ export async function deleteNgComments(body: { targets: { type: "word" | "id" | 
         body: JSON.stringify(body),
         method: "DELETE",
     })
-    return await response.json() as NgCommentsRootObject
+    const responseJson = await response.json() as NgCommentsRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("NG comment delete failed.", responseJson)
+    return responseJson
 }

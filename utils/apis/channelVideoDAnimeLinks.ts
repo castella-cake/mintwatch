@@ -1,4 +1,5 @@
 import { DAnimeLinksDataRootObject } from "@/types/DAnimeLinksData"
+import APIError from "../classes/APIError"
 
 /**
  * チャンネル動画からdアニメストアニコニコ支店で投稿された動画へ移動するための情報を取得するAPI
@@ -13,5 +14,9 @@ export async function getChannelVideoDAnimeLinks(videoId: string) {
         method: "GET",
         credentials: "include",
     })
-    return await response.json() as DAnimeLinksDataRootObject
+    const responseJson = await response.json() as DAnimeLinksDataRootObject
+    if (!validateBaseResponse(responseJson)) {
+        throw new APIError("getChannelVideoDAnimeLinks failed.", responseJson)
+    }
+    return responseJson
 }

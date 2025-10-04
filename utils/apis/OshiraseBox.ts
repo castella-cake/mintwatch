@@ -1,5 +1,6 @@
 import { OshiraseBellDataRootObject } from "@/types/OshiraseBellData"
 import { OshiraseBoxRootObject } from "@/types/OshiraseBoxData"
+import APIError from "../classes/APIError"
 
 /**
  * お知らせボックスから通知を取得するAPI
@@ -16,7 +17,11 @@ export async function getOshiraseBox(offset = 0, importantOnly = false) {
         },
         method: "GET",
     })
-    return await response.json() as OshiraseBoxRootObject
+    const responseJson = await response.json() as OshiraseBoxRootObject
+    if (!validateBaseResponse(responseJson)) {
+        throw new APIError("getOshiraseBox failed.", responseJson)
+    }
+    return responseJson
 }
 
 /**
@@ -32,7 +37,11 @@ export async function getOshiraseBell() {
         },
         method: "GET",
     })
-    return await response.json() as OshiraseBellDataRootObject
+    const responseJson = await response.json() as OshiraseBellDataRootObject
+    if (!validateBaseResponse(responseJson)) {
+        throw new APIError("getOshiraseBell failed.", responseJson)
+    }
+    return responseJson
 }
 
 /**
@@ -51,5 +60,9 @@ export async function sendOshiraseBoxRead(id: string, requestWith: string) {
         method: "PUT",
         credentials: "include",
     })
-    return await response.json() as baseResponse
+    const responseJson = await response.json() as baseResponse
+    if (!validateBaseResponse(responseJson)) {
+        throw new APIError("sendOshiraseBoxRead failed.", responseJson)
+    }
+    return responseJson
 }

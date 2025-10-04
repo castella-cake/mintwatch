@@ -1,3 +1,6 @@
+import { TagsApiRootObject } from "@/types/TagsApiData"
+import APIError from "../classes/APIError"
+
 /**
  * 指定した動画のタグを取得するAPI
  * @param smId タグを取得する動画のID
@@ -13,7 +16,9 @@ export async function getTagsApi(smId: string, editKey: string) {
         method: "GET",
         credentials: "include",
     })
-    return await response.json() as TagsApiRootObject
+    const responseJson = await response.json() as TagsApiRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Tags API fetch failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -35,7 +40,9 @@ export async function tagsEditApi(smId: string, editKey: string, tag: string, me
         credentials: "include",
         method: method,
     })
-    return await response.json() as TagsApiRootObject
+    const responseJson = await response.json() as TagsApiRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Tags edit API failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -56,5 +63,7 @@ export async function tagsLockApi(smId: string, editKey: string, tag: string, is
         method: "PUT",
         credentials: "include",
     })
-    return await response.json() as TagsApiRootObject
+    const responseJson = await response.json() as TagsApiRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Tags lock API failed.", responseJson)
+    return responseJson
 }

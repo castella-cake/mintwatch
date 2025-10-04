@@ -4,12 +4,13 @@ import { useChannelVideoDAnimeLinksData } from "@/hooks/apiHooks/watch/channelVi
 export default function DAnimeLinks() {
     const { videoInfo } = useVideoInfoContext()
     const { channelVideoDAnimeLinksData, isLoading } = useChannelVideoDAnimeLinksData(videoInfo?.data.response.video.id)
-    if (isLoading || !channelVideoDAnimeLinksData) return (
+    if (isLoading && !channelVideoDAnimeLinksData) return (
         <div className="channel-danime-links-container">
             <div className="channel-danime-links-title" style={{ opacity: 0.5 }}>代替の有料チャンネルを検索しています…</div>
         </div>
     )
-    const dAnimeLinks = channelVideoDAnimeLinksData.data.items
+
+    const dAnimeLinks = channelVideoDAnimeLinksData?.data?.items
 
     if (!dAnimeLinks || dAnimeLinks.length === 0) return (
         <div className="channel-danime-links-container">

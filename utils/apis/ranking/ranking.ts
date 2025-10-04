@@ -1,4 +1,5 @@
 import { ForYouRankingDataRootObject } from "@/types/ranking/forYouData"
+import APIError from "@/utils/classes/APIError"
 
 /**
  * For you ランキングを取得するAPI
@@ -8,5 +9,7 @@ export async function getForYouRanking() {
         method: "GET",
         credentials: "include",
     })
-    return await response.json() as ForYouRankingDataRootObject
+    const responseJson = await response.json() as ForYouRankingDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getForYouRanking failed.", responseJson)
+    return responseJson
 }

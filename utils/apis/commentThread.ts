@@ -1,5 +1,6 @@
 import { CommentDataRootObject } from "@/types/CommentData"
 import { CommentThreadKeyData } from "@/types/CommentThreadKeyData"
+import APIError from "../classes/APIError"
 
 /**
  * コメントを取得するAPI
@@ -20,7 +21,9 @@ export async function getCommentThread(server: string, body: string) {
         method: "POST",
         mode: "cors",
     })
-    return await response.json() as CommentDataRootObject
+    const responseJson = await response.json() as CommentDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("Comment thread fetch failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -37,5 +40,7 @@ export async function getCommentThreadKey(videoId: string) {
         },
         method: "GET",
     })
-    return await response.json() as CommentThreadKeyData
+    const responseJson = await response.json() as CommentThreadKeyData
+    if (!validateBaseResponse(responseJson)) throw new APIError("Comment thread key fetch failed.", responseJson)
+    return responseJson
 }

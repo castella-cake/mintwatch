@@ -8,10 +8,10 @@ export default defineContentScript({
     runAt: "document_start",
     main(ctx) {
         storage.getItem<boolean>("sync:enableReshogi").then((enableReshogi) => {
-            // nopmwだったら何もしない
+            // nopmwもしくはjson取得だったら何もしない
             const queryString = location.search
             const searchParams = new URLSearchParams(queryString)
-            if (searchParams.get("nopmw") == "true") return
+            if (searchParams.get("nopmw") == "true" || searchParams.get("responseType") === "json") return
 
             if (watchPattern.includes(window.location.toString()) || (rankingPattern.includes(window.location.toString()) && enableReshogi)) {
                 initializeRouter(ctx)
