@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.9.2 - 2025/10
+
+### Fixed
+- Turnstile の更新に対応しました
+- コメントができない状況ではコメント入力欄がグレーアウトするようになりました [#55](https://github.com/castella-cake/mintwatch/issues/55)
+- フェッチエラーのハンドリングが正しく行われるようになりました
+- dアニメストアの関連データが利用できない動画で未購入プレビューを行うと、レンダリングがクラッシュする問題を修正しました [#59](https://github.com/castella-cake/mintwatch/issues/59)
+- Mintプレイヤーテーマ以外ではシークバーがトランジションしないようになりました [#54](https://github.com/castella-cake/mintwatch/issues/54)
+- responseType=json パラメーターでアクセスされた場合に、MintWatchがレンダーしないようになりました [#60](https://github.com/castella-cake/mintwatch/issues/60)
+
+
 ## 0.9.1 - 2025/09/10
 
 ### Added
