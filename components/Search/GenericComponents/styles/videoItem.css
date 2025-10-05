@@ -80,3 +80,7 @@
 .videoitem-wrapper .info-card, .videoitem-wrapper .info-card .info-card-thumbnail {
     overflow: visible;
 }
+
+.videoitem-wrapper .info-card-thumbnail > img {
+    aspect-ratio: 16 / 9;
+}

@@ -24,6 +24,8 @@ a.info-card-link {
     align-self: stretch;
     height: var(--thumb-height);
     flex-shrink: 0;
+    border-radius: var(--radius-mini);
+    background: var(--bgcolor1);
 
     img {
         width: 100%;
