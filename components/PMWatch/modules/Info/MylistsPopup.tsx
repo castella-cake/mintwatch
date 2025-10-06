@@ -1,7 +1,9 @@
 import { useTransitionState } from "react-transition-state"
 import { Mylists } from "../Mylists"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave, onMoreButtonClick }: { isOpen: boolean, onMouseEnter: (e: React.MouseEvent) => void, onMouseLeave: (e: React.MouseEvent) => void, onMoreButtonClick: (e: React.MouseEvent) => void }) {
+    const { smId } = useSmIdContext()
     const {
         mylistsPopupLimit,
     } = useStorageVar(["mylistsPopupLimit"])
@@ -24,12 +26,15 @@ export function MylistsPopup({ isOpen, onMouseEnter, onMouseLeave, onMoreButtonC
                 {" "}
                 件を表示中)
             </div>
-            <Mylists
-                compact={true}
-                limit={mylistsPopupLimit ?? 8}
-                showMoreButton={true}
-                onMoreButtonClick={onMoreButtonClick}
-            />
+            { smId && (
+                <Mylists
+                    smId={smId}
+                    compact={true}
+                    limit={mylistsPopupLimit ?? 8}
+                    showMoreButton={true}
+                    onMoreButtonClick={onMoreButtonClick}
+                />
+            ) }
         </div>
     )
 }

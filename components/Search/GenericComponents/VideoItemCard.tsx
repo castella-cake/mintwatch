@@ -2,6 +2,8 @@ import { IconClock, IconDots, IconFolderFilled, IconMessageFilled, IconPlayerPla
 import { Card } from "../../Global/InfoCard"
 import "./styles/videoItem.css"
 import { useTransitionState } from "react-transition-state"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { Mylists } from "@/components/PMWatch/modules/Mylists"
 
 export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean }) {
     return (
@@ -43,7 +45,7 @@ export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { 
                 thumbText={`${secondsToTime(video.duration)}`}
                 thumbMarkAsLazy={markAsLazy}
                 thumbChildren={(
-                    <ExternalButton />
+                    <ExternalButton smId={video.id} title={video.title} />
                 )}
             >
                 {video.title}
@@ -52,7 +54,8 @@ export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { 
     )
 }
 
-function ExternalButton() {
+function ExternalButton({ smId, title }: { smId: string, title: string }) {
+    const { showAlert } = useSetMessageContext()
     const [{ status, isMounted }, toggle] = useTransitionState({
         timeout: 200,
         mountOnEnter: true,
@@ -71,7 +74,33 @@ function ExternalButton() {
             { isMounted && (
                 <div className="info-card-externalbutton-context" data-animation={status}>
                     <button>DummyButton1</button>
-                    <button>DummyButton2</button>
+                    <button onClick={() => {
+                        showAlert({
+                            title: "マイリストに追加",
+                            icon: null,
+                            body: (
+                                <div className="mylist-add-alert">
+                                    <div className="mylist-add-alert-title">
+                                        <strong>{title}</strong>
+                                        {" "}
+                                        をマイリストに追加します
+                                    </div>
+                                    <Mylists smId={smId} />
+                                </div>
+                            ),
+                            customCloseButton: [
+                                {
+                                    key: "close",
+                                    text: "おしまい",
+                                    primary: true,
+                                },
+                            ],
+                        })
+                        toggle(false)
+                    }}
+                    >
+                        マイリストに追加
+                    </button>
                 </div>
             )}
         </div>

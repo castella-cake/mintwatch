@@ -19,7 +19,7 @@ export function Mylist({ videoInfo }: Props) {
                     を追加します
                 </span>
             </div>
-            <Mylists />
+            <Mylists smId={videoInfo.data.response.video.id} />
         </div>
     )
 }
