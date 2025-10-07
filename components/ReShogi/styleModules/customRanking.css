@@ -52,12 +52,11 @@
     gap: 8px;
 }
 
-.shogi-ranking-lane-videolist-item {
-    position: relative;
-    overflow: visible;
+.shogi-ranking-lane-videolist .videoitem-card[data-is-vertical-layout="true"] {
+    width: 15rem;
 }
 
-.shogi-ranking-lane:first-child .shogi-ranking-lane-videolist-item::before {
+.shogi-ranking-lane:first-child .videoitem-card::before {
     position: absolute;
     content: attr(data-index);
     display: block;

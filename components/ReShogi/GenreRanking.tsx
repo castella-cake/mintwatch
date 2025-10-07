@@ -1,11 +1,10 @@
 import { GenreRankingDataRootObject } from "@/types/ranking/genreData"
-import { Card } from "@/components/Global/InfoCard"
-import { readableInt, secondsToTime } from "@/utils/readableValue"
-import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled, IconTag } from "@tabler/icons-react"
+import { IconCrown, IconTag } from "@tabler/icons-react"
 import { useLocationContext } from "../Router/RouterContext"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useQuery } from "@tanstack/react-query"
 import { PageSelector } from "../Global/PageSelector"
+import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 
 function TermSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
     const location = useLocationContext()
@@ -131,49 +130,7 @@ export default function GenreRankingContent() {
             <div className="shogi-genre-items">
                 {teibanRanking.data.items.map((video, index) => {
                     return (
-                        <div className="shogi-genre-item" key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)}>
-                            <Card
-                                href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
-                                additionalClassName="shogi-video"
-                                title={video.title}
-                                subTitle={(
-                                    <>
-                                        <a href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} className="shogi-video-owner">
-                                            <img src={video.owner.iconUrl} className="shogi-video-owner-icon" alt={`${video.owner.name} のアイコン`} />
-                                            <span className="shogi-video-owner-name">{video.owner.name}</span>
-                                        </a>
-                                    </>
-                                )}
-                                shortDescription={video.shortDescription}
-                                counts={(
-                                    <>
-                                        <div className="shogi-video-counts">
-                                            <span className="shogi-video-count">
-                                                <IconPlayerPlayFilled />
-                                                {readableInt(video.count.view, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconMessageFilled />
-                                                {readableInt(video.count.comment, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconFolderFilled />
-                                                {readableInt(video.count.mylist, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconClock />
-                                                {relativeTimeFrom(new Date(video.registeredAt))}
-                                            </span>
-                                        </div>
-                                    </>
-                                )}
-                                thumbnailUrl={video.thumbnail.listingUrl}
-                                thumbText={`${secondsToTime(video.duration)}`}
-                                thumbMarkAsLazy={index >= 5}
-                            >
-                                {video.title}
-                            </Card>
-                        </div>
+                        <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
                     )
                 })}
             </div>

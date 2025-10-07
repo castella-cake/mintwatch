@@ -1,4 +1,4 @@
-div.info-card {
+.info-card {
     --thumb-height: 4rem;
 
     display: flex;
@@ -12,7 +12,7 @@ div.info-card {
     position: relative;
 }
 
-a.info-card-link {
+.info-card-link {
     position: absolute;
     inset: 0;
 }
@@ -263,8 +263,8 @@ a.info-card-link {
     pointer-events: none;
 }
 
-.info-card-count svg {
-    vertical-align: bottom;
+.info-card-count > * {
+    vertical-align: middle;
 }
 
 .info-card-desc {

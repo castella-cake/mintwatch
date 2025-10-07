@@ -4,7 +4,7 @@ import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
-import { GenericListItemCard } from "./GenericComponents/GenericListItemCard"
+import { GenericListItemCard } from "../Global/ItemCard/GenericListItemCard"
 import { useSearchSeriesData } from "@/hooks/apiHooks/search/seriesData"
 import APIError from "@/utils/classes/APIError"
 
@@ -142,7 +142,7 @@ export function SeriesSearch() {
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {
                         getSearchListData.items.map((item, index) => {
-                            return <GenericListItemCard key={item.id} list={item} markAsLazy={index > 5} />
+                            return <GenericListItemCard key={item.id} list={item} markAsLazy={index > 5} isVerticalLayout={searchEnableGridCardLayout ?? false} />
                         })
                     }
                 </div>

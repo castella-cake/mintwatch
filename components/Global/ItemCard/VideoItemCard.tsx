@@ -1,57 +1,74 @@
-import { IconCircleX, IconClock, IconDots, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled } from "@tabler/icons-react"
-import { Card } from "../../Global/InfoCard"
-import "./styles/videoItem.css"
+import { IconCancel, IconCircleX, IconClockFilled, IconDots } from "@tabler/icons-react"
+import { Card } from "../InfoCard"
+import "./styles/genericItem.css"
 import { useTransitionState } from "react-transition-state"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
+import { InfoCardCount } from "../Count"
 
-export function VideoItemCard({ video, markAsLazy, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean }) {
+export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean, isVerticalLayout?: boolean }) {
+    if (video.isMuted) return (
+        <Card
+            additionalClassName="videoitem-card genericitem-card videoitem-muted"
+            title="非表示に設定された動画"
+            href={null}
+            thumbChildren={(
+                <>
+                    <div className="videoitem-muted-overlay">
+                        <IconCancel />
+                    </div>
+                </>
+            )}
+            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            subTitle={(
+                <></>
+            )}
+            counts={(
+                <></>
+            )}
+            {...additionalAttributes}
+        >
+            <span className="videoitem-muted-text">非表示に設定された動画</span>
+        </Card>
+    )
+
     return (
-        <div className="videoitem-wrapper" {...additionalAttributes}>
-            <Card
-                href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
-                additionalClassName="videoitem-card"
-                title={video.title}
-                subTitle={(
-                    <>
-                        <a href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} className="videoitem-owner">
-                            <img src={video.owner.iconUrl} className="videoitem-owner-icon" alt={`${video.owner.name} のアイコン`} />
-                            <span className="videoitem-owner-name">{video.owner.name}</span>
-                        </a>
-                    </>
-                )}
-                shortDescription={video.shortDescription}
-                counts={(
-                    <>
-                        <span className="videoitem-count">
-                            <IconPlayerPlayFilled />
-                            {readableInt(video.count.view, 1)}
+        <Card
+            href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
+            additionalClassName="videoitem-card genericitem-card"
+            title={video.title}
+            subTitle={(
+                <>
+                    <a className="genericitem-owner" href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`}>
+                        <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name} のアイコン`} />
+                        <span className="genericitem-owner-name">{video.owner.name}</span>
+                    </a>
+                    { isVerticalLayout && (
+                        <span className="genericitem-time" data-count-type="registeredAt">
+                            <IconClockFilled />
+                            <span className="genericitem-time-value">
+                                {relativeTimeFrom(new Date(video.registeredAt))}
+                            </span>
                         </span>
-                        <span className="videoitem-count">
-                            <IconMessageFilled />
-                            {readableInt(video.count.comment, 1)}
-                        </span>
-                        <span className="videoitem-count">
-                            <IconFolderFilled />
-                            {readableInt(video.count.mylist, 1)}
-                        </span>
-                        <span className="videoitem-count">
-                            <IconClock />
-                            {relativeTimeFrom(new Date(video.registeredAt))}
-                        </span>
-                    </>
-                )}
-                thumbnailUrl={video.thumbnail.listingUrl}
-                thumbText={`${secondsToTime(video.duration)}`}
-                thumbMarkAsLazy={markAsLazy}
-                thumbChildren={(
-                    <ExternalButton smId={video.id} title={video.title} />
-                )}
-            >
-                {video.title}
-            </Card>
-        </div>
+                    ) }
+                </>
+            )}
+            shortDescription={video.shortDescription}
+            counts={(
+                <InfoCardCount count={video.count} registeredAt={isVerticalLayout ? undefined : video.registeredAt} />
+            )}
+            thumbnailUrl={video.thumbnail.listingUrl}
+            thumbText={`${secondsToTime(video.duration)}`}
+            thumbMarkAsLazy={markAsLazy}
+            thumbChildren={(
+                <ExternalButton smId={video.id} title={video.title} />
+            )}
+            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            {...additionalAttributes}
+        >
+            {video.title}
+        </Card>
     )
 }
 

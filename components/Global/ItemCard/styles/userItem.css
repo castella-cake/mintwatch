@@ -1,4 +1,4 @@
-.useritem-wrapper {
+.useritem-card{
     display: flex;
     gap: 16px;
     padding: 8px;
@@ -41,4 +41,31 @@
 
 .useritem-count-label {
     color: var(--textcolor2);
+}
+
+.useritem-card[data-is-vertical-layout="true"] {
+    flex-direction: column;
+    overflow: hidden;
+    align-items: start;
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+
+    .useritem-strippeddesc {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .useritem-datacolumn {
+        overflow: hidden;
+        max-width: 14rem;
+        justify-content: space-between;
+    }
+
+    .useritem-count-item {
+        display: flex;
+        flex-direction: column;
+    }
 }

@@ -1,8 +1,6 @@
-import { Card } from "@/components/Global/InfoCard"
-import { readableInt, secondsToTime } from "@/utils/readableValue"
-import { IconFolderFilled, IconMessageFilled, IconPencil, IconPlayerPlayFilled } from "@tabler/icons-react"
-import relativeTimeFrom from "@/utils/relativeTimeFrom"
+import { IconPencil } from "@tabler/icons-react"
 import { useRankingCustomData } from "@/hooks/apiHooks/ranking/customData"
+import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 
 export default function CustomRankingContent() {
     const customRankingData = useRankingCustomData()
@@ -27,42 +25,7 @@ export default function CustomRankingContent() {
                             {
                                 item.data.videoList.map((video, index) => {
                                     return (
-                                        <div className="shogi-ranking-lane-videolist-item" key={`${item.data.laneId}-${video.id}`} data-index={index + 1}>
-                                            <Card
-                                                href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
-                                                additionalClassName="shogi-video"
-                                                title={video.title}
-                                                subTitle={(
-                                                    <>
-                                                        {relativeTimeFrom(new Date(video.registeredAt))}
-                                                        {" "}
-                                                        / by
-                                                        {video.owner.name}
-                                                    </>
-                                                )}
-                                                counts={(
-                                                    <>
-                                                        <span className="shogi-video-count">
-                                                            <IconPlayerPlayFilled />
-                                                            {readableInt(video.count.view, 1)}
-                                                        </span>
-                                                        <span className="shogi-video-count">
-                                                            <IconMessageFilled />
-                                                            {readableInt(video.count.comment, 1)}
-                                                        </span>
-                                                        <span className="shogi-video-count">
-                                                            <IconFolderFilled />
-                                                            {readableInt(video.count.mylist, 1)}
-                                                        </span>
-                                                    </>
-                                                )}
-                                                thumbnailUrl={video.thumbnail.listingUrl}
-                                                thumbText={`${secondsToTime(video.duration)}`}
-                                                thumbMarkAsLazy={index >= 5}
-                                            >
-                                                {video.title}
-                                            </Card>
-                                        </div>
+                                        <VideoItemCard video={video} isVerticalLayout={true} markAsLazy={index >= 5} key={`${item.data.laneId}-${video.id}`} data-index={index + 1} />
                                     )
                                 })
                             }

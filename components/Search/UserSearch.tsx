@@ -5,7 +5,7 @@ import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { useSearchUserData } from "@/hooks/apiHooks/search/userData"
-import { UserItemCard } from "./GenericComponents/UserItemCard"
+import { UserItemCard } from "../Global/ItemCard/UserItemCard"
 import APIError from "@/utils/classes/APIError"
 
 export function UserSearch() {
@@ -143,7 +143,7 @@ export function UserSearch() {
                     {
                         getSearchUserData.items.map((item, index) => {
                             return (
-                                <UserItemCard key={item.id} user={item} markAsLazy={index > 5} />
+                                <UserItemCard key={item.id} user={item} markAsLazy={index > 5} isVerticalLayout={searchEnableGridCardLayout ?? false} />
                             )
                         })
                     }

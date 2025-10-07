@@ -1,4 +1,4 @@
-import { IconCheck, IconClockFilled, IconFolderFilled, IconHeartFilled, IconListNumbers, IconMessageFilled, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
+import { IconCheck, IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
@@ -6,6 +6,7 @@ import { secondsToTime } from "@/utils/readableValue"
 import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
 import { useSetMessageContext } from "./Contexts/MessageProvider"
 import { playlistVideoItem } from "../PMWatch/modules/Playlist"
+import { InfoCardCount } from "./Count"
 
 function Draggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -23,7 +24,7 @@ function Draggable({ id, obj, children }: { id: string, obj: any, children: Reac
 }
 
 type CardProps = {
-    href: string
+    href: string | null
     thumbnailUrl?: string
     thumbText?: ReactNode
     thumbChildren?: ReactNode
@@ -54,13 +55,13 @@ export function Card(props: CardProps) {
     } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
-            <a className="info-card-link" href={href} title={title}></a>
+            { href !== null && <a className="info-card-link" href={href} title={title}></a> }
             { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
-            { thumbnailUrl && (
+            { (thumbnailUrl || thumbChildren) && (
                 <div className="info-card-thumbnail">
-                    <img src={thumbnailUrl} alt={`${title} のサムネイル`} loading={thumbMarkAsLazy ? "lazy" : undefined} />
+                    { thumbnailUrl && <img src={thumbnailUrl} alt={`${title} のサムネイル`} loading={thumbMarkAsLazy ? "lazy" : undefined} /> }
                     { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
-                    {thumbChildren}
+                    { thumbChildren }
                 </div>
             )}
             <div className="info-card-datacolumn">
@@ -172,35 +173,6 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
                 </span>
             </Card>
         </Draggable>
-    )
-}
-
-export function InfoCardCount({ count, registeredAt }: { count: GenericCount, registeredAt?: string }) {
-    return (
-        <>
-            <span className="info-card-count" data-count-type="view">
-                <IconPlayerPlayFilled />
-                {readableInt(count.view, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="comment">
-                <IconMessageFilled />
-                {readableInt(count.comment, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="mylist">
-                <IconFolderFilled />
-                {readableInt(count.mylist, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="like">
-                <IconHeartFilled />
-                {readableInt(count.like, 1)}
-            </span>
-            {registeredAt && (
-                <span className="info-card-count" data-count-type="registeredAt">
-                    <IconClockFilled />
-                    {relativeTimeFrom(new Date(registeredAt))}
-                </span>
-            )}
-        </>
     )
 }
 

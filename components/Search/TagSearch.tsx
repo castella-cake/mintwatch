@@ -1,6 +1,6 @@
 import { useLocationContext } from "../Router/RouterContext"
 import "./styleModules/Search.css"
-import { VideoItemCard } from "./GenericComponents/VideoItemCard"
+import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
@@ -147,7 +147,7 @@ export function TagSearch() {
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {
                         return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
+                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} isVerticalLayout={searchEnableGridCardLayout ?? false} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
                         )
                     })}
                 </div>

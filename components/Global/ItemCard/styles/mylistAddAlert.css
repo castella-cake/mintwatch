@@ -1,0 +1,12 @@
+.mylist-add-alert {
+    max-width: 45rem;
+}
+
+.mylist-add-alert-title {
+    margin: 1rem 0;
+}
+
+.mylist-add-alert > .mylist-item-container {
+    max-height: 30rem;
+    overflow-y: auto;
+}
