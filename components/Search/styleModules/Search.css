@@ -8,7 +8,7 @@
     gap: 0.5rem 1rem;
     grid-template-areas:
         "title title title"
-        "related related ."
+        "related related related"
         "pagel options ."
         "pagel result result"
         "filter result result"
@@ -41,9 +41,10 @@
     &[data-is-nicodic-article-exists="false"] {
         grid-template-areas:
             "title title title"
-            "related related ."
-            "pagel options dict"
-            "pagel result dict"
+            "dict dict ."
+            "related related related"
+            "pagel options ."
+            "pagel result ."
             "filter result ."
             ". result ."
             ". pageb pageb";
