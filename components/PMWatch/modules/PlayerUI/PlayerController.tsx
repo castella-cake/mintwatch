@@ -1,7 +1,19 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindBackward15, IconRewindBackward30, IconRewindBackward5, IconRewindForward10, IconRewindForward15, IconRewindForward30, IconRewindForward5, IconSettings, IconSettingsFilled } from "@tabler/icons-react"
 import type { Dispatch, JSX, RefObject, SetStateAction } from "react"
 import Hls from "hls.js"
+import { useStorageVar } from "@/hooks/extensionHook"
+import ShinjukuPlay from "@/assets/shinjuku/Play.svg?react"
+import ShinjukuPaused from "@/assets/shinjuku/Paused.svg?react"
+import ShinjukuSkipBack from "@/assets/shinjuku/SkipBack.svg?react"
+import ShinjukuLoopOn from "@/assets/shinjuku/LoopOn.svg?react"
+import ShinjukuLoopOff from "@/assets/shinjuku/LoopOff.svg?react"
+import ShinjukuStartFullScreen from "@/assets/shinjuku/StartFullScreen.svg?react"
+import ShinjukuEndFullScreen from "@/assets/shinjuku/EndFullScreen.svg?react"
+import ShinjukuCommentShown from "@/assets/shinjuku/CommentShown.svg?react"
+import ShinjukuCommentHidden from "@/assets/shinjuku/CommentHidden.svg?react"
+import ShinjukuOpenVefx from "@/assets/shinjuku/OpenVEFX.svg?react"
+import ShinjukuOpenSettings from "@/assets/shinjuku/OpenSettings.svg?react"
 import type { effectsState } from "@/hooks/eqHooks"
 import { Seekbar } from "./PlayerController/Seekbar"
 import { timeCalc } from "../commonFunction"
@@ -149,14 +161,28 @@ function PlayerController(props: Props) {
             onClick={() => { setIsVefxShown(!isVefxShown) }}
             title="エフェクト設定"
         >
-            {isVefxShown
-                ? <IconAdjustmentsFilled />
-                : (enabledEffects.length > 0) ? <IconAdjustmentsCheck /> : <IconAdjustments />}
+            {currentPlayerType === playerTypes.shinjuku
+                ? <ShinjukuOpenVefx />
+                : (isVefxShown
+                        ? <IconAdjustmentsFilled />
+                        : (enabledEffects.length > 0) ? <IconAdjustmentsCheck /> : <IconAdjustments />
+                    )}
         </PlayerControllerButton>
     )
-    const volumeElem = <VolumeController key="control-volume" />
+    const volumeElem = <VolumeController key="control-volume" currentPlayerType={currentPlayerType} />
 
-    const skipBackElem = <PlayerControllerButton key="control-skipback" className="playercontroller-skipback" onClick={onSkipBack} title="開始地点にシーク">{isIndexControl[0] ? <IconPlayerSkipBackFilled /> : <IconPlayerSkipBack />}</PlayerControllerButton>
+    const skipBackElem = (
+        <PlayerControllerButton
+            key="control-skipback"
+            className="playercontroller-skipback"
+            onClick={onSkipBack}
+            title="開始地点にシーク"
+        >
+            {currentPlayerType === playerTypes.shinjuku
+                ? <ShinjukuSkipBack />
+                : (isIndexControl[0] ? <IconPlayerSkipBackFilled /> : <IconPlayerSkipBack />)}
+        </PlayerControllerButton>
+    )
     const skipForwardElem = <PlayerControllerButton key="control-skipforward" className="playercontroller-skipforward" onClick={onSkipForward} title="終了地点にシーク">{isIndexControl[1] ? <IconPlayerSkipForwardFilled /> : <IconPlayerSkipForward />}</PlayerControllerButton>
 
     const backwardElem = (
@@ -176,9 +202,26 @@ function PlayerController(props: Props) {
         </PlayerControllerButton>
     )
 
-    const togglePauseElem = <PlayerControllerButton key="control-togglepause" className="playercontroller-togglepause" onClick={toggleStopState} title={isIconPlay ? "再生" : "一時停止"}>{isIconPlay ? <IconPlayerPlayFilled /> : <IconPlayerPauseFilled />}</PlayerControllerButton>
+    const togglePauseElem = (
+        <PlayerControllerButton
+            key="control-togglepause"
+            className="playercontroller-togglepause"
+            onClick={toggleStopState}
+            title={isIconPlay ? "再生" : "一時停止"}
+        >
+            {currentPlayerType === playerTypes.shinjuku
+                ? (isIconPlay ? <ShinjukuPlay /> : <ShinjukuPaused />)
+                : (isIconPlay ? <IconPlayerPlayFilled /> : <IconPlayerPauseFilled />)}
+        </PlayerControllerButton>
+    )
 
-    const toggleLoopElem = <PlayerControllerButton key="control-toggleloop" className="playercontroller-toggleloop" onClick={toggleLoopState} title={isLoop ? "ループ再生を解除" : "ループ再生を有効化"}>{isLoop ? <IconRepeat /> : <IconRepeatOff />}</PlayerControllerButton>
+    const toggleLoopElem = (
+        <PlayerControllerButton key="control-toggleloop" className="playercontroller-toggleloop" onClick={toggleLoopState} title={isLoop ? "ループ再生を解除" : "ループ再生を有効化"}>
+            {currentPlayerType === playerTypes.shinjuku
+                ? (isLoop ? <ShinjukuLoopOn /> : <ShinjukuLoopOff />)
+                : (isLoop ? <IconRepeat /> : <IconRepeatOff />)}
+        </PlayerControllerButton>
+    )
 
     const timeElem = <Time key="control-time" />
 
@@ -250,9 +293,29 @@ function PlayerController(props: Props) {
                             : <select className="playercontroller-qualityselect" title="画質選択" id="pmw-qualityselector" />
                     }
                     {/* <div className="playercontroller-qualitydisplay">{hlsRef.current && hlsRef.current.levels.map(elem => `${elem.height}p`)[hlsRef.current.currentLevel]}</div> */}
-                    <PlayerControllerButton className="playercontroller-commenttoggle" onClick={() => { setIsCommentShown(!isCommentShown) }} title={isCommentShown ? "コメントを非表示" : "コメントを表示"}>{isCommentShown ? <IconMessage2 /> : <IconMessage2Off />}</PlayerControllerButton>
-                    <PlayerControllerButton className="playercontroller-fullscreen" onClick={toggleFullscreen} title={isFullscreenUi ? "フルスクリーンを終了" : "フルスクリーン"}>{isFullscreenUi ? <IconMinimize /> : <IconMaximize />}</PlayerControllerButton>
-                    <PlayerControllerButton className="playercontroller-settings" onClick={() => { setIsSettingsShown(!isSettingsShown) }} title="プレイヤーの設定">{isSettingsShown ? <IconSettingsFilled /> : <IconSettings />}</PlayerControllerButton>
+                    <PlayerControllerButton
+                        className="playercontroller-commenttoggle"
+                        onClick={() => { setIsCommentShown(!isCommentShown) }}
+                        title={isCommentShown ? "コメントを非表示" : "コメントを表示"}
+                    >
+                        {currentPlayerType === playerTypes.shinjuku
+                            ? (isCommentShown ? <ShinjukuCommentShown /> : <ShinjukuCommentHidden />)
+                            : (isCommentShown ? <IconMessage2 /> : <IconMessage2Off />)}
+                    </PlayerControllerButton>
+                    <PlayerControllerButton
+                        className="playercontroller-fullscreen"
+                        onClick={toggleFullscreen}
+                        title={isFullscreenUi ? "フルスクリーンを終了" : "フルスクリーン"}
+                    >
+                        {currentPlayerType === playerTypes.shinjuku
+                            ? (isFullscreenUi ? <ShinjukuEndFullScreen /> : <ShinjukuStartFullScreen />)
+                            : (isFullscreenUi ? <IconMinimize /> : <IconMaximize />)}
+                    </PlayerControllerButton>
+                    <PlayerControllerButton className="playercontroller-settings" onClick={() => { setIsSettingsShown(!isSettingsShown) }} title="プレイヤーの設定">
+                        { currentPlayerType === playerTypes.shinjuku
+                            ? <ShinjukuOpenSettings />
+                            : (isSettingsShown ? <IconSettingsFilled /> : <IconSettings />)}
+                    </PlayerControllerButton>
                     {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => { storage.setItem("local:enableBigView", !(localStorage.enableBigView ?? false)) }} title={localStorage.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>{(localStorage.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled /> : <IconLayoutSidebarRightExpand />}</PlayerControllerButton>}
                 </div>
             </div>
