@@ -3,7 +3,7 @@
     --radius-mini: 0px;
     --radius-big: 0px;
 
-    background-image: linear-gradient(#ddd, #494949 3%, #282828 48%, #1a1a1a 50%, #202020 95%, #000 100%);
+    background-image: linear-gradient(#aaa, #666 3%, #383838 48%, #222 50%, #424242 95%, #222 100%);
     color: #fff;
     margin-top: 0;
     font-family: "MS Gothic", sans-serif;
