@@ -5,6 +5,8 @@ import { mylistsTestData } from "./datas/mylists"
 import { watchForbiddenTestData } from "./datas/forbiddenWatch"
 import { customRankingTestData } from "./datas/customRanking"
 import { genreRankingTestData } from "./datas/genreRanking"
+import { keywordSearchTestData } from "./datas/Search/keyword"
+import { searchTagTestData } from "./datas/Search/tag"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -12,6 +14,7 @@ type FixtureType = {
     context: BrowserContext
     extensionId: string
     mockApi: () => Promise<void>
+    enableSearchPage: () => Promise<void>
 }
 
 export const test = base.extend<FixtureType>({
@@ -80,9 +83,41 @@ export const test = base.extend<FixtureType>({
                 status: 200,
                 json: genreRankingTestData,
             }))
+
+            // 検索API - キーワード検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
+
+            // 検索API - タグ検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/tag\/.*\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchTagTestData,
+            }))
+
+            // 検索API - 新しいキーワード（テスト用）
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
+
+            // ページネーション用 - 2ページ目
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*page=2.*responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
         }
 
         await use(applyMockApi)
+    },
+    enableSearchPage: async ({ page, extensionId }, use) => {
+        async function enableSearchPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the search page" }).check()
+        }
+
+        await use(enableSearchPageFunction)
     },
 })
 export const expect = test.expect
