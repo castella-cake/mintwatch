@@ -95,18 +95,18 @@
         }
     }
 
-    // コメントリスト
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title {
+    // スタッカータイトル
+    .shinjuku-player-container .stacker-title {
         min-height: 2.25rem;
         max-height: 2.25rem;
     }
 
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title button {
+    .shinjuku-player-container .stacker-title button {
         padding: 0;
         margin: 0;
     }
 
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title button svg {
+    .shinjuku-player-container .stacker-title button svg {
         height: 1.25rem;
         width: 1.25rem;
         padding: 2px;
@@ -129,6 +129,7 @@
         height: fit-content;
         align-self: end;
         justify-content: right;
+        position: relative;
     }
 
     .video-actions > button, .video-actions > button.video-action-likebutton.active {
@@ -267,6 +268,11 @@
         right: inherit;
         top: inherit;
         bottom: inherit;
+    }
+
+    // マイリストポップアップ
+    .mylistspopup-container {
+        left: -10rem;
     }
 
     // 動画オーナー表示
