@@ -374,39 +374,6 @@
         }
     }
 
-    // ロゴ+検索+フィラー
-    .hrjk-header {
-        grid-area: shr;
-        display: flex;
-        gap: 1em;
-        align-items: center;
-
-        .harajuku-logo {
-            display: block;
-            height: max-content;
-
-            > img {
-                filter: var(--hrjk-logo-filter);
-                height: 100%;
-                width: auto;
-            }
-        }
-
-        .harajuku-header-migiue-filler {
-            background: var(--bgcolor2);
-            flex: 1;
-            height: 100%;
-            margin-left: 20%;
-            text-align: center;
-            line-height: 100%;
-            color: var(--textcolor3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0.3;
-        }
-    }
-
     // 検索
     .searchbox-inputcontainer input {
         padding: 6px;

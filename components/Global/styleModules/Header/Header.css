@@ -162,3 +162,29 @@
         color: #fff;
     }
 }
+
+.header-container[data-navbar-type="shinjuku"] {
+    --navbar-height: 72px;
+    
+    margin: 8px 0;
+
+    &[data-is-fixed="true"] {
+        position: relative;
+        margin-top: calc(var(--header-height) + 8px);
+        box-shadow: none;
+        border-bottom: none;
+    }
+
+    &[data-is-fixed="true"] .header-upper-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: -100vw;
+    }
+    
+    .header-bottom-container {
+        background: transparent;
+        z-index: unset;
+    }
+}

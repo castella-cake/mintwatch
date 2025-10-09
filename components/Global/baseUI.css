@@ -31,7 +31,8 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --primary-text-override: var(--bgcolor2);
 
     // 原宿ロゴが浮かないための調整
-    --hrjk-logo-filter: brightness(0.973);
+    --hrjk-logo-filter: brightness(0.97);
+    --hrjk-logo-filter-overengineered: invert(100%) saturate(100%) invert(90%) sepia(2%) saturate(188%) hue-rotate(201deg) brightness(108.5%) contrast(96%);
 }
 
 html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]) .container.fullscreen, html.PMDMP-light .container.fullscreen, html.PMDMP-nordlight .container.fullscreen {

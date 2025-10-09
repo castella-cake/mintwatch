@@ -214,7 +214,12 @@
 
 [data-watch-type="shinjuku"] .watch-container-grid {
     grid-template-rows: repeat(6, max-content);
-    grid-template-areas: "shr shr shr" "inf inf own" "inf inf sac" "spl spl spl" "rec rec rec" "btm srs srs";
+    grid-template-areas:
+        "inf inf own"
+        "inf inf sac"
+        "spl spl spl"
+        "rec rec rec"
+        "btm srs srs";
 }
 
 .pmwatch-outofbound-wrapper {

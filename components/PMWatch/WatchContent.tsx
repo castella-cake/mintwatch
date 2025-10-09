@@ -5,7 +5,7 @@ import Info from "./modules/Info/Info"
 import Player from "./modules/PlayerUI/Player"
 import Playlist from "./modules/Playlist"
 import { Stacker } from "./modules/Stacker"
-import { NicoHarajukuLogo, Owner, Stats } from "./modules/ShinjukuUI"
+import { Owner, Stats } from "./modules/ShinjukuUI"
 import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import ContentTree from "./modules/Info/ContentTree"
@@ -168,13 +168,6 @@ export function WatchContent(_props: Props) {
     const contentTreeElem = <ContentTree key="watchui-contenttree" />
     const searchElem = <Search key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
-    const hrjkLogoElem = (
-        <div className="hrjk-header" key="watchui-hrjkheader">
-            <NicoHarajukuLogo />
-            {searchElem}
-            <div className="harajuku-header-migiue-filler">MintWatch</div>
-        </div>
-    )
 
     const layoutPresets: {
         [key: string]: JSX.Element[]
@@ -184,7 +177,7 @@ export function WatchContent(_props: Props) {
         "stacked": [playerElem, rightActionElem, contentTreeElem, seriesElem, searchElem, watchNextElem],
         "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, contentTreeElem, searchElem],
         "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, watchNextElem, searchElem],
-        "shinjuku": [hrjkLogoElem, infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
+        "shinjuku": [infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
     }
 
     const currentLayout = layoutPresets[layoutType]

@@ -118,7 +118,7 @@ export function NicoHarajukuLogo() {
                 alt="左上"
             />
             <img
-                src="http://nicovideo.cdn.nimg.jp/uni/img/logo.gif"
+                src="http://nicovideo.cdn.nimg.jp/web/img/base/head/logo/hrjk.png"
                 alt="ニコニコ動画"
             />
         </a>
