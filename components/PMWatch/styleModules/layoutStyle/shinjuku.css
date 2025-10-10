@@ -53,10 +53,11 @@
     // プレイヤー横タブ
     .watch-container-rightaction {
         .stacker-tabbutton-container {
-            padding: 0 2em;
             gap: 0;
             position: relative;
             top: 3px;
+            padding: 0 8%;
+            white-space: nowrap;
         }
 
         .stacker-tabbutton {
@@ -349,7 +350,7 @@
 
     .videoinfo-hjdesc-tabbutton {
         margin-left: 0.8rem;
-        border-radius: 8px 8px 0 0;
+        border-radius: 6px 6px 0 0;
         border: 2px solid var(--textcolor1);
         border-bottom: none;
         position: relative;

@@ -231,8 +231,12 @@
         flex: 1;
         text-align: center;
         color: var(--textcolor3);
-        background: var(--bgcolor2);
-        line-height: 3rem;
+        max-width: 32rem;
+        margin-left: auto;
+        display: grid;
+        height: 80%;
+        place-content: center;
+        background: #8881;
     }
 
     .searchbox-container {
