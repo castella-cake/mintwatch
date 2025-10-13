@@ -14,6 +14,8 @@ import ShinjukuCommentShown from "@/assets/shinjuku/CommentShown.svg?react"
 import ShinjukuCommentHidden from "@/assets/shinjuku/CommentHidden.svg?react"
 import ShinjukuOpenVefx from "@/assets/shinjuku/OpenVEFX.svg?react"
 import ShinjukuOpenSettings from "@/assets/shinjuku/OpenSettings.svg?react"
+import ShinjukuStartTheater from "@/assets/shinjuku/StartTheater.svg?react"
+import ShinjukuEndTheater from "@/assets/shinjuku/EndTheater.svg?react"
 import type { effectsState } from "@/hooks/eqHooks"
 import { Seekbar } from "./PlayerController/Seekbar"
 import { timeCalc } from "../commonFunction"
@@ -316,7 +318,13 @@ function PlayerController(props: Props) {
                             ? <ShinjukuOpenSettings />
                             : (isSettingsShown ? <IconSettingsFilled /> : <IconSettings />)}
                     </PlayerControllerButton>
-                    {isFullscreenUi && <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => { storage.setItem("local:enableBigView", !(localStorage.enableBigView ?? false)) }} title={localStorage.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>{(localStorage.enableBigView ?? false) ? <IconLayoutSidebarRightCollapseFilled /> : <IconLayoutSidebarRightExpand />}</PlayerControllerButton>}
+                    { isFullscreenUi && (
+                        <PlayerControllerButton className="playercontroller-expandsidebar" onClick={() => { storage.setItem("local:enableBigView", !(localStorage.enableBigView ?? false)) }} title={localStorage.enableBigView ? "シアタービューを終了" : "シアタービューを開始"}>
+                            {currentPlayerType === playerTypes.shinjuku
+                                ? (localStorage.enableBigView ? <ShinjukuEndTheater /> : <ShinjukuStartTheater />)
+                                : (localStorage.enableBigView ? <IconLayoutSidebarRightCollapseFilled /> : <IconLayoutSidebarRightExpand />)}
+                        </PlayerControllerButton>
+                    ) }
                 </div>
             </div>
         </div>
