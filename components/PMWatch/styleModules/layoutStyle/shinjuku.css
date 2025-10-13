@@ -190,7 +190,7 @@
     // 原宿の統計表示+時計とダミー
     .videostat-container {
         font-size: 13px;
-        font-family: "MS Gothic", sans-serif;
+        font-family: var(--shinjuku-font-family, inherit);
         background: #222;
         color: #fff;
         white-space: nowrap;
@@ -201,34 +201,41 @@
     }
 
     .videostat-left-container {
-        font-weight: bold;
+        font-family: var(--shinjuku-dot-font-family, inherit);
+        font-weight: var(--shinjuku-dot-font-weight, bold);
+        font-size: var(--shinjuku-dot-font-size, 13px);
         border: 1px solid #000;
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 55px;
     }
 
-    .videostat-left-container > div {
-        padding: 1px;
+    .videostat-left-container > .videostat-left-row {
         background: linear-gradient(#333, #111, #333);
         display: flex;
         gap: 1em;
+        flex: 1;
+        align-items: center;
+        line-height: 1em;
+        padding: 1px 3px;
 
-        > span:first-child {
+        > .videostat-left-row-label {
             text-align-last: justify;
-            width: 5em;
+            width: 4.5em;
             letter-spacing: -0.25em !important; // 文字間隔の下限を拡張
             overflow: visible;
-            margin-right: -0.75em;
+            margin-right: -0.8em;
         }
     }
 
-    .videostat-left-container > div:not(:last-child) {
+    .videostat-left-container > .videostat-left-row:not(:last-child) {
         border-bottom: 1px solid #000;
     }
 
-    .videostat-left-container > div > span:last-child {
+    .videostat-left-container > .videostat-left-row > .videostat-left-row-value {
         flex: 1;
         text-align: right;
-        padding: 1px;
     }
 
     .videostat-right-container {

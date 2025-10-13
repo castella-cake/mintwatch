@@ -1,4 +1,5 @@
 @import "sanitize.css";
+@import "./ShinjukuDotGothic.css";
 
 a {
     color: var(--linktext1);

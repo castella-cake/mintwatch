@@ -48,7 +48,8 @@ export function WatchContent(_props: Props) {
 
     const {
         pmwlayouttype,
-    } = useStorageVar(["pmwlayouttype"] as const, "sync")
+        shinjukuDotFontType,
+    } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType"] as const, "sync")
     const layoutType = pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
 
     useEffect(() => {
@@ -191,6 +192,7 @@ export function WatchContent(_props: Props) {
             data-use-card-recommend={shouldUseCardRecommend}
             data-use-horizontal-search={shouldUseHorizontalSearchLayout}
             data-use-card-info={shouldUseCardInfo}
+            data-shinjuku-font-type={shinjukuDotFontType ?? "dotGothic"}
             id="pmw-container"
             onClickCapture={linkClickHandler}
         >

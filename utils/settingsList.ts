@@ -88,6 +88,12 @@ const settings: settingList = {
                     default: false,
                 },
                 {
+                    type: "select",
+                    name: "shinjukuDotFontType",
+                    default: "dotGothic",
+                    values: ["dotGothic", "MSGothic", "disable"],
+                },
+                {
                     type: "selectButtons",
                     name: "autoScrollPositionOnVideoChange",
                     values: ["top", "player", "disable"],

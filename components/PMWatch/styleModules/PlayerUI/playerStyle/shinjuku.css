@@ -6,7 +6,7 @@
     background-image: linear-gradient(#aaa, #666 3%, #383838 48%, #222 50%, #424242 95%, #222 100%);
     color: #fff;
     margin-top: 0;
-    font-family: "MS Gothic", sans-serif;
+    font-family: var(--shinjuku-font-family, inherit);
     font-weight: bold;
     letter-spacing: -1px;
     font-size: 14px;
@@ -211,10 +211,10 @@
     }
 
     .playercontroller-time {
-        font-family: "MS Gothic", sans-serif;
-        font-weight: bold;
-        letter-spacing: -1px;
-        font-size: 13px;
+        font-family: var(--shinjuku-dot-font-family, inherit);
+        font-weight: var(--shinjuku-dot-font-weight, bold);
+        font-size: var(--shinjuku-dot-font-size, 13px);
+        letter-spacing: var(--shinjuku-dot-font-letter-spacing, -1px);
         margin: 0 2px;
         margin-right: 4px;
     }
