@@ -1,14 +1,19 @@
-.pageselector-stats-pagination {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: var(--textcolor2);
+.pageselector-container {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    flex-direction: column;
 }
 
 .pageselector-container[data-is-vertical="false"] {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: row;
     line-height: 1.25em;
+    align-items: center;
+}
+
+.pageselector-stats-pagination {
+    font-size: 0.9rem;
+    color: var(--textcolor2);
 }
 
 .pageselector-pages {
