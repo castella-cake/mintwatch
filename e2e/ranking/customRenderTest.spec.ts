@@ -5,7 +5,7 @@ test("Ranking: Custom rendering test", async ({ page, mockApi, extensionId }) =>
 
     await page.goto(`chrome-extension://${extensionId}/settings.html`)
 
-    await page.getByRole("checkbox", { name: "Experimental: Enable" }).check()
+    await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).check()
 
     await page.goto("https://www.nicovideo.jp/ranking/custom")
     await page.bringToFront()
