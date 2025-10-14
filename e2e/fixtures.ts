@@ -7,6 +7,9 @@ import { customRankingTestData } from "./datas/customRanking"
 import { genreRankingTestData } from "./datas/genreRanking"
 import { keywordSearchTestData } from "./datas/Search/keyword"
 import { searchTagTestData } from "./datas/Search/tag"
+import { searchMylistTestData } from "./datas/Search/mylist"
+import { searchSeriesTestData } from "./datas/Search/series"
+import { searchUserTestData } from "./datas/Search/user"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -94,6 +97,24 @@ export const test = base.extend<FixtureType>({
             await page.route(/https:\/\/www\.nicovideo\.jp\/tag\/.*\?responseType=json.*/, route => route.fulfill({
                 status: 200,
                 json: searchTagTestData,
+            }))
+
+            // 検索API - マイリスト検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/mylist_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchMylistTestData,
+            }))
+
+            // 検索API - シリーズ検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/series_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchSeriesTestData,
+            }))
+
+            // 検索API - ユーザー検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/user_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchUserTestData,
             }))
 
             // 検索API - 新しいキーワード（テスト用）

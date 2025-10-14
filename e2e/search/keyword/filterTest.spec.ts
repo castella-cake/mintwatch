@@ -1,4 +1,4 @@
-import { expect, test } from "../fixtures"
+import { expect, test } from "../../fixtures"
 
 test("Search: Filter functionality test", async ({ page, mockApi, enableSearchPage }) => {
     await mockApi()
