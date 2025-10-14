@@ -84,6 +84,10 @@
         "shinjukuEnableNavbar": {
             "name": "Shinjuku レイアウトでナビゲーションバーを表示"
         },
+        "shinjukuDotFontType": {
+            "name": "Shinjuku で使用するドットフォント",
+            "select": ["新宿ドット12", "MS ゴシック", "無効"]
+        },
         "showLiveInRecommend": {
             "name": "おすすめにライブ配信を表示"
         },

@@ -22,7 +22,7 @@
         }
     }
 
-    .navbar-logo a {
+    .navbar-logo-link {
         background: var(--navbar-logo-url);
         aspect-ratio: 300 / 45;
         height: 1.25em;
@@ -97,7 +97,7 @@
     width: min-content;
 }
 
-.navbar-container .searchbox-container {
+.header-container:not([data-navbar-type="shinjuku"]) .navbar-container .searchbox-container {
     display: flex;
     background: var(--bgcolor2);
     padding: 0;
@@ -256,17 +256,47 @@
     display: none;
 }
 
-/*
-.navbar-container {
-    opacity: 1;
-    height: auto;
-    transition: opacity 0.5s ease, height 0.2s ease;
-    interpolate-size: allow-keywords;
+.header-container[data-navbar-type="shinjuku"] .navbar-container {
+    border-bottom: none;
+    width: round(98vw, 1px);
+    padding: 0 14%;
+    align-self: center;
+    justify-self: center;
+
+    .harajuku-logo {
+        filter: var(--hrjk-logo-filter);
+    }
+
+    .harajuku-header-migiue-filler {
+        flex: 1;
+        text-align: center;
+        color: var(--textcolor3);
+        max-width: 32rem;
+        margin-left: auto;
+        display: grid;
+        height: 80%;
+        place-content: center;
+        background: #8881;
+    }
+
+    .searchbox-container {
+        --radius: 0;
+
+        input[type="text"] {
+            padding: 6px;
+        }
+
+        .searchbox-type-item {
+            padding: 2px 8px;
+        }
+
+        .searchbox-type-item.searchbox-type-active {
+            background: var(--textcolor2);
+            color: var(--bgcolor2);
+        }
+
+        .searchbox-type-item svg {
+            display: none;
+        }
+    }
 }
-.header-container:not(:hover):not(:has(.headeraction-modal-container)) .navbar-container:not(:has(:focus)) {
-    opacity: 0;
-    height: 0;
-    padding: 0 16px !important;
-    transition: opacity 0.1s ease, height 0.2s ease;
-}
-*/

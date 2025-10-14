@@ -1,4 +1,3 @@
-import { readableInt } from "@/utils/readableValue"
 import { useEffect, useState } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import UserFollowButton from "./Info/UserFollowButton"
@@ -28,25 +27,31 @@ export function Stats() {
     return (
         <div className="videostat-container" id="pmw-videostat">
             <div className="videostat-left-container">
-                <div>
-                    <span>再生</span>
-                    :
-                    <span>
-                        {readableInt(videoInfoResponse.video.count.view)}
+                <div className="videostat-left-row">
+                    <span className="videostat-left-row-label">再生</span>
+                    <span className="videostat-left-row-separator">
+                        ：
+                    </span>
+                    <span className="videostat-left-row-value">
+                        {videoInfoResponse.video.count.view.toLocaleString()}
                     </span>
                 </div>
-                <div>
-                    <span>コメント</span>
-                    :
-                    <span>
-                        {readableInt(videoInfoResponse.video.count.comment)}
+                <div className="videostat-left-row">
+                    <span className="videostat-left-row-label">コメント</span>
+                    <span className="videostat-left-row-separator">
+                        ：
+                    </span>
+                    <span className="videostat-left-row-value">
+                        {videoInfoResponse.video.count.comment.toLocaleString()}
                     </span>
                 </div>
-                <div>
-                    <span>マイリスト</span>
-                    :
-                    <span>
-                        {readableInt(videoInfoResponse.video.count.mylist)}
+                <div className="videostat-left-row">
+                    <span className="videostat-left-row-label">マイリスト</span>
+                    <span className="videostat-left-row-separator">
+                        ：
+                    </span>
+                    <span className="videostat-left-row-value">
+                        {videoInfoResponse.video.count.mylist.toLocaleString()}
                     </span>
                 </div>
             </div>
@@ -118,7 +123,7 @@ export function NicoHarajukuLogo() {
                 alt="左上"
             />
             <img
-                src="http://nicovideo.cdn.nimg.jp/uni/img/logo.gif"
+                src="http://nicovideo.cdn.nimg.jp/web/img/base/head/logo/hrjk.png"
                 alt="ニコニコ動画"
             />
         </a>

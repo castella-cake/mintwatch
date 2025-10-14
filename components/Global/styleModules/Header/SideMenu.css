@@ -76,7 +76,7 @@
     }
 }
 
-.header-container[data-is-fixed="false"] .sidemenu-closebutton {
+.header-container[data-is-fixed="false"] .sidemenu-closebutton, .header-container[data-navbar-type="shinjuku"] .sidemenu-closebutton {
     display: block;
 }
 

@@ -3,10 +3,10 @@
     --radius-mini: 0px;
     --radius-big: 0px;
 
-    background-image: linear-gradient(#ddd, #494949 3%, #282828 48%, #1a1a1a 50%, #202020 95%, #000 100%);
+    background-image: linear-gradient(#aaa, #666 3%, #383838 48%, #222 50%, #424242 95%, #222 100%);
     color: #fff;
     margin-top: 0;
-    font-family: "MS Gothic", sans-serif;
+    font-family: var(--shinjuku-font-family, inherit);
     font-weight: bold;
     letter-spacing: -1px;
     font-size: 14px;
@@ -45,6 +45,13 @@
         }
     }
 
+    .playercontroller-container-left button.playercontroller-togglepause {
+        padding: 3px 10px; // 1px増やすのはoutlineが減った分
+    }
+
+    .playercontroller-container-right button {
+        padding: 6px 4px;
+    }
 
     button svg {
         height: 20px;
@@ -52,12 +59,63 @@
         color: #fff;
     }
 
-    .playercontroller-container-left button.playercontroller-togglepause {
-        padding: 3px 9px; // 1px増やすのはoutlineが減った分
+    button svg[xmlns\:serif]{
+        filter: grayscale(1) brightness(10);
     }
 
-    .playercontroller-container-right button {
-        padding: 6px 4px;
+    button:active {
+        transform: none !important;
+    }
+
+    .playercontroller-container-left button {
+        transition: none;
+
+        &:hover {
+            background: #fff2;
+            cursor: pointer;
+        }
+
+        &:active {
+            background-image: linear-gradient(#fe2, #fa0 45%, #f50 55%, #e82 100%);
+            
+            &::after {
+                border-image: linear-gradient(#fff, #ff0) 2 / 1 / 0 stretch;
+            }
+
+            & svg {
+                opacity: 0.9;
+            }
+        }
+    }
+
+    .playercontroller-container-right button, .playercontroller-container-center button {
+        transition: none;
+
+        &:hover {
+            background: transparent;
+            cursor: pointer;
+
+            svg[xmlns\:serif]{
+                filter: grayscale(1) brightness(3);
+            }
+        }
+
+        &:active svg[xmlns\:serif] {
+            filter: hue-rotate(65deg) saturate(0.9) brightness(5);
+        }
+    }
+
+    .playercontroller-commenttoggle, .playercontroller-effectchange, .playercontroller-toggleloop {
+        border-left: 3px solid;
+        border-image: linear-gradient(90deg, #aaaa 1%, #000 5%, #000 10%, #aaaa 15%) 5;
+    }
+
+    .playercontroller-container-right, .player-container[data-player-type="shinjuku"] .playercontroller-container-left {
+        flex: none;
+    }
+
+    .seekbar-container {
+        flex: 1;
     }
 
     .playercontroller-qualityselect {
@@ -153,38 +211,11 @@
     }
 
     .playercontroller-time {
-        font-family: "MS Gothic", sans-serif;
-        font-weight: bold;
-        letter-spacing: -1px;
-        font-size: 13px;
+        font-family: var(--shinjuku-dot-font-family, inherit);
+        font-weight: var(--shinjuku-dot-font-weight, bold);
+        font-size: var(--shinjuku-dot-font-size, 13px);
+        letter-spacing: var(--shinjuku-dot-font-letter-spacing, -1px);
         margin: 0 2px;
-    }
-
-    .playercontroller-container-right, .playercontroller-container-left, .playercontroller-container-center {
-        button {
-            transition: none;
-        }
-
-        button:hover {
-            background: #fff2;
-            cursor: pointer;
-        }
-    }
-
-    /* .playercontroller-volume-container .playercontroller-volume::-webkit-slider-thumb {
-        display: none;
-    } */
-
-    .playercontroller-commenttoggle, .playercontroller-togglemute, .playercontroller-toggleloop {
-        border-left: 3px solid;
-        border-image: linear-gradient(90deg, #aaaa 1%, #000 5%, #000 10%, #aaaa 15%) 5;
-    }
-
-    .playercontroller-container-right, .player-container[data-player-type="shinjuku"] .playercontroller-container-left {
-        flex: none;
-    }
-
-    .seekbar-container {
-        flex: 1;
+        margin-right: 4px;
     }
 }

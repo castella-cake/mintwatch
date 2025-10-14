@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="EndTheater">
+        <path d="M2,13.764L2,2L30,2L30,30L2,30L2,18.236C2.549,18.727 3.26,19 4,19L4,28L20,28L20,17.414L21.414,16L20,14.586L20,4L4,4L4,13C3.26,13 2.549,13.273 2,13.764ZM4,15L4,17C3.735,17 3.48,16.895 3.293,16.707C3.105,16.52 3,16.265 3,16C3,15.735 3.105,15.48 3.293,15.293C3.48,15.105 3.735,15 4,15Z" style="fill:#f0f;"/>
+        <g transform="matrix(1.45455,0,0,5.33333,-4.72727,-77.3333)">
+            <path d="M6,17.875C5.635,17.875 5.286,17.835 5.028,17.765C4.77,17.695 4.625,17.599 4.625,17.5C4.625,17.401 4.77,17.305 5.028,17.235C5.286,17.165 5.635,17.125 6,17.125L11.5,17.125L11.5,16L17,17.5L11.5,19L11.5,17.875L6,17.875Z" style="fill:#f0f;"/>
+        </g>
+    </g>
+</svg>

@@ -85,6 +85,10 @@
         "shinjukuEnableNavbar": {
             "name": "Show navigation bar in Shinjuku layout"
         },
+        "shinjukuDotFontType": {
+            "name": "Pixel fonts for Shinjuku",
+            "select": ["ShinjukuDot12", "MS Gothic", "Disable"]
+        },
         "showLiveInRecommend": {
             "name": "Show live stream in recommend section"
         },
