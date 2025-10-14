@@ -43,6 +43,10 @@
     .info-card-thumbnail > img {
         aspect-ratio: 16 / 9;
     }
+
+    .info-card-durationtext {
+        font-size: 0.75rem;
+    }
 }
 
 .genericitem-owner {
