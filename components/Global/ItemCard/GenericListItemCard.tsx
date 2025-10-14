@@ -20,7 +20,7 @@ export function GenericListItemCard({ list, markAsLazy, isVerticalLayout, ...add
                     </a>
                 </>
             )}
-            thumbnailUrl={(list.sampleItems && list.sampleItems[0].video.thumbnail) && list.sampleItems[0].video.thumbnail.listingUrl}
+            thumbnailUrl={(list.sampleItems && list.sampleItems.length > 0 && list.sampleItems[0].video.thumbnail) ? list.sampleItems[0].video.thumbnail.listingUrl : undefined}
             thumbText={(
                 <>
                     <IconListNumbers />
