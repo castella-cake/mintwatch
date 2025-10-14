@@ -165,8 +165,8 @@
 
 .header-container[data-navbar-type="shinjuku"] {
     --navbar-height: 72px;
-    
-    margin: 8px 0;
+
+    margin-bottom: 8px;
 
     &[data-is-fixed="true"] {
         position: relative;
@@ -181,6 +181,10 @@
         left: 0;
         right: 0;
         bottom: -100vw;
+    }
+
+    &[data-is-fixed="false"] .header-upper-container {
+        margin-bottom: 8px;
     }
     
     .header-bottom-container {
