@@ -113,19 +113,24 @@ export function Owner() {
 }
 
 export function NicoHarajukuLogo() {
-    const [hidariueNumber] = useState(
-        [0, 0, 0].map(() => Math.floor(Math.random() * 9)),
-    )
     return (
         <a href="https://www.nicovideo.jp/video_top" className="harajuku-logo">
-            <img
-                src={`https://resource.video.nimg.jp/web/img/base/head/icon/nico/${hidariueNumber.join("")}.gif`}
-                alt="左上"
-            />
             <img
                 src="http://nicovideo.cdn.nimg.jp/web/img/base/head/logo/hrjk.png"
                 alt="ニコニコ動画"
             />
         </a>
+    )
+}
+
+export function RandomHidariueImg() {
+    const [hidariueNumber] = useState(
+        [0, 0, 0].map(() => Math.floor(Math.random() * 9)),
+    )
+    return (
+        <img
+            src={`https://resource.video.nimg.jp/web/img/base/head/icon/nico/${hidariueNumber.join("")}.gif`}
+            alt="左上"
+        />
     )
 }
