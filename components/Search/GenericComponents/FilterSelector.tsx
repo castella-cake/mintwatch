@@ -32,6 +32,8 @@ export function FilterSelector({ option }: { option: SearchOption }) {
         || option.dateRangeFilter?.end.value !== null
     const isDateRangeFilterActive = isDateRangeFilterTempActive || isCurrentQueryDateRangeFiltered
 
+    if (!option.presetFilter || option.presetFilter.length === 0) return
+
     return (
         <details
             className="search-filters"
