@@ -7,6 +7,7 @@ import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { GenericListItemCard } from "../Global/ItemCard/GenericListItemCard"
 import { useSearchSeriesData } from "@/hooks/apiHooks/search/seriesData"
 import APIError from "@/utils/classes/APIError"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 export function SeriesSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -110,11 +111,7 @@ export function SeriesSearch() {
             </div>
         )
     }
-    if (!mylistSearchData) return (
-        <div className="loading-container">
-            Loading...
-        </div>
-    )
+    if (!mylistSearchData) return <LoadingFiller />
     const getSearchListData = mylistSearchData?.data.response.$getSearchList.data
     const page = mylistSearchData.data.response.page.common
     return (

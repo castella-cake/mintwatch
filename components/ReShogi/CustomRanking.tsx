@@ -1,12 +1,11 @@
 import { IconPencil } from "@tabler/icons-react"
 import { useRankingCustomData } from "@/hooks/apiHooks/ranking/customData"
 import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 export default function CustomRankingContent() {
     const customRankingData = useRankingCustomData()
-    if (!customRankingData) {
-        return <div className="shogi-loading">Loading...</div>
-    }
+    if (!customRankingData) return <LoadingFiller />
     return (
         <div className="shogi-custom-ranking">
             <title>カスタムランキング - ニコニコ動画</title>

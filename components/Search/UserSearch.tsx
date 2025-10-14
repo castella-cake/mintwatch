@@ -7,6 +7,7 @@ import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { useSearchUserData } from "@/hooks/apiHooks/search/userData"
 import { UserItemCard } from "../Global/ItemCard/UserItemCard"
 import APIError from "@/utils/classes/APIError"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 export function UserSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -110,11 +111,7 @@ export function UserSearch() {
             </div>
         )
     }
-    if (!userSearchData) return (
-        <div className="loading-container">
-            Loading...
-        </div>
-    )
+    if (!userSearchData) return <LoadingFiller />
     const getSearchUserData = userSearchData.data.response.$getSearchUser.data
     const page = userSearchData.data.response.page.common
     return (

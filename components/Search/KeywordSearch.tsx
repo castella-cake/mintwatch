@@ -8,6 +8,7 @@ import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import APIError from "@/utils/classes/APIError"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -111,11 +112,7 @@ export function KeywordSearch() {
             </div>
         )
     }
-    if (!keywordSearchData) return (
-        <div className="loading-container">
-            Loading...
-        </div>
-    )
+    if (!keywordSearchData) return <LoadingFiller />
     const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
     const page = keywordSearchData.data.response.page.common
     return (

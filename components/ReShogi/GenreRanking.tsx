@@ -5,6 +5,7 @@ import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useQuery } from "@tanstack/react-query"
 import { PageSelector } from "../Global/PageSelector"
 import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 function TermSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
     const location = useLocationContext()
@@ -53,7 +54,7 @@ export default function GenreRankingContent() {
         },
     })
 
-    if (!genreRankingData) return <div className="shogi-loading">Loading...</div>
+    if (!genreRankingData) return <LoadingFiller />
 
     const teibanRanking = genreRankingData.data.response.$getTeibanRanking
     const teibanRankingFeaturedKeys = genreRankingData.data.response.$getTeibanRankingFeaturedKeys

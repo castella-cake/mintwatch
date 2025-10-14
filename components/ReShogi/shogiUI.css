@@ -49,15 +49,6 @@
     }
 }
 
-.shogi-loading {
-    text-align: center;
-    padding: 16px;
-    min-height: 80vh;
-    opacity: 0.8;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 .shogi-pagetop-button {
     position: fixed;
     bottom: 0;

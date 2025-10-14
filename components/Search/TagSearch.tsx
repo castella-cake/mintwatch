@@ -9,6 +9,7 @@ import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import { DictionarySummaryTitle } from "./GenericComponents/DictionarySummary"
 import APIError from "@/utils/classes/APIError"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -112,11 +113,8 @@ export function TagSearch() {
             </div>
         )
     }
-    if (!tagSearchData) return (
-        <div className="loading-container">
-            Loading...
-        </div>
-    )
+    if (!tagSearchData) return <LoadingFiller />
+
     const getSearchVideoData = tagSearchData?.data.response.$getSearchVideoV2.data
     const page = tagSearchData.data.response.page.common
     const nicodic = tagSearchData.data.response.page.nicodic
