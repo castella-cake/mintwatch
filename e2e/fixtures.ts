@@ -8,6 +8,11 @@ import { genreRankingTestData } from "./datas/genreRanking"
 import { channelVideoDAnimeLinksTestData } from "./datas/channelVideoDAnimeLinks"
 import { ppvForbiddenWatchTestData } from "./datas/ppvForbiddenWatch"
 import { admissionForbiddenWatchTestData } from "./datas/admissionForbiddenWatch"
+import { keywordSearchTestData } from "./datas/Search/keyword"
+import { searchTagTestData } from "./datas/Search/tag"
+import { searchMylistTestData } from "./datas/Search/mylist"
+import { searchSeriesTestData } from "./datas/Search/series"
+import { searchUserTestData } from "./datas/Search/user"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -15,6 +20,7 @@ type FixtureType = {
     context: BrowserContext
     extensionId: string
     mockApi: () => Promise<void>
+    enableSearchPage: () => Promise<void>
 }
 
 export const test = base.extend<FixtureType>({
@@ -98,12 +104,61 @@ export const test = base.extend<FixtureType>({
                 json: genreRankingTestData,
             }))
 
+            // 検索API - キーワード検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
+
+            // 検索API - タグ検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/tag\/.*\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchTagTestData,
+            }))
+
+            // 検索API - マイリスト検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/mylist_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchMylistTestData,
+            }))
+
+            // 検索API - シリーズ検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/series_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchSeriesTestData,
+            }))
+
+            // 検索API - ユーザー検索
+            await page.route(/https:\/\/www\.nicovideo\.jp\/user_search\/TEST\?responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: searchUserTestData,
+            }))
+
+            // 検索API - 新しいキーワード（テスト用）
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
+
+            // ページネーション用 - 2ページ目
+            await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*page=2.*responseType=json.*/, route => route.fulfill({
+                status: 200,
+                json: keywordSearchTestData,
+            }))
             await page.route(/https:\/\/public-api.ch.nicovideo.jp\/v1\/user\/channelVideoDAnimeLinks\?videoId=.*/, route => route.fulfill({
                 status: 404,
                 json: channelVideoDAnimeLinksTestData,
             }))
         }
         await use(applyMockApi)
+    },
+    enableSearchPage: async ({ page, extensionId }, use) => {
+        async function enableSearchPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the search page" }).check()
+        }
+
+        await use(enableSearchPageFunction)
     },
 })
 export const expect = test.expect

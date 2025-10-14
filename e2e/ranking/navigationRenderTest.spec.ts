@@ -5,7 +5,7 @@ test("Ranking: Navigation test", async ({ page, mockApi, extensionId }) => {
 
     await page.goto(`chrome-extension://${extensionId}/settings.html`)
 
-    await page.getByRole("checkbox", { name: "Experimental: Enable" }).check()
+    await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).check()
 
     await page.goto("https://www.nicovideo.jp/ranking/custom")
     await page.bringToFront()
@@ -25,5 +25,5 @@ test("Ranking: Navigation test", async ({ page, mockApi, extensionId }) => {
 
     await expect(page.locator("#root-pmw")).toContainText("For testing purposes only")
     await expect(page.locator("#root-pmw")).toContainText("ジャンル総合")
-    await expect(page.locator("#root-pmw")).toContainText("ページ 1 - 10 件中 1 件")
+    await expect(page.locator("#root-pmw")).toContainText("ページ 1 - 計 10 件中 1 件")
 })

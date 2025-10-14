@@ -1,10 +1,8 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
-import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
 import { IconAlertTriangle, IconCheck, IconFolder, IconLock, IconWorld } from "@tabler/icons-react"
 
-export function Mylists({ compact = false, limit = Infinity, showMoreButton, onMoreButtonClick }: { compact?: boolean, limit?: number, showMoreButton?: boolean, onMoreButtonClick?: (e: React.MouseEvent) => void }) {
-    const { videoInfo } = useVideoInfoContext()
+export function Mylists({ smId, compact = false, limit = Infinity, showMoreButton, onMoreButtonClick }: { smId: string, compact?: boolean, limit?: number, showMoreButton?: boolean, onMoreButtonClick?: (e: React.MouseEvent) => void }) {
     const { showToast, showAlert } = useSetMessageContext()
 
     const { mylistsData, mutateMylistsAddItem } = useMylistsData()
@@ -33,8 +31,6 @@ export function Mylists({ compact = false, limit = Infinity, showMoreButton, onM
         }
     }
 
-    if (!videoInfo) return
-
     return (
         <div className="mylist-item-container" data-is-compact={compact}>
             {
@@ -45,7 +41,7 @@ export function Mylists({ compact = false, limit = Infinity, showMoreButton, onM
                                     key={mylist.id}
                                     className="mylist-item"
                                     onClick={() => {
-                                        if (!addedMylists.includes(mylist.id) && videoInfo.data) onAddToMylist(mylist.id, videoInfo.data.response.video.id)
+                                        if (!addedMylists.includes(mylist.id)) onAddToMylist(mylist.id, smId)
                                     }}
                                     data-added={addedMylists.includes(mylist.id)}
                                 >

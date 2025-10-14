@@ -1,6 +1,5 @@
 import { playlistVideoItem } from "@/components/PMWatch/modules/Playlist"
 import { RecommendItem } from "@/types/RecommendData"
-import { SeriesVideoItem } from "@/types/VideoData"
 
 export function isValidRecommendItem(value: unknown): value is RecommendItem {
     return (
@@ -12,7 +11,7 @@ export function isValidRecommendItem(value: unknown): value is RecommendItem {
     )
 }
 
-export function isValidSeriesVideoItem(value: unknown): value is SeriesVideoItem {
+export function isValidVideoItem(value: unknown): value is VideoItem {
     return (
         typeof value === "object"
         && Object.prototype.hasOwnProperty.call(value, "type")
@@ -57,7 +56,7 @@ export function recommendItemToPlaylistItem(data: RecommendItem) {
     } as playlistVideoItem
 }
 
-export function seriesItemToPlaylistItem(data: SeriesVideoItem) {
+export function seriesItemToPlaylistItem(data: VideoItem) {
     if (!data.title || !data.duration || !data.id) return
     return {
         title: data.title,

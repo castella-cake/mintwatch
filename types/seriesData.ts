@@ -10,43 +10,7 @@ interface Data {
 
 interface Item {
     meta: Meta2
-    video: Video
-}
-
-interface Video {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: Thumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null
-    owner: Owner2
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface Owner2 {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface Thumbnail {
-    url: string
-    middleUrl: string
-    largeUrl: string
-    listingUrl: string
-    nHdUrl: string
+    video: VideoItem
 }
 
 interface Meta2 {

@@ -204,7 +204,7 @@ html.MW-Enabled body {
     button > svg {
         box-sizing: content-box;
     }
-
+    
     button, input, select, textarea {
         font-family: inherit;
     }

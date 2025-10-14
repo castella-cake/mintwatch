@@ -44,9 +44,14 @@
             "hint": "Override the palette with StarNight"
         },
 
+        "pageReplaceDescription": {
+            "name": "Try these MintWatch-style pages with a mini player.\nThese experimental features may change anytime."
+        },
         "enableReshogi": {
-            "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",
-            "hint": "MintWatch's new ranking page. Reverts the ranking page to its correct form."
+            "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)"
+        },
+        "enableSearchPage": {
+            "name": "Experimental: Enable replacement of the search page"
         },
 
         "enableFixedHeader": {

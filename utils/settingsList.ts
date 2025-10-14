@@ -127,8 +127,17 @@ const settings: settingList = {
     ],
     pageReplace: [
         {
+            type: "desc",
+            name: "pageReplaceDescription",
+        },
+        {
             type: "checkbox",
             name: "enableReshogi",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "enableSearchPage",
             default: false,
         },
     ],

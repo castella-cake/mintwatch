@@ -1,42 +1,11 @@
 import { GenreRankingDataRootObject } from "@/types/ranking/genreData"
-import { Card } from "@/components/Global/InfoCard"
-import { readableInt, secondsToTime } from "@/utils/readableValue"
-import { IconClock, IconCrown, IconFolderFilled, IconMessageFilled, IconPlayerPlayFilled, IconTag } from "@tabler/icons-react"
+import { IconCrown, IconTag } from "@tabler/icons-react"
 import { useLocationContext } from "../Router/RouterContext"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useQuery } from "@tanstack/react-query"
-
-function PageSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
-    const location = useLocationContext()
-    return (
-        <div className="shogi-genre-stats-page-selector">
-            <div className="shogi-genre-stats-pagination">
-                ページ
-                {" "}
-                {page.pagination.page}
-                {" "}
-                -
-                {" "}
-                {page.pagination.totalCount}
-                {" "}
-                件中
-                {" "}
-                {page.pagination.pageSize}
-                {" "}
-                件
-            </div>
-            {[...Array(page.pagination.totalCount / page.pagination.pageSize)].map((_, index) => {
-                const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
-                pathUrl.searchParams.set("page", (index + 1).toString())
-                return (
-                    <HistoryAnchor key={index} className="shogi-genre-page-button" data-is-active={index === (page.pagination.page - 1)} href={pathUrl.toString()}>
-                        {index + 1}
-                    </HistoryAnchor>
-                )
-            })}
-        </div>
-    )
-}
+import { PageSelector } from "../Global/PageSelector"
+import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
+import { LoadingFiller } from "../Global/LoadingFiller"
 
 function TermSelector({ page }: { page: GenreRankingDataRootObject["data"]["response"]["page"] }) {
     const location = useLocationContext()
@@ -85,7 +54,7 @@ export default function GenreRankingContent() {
         },
     })
 
-    if (!genreRankingData) return <div className="shogi-loading">Loading...</div>
+    if (!genreRankingData) return <LoadingFiller />
 
     const teibanRanking = genreRankingData.data.response.$getTeibanRanking
     const teibanRankingFeaturedKeys = genreRankingData.data.response.$getTeibanRankingFeaturedKeys
@@ -156,60 +125,17 @@ export default function GenreRankingContent() {
                         </>
                     )}
                 </div>
-                <PageSelector page={page} />
+                <PageSelector pagination={page.pagination} currentItemCount={teibanRanking.data.items.length} vertical={true} />
                 <TermSelector page={page} />
             </div>
             <div className="shogi-genre-items">
                 {teibanRanking.data.items.map((video, index) => {
                     return (
-                        <div className="shogi-genre-item" key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)}>
-                            <Card
-                                href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
-                                additionalClassName="shogi-video"
-                                title={video.title}
-                                subTitle={(
-                                    <>
-                                        <a href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} className="shogi-video-owner">
-                                            <img src={video.owner.iconUrl} className="shogi-video-owner-icon" alt={`${video.owner.name} のアイコン`} />
-                                            <span className="shogi-video-owner-name">{video.owner.name}</span>
-                                        </a>
-                                    </>
-                                )}
-                                shortDescription={video.shortDescription}
-                                counts={(
-                                    <>
-                                        <div className="shogi-video-counts">
-                                            <span className="shogi-video-count">
-                                                <IconPlayerPlayFilled />
-                                                {readableInt(video.count.view, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconMessageFilled />
-                                                {readableInt(video.count.comment, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconFolderFilled />
-                                                {readableInt(video.count.mylist, 1)}
-                                            </span>
-                                            <span className="shogi-video-count">
-                                                <IconClock />
-                                                {relativeTimeFrom(new Date(video.registeredAt))}
-                                            </span>
-                                        </div>
-                                    </>
-                                )}
-                                thumbnailUrl={video.thumbnail.listingUrl}
-                                thumbText={`${secondsToTime(video.duration)}`}
-                                thumbMarkAsLazy={index >= 5}
-                            >
-                                {video.title}
-
-                            </Card>
-                        </div>
+                        <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
                     )
                 })}
             </div>
-            <PageSelector page={page} />
+            <PageSelector pagination={page.pagination} currentItemCount={teibanRanking.data.items.length} />
         </div>
     )
 }

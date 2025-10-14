@@ -50,6 +50,9 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         }
         if (meta.getAttribute("name") === "server-response") {
             meta.setAttribute("name", "server-response-mw")
+            // pathnameとsearchを記録
+            meta.setAttribute("data-pathname", window.location.pathname)
+            meta.setAttribute("data-search", window.location.search)
         }
     }
     const protectTarget = document.querySelectorAll("[data-server=\"1\"]")

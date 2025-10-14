@@ -22,15 +22,15 @@ interface Content {
     id: number | string
     title?: string
     registeredAt?: string
-    count?: Count
-    thumbnail?: SeriesThumbnail
+    count?: GenericCount
+    thumbnail?: GenericThumbnail
     duration?: number
     shortDescription?: string
     latestCommentSummary?: string
     isChannelVideo?: boolean
     isPaymentRequired?: boolean
     playbackPosition?: null | number
-    owner: Owner
+    owner: GenericOwner
     requireSensitiveMasking?: boolean
     videoLive?: null
     isMuted?: boolean
@@ -54,51 +54,7 @@ interface SampleItem {
     decoratedDescriptionHtml: string
     addedAt: string
     status: string
-    video: Video
-}
-
-export interface Video {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: VideoThumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null
-    owner: Owner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface VideoThumbnail {
-    url: string
-    middleUrl: string
-    largeUrl: string
-    listingUrl: string
-    nHdUrl: string
-}
-
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface SeriesThumbnail {
-    url: string
-    middleUrl: null | string
-    largeUrl: null | string
-    listingUrl: string
-    nHdUrl: string
+    video: VideoItem
 }
 
 interface Recipe {

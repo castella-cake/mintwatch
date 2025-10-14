@@ -12,18 +12,18 @@
         color: var(--textcolor1);
     }
 
-    > .shogi-genre-stats-page-selector {
+    > .pageselector-container[data-is-vertical="false"] {
         grid-area: page;
     }
 
-    .shogi-genre-item {
+    .videoitem-card {
         position: relative;
         border-radius: var(--radius);
         background: var(--bgcolor2);
         border: var(--border);
     }
 
-    .shogi-genre-item::before {
+    .videoitem-card::before {
         position: absolute;
         content: attr(data-index);
         display: block;
@@ -37,53 +37,25 @@
         opacity: 0.8;
     }
 
-    .shogi-genre-item .info-card {
-        --thumb-height: 9rem;
+    .videoitem-card.info-card {
+        --thumb-height: 8rem;
 
         gap: 12px;
         padding: 14px;
     }
 
-    .info-card-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        -webkit-line-clamp: 1;
-    } 
-
-    .info-card-title, .info-card-subtitle {
-        line-height: 1.5rem;
+    .videoitem-card .info-card-datacolumn {
+        display: flex;
+        gap: 10px;
     }
 
-    img.shogi-video-owner-icon {
-        height: 2rem;
-        border-radius: 1024px;
-        vertical-align: middle;
-        margin-right: 0.5em;
+    .genericitem-owner {
+        flex-direction: row;
+        align-items: center;
     }
 
-    .shogi-video-owner {
-        text-decoration: none;
-        pointer-events: auto;
-        display: block;
-
-        /* margin-top: 1rem; */
-        width: max-content;
-        max-width: 100%;
-        padding: 4px 8px 4px 4px;
-        border-radius: var(--radius);
-    }
-
-    .shogi-video-owner:hover {
-        background: var(--hover1);
-    }
-
-    .shogi-video-count {
-        font-size: 0.9rem;
-        line-height: 1.2em;
-    }
-
-    .info-card-counts svg {
-        vertical-align: baseline;
+    .videoitem-card .info-card-subtitle {
+        place-self: start;
     }
 
     .shogi-genre-teiban-selector-container {
@@ -144,21 +116,6 @@
         gap: 8px;
     }
 
-    .shogi-genre-page-button {
-        text-decoration: none;
-        padding: 4px 8px;
-        background: var(--bgcolor2);
-        margin-right: 8px;
-        border: var(--border);
-        border-radius: var(--radius);
-
-        &[data-is-active="true"] {
-            background: var(--textcolor1);
-            color: var(--bgcolor1);
-            font-weight: bold;
-        }
-    }
-
     .shogi-genre-stats {
         display: flex;
         flex-direction: column;
@@ -187,16 +144,6 @@
 
     .shogi-genre-tag {
         color: var(--textcolor2);
-    }
-
-    .shogi-genre-stats .shogi-genre-page-button {
-        display: block;
-        margin-bottom: 8px;
-        margin-right: 0;
-
-        &::before {
-            content: "Page "
-        }
     }
 
     .shogi-genre-genretitle {
@@ -230,13 +177,6 @@
             font-weight: bold;
         }
     }
-
-    .shogi-genre-stats-pagination {
-        margin-bottom: 8px;
-        font-size: 0.9rem;
-        color: var(--textcolor2);
-    }
-
 
     .shogi-genre-term-title {
         color: var(--textcolor2);

@@ -106,6 +106,9 @@
     gap: 0;
     border: var(--border);
     height: fit-content;
+    flex: 1;
+    max-width: 32rem;
+    transition: max-width 0.2s ease;
 
     .searchbox-typeselector {
         font-size: 1.5rem;
@@ -113,13 +116,24 @@
     }
 
     .searchbox-type-text {
-        display: none;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        line-height: 1em;
+        height: 1em;
+        text-align:center;
     }
 
     .searchbox-type-item {
-        padding: 4px;
-        border-radius: 8px;
+        display: grid;
+        grid-template-columns: auto 0;
+        text-align: left;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 4px 6px;
+        border-radius: 6px;
         color: var(--textcolor3);
+        transition: var(--transition-normal), grid-template-columns 0.15s ease;
 
         svg {
             width: 1.25rem;
@@ -129,17 +143,22 @@
 
     .searchbox-type-item.searchbox-type-active {
         color: var(--textcolor1);
-        padding: 4px;
+        padding: 4px 6px;
     }
 
     .searchbox-inputcontainer {
+        flex: 1;
+
         input {
             border: none;
             border-left: var(--border);
             border-radius: 0;
+            padding: 0 0.5em;
+            width: auto;
+            flex: 1;
         }
 
-        button {
+        > button {
             background: var(--accent1);
             border: none;
             padding: 6px 12px;
@@ -150,11 +169,30 @@
             }
         }
     }
+
+    &[data-in-search-page="true"] {
+        max-width: 64rem;
+
+        .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
+            display: grid;
+        }
+
+        .searchbox-type-item.searchbox-type-active {
+            grid-template-columns: auto 5em;
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+            font-weight: bold;
+        }
+
+        .searchbox-inputcontainer input[type="text"] {
+            background: var(--bgcolor1);
+        }
+    }
 }
 
 .navbar-background-player-container {
     display: flex;
-    max-height: calc(var(--navbar-height) - 16px);
+    max-height: calc(var(--navbar-height) - 8px);
     align-items: center;
     gap: 8px;
     background: var(--bgcolor1);
@@ -195,6 +233,8 @@
 
 .navbar-right-separator {
     margin-left: auto;
+    border-left: var(--border);
+    height: 50%;
 }
 
 .header-container[data-navbar-type="dynamic"] .navbar-container {

@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: nowrap;
     white-space: nowrap;
+    position: relative;
 
     input {
         background: var(--bgcolor2);
@@ -11,9 +12,10 @@
         padding: 0.5em;
         width: 16em;
         border-bottom-left-radius: var(--radius);
+        transition: width 0.2s ease, var(--transition-normal);
     }
 
-    button {
+    > button {
         border: 1px solid var(--accent1);
         background: var(--bgcolor2);
         color: var(--textcolor1);
@@ -28,8 +30,44 @@
         }
     }
 
-    button:hover {
+    > button:hover {
         background: var(--hover1);
+    }
+    
+    .searchbox-expand {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-top: none;
+        border-bottom-left-radius: var(--radius);
+        border-bottom-right-radius: var(--radius);
+        box-shadow: var(--box-shadow);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+
+        .searchbox-expand-item {
+            text-align: left;
+            background: var(--bgcolor2);
+            color: var(--textcolor1);
+            border: none;
+            padding: 8px;
+
+            &:hover, &:focus-visible {
+                background: var(--hover1);
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+
+    &:not(:has(:focus, :focus-visible)) .searchbox-expand {
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
     }
 }
 
@@ -37,7 +75,7 @@
     display: flex;
     gap: 4px;
 
-    button.searchbox-type-item {
+    .searchbox-type-item {
         background: var(--bgcolor2);
         border: none;
         color: var(--textcolor1);
@@ -53,7 +91,11 @@
         }
     }
 
-    button.searchbox-type-item.searchbox-type-active {
+    .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
+        display: none;
+    }
+
+    .searchbox-type-item.searchbox-type-active {
         background: var(--bgcolor3);
         padding: 4px 8px;
     }

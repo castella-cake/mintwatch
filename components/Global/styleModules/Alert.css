@@ -154,3 +154,8 @@
     color: var(--textcolor3);
     cursor: not-allowed;
 }
+
+.alert-container:not(:has(.alert-icon)) {
+    display: flex;
+    flex-direction: column;
+}
