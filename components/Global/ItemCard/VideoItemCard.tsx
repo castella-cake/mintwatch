@@ -1,6 +1,7 @@
 import { IconCancel, IconCircleX, IconClockFilled, IconDots } from "@tabler/icons-react"
 import { Card } from "../InfoCard"
 import "./styles/genericItem.css"
+import "./styles/mylistAddAlert.css"
 import { useTransitionState } from "react-transition-state"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { Mylists } from "@/components/PMWatch/modules/Mylists"
