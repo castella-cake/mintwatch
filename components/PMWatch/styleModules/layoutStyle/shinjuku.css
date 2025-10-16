@@ -466,4 +466,19 @@
     .tags-editbutton::after {
         content: "】";
     }
+
+    .commentlist-externalmenu button, .comment-timemachine-container button {
+        border: 2px outset #aaa;
+        background: linear-gradient(#ddd, #bbb);
+        color: #222;
+        
+        &:hover {
+            background: linear-gradient(#eee, #ccc);
+        }
+
+        &:active {
+            border: 2px inset #aaa;
+            background: linear-gradient(#ccc, #aaa);
+        }
+    }
 }
