@@ -125,8 +125,11 @@
         text-align:center;
     }
 
-    .searchbox-type-item {
+    .searchbox-type-item:not([data-searchtype="series"], [data-searchtype="user"]) {
         display: grid;
+    }
+
+    .searchbox-type-item {
         grid-template-columns: auto 0;
         text-align: left;
         align-items: center;
@@ -172,7 +175,7 @@
     }
 }
 
-.navbar-container .searchbox-container[data-in-search-page="true"] {
+.header-container:not([data-navbar-type="shinjuku"]) .navbar-container .searchbox-container[data-in-search-page="true"] {
     max-width: 64rem;
 
     .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
