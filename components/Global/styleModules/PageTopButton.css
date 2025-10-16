@@ -30,3 +30,8 @@
         background: var(--hover1);
     }
 }
+
+.router:has(.container[data-background-playing="true"]) .pagetop-button[data-is-fixed="true"] {
+    left: 0;
+    right: auto;
+}

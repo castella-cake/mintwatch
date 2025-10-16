@@ -1,17 +1,22 @@
 .player-background-controller {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0 8px !important;
+    padding: 8px;
+    
     .navbar-background-player-title-subtitle {
         font-size: 0.9rem;
+        grid-row: 1/2;
     }
 
     .navbar-background-player-title {
-        text-align: center;
+        text-align: left;
+        flex: 1;
     }
 
     button {
+        grid-row: 1/ 3;
         background: transparent;
         color: var(--textcolor1);
         border: none;
@@ -28,7 +33,8 @@
             vertical-align: middle;
         }
     }
+
+    .cd-marquee-wrapper {
+        min-width: 0;
+    }
 }
-
-
-
