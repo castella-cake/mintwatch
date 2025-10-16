@@ -41,15 +41,18 @@
     }
 
     &[data-settings-size="0"] {
-        --page-padding: 14%;
+        --page-padding: 1%;
+        --page-max-width: round(up, max(70vw, 60rem), 2px);
     }
 
     &[data-settings-size="1"] {
-        --page-padding: 8%;
+        --page-padding: 1%;
+        --page-max-width: round(up, max(82.5vw, 81rem), 2px);
     }
 
     &[data-settings-size="2"] {
         --page-padding: 1%;
+        --page-max-width: round(up, 95vw, 2px);
     }
 
     &[data-shinjuku-font-type="dotGothic"] {
@@ -99,6 +102,8 @@
 .watch-container-grid {
     display: grid; 
     width: 100%;
+    max-width: var(--page-max-width, round(98vw, 1px));
+    min-width: 55rem;
 
     // grid-auto-rows: 1fr; 
     grid-template-rows: repeat(3, max-content);

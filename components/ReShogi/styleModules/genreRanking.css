@@ -1,8 +1,8 @@
 .shogi-genre-ranking {
     display: grid;
-    width: min(95vw, 91em);
+    width: min(95vw, 95em);
     padding: 1rem 0;
-    grid-template-columns: 1fr 50rem 1fr;
+    grid-template-columns: minmax(15rem, 1fr) minmax(40rem, 2.75fr) minmax(15rem, 1fr);
     grid-template-areas: "feat feat feat" ". items trend" ". page .";
     position: relative;
     margin: 0 auto;

@@ -8,8 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.10.0 - 2025/10
 
 ### Added
+- 「マイリストに追加」をホバーすることでマイリストへすぐに追加できるようになりました [#43](https://github.com/castella-cake/mintwatch/issues/43)
 - 検索ページを追加しました [#47](https://github.com/castella-cake/mintwatch/issues/47)
-- 
+- 検索バーでサジェストが表示されるようになりました [#46](https://github.com/castella-cake/mintwatch/issues/46)
+- Shinjuku のドットフォントはデフォルトで新宿ドットゴシック12に変更されました [#61](https://github.com/castella-cake/mintwatch/issues/61)   
+  可読性を重視したい場合は、詳細設定からMSゴシックに戻したり、ドットフォントを使わないように変更できます。
+
+### Changed
+- Shinjuku プレイヤーのアイコンは独自のものに変更されました [#61](https://github.com/castella-cake/mintwatch/issues/61)
+- レイアウトが Shinjuku に設定された場合に、専用のナビゲーションバーが表示されるようになりました
+- ページのスケール方法が変更されました
+- ランキングページの動画カードは検索ページと同じものが使用されるようになりました
 
 ## 0.9.2 - 2025/10/04
 

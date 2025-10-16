@@ -12,6 +12,7 @@
 
     .watch-container-grid {
         grid-template: "vid" 1fr / 1fr;
+        min-width: 0;
     }
 
     .watch-container-grid > :not(.player-container) {

@@ -2,7 +2,7 @@
     display: grid;
     width: min(95vw, 95em);
     padding: 1rem 0;
-    grid-template-columns: 1fr 60rem 1fr;
+    grid-template-columns: minmax(15rem, 1fr) minmax(40rem, 3.5fr) minmax(15rem, 1fr);
     position: relative;
     margin: 0 auto;
     gap: 0.5rem 1rem;

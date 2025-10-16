@@ -28,4 +28,5 @@ a.search-nicodic-link {
     border: var(--border);
     box-shadow: var(--box-shadow);
     font-size: 0.9rem;
+    white-space: nowrap;
 }
