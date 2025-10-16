@@ -19,7 +19,11 @@
         min-width: 0;
     }
 
-    .watch-container-grid > :not(.player-container) {
+    .watch-container[data-watch-type="shinjuku"] .watch-container-grid {
+        grid-template: "spl" 1fr / 1fr;
+    }
+
+    .watch-container-grid > :not(.player-container, .shinjuku-player-container), .shinjuku-player-container .watch-container-rightaction {
         display: none;
     }
 

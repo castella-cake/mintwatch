@@ -2,9 +2,10 @@
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto auto;
+    align-items: center;
     gap: 0 8px !important;
     padding: 8px;
-    
+
     .navbar-background-player-title-subtitle {
         font-size: 0.9rem;
         grid-row: 1/2;
