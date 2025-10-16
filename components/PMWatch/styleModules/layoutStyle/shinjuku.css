@@ -120,6 +120,11 @@
         background: transparent;
         text-align: left;
         height: auto;
+
+        option {
+            background: #252525;
+            color: #fafafa;
+        }
     }
 
     // 動画アクション(いいね等)
