@@ -11,6 +11,10 @@
     letter-spacing: -1px;
     font-size: 14px;
 
+    .playercontroller-container-middle {
+        min-height: 32px;
+    }
+
     .playercontroller-container-left {
         flex: 1;
         padding-left: 1px;
@@ -116,6 +120,7 @@
 
     .seekbar-container {
         flex: 1;
+        margin: 0;
     }
 
     .playercontroller-qualityselect {
