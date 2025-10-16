@@ -170,11 +170,11 @@
     opacity: 1;
     transition: opacity 0.3s ease;
 
-    --bgcolor1: #000a;
-    --bgcolor2: #1a1a1aef;
+    --bgcolor1: #1a1a1aaa;
+    --bgcolor2: #252525aa;
     --bgcolor3: #3a3a3aaf;
     --bgcolor4: #6a6a6aaf;
-    --accent1: #1e1e1eaf;
+    --accent1: #202020af;
     --accent2: #2a2a2aaf;
     --hover1: #404040af;
     --hover2: #5a5a5aaf;
