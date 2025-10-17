@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Shinjuku レイアウトを使用している場合にミニプレイヤーが見えない問題を修正しました
+- 動画アクションモーダルの軽微なスタイルの問題を修正しました
 
 ## 0.9.2 - 2025/10/04
 
