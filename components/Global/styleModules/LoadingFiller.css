@@ -26,7 +26,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    animation: barspinner 2s linear infinite;
+    animation: barspinner 1.6s ease-out infinite;
     top: 0;
     bottom: 0;
 }
@@ -42,7 +42,7 @@
     right: 0;
     transform: scale(0);
     opacity: 0.8;
-    animation: barspinner 2s 1s linear infinite;
+    animation: barspinner 1.6s 0.8s ease-out infinite;
 }
 
 @keyframes barspinner {
