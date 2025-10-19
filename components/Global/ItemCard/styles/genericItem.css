@@ -113,6 +113,11 @@
         flex-direction: row;
         width: 100%;
         align-items: center;
+        min-height: 2em;
+    }
+
+    .info-card-counts {
+        min-height: 15px;
     }
 
     .genericitem-owner {
