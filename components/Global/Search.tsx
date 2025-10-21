@@ -55,7 +55,7 @@ function Search() {
     }
 
     return (
-        <div className="searchbox-container" id="pmw-searchbox" data-in-search-page={returnSearchWhatWeReIn(location.pathname) !== undefined}>
+        <search className="searchbox-container" id="pmw-searchbox" data-in-search-page={returnSearchWhatWeReIn(location.pathname) !== undefined}>
             <div className="searchbox-typeselector">
                 {searchTypeKeys.map((elem, index) => {
                     const isActive = currentSearchType === elem
@@ -116,7 +116,7 @@ function Search() {
                     </div>
                 )}
             </div>
-        </div>
+        </search>
     )
 }
 

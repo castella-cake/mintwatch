@@ -11,7 +11,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode }: { 
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
     return (
-        <div className="navbar-container" id="pmw-navbar">
+        <nav className="navbar-container" id="pmw-navbar">
             <button
                 className="navbar-sidemenu-button"
                 title="サイドメニューを切り替え"
@@ -47,6 +47,6 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode }: { 
                         </>
                     )}
 
-        </div>
+        </nav>
     )
 }

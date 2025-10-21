@@ -25,7 +25,7 @@ export default function Alert() {
         <div className="alert-wrapper" data-animation={status}>
             <ReactFocusLock>
                 {thisAlert && (
-                    <div className="alert-container">
+                    <div className="alert-container" role="alertdialog">
                         { thisAlert.icon !== null && <div className="alert-icon">{thisAlert.icon ?? <IconInfoCircle />}</div> }
                         <div className="alert-title">{thisAlert.title}</div>
                         { thisAlert.body && <div className="alert-body">{thisAlert.body}</div> }

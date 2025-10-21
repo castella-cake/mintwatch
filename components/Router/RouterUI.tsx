@@ -128,15 +128,17 @@ export default function RouterUI() {
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal nodeRef={mintModalElemRef} />
-            <MatchWatchPage targetPathname="/watch">
-                <WatchBody />
-            </MatchWatchPage>
-            <Match targetPathname="/ranking">
-                <ShogiBody />
-            </Match>
-            <Match targetPathname={searchPagePaths}>
-                <SearchBody />
-            </Match>
+            <main>
+                <MatchWatchPage targetPathname="/watch">
+                    <WatchBody />
+                </MatchWatchPage>
+                <Match targetPathname="/ranking">
+                    <ShogiBody />
+                </Match>
+                <Match targetPathname={searchPagePaths}>
+                    <SearchBody />
+                </Match>
+            </main>
             <Alert />
             <Toast />
         </div>
