@@ -47,7 +47,7 @@
 
     &[data-settings-size="1"] {
         --page-padding: 1%;
-        --page-max-width: round(up, max(82.5vw, 81rem), 2px);
+        --page-max-width: round(up, max(82.5vw, 88rem), 2px);
     }
 
     &[data-settings-size="2"] {
