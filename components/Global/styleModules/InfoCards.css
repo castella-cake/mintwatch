@@ -76,44 +76,10 @@
     transform: translateX(-50%);
 }
 
-.info-card-externalbutton-context {
+.info-card-externalbutton-context.generic-contextmenu {
     pointer-events: auto;
-    background: var(--modal-background);
-    border: var(--border);
-    border-radius: var(--radius);
-    box-shadow: 0 0 4px #0008;
-    padding: 4px;
-    display: flex;
-    flex-direction: column;
     position: absolute;
     left: 4px;
-    width: fit-content;
-    gap: 4px;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-
-    &[data-animation="preEnter"], &[data-animation="exiting"] {
-        opacity: 0;
-        transform: translateY(-10%);
-    }
-
-    &[data-animation="exited"] {
-        display: none;
-    }
-}
-
-.info-card-externalbutton-context button {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 8px 12px;
-    text-align: left;
-    cursor: pointer;
-    border-radius: var(--radius);
-    transition: var(--transition-normal);
-    
-    &:hover {
-        background: var(--hover1);
-    }
 }
 
 .info-card-durationtext {

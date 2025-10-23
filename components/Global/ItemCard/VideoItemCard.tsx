@@ -122,37 +122,40 @@ function ExternalButton({ smId, title }: { smId: string, title: string }) {
                 <IconDots />
             </button>
             { isMounted && (
-                <div className="info-card-externalbutton-context" data-animation={status}>
+                <div className="info-card-externalbutton-context generic-contextmenu" data-animation={status}>
                     <button
+                        className="generic-contextmenu-item"
                         onClick={handleAddToWatchLater}
                         disabled={isWatchLaterAdding}
                     >
                         あとで見る
                     </button>
-                    <button onClick={() => {
-                        showAlert({
-                            title: "マイリストに追加",
-                            icon: null,
-                            body: (
-                                <div className="mylist-add-alert">
-                                    <div className="mylist-add-alert-title">
-                                        <strong>{title}</strong>
-                                        {" "}
-                                        をマイリストに追加します
+                    <button
+                        className="generic-contextmenu-item"
+                        onClick={() => {
+                            showAlert({
+                                title: "マイリストに追加",
+                                icon: null,
+                                body: (
+                                    <div className="mylist-add-alert">
+                                        <div className="mylist-add-alert-title">
+                                            <strong>{title}</strong>
+                                            {" "}
+                                            をマイリストに追加します
+                                        </div>
+                                        <Mylists smId={smId} />
                                     </div>
-                                    <Mylists smId={smId} />
-                                </div>
-                            ),
-                            customCloseButton: [
-                                {
-                                    key: "close",
-                                    text: "おしまい",
-                                    primary: true,
-                                },
-                            ],
-                        })
-                        toggle(false)
-                    }}
+                                ),
+                                customCloseButton: [
+                                    {
+                                        key: "close",
+                                        text: "おしまい",
+                                        primary: true,
+                                    },
+                                ],
+                            })
+                            toggle(false)
+                        }}
                     >
                         マイリストに追加
                     </button>
