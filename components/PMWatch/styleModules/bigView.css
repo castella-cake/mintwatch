@@ -40,7 +40,7 @@
         }
     }
 
-    .watch-container-grid > div:not(.player-container, .watch-container-rightaction, .shinjuku-player-container) {
+    .watch-container-grid > :not(.player-container, .watch-container-rightaction, .shinjuku-player-container) {
         display: none !important;
     }
 
