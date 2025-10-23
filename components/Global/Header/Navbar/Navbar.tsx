@@ -31,7 +31,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode }: { 
                             </a>
                         )}
             </div>
-            <Search />
+            <Search enableHotKey={true} />
             { isShinjukuMode
                 ? (
                         <>

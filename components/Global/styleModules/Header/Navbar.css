@@ -253,7 +253,7 @@
 }
 
 .header-container[data-navbar-type="dynamic"]:hover .navbar-container, 
-.header-container[data-navbar-type="dynamic"] .navbar-container:has(input:focus) 
+.header-container[data-navbar-type="dynamic"] .navbar-container:focus-within,
 .header-container[data-navbar-type="dynamic"]:has(.sidemenu-container) .navbar-container {
     height: var(--navbar-height);
     opacity: 1;

@@ -103,6 +103,12 @@ export default function RouterUI() {
         if (e.target instanceof Element) {
             if (e.target.closest("input, textarea")) return true
         }
+        if (e.key === "/") {
+            setHeaderActionState(false)
+            setMintConfigShown(false)
+            setSideMenuShown(false)
+            return false
+        }
         if (e.key.toLowerCase() === "?") {
             e.preventDefault()
             setMintConfigShown("shortcuts")
