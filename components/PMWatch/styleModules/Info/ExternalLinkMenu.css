@@ -29,3 +29,8 @@
     right: 0;
     z-index: 1000;
 }
+
+.watch-container[data-watch-type="3col"] .videoinfo-externallink-menu.generic-contextmenu {
+    left: 0;
+    right: auto;
+}

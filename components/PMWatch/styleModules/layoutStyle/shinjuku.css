@@ -341,6 +341,11 @@
         gap: 0;
     }
 
+    // タイトルのボタン位置調整
+    .videoinfo-titlecontainer {
+        align-self: stretch;
+    }
+
     // 動画概要
     .videoinfo-container details {
         border: 2px solid var(--textcolor1);

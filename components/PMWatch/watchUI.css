@@ -239,6 +239,7 @@
     grid-template-areas: "tit tit tit" "inf vid act" "rec rec rec" "srs srs srs" "btm btm btm" "sch sch sch";
 
     --page-padding: 0%;
+    --page-max-width: 100vw;
 }
 
 [data-watch-type="shinjuku"] .watch-container-grid {
