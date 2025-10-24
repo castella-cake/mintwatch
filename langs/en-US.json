@@ -65,7 +65,7 @@
         },
         "navbarType": {
             "name": "Navigation bar display type",
-            "hint": "Set how to display the navigation bar. It is hidden by default when using Shinjuku.",
+            "hint": "Set how to display the navigation bar. This setting is ignored in Shinjuku layout.",
             "select": ["Always show", "Open on hover", "Hide"]
         },
 
