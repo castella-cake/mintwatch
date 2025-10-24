@@ -21,6 +21,7 @@ type FixtureType = {
     extensionId: string
     mockApi: () => Promise<void>
     enableSearchPage: () => Promise<void>
+    enableRankingPage: () => Promise<void>
 }
 
 export const test = base.extend<FixtureType>({
@@ -155,10 +156,17 @@ export const test = base.extend<FixtureType>({
     enableSearchPage: async ({ page, extensionId }, use) => {
         async function enableSearchPageFunction() {
             await page.goto(`chrome-extension://${extensionId}/settings.html`)
-            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the search page" }).check()
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the search page" }).click()
         }
 
         await use(enableSearchPageFunction)
+    },
+    enableRankingPage: async ({ page, extensionId }, use) => {
+        async function enableRankingPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).click()
+        }
+        await use(enableRankingPageFunction)
     },
 })
 export const expect = test.expect

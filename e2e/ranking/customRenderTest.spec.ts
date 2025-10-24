@@ -1,11 +1,8 @@
 import { expect, test } from "../fixtures"
 
-test("Ranking: Custom rendering test", async ({ page, mockApi, extensionId }) => {
+test("Ranking: Custom rendering test", async ({ page, mockApi, enableRankingPage }) => {
     await mockApi()
-
-    await page.goto(`chrome-extension://${extensionId}/settings.html`)
-
-    await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).check()
+    await enableRankingPage()
 
     await page.goto("https://www.nicovideo.jp/ranking/custom")
     await page.bringToFront()
