@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 検索バーでサジェストが表示されるようになりました [#46](https://github.com/castella-cake/mintwatch/issues/46)
 - Shinjuku のドットフォントはデフォルトで新宿ドットゴシック12に変更されました [#61](https://github.com/castella-cake/mintwatch/issues/61)   
   可読性を重視したい場合は、詳細設定からMSゴシックに戻したり、ドットフォントを使わないように変更できます。
+- スラッシュキーを押すことでナビゲーションバーの検索ボックスにフォーカスできるようになりました
+- 動画情報に外部リンクを表示するメニューが追加されました[#56](https://github.com/castella-cake/mintwatch/issues/56)
 
 ### Changed
 - Shinjuku プレイヤーのアイコンは独自のものに変更されました [#61](https://github.com/castella-cake/mintwatch/issues/61)
@@ -21,10 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ランキングページの動画カードは検索ページと同じものが使用されるようになりました
 - ミニプレイヤーのデザインが変更されました
 - 統合表示プレイヤーのパレットを微調整しました
+- 各要素に適切なロールが追加されました
 
 ### Fixed
 - Shinjuku レイアウトを使用している場合にミニプレイヤーが見えない問題を修正しました
 - 動画アクションモーダルの軽微なスタイルの問題を修正しました
+- 画面幅が小さい場合のフォールバックを修正しました
 
 ## 0.9.2 - 2025/10/04
 
