@@ -169,6 +169,7 @@
         .watch-container-grid {
             display: flex;
             flex-direction: column;
+            min-width: 20rem;
         }
 
         .stacker-container {
@@ -196,6 +197,10 @@
 
         .commentlist-list-container:has(.commentlist-list-item[aria-hidden="false"]) {
             max-height: 50vh;
+
+            > div {
+                height: 50vh !important;
+            }
         }
 
         .commentlist-list-container:has(.commentlist-list-item[aria-hidden="true"]) {
