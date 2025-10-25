@@ -16,8 +16,7 @@ export default function ShogiBody() {
                 <span className="shogi-yorokobi-submessage">この機能は実験的です。もし気になった点があれば、気軽にフィードバックをお願いします。</span>
             </div>
             <div className="shogi-type-selector">
-                <HistoryAnchor className="shogi-type-selector-button" aria-disabled="true">For you(Coming soon)</HistoryAnchor>
-                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/custom")} href="/ranking/custom">メイン</HistoryAnchor>
+                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/custom")} href="/ranking/custom">カスタムランキング</HistoryAnchor>
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">総合ランキング</HistoryAnchor>
             </div>
             <ShogiContent />

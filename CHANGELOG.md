@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ミニプレイヤーのデザインが変更されました
 - 統合表示プレイヤーのパレットを微調整しました
 - 各要素に適切なロールが追加されました
+- ランキングページの「For you」ボタンは、実装の見込みがなくなったため削除されました
 
 ### Fixed
 - Shinjuku レイアウトを使用している場合にミニプレイヤーが見えない問題を修正しました
