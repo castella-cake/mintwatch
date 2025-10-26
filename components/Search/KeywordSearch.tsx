@@ -19,7 +19,7 @@ export function KeywordSearch() {
     const currentPageIndex = Number.isNaN(Number(pathUrl.searchParams.get("page") ?? "1")) ? 1 : Number(pathUrl.searchParams.get("page") ?? "1")
     const currentSort = pathUrl.searchParams.get("sort") ?? undefined
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
-    const reducedObj = [...pathUrl.searchParams.entries()].reduce((prev, entry) => ({ ...prev, [entry[0]]: entry[1] }), {})
+    const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
