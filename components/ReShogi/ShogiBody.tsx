@@ -12,7 +12,7 @@ export default function ShogiBody() {
         <div className="container reshogi-container">
             <div className="shogi-type-selector">
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/custom")} href="/ranking/custom">カスタムランキング</HistoryAnchor>
-                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">総合ランキング</HistoryAnchor>
+                <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">ジャンルランキング</HistoryAnchor>
             </div>
             <ShogiContent />
             <PageTopButton isLabelShown={false} isFixed={true} />
