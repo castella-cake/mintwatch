@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   可読性を重視したい場合は、詳細設定からMSゴシックに戻したり、ドットフォントを使わないように変更できます。
 - スラッシュキーを押すことでナビゲーションバーの検索ボックスにフォーカスできるようになりました
 - 動画情報に外部リンクを表示するメニューが追加されました[#56](https://github.com/castella-cake/mintwatch/issues/56)
+- ジャンルランキングにタイトルが追加されました
+- タグランキングを開いている場合に、親ジャンルに戻るボタンを追加しました
 
 ### Changed
 - Shinjuku プレイヤーのアイコンは独自のものに変更されました [#61](https://github.com/castella-cake/mintwatch/issues/61)
@@ -24,7 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ミニプレイヤーのデザインが変更されました
 - 統合表示プレイヤーのパレットを微調整しました
 - 各要素に適切なロールが追加されました
+- 「総合ランキング」は「ジャンルランキング」に名前を変更しました
+
+### Removed
 - ランキングページの「For you」ボタンは、実装の見込みがなくなったため削除されました
+- ランキングページの実験的バナーは削除されました  
+  視聴ページ以外の機能は依然として実験的です。
 
 ### Fixed
 - Shinjuku レイアウトを使用している場合にミニプレイヤーが見えない問題を修正しました
