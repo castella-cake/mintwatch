@@ -291,6 +291,9 @@ label {
 	width: 64px;
 }
 
+.desc {
+    white-space: pre-wrap;
+}
 
 .settinglink {
 	text-decoration: none;

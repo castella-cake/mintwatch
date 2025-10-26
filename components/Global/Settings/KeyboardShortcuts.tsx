@@ -154,13 +154,22 @@ export function KeyboardShortcuts() {
                     <kbd>M</kbd>
                 </KeyShortcutBlock>
             </div>
-            <kbd>Shift+/</kbd>
-            {" "}
-            を押すと、このヘルプをすぐに表示できます。
-            <br />
-            <kbd>Esc</kbd>
-            {" "}
-            を押すとこのウィンドウを閉じます。
+            <p>
+                <kbd>Shift+/</kbd>
+                {" "}
+                を押すと、このヘルプをすぐに表示できます。
+                <br />
+                <kbd>Esc</kbd>
+                {" "}
+                を押すとこのウィンドウを閉じます。
+            </p>
+            <p>
+                <kbd>/</kbd>
+                {" "}
+                を押すことで、いつでもナビゲーションバーの検索ボックスにフォーカスできます。
+                <br />
+                (ナビゲーションバーが「非表示」の場合は使用できません)
+            </p>
             <KeyShortcutBlock title="これらを知って MintWatch MintWatch Revolution 皆伝になろう">
                 <span className="pmw-keyboard-shortcut-key-text">
                     このヘルプにフォーカスした状態で

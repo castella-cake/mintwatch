@@ -1,5 +1,6 @@
 import { MylistResponseRootObject } from "@/types/mylistData"
 import { MylistsResponseRootObject } from "@/types/mylistsData"
+import APIError from "../classes/APIError"
 
 /**
  * 指定したマイリストの内容を取得するAPI
@@ -18,7 +19,9 @@ export async function getMylist(mylistId: string | number, sortKey: string, sort
         },
         method: "GET",
     })
-    return await response.json() as MylistResponseRootObject
+    const responseJson = await response.json() as MylistResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getMylist failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -35,7 +38,9 @@ export async function getMylists() {
         method: "GET",
         mode: "cors",
     })
-    return await response.json() as MylistsResponseRootObject
+    const responseJson = await response.json() as MylistsResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getMylists failed.", responseJson)
+    return responseJson
 }
 
 /**
@@ -43,7 +48,7 @@ export async function getMylists() {
  * @param mylistId マイリストのID
  * @param itemId 動画ID
  * @param requestWith これを行ったページのURL
- * @returns
+ * @returns status は追加完了で 201, 既に追加済みの場合は 200 を返す
  */
 export async function addItemToMylist(mylistId: string | number, itemId: string | number, requestWith: string) {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/mylists/${encodeURIComponent(mylistId)}/items?itemId=${encodeURIComponent(itemId)}`, {
@@ -58,5 +63,7 @@ export async function addItemToMylist(mylistId: string | number, itemId: string 
         method: "POST",
         mode: "cors",
     })
-    return await response.json() as baseResponse
+    const responseJson = await response.json() as baseResponse
+    if (!validateBaseResponse(responseJson)) throw new APIError("addItemToMylist failed.", responseJson)
+    return responseJson
 }

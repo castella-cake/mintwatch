@@ -111,15 +111,10 @@ function CreateWatchUI() {
         }
     }
 
-    function onModalOutsideClick(e: React.MouseEvent<HTMLDivElement>) {
-        if (e.target instanceof HTMLElement && !videoActionModalElemRef.current?.contains(e.target) && !onboardingPopupElemRef.current?.contains(e.target)) setVideoActionModalState(false)
-    }
-
     return (
         <div
             className={isFullscreenUi ? "container fullscreen" : "container"}
             onKeyDown={handleKeydown}
-            onClick={onModalOutsideClick}
             data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
             data-background-playing={backgroundPlaying}
             data-layout-density={layoutDensity ?? getDefault("layoutDensity")}

@@ -129,7 +129,7 @@ button.modal-close:hover {
     background: var(--bgcolor1);
 }
 
-.modal-left:has(.modal-select:not(.modal-select-bottom)[data-is-active="true"]) .modal-select:not(.modal-select-bottom) {
+.modal-container:not([data-select-placement="top"]) .modal-selector:has(.modal-select:not(.modal-select-bottom)[data-is-active="true"]) .modal-select:not(.modal-select-bottom) {
     border-radius: var(--radius) 0 0 var(--radius);
     margin-right: 0;
 }

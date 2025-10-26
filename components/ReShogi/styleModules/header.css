@@ -1,0 +1,11 @@
+.shogi-header {
+    grid-area: title;
+    font-size: 1.25rem;
+    font-weight: normal;
+    margin: 0;
+}
+
+.shogi-header-genre-sub {
+    opacity: 0.8;
+    font-size: 1rem;
+}

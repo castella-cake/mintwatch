@@ -1,4 +1,4 @@
-export interface Count {
+export interface GenericCount {
     view: number
     comment: number
     mylist: number

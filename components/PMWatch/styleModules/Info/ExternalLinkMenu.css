@@ -1,0 +1,36 @@
+.videoinfo-externallink-container {
+    position: relative;
+}
+
+.videoinfo-externallink-button {
+    background: transparent;
+    border: none;
+    border-radius: var(--radius);
+    color: var(--textcolor1);
+    padding: 4px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background: var(--hover1);
+    }
+
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
+
+.videoinfo-externallink-menu.generic-contextmenu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 1000;
+}
+
+.watch-container[data-watch-type="3col"] .videoinfo-externallink-menu.generic-contextmenu {
+    left: 0;
+    right: auto;
+}

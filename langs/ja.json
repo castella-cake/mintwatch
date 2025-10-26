@@ -44,9 +44,14 @@
             "hint": "パレットを StarNight でオーバーライドします"
         },
 
+        "pageReplaceDescription": {
+            "name": "MintWatch スタイルで再構成されたページを試してください。\nこれらの機能は実験的で、いつでも変更される可能性があります。"
+        },
         "enableReshogi": {
-            "name": "実験的: ランキングページの置き換えを有効化 (Re:将棋盤)",
-            "hint": "ランキングページを再構成されたデザインのランキングページで置き換えます"
+            "name": "実験的: ランキングページの置き換えを有効化 (Re:将棋盤)"
+        },
+        "enableSearchPage": {
+            "name": "実験的: 検索ページの置き換えを有効化"
         },
 
         "enableFixedHeader": {
@@ -60,7 +65,7 @@
         },
         "navbarType": {
             "name": "ナビゲーションバーの表示",
-            "hint": "ナビゲーションバーの表示を設定します。Shinjuku ではデフォルトで非表示になります",
+            "hint": "ナビゲーションバーの表示を設定します。Shinjuku ではこの設定は無視されます",
             "select": ["常に表示", "ホバーで開く", "非表示"]
         },
         
@@ -78,6 +83,10 @@
         },
         "shinjukuEnableNavbar": {
             "name": "Shinjuku レイアウトでナビゲーションバーを表示"
+        },
+        "shinjukuDotFontType": {
+            "name": "Shinjuku で使用するドットフォント",
+            "select": ["新宿ドット12", "MS ゴシック", "無効"]
         },
         "showLiveInRecommend": {
             "name": "おすすめにライブ配信を表示"

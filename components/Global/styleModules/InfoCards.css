@@ -1,4 +1,4 @@
-div.info-card {
+.info-card {
     --thumb-height: 4rem;
 
     display: flex;
@@ -12,7 +12,7 @@ div.info-card {
     position: relative;
 }
 
-a.info-card-link {
+.info-card-link {
     position: absolute;
     inset: 0;
 }
@@ -24,6 +24,8 @@ a.info-card-link {
     align-self: stretch;
     height: var(--thumb-height);
     flex-shrink: 0;
+    border-radius: var(--radius-mini);
+    background: var(--bgcolor1);
 
     img {
         width: 100%;
@@ -37,10 +39,15 @@ a.info-card-link {
     pointer-events: none;
 }
 
-.info-card-thumbnail-button {
+.info-card-externalbutton-wrapper {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.info-card-externalbutton {
     color: rgb(255 255 255);
     font-size: 0.7rem;
     line-height: 1rem;
@@ -63,10 +70,16 @@ a.info-card-link {
     }
 }
 
-.info-card:not(:focus-visible, :hover) .info-card-thumbnail-button {
+.info-card:not(:focus-visible, :hover) .info-card-externalbutton-wrapper:not(:has(.info-card-externalbutton-context)) .info-card-externalbutton {
     pointer-events: none;
     opacity: 0;
     transform: translateX(-50%);
+}
+
+.info-card-externalbutton-context.generic-contextmenu {
+    pointer-events: auto;
+    position: absolute;
+    left: 4px;
 }
 
 .info-card-durationtext {
@@ -216,8 +229,8 @@ a.info-card-link {
     pointer-events: none;
 }
 
-.info-card-count svg {
-    vertical-align: bottom;
+.info-card-count > * {
+    vertical-align: middle;
 }
 
 .info-card-desc {
@@ -228,6 +241,7 @@ a.info-card-link {
     padding-left: 8px;
     border-left: var(--border);
     border-left-width: 2px;
+    pointer-events: none;
 }
 
 .watch-container[data-use-card-recommend="true"] .watchnext-container .info-card, .shogi-ranking-lane-videolist-item .info-card {

@@ -62,6 +62,8 @@ function ToastItem({ toast, onClose }: { toast: IToast, onClose: () => void }) {
             data-animation={status}
             onMouseEnter={() => { setIsHovering(true) }}
             onMouseLeave={() => { setIsHovering(false) }}
+            role="status"
+            aria-live="polite"
         >
             <div className="toast-icon">{toast.icon ?? <IconInfoCircle />}</div>
             <div className="toast-title">{toast.title}</div>

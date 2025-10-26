@@ -14,6 +14,7 @@ import OwnerInfo from "./Owner"
 import UserFollowButton from "./UserFollowButton"
 import Tags from "./Tags"
 import VideoTitle from "./VideoTitle"
+import ExternalLinkMenu from "./ExternalLinkMenu"
 
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div")
@@ -190,42 +191,45 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     return (
         <div className="videoinfo-container" id="pmw-videoinfo">
             <div className="videoinfo-titlecontainer">
-                <div className="videoinfo-titleinfo">
-                    {isShinjukuLayout && (
-                        <div className="uploaddate">
-                            <strong>
-                                {new Date(
-                                    videoInfoResponse.video.registeredAt,
-                                ).toLocaleString("ja-JP")}
-                            </strong>
-                            {" "}
-                            投稿の
-                            {videoInfoResponse.channel ? "公式" : "ユーザー"}
-                            動画
-                            <span className="threeleader"> … </span>
-                            <strong>
-                                {videoInfoResponse.genre.isNotSet
-                                    ? "未設定"
-                                    : videoInfoResponse.genre.label}
+                {isTitleShown && (
+                    <div className="videoinfo-titleinfo">
+                        {isShinjukuLayout && (
+                            <div className="uploaddate">
+                                <strong>
+                                    {new Date(
+                                        videoInfoResponse.video.registeredAt,
+                                    ).toLocaleString("ja-JP")}
+                                </strong>
                                 {" "}
-                            </strong>
-                            カテゴリ
-                            {videoInfoResponse.ranking.teiban
-                                ? (
-                                        <>
-                                            (
-                                            <strong>{videoInfoResponse.ranking.teiban.label}</strong>
-                                            {" "}
-                                            内現在順位:
-                                            {videoInfoResponse.ranking.teiban.rank}
-                                            位)
-                                        </>
-                                    )
-                                : ""}
-                        </div>
-                    )}
-                    {isTitleShown && <VideoTitle showStats={!isShinjukuLayout} />}
-                </div>
+                                投稿の
+                                {videoInfoResponse.channel ? "公式" : "ユーザー"}
+                                動画
+                                <span className="threeleader"> … </span>
+                                <strong>
+                                    {videoInfoResponse.genre.isNotSet
+                                        ? "未設定"
+                                        : videoInfoResponse.genre.label}
+                                    {" "}
+                                </strong>
+                                カテゴリ
+                                {videoInfoResponse.ranking.teiban
+                                    ? (
+                                            <>
+                                                (
+                                                <strong>{videoInfoResponse.ranking.teiban.label}</strong>
+                                                {" "}
+                                                内現在順位:
+                                                {videoInfoResponse.ranking.teiban.rank}
+                                                位)
+                                            </>
+                                        )
+                                    : ""}
+                            </div>
+                        )}
+                        <VideoTitle showStats={!isShinjukuLayout} />
+                    </div>
+                )}
+                <ExternalLinkMenu videoId={videoInfoResponse.video.id} />
                 {!isShinjukuLayout && (
                     <>
                         {videoInfoResponse.owner && (

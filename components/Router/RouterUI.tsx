@@ -10,6 +10,7 @@ import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../
 import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
+import { SearchBody } from "../Search/SearchBody"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -18,17 +19,26 @@ function MatchWatchPage({ targetPathname, children }: { targetPathname: string, 
     return <></>
 }
 
-function Match({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
+function Match({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const location = useLocationContext()
-    if (location.pathname.startsWith(targetPathname)) return children
+    if (
+        (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
+        || (typeof targetPathname === "object" && targetPathname.some(path => location.pathname.startsWith(path)))
+    ) return children
     return <></>
 }
 
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi"] as const)
-    const targetPathnames = syncStorage.enableReshogi ? ["/watch/", "/ranking"] : ["/watch/"]
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const targetPathnames = [
+        "/watch/",
+        ...(syncStorage.enableReshogi ? ["/ranking"] : []),
+        ...(syncStorage.enableSearchPage
+            ? searchPagePaths
+            : []),
+    ]
 
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
@@ -93,6 +103,12 @@ export default function RouterUI() {
         if (e.target instanceof Element) {
             if (e.target.closest("input, textarea")) return true
         }
+        if (e.key === "/") {
+            setHeaderActionState(false)
+            setMintConfigShown(false)
+            setSideMenuShown(false)
+            return false
+        }
         if (e.key.toLowerCase() === "?") {
             e.preventDefault()
             setMintConfigShown("shortcuts")
@@ -118,12 +134,17 @@ export default function RouterUI() {
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal nodeRef={mintModalElemRef} />
-            <MatchWatchPage targetPathname="/watch">
-                <WatchBody />
-            </MatchWatchPage>
-            <Match targetPathname="/ranking">
-                <ShogiBody />
-            </Match>
+            <main>
+                <MatchWatchPage targetPathname="/watch">
+                    <WatchBody />
+                </MatchWatchPage>
+                <Match targetPathname="/ranking">
+                    <ShogiBody />
+                </Match>
+                <Match targetPathname={searchPagePaths}>
+                    <SearchBody />
+                </Match>
+            </main>
             <Alert />
             <Toast />
         </div>

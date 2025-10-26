@@ -13,6 +13,8 @@
         grid-template-columns: 1fr var(--right-width);
         gap: 0;
         z-index: 105;
+        max-width: 100vw;
+        min-width: 0;
     }
 
     &[data-watch-type="shinjuku"] .watch-container-grid {
@@ -38,7 +40,7 @@
         }
     }
 
-    .watch-container-grid > div:not(.player-container, .watch-container-rightaction, .shinjuku-player-container) {
+    .watch-container-grid > :not(.player-container, .watch-container-rightaction, .shinjuku-player-container) {
         display: none !important;
     }
 

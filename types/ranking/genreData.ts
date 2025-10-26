@@ -2,9 +2,7 @@ export interface GenreRankingDataRootObject extends baseResponse {
     data: Data4
 }
 
-interface Data4 {
-    metadata: Metadata
-    googleTagManager: GoogleTagManager
+interface Data4 extends jsonResponseData {
     response: Response
 }
 
@@ -16,7 +14,7 @@ interface Response {
 }
 
 interface Page {
-    pagination: Pagination
+    pagination: GenericPagination
     currentTag: null
     currentTerm: string
     availableTerms: AvailableTerm[]
@@ -28,7 +26,7 @@ interface ForyouRanking {
     featuredKey: string
     label: string
     tag: string
-    items: GenreTeibanRankingItem[]
+    items: VideoItem[]
 }
 
 interface NiconewsRanking {
@@ -43,12 +41,6 @@ interface NiconewsRanking {
 interface AvailableTerm {
     label: string
     value: string
-}
-
-interface Pagination {
-    page: number
-    pageSize: number
-    totalCount: number
 }
 
 interface GetTeibanRankingFeaturedKeys {
@@ -101,82 +93,6 @@ interface GenreTeibanRankingData {
     label: string
     tag: null | string
     maxItemCount: number
-    items: GenreTeibanRankingItem[]
+    items: VideoItem[]
     hasNext: boolean
-}
-
-interface GenreTeibanRankingItem {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: Thumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null
-    owner: Owner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface Thumbnail {
-    url: string
-    middleUrl: null | string
-    largeUrl: null | string
-    listingUrl: string
-    nHdUrl: string
-}
-
-interface GoogleTagManager {
-    user: User
-}
-
-interface User {
-    login_status: string
-    user_id: string
-    member_status: string
-    ui_area: string
-    ui_lang: string
-}
-
-interface Metadata {
-    title: string
-    linkTags: LinkTag[]
-    metaTags: MetaTag[]
-    jsonLds: any[]
-}
-
-interface MetaTag {
-    name?: string
-    content: string
-    property?: string
-}
-
-interface LinkTag {
-    rel: string
-    href: string
-    attrs: Attr | any[] | Attrs3
-}
-
-interface Attrs3 {
-    type: string
-    sizes: string
-}
-
-interface Attr {
-    as: string
 }

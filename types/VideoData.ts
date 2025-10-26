@@ -7,9 +7,7 @@ export interface VideoDataRootObject extends baseResponse {
     data: Data
 }
 
-interface Data {
-    metadata: Metadata
-    googleTagManager: GoogleTagManager
+interface Data extends jsonResponseData {
     response: Response
 }
 
@@ -115,7 +113,7 @@ interface VideoInfo {
     id: string
     title: string
     description: string
-    count: Count
+    count: GenericCount
     duration: number
     thumbnail: Thumbnail3
     rating: Rating
@@ -192,45 +190,9 @@ interface Series {
 }
 
 interface SeriesVideos {
-    prev?: SeriesVideoItem
-    next?: SeriesVideoItem
-    first?: SeriesVideoItem
-}
-
-export interface SeriesVideoItem {
-    type: string
-    id: string
-    title: string
-    registeredAt: string
-    count: Count
-    thumbnail: SeriesThumbnail
-    duration: number
-    shortDescription: string
-    latestCommentSummary: string
-    isChannelVideo: boolean
-    isPaymentRequired: boolean
-    playbackPosition: null | number
-    owner: SeriesOwner
-    requireSensitiveMasking: boolean
-    videoLive: null
-    isMuted: boolean
-}
-
-interface SeriesOwner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
-}
-
-interface SeriesThumbnail {
-    url: string
-    middleUrl: string
-    largeUrl: string
-    listingUrl: string
-    nHdUrl: string
+    prev?: VideoItem
+    next?: VideoItem
+    first?: VideoItem
 }
 
 interface Ranking {
@@ -516,123 +478,6 @@ interface Client {
     nicosid: string
     watchId: string
     watchTrackId: string
-}
-
-interface GoogleTagManager {
-    user: GoogleTagManagerUser
-    content?: GoogleTagManagerContent
-}
-
-interface GoogleTagManagerContent {
-    player_type: string
-    genre: string
-    content_type: string
-}
-
-interface GoogleTagManagerUser {
-    login_status: string
-    user_id?: string
-    member_status?: string
-    ui_area?: string
-    ui_lang?: string
-}
-
-interface Metadata {
-    title: string
-    linkTags: LinkTag[]
-    metaTags: MetaTag[]
-    jsonLds: JsonLd[]
-}
-
-interface JsonLd {
-    "@context": string
-    "@type": string
-    "@id"?: string
-    "name"?: string
-    "description"?: string
-    "caption"?: string
-    "url"?: string
-    "duration"?: string
-    "uploadDate"?: string
-    "embedUrl"?: string
-    "interactionStatistic"?: InteractionStatistic[]
-    "thumbnail"?: Thumbnail[]
-    "thumbnailUrl"?: string[]
-    "requiresSubscription"?: boolean
-    "isAccessibleForFree"?: boolean
-    "commentCount"?: number
-    "keywords"?: string
-    "genre"?: string
-    "playerType"?: string
-    "provider"?: Provider
-    "author"?: Author
-    "itemListElement"?: ItemListElement[]
-}
-
-interface ItemListElement {
-    "@type": string
-    "position": number
-    "item": Item
-}
-
-interface Item {
-    "@id": string
-    "name": string
-}
-
-interface Author {
-    "@type": string
-    "name": string
-    "description": string
-    "url": string
-}
-
-interface Provider {
-    "@type": string
-    "name": string
-}
-
-interface Thumbnail {
-    "@type": string
-    "url": string
-    "width"?: number
-    "height"?: number
-}
-
-interface InteractionStatistic {
-    "@type": string
-    "interactionType": string
-    "userInteractionCount": number
-}
-
-interface MetaTag {
-    name?: string
-    content: string
-    property?: string
-}
-
-interface LinkTag {
-    rel: string
-    href: string
-    attrs: Attr | Attrs2 | Attrs3 | any[] | Attrs5
-}
-
-interface Attrs5 {
-    type: string
-    sizes: string
-}
-
-interface Attrs3 {
-    media: string
-    class: string
-}
-
-interface Attrs2 {
-    class: string
-}
-
-interface Attr {
-    as: string
 }
 
 interface Channel {

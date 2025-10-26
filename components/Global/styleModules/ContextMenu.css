@@ -1,0 +1,45 @@
+.generic-contextmenu {
+    background: var(--modal-background);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 0 4px #0008;
+    overflow: hidden;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        opacity: 0;
+        transform: translateY(-10%);
+    }
+
+    &[data-animation="exited"] {
+        display: none;
+    }
+
+    .generic-contextmenu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        border: none;
+        background: transparent;
+        color: var(--textcolor1);
+        text-decoration: none;
+        transition: var(--transition-normal);
+        white-space: nowrap;
+        border-radius: var(--radius);
+
+        &:hover {
+            background: var(--hover1);
+        }
+
+        svg {
+            height: 1.5em;
+            width: 1.5em;
+        }
+    }
+}

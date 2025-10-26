@@ -53,10 +53,11 @@
     // プレイヤー横タブ
     .watch-container-rightaction {
         .stacker-tabbutton-container {
-            padding: 0 2em;
             gap: 0;
             position: relative;
             top: 3px;
+            padding: 0 8%;
+            white-space: nowrap;
         }
 
         .stacker-tabbutton {
@@ -95,18 +96,18 @@
         }
     }
 
-    // コメントリスト
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title {
+    // スタッカータイトル
+    .shinjuku-player-container .stacker-title {
         min-height: 2.25rem;
         max-height: 2.25rem;
     }
 
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title button {
+    .shinjuku-player-container .stacker-title button {
         padding: 0;
         margin: 0;
     }
 
-    .shinjuku-player-container .commentlist-title-container.global-flex.stacker-title button svg {
+    .shinjuku-player-container .stacker-title button svg {
         height: 1.25rem;
         width: 1.25rem;
         padding: 2px;
@@ -119,6 +120,11 @@
         background: transparent;
         text-align: left;
         height: auto;
+
+        option {
+            background: #252525;
+            color: #fafafa;
+        }
     }
 
     // 動画アクション(いいね等)
@@ -129,6 +135,7 @@
         height: fit-content;
         align-self: end;
         justify-content: right;
+        position: relative;
     }
 
     .video-actions > button, .video-actions > button.video-action-likebutton.active {
@@ -188,7 +195,7 @@
     // 原宿の統計表示+時計とダミー
     .videostat-container {
         font-size: 13px;
-        font-family: "MS Gothic", sans-serif;
+        font-family: var(--shinjuku-font-family, inherit);
         background: #222;
         color: #fff;
         white-space: nowrap;
@@ -199,34 +206,41 @@
     }
 
     .videostat-left-container {
-        font-weight: bold;
+        font-family: var(--shinjuku-dot-font-family, inherit);
+        font-weight: var(--shinjuku-dot-font-weight, bold);
+        font-size: var(--shinjuku-dot-font-size, 13px);
         border: 1px solid #000;
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 55px;
     }
 
-    .videostat-left-container > div {
-        padding: 1px;
+    .videostat-left-container > .videostat-left-row {
         background: linear-gradient(#333, #111, #333);
         display: flex;
         gap: 1em;
+        flex: 1;
+        align-items: center;
+        line-height: 1em;
+        padding: 1px 3px;
 
-        > span:first-child {
+        > .videostat-left-row-label {
             text-align-last: justify;
-            width: 5em;
+            width: 4.5em;
             letter-spacing: -0.25em !important; // 文字間隔の下限を拡張
             overflow: visible;
-            margin-right: -0.75em;
+            margin-right: -0.8em;
         }
     }
 
-    .videostat-left-container > div:not(:last-child) {
+    .videostat-left-container > .videostat-left-row:not(:last-child) {
         border-bottom: 1px solid #000;
     }
 
-    .videostat-left-container > div > span:last-child {
+    .videostat-left-container > .videostat-left-row > .videostat-left-row-value {
         flex: 1;
         text-align: right;
-        padding: 1px;
     }
 
     .videostat-right-container {
@@ -267,6 +281,11 @@
         right: inherit;
         top: inherit;
         bottom: inherit;
+    }
+
+    // マイリストポップアップ
+    .mylistspopup-container {
+        left: -10rem;
     }
 
     // 動画オーナー表示
@@ -322,6 +341,11 @@
         gap: 0;
     }
 
+    // タイトルのボタン位置調整
+    .videoinfo-titlecontainer {
+        align-self: stretch;
+    }
+
     // 動画概要
     .videoinfo-container details {
         border: 2px solid var(--textcolor1);
@@ -343,7 +367,7 @@
 
     .videoinfo-hjdesc-tabbutton {
         margin-left: 0.8rem;
-        border-radius: 8px 8px 0 0;
+        border-radius: 6px 6px 0 0;
         border: 2px solid var(--textcolor1);
         border-bottom: none;
         position: relative;
@@ -365,39 +389,6 @@
         strong {
             font-weight: bold;
             color: var(--textcolor1);
-        }
-    }
-
-    // ロゴ+検索+フィラー
-    .hrjk-header {
-        grid-area: shr;
-        display: flex;
-        gap: 1em;
-        align-items: center;
-
-        .harajuku-logo {
-            display: block;
-            height: max-content;
-
-            > img {
-                filter: var(--hrjk-logo-filter);
-                height: 100%;
-                width: auto;
-            }
-        }
-
-        .harajuku-header-migiue-filler {
-            background: var(--bgcolor2);
-            flex: 1;
-            height: 100%;
-            margin-left: 20%;
-            text-align: center;
-            line-height: 100%;
-            color: var(--textcolor3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0.3;
         }
     }
 
@@ -479,5 +470,20 @@
 
     .tags-editbutton::after {
         content: "】";
+    }
+
+    .commentlist-externalmenu button, .comment-timemachine-container button {
+        border: 2px outset #aaa;
+        background: linear-gradient(#ddd, #bbb);
+        color: #222;
+        
+        &:hover {
+            background: linear-gradient(#eee, #ccc);
+        }
+
+        &:active {
+            border: 2px inset #aaa;
+            background: linear-gradient(#ccc, #aaa);
+        }
     }
 }

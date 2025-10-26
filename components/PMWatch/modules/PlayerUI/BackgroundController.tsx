@@ -1,3 +1,4 @@
+import { CDMarquee } from "@/components/Global/CDMarquee"
 import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useHistoryContext } from "@/components/Router/RouterContext"
@@ -21,11 +22,10 @@ export default function BackgroundController() {
     return (
         <div className="player-background-controller">
             <button onClick={returnToWatch} title="フォアグラウンドに戻す"><IconScreenShare /></button>
-            <div className="navbar-background-player-title">
-                <span className="navbar-background-player-title-subtitle">再生中</span>
-                <br />
-                <span className="navbar-background-player-title-video">{videoInfo?.data.response.video.title}</span>
-            </div>
+            <div className="navbar-background-player-title-subtitle">再生中</div>
+            <CDMarquee>
+                <div className="navbar-background-player-title-video">{videoInfo?.data.response.video.title}</div>
+            </CDMarquee>
             <button onClick={closeBackgroundPlayer} title="ミニプレイヤーを終了"><IconX /></button>
         </div>
     )

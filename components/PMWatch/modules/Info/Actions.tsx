@@ -6,11 +6,12 @@ import {
     IconShare,
     IconSpeakerphone,
 } from "@tabler/icons-react"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, startTransition, useEffect, useState } from "react"
 import { readableInt } from "@/utils/readableValue"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import LikeThanksMessage from "./LikeThanksMessage"
 import { useQueryClient } from "@tanstack/react-query"
+import { MylistsPopup } from "./MylistsPopup"
 
 type Props = {
     children?: ReactNode
@@ -28,8 +29,10 @@ function Actions({ onModalOpen }: Props) {
 
     const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
 
+    const [isMylistsPopupOpen, setIsMylistsPopupOpen] = useState<boolean>(false)
+    const mylistsPopupTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
+
     const queryClient = useQueryClient()
-    // const [isMylistWindowOpen, setIsMylistWindowOpen] = useState<boolean>(false)
     useEffect(() => {
         if (!videoInfo) return
         setTemporalLikeModifier(0)
@@ -107,7 +110,24 @@ function Actions({ onModalOpen }: Props) {
     }
 
     function onMylistClicked() {
-        onModalOpen("mylist")
+        startTransition(() => {
+            onModalOpen("mylist")
+        })
+        // すぐにマイリストポップアップを閉じる
+        setIsMylistsPopupOpen(false)
+        clearTimeout(mylistsPopupTimeoutRef.current)
+    }
+
+    function onMylistMouseEnter() {
+        clearTimeout(mylistsPopupTimeoutRef.current)
+        setIsMylistsPopupOpen(true)
+    }
+
+    function onMylistMouseLeave() {
+        clearTimeout(mylistsPopupTimeoutRef.current)
+        mylistsPopupTimeoutRef.current = setTimeout(() => {
+            setIsMylistsPopupOpen(false)
+        }, 100)
     }
 
     /* function ShareSelector() {
@@ -177,6 +197,8 @@ function Actions({ onModalOpen }: Props) {
                 type="button"
                 className="video-action-mylistbutton"
                 onClick={onMylistClicked}
+                onMouseEnter={onMylistMouseEnter}
+                onMouseLeave={onMylistMouseLeave}
                 title="マイリスト"
             >
                 <IconFolder />
@@ -201,6 +223,7 @@ function Actions({ onModalOpen }: Props) {
                     iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
                 />
             )}
+            <MylistsPopup isOpen={isMylistsPopupOpen} onMouseEnter={onMylistMouseEnter} onMouseLeave={onMylistMouseLeave} onMoreButtonClick={onMylistClicked} />
         </div>
     )
 }

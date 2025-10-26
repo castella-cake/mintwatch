@@ -1,0 +1,14 @@
+.mylist-add-alert {
+    width: min(40rem, 90vw);
+    height: 30rem;
+    overflow: auto;
+}
+
+.mylist-add-alert-title {
+    padding-bottom: 16px;
+    color: var(--textcolor2);
+    position: sticky;
+    top: 0;
+    background: linear-gradient(var(--bgcolor1) 75%, transparent);
+    z-index: 1001;
+}

@@ -1,12 +1,12 @@
-import { IconCheck, IconClockFilled, IconFolderFilled, IconHeartFilled, IconListNumbers, IconMessageFilled, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
+import { IconCheck, IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
-import { SeriesVideoItem } from "@/types/VideoData"
 import { secondsToTime } from "@/utils/readableValue"
 import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
 import { useSetMessageContext } from "./Contexts/MessageProvider"
 import { playlistVideoItem } from "../PMWatch/modules/Playlist"
+import { InfoCardCount } from "./Count"
 
 function Draggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -24,7 +24,7 @@ function Draggable({ id, obj, children }: { id: string, obj: any, children: Reac
 }
 
 type CardProps = {
-    href: string
+    href: string | null
     thumbnailUrl?: string
     thumbText?: ReactNode
     thumbChildren?: ReactNode
@@ -55,13 +55,13 @@ export function Card(props: CardProps) {
     } = props
     return (
         <div className={`info-card ${additionalClassName ?? ""}`} {...additionalAttribute}>
-            <a className="info-card-link" href={href} title={title}></a>
+            { href !== null && <a className="info-card-link" href={href} title={title}></a> }
             { leftMarker && <div className="info-card-leftmarker">{leftMarker}</div>}
-            { thumbnailUrl && (
+            { (thumbnailUrl || thumbChildren) && (
                 <div className="info-card-thumbnail">
-                    <img src={thumbnailUrl} alt={`${title} のサムネイル`} loading={thumbMarkAsLazy ? "lazy" : undefined} />
+                    { thumbnailUrl && <img src={thumbnailUrl} alt={`${title} のサムネイル`} loading={thumbMarkAsLazy ? "lazy" : undefined} /> }
                     { thumbText && <span className="info-card-durationtext">{thumbText}</span> }
-                    {thumbChildren}
+                    { thumbChildren }
                 </div>
             )}
             <div className="info-card-datacolumn">
@@ -151,7 +151,7 @@ export function InfoCardFromRecommend({ omitTypes = [], obj, isExtendedView, ...
     return <div>Unknown contentType</div>
 }
 
-export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: SeriesVideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
+export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: VideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
     return (
         <Draggable id={`${seriesVideoItem.id.toString()}-series-${type || "prev"}`} obj={seriesVideoItem}>
             <Card
@@ -176,58 +176,31 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
     )
 }
 
-export function InfoCardCount({ count, registeredAt }: { count: Count, registeredAt?: string }) {
-    return (
-        <>
-            <span className="info-card-count" data-count-type="view">
-                <IconPlayerPlayFilled />
-                {readableInt(count.view, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="comment">
-                <IconMessageFilled />
-                {readableInt(count.comment, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="mylist">
-                <IconFolderFilled />
-                {readableInt(count.mylist, 1)}
-            </span>
-            <span className="info-card-count" data-count-type="like">
-                <IconHeartFilled />
-                {readableInt(count.like, 1)}
-            </span>
-            {registeredAt && (
-                <span className="info-card-count" data-count-type="registeredAt">
-                    <IconClockFilled />
-                    {relativeTimeFrom(new Date(registeredAt))}
-                </span>
-            )}
-        </>
-    )
-}
-
 export function InfoCardAddToPlaylist({ obj }: { obj: playlistVideoItem | undefined }) {
     const { setPlaylistData } = useControlPlaylistContext()
     const { showToast } = useSetMessageContext()
     const [added, setAdded] = useState(false)
     if (!obj) return
     return (
-        <button
-            className="info-card-thumbnail-button"
-            title="再生キューに追加"
-            onClick={() => {
-                setAdded(true)
-                showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
-                setPlaylistData((playlistData) => {
-                    const itemsAfter = [...playlistData.items, obj]
-                    return {
-                        ...playlistData,
-                        items: itemsAfter,
-                        type: "custom",
-                    }
-                })
-            }}
-        >
-            { added ? <IconCheck /> : <IconPlaylistAdd /> }
-        </button>
+        <div className="info-card-externalbutton-wrapper">
+            <button
+                className="info-card-externalbutton"
+                title="再生キューに追加"
+                onClick={() => {
+                    setAdded(true)
+                    showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
+                    setPlaylistData((playlistData) => {
+                        const itemsAfter = [...playlistData.items, obj]
+                        return {
+                            ...playlistData,
+                            items: itemsAfter,
+                            type: "custom",
+                        }
+                    })
+                }}
+            >
+                { added ? <IconCheck /> : <IconPlaylistAdd /> }
+            </button>
+        </div>
     )
 }

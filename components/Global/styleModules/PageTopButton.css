@@ -1,0 +1,37 @@
+.pagetop-button {
+    background: var(--bgcolor1);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+
+    &[data-is-fixed="true"] {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 16px;
+    }
+
+    svg {
+        height: 2em;
+        width: 2em;
+    }
+
+    &[data-is-label-shown="true"] svg {
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+    &:hover {
+        background: var(--hover1);
+    }
+}
+
+.router:has(.container[data-background-playing="true"]) .pagetop-button[data-is-fixed="true"] {
+    left: 0;
+    right: auto;
+}

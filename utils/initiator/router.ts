@@ -50,6 +50,9 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         }
         if (meta.getAttribute("name") === "server-response") {
             meta.setAttribute("name", "server-response-mw")
+            // pathnameとsearchを記録
+            meta.setAttribute("data-pathname", window.location.pathname)
+            meta.setAttribute("data-search", window.location.search)
         }
     }
     const protectTarget = document.querySelectorAll("[data-server=\"1\"]")
@@ -123,10 +126,10 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         })
     }
 
-    const sanitizeStyleLink = document.createElement("link")
-    sanitizeStyleLink.rel = "stylesheet"
-    sanitizeStyleLink.href = browser.runtime.getURL("/content-scripts/sanitize.css" as any)
-    document.head.appendChild(sanitizeStyleLink)
+    const deferStyleLink = document.createElement("link")
+    deferStyleLink.rel = "stylesheet"
+    deferStyleLink.href = browser.runtime.getURL("/content-scripts/deferStyle.css" as any)
+    document.head.appendChild(deferStyleLink)
 
     const ui = createIntegratedUi(ctx, {
         position: "inline",

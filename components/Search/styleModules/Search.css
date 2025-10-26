@@ -1,0 +1,106 @@
+.search-container {
+    display: grid;
+    width: min(95vw, 95em);
+    padding: 1rem 0;
+    grid-template-columns: minmax(15rem, 1fr) minmax(40rem, 3.5fr) minmax(15rem, 1fr);
+    position: relative;
+    margin: 0 auto;
+    gap: 0.5rem 1rem;
+    grid-template-areas:
+        "title title title"
+        "related related related"
+        "pagel options ."
+        "pagel result result"
+        "filter result result"
+        ". result result"
+        ". pageb pageb";
+
+    .pageselector-container[data-is-vertical="true"] {
+        grid-area: pagel;
+    }
+
+    .pageselector-container[data-is-vertical="false"] {
+        grid-area: pageb;
+    }
+
+    &[data-is-fetching="true"] {
+        opacity: 0.5;
+    }
+
+    &[data-is-nicodic-article-exists="true"] {
+        grid-template-areas:
+            "title title title"
+            "dict dict ."
+            "pagel options related"
+            "pagel result related"
+            "filter result related"
+            ". result related"
+            ". pageb pageb";
+    }
+
+    &[data-is-nicodic-article-exists="false"] {
+        grid-template-areas:
+            "title title title"
+            "dict dict ."
+            "related related related"
+            "pagel options ."
+            "pagel result ."
+            "filter result ."
+            ". result ."
+            ". pageb pageb";
+    }
+
+    &:not([data-is-nicodic-article-exists="true"]) {
+        .search-result-relatedtags-items {
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 4px;
+            font-size: 0.9rem;
+        }
+
+        .search-result-relatedtags {
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 8px;
+        }
+
+        .search-result-relatedtags h3 {
+            font-size: 0.9rem;
+
+            svg {
+                height: 1.25em;
+                width: 1.25em;
+            }
+        }
+    }
+}
+
+.search-result-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    grid-area: result;
+}
+
+.search-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+    grid-area: title;
+}
+
+.search-title-totalcount {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.search-error {
+    text-align: center;
+}
+
+.search-result-items[data-is-grid-layout="true"] {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 8px;
+}

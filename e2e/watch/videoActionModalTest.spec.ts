@@ -14,9 +14,9 @@ test("Watch: Video action modal open test", async ({ page, mockApi }) => {
 
     await expect(page.locator("#pmw-mylists")).toContainText("視聴中の動画をマイリストに追加For testing purpose only を追加します")
     await expect(page.locator("#pmw-mylists")).toContainText("TestMylist 0")
-    await expect(page.locator("#pmw-mylists")).toContainText("非公開のマイリスト")
+    await expect(page.locator("#pmw-mylists")).toContainText("全 1 件")
     await expect(page.locator("#pmw-mylists")).toContainText("TestMylist 1")
-    await expect(page.locator("#pmw-mylists")).toContainText("公開のマイリスト")
+    await expect(page.locator("#pmw-mylists")).toContainText("全 2 件")
 
     await page.getByText("共有").click()
     await expect(page.locator("#root-pmw")).toContainText("視聴中の動画をソーシャルネットワークに共有インテントリンクまたは直接リンクを使用してお使いのSNSにリンクを共有できます")

@@ -44,9 +44,14 @@
             "hint": "Override the palette with StarNight"
         },
 
+        "pageReplaceDescription": {
+            "name": "Try these MintWatch-style pages with a mini player.\nThese experimental features may change anytime."
+        },
         "enableReshogi": {
-            "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)",
-            "hint": "MintWatch's new ranking page. Reverts the ranking page to its correct form."
+            "name": "Experimental: Enable replacement of the ranking page (Re:Shogi)"
+        },
+        "enableSearchPage": {
+            "name": "Experimental: Enable replacement of the search page"
         },
 
         "enableFixedHeader": {
@@ -60,7 +65,7 @@
         },
         "navbarType": {
             "name": "Navigation bar display type",
-            "hint": "Set how to display the navigation bar. It is hidden by default when using Shinjuku.",
+            "hint": "Set how to display the navigation bar. This setting is ignored in Shinjuku layout.",
             "select": ["Always show", "Open on hover", "Hide"]
         },
 
@@ -79,6 +84,10 @@
         },
         "shinjukuEnableNavbar": {
             "name": "Show navigation bar in Shinjuku layout"
+        },
+        "shinjukuDotFontType": {
+            "name": "Pixel fonts for Shinjuku",
+            "select": ["ShinjukuDot12", "MS Gothic", "Disable"]
         },
         "showLiveInRecommend": {
             "name": "Show live stream in recommend section"

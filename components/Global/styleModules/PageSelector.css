@@ -1,0 +1,79 @@
+.pageselector-container {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.pageselector-container[data-is-vertical="false"] {
+    flex-direction: row;
+    line-height: 1.25em;
+    align-items: center;
+}
+
+.pageselector-stats-pagination {
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+}
+
+.pageselector-pages {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pageselector-container[data-is-vertical="true"] .pageselector-pages {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.pageselector-page-button {
+    text-decoration: none;
+    padding: 4px 8px;
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+    color: var(--textcolor1);
+
+    &[data-is-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor1);
+        font-weight: bold;
+    }
+}
+
+.pageselector-container[data-is-vertical="true"] .pageselector-page-button {
+    display: block;
+
+    &::before {
+        content: "Page "
+    }
+}
+
+.pageselector-page-blank {
+    background: transparent;
+    color: inherit;
+    border: none;
+    border-radius: var(--radius);
+    align-self: center;
+    padding: 4px;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+
+    svg {
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+}
+
+.pageselector-page-input {
+    background: var(--bgcolor2);
+    color: inherit;
+    width: 5em;
+    height: 2em;
+    border-radius: var(--radius);
+}

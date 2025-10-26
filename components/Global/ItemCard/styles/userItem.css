@@ -1,0 +1,71 @@
+.useritem-card{
+    display: flex;
+    gap: 16px;
+    padding: 8px;
+    border-bottom: var(--border);
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.useritem-icon {
+    height: 7rem;
+    border-radius: var(--radius);
+}
+
+.useritem-datacolumn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.useritem-nickname {
+    font-size: 1.2rem;
+    font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.useritem-strippeddesc {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.useritem-count-container {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.5em;
+}
+
+.useritem-count-label {
+    color: var(--textcolor2);
+}
+
+.useritem-card[data-is-vertical-layout="true"] {
+    flex-direction: column;
+    overflow: hidden;
+    align-items: start;
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+
+    .useritem-strippeddesc {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .useritem-datacolumn {
+        overflow: hidden;
+        max-width: 14rem;
+        justify-content: space-between;
+    }
+
+    .useritem-count-item {
+        display: flex;
+        flex-direction: column;
+    }
+}

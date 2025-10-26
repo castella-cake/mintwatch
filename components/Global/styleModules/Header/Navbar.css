@@ -11,6 +11,7 @@
         border-radius: 1024px;
         border: none;
         padding: 0;
+        cursor: pointer;
 
         &:hover {
             background: var(--hover1);
@@ -22,7 +23,7 @@
         }
     }
 
-    .navbar-logo a {
+    .navbar-logo-link {
         background: var(--navbar-logo-url);
         aspect-ratio: 300 / 45;
         height: 1.25em;
@@ -97,7 +98,7 @@
     width: min-content;
 }
 
-.navbar-container .searchbox-container {
+.header-container:not([data-navbar-type="shinjuku"]) .navbar-container .searchbox-container {
     display: flex;
     background: var(--bgcolor2);
     padding: 0;
@@ -106,6 +107,9 @@
     gap: 0;
     border: var(--border);
     height: fit-content;
+    flex: 1;
+    max-width: 32rem;
+    transition: max-width 0.2s ease;
 
     .searchbox-typeselector {
         font-size: 1.5rem;
@@ -113,13 +117,27 @@
     }
 
     .searchbox-type-text {
-        display: none;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        line-height: 1em;
+        height: 1em;
+        text-align:center;
+    }
+
+    .searchbox-type-item:not([data-searchtype="series"], [data-searchtype="user"]) {
+        display: grid;
     }
 
     .searchbox-type-item {
-        padding: 4px;
-        border-radius: 8px;
+        grid-template-columns: auto 0;
+        text-align: left;
+        align-items: center;
+        font-size: 0.75rem;
+        padding: 4px 6px;
+        border-radius: 6px;
         color: var(--textcolor3);
+        transition: var(--transition-normal), grid-template-columns 0.15s ease;
 
         svg {
             width: 1.25rem;
@@ -129,17 +147,22 @@
 
     .searchbox-type-item.searchbox-type-active {
         color: var(--textcolor1);
-        padding: 4px;
+        padding: 4px 6px;
     }
 
     .searchbox-inputcontainer {
+        flex: 1;
+
         input {
             border: none;
             border-left: var(--border);
             border-radius: 0;
+            padding: 0 0.5em;
+            width: auto;
+            flex: 1;
         }
 
-        button {
+        > button {
             background: var(--accent1);
             border: none;
             padding: 6px 12px;
@@ -152,9 +175,32 @@
     }
 }
 
+.header-container:not([data-navbar-type="shinjuku"]) .navbar-container .searchbox-container[data-in-search-page="true"] {
+    max-width: 64rem;
+
+    .searchbox-type-item[data-searchtype="series"], .searchbox-type-item[data-searchtype="user"] {
+        display: grid;
+    }
+
+    .searchbox-type-item.searchbox-type-active {
+        grid-template-columns: auto 5em;
+        background: var(--textcolor1);
+        color: var(--bgcolor1);
+        font-weight: bold;
+    }
+
+    .searchbox-inputcontainer input[type="text"] {
+        background: var(--bgcolor1);
+    }
+}
+
+.header-container[data-navbar-type="shinjuku"] .navbar-container .searchbox-container[data-in-search-page="true"] input[type="text"] {
+    width: 24em;
+}
+
 .navbar-background-player-container {
     display: flex;
-    max-height: calc(var(--navbar-height) - 16px);
+    max-height: calc(var(--navbar-height) - 8px);
     align-items: center;
     gap: 8px;
     background: var(--bgcolor1);
@@ -195,6 +241,8 @@
 
 .navbar-right-separator {
     margin-left: auto;
+    border-left: var(--border);
+    height: 50%;
 }
 
 .header-container[data-navbar-type="dynamic"] .navbar-container {
@@ -205,7 +253,7 @@
 }
 
 .header-container[data-navbar-type="dynamic"]:hover .navbar-container, 
-.header-container[data-navbar-type="dynamic"] .navbar-container:has(input:focus) 
+.header-container[data-navbar-type="dynamic"] .navbar-container:focus-within,
 .header-container[data-navbar-type="dynamic"]:has(.sidemenu-container) .navbar-container {
     height: var(--navbar-height);
     opacity: 1;
@@ -216,17 +264,47 @@
     display: none;
 }
 
-/*
-.navbar-container {
-    opacity: 1;
-    height: auto;
-    transition: opacity 0.5s ease, height 0.2s ease;
-    interpolate-size: allow-keywords;
+.header-container[data-navbar-type="shinjuku"] .navbar-container {
+    border-bottom: none;
+    width: round(98vw, 1px);
+    padding: 0 14%;
+    align-self: center;
+    justify-self: center;
+
+    .harajuku-logo {
+        filter: var(--hrjk-logo-filter);
+    }
+
+    .harajuku-header-migiue-filler {
+        flex: 1;
+        text-align: center;
+        color: var(--textcolor3);
+        max-width: 32rem;
+        margin-left: auto;
+        display: grid;
+        height: 80%;
+        place-content: center;
+        background: #8881;
+    }
+
+    .searchbox-container {
+        --radius: 0;
+
+        input[type="text"] {
+            padding: 6px;
+        }
+
+        .searchbox-type-item {
+            padding: 2px 8px;
+        }
+
+        .searchbox-type-item.searchbox-type-active {
+            background: var(--textcolor2);
+            color: var(--bgcolor2);
+        }
+
+        .searchbox-type-item svg {
+            display: none;
+        }
+    }
 }
-.header-container:not(:hover):not(:has(.headeraction-modal-container)) .navbar-container:not(:has(:focus)) {
-    opacity: 0;
-    height: 0;
-    padding: 0 16px !important;
-    transition: opacity 0.1s ease, height 0.2s ease;
-}
-*/

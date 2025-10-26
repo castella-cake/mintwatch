@@ -1,9 +1,13 @@
 import { IconVolume, IconVolume3 } from "@tabler/icons-react"
 import { PlayerControllerButton } from "./Button"
 import { useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { startTransition } from "react"
+import { startTransition, useCallback, useState, useEffect } from "react"
+import { getStorageItemsWithObject } from "@/utils/storageControl"
+import ShinjukuMuted from "@/assets/shinjuku/Muted.svg?react"
+import ShinjukuUnMuted from "@/assets/shinjuku/UnMuted.svg?react"
+import { playerTypes } from "../PlayerController"
 
-export function VolumeController() {
+export function VolumeController({ currentPlayerType }: { currentPlayerType: keyof typeof playerTypes }) {
     const videoRef = useVideoRefContext()
     const [isMuted, setIsMuted] = useState<boolean>(false)
     const handleMuteToggle = useCallback(() => {
@@ -49,7 +53,7 @@ export function VolumeController() {
     }, [])
     return (
         <>
-            <MuteToggleButton isMuted={isMuted} handleMuteToggle={handleMuteToggle} videoVolume={videoVolume} />
+            <MuteToggleButton isMuted={isMuted} handleMuteToggle={handleMuteToggle} videoVolume={videoVolume} currentPlayerType={currentPlayerType} />
             <VolumeSlider videoVolume={videoVolume} handleVolumeChange={handleVolumeChange} isMuted={isMuted} />
         </>
     )
@@ -67,6 +71,17 @@ function VolumeSlider({ videoVolume, handleVolumeChange: onVolumeChange, isMuted
     )
 }
 
-function MuteToggleButton({ isMuted, handleMuteToggle: onMuteToggle, videoVolume }: { isMuted: boolean, handleMuteToggle: (e: React.MouseEvent<HTMLButtonElement>) => void, videoVolume: number }) {
-    return <PlayerControllerButton key="control-togglemute" className="playercontroller-togglemute" onClick={onMuteToggle} title={isMuted ? "ミュート解除" : "ミュート"}>{(isMuted || videoVolume <= 0) ? <IconVolume3 /> : <IconVolume />}</PlayerControllerButton>
+function MuteToggleButton({ isMuted, handleMuteToggle: onMuteToggle, videoVolume, currentPlayerType }: { isMuted: boolean, handleMuteToggle: (e: React.MouseEvent<HTMLButtonElement>) => void, videoVolume: number, currentPlayerType: keyof typeof playerTypes }) {
+    return (
+        <PlayerControllerButton
+            key="control-togglemute"
+            className="playercontroller-togglemute"
+            onClick={onMuteToggle}
+            title={isMuted ? "ミュート解除" : "ミュート"}
+        >
+            {currentPlayerType === playerTypes.shinjuku
+                ? (isMuted || videoVolume <= 0 ? <ShinjukuMuted /> : <ShinjukuUnMuted />)
+                : (isMuted || videoVolume <= 0 ? <IconVolume3 /> : <IconVolume />)}
+        </PlayerControllerButton>
+    )
 }

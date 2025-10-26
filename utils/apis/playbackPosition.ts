@@ -1,5 +1,4 @@
 import PlaybackPositionBody from "@/types/playbackPositionBody"
-import { baseResponse } from "@/types/baseResponse"
 import APIError from "../classes/APIError"
 
 /**

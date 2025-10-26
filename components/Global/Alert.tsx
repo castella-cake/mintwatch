@@ -25,8 +25,8 @@ export default function Alert() {
         <div className="alert-wrapper" data-animation={status}>
             <ReactFocusLock>
                 {thisAlert && (
-                    <div className="alert-container">
-                        <div className="alert-icon">{thisAlert.icon ?? <IconInfoCircle />}</div>
+                    <div className="alert-container" role="alertdialog">
+                        { thisAlert.icon !== null && <div className="alert-icon">{thisAlert.icon ?? <IconInfoCircle />}</div> }
                         <div className="alert-title">{thisAlert.title}</div>
                         { thisAlert.body && <div className="alert-body">{thisAlert.body}</div> }
                         <div className="alert-buttons">
@@ -44,6 +44,7 @@ export default function Alert() {
                                                                 if (thisAlert.onClose !== undefined) thisAlert.onClose(b.key)
                                                             }}
                                                             aria-disabled={!!b.disabled}
+                                                            data-isprimary={b.primary ?? false}
                                                         >
                                                             {b.text}
                                                         </button>
