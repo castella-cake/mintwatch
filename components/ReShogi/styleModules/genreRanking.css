@@ -132,6 +132,8 @@
     .shogi-genre-this-title-subtitle {
         opacity: 0.8;
         font-size: 0.9rem;
+        display: flex;
+        align-items: center;
 
         > * {
             vertical-align: middle;
@@ -142,8 +144,19 @@
         }
     }
 
+    .shogi-genre-back {
+        margin-left: auto;
+        text-decoration: none;
+        
+        svg {
+            height: 1.25em;
+            width: 1.25em;
+        }
+    }
+
     .shogi-genre-tag {
         color: var(--textcolor2);
+        font-size: 0.9rem;
     }
 
     .shogi-genre-genretitle {

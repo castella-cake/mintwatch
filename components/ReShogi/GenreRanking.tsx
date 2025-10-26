@@ -1,5 +1,5 @@
 import { GenreRankingDataRootObject } from "@/types/ranking/genreData"
-import { IconCrown, IconTag } from "@tabler/icons-react"
+import { IconArrowUp, IconCrown, IconTag } from "@tabler/icons-react"
 import { useLocationContext } from "../Router/RouterContext"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useQuery } from "@tanstack/react-query"
@@ -103,25 +103,29 @@ export default function GenreRankingContent() {
             </div>
             <div className="shogi-genre-stats">
                 <div className="shogi-genre-this-title">
-                    <span className="shogi-genre-this-title-subtitle">
+                    <div className="shogi-genre-this-title-subtitle">
                         <IconCrown />
                         {" "}
-                        ジャンル
-                    </span>
-                    <br />
-                    <span className="shogi-genre-genretitle">
+                        <span>ジャンル</span>
+                        {teibanRanking.data.tag && (
+                            <HistoryAnchor href={`/ranking/genre/${teibanRanking.data.featuredKey}`} className="shogi-genre-back">
+                                <IconArrowUp />
+                                戻る
+                            </HistoryAnchor>
+                        )}
+                    </div>
+                    <div className="shogi-genre-genretitle">
                         {teibanRanking.data.label}
-                    </span>
+                    </div>
                     {teibanRanking.data.tag && (
                         <>
-                            <br />
-                            <span className="shogi-genre-tag">
+                            <div className="shogi-genre-tag">
                                 タグ
                                 {" "}
                                 {teibanRanking.data.tag}
                                 {" "}
                                 のランキング
-                            </span>
+                            </div>
                         </>
                     )}
                 </div>
