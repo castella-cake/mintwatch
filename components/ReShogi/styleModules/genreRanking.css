@@ -3,7 +3,11 @@
     width: min(95vw, 95em);
     padding: 1rem 0;
     grid-template-columns: minmax(15rem, 1fr) minmax(40rem, 2.75fr) minmax(15rem, 1fr);
-    grid-template-areas: "feat feat feat" ". items trend" ". page .";
+    grid-template-areas:
+        "title title title"
+        "feat feat feat"
+        ". items trend"
+        ". page .";
     position: relative;
     margin: 0 auto;
     gap: 1rem;

@@ -29,7 +29,7 @@
     color: var(--textcolor1);
     border: var(--border);
     border-radius: var(--radius);
-    padding: 4px 8px;
+    padding: 6px 10px;
     transition: var(--transition-normal);
     text-decoration: none;
     font-size: 0.9rem;
@@ -46,6 +46,7 @@
     &[data-is-active="true"] {
         background: var(--textcolor1);
         color: var(--bgcolor1);
+        font-weight: bold;
     }
 }
 

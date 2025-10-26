@@ -64,6 +64,35 @@ export default function GenreRankingContent() {
     return (
         <div className="shogi-genre-ranking">
             <title>{genreRankingData && genreRankingData.data.metadata.title}</title>
+            <h2 className="shogi-header">
+                {teibanRanking.data.tag
+                    ? (
+                            <>
+                                タグ
+                                {" "}
+                                <strong className="shogi-header-genre-tag-label">
+                                    {teibanRanking.data.tag}
+                                </strong>
+                                {" "}
+                                のランキング
+                                <span className="shogi-header-genre-sub">
+                                    {" - "}
+                                    ジャンル
+                                    {" "}
+                                    <strong className="shogi-header-genre-label">{teibanRanking.data.label}</strong>
+                                </span>
+                            </>
+                        )
+                    : (
+                            <>
+                                ジャンル
+                                {" "}
+                                <strong className="shogi-header-genre-label">{teibanRanking.data.label}</strong>
+                                {" "}
+                                のランキング
+                            </>
+                        )}
+            </h2>
             <div className="shogi-genre-featured-container">
                 <div className="shogi-genre-teiban-selector-container">
                     {teibanRankingFeaturedKeys.data.items.map((keys) => {
