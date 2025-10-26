@@ -118,6 +118,7 @@
 
 .select-button.select-button-current {
 	background: var(--primary);
+    color: var(--primary-fg, inherit);
 	font-weight: bold;
 }
 
@@ -167,8 +168,10 @@
 
 .mintwatch-inmodal-config {
     --primary: #0060df;
+    --primary-fg: #fafafa;
 	--primary-hover: #0090ed;
 	--destructive: #c50042;
+    --destructive-fg: #fafafa;
 	--destructive-hover: #e22850;
 	--destructive-dark: #810220;
     --bg: var(--bgcolor2);
