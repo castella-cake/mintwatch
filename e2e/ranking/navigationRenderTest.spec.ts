@@ -13,12 +13,12 @@ test("Ranking: Navigation test", async ({ page, mockApi, enableRankingPage }) =>
 
     // await expect(page.getByRole('link', { name: 'For testing purposes only' })).toBeVisible();
     await expect(page.locator("#root-pmw")).toContainText("For testing purposes only")
-    await expect(page.getByRole("link", { name: "メイン" })).toHaveAttribute("data-is-active", "true")
-    await expect(page.getByRole("link", { name: "総合ランキング" })).toHaveAttribute("data-is-active", "false")
+    await expect(page.getByRole("link", { name: "カスタムランキング" })).toHaveAttribute("data-is-active", "true")
+    await expect(page.getByRole("link", { name: "ジャンルランキング" })).toHaveAttribute("data-is-active", "false")
 
-    await page.getByRole("link", { name: "総合ランキング" }).click()
-    await expect(page.getByRole("link", { name: "メイン" })).toHaveAttribute("data-is-active", "false")
-    await expect(page.getByRole("link", { name: "総合ランキング" })).toHaveAttribute("data-is-active", "true")
+    await page.getByRole("link", { name: "ジャンルランキング" }).click()
+    await expect(page.getByRole("link", { name: "カスタムランキング" })).toHaveAttribute("data-is-active", "false")
+    await expect(page.getByRole("link", { name: "ジャンルランキング" })).toHaveAttribute("data-is-active", "true")
 
     await expect(page.locator("#root-pmw")).toContainText("For testing purposes only")
     await expect(page.locator("#root-pmw")).toContainText("ジャンル総合")
