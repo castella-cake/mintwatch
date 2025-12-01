@@ -96,7 +96,7 @@
         padding: 0 8px;
     }
 
-    .header-left-container button, .header-center-container button, .header-right-container button {
+    .header-left-container > button, .header-center-container > button, .header-usercontainer > button, .header-right-container > button {
         background: transparent;
         border: none;
         color: #888;
