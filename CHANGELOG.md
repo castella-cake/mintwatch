@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Firefox 環境で行われる起動時の window.stop は多大な影響を及ぼすため使用されないようになりました  
   場合によっては新たな問題が発生する場合があります。その場合は開発者にお知らせください。
 
+### Fixed
+- Firefox 環境で動画移動時にラウドネスノーマライズが一瞬外れる問題を修正しました [#62](https://github.com/castella-cake/mintwatch/issues/62)
+
 ## 0.10.1 - 2025/10/26
 
 ### Fixed

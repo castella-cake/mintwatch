@@ -75,6 +75,7 @@ function CreateWatchUI() {
                 if (smId !== smIdAfter) {
                     queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
                     queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
+                    if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
                     setSmId(smIdAfter)
                 }
                 updatePlaylistState(location.search)
