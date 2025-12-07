@@ -98,7 +98,7 @@ const Comments = ({
             }, null)
         if (!nearestComment) return
         vlistRef.current.scrollToIndex(comments.findIndex(c => c.id === nearestComment.id), { align: "end", smooth: doSmoothScroll })
-    }, [doAutoScroll])
+    }, [doAutoScroll, comments])
 
     useEffect(() => {
         if (!videoRef.current) return
@@ -383,6 +383,7 @@ function CommentList() {
                 />
             )}
             <Comments
+                key={currentForkType}
                 comments={filteredComments}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}

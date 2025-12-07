@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Firefox 環境で動画移動時にラウドネスノーマライズが一瞬外れる問題を修正しました [#62](https://github.com/castella-cake/mintwatch/issues/62)
 - Firefox 環境の開発ビルドでは、React Scan が問題を引き起こすため使用されないようになりました
+- コメントリストの自動スクロールの挙動が修正されました
 
 ## 0.10.1 - 2025/10/26
 
