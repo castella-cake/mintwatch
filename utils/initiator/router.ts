@@ -120,7 +120,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
     if (document.head) document.head.appendChild(dummyScript)
     await injectScript("/load_turnstile.js")
 
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && !import.meta.env.FIREFOX) {
         scan({
             enabled: true,
         })
