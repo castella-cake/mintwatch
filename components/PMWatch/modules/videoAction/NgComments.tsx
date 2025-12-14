@@ -26,7 +26,7 @@ export default function NgComments() {
         const response = await addNgComment(addType, source)
         if (response.meta.status === 200) setNgData(response.data)
         inputRef.current.value = ""
-    }, [])
+    }, [addType])
 
     const handleAddTypeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setAddType(e.target.value as "word" | "id" | "command")
