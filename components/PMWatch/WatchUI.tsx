@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, startTransition } from "react"
 // import { useLang } from "./localizeHook";
 import { CSSTransition } from "react-transition-group"
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal"
@@ -46,8 +46,10 @@ function CreateWatchUI() {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
-        } else if (autoScrollSetting === "player" && videoRef.current && doScroll) {
-            videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+        } else if (autoScrollSetting === "player" && doScroll) {
+            startTransition(() => {
+                if (videoRef.current) videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+            })
         }
         // historyにpushして移動
         history.push(videoUrl)
