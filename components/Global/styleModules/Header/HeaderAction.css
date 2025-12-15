@@ -130,23 +130,31 @@
     background: var(--bgcolor2);
     border-bottom: var(--border);
     border-radius: var(--radius) var(--radius) 0 0;
-    padding: 0 8px;
+    padding: 0 12px;
     height: 3rem;
     align-items: center;
 
-    > div {
-        flex: 1;
-    }
-
-    .header-action-title-center {
+    .header-action-title-left {
         font-weight: bold;
-        text-align: center;
+        flex: 1;
+        display: flex;
+        gap: 8px;
+        align-items: center;
     }
 
     .header-action-title-right {
         display: flex;
         justify-content: end;
         gap: 4px;
+    }
+}
+
+.header-action-title-subtext {
+    font-weight: normal;
+    font-size: .9em;
+
+    &[data-is-important="true"] {
+        color: var(--textcolornew);
     }
 }
 

@@ -12,8 +12,18 @@ export default function Notifications() {
     return (
         <div className="notifications-container" id="pmw-notifications">
             <div className="header-action-title">
-                <div className="header-action-title-left"></div>
-                <div className="header-action-title-center">通知</div>
+                <div className="header-action-title-left">
+                    <span>通知</span>
+                    { oshiraseBoxData && oshiraseBoxData.data.importantUnreadCount > 0
+                        && (
+                            <a href="https://inform.nicovideo.jp/oshirase/list/important" target="_blank" rel="noreferrer" className="header-action-title-subtext" data-is-important="true">
+                                重要な通知
+                                {" "}
+                                {oshiraseBoxData.data.importantUnreadCount}
+                                {" 件"}
+                            </a>
+                        )}
+                </div>
                 <div className="header-action-title-right">
                     <a
                         href="https://inform.nicovideo.jp/oshirase/settings"

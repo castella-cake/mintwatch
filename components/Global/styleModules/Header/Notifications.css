@@ -40,6 +40,10 @@
         top: 8px;
         border-radius: 50%;
     }
+
+    &[data-isimportant="true"] {
+        border-color: var(--textcolornew);
+    }
 }
 
 .notification-item-icon {
