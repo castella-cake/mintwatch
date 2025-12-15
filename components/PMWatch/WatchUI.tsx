@@ -48,7 +48,11 @@ function CreateWatchUI() {
             window.scroll({ top: 0, behavior: "smooth" })
         } else if (autoScrollSetting === "player" && doScroll) {
             startTransition(() => {
-                if (videoRef.current) videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+                requestAnimationFrame(() => {
+                    if (videoRef.current) {
+                        videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+                    }
+                })
             })
         }
         // historyにpushして移動
