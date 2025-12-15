@@ -40,7 +40,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         observer.disconnect()
     }, 500)
 
-    const currentStorage = await getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "local:playersettings"] as const)
+    const currentStorage = await getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "local:playersettings", "sync:enableFirefoxWindowStop"] as const)
 
     // HACK: 元のスクリプトがheadのタグを全削除する問題に対処するため、セレクターから避けるように属性を変更する
     const metaTags = document.getElementsByTagName("meta")
@@ -100,7 +100,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
 
     // これでなぜかFirefoxで虚無になる問題が治る。逆にChromeのコードに入れると問題が起こる。
     // if (import.meta.env.FIREFOX) window.stop();
-    if (import.meta.env.FIREFOX) {
+    if (import.meta.env.FIREFOX && currentStorage["sync:enableFirefoxWindowStop"]) {
         window.stop()
     }
 
@@ -120,7 +120,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
     if (document.head) document.head.appendChild(dummyScript)
     await injectScript("/load_turnstile.js")
 
-    if (import.meta.env.DEV) {
+    if (import.meta.env.DEV && !import.meta.env.FIREFOX) {
         scan({
             enabled: true,
         })

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.10.2 - 2025/12/16
+
+### Changed
+- Firefox 環境で行われる起動時の window.stop は多大な影響を及ぼすため使用されないようになりました  
+  場合によっては新たな問題が発生する場合があります。その場合は開発者にお知らせください。
+
+### Fixed
+- Firefox 環境で旧検索に対するフォールバックが正しく機能するようになりました
+- Firefox 環境で動画移動時にラウドネスノーマライズが一瞬外れる問題を修正しました [#62](https://github.com/castella-cake/mintwatch/issues/62)
+- Firefox 環境の開発ビルドでは、React Scan が問題を引き起こすため使用されないようになりました
+- コメントリストの自動スクロールの挙動が修正されました
+- 「動画移動時の自動スクロール位置」が機能しない問題の緩和策を追加しました [#63](https://github.com/castella-cake/mintwatch/issues/63)
+- NG設定追加時の種別選択が機能しない問題を修正しました [#66](https://github.com/castella-cake/mintwatch/issues/66)
+
 ## 0.10.1 - 2025/10/26
 
 ### Fixed
