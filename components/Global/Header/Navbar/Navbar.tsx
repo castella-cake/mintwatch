@@ -7,7 +7,7 @@ import NavbarBackgroundPlayer from "./NavbarBackgroundPlayer"
 import HelpTools from "./HelpTools"
 import { NicoHarajukuLogo, RandomHidariueImg } from "@/components/PMWatch/modules/ShinjukuUI"
 
-export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, isShinjukuMode?: boolean }) {
+export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, children }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, isShinjukuMode?: boolean, children?: React.ReactNode }) {
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
     return (
@@ -42,6 +42,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode }: { 
                         <>
                             <NavbarCustomArea isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
                             <div className="navbar-right-separator" />
+                            {children}
                             <NavbarBackgroundPlayer />
                             <HelpTools />
                         </>

@@ -68,8 +68,11 @@
             "hint": "Set how to display the navigation bar. This setting is ignored in Shinjuku layout.",
             "select": ["Always show", "Open on hover", "Hide"]
         },
+        "enableOmniHeader": {
+            "name": "Enable OmniHeader",
+            "hint": "This setting will override the Shinjuku navigation bar"
+        },
 
-        
         "otherSettings": {
             "name": "Detailed settings"
         },
