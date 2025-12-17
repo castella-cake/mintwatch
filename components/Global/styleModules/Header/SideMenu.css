@@ -30,6 +30,9 @@
     z-index: 102;
 }
 
+.header-container[data-is-fixed="true"][data-is-omni-header="true"] .sidemenu-container {
+    top: var(--navbar-height);
+}
 
 .sidemenu-item {
     text-decoration: none;
@@ -105,6 +108,17 @@
 
     &:hover {
         background: var(--hover1);
+    }
+}
+
+.sidemenu-container .toolbox-container {
+    justify-content: center;
+    border-top: 1px solid var(--accent1);
+    padding-top: 8px;
+    margin-top: 8px;
+
+    button {
+        font-size: .7rem;
     }
 }
 

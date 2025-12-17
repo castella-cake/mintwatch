@@ -30,7 +30,13 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
 
     return (
         <NavigationDndWrapper>
-            <div className="header-container" id="pmw-header" data-is-fixed={isFixedHeaderEnabled} data-navbar-type={navbarType}>
+            <div
+                className="header-container"
+                id="pmw-header"
+                data-is-fixed={isFixedHeaderEnabled}
+                data-navbar-type={navbarType}
+                data-is-omni-header={isOmniHeaderEnabled}
+            >
                 { isOmniHeaderEnabled
                     ? (
                             <header className="omniheader-container">
@@ -71,7 +77,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                     <div className="global-flex1 global-flex header-right-container">
                                         <button
                                             onClick={onVanillaPageReturn}
-                                            title="元の視聴ページに戻る"
+                                            title="元のページを表示"
                                         >
                                             <IconDoorExit />
                                         </button>
@@ -82,7 +88,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                 </div>
                             </>
                         )}
-                <SideMenu nodeRef={sideMenuElemRef} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+                <SideMenu nodeRef={sideMenuElemRef} isEditMode={isEditMode} setIsEditMode={setIsEditMode} showMintToolBox={isOmniHeaderEnabled} />
                 { !isSetToQuickHeaderAction && <HeaderActionStacker nodeRef={headerActionStackerElemRef} /> }
             </div>
         </NavigationDndWrapper>

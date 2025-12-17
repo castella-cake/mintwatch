@@ -1,20 +1,26 @@
-.navbar-helptool-container {
+.toolbox-container {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 
-.navbar-helptool-container .navbar-helptool-button {
+.toolbox-container .toolbox-button {
     border: none;
     background: none;
     color: var(--textcolor2);
     cursor: pointer;
-    height: 2rem;
-    width: 2rem;
+    width: auto;
+    height: auto;
     transition: var(--transition-normal);
-    padding: 0;
+    padding: 4px;
     border-radius: var(--radius);
 
     &:hover {
         background: var(--hover1);
+    }
+
+    svg {
+        width: 1.8em;
+        height: 1.8em;
     }
 }
