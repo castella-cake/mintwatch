@@ -1,30 +1,35 @@
-import { useSetMintConfigShownContext } from "../../Contexts/ModalStateProvider"
+import { useSetMintConfigShownContext, useSetSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { IconComet, IconDoorExit, IconHelpCircle, IconKeyboard, IconTool } from "@tabler/icons-react"
 import WhatsNewTitle from "./WhatsNewTitle"
 import whatsNewData from "@/assets/whatsnew.json"
 
 export default function MintToolBox({ omitKeys, quietWhatsNew }: { omitKeys?: ("vanilla" | "settings" | "whatsnew" | "help" | "shortcuts")[], quietWhatsNew?: boolean }) {
     const setMintConfigShown = useSetMintConfigShownContext()
+    const setIsSideMenuShown = useSetSideMenuShownContext()
 
     const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
 
     const onWhatsNewClick = useCallback((e: React.MouseEvent) => {
         setMintConfigShown("whatsnew")
         storage.setItem("sync:lastCheckedUpdate", whatsNewData.version)
+        setIsSideMenuShown(false)
         e.stopPropagation()
-    }, [])
+    }, [setMintConfigShown, setIsSideMenuShown])
     const onHelpClick = useCallback((e: React.MouseEvent) => {
         setMintConfigShown("help")
+        setIsSideMenuShown(false)
         e.stopPropagation()
-    }, [])
+    }, [setMintConfigShown, setIsSideMenuShown])
     const onKeyboardClick = useCallback((e: React.MouseEvent) => {
         setMintConfigShown("shortcuts")
+        setIsSideMenuShown(false)
         e.stopPropagation()
-    }, [])
+    }, [setMintConfigShown, setIsSideMenuShown])
     const onSettingsClick = useCallback((e: React.MouseEvent) => {
         setMintConfigShown("settings")
+        setIsSideMenuShown(false)
         e.stopPropagation()
-    }, [])
+    }, [setMintConfigShown, setIsSideMenuShown])
     const onVanillaModeClick = useCallback(() => {
         location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`
     }, [])
