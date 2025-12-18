@@ -5,6 +5,7 @@ import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjec
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { Dispatch, SetStateAction } from "react"
+import MintToolBox from "./MintToolBox"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -39,7 +40,7 @@ function SideMenuItem({ item, isEditMode }: { item: SideMenuItem, isEditMode: bo
     )
 }
 
-export default function SideMenu({ nodeRef, isEditMode, setIsEditMode }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>> }) {
+export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintToolBox }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, showMintToolBox: boolean }) {
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
 
@@ -74,6 +75,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode }: { nodeR
                             <IconPencil />
                             <span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span>
                         </button>
+                        { showMintToolBox && <MintToolBox quietWhatsNew={true} /> }
                     </div>
                 </ReactFocusLock>
             </div>

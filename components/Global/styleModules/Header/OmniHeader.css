@@ -1,0 +1,78 @@
+.omniheader-container {
+    background: rgb(from var(--bgcolor2) r g b / 80%);
+    backdrop-filter: var(--backdrop-blur-high);
+    z-index: 99;
+    position: relative;
+}
+
+.omniheader-items {
+    display: flex;
+    background: rgb(32 32 32 / 50%);
+    height: 100%;
+    border-radius: 0;
+
+    &::before {
+        content: "";
+        display: block;
+        background: rgb(32 32 32 / 50%);
+        width: 20px;
+        clip-path: path("M20 55C17 30 3 20 0 0L20 0V55Z");
+        margin-left: -20px;
+    }
+}
+
+.omniheader-items .header-nicoservicelinks-container > :first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.omniheader-items .header-nicoservicelinks-container > :last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.omniheader-separator {
+    margin: auto 4px;
+    height: 20px;
+    width: 1px;
+    background: #fff2;
+}
+
+.omniheader-items .header-account > :not(img, div) {
+    display: none;
+}
+
+.omniheader-items .header-account > img {
+    margin-right: 0;
+}
+
+.omniheader-container > .navbar-container {
+    padding-right: 0;
+
+    .toolbox-container {
+        display: none;
+    }
+
+    .navbar-right-separator {
+        border-left: none;
+    }
+
+    .headeraction-quickmodal-wrapper > div {
+        top: var(--navbar-height);
+    }
+
+    .navbar-sidemenu-button[data-has-update="true"] {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--linktext2);
+            border-radius: 1024px;
+            right: 6px;
+            top: 6px;
+        }
+    }
+}

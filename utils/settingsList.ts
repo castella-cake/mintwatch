@@ -130,6 +130,11 @@ const settings: settingList = {
             values: ["default", "dynamic", "disable"],
             default: "default",
         },
+        {
+            type: "checkbox",
+            name: "enableOmniHeader",
+            default: false,
+        },
     ],
     pageReplace: [
         {

@@ -1,0 +1,39 @@
+.header-nicoservicelinks-container {
+    display: flex;
+    border-radius: 8px;
+}
+
+.header-nicoservicelinks-container > a {
+    padding-left: 8px;
+    font-size: .8rem;
+    text-decoration: none;
+    line-height: var(--header-height);
+    color: #fff;
+    align-self: center;
+    display: block;
+
+    > span {
+        vertical-align: middle;
+    }
+
+    &:last-child {
+        padding-right: 8px;
+    }
+
+    &.header-disabled {
+        opacity: 0.5;
+    }
+
+    &:not(:last-child)::after {
+        content: "";
+        border-right: 1px solid #555;
+        margin-left: 8px;
+        height: 100%;
+        display: inline;
+        margin-right: 0;
+    }
+
+    &:hover {
+        background: #555;
+    }
+}
