@@ -6,10 +6,13 @@ import { Dispatch, SetStateAction } from "react"
 import NavbarBackgroundPlayer from "./NavbarBackgroundPlayer"
 import MintToolBox from "./MintToolBox"
 import { NicoHarajukuLogo, RandomHidariueImg } from "@/components/PMWatch/modules/ShinjukuUI"
+import whatsNewData from "@/assets/whatsnew.json"
 
 export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, children }: { isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, isShinjukuMode?: boolean, children?: React.ReactNode }) {
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
+    const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
+
     return (
         <nav className="navbar-container" id="pmw-navbar">
             <button
@@ -20,6 +23,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
                     setIsSideMenuShown(!isSideMenuShown)
                 }}
                 data-is-active={isSideMenuShown}
+                data-has-update={lastCheckedUpdate !== whatsNewData.version}
             >
                 { isShinjukuMode ? <RandomHidariueImg /> : <IconMenu2 /> }
             </button>

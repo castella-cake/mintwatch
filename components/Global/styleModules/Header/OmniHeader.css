@@ -60,4 +60,19 @@
     .headeraction-quickmodal-wrapper > div {
         top: var(--navbar-height);
     }
+
+    .navbar-sidemenu-button[data-has-update="true"] {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--linktext2);
+            border-radius: 1024px;
+            right: 6px;
+            top: 6px;
+        }
+    }
 }

@@ -23,4 +23,19 @@
         width: 1.8em;
         height: 1.8em;
     }
+
+    &[data-has-update="true"] {
+        position: relative;
+        
+        &::before {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--linktext2);
+            border-radius: 1024px;
+            right: 2px;
+            top: 2px;
+        }
+    }
 }
