@@ -25,21 +25,26 @@ function tagLengthCounter(tagText: string) {
 export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
     const { smId } = useSmIdContext()
     const { showAlert } = useSetMessageContext()
+    const { alwaysGetTagDataFromApi } = useStorageVar(["alwaysGetTagDataFromApi"])
 
+    // 動画移動時のStateリセットはkeyで行うこと
     const [tags, setTags] = useState<compatibleTag[]>(initialTagData.items)
-
     const [isEditMode, setIsEditMode] = useState(false)
     const [isLockable, setIsLockable] = useState(false)
     const [isEditable, setIsEditable] = useState(initialTagData.edit.isEditable)
-
-    const tagInputRef = useRef<HTMLInputElement>(null)
-
+    const tagsUpdatedRef = useRef<boolean>(false)
     useEffect(() => {
-        setTags(initialTagData.items)
-        setIsEditable(initialTagData.edit.isEditable)
-        setIsLockable(false)
-        setIsEditMode(false)
-    }, [initialTagData])
+        if (!tagsUpdatedRef.current && alwaysGetTagDataFromApi) {
+            tagsUpdatedRef.current = true
+            async function fetchTagsOnMount() {
+                if (!smId || !initialTagData.edit.editKey) return
+                const response: TagsApiRootObject = await getTagsApi(smId, initialTagData.edit.editKey)
+                setTags(response.data.tags)
+            }
+            fetchTagsOnMount()
+        }
+    }, [smId, alwaysGetTagDataFromApi])
+    const tagInputRef = useRef<HTMLInputElement>(null)
 
     const nicodicExistIcon = isShinjukuLayout
         ? (
@@ -80,6 +85,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             return
         }
         setTags(response.data.tags)
+        tagsUpdatedRef.current = true
         if (response.data.isEditable) {
             setIsEditable(response.data.isEditable)
             setIsEditMode(state => !state)

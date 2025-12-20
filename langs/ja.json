@@ -98,6 +98,10 @@
         "autoScrollPositionOnVideoChange": {
             "name": "動画移動時の自動スクロール位置",
             "select": ["ページトップ", "プレイヤー", "無効"]
+        },
+        "alwaysGetTagDataFromApi": {
+            "name": "実験的: タグデータをAPIから自動取得する",
+            "hint": "タグ編集APIからタグデータを自動取得します。大百科記事の表示が行われるようになりますが、自己責任で使用してください。"
         }
     }
 }

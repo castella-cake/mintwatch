@@ -98,6 +98,10 @@
         "autoScrollPositionOnVideoChange": {
             "name": "Automatic scroll position when moving video",
             "select": ["Page top", "Player", "Disable"]
+        },
+        "alwaysGetTagDataFromApi": {
+            "name": "Experimental: Always get tag data from API",
+            "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."
         }
     }
 }

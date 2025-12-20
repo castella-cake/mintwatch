@@ -109,6 +109,11 @@ const settings: settingList = {
                     name: "showLiveInRecommend",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "alwaysGetTagDataFromApi",
+                    default: false,
+                },
             ],
         },
     ],
