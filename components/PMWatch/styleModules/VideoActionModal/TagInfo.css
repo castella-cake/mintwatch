@@ -1,0 +1,47 @@
+.taginfo-container {
+    border-radius: var(--radius);
+    padding: 16px;
+    background: var(--bgcolor1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.taginfo-tag {
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    border: var(--border);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.taginfo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.taginfo-tag-dict-summary {
+    font-size: 0.8rem;
+    background: var(--bgcolor1);
+    padding: 8px;
+    border-radius: var(--radius);
+    color: var(--textcolor2);
+}
+
+.taginfo-tag-title {
+    display: flex;
+    align-items: center;
+}
+
+
+.taginfo-tag-title svg {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.taginfo-tag-name {
+    font-weight: bold;
+}
