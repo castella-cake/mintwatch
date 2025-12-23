@@ -1,7 +1,8 @@
 import { Tag } from "@/types/VideoData"
-import { IconAlertTriangle, IconCheck, IconCircleX, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react"
+import { IconAlertTriangle, IconCheck, IconCircleX, IconEdit, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react"
 import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 
 type compatibleTag = {
     name: string
@@ -25,6 +26,7 @@ function tagLengthCounter(tagText: string) {
 export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
     const { smId } = useSmIdContext()
     const { showAlert } = useSetMessageContext()
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
     const { alwaysGetTagDataFromApi } = useStorageVar(["alwaysGetTagDataFromApi"])
 
     // 動画移動時のStateリセットはkeyで行うこと
@@ -66,6 +68,10 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
         : (
                 "？"
             )
+
+    const onShowDetails = useCallback(() => {
+        setVideoActionModalState("taginfo")
+    }, [])
 
     async function onEditModeToggle() {
         if (!smId) {
@@ -143,18 +149,32 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
         <div className="tags-container">
             <div className="tags-title">
                 <span>{isEditMode ? "タグを編集中" : "登録タグ"}</span>
-                { (!isShinjukuLayout || isEditMode) && (
-                    <button
-                        className="tags-editbutton"
-                        title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
-                        onClick={onEditModeToggle}
-                        data-is-active={isEditMode}
-                        aria-disabled={!isEditable}
-                    >
-                        { isEditMode ? <IconCheck /> : <IconTags /> }
-                        { isEditMode ? "完了" : "編集" }
-                    </button>
-                ) }
+                <div className="tags-actions">
+                    { (!isShinjukuLayout || isEditMode) && (
+                        <button
+                            className="tags-action-button"
+                            title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
+                            onClick={onEditModeToggle}
+                            data-is-active={isEditMode}
+                            aria-disabled={!isEditable}
+                            data-type="edit"
+                        >
+                            { isEditMode ? <IconCheck /> : <IconEdit /> }
+                            <span className="tags-action-button-title">{ isEditMode ? "完了" : "編集" }</span>
+                        </button>
+                    ) }
+                    { !isEditMode && (
+                        <button
+                            className="tags-action-button"
+                            title="この動画に登録されたタグを調べる"
+                            onClick={onShowDetails}
+                            data-type="taginfo"
+                        >
+                            <IconTags />
+                            <span className="tags-action-button-title">詳細</span>
+                        </button>
+                    )}
+                </div>
             </div>
             <div className="tags-item-container" data-is-editmode={isEditMode}>
                 {tags.map((elem) => {
