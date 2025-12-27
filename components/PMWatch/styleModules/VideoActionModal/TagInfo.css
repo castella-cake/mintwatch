@@ -4,7 +4,6 @@
     background: var(--bgcolor1);
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .taginfo-tag {
@@ -36,6 +35,9 @@
     align-items: center;
 }
 
+.taginfo-tag-title-left {
+    flex: 1;
+}
 
 .taginfo-tag-title svg {
     width: 1.2em;
@@ -44,4 +46,43 @@
 
 .taginfo-tag-name {
     font-weight: bold;
+}
+
+.taginfo-tag-link {
+    text-decoration: none;
+    color: var(--textcolor2);
+    background: none;
+    border-radius: var(--radius);
+    display: inline-block;
+    padding: 2px 4px;
+    font-size: 0.9rem;
+    border: none;
+    transition: var(--transition-normal);
+
+    &:hover {
+        color: var(--textcolor1);
+    }
+
+    svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+.taginfo-tag-videolinks {
+    display: flex;
+    gap: 4px;
+
+    a {
+        color: inherit;
+        background: var(--bgcolor1);
+        padding: 4px 8px;
+        border-radius: var(--radius);
+        font-size: .8rem;
+    }
+
+    svg {
+        height: 1.25em;
+        width: 1.25em;
+    }
 }
