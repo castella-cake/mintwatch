@@ -163,7 +163,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
                             <span className="tags-action-button-title">{ isEditMode ? "完了" : "編集" }</span>
                         </button>
                     ) }
-                    { !isEditMode && (
+                    { !isShinjukuLayout && !isEditMode && (
                         <button
                             className="tags-action-button"
                             title="この動画に登録されたタグを調べる"
@@ -230,16 +230,28 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
                     )
                 })}
                 { (!isEditMode && isShinjukuLayout) && (
-                    <button
-                        className="tags-editbutton"
-                        title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
-                        onClick={onEditModeToggle}
-                        data-is-active={isEditMode}
-                        aria-disabled={!isEditable}
-                    >
-                        { isEditMode ? <IconCheck /> : <IconTags /> }
-                        { isEditMode ? "完了" : "編集" }
-                    </button>
+                    <>
+                        <button
+                            className="tags-action-button"
+                            title={isEditMode ? "タグ編集を終了" : "タグ編集を開始"}
+                            onClick={onEditModeToggle}
+                            data-is-active={isEditMode}
+                            aria-disabled={!isEditable}
+                            data-type="edit"
+                        >
+                            { isEditMode ? <IconCheck /> : <IconTags /> }
+                            { isEditMode ? "完了" : "編集" }
+                        </button>
+                        <button
+                            className="tags-action-button"
+                            title="タグの詳細を見る"
+                            onClick={onShowDetails}
+                            aria-disabled={!isEditable}
+                            data-type="taginfo"
+                        >
+                            詳細
+                        </button>
+                    </>
                 ) }
             </div>
             {isEditMode && (
