@@ -71,7 +71,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
             <details className="settings-group">
                 <summary>{(lang.SETTINGS_ITEMS[settingName] && lang.SETTINGS_ITEMS[settingName].name) ?? setting.name}</summary>
                 {setting.children && setting.children.map((elem) => {
-                    return <CreateSettingsControl setting={elem} key={`${elem.name}-group-children`} />
+                    return <CreateSettingsRow setting={elem} key={`${elem.name}-group-children`} />
                 })}
             </details>
         )

@@ -449,11 +449,11 @@
         display: block;
     }
 
-    .tags-editbutton svg {
+    .tags-action-button svg {
         display: none;
     }
 
-    .tags-editbutton {
+    .tags-action-button {
         padding: 0;
         border: none;
         text-decoration: underline;
@@ -464,11 +464,11 @@
         }
     }
 
-    .tags-editbutton::before {
+    .tags-action-button::before {
         content: "【";
     }
 
-    .tags-editbutton::after {
+    .tags-action-button::after {
         content: "】";
     }
 

@@ -283,7 +283,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     {descElem}
                 </div>
             </details>
-            <Tags initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout} />
+            <Tags key={`${videoInfoResponse.client.watchId}-${videoInfoResponse.client.watchTrackId}`} initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout} />
         </div>
     )
 }

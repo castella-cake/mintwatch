@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
 
-type videoModalState = false | "mylist" | "share" | "ngcomments"
+type videoModalState = false | "mylist" | "share" | "ngcomments" | "taginfo"
 
 const IVideoModalStateContext = createContext<videoModalState>(false)
 const ISetVideoModalStateContext = createContext<Dispatch<SetStateAction<videoModalState>>>(() => { })
