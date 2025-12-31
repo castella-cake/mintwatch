@@ -41,6 +41,9 @@ function CreateWatchUI() {
 
     const queryClient = useQueryClient()
 
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const backgroundPlaying = useBackgroundPlayingContext()
+
     // ナビゲーション処理はlistenPopStateで行います
     const changeVideo = useCallback((videoUrl: string, doScroll = true) => {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
@@ -55,9 +58,23 @@ function CreateWatchUI() {
                 })
             })
         }
+        setVideoActionModalState(false)
         // historyにpushして移動
         history.push(videoUrl)
     }, [smId, autoScrollPositionOnVideoChange])
+
+    const linkClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target instanceof Element) {
+            const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
+            // data-seektimeがある場合は、mousecaptureな都合上スキップする。
+            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
+                // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
+                e.stopPropagation()
+                e.preventDefault()
+                changeVideo(nearestAnchor.href)
+            }
+        }
+    }
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
@@ -107,9 +124,6 @@ function CreateWatchUI() {
     const videoActionModalElemRef = useRef<HTMLDivElement>(null)
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null)
 
-    const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const backgroundPlaying = useBackgroundPlayingContext()
-
     const playerSize = playerAreaSize ?? 1
 
     function handleKeydown(e: React.KeyboardEvent) {
@@ -125,6 +139,7 @@ function CreateWatchUI() {
             data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
             data-background-playing={backgroundPlaying}
             data-layout-density={layoutDensity ?? getDefault("layoutDensity")}
+            onClickCapture={linkClickHandler}
         >
             <TitleElement />
             <CSSTransition

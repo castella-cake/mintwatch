@@ -76,8 +76,6 @@ export function TagItem({ tag }: { tag: typeof VideoDataRootObject["data"]["resp
                         <a
                             key={videoId}
                             href={`https://www.nicovideo.jp/watch/${encodeURIComponent(videoId)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
                         >
                             {videoId}
                         </a>
