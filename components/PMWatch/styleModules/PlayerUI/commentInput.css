@@ -62,6 +62,27 @@
     }
 }
 
+
+.commentinput-cmdpalette-button {
+    background: var(--bgcolor2);
+    color: inherit;
+    border: var(--border);
+    height: 100%;
+    border-right: 0;
+    border-radius: var(--radius) 0 0 var(--radius);
+    transition: var(--transition-normal);
+    cursor: pointer;
+    
+    &:hover {
+        background: var(--hover1);
+    }
+
+    &[data-is-active="true"] {
+        background: var(--textcolor2);
+        color: var(--bgcolor1);
+    }
+}
+
 .commentinput-submit {
     background: var(--primary1);
     color: var(--primary-text1);

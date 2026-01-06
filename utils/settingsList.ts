@@ -114,6 +114,11 @@ const settings: settingList = {
                     name: "alwaysGetTagDataFromApi",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "enableShokuninMode",
+                    default: false,
+                },
             ],
         },
     ],
