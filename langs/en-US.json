@@ -102,6 +102,10 @@
         "alwaysGetTagDataFromApi": {
             "name": "Experimental: Always get tag data from API",
             "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."
+        },
+        "enableShokuninMode": {
+            "name": "Enable Shokunin Mode",
+            "hint": "Extends the command palette and comment detail display"
         }
     }
 }

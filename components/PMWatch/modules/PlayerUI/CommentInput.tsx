@@ -1,4 +1,4 @@
-import { IconCircleX, IconSend2 } from "@tabler/icons-react"
+import { IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
 import { useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData"
@@ -6,6 +6,7 @@ import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread 
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { CommandPalette } from "./CommandPalette"
 
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
@@ -21,6 +22,9 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const { showAlert } = useSetMessageContext()
     const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
+    const [commandValue, setCommandValue] = useState<string>("")
+
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
 
     const [dummyTextAreaContent, setDummyTextAreaContent] = useState("")
     const [isComposing, setIsComposing] = useState(false)
@@ -28,6 +32,10 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const endComposition = () => setIsComposing(false)
 
     const previewUpdateTimeout = useRef<ReturnType<typeof setTimeout>>(null!)
+
+    const onCommandPaletteButtonClick = useCallback(() => {
+        setIsCommandPaletteOpen(prev => !prev)
+    }, [setIsCommandPaletteOpen])
 
     // idが遅い方のデフォルトの投稿ターゲット
     const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
@@ -141,8 +149,8 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     function onKeydown(e: KeyboardEvent<HTMLTextAreaElement>) {
         if (e.ctrlKey || e.altKey) return
-        if (!e.shiftKey && e.key === "Enter" && commentInputRef.current && videoRef.current && !isComposing) {
-            sendComment(videoId, commentInputRef.current.value, commandInput.current?.value.split(""), Math.floor(videoRef.current.currentTime * 1000))
+        if (!e.shiftKey && e.key === "Enter" && commentInputRef.current && commandInput.current && videoRef.current && !isComposing) {
+            sendComment(videoId, commentInputRef.current.value, commandInput.current.value.split(""), Math.floor(videoRef.current.currentTime * 1000))
             commentInputRef.current.value = ""
             e.preventDefault()
         }
@@ -181,6 +189,13 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         }
     }
 
+    function onChangeCommandInput() {
+        if (commandInput.current) {
+            setCommandValue(commandInput.current.value)
+        }
+        onChange()
+    }
+
     const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
     const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
@@ -207,7 +222,27 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     // textarea 周りの挙動は https://qiita.com/tsmd/items/fce7bf1f65f03239eef0 を参考にさせていただきました
     return (
         <div className="commentinput-container global-flex" id="pmw-commentinput">
-            <input ref={commandInput} className="commentinput-cmdinput" placeholder="コマンド" onChange={onChange} />
+            <div className="commentinput-cmdpalette">
+                <button
+                    className="commentinput-cmdpalette-button"
+                    type="button"
+                    onClick={onCommandPaletteButtonClick}
+                    data-is-active={isCommandPaletteOpen}
+                    title={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
+                >
+                    { isCommandPaletteOpen ? <IconPaletteFilled /> : <IconPalette /> }
+                </button>
+                <CommandPalette
+                    isOpen={isCommandPaletteOpen}
+                    commandInputRef={commandInput}
+                    currentCommand={commandValue}
+                    setCurrentCommandValue={(value) => {
+                        setCommandValue(value)
+                        onChange()
+                    }}
+                />
+            </div>
+            <input ref={commandInput} className="commentinput-cmdinput" placeholder="コマンド" onChange={onChangeCommandInput} value={commandValue} />
             <div className="commentinput-textarea-container global-flex1">
                 <div className="commentinput-textarea-dummy" aria-hidden="true">{dummyTextAreaContent + "\u200b"}</div>
                 <textarea ref={commentInputRef} className="commentinput-input" placeholder="コメントを入力" onKeyDown={onKeydown} onChange={onChange} onCompositionStart={startComposition} onCompositionEnd={endComposition} />
