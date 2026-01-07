@@ -1,9 +1,5 @@
 import { useState, useRef } from "react"
 // import { useLang } from "../localizeHook";
-import {
-    doFilterComments,
-    sharedNgLevelScore,
-} from "../commonFunction"
 import type { Comment, CommentDataRootObject } from "@/types/CommentData"
 import { VideoDataRootObject } from "@/types/VideoData"
 import { IconAdjustmentsHorizontal, IconBubbleX, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"

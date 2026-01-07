@@ -7,13 +7,6 @@ import { Comment } from "@/types/CommentData"
 import type { Dispatch, SetStateAction } from "react"
 import CommentInput from "./CommentInput"
 import Settings from "./Settings/Settings"
-import {
-    applyOpacityToThreads,
-    doFilterThreads,
-    handleCtrl,
-    returnThreadLabels,
-    sharedNgLevelScore,
-} from "../commonFunction"
 import { StatsOverlay } from "./StatsOverlay"
 import { CSSTransition } from "react-transition-group"
 import { EndCard } from "./EndCard"
