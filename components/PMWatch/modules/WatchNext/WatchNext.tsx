@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 // import { useLang } from "../localizeHook";
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { wheelTranslator } from "../commonFunction"
 import Recommend from "./Recommend"
 import UserVideos from "./UserVideos"
 import { VideoActivities } from "@/components/Global/Activities/VideoActivities"

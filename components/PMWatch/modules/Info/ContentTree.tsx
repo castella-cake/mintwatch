@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { wheelTranslator } from "../commonFunction"
 import { useCommonsRelativeData } from "@/hooks/apiHooks/watch/CommonsRelativeData"
 import { IconPlus } from "@tabler/icons-react"
 
