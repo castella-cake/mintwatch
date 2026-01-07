@@ -1,6 +1,8 @@
 import { Comment } from "@/types/CommentData"
 import { secondsToTime } from "@/utils/readableValue"
 import NicoruSvg from "./nicoruSvg"
+import { detectVideoIdFromString } from "@/utils/detectVideoId"
+import { IconArrowRight, IconDeviceTv } from "@tabler/icons-react"
 
 type RowProps = {
     comment: Comment
@@ -14,6 +16,7 @@ type RowProps = {
     ) => void
     onSeekTo: (currentTime: number) => void
     onItemExpand: (id: string) => void
+    isAdvancedMode?: boolean
 }
 
 function returnNicoruRank(nicoruCount: number) {
@@ -31,7 +34,9 @@ export default function CommentRow({
     onNicoru,
     onSeekTo,
     onItemExpand,
+    isAdvancedMode = false,
 }: RowProps) {
+    const detectedVideoIds = detectVideoIdFromString(comment.body)
     return (
         <div
             className={`commentlist-list-item ${isOpen ? "commentlist-list-item-open" : ""}`}
@@ -87,6 +92,14 @@ export default function CommentRow({
                             / 投稿日時:
                             {" "}
                             {new Date(comment.postedAt).toLocaleString()}
+                            { isAdvancedMode && (
+                                <>
+                                    {" / "}
+                                    ソース:
+                                    {" "}
+                                    {comment.source}
+                                </>
+                            )}
                         </span>
                     </div>
                     <div className="commentlist-list-item-actions">
@@ -107,6 +120,22 @@ export default function CommentRow({
                             ユーザーIDをコピー
                         </button>
                     </div>
+                    { detectedVideoIds && (
+                        <div className="commentlist-list-item-videolink">
+                            <span title="このコメントに含まれている動画ID">
+                                <IconDeviceTv />
+                                <IconArrowRight />
+                            </span>
+                            {detectedVideoIds.map(videoId => (
+                                <a
+                                    key={videoId}
+                                    href={`https://www.nicovideo.jp/watch/${encodeURIComponent(videoId)}`}
+                                >
+                                    {videoId}
+                                </a>
+                            ))}
+                        </div>
+                    )}
                 </>
             )}
         </div>

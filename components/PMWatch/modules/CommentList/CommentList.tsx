@@ -67,6 +67,7 @@ const Comments = ({
     onSeekTo: (currentTime: number) => void
     doAutoScroll: boolean
 }) => {
+    const { enableShokuninMode } = useStorageVar(["enableShokuninMode"])
     const [openedCommentItem, setOpenedCommentItem] = useState<string>("")
     const toggleCommentItemExpand = useCallback((id: string) => {
         setOpenedCommentItem((current) => {
@@ -133,6 +134,7 @@ const Comments = ({
                             onNicoru={onNicoru}
                             onSeekTo={onSeekTo}
                             onItemExpand={toggleCommentItemExpand}
+                            isAdvancedMode={enableShokuninMode}
                         />
                     )
                 })}

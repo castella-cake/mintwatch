@@ -202,6 +202,25 @@
     display: inline-block;
 }
 
+.commentlist-list-item-videolink {
+    display: flex;
+    gap: 4px;
+    color: var(--textcolor2);
+
+    & a {
+        color: inherit;
+        background: var(--bgcolor1);
+        padding: 2px 6px;
+        border-radius: var(--radius);
+        font-size: .8rem;
+    }
+
+    & svg {
+        height: 1.25em;
+        width: 1.25em;
+    }
+}
+
 .commentlist-container[data-commentlist-type="modern"] {
     .commentlist-list-container {
         background: var(--bgcolor1);
