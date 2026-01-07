@@ -146,7 +146,7 @@ const ariaDetails
 
 function CommentList() {
     const { videoInfo } = useVideoInfoContext()
-    const commentContent = useCommentContentContext()
+    const { commentContent } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()

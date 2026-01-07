@@ -162,6 +162,11 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: false,
                 name: "コメント入力時に一時停止してプレビュー",
             },
+            borderPastMyComments: {
+                type: "checkbox",
+                defaultValue: false,
+                name: "過去に投稿したコメントにオレンジの枠線を表示",
+            },
         },
     },
     customCommentOpacity: {

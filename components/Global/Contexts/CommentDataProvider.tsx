@@ -5,7 +5,7 @@ import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData"
 import { UseMutateFunction } from "@tanstack/react-query"
 import { VideoDataThread } from "@/types/VideoData"
 
-const ICommentContentContext = createContext<CommentDataRootObject | undefined>(undefined)
+const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined }>({ commentContent: undefined, lastSentCommentId: undefined })
 
 type CommentControllerContext = {
     setCommentContent: (newCommentContent: CommentDataRootObject) => void
@@ -13,17 +13,20 @@ type CommentControllerContext = {
         when: number
     }) => Promise<CommentDataRootObject | undefined>
     sendNicoru: UseMutateFunction<CommentDataRootObject, Error, { currentForkType: number, currentThread: VideoDataThread, commentNo: number, commentBody: string, nicoruId: string | null, isMyPost: boolean }, unknown>
+    setLastSentCommentId: (id: string | undefined) => void
 }
 const ICommentControllerContext = createContext<CommentControllerContext>({
     setCommentContent: () => {},
     reloadCommentContent: null!,
     sendNicoru: null!,
+    setLastSentCommentId: () => {},
 })
 
 export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext()
 
     const { commentContent, setCommentContent, reloadCommentContent, sendNicoru } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
+    const [lastSentCommentId, setLastSentCommentId] = useState<string | undefined>()
 
     useEffect(() => {
         if (
@@ -38,9 +41,9 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     }, [commentContent]) // コメント情報が最後に更新されると踏んで、commentContentだけを依存する
 
     return (
-        <ICommentContentContext value={commentContent}>
+        <ICommentContentContext value={{ commentContent, lastSentCommentId }}>
             <ICommentControllerContext
-                value={{ setCommentContent, reloadCommentContent, sendNicoru }}
+                value={{ setCommentContent, reloadCommentContent, sendNicoru, setLastSentCommentId }}
             >
                 {children}
             </ICommentControllerContext>

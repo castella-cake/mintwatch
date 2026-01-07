@@ -2,7 +2,7 @@ import { IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/
 import { useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData"
-import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData"
+import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
@@ -20,7 +20,7 @@ type Props = {
 function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
     const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
     const { showAlert } = useSetMessageContext()
-    const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
+    const { reloadCommentContent, setLastSentCommentId } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
     const [commandValue, setCommandValue] = useState<string>("")
 
@@ -96,28 +96,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             if (commentPostResponse.meta.status === 201 && videoInfo.data) {
                 const commentResponse = await reloadCommentContent()
                 if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
-                const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread) => {
-                    const newComments = thread.comments.map((comment) => {
-                        if (comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no) {
-                            comment.commands = [...comment.commands, "nico:waku:#ff0"]
-                            return comment
-                        } else if (comment.isMyPost) {
-                            comment.commands = [...comment.commands, "nico:waku:#fb6"]
-                            return comment
-                        } else {
-                            return comment
-                        }
-                    })
-                    return { ...thread, comments: newComments }
-                })
-                const commentDataResult: CommentDataRootObject = {
-                    meta: commentResponse.meta,
-                    data: {
-                        ...commentResponse.data,
-                        threads: newThreads,
-                    },
-                }
-                setCommentContent(commentDataResult)
+                setLastSentCommentId(commentPostResponse.data.id)
                 // 今はただ要素が利用可能であることだけ伝えます
                 document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
                 // TODO: コメント入力前から一時停止状態だったなら再生しない

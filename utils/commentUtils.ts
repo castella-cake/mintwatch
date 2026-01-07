@@ -44,3 +44,20 @@ export function doFilterComments(comments: Comment[], sharedNgLevel: number, vie
 export function returnThreadLabels(threads: VideoDataThread[]) {
     return threads.map(thread => thread.label)
 }
+
+export function borderMyComments(threads: Thread[], lastCommentId: string, borderPastMyComments: boolean): Thread[] {
+    return threads.map((thread: Thread) => {
+        const newComments = thread.comments.map((comment) => {
+            if (comment.id === lastCommentId) {
+                comment.commands = [...comment.commands, "nico:waku:#ff0"]
+                return comment
+            } else if (comment.isMyPost && borderPastMyComments) {
+                comment.commands = [...comment.commands, "nico:waku:#fb6"]
+                return comment
+            } else {
+                return comment
+            }
+        })
+        return { ...thread, comments: newComments }
+    })
+}

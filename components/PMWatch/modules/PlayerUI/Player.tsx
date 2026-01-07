@@ -29,6 +29,7 @@ import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvide
 import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
+import { borderMyComments } from "@/utils/commentUtils"
 
 type Props = {
     isFullscreenUi: boolean
@@ -42,7 +43,7 @@ function Player(props: Props) {
 
     const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
-    const commentContent = useCommentContentContext()
+    const { commentContent, lastSentCommentId } = useCommentContentContext()
     const videoRef = useVideoRefContext()
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
@@ -74,6 +75,7 @@ function Player(props: Props) {
         "enableInterpolateCommentRendering",
         "enableBigView",
         "rewindTime",
+        "borderPastMyComments",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -275,8 +277,9 @@ function Player(props: Props) {
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
-        return threadsOpacityApplied
-    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity])
+        const threadsBordered = borderMyComments(threadsOpacityApplied, lastSentCommentId ?? "", localStorage.borderPastMyComments ?? false)
+        return threadsBordered
+    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity, lastSentCommentId, localStorage.borderPastMyComments, ngData])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
