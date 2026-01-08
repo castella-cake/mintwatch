@@ -13,6 +13,9 @@ importers:
 
   .:
     dependencies:
+      '@discordapp/perceptual':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@dnd-kit/core':
         specifier: 6.3.1
         version: 6.3.1(patch_hash=46fc639c1737953f90329a1be0ec1ba26bd4cd8f048a43bb143e8c178d0a6464)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -325,6 +328,9 @@ packages:
     resolution: {integrity: sha512-7rBLLzWQnBwutH2WZ0EWUkQdihqrnLYCUMaB44hSol9e0/cdIhuNFcqZO0xNheAU6qqHVA8sMiLofkYTgb+lmw==}
     engines: {node: '>= 0.10.4'}
     hasBin: true
+
+  '@discordapp/perceptual@1.1.0':
+    resolution: {integrity: sha512-bww5JBGHajviO1iaore538+onzxpYq7uMUBpMUy2gOlCYl05XZiHJr+wSfiy6umM4RVG6FvmEiCZJif5WnoKeg==}
 
   '@dnd-kit/accessibility@3.1.1':
     resolution: {integrity: sha512-2P+YgaXF+gRsIihwwY1gCsQSYnu9Zyj2py8kY5fFvUM1qm2WA2u639R6YNVfU4GWr+ZM5mqEsfHZZLoRONbemw==}
@@ -4205,6 +4211,8 @@ snapshots:
       split: 1.0.1
     transitivePeerDependencies:
       - supports-color
+
+  '@discordapp/perceptual@1.1.0': {}
 
   '@dnd-kit/accessibility@3.1.1(react@19.1.1)':
     dependencies:

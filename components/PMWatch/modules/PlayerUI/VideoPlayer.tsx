@@ -1,3 +1,4 @@
+import { amplitudeToPerceptual, perceptualToAmplitude } from "@discordapp/perceptual"
 import { ReactNode, RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -41,22 +42,25 @@ export function VideoPlayer(props: VideoPlayerProps) {
         function onWheel(e: WheelEvent) {
             const wheelGestureAmount = (syncStorage.wheelGestureAmount ?? getDefault("wheelGestureAmount")) / 100
             const video = videoRef.current
+            if (!video) return
+            let actualVideoVolume = amplitudeToPerceptual(video.volume)
             // 右クリックを押しながらホイールで音量を変更
             if (e.buttons < 2 || enableVolumeGesture === false || !video) return
             if (e.deltaY < 0) {
-                if (video.volume + wheelGestureAmount > 1) {
-                    video.volume = 1
+                if (actualVideoVolume + wheelGestureAmount > 1) {
+                    actualVideoVolume = 1
                 } else {
-                    video.volume += wheelGestureAmount
+                    actualVideoVolume += wheelGestureAmount
                 }
             } else {
-                if (video.volume - wheelGestureAmount < 0) {
-                    video.volume = 0
+                if (actualVideoVolume - wheelGestureAmount < 0) {
+                    actualVideoVolume = 0
                 } else {
-                    video.volume -= wheelGestureAmount
+                    actualVideoVolume -= wheelGestureAmount
                 }
             }
-            setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
+            video.volume = perceptualToAmplitude(actualVideoVolume)
+            setShortcutFeedback(`音量: ${Math.round(actualVideoVolume * 100)}%`)
             e.preventDefault()
             volumeGestureUsedRef.current = true
         }
