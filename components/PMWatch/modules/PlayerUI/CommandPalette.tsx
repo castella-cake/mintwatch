@@ -92,7 +92,7 @@ export function CommandPalette({
                                             }}
                                             title={commandItem.alternativeTitle ?? commandItem.command}
                                             data-command={commandItem.command}
-                                            data-is-active={removeDulplicateCommands(currentCommand.split(" ")).includes(commandItem.command)}
+                                            data-is-active={(commandGroup.isMultipleSelectable ? currentCommand.split(" ") : removeDulplicateCommands(currentCommand.split(" "))).includes(commandItem.command)}
                                         >
                                             {commandItem.label}
                                         </button>
@@ -128,24 +128,6 @@ const colorCodeRegex = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/
 /* eslint-disable @stylistic/jsx-closing-tag-location */
 const commandList: commandListObject[] = [
     {
-        kind: "placement",
-        title: "コメント配置",
-        items: [
-            {
-                command: "ue",
-                label: <UeIcon />,
-            },
-            {
-                command: "naka",
-                label: <NakaIcon />,
-            },
-            {
-                command: "shita",
-                label: <ShitaIcon />,
-            },
-        ],
-    },
-    {
         kind: "size",
         title: "コメントサイズ",
         items: [
@@ -160,6 +142,24 @@ const commandList: commandListObject[] = [
             {
                 command: "small",
                 label: <SmallIcon />,
+            },
+        ],
+    },
+    {
+        kind: "placement",
+        title: "コメント配置",
+        items: [
+            {
+                command: "ue",
+                label: <UeIcon />,
+            },
+            {
+                command: "naka",
+                label: <NakaIcon />,
+            },
+            {
+                command: "shita",
+                label: <ShitaIcon />,
             },
         ],
     },
