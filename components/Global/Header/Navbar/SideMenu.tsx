@@ -6,6 +6,7 @@ import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { Dispatch, SetStateAction } from "react"
 import MintToolBox from "./MintToolBox"
+import { ZSnowBackground } from "./ZSnow"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -41,6 +42,7 @@ function SideMenuItem({ item, isEditMode }: { item: SideMenuItem, isEditMode: bo
 }
 
 export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintToolBox }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, showMintToolBox: boolean }) {
+    const { disableSeasonalEffects } = useStorageVar(["disableSeasonalEffects"])
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
 
@@ -58,6 +60,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
         >
 
             <div className="sidemenu-wrapper" ref={wrapperTransitionRef}>
+                { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
                 <ReactFocusLock>
                     <div className="sidemenu-container" ref={nodeRef}>
                         <button className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)} title="サイドメニューを閉じる"><IconX /></button>
@@ -81,4 +84,12 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
             </div>
         </CSSTransition>
     )
+}
+
+const winterMonths = [12, 1, 2]
+
+const isItWinterSeason = () => {
+    const now = new Date()
+    const month = now.getMonth() + 1 // JavaScriptの月は0から始まるため、1を加える
+    return winterMonths.includes(month)
 }

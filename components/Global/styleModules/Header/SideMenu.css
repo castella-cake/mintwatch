@@ -122,6 +122,13 @@
     }
 }
 
+.sidemenu-wrapper .zsnow-canvas {
+    width: 100vw;
+    height: 100vh;
+    background: #02f2;
+    position: fixed;
+}
+
 .sidemenu-transition {
     &-enter, &-exit-active {
         --translateX: -110%;
@@ -132,6 +139,10 @@
         .sidemenu-container {
             transform: translateX(var(--translateX));
         }
+
+        .zsnow-canvas {
+            opacity: 0;
+        }
     }
 
     &-enter-active, &-exit-active {
@@ -139,6 +150,10 @@
 
         .sidemenu-container {
             transition: transform 0.3s ease;
+        }
+
+        .zsnow-canvas {
+            transition: opacity 0.2s ease;
         }
     }
 
@@ -148,6 +163,10 @@
 
         .sidemenu-container {
             transform: translateX(0%);
+        }
+
+        .zsnow-canvas {
+            opacity: 1;
         }
     }
 }

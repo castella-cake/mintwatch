@@ -119,6 +119,11 @@ const settings: settingList = {
                     name: "enableShokuninMode",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "disableSeasonalEffects",
+                    default: false,
+                },
             ],
         },
     ],
