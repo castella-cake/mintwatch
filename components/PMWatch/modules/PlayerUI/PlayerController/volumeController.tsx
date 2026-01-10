@@ -24,7 +24,7 @@ export function VolumeController({ currentPlayerType }: { currentPlayerType: key
     const handleVolumeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (!videoRef.current) return
         setVideoVolume(Math.floor(e.currentTarget.valueAsNumber))
-        videoRef.current.volume = perceptualToAmplitude(Math.floor(e.currentTarget.valueAsNumber) * 0.01)
+        videoRef.current.volume = perceptualToAmplitude(Math.floor(e.currentTarget.valueAsNumber) * 0.01, 1, 40)
         startTransition(() => {
             storage.setItem("local:volume", Math.floor(e.currentTarget.valueAsNumber))
         })
@@ -34,15 +34,15 @@ export function VolumeController({ currentPlayerType }: { currentPlayerType: key
         getStorageItemsWithObject(["local:volume", "local:isMuted"]).then((object) => {
             if (!videoRef.current) return
             setVideoVolume(object["local:volume"] ?? 50)
-            videoRef.current.volume = perceptualToAmplitude((object["local:volume"] ?? 50) * 0.01)
+            videoRef.current.volume = perceptualToAmplitude((object["local:volume"] ?? 50) * 0.01, 1, 40)
             setIsMuted(object["local:isMuted"])
             videoRef.current.muted = object["local:isMuted"] ?? false
         })
 
         const updateVolumeState = () => {
             if (!videoRef.current) return
-            setVideoVolume(amplitudeToPerceptual(videoRef.current.volume) * 100)
-            storage.setItem("local:volume", amplitudeToPerceptual(videoRef.current.volume) * 100)
+            setVideoVolume(amplitudeToPerceptual(videoRef.current.volume, 1, 40) * 100)
+            storage.setItem("local:volume", amplitudeToPerceptual(videoRef.current.volume, 1, 40) * 100)
             if (videoRef.current.muted !== isMuted) {
                 setIsMuted(videoRef.current.muted)
                 storage.setItem("local:isMuted", videoRef.current.muted)

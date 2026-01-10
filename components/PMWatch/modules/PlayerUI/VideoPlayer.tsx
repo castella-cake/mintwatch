@@ -43,7 +43,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
             const wheelGestureAmount = (syncStorage.wheelGestureAmount ?? getDefault("wheelGestureAmount")) / 100
             const video = videoRef.current
             if (!video) return
-            let actualVideoVolume = amplitudeToPerceptual(video.volume)
+            let actualVideoVolume = amplitudeToPerceptual(video.volume, 1, 40)
             // 右クリックを押しながらホイールで音量を変更
             if (e.buttons < 2 || enableVolumeGesture === false || !video) return
             if (e.deltaY < 0) {
@@ -59,7 +59,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
                     actualVideoVolume -= wheelGestureAmount
                 }
             }
-            video.volume = perceptualToAmplitude(actualVideoVolume)
+            video.volume = perceptualToAmplitude(actualVideoVolume, 1, 40)
             setShortcutFeedback(`音量: ${Math.round(actualVideoVolume * 100)}%`)
             e.preventDefault()
             volumeGestureUsedRef.current = true
