@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react"
 // import { useLang } from "../localizeHook";
 import PlayerController, { playerTypes } from "./PlayerController"
 import VefxController from "./VefxController"
-import { useHlsVideo } from "@/hooks/hlsHooks"
 import { Comment } from "@/types/CommentData"
 import type { Dispatch, SetStateAction } from "react"
 import CommentInput from "./CommentInput"
@@ -30,6 +29,7 @@ import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { borderMyComments } from "@/utils/commentUtils"
+import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 
 type Props = {
     isFullscreenUi: boolean
@@ -140,11 +140,23 @@ function Player(props: Props) {
     const shouldUseContentScriptHls = !(
         import.meta.env.FIREFOX || syncStorage.pmwforcepagehls
     )
-    const { hlsRef, errorInfo } = useHlsVideo(
+    /* const { hlsRef, errorInfo } = useHlsVideo(
         videoRef,
         videoInfo,
         videoId,
         actionTrackId,
+        shouldUseContentScriptHls,
+        localStorage.preferredLevel ?? -1,
+    ) */
+    const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
+        videoId,
+        videoInfo,
+        actionTrackId,
+        shouldUseContentScriptHls,
+    )
+    const hlsRef = useHls(
+        videoRef,
+        hlsAccessRightsData,
         shouldUseContentScriptHls,
         localStorage.preferredLevel ?? -1,
     )
