@@ -1,8 +1,8 @@
 import { useState, useRef } from "react"
 // import { useLang } from "../localizeHook";
-import type { Comment, CommentDataRootObject } from "@/types/CommentData"
+import type { Comment } from "@/types/CommentData"
 import { VideoDataRootObject } from "@/types/VideoData"
-import { IconAdjustmentsHorizontal, IconBubbleX, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"
+import { IconAdjustmentsHorizontal, IconAlertTriangle, IconBubbleX, IconExclamationCircle, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"
 import { TimeMachine } from "./TimeMachineUi"
 import {
     useVideoInfoContext,
@@ -14,9 +14,11 @@ import {
 } from "@/components/Global/Contexts/CommentDataProvider"
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
-import CommentRow from "./CommentRow"
+import { CommentRow } from "./CommentRow"
 import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import APIError from "@/utils/classes/APIError"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -55,6 +57,7 @@ const Comments = ({
     onNicoru,
     onSeekTo,
     doAutoScroll,
+    onCommentDeletion,
 }: {
     comments: Comment[] | undefined
     listFocusable: boolean
@@ -65,6 +68,7 @@ const Comments = ({
         isMyPost: boolean,
     ) => void
     onSeekTo: (currentTime: number) => void
+    onCommentDeletion: (commentNo: number) => void
     doAutoScroll: boolean
 }) => {
     const { enableShokuninMode } = useStorageVar(["enableShokuninMode"])
@@ -135,6 +139,7 @@ const Comments = ({
                             onSeekTo={onSeekTo}
                             onItemExpand={toggleCommentItemExpand}
                             isAdvancedMode={enableShokuninMode}
+                            onCommentDeletion={onCommentDeletion}
                         />
                     )
                 })}
@@ -147,6 +152,7 @@ const ariaDetails
     = "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。"
 
 function CommentList() {
+    const { showAlert, showToast } = useSetMessageContext()
     const { videoInfo } = useVideoInfoContext()
     const { commentContent } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
@@ -168,12 +174,6 @@ function CommentList() {
 
     const [commentSortKey, setCommentSortKey] = useState<keyof typeof sortKeys>("vposMs")
     const [reverseCommentSort, setReverseCommentSort] = useState(false)
-
-    const videoInfoRef = useRef<VideoDataRootObject | undefined>(null)
-    videoInfoRef.current = videoInfo
-
-    const commentContentRef = useRef<CommentDataRootObject | undefined>(undefined)
-    commentContentRef.current = commentContent
 
     // 早い順にソート
     const filteredComments = useMemo(() => {
@@ -222,7 +222,67 @@ function CommentList() {
             isMyPost,
         })
     }, [currentForkType, videoInfo])
-    // console.log(scrollPosList)
+
+    const handleCommentDeletion = useCallback((commentNo: number) => {
+        showAlert({
+            icon: <IconAlertTriangle />,
+            title: "自分のコメントを削除",
+            body: "投稿したコメントを削除しますか？\nこの操作は元に戻せず、ニコる数なども失われます。\n(現在のコメントデータはリロードされます)",
+            customCloseButton: [
+                {
+                    key: "cancel",
+                    text: "キャンセル",
+                },
+                {
+                    key: "delete",
+                    text: "削除する",
+                    primary: true,
+                },
+            ],
+            onClose: async (type) => {
+                if (type !== "delete") return
+                if (!videoInfo || !commentContent || !commentContent.data) return
+                const currentThread = videoInfo.data.response.comment.threads[currentForkType]
+                const keyResponse = await getCommentDeleteKey(currentThread.id, currentThread.forkLabel).catch((e) => {
+                    if (e instanceof APIError) {
+                        showToast({
+                            title: `コメントの削除に失敗しました: ${e.response?.meta?.status}`,
+                            icon: <IconExclamationCircle />,
+                            body: `コメント削除キーの取得中にエラーが発生しました。`,
+                        })
+                    }
+                })
+                if (keyResponse && keyResponse.meta.status === 200) {
+                    const deleteResponse = await putCommentOwnerDeletion(currentThread.id, {
+                        videoId: videoInfo.data.response.video.id,
+                        fork: currentThread.forkLabel,
+                        language: videoInfo.data.response.comment.nvComment.params.language,
+                        deleteKey: keyResponse.data.deleteKey,
+                        targets: [
+                            {
+                                no: commentNo,
+                                operation: "DELETE",
+                            },
+                        ],
+                    }).catch((e) => {
+                        if (e instanceof APIError) {
+                            showToast({
+                                title: `コメントの削除に失敗しました: ${e.response?.meta?.status}`,
+                                icon: <IconExclamationCircle />,
+                                body: `nvcomment サーバーへのリクエスト中にエラーが発生しました。`,
+                            })
+                        }
+                    })
+                    if (deleteResponse && deleteResponse.meta.status === 200) {
+                        await reloadCommentContent()
+                        showToast({
+                            title: "コメントを削除しました",
+                        })
+                    }
+                }
+            },
+        })
+    }, [showAlert, showToast, videoInfo, commentContent, currentForkType])
 
     const seekTo = useCallback((time: number) => {
         if (videoRef.current) {
@@ -387,6 +447,7 @@ function CommentList() {
                 onNicoru={onNicoru}
                 onSeekTo={seekTo}
                 doAutoScroll={autoScroll && commentSortKey === "vposMs"}
+                onCommentDeletion={handleCommentDeletion}
             />
         </div>
     )

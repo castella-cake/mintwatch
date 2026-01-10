@@ -8,20 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased - 2025/01
 
 ### Added
-- 「この動画のタグ情報」動画アクションを追加しました  
-  大百科記事の先頭や、動画IDが含まれている場合にそのリンクが表示されます
-- コマンドパレットを追加しました  
+- 「この動画のタグ情報」動画アクションを追加しました [#65](https://github.com/castella-cake/mintwatch/issues/65) [#64](https://github.com/castella-cake/mintwatch/issues/64)
+  大百科記事の先頭や、動画IDが含まれている場合にそのリンクが表示されます 
+- コマンドパレットを追加しました [#67](https://github.com/castella-cake/mintwatch/issues/67)
   詳細設定から「職人モード」を有効化すると、フォントやCA用のコマンドも表示されるようになります。
-- OmniHeader を追加しました
+- OmniHeader を追加しました [#69](https://github.com/castella-cake/mintwatch/issues/69)
 - 12月~2月の間に、サイドメニューを開くと背景に雪が降るようになりました
-- 実験的に「タグデータをAPIから自動取得する」を追加しました  
+- 実験的に「タグデータをAPIから自動取得する」を追加しました [#65](https://github.com/castella-cake/mintwatch/issues/65)
   タグ編集APIからタグ情報を取得し、仕様変更前のような大百科記事の表示を行うことができます。
 - 「過去に投稿したコメントにオレンジの枠線を表示」を追加しました
+- コメント詳細表示から直接ユーザーをNGできるようになりました
+- コメント詳細表示から自分のコメントを削除できるようになりました [#19](https://github.com/castella-cake/mintwatch/issues/19)
 
 ### Changed
 - 音量スライダー/音量ジェスチャー経由での音量操作に対数カーブを用いるようになりました
 - 詳細設定から「職人モード」を有効化すると、コメント詳細を開いた際にリーフなどのソース表示が行われるようになりました
-- コメントに動画IDが含まれている場合に、コメント詳細にその動画へのリンクを表示するようになりました
+- コメントに動画IDが含まれている場合に、コメント詳細にその動画へのリンクを表示するようになりました [#64](https://github.com/castella-cake/mintwatch/issues/64)
 
 ### Fixed
 - 一度コメントを投稿すると、コメントの詳細表示に`nico:waku:`から始まる内部コマンドが表示される問題を修正しました
