@@ -1,20 +1,6 @@
 import APIError from "@/utils/classes/APIError"
 import { useQuery } from "@tanstack/react-query"
 
-// AudioQualityItemとVideoQualityItemの型を定義
-type QualityItem = {
-    isAvailable: boolean
-    id: string // 必要に応じて他のプロパティを追加
-}
-
-// クオリティ配列から、利用可能な中で最も良いクオリティのオブジェクトを返す。
-function returnGreatestQuality<T extends QualityItem>(array: T[]): T | false {
-    for (const elem of array) {
-        if (elem.isAvailable) return elem
-    }
-    return false
-}
-
 export function useAccessRightsData(videoId: string | null, videoInfo: VideoDataRootObject | undefined, actionTrackId: string, isEnabled = true) {
     const { data: accessRightsData, error } = useQuery({
         queryKey: ["accessRightsData", videoId, actionTrackId],
