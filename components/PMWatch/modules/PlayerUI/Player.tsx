@@ -9,7 +9,7 @@ import Settings from "./Settings/Settings"
 import { StatsOverlay } from "./StatsOverlay"
 import { CSSTransition } from "react-transition-group"
 import { EndCard } from "./EndCard"
-import { effectsState, useAudioEffects } from "@/hooks/eqHooks"
+import { useAudioEffects } from "@/hooks/eqHooks"
 import { ErrorScreen } from "./ErrorScreen"
 import { CommentRender } from "./CommentRender"
 import { VideoPlayer } from "./VideoPlayer"
@@ -504,12 +504,7 @@ function Player(props: Props) {
                         nodeRef={vefxElemRef}
                         frequencies={frequencies}
                         effectsState={effectsState}
-                        onEffectsChange={(state: effectsState) => {
-                            storage.setItem("local:vefxSettings", state)
-                            // 反映して再レンダリング
-                            handleEffectsChange(state)
-                            setEffectsState(state)
-                        }}
+                        onEffectsChange={handleEffectsChange}
                     />
                 </CSSTransition>
                 <CSSTransition
