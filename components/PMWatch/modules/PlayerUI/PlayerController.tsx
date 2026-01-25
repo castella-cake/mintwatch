@@ -85,6 +85,7 @@ function PlayerController(props: Props) {
         const setIconToPause = () => setIsIconPlay(false)
         const setIconToPlay = () => setIsIconPlay(true)
 
+        setIsIconPlay(videoRef.current?.paused ?? false)
         videoRef.current?.addEventListener("play", setIconToPause)
         videoRef.current?.addEventListener("pause", setIconToPlay)
         return () => {

@@ -88,6 +88,11 @@ export const playerSettings: PlayerSettingList = {
                 texts: ["5秒", "10秒", "15秒", "30秒"],
                 name: "スキップ操作のシーク時間",
             },
+            enableAutoPlay: {
+                type: "checkbox",
+                defaultValue: true,
+                name: "自動再生",
+            },
             enableWheelGesture: {
                 type: "checkbox",
                 defaultValue: true,

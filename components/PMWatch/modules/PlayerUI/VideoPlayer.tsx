@@ -1,4 +1,5 @@
 import { amplitudeToPerceptual, perceptualToAmplitude } from "@discordapp/perceptual"
+import { IconPlayerPlayFilled } from "@tabler/icons-react"
 import { ReactNode, RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -14,6 +15,7 @@ type VideoPlayerProps = {
     videoAuthor?: string
     videoGenre?: string
     setShortcutFeedback: (text: string) => void
+    isAutoplayEnabled?: boolean
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
@@ -29,10 +31,12 @@ export function VideoPlayer(props: VideoPlayerProps) {
         videoAuthor,
         videoGenre,
         setShortcutFeedback,
+        isAutoplayEnabled,
     } = props
     const syncStorage = useStorageVar(["wheelGestureAmount"] as const)
 
     const [canPlay, setCanPlay] = useState(false)
+    const [isPlaying, setIsPlaying] = useState(false)
     const nodeRef = useRef(null)
     const videoContainerRef = useRef<HTMLDivElement>(null)
 
@@ -80,7 +84,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
     return (
         <div className="player-video-container">
             <div className="player-video-container-inner" ref={videoContainerRef}>
-                <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={100} unmountOnExit classNames="player-loading-transition">
+                <CSSTransition nodeRef={nodeRef} in={!canPlay && !isPlaying} timeout={isAutoplayEnabled ? 300 : 100} unmountOnExit classNames="player-loading-transition">
                     <div ref={nodeRef} className="player-video-loading-container">
                         <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
                         <div className="player-video-loading-text-container">
@@ -99,15 +103,30 @@ export function VideoPlayer(props: VideoPlayerProps) {
                 </CSSTransition>
                 <video
                     ref={videoRef}
-                    autoPlay
-                    onPause={() => { onPause() }}
+                    autoPlay={isAutoplayEnabled}
+                    onPause={onPause}
                     onEnded={onEnded}
                     onCanPlay={() => { setCanPlay(true) }}
+                    onLoadStart={() => { setCanPlay(false) }}
+                    onPlay={() => { setIsPlaying(true) }}
+                    onEmptied={() => {
+                        setCanPlay(false)
+                        setIsPlaying(false)
+                    }}
                     width="1920"
                     height="1080"
                     id="pmw-element-video"
                     onClick={onClick}
                 />
+                {
+                    !isAutoplayEnabled && canPlay && !isPlaying && (
+                        <div className="player-video-playbutton-container">
+                            <button className="player-video-playbutton" type="button" onClick={() => videoRef.current?.play()}>
+                                <IconPlayerPlayFilled />
+                            </button>
+                        </div>
+                    )
+                }
                 { children }
             </div>
         </div>

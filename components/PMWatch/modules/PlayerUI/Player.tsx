@@ -76,6 +76,7 @@ function Player(props: Props) {
         "enableBigView",
         "rewindTime",
         "borderPastMyComments",
+        "enableAutoPlay",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -457,6 +458,7 @@ function Player(props: Props) {
                     localStorage.enableWheelGesture
                 }
                 setShortcutFeedback={setShortcutFeedback}
+                isAutoplayEnabled={localStorage.enableAutoPlay ?? true}
             >
                 {filteredComments && (
                     <CommentRender
