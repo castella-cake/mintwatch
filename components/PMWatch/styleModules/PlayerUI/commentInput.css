@@ -6,6 +6,10 @@
 
     position: relative;
 
+    &[data-is-prohibited="true"] {
+        opacity: 0.5;
+    }
+
     > input, > .commentinput-textarea-container > .commentinput-input {
         background: var(--bgcolor1);
         color: var(--textcolor1);
@@ -73,13 +77,17 @@
     transition: var(--transition-normal);
     cursor: pointer;
     
-    &:hover {
+    &:not([aria-disabled="true"]):hover {
         background: var(--hover1);
     }
 
     &[data-is-active="true"] {
         background: var(--textcolor2);
         color: var(--bgcolor1);
+    }
+
+    &[aria-disabled="true"] {
+        cursor: not-allowed;
     }
 }
 

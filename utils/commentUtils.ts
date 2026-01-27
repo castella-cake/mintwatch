@@ -61,3 +61,39 @@ export function borderMyComments(threads: Thread[], lastCommentId: string, borde
         return { ...thread, comments: newComments }
     })
 }
+
+const nicoScriptStringRegex = /^[@＠](.+)/
+const nicoScriptDurationRegex = /^[@＠]([0-9]+)/
+
+type nicoScriptEvent = { type: string, startVpos: number, endVpos: number }
+
+/**
+ * スレッドからニコスクリプトのイベント情報を解析して取得する
+ * @param threads コメントのスレッド配列
+ * @returns nicoScriptEventの配列
+ */
+export function parseNicoScriptEvent(threads: Thread[]): nicoScriptEvent[] {
+    const eventArray: nicoScriptEvent[] = []
+
+    // オーナースレッドを見つける
+    const ownerThread = threads.find(thread => thread.fork === "owner")
+    if (!ownerThread) return eventArray
+
+    // オーナースレッドのコメントを解析してイベント情報を取得する
+    for (const comment of ownerThread.comments) {
+        const stringRegexResult = comment.body.match(nicoScriptStringRegex)
+        if (!stringRegexResult) continue
+
+        // 今はコメント禁止コマンドのみ対応
+        switch (stringRegexResult?.[1]) {
+            case "コメント禁止": {
+                const durationCommand = comment.commands.find(command => nicoScriptDurationRegex.test(command))
+                const durationMatch = durationCommand?.match(nicoScriptDurationRegex)
+                const duration = durationMatch ? Number(durationMatch[1]) : 30
+                eventArray.push({ type: "commentProhibited", startVpos: comment.vposMs, endVpos: comment.vposMs + duration * 1000 })
+                break
+            }
+        }
+    }
+    return eventArray
+}
