@@ -19,46 +19,38 @@ export async function getCommentDataWithRetry(nvComment: NvComment | undefined, 
         },
         threadKey: commentThreadKeyRef.current.threadKey,
     }
-    let commentResponse = await getCommentThread(
-        nvComment.server,
-        JSON.stringify(commentRequestBody),
-    )
-    if (!commentResponse.data || !commentResponse.data.threads) {
-        if (commentResponse.meta?.errorCode === "EXPIRED_TOKEN") {
-            console.log(
-                "PMW: getCommentThread failed with expired token, fetching token...",
-            )
-            const threadKeyResponse = await getCommentThreadKey(smId)
-            if (
-                threadKeyResponse.meta
-                && threadKeyResponse.meta.status === 200
-                && threadKeyResponse.data.threadKey
-            ) {
-                commentThreadKeyRef.current = { threadKey: threadKeyResponse.data.threadKey, thisSmId: smId }
-                const newCommentRequestBody = {
-                    params: {
-                        ...nvComment.params,
-                        ...logParams,
-                    },
-                    threadKey: commentThreadKeyRef.current.threadKey,
-                }
-                commentResponse = await getCommentThread(
-                    nvComment.server,
-                    JSON.stringify(newCommentRequestBody),
+    try {
+        return await getCommentThread(nvComment.server, JSON.stringify(commentRequestBody))
+    } catch (error) {
+        if (error instanceof APIError) {
+            if (error.response?.meta?.errorCode === "EXPIRED_TOKEN") {
+                // ここのFetch類は直接throwしてもらう
+                console.log(
+                    "PMW: getCommentThread failed with expired token, fetching token...",
                 )
+                const threadKeyResponse = await getCommentThreadKey(smId)
                 if (
-                    !commentResponse.data
-                    || !commentResponse.data.threads
+                    threadKeyResponse.meta
+                    && threadKeyResponse.meta.status === 200
+                    && threadKeyResponse.data.threadKey
                 ) {
-                    throw new APIError("getCommentThread failed. (1 threadKey retry)", commentResponse)
+                    commentThreadKeyRef.current = { threadKey: threadKeyResponse.data.threadKey, thisSmId: smId }
+                    const newCommentRequestBody = {
+                        params: {
+                            ...nvComment.params,
+                            ...logParams,
+                        },
+                        threadKey: commentThreadKeyRef.current.threadKey,
+                    }
+                    return await getCommentThread(
+                        nvComment.server,
+                        JSON.stringify(newCommentRequestBody),
+                    )
                 }
             } else {
-                console.error("PMW: fetching threadKey failed.")
-                throw new APIError("fetching threadKey failed.", threadKeyResponse)
+                throw new APIError("getCommentThreadWithRetry failed with unknown reason. (no threadKey retry)", error.response)
             }
-        } else {
-            throw new APIError("getCommentThread failed with unknown reason. (no threadKey retry)", commentResponse)
         }
     }
-    return commentResponse
+    throw new Error("getCommentThread failed with unknown reason.")
 }
