@@ -27,7 +27,7 @@ export const watchLayoutType = {
 
 type Props = {
     playerSize: number
-    onChangeVideo: (smId: string, doScroll?: boolean) => void
+    onChangeVideo: (smId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
 }

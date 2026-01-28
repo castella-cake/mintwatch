@@ -30,11 +30,12 @@ import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { borderMyComments } from "@/utils/commentUtils"
 import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
+import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 
 type Props = {
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
-    changeVideo: (videoId: string, doScroll?: boolean) => void
+    changeVideo: (videoId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void
 }
 
@@ -49,6 +50,7 @@ function Player(props: Props) {
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
     const { ngData } = useViewerNgContext()
+    const isBackgroundPlaying = useBackgroundPlayingContext()
 
     const videoId = smId ?? ""
 
@@ -342,6 +344,7 @@ function Player(props: Props) {
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
                 !isAutoPlayTrigger,
+                isBackgroundPlaying,
             )
         } else if (
             recommendData
@@ -353,6 +356,7 @@ function Player(props: Props) {
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(recommendData.data.items[0].content.id)}`,
                 !isAutoPlayTrigger,
+                isBackgroundPlaying,
             )
         }
     }

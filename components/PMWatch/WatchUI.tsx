@@ -44,8 +44,17 @@ function CreateWatchUI() {
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const backgroundPlaying = useBackgroundPlayingContext()
 
+    const internalChangeVideo = useCallback((smIdAfter: string) => {
+        if (smId === smIdAfter) return
+        // 再度来ても良いようにキャッシュを破棄する
+        queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
+        queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
+        if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
+        setSmId(smIdAfter)
+    }, [smId])
+
     // ナビゲーション処理はlistenPopStateで行います
-    const changeVideo = useCallback((videoUrl: string, doScroll = true) => {
+    const changeVideo = useCallback((videoUrl: string, doScroll = true, noLocationChange = false) => {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
@@ -59,9 +68,15 @@ function CreateWatchUI() {
             })
         }
         setVideoActionModalState(false)
+        if (noLocationChange) {
+            const parsedUrl = new URL(videoUrl)
+            const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
+            internalChangeVideo(smIdAfter)
+            return
+        }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [smId, autoScrollPositionOnVideoChange])
+    }, [smId, autoScrollPositionOnVideoChange, internalChangeVideo])
 
     const linkClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {
@@ -95,19 +110,14 @@ function CreateWatchUI() {
             ); */
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
-                if (smId !== smIdAfter) {
-                    queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
-                    queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
-                    if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
-                    setSmId(smIdAfter)
-                }
+                internalChangeVideo(smIdAfter)
                 updatePlaylistState(location.search)
             };
         })
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, videoInfo])
+    }, [smId, videoInfo, internalChangeVideo])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)

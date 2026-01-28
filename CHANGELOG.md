@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2025/01
+## Unreleased - 2026/01
 
 ### Added
 - 「この動画のタグ情報」動画アクションを追加しました [#65](https://github.com/castella-cake/mintwatch/issues/65) [#64](https://github.com/castella-cake/mintwatch/issues/64)
@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - コメントを投稿した場合に、スレッドキーが正しく更新可能であるにも関わらずエラーが発生する問題を修正しました
 - 一部の処理を最適化しました
 - HTML構造の一部修正を行い、input系要素に一意のIDが設定されるようになりました
+- ミニプレイヤーで再生中に再生キューの自動再生が発生すると、ページが視聴ページに戻る問題を修正しました
 
 ## 0.10.2 - 2025/12/16
 
