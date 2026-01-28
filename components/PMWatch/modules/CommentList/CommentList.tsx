@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useId } from "react"
 // import { useLang } from "../localizeHook";
 import type { Comment } from "@/types/CommentData"
 import { VideoDataRootObject } from "@/types/VideoData"
@@ -152,6 +152,8 @@ const ariaDetails
     = "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。"
 
 function CommentList() {
+    const elementId = useId()
+
     const { showAlert, showToast } = useSetMessageContext()
     const { videoInfo } = useVideoInfoContext()
     const { commentContent } = useCommentContentContext()
@@ -360,8 +362,10 @@ function CommentList() {
                         setCurrentForkType(Number(e.currentTarget.value))
                     }}
                     value={currentForkType}
-                    className="commentlist-fork-selector"
+                    className="commentlist-selector"
+                    aria-label="コメント種類選択"
                     title="コメント種類選択"
+                    id={`${elementId}-fork-selector`}
                 >
                     {videoInfo.data.response.comment.threads.map(
                         (elem, index) => {
@@ -387,6 +391,7 @@ function CommentList() {
                             onChange={(e) => {
                                 setOnlyShowMyselfComments(e.target.checked)
                             }}
+                            id={`${elementId}-only-show-myself-input`}
                         >
                         </input>
                         自分のコメントのみ表示
@@ -396,8 +401,10 @@ function CommentList() {
                             setCommentSortKey(e.target.value as keyof typeof sortKeys)
                         }}
                         value={commentSortKey}
-                        className="commentlist-fork-selector"
+                        className="commentlist-selector"
+                        aria-label="ソート選択"
                         title="ソート選択"
+                        id={`${elementId}-sort-selector`}
                     >
                         {Object.keys(sortKeys).map((sortKey) => {
                             return <option key={sortKey} value={sortKey}>{sortKeys[sortKey as keyof typeof sortKeys]}</option>

@@ -1,4 +1,7 @@
+import { useId } from "react"
+
 export default function PercentageSliders({ settingKey, setting }: { settingKey: string, setting: PlayerSetting }) {
+    const elementId = useId()
     const settingStorage = useStorageVar([settingKey], "local")
 
     // 地獄？
@@ -40,6 +43,7 @@ export default function PercentageSliders({ settingKey, setting }: { settingKey:
                                 setPercentages({ ...percentages, [key]: Number(e.currentTarget.value) })
                             }}
                             ref={(elem) => { sliderRefs.current[key] = elem! }}
+                            id={elementId}
                         />
                     </div>
                 )

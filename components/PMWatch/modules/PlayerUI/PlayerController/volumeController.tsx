@@ -1,7 +1,7 @@
 import { IconVolume, IconVolume3 } from "@tabler/icons-react"
 import { PlayerControllerButton } from "./Button"
 import { useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { startTransition, useCallback, useState, useEffect } from "react"
+import { startTransition, useCallback, useState, useEffect, useId } from "react"
 import { getStorageItemsWithObject } from "@/utils/storageControl"
 import ShinjukuMuted from "@/assets/shinjuku/Muted.svg?react"
 import ShinjukuUnMuted from "@/assets/shinjuku/UnMuted.svg?react"
@@ -59,9 +59,20 @@ export function VolumeController({ currentPlayerType }: { currentPlayerType: key
 }
 
 function VolumeSlider({ videoVolume, handleVolumeChange: onVolumeChange, isMuted }: { videoVolume: number, handleVolumeChange: React.ChangeEventHandler<HTMLInputElement>, isMuted: boolean }) {
+    const elementId = useId()
     return (
         <span key="control-volume" className="playercontroller-volume-container" style={{ ["--width" as string]: `${videoVolume}%` }}>
-            <input type="range" className="playercontroller-volume" min="0" max="100" value={videoVolume} disabled={isMuted} aria-label={`音量 ${Math.floor(videoVolume)}%`} onChange={onVolumeChange} />
+            <input
+                type="range"
+                className="playercontroller-volume"
+                min="0"
+                max="100"
+                value={videoVolume}
+                disabled={isMuted}
+                aria-label={`音量 ${Math.floor(videoVolume)}%`}
+                onChange={onVolumeChange}
+                id={elementId}
+            />
             <span className="playercontroller-volume-tooltip">
                 {Math.floor(videoVolume)}
                 %

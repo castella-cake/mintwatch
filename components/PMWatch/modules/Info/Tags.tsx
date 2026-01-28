@@ -3,6 +3,7 @@ import { IconAlertTriangle, IconCheck, IconCircleX, IconEdit, IconLock, IconLock
 import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useId } from "react"
 
 type compatibleTag = {
     name: string
@@ -24,6 +25,8 @@ function tagLengthCounter(tagText: string) {
 }
 
 export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
+    const elementId = useId()
+
     const { smId } = useSmIdContext()
     const { showAlert } = useSetMessageContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
@@ -256,7 +259,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             </div>
             {isEditMode && (
                 <div className="tags-add-container">
-                    <input type="text" placeholder="タグ名を入力…" ref={tagInputRef} className="tags-add-input" />
+                    <input type="text" placeholder="タグ名を入力…" ref={tagInputRef} className="tags-add-input" id={elementId} />
                     <button onClick={onTagAdd} className="tags-add-button" aria-disabled={!canAddTag}>{ canAddTag ? "追加" : "追加できません" }</button>
                 </div>
             )}

@@ -1,11 +1,12 @@
 import { playerSettings, playerSettingsLabel } from "@/utils/playerSettingList"
-import { Dispatch, RefObject, SetStateAction } from "react"
+import { Dispatch, RefObject, SetStateAction, useId } from "react"
 import { Stacker } from "../../Stacker"
 import SettingsList from "./SettingsList"
 
 const manifestData = browser.runtime.getManifest()
 
 function Settings({ isStatsShown, setIsStatsShown, nodeRef }: { isStatsShown: boolean, setIsStatsShown: Dispatch<SetStateAction<boolean>>, nodeRef: RefObject<HTMLDivElement | null> }) {
+    const statisticsCheckboxId = useId()
     return (
         <div className="playersettings-container" id="pmw-player-settings" ref={nodeRef}>
             <div className="playersettings-title">
@@ -31,7 +32,12 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: { isStatsShown: bo
             />
             <div className="playersettings-item">
                 <label>
-                    <input type="checkbox" checked={isStatsShown} onChange={(e) => { setIsStatsShown(e.currentTarget.checked) }} />
+                    <input
+                        type="checkbox"
+                        checked={isStatsShown}
+                        onChange={(e) => { setIsStatsShown(e.currentTarget.checked) }}
+                        id={statisticsCheckboxId}
+                    />
                     統計情報を表示(一時的)
                 </label>
             </div>

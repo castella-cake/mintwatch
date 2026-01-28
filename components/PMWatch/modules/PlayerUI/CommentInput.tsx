@@ -1,5 +1,5 @@
 import { IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
-import { useRef, useState } from "react"
+import { useId, useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData"
 import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
@@ -18,6 +18,8 @@ type Props = {
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
 function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
+    const elementId = useId()
+
     const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
     const { showAlert } = useSetMessageContext()
     const { commentContent } = useCommentContentContext()
@@ -247,7 +249,14 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                     }}
                 />
             </div>
-            <input ref={commandInput} className="commentinput-cmdinput" placeholder="コマンド" onChange={onChangeCommandInput} value={commandValue} />
+            <input
+                ref={commandInput}
+                className="commentinput-cmdinput"
+                placeholder="コマンド"
+                onChange={onChangeCommandInput}
+                value={commandValue}
+                id={`${elementId}-cmdinput`}
+            />
             <div className="commentinput-textarea-container global-flex1">
                 <div className="commentinput-textarea-dummy" aria-hidden="true">{dummyTextAreaContent + "\u200b"}</div>
                 <textarea
@@ -260,6 +269,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                     onCompositionEnd={endComposition}
                     aria-disabled={isCommentProhibited}
                     readOnly={isCommentProhibited}
+                    id={`${elementId}-commentinput`}
                 />
                 <div className="commentinput-remaining" style={(remainingLength < 0) ? { color: "var(--dangerous1)", opacity: remainingTextOpacity } : { opacity: remainingTextOpacity }}>
                     {remainingLength}

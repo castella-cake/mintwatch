@@ -284,7 +284,9 @@ function PlayerController(props: Props) {
                                         }}
                                         value={hlsLevel}
                                         className="playercontroller-qualityselect"
+                                        aria-label="画質選択"
                                         title="画質選択"
+                                        id="pmw-qualityselector"
                                     >
                                         {hlsRef.current.levels.map((elem, index) => {
                                             return <option value={index} key={index}>{(qualityLabels && qualityLabels[index]) || `${elem.height}p`}</option>
