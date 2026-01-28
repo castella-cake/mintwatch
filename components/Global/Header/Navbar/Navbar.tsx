@@ -3,7 +3,6 @@ import { IconMenu2 } from "@tabler/icons-react"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import NavbarCustomArea from "./NavbarCustomArea"
 import { Dispatch, SetStateAction } from "react"
-import NavbarBackgroundPlayer from "./NavbarBackgroundPlayer"
 import MintToolBox from "./MintToolBox"
 import { NicoHarajukuLogo, RandomHidariueImg } from "@/components/PMWatch/modules/ShinjukuUI"
 import whatsNewData from "@/assets/whatsnew.json"
@@ -47,7 +46,6 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
                             <NavbarCustomArea isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
                             <div className="navbar-right-separator" />
                             {children}
-                            <NavbarBackgroundPlayer />
                             <MintToolBox omitKeys={["vanilla", "settings"]} />
                         </>
                     )}

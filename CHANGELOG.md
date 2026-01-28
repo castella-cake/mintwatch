@@ -34,6 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - HTML構造の一部修正を行い、input系要素に一意のIDが設定されるようになりました
 - ミニプレイヤーで再生中に再生キューの自動再生が発生すると、ページが視聴ページに戻る問題を修正しました
 
+### Removed
+- ミニプレイヤーの表示はナビゲーションバーに行われないようになりました
+
 ## 0.10.2 - 2025/12/16
 
 ### Changed
