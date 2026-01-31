@@ -134,7 +134,7 @@
         &-exit-active {
             --loading-blur: 32px;
 
-            transition: --loading-blur 0.1s ease, opacity 0.1s ease;
+            transition: --loading-blur 0.3s ease, opacity 0.3s ease;
         }
 
         &-enter, &-exit-active {
@@ -344,5 +344,34 @@
     &-enter-done, &-enter-active {
         transform: translateY(0%);
         opacity: 1;
+    }
+}
+
+.player-video-playbutton-container {
+    display: grid;
+    place-content: center;
+    position: absolute;
+    inset: 0;
+    background: #0005;
+}
+
+.player-video-playbutton {
+    border: 1px solid #888;
+    border-radius: 16px;
+    height: 5rem;
+    width: 10rem;
+    background: #000a;
+    color: #fff;
+    box-shadow: 0 0 8px #888;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: #222a;
+        box-shadow: 0 0 16px #888;
+    }
+
+    svg {
+        width: 3rem;
+        height: 3rem;
     }
 }

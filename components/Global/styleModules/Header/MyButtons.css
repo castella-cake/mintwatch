@@ -1,0 +1,40 @@
+.header-mybuttons-container {
+    display: flex;
+}
+
+.header-mybuttons-container > button, .header-mybuttons-container > a {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+        color: #fff;
+    }
+
+    &[data-is-active="true"] {
+        background: #444;
+        color: #fff;
+    }
+}
+
+.header-mybuttons-container > button { 
+    color: #888;
+    
+    svg {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+        padding: 7px;
+    }
+}
+
+.header-mybuttons-container > a {
+    text-decoration: none;
+}
+
+.header-mybuttons-container .header-account {
+    font-size: 0.8rem;
+    line-height: 1em;
+}

@@ -1,3 +1,5 @@
+import { amplitudeToPerceptual, perceptualToAmplitude } from "@discordapp/perceptual"
+import { IconPlayerPlayFilled } from "@tabler/icons-react"
 import { ReactNode, RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 
@@ -13,6 +15,7 @@ type VideoPlayerProps = {
     videoAuthor?: string
     videoGenre?: string
     setShortcutFeedback: (text: string) => void
+    isAutoplayEnabled?: boolean
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
@@ -28,10 +31,12 @@ export function VideoPlayer(props: VideoPlayerProps) {
         videoAuthor,
         videoGenre,
         setShortcutFeedback,
+        isAutoplayEnabled,
     } = props
     const syncStorage = useStorageVar(["wheelGestureAmount"] as const)
 
     const [canPlay, setCanPlay] = useState(false)
+    const [isPlaying, setIsPlaying] = useState(false)
     const nodeRef = useRef(null)
     const videoContainerRef = useRef<HTMLDivElement>(null)
 
@@ -41,22 +46,25 @@ export function VideoPlayer(props: VideoPlayerProps) {
         function onWheel(e: WheelEvent) {
             const wheelGestureAmount = (syncStorage.wheelGestureAmount ?? getDefault("wheelGestureAmount")) / 100
             const video = videoRef.current
+            if (!video) return
+            let actualVideoVolume = amplitudeToPerceptual(video.volume, 1, 40)
             // 右クリックを押しながらホイールで音量を変更
             if (e.buttons < 2 || enableVolumeGesture === false || !video) return
             if (e.deltaY < 0) {
-                if (video.volume + wheelGestureAmount > 1) {
-                    video.volume = 1
+                if (actualVideoVolume + wheelGestureAmount > 1) {
+                    actualVideoVolume = 1
                 } else {
-                    video.volume += wheelGestureAmount
+                    actualVideoVolume += wheelGestureAmount
                 }
             } else {
-                if (video.volume - wheelGestureAmount < 0) {
-                    video.volume = 0
+                if (actualVideoVolume - wheelGestureAmount < 0) {
+                    actualVideoVolume = 0
                 } else {
-                    video.volume -= wheelGestureAmount
+                    actualVideoVolume -= wheelGestureAmount
                 }
             }
-            setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
+            video.volume = perceptualToAmplitude(actualVideoVolume, 1, 40)
+            setShortcutFeedback(`音量: ${Math.round(actualVideoVolume * 100)}%`)
             e.preventDefault()
             volumeGestureUsedRef.current = true
         }
@@ -76,7 +84,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
     return (
         <div className="player-video-container">
             <div className="player-video-container-inner" ref={videoContainerRef}>
-                <CSSTransition nodeRef={nodeRef} in={!canPlay} timeout={100} unmountOnExit classNames="player-loading-transition">
+                <CSSTransition nodeRef={nodeRef} in={!canPlay && !isPlaying} timeout={isAutoplayEnabled ? 300 : 100} unmountOnExit classNames="player-loading-transition">
                     <div ref={nodeRef} className="player-video-loading-container">
                         <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
                         <div className="player-video-loading-text-container">
@@ -95,15 +103,30 @@ export function VideoPlayer(props: VideoPlayerProps) {
                 </CSSTransition>
                 <video
                     ref={videoRef}
-                    autoPlay
-                    onPause={() => { onPause() }}
+                    autoPlay={isAutoplayEnabled}
+                    onPause={onPause}
                     onEnded={onEnded}
                     onCanPlay={() => { setCanPlay(true) }}
+                    onLoadStart={() => { setCanPlay(false) }}
+                    onPlay={() => { setIsPlaying(true) }}
+                    onEmptied={() => {
+                        setCanPlay(false)
+                        setIsPlaying(false)
+                    }}
                     width="1920"
                     height="1080"
                     id="pmw-element-video"
                     onClick={onClick}
                 />
+                {
+                    !isAutoplayEnabled && canPlay && !isPlaying && (
+                        <div className="player-video-playbutton-container">
+                            <button className="player-video-playbutton" type="button" onClick={() => videoRef.current?.play()}>
+                                <IconPlayerPlayFilled />
+                            </button>
+                        </div>
+                    )
+                }
                 { children }
             </div>
         </div>

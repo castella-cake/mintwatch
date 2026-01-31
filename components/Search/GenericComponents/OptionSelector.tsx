@@ -1,8 +1,11 @@
 import { IconLayoutGrid, IconListDetails, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
 import { useHistoryContext } from "../../Router/RouterContext"
 import "./styles/OptionSelector.css"
+import { useId } from "react"
 
 export function OptionSelector(page: { option: SearchOption, isGridOptionUnavailable?: boolean }) {
+    const sortKeySelectorId = useId()
+
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const history = useHistoryContext()
     return (
@@ -37,6 +40,7 @@ export function OptionSelector(page: { option: SearchOption, isGridOptionUnavail
                     if (defaultOrder) currentUrl.searchParams.set("order", defaultOrder.value.toString())
                     history.push(currentUrl.toString())
                 }}
+                id={sortKeySelectorId}
             >
                 {page.option.sort.key.map((key) => {
                     return (

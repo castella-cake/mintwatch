@@ -1,5 +1,5 @@
 import { IconFolder, IconListNumbers, IconMessageLanguage, IconSearch, IconTag, IconUser } from "@tabler/icons-react"
-import { startTransition, useEffect, useRef, useState } from "react"
+import { startTransition, useEffect, useId, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
 
@@ -20,6 +20,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
     onSearch: (value: string) => void
     enableHotKey?: boolean
 }) {
+    const elementId = useId()
     const history = useHistoryContext()
     const [isComposing, setIsComposing] = useState(false)
     const [query, setQuery] = useState(initialValue)
@@ -70,6 +71,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                 onCompositionEnd={endComposition}
                 defaultValue={initialValue}
                 onChange={handleInputChange}
+                id={elementId}
             />
             <button onClick={() => onSearch()} type="button" title="検索">
                 <IconSearch />

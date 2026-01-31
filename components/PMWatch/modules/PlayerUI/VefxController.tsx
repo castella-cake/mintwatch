@@ -2,7 +2,7 @@
 // import { useStorageContext } from "../extensionHook";
 // import { useLang } from "../localizeHook";
 
-import { RefObject } from "react"
+import { RefObject, useId } from "react"
 import { effectsState } from "@/hooks/eqHooks"
 
 function delayString(delayTime: number, feedback: number) {
@@ -79,6 +79,7 @@ function VefxController({
     onEffectsChange: any
     nodeRef: RefObject<HTMLDivElement | null>
 }) {
+    const elementId = useId()
     // const lang = useLang()
     // const { syncStorage, setSyncStorageValue } = useStorageContext()
     const handleGainChange = (index: number, value: number) => {
@@ -177,6 +178,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.mono.enabled}
                             onChange={() => handleEnabledEffect("mono")}
+                            id={`${elementId}-checkbox-mono`}
                         />
                         MONO
                     </label>
@@ -187,6 +189,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.equalizer.enabled}
                             onChange={() => handleEnabledEffect("equalizer")}
+                            id={`${elementId}-checkbox-equalizer`}
                         />
                         EQUALIZER
                     </label>
@@ -213,6 +216,7 @@ function VefxController({
                                     )}
                                 list="eq-list"
                                 disabled={!effectsState.equalizer.enabled}
+                                id={`${elementId}-input-equalizer-${freq}`}
                             />
                         </div>
                     ))}
@@ -231,6 +235,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.preamp.enabled}
                             onChange={() => handleEnabledEffect("preamp")}
+                            id={`${elementId}-checkbox-preamp`}
                         />
                         <span className="vefx-name">PREAMP</span>
                         <span className="vefx-value">
@@ -252,6 +257,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.preamp.enabled}
+                            id={`${elementId}-input-preamp`}
                         />
                     </div>
                 </div>
@@ -262,6 +268,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.highpass.enabled}
                             onChange={() => handleEnabledEffect("highpass")}
+                            id={`${elementId}-checkbox-highpass`}
                         />
                         <span className="vefx-name">HIGHPASS</span>
                     </label>
@@ -290,6 +297,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.highpass.enabled}
+                            id={`${elementId}-input-highpass-cutoff`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -305,6 +313,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.highpass.enabled}
+                            id={`${elementId}-input-highpass-qfactor`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -321,6 +330,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.highpass.enabled}
+                            id={`${elementId}-input-highpass-detune`}
                         />
                     </div>
                 </div>
@@ -331,6 +341,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.lowpass.enabled}
                             onChange={() => handleEnabledEffect("lowpass")}
+                            id={`${elementId}-checkbox-lowpass`}
                         />
                         <span className="vefx-name">LOWPASS</span>
                     </label>
@@ -359,6 +370,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.lowpass.enabled}
+                            id={`${elementId}-input-lowpass-cutoff`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -374,6 +386,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.lowpass.enabled}
+                            id={`${elementId}-input-lowpass-qfactor`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -390,6 +403,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.lowpass.enabled}
+                            id={`${elementId}-input-lowpass-detune`}
                         />
                     </div>
                 </div>
@@ -407,6 +421,7 @@ function VefxController({
                             type="checkbox"
                             checked={effectsState.echo.enabled}
                             onChange={() => handleEnabledEffect("echo")}
+                            id={`${elementId}-checkbox-echo`}
                         />
                         <span className="vefx-name">
                             {delayString(
@@ -438,6 +453,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.echo.enabled}
+                            id={`${elementId}-input-echo-delay`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -454,6 +470,7 @@ function VefxController({
                                     parseFloat(e.target.value),
                                 )}
                             disabled={!effectsState.echo.enabled}
+                            id={`${elementId}-input-echo-feedback`}
                         />
                     </div>
                     <div className="vefx-slidercontainer">
@@ -468,6 +485,7 @@ function VefxController({
                             onChange={e =>
                                 handleEchoGainChange(parseFloat(e.target.value))}
                             disabled={!effectsState.echo.enabled}
+                            id={`${elementId}-input-echo-gain`}
                         />
                     </div>
                     <datalist id="gain-list">

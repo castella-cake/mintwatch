@@ -1,9 +1,11 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useHistoryContext } from "../../Router/RouterContext"
 import "./styles/FilterSelector.css"
-import { useState } from "react"
+import { useId, useState } from "react"
 
 export function FilterSelector({ option }: { option: SearchOption }) {
+    const filterDateInputId = useId()
+
     const { showAlert } = useSetMessageContext()
     const history = useHistoryContext()
     const [pendingChanges, setPendingChanges] = useState(new Map())
@@ -137,6 +139,7 @@ export function FilterSelector({ option }: { option: SearchOption }) {
                                                                 return next
                                                             })
                                                         }}
+                                                        id={filterDateInputId}
                                                     >
                                                     </input>
                                                 </label>

@@ -1,6 +1,8 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useId } from "react"
 
 export function TimeMachine({ onConfirm, onReload }: { onConfirm: (dateTime: Date) => void, onReload: () => void }) {
+    const elementId = useId()
+
     const [dateInput, setDateInput] = useState("")
     const [timeInput, setTimeInput] = useState("")
 
@@ -44,6 +46,7 @@ export function TimeMachine({ onConfirm, onReload }: { onConfirm: (dateTime: Dat
                         value={dateInput}
                         max={new Date().toISOString().split("T")[0]}
                         onChange={e => setDateInput(e.target.value)}
+                        id={`${elementId}-dateinput`}
                     />
                 </div>
                 <div className="comment-timemachine-input-container">
@@ -51,6 +54,7 @@ export function TimeMachine({ onConfirm, onReload }: { onConfirm: (dateTime: Dat
                         type="time"
                         value={timeInput}
                         onChange={e => setTimeInput(e.target.value)}
+                        id={`${elementId}-timeinput`}
                     />
                 </div>
 

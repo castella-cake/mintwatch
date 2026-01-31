@@ -27,7 +27,7 @@ type FixtureType = {
 export const test = base.extend<FixtureType>({
     context: async ({}, use) => { // eslint-disable-line no-empty-pattern
         const context = await chromium.launchPersistentContext("", {
-            headless: false,
+            // headless: false,
             args: [
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`,

@@ -3,6 +3,7 @@ import {
     IconFolder,
     IconHelpCircle,
     IconShare,
+    IconTags,
     IconX,
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
@@ -13,6 +14,7 @@ import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvi
 import { CSSTransition } from "react-transition-group"
 import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import NgComments from "./NgComments"
+import { TagInfo } from "./TagInfo"
 
 export function VideoActionModal({
     nodeRef,
@@ -79,6 +81,13 @@ export function VideoActionModal({
                                 {" "}
                                 NGコメント設定
                             </VideoActionTabButton>
+                            <VideoActionTabButton
+                                stateKey="taginfo"
+                            >
+                                <IconTags />
+                                {" "}
+                                この動画のタグ
+                            </VideoActionTabButton>
                             <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
                             <button
                                 className="modal-select modal-select-bottom"
@@ -103,6 +112,7 @@ export function VideoActionModal({
                             {videoActionModalState === "ngcomments" && (
                                 <NgComments />
                             )}
+                            {videoActionModalState === "taginfo" && (<TagInfo />)}
                         </div>
                     </div>
                 </div>

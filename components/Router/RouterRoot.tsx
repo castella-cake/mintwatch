@@ -11,6 +11,8 @@ import { VideoRefContext } from "../Global/Contexts/VideoDataProvider"
 import { BackgroundPlayProvider } from "../Global/Contexts/BackgroundPlayProvider"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MessageProvider } from "../Global/Contexts/MessageProvider"
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
+import { createExtensionStoragePersister } from "@/utils/extensionStoragePersister"
 
 const IVideoRef = createRef<HTMLVideoElement>()
 
@@ -24,6 +26,8 @@ const queryClient = new QueryClient({
         },
     },
 })
+
+const persister = createExtensionStoragePersister()
 
 export default function RouterRoot() {
     return (
@@ -70,18 +74,34 @@ export default function RouterRoot() {
             >
                 <StorageProvider>
                     <QueryClientProvider client={queryClient}>
-                        <ModalStateProvider>
-                            <VideoRefContext value={IVideoRef}>
-                                <BackgroundPlayProvider>
-                                    <MessageProvider>
-                                        <RouterProvider>
-                                            <RouterUI />
-                                            <PluginList />
-                                        </RouterProvider>
-                                    </MessageProvider>
-                                </BackgroundPlayProvider>
-                            </VideoRefContext>
-                        </ModalStateProvider>
+                        <PersistQueryClientProvider
+                            client={queryClient}
+                            persistOptions={{
+                                persister,
+                                dehydrateOptions: {
+                                    shouldDehydrateQuery: (query) => {
+                                        if (query.queryKey[0] === "persistent") {
+                                            return true
+                                        }
+                                        return false
+                                    },
+                                    shouldDehydrateMutation: () => false,
+                                },
+                            }}
+                        >
+                            <ModalStateProvider>
+                                <VideoRefContext value={IVideoRef}>
+                                    <BackgroundPlayProvider>
+                                        <MessageProvider>
+                                            <RouterProvider>
+                                                <RouterUI />
+                                                <PluginList />
+                                            </RouterProvider>
+                                        </MessageProvider>
+                                    </BackgroundPlayProvider>
+                                </VideoRefContext>
+                            </ModalStateProvider>
+                        </PersistQueryClientProvider>
                     </QueryClientProvider>
                 </StorageProvider>
             </ErrorBoundary>

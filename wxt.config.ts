@@ -33,6 +33,7 @@ export default defineConfig({
                 "style/*",
                 "watch_injector.js",
                 "load_turnstile.js",
+                "dummy.js",
                 "content-scripts/deferStyle.css",
                 "fonts/*",
                 "*://*.nicovideo.jp/*",

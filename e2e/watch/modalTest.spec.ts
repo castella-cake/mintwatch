@@ -34,16 +34,18 @@ test("Watch: Modal open test", async ({ page, mockApi }) => {
 
     await page.locator(".modal-container").getByRole("button", { name: "閉じる" }).click()
 
+    await page.waitForTimeout(500) // モーダルのexitまで待つ
+
     // ナビゲーションバーの各ボタンからモーダルを直接開く
-    await page.locator(".navbar-helptool-container").getByRole("button", { name: "更新情報", exact: true }).click()
+    await page.getByRole("button", { name: "更新情報", exact: true }).click()
     await expect(page.getByText("過去の更新情報")).toBeVisible()
     await page.locator(".modal-container").getByRole("button", { name: "閉じる" }).click()
 
-    await page.locator(".navbar-helptool-container").getByRole("button", { name: "キーボードショートカット", exact: true }).click()
+    await page.getByRole("button", { name: "キーボードショートカット", exact: true }).click()
     await expect(page.locator(".pmw-keyboard-dance")).toBeVisible()
     await page.locator(".modal-container").getByRole("button", { name: "閉じる" }).click()
 
-    await page.locator(".navbar-helptool-container").getByRole("button", { name: "MintWatch のはじめに", exact: true }).click()
+    await page.getByRole("button", { name: "MintWatch のはじめに", exact: true }).click()
     await expect(page.getByText("MintWatch のはじめに MintWatch")).toBeVisible()
     await page.locator(".modal-container").getByRole("button", { name: "閉じる" }).click()
 

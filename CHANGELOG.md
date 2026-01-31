@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.11.0 - 2026/01/31
+
+### Added
+- 「この動画のタグ情報」動画アクションを追加しました [#65](https://github.com/castella-cake/mintwatch/issues/65) [#64](https://github.com/castella-cake/mintwatch/issues/64)
+  大百科記事の先頭や、動画IDが含まれている場合にそのリンクが表示されます 
+- コマンドパレットを追加しました [#67](https://github.com/castella-cake/mintwatch/issues/67)
+  詳細設定から「職人モード」を有効化すると、フォントやCA用のコマンドも表示されるようになります。
+- OmniHeader を追加しました [#69](https://github.com/castella-cake/mintwatch/issues/69)
+- 12月~2月の間に、サイドメニューを開くと背景に雪が降るようになりました
+- 実験的に「タグデータをAPIから自動取得する」を追加しました [#65](https://github.com/castella-cake/mintwatch/issues/65)
+  タグ編集APIからタグ情報を取得し、仕様変更前のような大百科記事の表示を行うことができます。
+- 「過去に投稿したコメントにオレンジの枠線を表示」を追加しました
+- コメント詳細表示から直接ユーザーをNGできるようになりました
+- コメント詳細表示から自分のコメントを削除できるようになりました [#19](https://github.com/castella-cake/mintwatch/issues/19)
+- ロード完了後の自動再生を無効化できるようになりました [#68](https://github.com/castella-cake/mintwatch/issues/68)
+- Turnstile ハンドラーをレンダリング時に確認し、応答しない場合に警告を表示するようになりました
+
+### Changed
+- 音量スライダー/音量ジェスチャー経由での音量操作に対数カーブを用いるようになりました
+- 詳細設定から「職人モード」を有効化すると、コメント詳細を開いた際にリーフなどのソース表示が行われるようになりました
+- コメントに動画IDが含まれている場合に、コメント詳細にその動画へのリンクを表示するようになりました [#64](https://github.com/castella-cake/mintwatch/issues/64)
+- HLSの再生ロジックを変更しました
+
+### Fixed
+- 一度コメントを投稿すると、コメントの詳細表示に`nico:waku:`から始まる内部コマンドが表示される問題を修正しました
+- コメントを投稿した場合に、スレッドキーが正しく更新可能であるにも関わらずエラーが発生する問題を修正しました
+- 一部の処理を最適化しました
+- HTML構造の一部修正を行い、input系要素に一意のIDが設定されるようになりました
+- ミニプレイヤーで再生中に再生キューの自動再生が発生すると、ページが視聴ページに戻る問題を修正しました
+- 一部の内部スクリプトの読み込み方法を以前の方法に戻しました
+
+### Removed
+- ミニプレイヤーの表示はナビゲーションバーに行われないようになりました
+
 ## 0.10.2 - 2025/12/16
 
 ### Changed

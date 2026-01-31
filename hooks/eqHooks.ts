@@ -97,29 +97,6 @@ export const useAudioEffects = (
         ...vefxSettings,
     })
 
-    const handleEffectsChange = useCallback((newState: effectsState) => {
-        setEffectsState(newState)
-
-        // 各エフェクトの更新処理
-        updateEqualizer(newState.equalizer.gains)
-        updateEcho(
-            newState.echo.delayTime,
-            newState.echo.feedback,
-            newState.echo.gain,
-        )
-        updateHighpass(
-            newState.highpass.cutoffFrequency,
-            newState.highpass.qFactor,
-            newState.highpass.detune,
-        )
-        updateLowpass(
-            newState.lowpass.cutoffFrequency,
-            newState.lowpass.qFactor,
-            newState.highpass.detune,
-        )
-        updatePreampGain(decibelToScale(effectsState.preamp.gain))
-    }, [])
-
     const audioContextRef = useRef<AudioContext>(null!)
 
     const mediaElementSourceRef = useRef<MediaElementAudioSourceNode | null>(
@@ -145,11 +122,7 @@ export const useAudioEffects = (
     const mergerGainRightNodeRef = useRef<GainNode | null>(null)
     const mergerNodeRef = useRef<ChannelMergerNode | null>(null)
 
-    const effectEnableState = Object.keys(effectsState).map(
-        key => effectsState[key as keyof typeof effectsState].enabled,
-    )
-
-    const refreshConnection = () => {
+    const refreshConnection = useCallback((afterEffectsState: effectsState) => {
         if (mediaElementSourceRef.current) {
             let lastNode: any = mediaElementSourceRef.current
             // 一旦繋がるノードを切断してから接続するようにした
@@ -179,7 +152,7 @@ export const useAudioEffects = (
             lastNode = loudnessGainNodeRef.current
 
             biquadFiltersRef.current.forEach((filter) => {
-                if (effectsState.equalizer.enabled) {
+                if (afterEffectsState.equalizer.enabled) {
                     lastNode.connect(filter)
                     lastNode = filter
                 }
@@ -187,7 +160,7 @@ export const useAudioEffects = (
 
             if (
                 highpassBiquadFilterRef.current
-                && effectsState.highpass.enabled
+                && afterEffectsState.highpass.enabled
             ) {
                 lastNode.connect(highpassBiquadFilterRef.current)
                 lastNode = highpassBiquadFilterRef.current
@@ -195,30 +168,55 @@ export const useAudioEffects = (
 
             if (
                 lowpassBiquadFilterRef.current
-                && effectsState.lowpass.enabled
+                && afterEffectsState.lowpass.enabled
             ) {
                 lastNode.connect(lowpassBiquadFilterRef.current)
                 lastNode = lowpassBiquadFilterRef.current
             }
 
-            if (echoPreGainNodeRef.current && effectsState.echo.enabled) {
+            if (echoPreGainNodeRef.current && afterEffectsState.echo.enabled) {
                 lastNode.connect(echoPreGainNodeRef.current)
                 lastNode = echoGainNodeRef.current
             }
 
-            if (gainNodeRef.current && effectsState.preamp.enabled) {
+            if (gainNodeRef.current && afterEffectsState.preamp.enabled) {
                 lastNode.connect(gainNodeRef.current)
                 lastNode = gainNodeRef.current
             }
 
-            if (mergerNodeRef.current && effectsState.mono.enabled) {
+            if (mergerNodeRef.current && afterEffectsState.mono.enabled) {
                 lastNode.connect(mergerSplitterNodeRef.current)
                 lastNode = mergerNodeRef.current
             }
 
             lastNode.connect(audioContextRef.current.destination)
         }
-    }
+    }, [loudnessControl])
+
+    const handleEffectsChange = useCallback((newState: effectsState) => {
+        setEffectsState(newState)
+        storage.setItem("local:vefxSettings", newState)
+
+        // 各エフェクトの更新処理
+        updateEqualizer(newState.equalizer.gains)
+        updateEcho(
+            newState.echo.delayTime,
+            newState.echo.feedback,
+            newState.echo.gain,
+        )
+        updateHighpass(
+            newState.highpass.cutoffFrequency,
+            newState.highpass.qFactor,
+            newState.highpass.detune,
+        )
+        updateLowpass(
+            newState.lowpass.cutoffFrequency,
+            newState.lowpass.qFactor,
+            newState.highpass.detune,
+        )
+        updatePreampGain(decibelToScale(newState.preamp.gain))
+        refreshConnection(newState)
+    }, [refreshConnection])
 
     useEffect(() => {
         if (!audioContextRef.current) {
@@ -344,8 +342,8 @@ export const useAudioEffects = (
             mergerGainLeftNodeRef.current.connect(mergerNodeRef.current, 0, 0)
             mergerGainRightNodeRef.current.connect(mergerNodeRef.current, 0, 0)
         }
-        refreshConnection()
-    }, [frequencies, ...effectEnableState, loudnessControl])
+        refreshConnection(effectsState)
+    }, [frequencies, loudnessControl])
 
     // イコライザーのゲイン更新
     const updateEqualizer = useCallback((gains: number[]) => {
