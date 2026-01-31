@@ -56,6 +56,7 @@ export default function RouterUI() {
                 && (
                     targetPathnames.map(path => nearestAnchor.href.startsWith(nicovideoPrefix + path) && !location.pathname.startsWith(path)).some(path => path)
                 )
+                && !isOutOfBoundsLinkAnchor(nearestAnchor)
             ) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()

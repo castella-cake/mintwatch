@@ -1,5 +1,5 @@
 import { IconDots, IconDotsVertical } from "@tabler/icons-react"
-import { useState } from "react"
+import { useId, useState } from "react"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 
@@ -9,6 +9,7 @@ interface PageInputButtonProps {
 }
 
 function PageInputButton({ maxPage, children }: PageInputButtonProps) {
+    const elementId = useId()
     const location = useLocationContext()
     const history = useHistoryContext()
     const [inputPage, setInputPage] = useState<string>("")
@@ -41,6 +42,7 @@ function PageInputButton({ maxPage, children }: PageInputButtonProps) {
             {isInputVisible
                 ? (
                         <input
+                            id={elementId}
                             type="number"
                             value={inputPage}
                             onChange={e => setInputPage(e.target.value)}

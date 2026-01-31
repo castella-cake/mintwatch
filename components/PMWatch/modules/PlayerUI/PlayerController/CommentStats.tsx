@@ -2,7 +2,7 @@ import { useCommentContentContext } from "@/components/Global/Contexts/CommentDa
 import type { Comment as CommentItem } from "@/types/CommentData"
 
 export function CommentStats({ duration }: { duration: number }) {
-    const commentContent = useCommentContentContext()
+    const { commentContent } = useCommentContentContext()
 
     const commentStatsCalc = useMemo(() => {
         if (!commentContent) return {}

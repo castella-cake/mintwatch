@@ -1,5 +1,6 @@
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider"
 import { IconTrash } from "@tabler/icons-react"
+import { useId } from "react"
 
 const ngCommentsType = {
     id: "ユーザー",
@@ -8,6 +9,7 @@ const ngCommentsType = {
 }
 
 export default function NgComments() {
+    const elementId = useId()
     const { ngData, setNgData } = useViewerNgContext()
 
     const [addType, setAddType] = useState<"word" | "id" | "command">("word")
@@ -62,19 +64,19 @@ export default function NgComments() {
             <div className="ngcomments-editor-add">
                 <div className="ngcomments-editor-add-type-container">
                     <label className="ngcomments-editor-add-type-radio-label">
-                        <input className="ngcomments-editor-add-type-radio" type="radio" value="word" checked={addType === "word" ? true : false} onChange={handleAddTypeChange}></input>
+                        <input className="ngcomments-editor-add-type-radio" type="radio" value="word" checked={addType === "word" ? true : false} onChange={handleAddTypeChange} id={`${elementId}-radio-word`}></input>
                         コメント
                     </label>
                     <label className="ngcomments-editor-add-type-radio-label">
-                        <input className="ngcomments-editor-add-type-radio" type="radio" value="id" checked={addType === "id" ? true : false} onChange={handleAddTypeChange}></input>
+                        <input className="ngcomments-editor-add-type-radio" type="radio" value="id" checked={addType === "id" ? true : false} onChange={handleAddTypeChange} id={`${elementId}-radio-id`}></input>
                         ユーザーID
                     </label>
                     <label className="ngcomments-editor-add-type-radio-label">
-                        <input className="ngcomments-editor-add-type-radio" type="radio" value="command" checked={addType === "command" ? true : false} onChange={handleAddTypeChange}></input>
+                        <input className="ngcomments-editor-add-type-radio" type="radio" value="command" checked={addType === "command" ? true : false} onChange={handleAddTypeChange} id={`${elementId}-radio-command`}></input>
                         コマンド
                     </label>
                 </div>
-                <input ref={inputRef} placeholder="NGを追加..." className="ngcomments-editor-add-input"></input>
+                <input ref={inputRef} placeholder="NGを追加..." className="ngcomments-editor-add-input" id={`${elementId}-add-input`}></input>
                 <button className="ngcomments-editor-add-button" onClick={onAddNgComment}>追加</button>
             </div>
         </div>

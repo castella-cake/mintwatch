@@ -88,6 +88,11 @@ export const playerSettings: PlayerSettingList = {
                 texts: ["5秒", "10秒", "15秒", "30秒"],
                 name: "スキップ操作のシーク時間",
             },
+            enableAutoPlay: {
+                type: "checkbox",
+                defaultValue: true,
+                name: "自動再生",
+            },
             enableWheelGesture: {
                 type: "checkbox",
                 defaultValue: true,
@@ -161,6 +166,11 @@ export const playerSettings: PlayerSettingList = {
                 type: "checkbox",
                 defaultValue: false,
                 name: "コメント入力時に一時停止してプレビュー",
+            },
+            borderPastMyComments: {
+                type: "checkbox",
+                defaultValue: false,
+                name: "過去に投稿したコメントにオレンジの枠線を表示",
             },
         },
     },

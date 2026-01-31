@@ -1,11 +1,12 @@
-import { IconCircleX, IconSend2 } from "@tabler/icons-react"
-import { useRef, useState } from "react"
+import { IconAlertTriangle, IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
+import { useId, useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData"
-import type { Comment, CommentDataRootObject, CommentResponseRootObject, Thread } from "@/types/CommentData"
+import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
-import { useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
+import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { CommandPalette } from "./CommandPalette"
 
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
@@ -17,10 +18,17 @@ type Props = {
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
 function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
+    const elementId = useId()
+
     const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
-    const { showAlert } = useSetMessageContext()
-    const { setCommentContent, reloadCommentContent } = useCommentControllerContext()
+    const { showAlert, showToast } = useSetMessageContext()
+    const { commentContent } = useCommentContentContext()
+    const [isCommentProhibited, setIsCommentProhibited] = useState(false)
+    const { reloadCommentContent, setLastSentCommentId } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
+    const [commandValue, setCommandValue] = useState<string>("")
+
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
 
     const [dummyTextAreaContent, setDummyTextAreaContent] = useState("")
     const [isComposing, setIsComposing] = useState(false)
@@ -29,19 +37,69 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     const previewUpdateTimeout = useRef<ReturnType<typeof setTimeout>>(null!)
 
+    const onCommandPaletteButtonClick = useCallback(() => {
+        if (isCommentProhibited) return
+        setIsCommandPaletteOpen(prev => !prev)
+    }, [setIsCommandPaletteOpen, isCommentProhibited])
+
     // idが遅い方のデフォルトの投稿ターゲット
     const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
-    /* useEffect(() => {
+    useEffect(() => {
+        const abortController = new AbortController()
+        let isResponded = false
         const messageHandler = (event: MessageEvent) => {
             console.log(event)
             if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "helloFromHandler") {
                 console.log("Turnstile handler is alive")
                 window.removeEventListener("message", messageHandler)
+                isResponded = true
             }
         }
-        window.addEventListener("message", messageHandler)
+        window.addEventListener("message", messageHandler, { signal: abortController.signal })
         window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
-    }, []) */
+        let timeoutId = setTimeout(() => {
+            if (!isResponded) {
+                window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
+                timeoutId = setTimeout(() => {
+                    if (!isResponded) {
+                        console.warn("Turnstile handler is not responding")
+                        showToast({
+                            title: "コメント検証が利用できません",
+                            body: "Turnstile ハンドラーが応答していません。\nコメント投稿時に問題が発生する可能性があります。",
+                            icon: <IconAlertTriangle />,
+                        })
+                        window.removeEventListener("message", messageHandler)
+                    }
+                }, 2000)
+            }
+        }, 2000)
+        return () => {
+            abortController.abort()
+            clearTimeout(timeoutId)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!commentContent?.data) return
+        const nicoScriptEvents = parseNicoScriptEvent(commentContent?.data?.threads)
+        const isIncludingProhibitedArea = nicoScriptEvents.some(event => event.type === "commentProhibited")
+
+        if (isIncludingProhibitedArea && videoRef.current) {
+            const abortController = new AbortController()
+            videoRef.current.addEventListener("timeupdate", () => {
+                const currentVposMs = Math.floor(videoRef.current!.currentTime * 1000)
+                const isCommentProhibited = nicoScriptEvents.some((event) => {
+                    return event.type === "commentProhibited" && currentVposMs >= event.startVpos && currentVposMs <= event.endVpos
+                })
+                setIsCommentProhibited(isCommentProhibited)
+            }, { signal: abortController.signal })
+            return () => {
+                abortController.abort()
+            }
+        } else {
+            setIsCommentProhibited(false)
+        }
+    }, [commentContent])
 
     async function sendComment(videoId: string, commentBody: string, commentCommand: string[] = [], vposMs: number) {
         // {"videoId":"","commands":["184"],"body":"君ビートマニア上手いねぇ！","vposMs":147327,"postKey":""}
@@ -88,28 +146,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             if (commentPostResponse.meta.status === 201 && videoInfo.data) {
                 const commentResponse = await reloadCommentContent()
                 if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
-                const newThreads: Thread[] = commentResponse.data.threads.map((thread: Thread) => {
-                    const newComments = thread.comments.map((comment) => {
-                        if (comment.id === commentPostResponse.data.id && comment.no === commentPostResponse.data.no) {
-                            comment.commands = [...comment.commands, "nico:waku:#ff0"]
-                            return comment
-                        } else if (comment.isMyPost) {
-                            comment.commands = [...comment.commands, "nico:waku:#fb6"]
-                            return comment
-                        } else {
-                            return comment
-                        }
-                    })
-                    return { ...thread, comments: newComments }
-                })
-                const commentDataResult: CommentDataRootObject = {
-                    meta: commentResponse.meta,
-                    data: {
-                        ...commentResponse.data,
-                        threads: newThreads,
-                    },
-                }
-                setCommentContent(commentDataResult)
+                setLastSentCommentId(commentPostResponse.data.id)
                 // 今はただ要素が利用可能であることだけ伝えます
                 document.dispatchEvent(new CustomEvent("pmw_commentDataUpdated", { detail: "" })) // JSON.stringify({commentContent: commentResponse})
                 // TODO: コメント入力前から一時停止状態だったなら再生しない
@@ -141,8 +178,8 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     function onKeydown(e: KeyboardEvent<HTMLTextAreaElement>) {
         if (e.ctrlKey || e.altKey) return
-        if (!e.shiftKey && e.key === "Enter" && commentInputRef.current && videoRef.current && !isComposing) {
-            sendComment(videoId, commentInputRef.current.value, commandInput.current?.value.split(""), Math.floor(videoRef.current.currentTime * 1000))
+        if (!e.shiftKey && e.key === "Enter" && commentInputRef.current && commandInput.current && videoRef.current && !isComposing && !isCommentProhibited) {
+            sendComment(videoId, commentInputRef.current.value, commandInput.current.value.split(""), Math.floor(videoRef.current.currentTime * 1000))
             commentInputRef.current.value = ""
             e.preventDefault()
         }
@@ -181,6 +218,13 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         }
     }
 
+    function onChangeCommandInput() {
+        if (commandInput.current) {
+            setCommandValue(commandInput.current.value)
+        }
+        onChange()
+    }
+
     const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
     const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
@@ -206,11 +250,50 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const remainingTextOpacity = dummyTextAreaContent.length > 0 ? 0.8 : 0
     // textarea 周りの挙動は https://qiita.com/tsmd/items/fce7bf1f65f03239eef0 を参考にさせていただきました
     return (
-        <div className="commentinput-container global-flex" id="pmw-commentinput">
-            <input ref={commandInput} className="commentinput-cmdinput" placeholder="コマンド" onChange={onChange} />
+        <div className="commentinput-container global-flex" id="pmw-commentinput" data-is-prohibited={isCommentProhibited}>
+            <div className="commentinput-cmdpalette">
+                <button
+                    className="commentinput-cmdpalette-button"
+                    type="button"
+                    onClick={onCommandPaletteButtonClick}
+                    data-is-active={isCommandPaletteOpen}
+                    title={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
+                    aria-disabled={isCommentProhibited}
+                >
+                    { isCommandPaletteOpen ? <IconPaletteFilled /> : <IconPalette /> }
+                </button>
+                <CommandPalette
+                    isOpen={!isCommentProhibited && isCommandPaletteOpen}
+                    commandInputRef={commandInput}
+                    currentCommand={commandValue}
+                    setCurrentCommandValue={(value) => {
+                        setCommandValue(value)
+                        onChange()
+                    }}
+                />
+            </div>
+            <input
+                ref={commandInput}
+                className="commentinput-cmdinput"
+                placeholder="コマンド"
+                onChange={onChangeCommandInput}
+                value={commandValue}
+                id={`${elementId}-cmdinput`}
+            />
             <div className="commentinput-textarea-container global-flex1">
                 <div className="commentinput-textarea-dummy" aria-hidden="true">{dummyTextAreaContent + "\u200b"}</div>
-                <textarea ref={commentInputRef} className="commentinput-input" placeholder="コメントを入力" onKeyDown={onKeydown} onChange={onChange} onCompositionStart={startComposition} onCompositionEnd={endComposition} />
+                <textarea
+                    ref={commentInputRef}
+                    className="commentinput-input"
+                    placeholder="コメントを入力"
+                    onKeyDown={onKeydown}
+                    onChange={onChange}
+                    onCompositionStart={startComposition}
+                    onCompositionEnd={endComposition}
+                    aria-disabled={isCommentProhibited}
+                    readOnly={isCommentProhibited}
+                    id={`${elementId}-commentinput`}
+                />
                 <div className="commentinput-remaining" style={(remainingLength < 0) ? { color: "var(--dangerous1)", opacity: remainingTextOpacity } : { opacity: remainingTextOpacity }}>
                     {remainingLength}
                 </div>
@@ -219,10 +302,10 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                 type="button"
                 className="commentinput-submit"
                 onClick={() => {
-                    if (!commentInputRef.current || !videoRef.current || commentInputRef.current.value === "" || remainingLength < 0) return
+                    if (!commentInputRef.current || !videoRef.current || commentInputRef.current.value === "" || remainingLength < 0 || isCommentProhibited) return
                     sendComment(videoId, commentInputRef.current.value, commandInput.current?.value.split(" "), Math.floor(videoRef.current.currentTime * 1000))
                 }}
-                aria-disabled={!commentInputRef.current || commentInputRef.current.value === "" || remainingLength < 0}
+                aria-disabled={!commentInputRef.current || commentInputRef.current.value === "" || remainingLength < 0 || isCommentProhibited}
             >
                 <IconSend2 />
                 <span>コメント</span>

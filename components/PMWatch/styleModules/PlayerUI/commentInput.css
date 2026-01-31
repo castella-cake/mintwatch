@@ -6,6 +6,10 @@
 
     position: relative;
 
+    &[data-is-prohibited="true"] {
+        opacity: 0.5;
+    }
+
     > input, > .commentinput-textarea-container > .commentinput-input {
         background: var(--bgcolor1);
         color: var(--textcolor1);
@@ -59,6 +63,31 @@
 
     > input:first-child {
         border-radius: var(--radius) 0 0 var(--radius);
+    }
+}
+
+
+.commentinput-cmdpalette-button {
+    background: var(--bgcolor2);
+    color: inherit;
+    border: var(--border);
+    height: 100%;
+    border-right: 0;
+    border-radius: var(--radius) 0 0 var(--radius);
+    transition: var(--transition-normal);
+    cursor: pointer;
+    
+    &:not([aria-disabled="true"]):hover {
+        background: var(--hover1);
+    }
+
+    &[data-is-active="true"] {
+        background: var(--textcolor2);
+        color: var(--bgcolor1);
+    }
+
+    &[aria-disabled="true"] {
+        cursor: not-allowed;
     }
 }
 

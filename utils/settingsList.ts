@@ -109,6 +109,21 @@ const settings: settingList = {
                     name: "showLiveInRecommend",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "alwaysGetTagDataFromApi",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "enableShokuninMode",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "disableSeasonalEffects",
+                    default: false,
+                },
             ],
         },
     ],
@@ -129,6 +144,11 @@ const settings: settingList = {
             name: "navbarType",
             values: ["default", "dynamic", "disable"],
             default: "default",
+        },
+        {
+            type: "checkbox",
+            name: "enableOmniHeader",
+            default: false,
         },
     ],
     pageReplace: [

@@ -174,7 +174,7 @@
         padding: 6px 7px;
     }
 
-    .commentinput-container svg {
+    .commentinput-submit svg {
         height: 1.5em;
         width: 1.5em;
     }
@@ -190,6 +190,103 @@
 
     .commentinput-submit:not([aria-disabled="true"]):hover {
         background: linear-gradient(#ffac59 1%, #ffab2d 40%, #ff8d2d 60%, #ff9646 100%);
+    }
+
+    // コマンドパレット
+    .commentinput-cmdpalette-button {
+        background: linear-gradient(#333, #252525);
+        color: #fff;
+        border: 1px solid #fff;
+        border-image: linear-gradient(#c6c6c6, #666) 4;
+        position: relative;
+        padding: 4px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 1px solid #111;
+        }
+
+        &[data-is-active="true"] {
+            background: linear-gradient(#fff, #999);
+            color: #000;
+        }
+    }
+
+    .commentinput-cmdpalette-button svg {
+        height: 18px;
+        width: 18px;
+        display: none;
+    }
+
+    .commentinput-cmdpalette-button::after {
+        content: "メニュー";
+        font-weight: bold;
+        font-size: .6rem;
+    }
+
+    .commandpalette-title {
+        padding: 0 8px;
+        background: linear-gradient(rgb(73 73 73) 2%, rgb(26 26 26) 49%, rgb(20 20 20) 50%, rgb(32 32 32) 100%);
+        color: #fff;
+        font-size: 0.8rem;
+        align-items: center;
+    }
+
+    .commandpalette-commandgroup[data-kind="shokunin"] .commandpalette-commandbutton svg {
+        height: 1rem;
+        width: 1rem;
+    }
+
+    .commandpalette-commandbutton svg {
+        height: 1.8rem;
+        width: auto;
+    }
+
+    .commandpalette-container {
+        background: #ddd;
+        color: #000;
+        gap: 0;
+    }
+
+    .commandpalette-commandgroup-items {
+        gap: 4px;
+    }
+
+    .commandpalette-commandbutton {
+        background: linear-gradient(#333, #111);
+        color: #fff;
+        border: 2px solid #000;
+        position: relative;
+        
+        &:not(:last-child) {
+            border-right: 2px solid #000;
+        }
+        
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 1px solid #fff;
+        }
+
+        &[data-is-active="true"] {
+            border-color: #c00;
+            background: linear-gradient(#fff, #ccc);
+            color: #000;
+        }
+    }
+
+    .commandpalette-commandgroup[data-kind="color"] .commandpalette-commandbutton {
+        border-radius: 0;
+        background: var(--commandpalette-color);
+    }
+
+    .commandpalette-commandgroup {
+        border-bottom: 1px solid #bbb;
+        border-top: 1px solid #fff;
+        padding: 6px 8px;
     }
 
     // 原宿の統計表示+時計とダミー
@@ -449,11 +546,11 @@
         display: block;
     }
 
-    .tags-editbutton svg {
+    .tags-action-button svg {
         display: none;
     }
 
-    .tags-editbutton {
+    .tags-action-button {
         padding: 0;
         border: none;
         text-decoration: underline;
@@ -464,11 +561,11 @@
         }
     }
 
-    .tags-editbutton::before {
+    .tags-action-button::before {
         content: "【";
     }
 
-    .tags-editbutton::after {
+    .tags-action-button::after {
         content: "】";
     }
 

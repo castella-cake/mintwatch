@@ -68,6 +68,10 @@
             "hint": "ナビゲーションバーの表示を設定します。Shinjuku ではこの設定は無視されます",
             "select": ["常に表示", "ホバーで開く", "非表示"]
         },
+        "enableOmniHeader": {
+            "name": "実験的: OmniHeader を使用する",
+            "hint": "Shinjuku ナビゲーションバーをオーバーライドします"
+        },
         
         "otherSettings": {
             "name": "詳細設定"
@@ -94,6 +98,17 @@
         "autoScrollPositionOnVideoChange": {
             "name": "動画移動時の自動スクロール位置",
             "select": ["ページトップ", "プレイヤー", "無効"]
+        },
+        "alwaysGetTagDataFromApi": {
+            "name": "実験的: タグデータをAPIから自動取得する",
+            "hint": "タグ編集APIからタグデータを自動取得します。大百科記事の表示が行われるようになりますが、自己責任で使用してください。"
+        },
+        "disableSeasonalEffects": {
+            "name": "季節の演出を無効化"
+        },
+        "enableShokuninMode": {
+            "name": "職人モードを有効化",
+            "hint": "コマンドパレットとコメント詳細表示を拡張します"
         }
     }
 }

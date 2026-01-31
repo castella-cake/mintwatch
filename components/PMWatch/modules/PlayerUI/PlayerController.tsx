@@ -85,6 +85,7 @@ function PlayerController(props: Props) {
         const setIconToPause = () => setIsIconPlay(false)
         const setIconToPlay = () => setIsIconPlay(true)
 
+        setIsIconPlay(videoRef.current?.paused ?? false)
         videoRef.current?.addEventListener("play", setIconToPause)
         videoRef.current?.addEventListener("pause", setIconToPlay)
         return () => {
@@ -283,7 +284,9 @@ function PlayerController(props: Props) {
                                         }}
                                         value={hlsLevel}
                                         className="playercontroller-qualityselect"
+                                        aria-label="画質選択"
                                         title="画質選択"
+                                        id="pmw-qualityselector"
                                     >
                                         {hlsRef.current.levels.map((elem, index) => {
                                             return <option value={index} key={index}>{(qualityLabels && qualityLabels[index]) || `${elem.height}p`}</option>

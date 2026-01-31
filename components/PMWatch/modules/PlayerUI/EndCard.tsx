@@ -3,6 +3,7 @@ import { InfoCardFromRecommend, SeriesVideoCard } from "@/components/Global/Info
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData"
+import { perceptualToAmplitude } from "@discordapp/perceptual"
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
@@ -31,7 +32,7 @@ export function EndCard({ smId }: { smId: string }) {
         // console.log("vol set:", audioElemRef.current)
         if (!audioElemRef.current) return
 
-        audioElemRef.current.volume = (localStorage.volume ?? 50) * 0.01
+        audioElemRef.current.volume = perceptualToAmplitude((localStorage.volume ?? 50) * 0.01, 1, 40)
         audioElemRef.current.muted = localStorage.isMuted ?? false
     }, [localStorage.volume, localStorage.isMuted, audioElemRef.current, currentTime])
 

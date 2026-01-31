@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react"
 // import { useLang } from "../localizeHook";
 import PlayerController, { playerTypes } from "./PlayerController"
 import VefxController from "./VefxController"
-import { useHlsVideo } from "@/hooks/hlsHooks"
 import { Comment } from "@/types/CommentData"
 import type { Dispatch, SetStateAction } from "react"
 import CommentInput from "./CommentInput"
@@ -10,7 +9,7 @@ import Settings from "./Settings/Settings"
 import { StatsOverlay } from "./StatsOverlay"
 import { CSSTransition } from "react-transition-group"
 import { EndCard } from "./EndCard"
-import { effectsState, useAudioEffects } from "@/hooks/eqHooks"
+import { useAudioEffects } from "@/hooks/eqHooks"
 import { ErrorScreen } from "./ErrorScreen"
 import { CommentRender } from "./CommentRender"
 import { VideoPlayer } from "./VideoPlayer"
@@ -29,11 +28,14 @@ import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvide
 import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
+import { borderMyComments } from "@/utils/commentUtils"
+import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
+import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 
 type Props = {
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
-    changeVideo: (videoId: string, doScroll?: boolean) => void
+    changeVideo: (videoId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void
 }
 
@@ -42,12 +44,13 @@ function Player(props: Props) {
 
     const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
-    const commentContent = useCommentContentContext()
+    const { commentContent, lastSentCommentId } = useCommentContentContext()
     const videoRef = useVideoRefContext()
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
     const { ngData } = useViewerNgContext()
+    const isBackgroundPlaying = useBackgroundPlayingContext()
 
     const videoId = smId ?? ""
 
@@ -74,6 +77,8 @@ function Player(props: Props) {
         "enableInterpolateCommentRendering",
         "enableBigView",
         "rewindTime",
+        "borderPastMyComments",
+        "enableAutoPlay",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -138,11 +143,23 @@ function Player(props: Props) {
     const shouldUseContentScriptHls = !(
         import.meta.env.FIREFOX || syncStorage.pmwforcepagehls
     )
-    const { hlsRef, errorInfo } = useHlsVideo(
+    /* const { hlsRef, errorInfo } = useHlsVideo(
         videoRef,
         videoInfo,
         videoId,
         actionTrackId,
+        shouldUseContentScriptHls,
+        localStorage.preferredLevel ?? -1,
+    ) */
+    const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
+        videoId,
+        videoInfo,
+        actionTrackId,
+        shouldUseContentScriptHls,
+    )
+    const hlsRef = useHls(
+        videoRef,
+        hlsAccessRightsData,
         shouldUseContentScriptHls,
         localStorage.preferredLevel ?? -1,
     )
@@ -275,8 +292,9 @@ function Player(props: Props) {
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
-        return threadsOpacityApplied
-    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity])
+        const threadsBordered = borderMyComments(threadsOpacityApplied, lastSentCommentId ?? "", localStorage.borderPastMyComments ?? false)
+        return threadsBordered
+    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity, lastSentCommentId, localStorage.borderPastMyComments, ngData])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
@@ -326,6 +344,7 @@ function Player(props: Props) {
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
                 !isAutoPlayTrigger,
+                isBackgroundPlaying,
             )
         } else if (
             recommendData
@@ -337,6 +356,7 @@ function Player(props: Props) {
             changeVideo(
                 `https://www.nicovideo.jp/watch/${encodeURIComponent(recommendData.data.items[0].content.id)}`,
                 !isAutoPlayTrigger,
+                isBackgroundPlaying,
             )
         }
     }
@@ -442,6 +462,7 @@ function Player(props: Props) {
                     localStorage.enableWheelGesture
                 }
                 setShortcutFeedback={setShortcutFeedback}
+                isAutoplayEnabled={localStorage.enableAutoPlay ?? true}
             >
                 {filteredComments && (
                     <CommentRender
@@ -489,12 +510,7 @@ function Player(props: Props) {
                         nodeRef={vefxElemRef}
                         frequencies={frequencies}
                         effectsState={effectsState}
-                        onEffectsChange={(state: effectsState) => {
-                            storage.setItem("local:vefxSettings", state)
-                            // 反映して再レンダリング
-                            handleEffectsChange(state)
-                            setEffectsState(state)
-                        }}
+                        onEffectsChange={handleEffectsChange}
                     />
                 </CSSTransition>
                 <CSSTransition

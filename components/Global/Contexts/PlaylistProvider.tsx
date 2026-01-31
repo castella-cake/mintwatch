@@ -33,13 +33,6 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     })
     const [previewPlaylistItem, setPreviewPlaylistItem] = useState<{ item: playlistVideoItem | null, index: number }>({ item: null, index: -1 })
 
-    // また会ったな！！ 今回はsetStateActionではasyncが使えない、
-    // またuseCallbackを使わないとの関係ないStateの更新時に巻き込んで再レンダリングされるため必要だった
-    const _playlistDataRef = useRef(_playlistData)
-    useEffect(() => {
-        _playlistDataRef.current = _playlistData
-    }, [_playlistData])
-
     const setInitialPlaylistState = useCallback(() => {
         if (!videoInfo) return
         const ownerName
@@ -73,7 +66,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         const searchParams = new URLSearchParams(search)
         const playlistString = searchParams.get("playlist")
         // console.log(playlistString)
-        const currentPlaylistData = _playlistDataRef.current
+        const currentPlaylistData = _playlistData
 
         // プレイリストの情報からマイリストもしくはシリーズのデータを取得する関数
         async function getData(playlistJson: playlistQueryData) {

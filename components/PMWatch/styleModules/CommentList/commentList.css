@@ -161,7 +161,7 @@
     cursor: pointer;
 }
 
-.commentlist-fork-selector {
+.commentlist-selector {
     padding: 2px;
     margin: 0;
     height: 1.8rem;
@@ -200,6 +200,25 @@
     font-size: 0.9rem;
     padding: 2px 4px;
     display: inline-block;
+}
+
+.commentlist-list-item-videolink {
+    display: flex;
+    gap: 4px;
+    color: var(--textcolor2);
+
+    & a {
+        color: inherit;
+        background: var(--bgcolor1);
+        padding: 2px 6px;
+        border-radius: var(--radius);
+        font-size: .8rem;
+    }
+
+    & svg {
+        height: 1.25em;
+        width: 1.25em;
+    }
 }
 
 .commentlist-container[data-commentlist-type="modern"] {

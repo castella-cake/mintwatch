@@ -161,3 +161,29 @@
         text-align: left;
     }
 }
+
+.tags-actions {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.tags-action-button {
+    background: transparent;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border: var(--border);
+    border-radius: var(--radius);
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+
+    > svg {
+        height: 1.5em;
+        width: 1.5em;
+    }
+}

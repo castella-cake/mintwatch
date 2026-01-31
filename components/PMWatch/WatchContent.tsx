@@ -1,4 +1,4 @@
-import { Dispatch, JSX, MouseEvent, SetStateAction } from "react"
+import { Dispatch, JSX, SetStateAction } from "react"
 import Actions from "./modules/Info/Actions"
 import CommentList from "./modules/CommentList/CommentList"
 import Info from "./modules/Info/Info"
@@ -27,7 +27,7 @@ export const watchLayoutType = {
 
 type Props = {
     playerSize: number
-    onChangeVideo: (smId: string, doScroll?: boolean) => void
+    onChangeVideo: (smId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
 }
@@ -72,19 +72,6 @@ export function WatchContent(_props: Props) {
             setVideoActionModalState(modalType)
         }
     }, [])
-
-    const linkClickHandler = (e: MouseEvent<HTMLDivElement>) => {
-        if (e.target instanceof Element) {
-            const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
-            // data-seektimeがある場合は、mousecaptureな都合上スキップする。
-            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime")) {
-                // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
-                e.stopPropagation()
-                e.preventDefault()
-                onChangeVideo(nearestAnchor.href)
-            }
-        }
-    }
 
     const onModalOpen = (modalType: "mylist" | "share") => {
         onModalStateChanged(true, modalType)
@@ -194,7 +181,6 @@ export function WatchContent(_props: Props) {
             data-use-card-info={shouldUseCardInfo}
             data-shinjuku-font-type={shinjukuDotFontType ?? "dotGothic"}
             id="pmw-container"
-            onClickCapture={linkClickHandler}
         >
             <div className="watch-container-grid">
                 {currentLayout}

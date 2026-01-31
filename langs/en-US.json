@@ -68,8 +68,11 @@
             "hint": "Set how to display the navigation bar. This setting is ignored in Shinjuku layout.",
             "select": ["Always show", "Open on hover", "Hide"]
         },
+        "enableOmniHeader": {
+            "name": "Experimental: Enable OmniHeader",
+            "hint": "This setting will override the Shinjuku navigation bar"
+        },
 
-        
         "otherSettings": {
             "name": "Detailed settings"
         },
@@ -95,6 +98,17 @@
         "autoScrollPositionOnVideoChange": {
             "name": "Automatic scroll position when moving video",
             "select": ["Page top", "Player", "Disable"]
+        },
+        "alwaysGetTagDataFromApi": {
+            "name": "Experimental: Always get tag data from API",
+            "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."
+        },
+        "disableSeasonalEffects": {
+            "name": "Disable Seasonal Effects"
+        },
+        "enableShokuninMode": {
+            "name": "Enable Shokunin Mode",
+            "hint": "Extends the command palette and comment detail display"
         }
     }
 }

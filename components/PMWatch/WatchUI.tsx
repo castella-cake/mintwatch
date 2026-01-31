@@ -41,8 +41,20 @@ function CreateWatchUI() {
 
     const queryClient = useQueryClient()
 
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const backgroundPlaying = useBackgroundPlayingContext()
+
+    const internalChangeVideo = useCallback((smIdAfter: string) => {
+        if (smId === smIdAfter) return
+        // 再度来ても良いようにキャッシュを破棄する
+        queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
+        queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
+        if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
+        setSmId(smIdAfter)
+    }, [smId])
+
     // ナビゲーション処理はlistenPopStateで行います
-    const changeVideo = useCallback((videoUrl: string, doScroll = true) => {
+    const changeVideo = useCallback((videoUrl: string, doScroll = true, noLocationChange = false) => {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
@@ -55,9 +67,29 @@ function CreateWatchUI() {
                 })
             })
         }
+        setVideoActionModalState(false)
+        if (noLocationChange) {
+            const parsedUrl = new URL(videoUrl)
+            const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
+            internalChangeVideo(smIdAfter)
+            return
+        }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [smId, autoScrollPositionOnVideoChange])
+    }, [smId, autoScrollPositionOnVideoChange, internalChangeVideo])
+
+    const linkClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target instanceof Element) {
+            const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
+            // data-seektimeがある場合は、mousecaptureな都合上スキップする。
+            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
+                // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
+                e.stopPropagation()
+                e.preventDefault()
+                changeVideo(nearestAnchor.href)
+            }
+        }
+    }
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
@@ -78,19 +110,14 @@ function CreateWatchUI() {
             ); */
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
-                if (smId !== smIdAfter) {
-                    queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
-                    queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
-                    if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
-                    setSmId(smIdAfter)
-                }
+                internalChangeVideo(smIdAfter)
                 updatePlaylistState(location.search)
             };
         })
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, videoInfo])
+    }, [smId, videoInfo, internalChangeVideo])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)
@@ -107,9 +134,6 @@ function CreateWatchUI() {
     const videoActionModalElemRef = useRef<HTMLDivElement>(null)
     const onboardingPopupElemRef = useRef<HTMLDivElement>(null)
 
-    const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const backgroundPlaying = useBackgroundPlayingContext()
-
     const playerSize = playerAreaSize ?? 1
 
     function handleKeydown(e: React.KeyboardEvent) {
@@ -125,6 +149,7 @@ function CreateWatchUI() {
             data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
             data-background-playing={backgroundPlaying}
             data-layout-density={layoutDensity ?? getDefault("layoutDensity")}
+            onClickCapture={linkClickHandler}
         >
             <TitleElement />
             <CSSTransition
