@@ -1,4 +1,4 @@
-import { IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
+import { IconAlertTriangle, IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
 import { useId, useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
 import type { VideoDataRootObject } from "@/types/VideoData"
@@ -21,7 +21,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const elementId = useId()
 
     const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
-    const { showAlert } = useSetMessageContext()
+    const { showAlert, showToast } = useSetMessageContext()
     const { commentContent } = useCommentContentContext()
     const [isCommentProhibited, setIsCommentProhibited] = useState(false)
     const { reloadCommentContent, setLastSentCommentId } = useCommentControllerContext()
@@ -44,17 +44,34 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     // idが遅い方のデフォルトの投稿ターゲット
     const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
-    /* useEffect(() => {
+    useEffect(() => {
+        const abortController = new AbortController()
+        let isResponded = false
         const messageHandler = (event: MessageEvent) => {
             console.log(event)
             if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "helloFromHandler") {
                 console.log("Turnstile handler is alive")
                 window.removeEventListener("message", messageHandler)
+                isResponded = true
             }
         }
-        window.addEventListener("message", messageHandler)
+        window.addEventListener("message", messageHandler, { signal: abortController.signal })
         window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
-    }, []) */
+        const timeoutId = setTimeout(() => {
+            if (!isResponded) {
+                console.warn("Turnstile handler is not responding")
+                showToast({
+                    title: "コメント検証が利用できません",
+                    body: "Turnstile ハンドラーが応答していません。\nコメント投稿時に問題が発生する可能性があります。",
+                    icon: <IconAlertTriangle />,
+                })
+            }
+        }, 5000)
+        return () => {
+            abortController.abort()
+            clearTimeout(timeoutId)
+        }
+    }, [])
 
     useEffect(() => {
         if (!commentContent?.data) return

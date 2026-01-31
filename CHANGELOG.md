@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - コメント詳細表示から直接ユーザーをNGできるようになりました
 - コメント詳細表示から自分のコメントを削除できるようになりました [#19](https://github.com/castella-cake/mintwatch/issues/19)
 - ロード完了後の自動再生を無効化できるようになりました [#68](https://github.com/castella-cake/mintwatch/issues/68)
+- Turnstile ハンドラーをレンダリング時に確認し、応答しない場合に警告を表示するようになりました
 
 ### Changed
 - 音量スライダー/音量ジェスチャー経由での音量操作に対数カーブを用いるようになりました
@@ -33,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 一部の処理を最適化しました
 - HTML構造の一部修正を行い、input系要素に一意のIDが設定されるようになりました
 - ミニプレイヤーで再生中に再生キューの自動再生が発生すると、ページが視聴ページに戻る問題を修正しました
+- 一部の内部スクリプトの読み込み方法を以前の方法に戻しました
 
 ### Removed
 - ミニプレイヤーの表示はナビゲーションバーに行われないようになりました
