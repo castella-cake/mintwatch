@@ -31,7 +31,6 @@ export const test = base.extend<FixtureType>({
             args: [
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`,
-                `--headless=new`,
             ],
         })
         context.on("page", async (page) => {
