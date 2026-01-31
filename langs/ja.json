@@ -69,7 +69,7 @@
             "select": ["常に表示", "ホバーで開く", "非表示"]
         },
         "enableOmniHeader": {
-            "name": "OmniHeader を使用する",
+            "name": "実験的: OmniHeader を使用する",
             "hint": "Shinjuku ナビゲーションバーをオーバーライドします"
         },
         

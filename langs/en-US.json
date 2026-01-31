@@ -69,7 +69,7 @@
             "select": ["Always show", "Open on hover", "Hide"]
         },
         "enableOmniHeader": {
-            "name": "Enable OmniHeader",
+            "name": "Experimental: Enable OmniHeader",
             "hint": "This setting will override the Shinjuku navigation bar"
         },
 
