@@ -57,16 +57,22 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         }
         window.addEventListener("message", messageHandler, { signal: abortController.signal })
         window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
-        const timeoutId = setTimeout(() => {
+        let timeoutId = setTimeout(() => {
             if (!isResponded) {
-                console.warn("Turnstile handler is not responding")
-                showToast({
-                    title: "コメント検証が利用できません",
-                    body: "Turnstile ハンドラーが応答していません。\nコメント投稿時に問題が発生する可能性があります。",
-                    icon: <IconAlertTriangle />,
-                })
+                window.postMessage({ source: "mintWatchRender", type: "checkHandler" }, "https://www.nicovideo.jp")
+                timeoutId = setTimeout(() => {
+                    if (!isResponded) {
+                        console.warn("Turnstile handler is not responding")
+                        showToast({
+                            title: "コメント検証が利用できません",
+                            body: "Turnstile ハンドラーが応答していません。\nコメント投稿時に問題が発生する可能性があります。",
+                            icon: <IconAlertTriangle />,
+                        })
+                        window.removeEventListener("message", messageHandler)
+                    }
+                }, 2000)
             }
-        }, 5000)
+        }, 2000)
         return () => {
             abortController.abort()
             clearTimeout(timeoutId)
