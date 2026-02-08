@@ -11,6 +11,9 @@ export function blockPage() {
     pageBlocked = true
     reserveEssentialMetaTags()
     document.getElementById("root")?.remove()
+    Array.from(document.getElementsByClassName("BaseUniLayout-main")).forEach(elem => elem.remove())
+    Array.from(document.getElementsByClassName("BaseUniLayout-footer")).forEach(elem => elem.remove())
+    document.getElementById("CommonHeader")?.remove()
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
             const addedNodes = record.addedNodes

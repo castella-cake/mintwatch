@@ -4,6 +4,8 @@ const watchPattern = "/watch/:"
 const shortsPattern = "/shorts/:"
 const rankingPattern = "/ranking"
 const recommendationsPattern = "/recommendations"
+const userPagePattern = "/user/:"
+const myPagePattern = "/my"
 
 const searchPatternArray = [
     "/search/:",
@@ -102,6 +104,13 @@ export default defineUnlistedScript({
                     script?.dispatchEvent(
                         new CustomEvent("mwReactRouterHit", {
                             detail: "recommendations",
+                        }),
+                    )
+                }
+                if (enabledMatchPattern.user && (pathMatcher(newState.location.pathname, userPagePattern) || pathMatcher(newState.location.pathname, myPagePattern))) {
+                    script?.dispatchEvent(
+                        new CustomEvent("mwReactRouterHit", {
+                            detail: "user",
                         }),
                     )
                 }
