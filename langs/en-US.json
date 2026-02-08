@@ -53,6 +53,9 @@
         "enableSearchPage": {
             "name": "Experimental: Enable replacement of the search page"
         },
+        "enableUserPage": {
+            "name": "Experimental: Enable replacement of the user page"
+        },
 
         "enableFixedHeader": {
             "name": "Enable Fixed Header",

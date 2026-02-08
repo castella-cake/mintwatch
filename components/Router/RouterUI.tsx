@@ -11,6 +11,7 @@ import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
+import { UserBody } from "../User/UserBody"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -19,7 +20,7 @@ function MatchWatchPage({ targetPathname, children }: { targetPathname: string, 
     return <></>
 }
 
-function Match({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
+export function Match({ targetPathname, children }: { targetPathname: string | string[], children?: ReactNode }) {
     const location = useLocationContext()
     if (
         (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
@@ -31,13 +32,17 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableUserPage"] as const)
     const targetPathnames = [
         "/watch/",
         ...(syncStorage.enableReshogi ? ["/ranking"] : []),
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
             : []),
+        ...(syncStorage.enableUserPage
+            ? ["/user/", "/my"]
+            : []
+        ),
     ]
 
     const videoRef = useVideoRefContext()
@@ -144,6 +149,9 @@ export default function RouterUI() {
                 </Match>
                 <Match targetPathname={searchPagePaths}>
                     <SearchBody />
+                </Match>
+                <Match targetPathname={["/user/", "/my"]}>
+                    <UserBody />
                 </Match>
             </main>
             <Alert />

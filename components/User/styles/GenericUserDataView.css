@@ -1,0 +1,108 @@
+.userdata-container {
+    display: grid;
+    grid-template-areas:
+        "landscape landscape"
+        "user actions";
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    gap: var(--blocks-gap);
+}
+
+.userdata-user {
+    grid-area: user;
+}
+
+.userdata-landscape {
+    grid-area: landscape;
+    overflow: hidden;
+    border-radius: var(--radius);
+    max-height: 300px;
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+}
+
+.userdata-landscape img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.userdata-description {
+    grid-area: description;
+    padding: var(--info-block-padding);
+    overflow-wrap: break-word;
+}
+
+.userdata-description h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--textcolor1);
+}
+
+.userdata-links {
+    grid-area: links;
+    display: flex;
+    gap: 8px;
+}
+
+.userdata-links a {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--info-block-gap) / 2);
+    text-decoration: none;
+    color: inherit;
+    border: var(--border);
+    background: var(--bgcolor2);
+    padding: 4px 8px;
+    border-radius: var(--radius-mini);
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+        color: var(--linktext2);
+    }
+}
+
+.userdata-links img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.userdata-sidearea {
+    grid-area: sidearea;
+}
+
+.userdata-content {
+    grid-area: content;
+}
+
+.userdata-action {
+    grid-area: actions;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.userdata-action-button {
+    background: var(--primary1);
+    color: var(--primary-text1);
+    font-weight: bold;
+    border: 1px solid var(--primary-text1);
+    border-radius: var(--radius);
+    padding: 8px;
+}
+
+@media (width <= 900px) {
+    .userdata {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "user"
+            "landscape"
+            "description"
+            "links"
+            "navigation"
+            "sidearea"
+            "content";
+    }
+}
