@@ -1,0 +1,28 @@
+.userdata-navigation {
+    grid-area: navigation;
+    display: flex;
+    gap: var(--blocks-gap);
+}
+
+.userdata-navigation-anchor {
+    border: var(--border);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    flex: 1;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    text-align: center;
+
+    &:hover {
+        background: var(--hover1);
+    }
+
+    &[data-isactive="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor2);
+        font-weight: bold;
+    }
+}

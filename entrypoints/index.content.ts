@@ -5,6 +5,9 @@ const shortsWatchPattern = new MatchPattern("*://www.nicovideo.jp/shorts/*")
 const rankingPattern = new MatchPattern("*://www.nicovideo.jp/ranking*")
 const recommendationPattern = new MatchPattern("*://www.nicovideo.jp/recommendations*")
 
+const userPagePattern = new MatchPattern("*://www.nicovideo.jp/user/*")
+const myPagePattern = new MatchPattern("*://www.nicovideo.jp/my*")
+
 const searchPatternArray = [
     new MatchPattern("*://www.nicovideo.jp/search/*"),
     new MatchPattern("*://www.nicovideo.jp/search_shorts/*"),
@@ -21,6 +24,7 @@ export type catchMatchFor = {
     search: boolean
     recommendations: boolean
     shorts: boolean
+    user: boolean
 }
 
 export default defineContentScript({
@@ -32,6 +36,7 @@ export default defineContentScript({
         const isRanking = rankingPattern.includes(window.location.toString())
         const isSearch = searchPatternArray.some(m => m.includes(window.location.toString()))
         const isRecommendations = recommendationPattern.includes(window.location.toString())
+        const isUserPage = userPagePattern.includes(window.location.toString()) || myPagePattern.includes(window.location.toString())
         // nopmwだったら何もしない
         const queryString = location.search
         const searchParams = new URLSearchParams(queryString)
@@ -51,11 +56,13 @@ export default defineContentScript({
             "sync:enableSearchPage",
             "sync:enableShortsPage",
             "sync:enableRecommendationsPage",
+            "sync:enableUserPage",
         ] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
             const enableShortsPage = storage["sync:enableShortsPage"] ?? getDefault("enableShortsPage")
             const enableRecommendationsPage = storage["sync:enableRecommendationsPage"]
+            const enableUserPage = storage["sync:enableUserPage"]
 
             if (
                 isWatch
@@ -63,6 +70,7 @@ export default defineContentScript({
                 || (isSearch && enableSearchPage)
                 || (isShortsWatch && enableShortsPage)
                 || (isRecommendations && enableRecommendationsPage)
+                || (isUserPage && enableUserPage)
             ) {
                 // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
                 if ((import.meta.env.FIREFOX || storage["sync:pmwforcepagehls"])) {
@@ -77,13 +85,14 @@ export default defineContentScript({
                 } else {
                     initiateRouter(ctx, storage)
                 }
-            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || (!enableRecommendationsPage && isRecommendations)) {
+            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || (!enableRecommendationsPage && isRecommendations) || (!enableUserPage && isUserPage)) {
                 const matchFor = {
                     watch: true,
                     ranking: enableReshogi,
                     search: enableSearchPage,
                     recommendations: enableRecommendationsPage,
                     shorts: enableShortsPage,
+                    user: enableUserPage,
                 }
                 injectScript("/catchTargetPage.js", {
                     modifyScript(script) {

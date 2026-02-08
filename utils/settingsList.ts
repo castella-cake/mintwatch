@@ -192,6 +192,11 @@ const settings: settingList = {
             name: "enableRecommendationsPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableUserPage",
+            default: false,
+        }
     ],
     flags: [
         {
@@ -222,7 +227,6 @@ const settings: settingList = {
         {
             type: "checkbox",
             name: "flagRecommendationsShowContinuousPlayButton",
-            default: false,
         },
     ],
 } as const

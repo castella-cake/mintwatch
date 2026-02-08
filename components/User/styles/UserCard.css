@@ -1,0 +1,95 @@
+.usercard-container {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 16px;
+    padding: var(--info-block-padding);
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    align-items: center;
+}
+
+.usercard-bottominfo {
+    grid-column: 1/3;
+}
+
+.usercard-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    align-self: start;
+}
+
+.usercard-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--info-block-gap) / 2);
+}
+
+.usercard-nickname {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--info-block-gap) / 2);
+    color: var(--textcolor1);
+}
+
+.usercard-badge-me {
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: var(--primary-text1);
+    background: var(--primary1);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-mini);
+    border: var(--border-width) solid var(--linktext3);
+}
+
+.usercard-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--blocks-gap);
+    align-items: center;
+}
+
+.usercard-stat {
+    font-size: 0.875rem;
+    color: var(--textcolor2);
+    border-left: 2px solid var(--accent2);
+    padding-left: 0.4em;
+
+    &:first-child {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
+.usercard-badge-premium {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #fff;
+    background: #fa0;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-big);
+    box-shadow: 0 2px 4px rgb(255, 170, 0 / 30%);
+}
+
+@media (width <= 600px) {
+    .usercard-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .usercard-nickname {
+        justify-content: center;
+    }
+
+    .usercard-stats {
+        justify-content: center;
+    }
+}

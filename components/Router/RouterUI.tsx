@@ -12,6 +12,7 @@ import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
 import { RecommendationsBody } from "../Recommendations/RecommendationsBody"
+import { UserBody } from "../User/UserBody"
 import { useQueryClient } from "@tanstack/react-query"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
@@ -25,7 +26,7 @@ function MatchWatchPage({ targetPathname, children }: { targetPathname: string |
     return <></>
 }
 
-function Match({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
+export function Match({ targetPathname, children }: { targetPathname: string | string[], children?: ReactNode }) {
     const location = useLocationContext()
     if (
         (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
@@ -37,7 +38,7 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage", "enableUserPage"] as const)
     const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
@@ -47,6 +48,10 @@ export default function RouterUI() {
             ? searchPagePaths
             : []),
         ...(syncStorage.enableRecommendationsPage ? ["/recommendations"] : []),
+        ...(syncStorage.enableUserPage
+            ? ["/user/", "/my"]
+            : []
+        ),
     ]
 
     const videoRef = useVideoRefContext()
@@ -165,6 +170,9 @@ export default function RouterUI() {
                 </Match>
                 <Match targetPathname="/recommendations">
                     <RecommendationsBody />
+                </Match>
+                <Match targetPathname={["/user/", "/my"]}>
+                    <UserBody />
                 </Match>
             </main>
             <Alert />
