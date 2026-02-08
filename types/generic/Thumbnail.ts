@@ -4,4 +4,5 @@ export interface GenericThumbnail {
     largeUrl: string
     listingUrl: string
     nHdUrl: string
+    shortUrl: string | null
 }
