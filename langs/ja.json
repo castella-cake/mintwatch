@@ -53,6 +53,9 @@
         "enableSearchPage": {
             "name": "実験的: 検索ページの置き換えを有効化"
         },
+        "enableUserPage": {
+            "name": "実験的: ユーザーページの置き換えを有効化"
+        },
 
         "enableFixedHeader": {
             "name": "ヘッダーを画面に固定",

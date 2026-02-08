@@ -1,0 +1,7 @@
+.user-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}

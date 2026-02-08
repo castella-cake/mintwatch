@@ -3,6 +3,9 @@ import initializeRouter from "@/utils/initiator/router"
 const watchPattern = new MatchPattern("*://www.nicovideo.jp/watch/*")
 const rankingPattern = new MatchPattern("*://www.nicovideo.jp/ranking*")
 
+const userPagePattern = new MatchPattern("*://www.nicovideo.jp/user/*")
+const myPagePattern = new MatchPattern("*://www.nicovideo.jp/my*")
+
 const searchPatternArray = [
     new MatchPattern("*://www.nicovideo.jp/search/*"),
     new MatchPattern("*://www.nicovideo.jp/search_shorts/*"),
@@ -17,9 +20,10 @@ export default defineContentScript({
     matches: ["*://www.nicovideo.jp/*"],
     runAt: "document_start",
     main(ctx) {
-        getStorageItemsWithObject(["sync:enableReshogi", "sync:enableSearchPage"] as const).then((storage) => {
+        getStorageItemsWithObject(["sync:enableReshogi", "sync:enableSearchPage", "sync:enableUserPage"] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
+            const enableUserPage = storage["sync:enableUserPage"]
             // nopmwだったら何もしない
             const queryString = location.search
             const searchParams = new URLSearchParams(queryString)
@@ -29,6 +33,7 @@ export default defineContentScript({
                 watchPattern.includes(window.location.toString())
                 || (rankingPattern.includes(window.location.toString()) && enableReshogi)
                 || (enableSearchPage && searchPatternArray.some(m => m.includes(window.location.toString())))
+                || (enableUserPage && (userPagePattern.includes(window.location.toString()) || myPagePattern.includes(window.location.toString())))
             ) {
                 initializeRouter(ctx)
             } else if ((!enableReshogi && rankingPattern.includes(window.location.toString())) || (!enableSearchPage && searchPatternArray.some(m => m.includes(window.location.toString())))) {

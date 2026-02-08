@@ -172,6 +172,11 @@ const settings: settingList = {
             name: "enableSearchPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableUserPage",
+            default: false,
+        },
     ],
 } as const
 
