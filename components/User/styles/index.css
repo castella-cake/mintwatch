@@ -5,3 +5,38 @@
     flex-direction: column;
     gap: var(--blocks-gap);
 }
+
+.user-category-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-category-sidearea {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    flex: 1;
+    gap: 8px;
+}
+
+.user-category-sidearea .userdata-navigation-anchor {
+    flex: initial;
+    text-align: left;
+    padding: 6px 8px;
+}
+
+.user-category-content {
+    flex: 4;
+}
+
+@media (width <= 900px) {
+    .user-category-container {
+        display: block;
+        gap: 1rem;
+    }
+
+    .user-category-sidearea {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
