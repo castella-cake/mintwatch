@@ -20,11 +20,16 @@ function MatchWatchPage({ targetPathname, children }: { targetPathname: string, 
     return <></>
 }
 
+function pathMatcher(pathname: string, targetPathname: string) {
+    if (targetPathname.endsWith("!")) return pathname === targetPathname.slice(0, -1)
+    return pathname.startsWith(targetPathname)
+}
+
 export function Match({ targetPathname, children }: { targetPathname: string | string[], children?: ReactNode }) {
     const location = useLocationContext()
     if (
-        (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
-        || (typeof targetPathname === "object" && targetPathname.some(path => location.pathname.startsWith(path)))
+        (typeof targetPathname === "string" && pathMatcher(location.pathname, targetPathname))
+        || (typeof targetPathname === "object" && targetPathname.some(path => pathMatcher(location.pathname, path)))
     ) return children
     return <></>
 }

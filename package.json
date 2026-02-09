@@ -38,6 +38,7 @@
         "react-dom": "19.1.1",
         "react-error-boundary": "6.0.0",
         "react-focus-lock": "2.13.6",
+        "react-intersection-observer": "^10.0.2",
         "react-markdown": "^10.1.0",
         "react-scan": "^0.4.3",
         "react-transition-group": "^4.4.5",
