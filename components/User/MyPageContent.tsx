@@ -3,10 +3,9 @@ import { GenericUserDataView } from "./UserDataView/GenericUserDataView"
 import { MyPageNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
 import { PublishActivities } from "../Global/Activities/PublishActivities"
-import { useLocationContext } from "../Router/RouterContext"
+import { UserHistoryContent } from "./History/HistoryContent"
 
 export function MyPageContent() {
-    const location = useLocationContext()
     const { myUserData, error, isFetching } = useMyUserData()
 
     if (isFetching) {
@@ -42,14 +41,22 @@ export function MyPageContent() {
             />
 
             <MyPageNavigation />
-            { [`/my`,
+            <Match targetPathname={[
+                `/my!`,
                 `/my/timeline/all`,
                 `/my/timeline/postings`,
                 `/my/timeline/video`,
-                `/my/timeline/live`].includes(location.pathname)
-                && <PublishActivities context="my_timeline" />}
-            <Match targetPathname="/my/history/video">
-
+                `/my/timeline/live`,
+            ]}
+            >
+                <PublishActivities context="my_timeline" />
+            </Match>
+            <Match targetPathname={[
+                "/my/history",
+                "/my/nicoru",
+            ]}
+            >
+                <UserHistoryContent />
             </Match>
         </div>
     )

@@ -1,0 +1,14 @@
+.watch-history-date-title {
+    font-size: 1rem;
+    font-weight: bold;
+    border-left: 2px solid var(--accent1);
+    border-bottom: 1px solid var(--accent1);
+    padding: 4px 8px;
+    margin-bottom: 0;
+}
+
+.watch-history-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

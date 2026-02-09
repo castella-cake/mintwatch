@@ -3,6 +3,7 @@ import { useLocationContext } from "../Router/RouterContext"
 import { MyPageContent } from "./MyPageContent"
 import { UserContent } from "./UserContent"
 import "./styles/index.css"
+import "./styles/History.css"
 
 export function UserBody() {
     const location = useLocationContext()
