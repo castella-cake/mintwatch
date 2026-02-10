@@ -2,6 +2,8 @@ import { useUserData } from "@/hooks/apiHooks/user/userData"
 import { useLocationContext } from "../Router/RouterContext"
 import { GenericUserDataView } from "./UserDataView/GenericUserDataView"
 import { UserNavigation } from "./Navigation"
+import { Match } from "../Router/RouterUI"
+import { TimelineContent } from "./Timeline/TimelineContent"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -53,6 +55,16 @@ export function UserContent() {
                 isMe={myUserData.data.relationships?.isMe || false}
             />
             <UserNavigation userId={userId} />
+            <Match targetPathname={[
+                `/user/${userId}!`,
+                `/user/${userId}/timeline/all`,
+                `/user/${userId}/timeline/postings`,
+                `/user/${userId}/timeline/video`,
+                `/user/${userId}/timeline/live`,
+            ]}
+            >
+                <TimelineContent thisUserPageId={userId} />
+            </Match>
         </div>
     )
 }
