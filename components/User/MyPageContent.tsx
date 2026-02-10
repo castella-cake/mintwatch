@@ -2,8 +2,8 @@ import { useMyUserData } from "@/hooks/apiHooks/user/myData"
 import { GenericUserDataView } from "./UserDataView/GenericUserDataView"
 import { MyPageNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
-import { PublishActivities } from "../Global/Activities/PublishActivities"
 import { UserHistoryContent } from "./History/HistoryContent"
+import { TimelineContent } from "./Timeline/TimelineContent"
 
 export function MyPageContent() {
     const { myUserData, error, isFetching } = useMyUserData()
@@ -49,7 +49,7 @@ export function MyPageContent() {
                 `/my/timeline/live`,
             ]}
             >
-                <PublishActivities context="my_timeline" />
+                <TimelineContent />
             </Match>
             <Match targetPathname={[
                 "/my/history",
