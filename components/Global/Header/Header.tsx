@@ -44,7 +44,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                     <div className="omniheader-items">
                                         <NicoServiceLinks />
                                         <div className="omniheader-separator" />
-                                        <MyButtons isQuickHeaderAction={true} />
+                                        <MyButtons isQuickHeaderAction={isSetToQuickHeaderAction} />
                                     </div>
                                 </Navbar>
                             </header>
