@@ -117,7 +117,7 @@ function CreateWatchUI() {
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, videoInfo, internalChangeVideo])
+    }, [smId, videoInfo, internalChangeVideo, updatePlaylistState])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)

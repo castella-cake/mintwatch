@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased - 2026/02
+
+### Fixed
+- 再生キューが動画の移動時に初期状態へリセットされる問題を修正しました [#73](https://github.com/castella-cake/mintwatch/issues/73)
+
 ## 0.11.0 - 2026/01/31
 
 ### Added
