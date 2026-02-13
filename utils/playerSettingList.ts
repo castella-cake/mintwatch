@@ -49,7 +49,7 @@ export const playerSettings: PlayerSettingList = {
                 type: "select",
                 options: [0.25, 0.5, 0.75, 1],
                 defaultValue: 1,
-                texts: ["非常に薄い(25%)", "薄い(50%)", "やや薄い(75%)", "透過なし"],
+                texts: ["非常に薄い(25%)", "薄い(50%)", "やや薄い(75%)", "透過なし(100%)"],
                 name: "コメント不透明度",
             },
             playbackRate: {
@@ -71,13 +71,13 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: "mid",
                 options: ["none", "low", "mid", "high"],
                 name: "共有NGコメントレベル",
-                texts: ["なし", "低 (< -10000)", "中 (< -4800)", "高 (< -1000)"],
+                texts: ["OFF", "低 (< -10000)", "中 (< -4800)", "高 (< -1000)"],
             },
             resumePlayback: {
                 type: "select",
                 defaultValue: "smart",
                 options: ["never", "smart", "always"],
-                texts: ["しない", "スマート", "常に"],
+                texts: ["OFF", "スマート", "ON"],
                 name: "レジューム再生",
                 hint: "プレミアム会員資格が必要です。",
             },
@@ -91,7 +91,7 @@ export const playerSettings: PlayerSettingList = {
             enableAutoPlay: {
                 type: "checkbox",
                 defaultValue: true,
-                name: "自動再生",
+                name: "ロードが完了したら自動再生",
             },
             enableWheelGesture: {
                 type: "checkbox",
