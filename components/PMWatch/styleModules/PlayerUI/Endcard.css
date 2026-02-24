@@ -75,6 +75,8 @@
         font-size: 0.9em;
 
         .info-card {
+            --thumb-height: 5rem;
+            
             border: 1px solid var(--textcolor3);
             background: var(--bgcolor2);
             backdrop-filter: var(--backdrop-blur-normal);
@@ -83,6 +85,8 @@
 
         .info-card-title {
             -webkit-line-clamp: 1;
+            font-size: 1rem;
+            font-weight: normal;
         }
 
         .info-card-playingtext {

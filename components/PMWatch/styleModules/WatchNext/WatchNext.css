@@ -10,6 +10,9 @@
 
 .watchnext-container .watchnext-content {
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .watch-container[data-use-card-recommend="true"] {
@@ -27,6 +30,12 @@
         gap: 8px;
         overflow: auto visible;
         padding: 0;
+
+        .genericitem-card[data-layout="vertical-simple"] .info-card-title {
+            line-height: 1.4rem;
+            font-size: 0.9rem;
+            height: 2.8rem;
+        }
     }
 }
 
@@ -60,3 +69,9 @@
         color: var(--bgcolor1);
     }
 }
+
+.watchnext-container .info-card .info-card-title {
+    font-weight: normal;
+    line-height: 1.25rem;
+}
+

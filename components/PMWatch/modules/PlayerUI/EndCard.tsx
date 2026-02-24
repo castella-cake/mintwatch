@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { InfoCardFromRecommend, SeriesVideoCard } from "@/components/Global/InfoCard"
+import { SeriesVideoCard } from "@/components/Global/InfoCard"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData"
 import { perceptualToAmplitude } from "@discordapp/perceptual"
+import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
@@ -112,8 +113,8 @@ export function EndCard({ smId }: { smId: string }) {
                             <>
                                 <h2>おすすめの動画</h2>
                                 <div className="endcard-upnext-container">
-                                    {recommendData && recommendData.data && recommendData.data.items.slice(0, 4).map((elem) => {
-                                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem} omitTypes={["live"]} />
+                                    {recommendData && recommendData.data && recommendData.data.items.filter(item => isContentIsVideoItem(item) && !item.content.isMuted).slice(0, 4).map((elem) => {
+                                        return <VideoItemCard key={`${elem.id}`} video={elem.content as VideoItem} layoutType="horizontal-simple" /> // filterで保証されているのでアサーションして通す
                                     })}
                                 </div>
                             </>

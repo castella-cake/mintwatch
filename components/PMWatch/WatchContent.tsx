@@ -151,7 +151,7 @@ export function WatchContent(_props: Props) {
         </div>
     )
 
-    const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend} />
+    const watchNextElem = <WatchNext key="watchui-recommend" isHorizontalCardLayout={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
     const contentTreeElem = <ContentTree key="watchui-contenttree" />
     const searchElem = <Search key="watchui-search" />

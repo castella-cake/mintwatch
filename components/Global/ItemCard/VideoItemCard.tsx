@@ -8,7 +8,13 @@ import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
 import { InfoCardCount } from "../Count"
 
-export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean, isVerticalLayout?: boolean }) {
+export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, ...additionalAttributes }: {
+    video: VideoItem
+    markAsLazy?: boolean
+    layoutType?: "horizontal" | "horizontal-simple" | "vertical-simple"
+    showStats?: boolean
+    externalVideoActionChildren?: React.ReactNode
+} & React.HTMLAttributes<HTMLDivElement>) {
     if (video.isMuted) return (
         <Card
             additionalClassName="videoitem-card genericitem-card videoitem-muted"
@@ -21,7 +27,7 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
                     </div>
                 </>
             )}
-            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            data-layout={layoutType}
             subTitle={(
                 <></>
             )}
@@ -45,7 +51,7 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
                         <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name} のアイコン`} />
                         <span className="genericitem-owner-name">{video.owner.name}</span>
                     </a>
-                    { isVerticalLayout && (
+                    { layoutType === "vertical-simple" && (
                         <span className="genericitem-time" data-count-type="registeredAt">
                             <IconClockFilled />
                             <span className="genericitem-time-value">
@@ -57,15 +63,17 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
             )}
             shortDescription={video.shortDescription}
             counts={(
-                <InfoCardCount count={video.count} registeredAt={isVerticalLayout ? undefined : video.registeredAt} />
+                showStats && <InfoCardCount count={video.count} registeredAt={layoutType === "vertical-simple" ? undefined : video.registeredAt} />
             )}
             thumbnailUrl={video.thumbnail.listingUrl}
             thumbText={`${secondsToTime(video.duration)}`}
             thumbMarkAsLazy={markAsLazy}
             thumbChildren={(
-                <ExternalButton smId={video.id} title={video.title} />
+                <ExternalButton smId={video.id} title={video.title}>
+                    {externalVideoActionChildren}
+                </ExternalButton>
             )}
-            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            data-layout={layoutType}
             {...additionalAttributes}
         >
             {video.title}
@@ -73,7 +81,7 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
     )
 }
 
-function ExternalButton({ smId, title }: { smId: string, title: string }) {
+function ExternalButton({ smId, title, children }: { smId: string, title: string, children?: React.ReactNode }) {
     const { showAlert, showToast } = useSetMessageContext()
     const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
     const [{ status, isMounted }, toggle] = useTransitionState({
@@ -115,6 +123,7 @@ function ExternalButton({ smId, title }: { smId: string, title: string }) {
 
     return (
         <div className="info-card-externalbutton-wrapper">
+            {children}
             <button
                 className="info-card-externalbutton"
                 onClick={() => { toggle(!isMounted) }}
