@@ -1,14 +1,12 @@
-import { IconCheck, IconListNumbers, IconPlayerPlayFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
+import { IconCheck, IconListNumbers, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconPlaylistAdd } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
-import { RecommendItem } from "@/types/RecommendData"
 import { ReactNode } from "react"
 import { secondsToTime } from "@/utils/readableValue"
 import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
 import { useSetMessageContext } from "./Contexts/MessageProvider"
 import { playlistVideoItem } from "../PMWatch/modules/Playlist"
-import { InfoCardCount } from "./Count"
 
-function Draggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
+export function VideoQueueDraggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
         id: id,
         data: obj,
@@ -74,86 +72,51 @@ export function Card(props: CardProps) {
     )
 }
 
-export function VideoInfo({ obj, additionalQuery, isNowPlaying, isNextVideo = false, isExtendedView = false, ...additionalProps }: { obj: RecommendItem, additionalQuery?: string, isNowPlaying?: boolean, isNextVideo?: boolean, isExtendedView?: boolean }) {
-    const thisVideoId = obj.id || (obj.content && obj.content.id) || null
-
-    if (!thisVideoId) return <div className="info-card">表示に失敗しました</div>
-    return (
-        <Draggable id={`${thisVideoId.toString()}-recommend`} obj={obj}>
-            <Card
-                thumbnailUrl={obj.content.thumbnail && (obj.content.thumbnail.listingUrl ?? obj.content.thumbnail.url ?? "")}
-                thumbText={obj.content.duration ? secondsToTime(obj.content.duration) : "??:??"}
-                thumbChildren={<InfoCardAddToPlaylist obj={recommendItemToPlaylistItem(obj)} />}
-                subTitle={obj.content.owner.name}
-                counts={isExtendedView && obj.content.count && <InfoCardCount count={obj.content.count} registeredAt={obj.content.registeredAt} />}
-                href={`https://www.nicovideo.jp/watch/${thisVideoId}${additionalQuery || ""}`}
-                data-nowplaying={isNowPlaying}
-                title={obj.content.title ?? "タイトル不明"}
-                {...additionalProps}
-            >
-                {isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled /></span> }
-                { isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled /></span>}
-                <span className="info-card-content-title">
-                    {obj.content.title}
-                </span>
-            </Card>
-        </Draggable>
-    )
-}
-
-export function MylistInfo(props: { obj: RecommendItem }) {
+export function MylistInfo(props: { obj: MylistItem }) {
     const { obj, ...additionalProps } = props
     return (
         <Card
             href={`https://www.nicovideo.jp/mylist/${obj.id}`}
-            title={`マイリスト: ${obj.content.name}`}
-            subTitle={obj.content.owner.name}
-            thumbnailUrl={(obj.content.sampleItems && obj.content.sampleItems[0].video.thumbnail) && obj.content.sampleItems[0].video.thumbnail.listingUrl}
+            title={`マイリスト: ${obj.name}`}
+            subTitle={obj.owner.name}
+            thumbnailUrl={(obj.sampleItems && obj.sampleItems[0].video.thumbnail) && obj.sampleItems[0].video.thumbnail.listingUrl}
             thumbText={(
                 <>
                     <IconListNumbers />
-                    {obj.content.itemsCount}
+                    {obj.itemsCount}
                 </>
             )}
             {...additionalProps}
         >
             <span className="info-card-content-title">
-                {obj.content.name}
+                {obj.name}
             </span>
         </Card>
     )
 }
 
-export function LiveInfo(props: { obj: RecommendItem }) {
+export function LiveInfo(props: { obj: any }) {
     const { obj, ...additionalProps } = props
     return (
         <Card
             href={`https://live.nicovideo.jp/watch/${obj.id}`}
-            title={`ライブ配信: ${obj.content.title}`}
-            subTitle={obj.content.owner.name}
-            thumbnailUrl={obj.content.thumbnail && obj.content.thumbnail.url}
+            title={`ライブ配信: ${obj.title}`}
+            subTitle={obj.owner.name}
+            thumbnailUrl={obj.thumbnail && obj.thumbnail.url}
             thumbText="LIVE"
             data-is-live={true}
             {...additionalProps}
         >
             <span className="info-card-content-title">
-                {obj.content.title}
+                {obj.title}
             </span>
         </Card>
     )
 }
 
-export function InfoCardFromRecommend({ omitTypes = [], obj, isExtendedView, ...otherProps }: { obj: RecommendItem, isNextVideo?: boolean, isExtendedView?: boolean, omitTypes?: ("video" | "mylist" | "live")[], thumbMarkAsLazy?: boolean }) {
-    if (omitTypes.some(t => t === obj.contentType)) return
-    if (obj.contentType === "video") return <VideoInfo obj={obj} isExtendedView={isExtendedView} {...otherProps} />
-    if (obj.contentType === "mylist") return <MylistInfo obj={obj} {...otherProps} />
-    if (obj.contentType === "live") return <LiveInfo obj={obj} {...otherProps} />
-    return <div>Unknown contentType</div>
-}
-
 export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId, type }: { seriesVideoItem: VideoItem, playlistString: string, transitionId: string | number, type?: "next" | "first" | "prev" }) {
     return (
-        <Draggable id={`${seriesVideoItem.id.toString()}-series-${type || "prev"}`} obj={seriesVideoItem}>
+        <VideoQueueDraggable id={`${seriesVideoItem.id.toString()}-series-${type || "prev"}`} obj={seriesVideoItem}>
             <Card
                 thumbnailUrl={seriesVideoItem.thumbnail && (seriesVideoItem.thumbnail.listingUrl ?? seriesVideoItem.thumbnail.url ?? "")}
                 thumbText={seriesVideoItem.duration ? secondsToTime(seriesVideoItem.duration) : "??:??"}
@@ -172,7 +135,7 @@ export function SeriesVideoCard({ seriesVideoItem, playlistString, transitionId,
                     {seriesVideoItem.title}
                 </span>
             </Card>
-        </Draggable>
+        </VideoQueueDraggable>
     )
 }
 

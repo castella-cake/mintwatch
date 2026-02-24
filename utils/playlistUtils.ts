@@ -37,21 +37,27 @@ export function isValidVideoItem(value: unknown): value is VideoItem {
 }
 
 export function recommendItemToPlaylistItem(data: RecommendItem) {
+    if (isContentIsVideoItem(data)) {
+        return videoItemToPlaylistItem(data.content)
+    }
+    return
+}
+
+export function videoItemToPlaylistItem(data: VideoItem) {
     if (
-        !data.content
-        || !data.content.title
-        || !data.content.duration
-        || !data.content.id
+        !data.title
+        || !data.duration
+        || !data.id
     )
         return
     return {
-        title: data.content.title,
-        id: data.content.id.toString(),
+        title: data.title,
+        id: data.id.toString(),
         itemId: crypto.randomUUID(),
-        ownerName: data.content.owner.name,
-        duration: data.content.duration,
-        thumbnailUrl: data.content.thumbnail
-            ? data.content.thumbnail.listingUrl
+        ownerName: data.owner.name,
+        duration: data.duration,
+        thumbnailUrl: data.thumbnail
+            ? data.thumbnail.listingUrl
             : "",
     } as playlistVideoItem
 }

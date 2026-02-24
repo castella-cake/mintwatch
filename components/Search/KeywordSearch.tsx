@@ -141,7 +141,7 @@ export function KeywordSearch() {
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {
                         return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} isVerticalLayout={searchEnableGridCardLayout ?? false} />
+                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} />
                         )
                     })}
                 </div>
