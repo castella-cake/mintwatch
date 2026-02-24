@@ -15,6 +15,7 @@ import UserFollowButton from "./UserFollowButton"
 import Tags from "./Tags"
 import VideoTitle from "./VideoTitle"
 import ExternalLinkMenu from "./ExternalLinkMenu"
+import APIError from "@/utils/classes/APIError"
 
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div")
@@ -51,10 +52,32 @@ function returnErrorMessage(errorResponse: ErrorResponse) {
 }
 
 function ErrorUI({ error }: { error: any }) {
+    if (error instanceof APIError && error.response && isRedirectResponse(error.response)) {
+        return (
+            <div className="videoinfo-container errorinfo-container">
+                <div className="videoinfo-titlecontainer">
+                    <div className="videoinfo-titleinfo">
+                        <div className="videotitle">
+                            <IconExclamationCircleFilled />
+                            リダイレクト
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     if (!error.response || !error.response.data || !error.response.data.response)
         return (
-            <div className="videoinfo-error-container">
-                動画の取得に失敗しました
+            <div className="videoinfo-container errorinfo-container">
+                <div className="videoinfo-titlecontainer">
+                    <div className="videoinfo-titleinfo">
+                        <div className="videotitle">
+                            <IconExclamationCircleFilled />
+                            動画の取得に失敗しました
+                        </div>
+                        サーバーが不明なデータを返しました。
+                    </div>
+                </div>
             </div>
         )
     const errorResponse: ErrorResponse = error.response.data.response

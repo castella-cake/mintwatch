@@ -3,6 +3,7 @@ import { useSmIdContext } from "./WatchDataContext"
 import { VideoDataRootObject } from "@/types/VideoData"
 import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider"
 import { useVideoDataQuery } from "@/hooks/apiHooks/watch/videoData"
+import APIError from "@/utils/classes/APIError"
 
 const IActionTrackDataContext = createContext<string>("")
 
@@ -57,6 +58,15 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             )
         }
     }, [videoInfo])
+
+    useEffect(() => {
+        if (errorInfo && errorInfo instanceof APIError && errorInfo.response) {
+            if (errorInfo.response?.meta?.status === 302 && errorInfo.response?.meta?.code === "HTTP_302" && typeof errorInfo.response?.data?.location === "string" && URL.canParse(errorInfo.response?.data?.location)) {
+                const url = new URL(errorInfo.response.data.location)
+                window.location.href = url.href
+            }
+        }
+    }, [errorInfo])
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId.current}>
