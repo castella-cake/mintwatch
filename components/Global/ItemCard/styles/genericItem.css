@@ -47,6 +47,12 @@
     .info-card-durationtext {
         font-size: 0.75rem;
     }
+
+    // メニューが表示されている場合に、その親要素ごとz-indexを引き上げる(リスト表示時に次のカードで隠れることがあるため)
+    &:has(.generic-contextmenu) {
+        position: relative;
+        z-index: 20;
+    }
 }
 
 .genericitem-owner {
