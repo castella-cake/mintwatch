@@ -75,6 +75,8 @@
         font-size: 0.9em;
 
         .info-card {
+            --thumb-height: 4.5rem;
+            
             border: 1px solid var(--textcolor3);
             background: var(--bgcolor2);
             backdrop-filter: var(--backdrop-blur-normal);
@@ -82,7 +84,13 @@
         }
 
         .info-card-title {
-            -webkit-line-clamp: 1;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1rem;
+            line-height: 1.25rem;
+            font-weight: normal;
         }
 
         .info-card-playingtext {
@@ -90,6 +98,14 @@
             font-size: 0.8rem;
             line-height: 1.2rem;
             color: var(--textcolor2) !important;
+        }
+
+        .info-card-datacolumn {
+            gap: 6px;
+        }
+
+        .genericitem-owner-icon {
+            display: none;
         }
     }
 }

@@ -52,7 +52,7 @@
     gap: 8px;
 }
 
-.shogi-ranking-lane-videolist .videoitem-card[data-is-vertical-layout="true"] {
+.shogi-ranking-lane-videolist .videoitem-card[data-layout="vertical-simple"] {
     width: 15rem;
 }
 

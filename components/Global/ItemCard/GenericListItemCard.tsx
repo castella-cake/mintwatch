@@ -48,7 +48,7 @@ export function GenericListItemCard({ list, markAsLazy, isVerticalLayout, ...add
             )}
             thumbMarkAsLazy={markAsLazy}
             additionalClassName="mylistitem-card genericitem-card"
-            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            data-layout={isVerticalLayout ? "vertical-simple" : undefined}
             {...additionalAttributes}
         >
             <span className="info-card-content-title">

@@ -47,6 +47,12 @@
     .info-card-durationtext {
         font-size: 0.75rem;
     }
+
+    // メニューが表示されている場合に、その親要素ごとz-indexを引き上げる(リスト表示時に次のカードで隠れることがあるため)
+    &:has(.generic-contextmenu) {
+        position: relative;
+        z-index: 20;
+    }
 }
 
 .genericitem-owner {
@@ -80,7 +86,7 @@
     overflow: visible;
 }
 
-.genericitem-card[data-is-vertical-layout="true"] {
+.genericitem-card[data-layout="vertical-simple"] {
     background: var(--bgcolor2);
     border: var(--border);
     border-radius: var(--radius);
@@ -143,6 +149,34 @@
 
     .genericitem-time svg {
         height: 1.25em;
+    }
+}
+
+.genericitem-card[data-layout="horizontal-simple"] {
+    border-radius: var(--radius);
+    padding: 6px;
+    
+    & .info-card-desc {
+        display: none;
+    }
+
+    & .info-card-datacolumn {
+        display: flex;
+    }
+
+    & .info-card-subtitle {
+        place-self: start;
+
+        .genericitem-owner {
+            flex-direction: row;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .genericitem-owner-icon {
+            height: 1.25rem;
+            width: 1.25rem;
+        }
     }
 }
 

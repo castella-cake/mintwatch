@@ -5,7 +5,7 @@ import Recommend from "./Recommend"
 import UserVideos from "./UserVideos"
 import { VideoActivities } from "@/components/Global/Activities/VideoActivities"
 
-function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean }) {
+function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolean }) {
     const { videoInfo } = useVideoInfoContext()
     const contentRef = useRef<HTMLDivElement>(null)
 
@@ -15,7 +15,7 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
         = useState<string>("recommend")
 
     useEffect(() => {
-        if (!contentRef.current || !enableWheelTranslate) return
+        if (!contentRef.current || !isHorizontalCardLayout) return
         contentRef.current?.addEventListener(
             "wheel",
             wheelTranslator,
@@ -27,7 +27,7 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
                 wheelTranslator,
             )
         }
-    }, [enableWheelTranslate, contentRef.current])
+    }, [isHorizontalCardLayout, contentRef.current])
 
     return (
         <div className="watchnext-wrapper">
@@ -57,8 +57,8 @@ function WatchNext({ enableWheelTranslate }: { enableWheelTranslate?: boolean })
                     )}
                 </div>
                 <div className="watchnext-content" ref={contentRef}>
-                    {recommendDisplayType === "recommend" && <Recommend />}
-                    {recommendDisplayType === "userVideos" && <UserVideos videoOwnerData={videoOwnerData} />}
+                    {recommendDisplayType === "recommend" && <Recommend isHorizontalCardLayout={isHorizontalCardLayout} />}
+                    {recommendDisplayType === "userVideos" && <UserVideos videoOwnerData={videoOwnerData} isHorizontalCardLayout={isHorizontalCardLayout} />}
                     {recommendDisplayType === "timeline" && <VideoActivities />}
                 </div>
             </div>
