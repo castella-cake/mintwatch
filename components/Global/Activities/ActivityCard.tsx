@@ -6,6 +6,7 @@ export function ActivityCard({ item, markAsLazy }: { item: Activity, markAsLazy?
         <div key={`activity-${item.id}`} className="activity">
             <img src={item.actor.iconUrl} className="activity-icon" loading={markAsLazy ? "lazy" : undefined}></img>
             <div className="activity-message-actor">{item.actor.name}</div>
+            <div className="activity-time">{new Date(item.createdAt).toLocaleString("ja-JP")}</div>
             <div className="activity-message">{item.message.text}</div>
             <Card
                 href={item.content.url}
