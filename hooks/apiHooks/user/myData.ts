@@ -2,11 +2,11 @@ import { getMyUserData } from "@/utils/apis/user/my"
 import { useQuery } from "@tanstack/react-query"
 
 export function useMyUserData() {
-    const { data: myUserData, error, isFetching } = useQuery({
+    const { data: myUserData, error, isLoading } = useQuery({
         queryKey: ["myUserData"],
         queryFn: () => {
             return getMyUserData()
         },
     })
-    return { myUserData, error, isFetching }
+    return { myUserData, error, isLoading }
 }

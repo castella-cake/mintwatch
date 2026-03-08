@@ -13,7 +13,7 @@ export function UserContent() {
     const userIdStr = pathSegments[2]
     const userId = userIdStr ? Number.parseInt(userIdStr, 10) : null
 
-    const { myUserData, error, isFetching } = useUserData(userId || 0)
+    const { myUserData, error, isLoading } = useUserData(userId || 0)
 
     if (!userId || Number.isNaN(userId)) {
         return (
@@ -23,7 +23,7 @@ export function UserContent() {
         )
     }
 
-    if (isFetching) {
+    if (isLoading) {
         return (
             <div className="user-content-loading">
                 <p>読み込み中...</p>
