@@ -100,6 +100,12 @@ const settings: settingList = {
                     default: "top",
                 },
                 {
+                    type: "selectButtons",
+                    name: "autoScrollTimingOnVideoChange",
+                    values: ["disable", "delay", "rescroll"],
+                    default: "delay",
+                },
+                {
                     type: "checkbox",
                     name: "pmwforcepagehls",
                     default: false,
