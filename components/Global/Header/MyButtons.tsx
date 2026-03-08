@@ -1,4 +1,3 @@
-import useServerContext from "@/hooks/serverContextHook"
 import { IconBell, IconBellRingingFilled, IconCategory, IconChevronDown, IconStar, IconStarFilled } from "@tabler/icons-react"
 import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../Contexts/ModalStateProvider"
 import useFeedUnreadQuery from "@/hooks/apiHooks/global/feedUnread"
@@ -7,12 +6,13 @@ import MyMenu from "./MyMenu"
 import Notifications from "./Notifications"
 import HeaderActivities from "./Activities"
 import { CSSTransition } from "react-transition-group"
+import { useAccountContext } from "@/hooks/contextHooks"
 
 export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolean }) {
     const { oshiraseBellData, setOshiraseBellData } = useOshiraseBellQuery()
     const { feedUnreadData, queryFeedRead } = useFeedUnreadQuery()
 
-    const contextData = useServerContext()
+    const accountUserData = useAccountContext()
     const headerModalType = useHeaderActionStateContext()
     const setHeaderModalType = useSetHeaderActionStateContext()
 
@@ -54,13 +54,6 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
         setHeaderModalType(state => state !== modalType || isQuickHeaderAction ? modalType : false)
     }
 
-    const simplifiedUserData = contextData && contextData.sessionUser
-        ? {
-                nickname: contextData.sessionUser.nickname,
-                id: contextData.sessionUser.id,
-                isPremium: contextData.sessionUser.type === "premium",
-            }
-        : null
     return (
         <div className="header-mybuttons-container">
             <button
@@ -93,7 +86,7 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
                     <IconCategory />
                 </button>
             ) }
-            {simplifiedUserData && (
+            {accountUserData && (
                 <a
                     href="https://www.nicovideo.jp/my"
                     className="header-account"
@@ -102,7 +95,7 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
                     data-is-active={headerModalType === "mymenu" && isQuickHeaderAction}
                 >
                     <img
-                        src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(simplifiedUserData.id / 10000)}/${simplifiedUserData.id.toString()}.jpg`}
+                        src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(accountUserData.id / 10000)}/${accountUserData.id.toString()}.jpg`}
                         onError={(e: any) => {
                             e.target.src
                                                 = "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/defaults/blank.jpg"
@@ -111,12 +104,12 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
                     />
                     <span
                         style={
-                            simplifiedUserData.isPremium
+                            accountUserData.isPremium
                                 ? { color: "rgb(217, 163, 0)" }
                                 : {}
                         }
                     >
-                        {simplifiedUserData.nickname}
+                        {accountUserData.nickname}
                     </span>
                     { isQuickHeaderAction && <IconChevronDown /> }
                 </a>

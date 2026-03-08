@@ -1,6 +1,5 @@
 import { IconChevronRight, IconCoins, IconSettings } from "@tabler/icons-react"
-import { useVideoInfoContext } from "../Contexts/VideoDataProvider"
-import useServerContext from "@/hooks/serverContextHook"
+import { useAccountContext } from "@/hooks/contextHooks"
 
 type link = {
     href: string
@@ -112,27 +111,14 @@ const myMenuLinks: links = {
 }
 
 export default function MyMenu() {
-    const { videoInfo } = useVideoInfoContext()
-    const contextData = useServerContext()
-
-    const videoViewerInfo = videoInfo?.data.response.viewer
-
-    const alternativeUserData = contextData && contextData.sessionUser
-        ? {
-                nickname: contextData.sessionUser.nickname,
-                id: contextData.sessionUser.id,
-                isPremium: contextData.sessionUser.type === "premium",
-            }
-        : null
-
-    const simplifiedUserData = videoViewerInfo || alternativeUserData || null
+    const accountUserContextData = useAccountContext()
 
     return (
         <div className="mymenu-container">
-            {simplifiedUserData && (
+            {accountUserContextData && (
                 <a href="https://www.nicovideo.jp/my" className="mymenu-profile">
                     <img
-                        src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(simplifiedUserData.id / 10000)}/${simplifiedUserData.id.toString()}.jpg`}
+                        src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(accountUserContextData.id / 10000)}/${accountUserContextData.id.toString()}.jpg`}
                         onError={(e: any) => {
                             e.target.src
                                 = "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/defaults/blank.jpg"
@@ -143,17 +129,17 @@ export default function MyMenu() {
                         className="mymenu-profile-name"
                     >
                         <span style={
-                            simplifiedUserData.isPremium
+                            accountUserContextData.isPremium
                                 ? { color: "rgb(217, 163, 0)" }
                                 : {}
                         }
                         >
-                            {simplifiedUserData.nickname}
+                            {accountUserContextData.nickname}
                         </span>
                         <br />
                         <span className="mymenu-profile-id">
                             ID:
-                            {simplifiedUserData.id}
+                            {accountUserContextData.id}
                         </span>
                     </div>
                     <IconChevronRight />
