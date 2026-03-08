@@ -1,6 +1,7 @@
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { NavigationAnchorButton } from "../Navigation"
 import { ActivitiesTimeline } from "@/components/Global/Activities/ActivitiesTimeline"
+import "../styles/TimelineContent.css"
 
 const validTypes = ["publish", "video", "live", "all"] as const
 
