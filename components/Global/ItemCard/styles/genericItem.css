@@ -178,6 +178,10 @@
             width: 1.25rem;
         }
     }
+
+    &:not(:has(.info-card-count)) .info-card-title {
+        max-lines: 2;
+    }
 }
 
 .videoitem-muted-overlay {
