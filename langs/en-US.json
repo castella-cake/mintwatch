@@ -99,6 +99,10 @@
             "name": "Automatic scroll position when moving video",
             "select": ["Page top", "Player", "Disable"]
         },
+        "autoScrollTimingOnVideoChange": {
+            "name": "Delayed automatic scroll when moving video",
+            "select": ["Disable", "Delay", "Re-scroll"]
+        },
         "alwaysGetTagDataFromApi": {
             "name": "Experimental: Always get tag data from API",
             "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."

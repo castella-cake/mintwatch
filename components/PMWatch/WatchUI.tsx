@@ -24,9 +24,10 @@ function CreateWatchUI() {
 
     const {
         autoScrollPositionOnVideoChange,
+        autoScrollTimingOnVideoChange,
         layoutDensity,
         disallowGridFallback,
-    } = useStorageVar(["autoScrollPositionOnVideoChange", "layoutDensity", "disallowGridFallback"] as const, "sync")
+    } = useStorageVar(["autoScrollPositionOnVideoChange", "autoScrollTimingOnVideoChange", "layoutDensity", "disallowGridFallback"] as const, "sync")
     const {
         playerAreaSize,
         onboardingIgnored,
@@ -44,6 +45,14 @@ function CreateWatchUI() {
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const backgroundPlaying = useBackgroundPlayingContext()
 
+    const scrollRequestIdRef = useRef(0)
+    const pendingVideoChangeScrollRef = useRef<{
+        requestId: number
+        targetSmId: string
+        videoChanged: boolean
+        executed: boolean
+    } | null>(null)
+
     const internalChangeVideo = useCallback((smIdAfter: string) => {
         if (smId === smIdAfter) return
         // 再度来ても良いようにキャッシュを破棄する
@@ -53,30 +62,54 @@ function CreateWatchUI() {
         setSmId(smIdAfter)
     }, [smId])
 
+    const scrollToPlayer = useCallback(() => {
+        startTransition(() => {
+            requestAnimationFrame(() => {
+                if (videoRef.current) {
+                    videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+                }
+            })
+        })
+    }, [videoRef])
+
     // ナビゲーション処理はlistenPopStateで行います
     const changeVideo = useCallback((videoUrl: string, doScroll = true, noLocationChange = false) => {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
+        const autoScrollTimingSetting = autoScrollTimingOnVideoChange ?? getDefault("autoScrollTimingOnVideoChange")
+        const parsedUrl = new URL(videoUrl)
+        const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
+        const shouldHandleTimingWithGate = doScroll
+            && autoScrollSetting === "player"
+            && autoScrollTimingSetting !== "disable"
+
+        if (shouldHandleTimingWithGate) {
+            scrollRequestIdRef.current += 1
+            pendingVideoChangeScrollRef.current = {
+                requestId: scrollRequestIdRef.current,
+                targetSmId: smIdAfter,
+                videoChanged: false,
+                executed: false,
+            }
+        } else {
+            pendingVideoChangeScrollRef.current = null
+        }
+
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
         } else if (autoScrollSetting === "player" && doScroll) {
-            startTransition(() => {
-                requestAnimationFrame(() => {
-                    if (videoRef.current) {
-                        videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
-                    }
-                })
-            })
+            const shouldDelayScroll = shouldHandleTimingWithGate && autoScrollTimingSetting === "delay"
+            if (!shouldDelayScroll) {
+                scrollToPlayer()
+            }
         }
         setVideoActionModalState(false)
         if (noLocationChange) {
-            const parsedUrl = new URL(videoUrl)
-            const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
             internalChangeVideo(smIdAfter)
             return
         }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [smId, autoScrollPositionOnVideoChange, internalChangeVideo])
+    }, [autoScrollPositionOnVideoChange, autoScrollTimingOnVideoChange, internalChangeVideo, scrollToPlayer])
 
     const linkClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {
@@ -90,6 +123,27 @@ function CreateWatchUI() {
             }
         }
     }
+
+    useEffect(() => {
+        if (!pendingVideoChangeScrollRef.current) return
+        if (pendingVideoChangeScrollRef.current.targetSmId === smId) {
+            pendingVideoChangeScrollRef.current.videoChanged = true
+        }
+    }, [smId])
+
+    const currentVideoId = videoInfo?.data?.response?.video?.id
+    useEffect(() => {
+        const pendingState = pendingVideoChangeScrollRef.current
+        if (!pendingState || pendingState.executed || !pendingState.videoChanged) return
+        if (currentVideoId !== pendingState.targetSmId) return
+
+        const requestId = pendingState.requestId
+        const latestPendingState = pendingVideoChangeScrollRef.current
+        if (!latestPendingState || latestPendingState.executed) return
+        if (latestPendingState.requestId !== requestId) return
+        latestPendingState.executed = true
+        scrollToPlayer()
+    }, [currentVideoId, scrollToPlayer])
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
