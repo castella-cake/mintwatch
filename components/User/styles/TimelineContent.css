@@ -1,8 +1,4 @@
 .user-timeline-content {
-    .activity .info-card {
-        grid-column: 2/3;
-    }
-
     .activities-timeline-container {
         display: flex;
         flex-direction: column;
@@ -17,6 +13,29 @@
 
         &:not(:last-child) {
             border-bottom: 1px solid var(--accent1);
+        }
+
+        .info-card {
+            --thumb-height: 6rem;
+
+            background: var(--bgcolor2);
+            align-items: start;
+            gap: 12px;
+            grid-column: 2 / 4;
+        }
+
+        .info-card-title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .info-card-subtitle {
+            font-size: 0.8rem;
+        }
+
+        .info-card-datacolumn {
+            gap: 8px;
+            margin: 8px 0;
         }
     }
 
