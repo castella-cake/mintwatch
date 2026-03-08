@@ -1,0 +1,30 @@
+.user-timeline-content {
+    .activity .info-card {
+        grid-column: 2/3;
+    }
+
+    .activities-timeline-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .activity {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 1rem 0.5rem;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid var(--accent1);
+        }
+    }
+
+    .activities-item-container {
+        gap: 0;
+    }
+
+    .activities-date-title {
+        margin-bottom: 0;
+    }
+}
