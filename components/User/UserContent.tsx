@@ -50,6 +50,11 @@ export function UserContent() {
 
     return (
         <div className="user-content" data-usertype="user">
+            <title>
+                {userData.data.user.nickname}
+                {" "}
+                - ニコニコ
+            </title>
             <GenericUserDataView
                 userData={userData.data.user}
                 isMe={userData.data.relationships?.isMe || false}
