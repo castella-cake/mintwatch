@@ -13,7 +13,7 @@ export function UserContent() {
     const userIdStr = pathSegments[2]
     const userId = userIdStr ? Number.parseInt(userIdStr, 10) : null
 
-    const { myUserData, error, isLoading } = useUserData(userId || 0)
+    const { userData, error, isLoading } = useUserData(userId || 0)
 
     if (!userId || Number.isNaN(userId)) {
         return (
@@ -40,7 +40,7 @@ export function UserContent() {
         )
     }
 
-    if (!myUserData?.data?.user) {
+    if (!userData?.data?.user) {
         return (
             <div className="user-content-error">
                 <p>ユーザーデータが見つかりません</p>
@@ -51,8 +51,8 @@ export function UserContent() {
     return (
         <div className="user-content" data-usertype="user">
             <GenericUserDataView
-                userData={myUserData.data.user}
-                isMe={myUserData.data.relationships?.isMe || false}
+                userData={userData.data.user}
+                isMe={userData.data.relationships?.isMe || false}
             />
             <UserNavigation userId={userId} />
             <Match targetPathname={[
