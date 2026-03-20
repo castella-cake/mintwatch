@@ -8,5 +8,5 @@ export function useUserData(userId: number) {
             return getUserData(userId)
         },
     })
-    return { myUserData: userData, error, isLoading }
+    return { userData, error, isLoading }
 }
