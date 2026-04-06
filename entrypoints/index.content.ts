@@ -29,9 +29,9 @@ export default defineContentScript({
                 || (enableSearchPage && searchPatternArray.some(m => m.includes(window.location.toString())))
             ) {
                 initializeRouter(ctx)
-            } else {
+            } else if ((!enableReshogi && rankingPattern.includes(window.location.toString())) || (!enableSearchPage && searchPatternArray.some(m => m.includes(window.location.toString())))) {
                 ctx.addEventListener(window, "wxt:locationchange", ({ newUrl }) => {
-                    if (watchPattern.includes(newUrl) || (rankingPattern.includes(window.location.toString()) && enableReshogi)) window.location.reload()// Promise.allSettled(storagePromises).then(initializeWatch, onError);
+                    if (watchPattern.includes(newUrl) || (rankingPattern.includes(newUrl) && enableReshogi)) window.location.reload()// Promise.allSettled(storagePromises).then(initializeWatch, onError);
                 })
             }
         })
