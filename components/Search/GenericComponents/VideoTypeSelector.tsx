@@ -18,7 +18,7 @@ export function VideoTypeSelector() {
                     if (searchType === "search_shorts") {
                         const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/search_shorts/", "/search/") + location.search)
                         history.push(pathUrl.toString())
-                    } else if (searchType === "tag") {
+                    } else if (searchType === "tag_shorts") {
                         const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/tag_shorts/", "/tag/") + location.search)
                         history.push(pathUrl.toString())
                     }
