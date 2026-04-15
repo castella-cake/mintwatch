@@ -11,6 +11,7 @@ import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
 import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
+import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -20,6 +21,7 @@ export function KeywordSearch() {
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj, isShorts)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", keywordSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({

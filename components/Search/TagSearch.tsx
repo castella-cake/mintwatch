@@ -12,6 +12,7 @@ import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
 import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
+import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -21,6 +22,7 @@ export function TagSearch() {
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj, isShorts)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", tagSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({

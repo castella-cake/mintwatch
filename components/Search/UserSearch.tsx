@@ -20,6 +20,7 @@ export function UserSearch() {
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchUserData: userSearchData, error, isFetching } = useSearchUserData(returnSearchWord(location.pathname), reducedObj)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", userSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!userSearchData && error && error.name === "SyntaxError") {
             showAlert({

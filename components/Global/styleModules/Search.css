@@ -55,11 +55,27 @@
             color: var(--textcolor1);
             border: none;
             padding: 8px;
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                opacity: .7;
+            }
+
+            .searchbox-expand-item-word {
+                flex: 1;
+            }
 
             &:hover, &:focus-visible {
                 background: var(--hover1);
                 outline: none;
                 box-shadow: none;
+            }
+
+            &:not(:focus-visible, :hover) .searchbox-expand-item-actionicon {
+                visibility: hidden;
             }
         }
     }

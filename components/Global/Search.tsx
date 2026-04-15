@@ -1,7 +1,10 @@
-import { IconFolder, IconListNumbers, IconMessageLanguage, IconSearch, IconTag, IconUser } from "@tabler/icons-react"
+import { IconFolder, IconInputSearch, IconListNumbers, IconMessageLanguage, IconSearch, IconTag, IconUser } from "@tabler/icons-react"
 import { startTransition, useEffect, useId, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
+import useServerContext from "@/hooks/serverContextHook"
+import { useBrowserLocalStorage } from "@/hooks/browserLocalStorageHook"
+import { localStorageNvpcSearchRootObject } from "@/types/localStorage/nvpcSearch"
 
 const searchType = {
     search: ["キーワード", "で"],
@@ -13,6 +16,9 @@ const searchType = {
     user: ["ユーザー", "を"],
 } as const
 const searchTypeKeys = Object.keys(searchType)
+
+const nvPcSearchTypeKeys = ["keyword", "tag", "mylist", "series", "user"] as const
+
 const searchTypeIcons = [<IconMessageLanguage key="keyword" />, <IconTag key="tag" />, <IconFolder key="folder" />, <IconListNumbers key="series" />, <IconUser key="user" />]
 
 function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSearch: handleSearch, enableHotKey }: {
@@ -27,6 +33,9 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
     const [isComposing, setIsComposing] = useState(false)
     const [query, setQuery] = useState(initialValue)
     const { data: expandData } = useSearchExpandData(query)
+    const contextData = useServerContext()
+    const { data: nvpcSearchdata } = useBrowserLocalStorage(`nvpc:search:${contextData?.sessionUser?.id ?? "0"}`)
+    const searchStorageData = typeof nvpcSearchdata === "string" ? JSON.parse(nvpcSearchdata) as localStorageNvpcSearchRootObject : null
 
     useEffect(() => {
         if (!enableHotKey) return
@@ -74,10 +83,45 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                 defaultValue={initialValue}
                 onChange={handleInputChange}
                 id={elementId}
+                autoComplete="off"
             />
             <button onClick={() => onSearch()} type="button" title="検索">
                 <IconSearch />
             </button>
+            {query.trim().length < 1 && (
+                <div className="searchbox-expand" data-is-default="true">
+                    {searchStorageData?.data.history?.data.map((historyItem, index) => (
+                        <button
+                            key={index}
+                            className="searchbox-expand-item"
+                            onClick={(e) => {
+                                if (!e.shiftKey) {
+                                    const href = returnHrefFromSearchType(historyItem.word, historyItem.type === "keyword" ? "search" : historyItem.type)
+                                    startTransition(() => history.push(href))
+                                } else {
+                                    setQuery(historyItem.word)
+                                    if (inputRef.current) {
+                                        inputRef.current.value = historyItem.word
+                                        inputRef.current.focus()
+                                    }
+                                }
+                            }}
+                            title={`選択して ${historyItem.word} で${searchType[historyItem.type === "keyword" ? "search" : historyItem.type][0]}検索 (Shift+選択で入力欄に反映)`}
+                        >
+                            <div className="searchbox-expand-item-title">
+                                {nvPcSearchTypeKeys.indexOf(historyItem.type) !== -1 && searchTypeIcons[nvPcSearchTypeKeys.indexOf(historyItem.type)]}
+                                <span className="searchbox-expand-item-word">
+                                    {historyItem.word}
+                                </span>
+                                <IconSearch className="searchbox-expand-item-actionicon" />
+                            </div>
+                            <div className="searchbox-expand-item-options">
+                                {`${searchType[historyItem.type === "keyword" ? "search" : historyItem.type][0]}, ${historyItem.sort.key.label}`}
+                            </div>
+                        </button>
+                    ))}
+                </div>
+            )}
             {expandData?.candidates && (
                 <div className="searchbox-expand">
                     {expandData.candidates.map(candidate => (
@@ -98,7 +142,10 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                             }}
                             title={`選択して ${candidate} を入力欄に反映 (Shift+選択で直接検索)`}
                         >
-                            {candidate}
+                            <span className="searchbox-expand-item-word">
+                                {candidate}
+                            </span>
+                            <IconInputSearch className="searchbox-expand-item-actionicon" />
                         </button>
                     ))}
                 </div>

@@ -20,6 +20,7 @@ export function SeriesSearch() {
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchMylistData: mylistSearchData, error, isFetching } = useSearchSeriesData(returnSearchWord(location.pathname), reducedObj)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", mylistSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!mylistSearchData && error && error.name === "SyntaxError") {
             showAlert({
