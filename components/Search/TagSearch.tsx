@@ -10,18 +10,17 @@ import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import { DictionarySummaryTitle } from "./GenericComponents/DictionarySummary"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
+import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
+import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
     const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
-    /*
-    const currentPageIndex = Number.isNaN(Number(pathUrl.searchParams.get("page") ?? "1")) ? 1 : Number(pathUrl.searchParams.get("page") ?? "1")
-    const currentSort = pathUrl.searchParams.get("sort") ?? undefined
-    const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
+    const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
-    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj)
+    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj, isShorts)
     useEffect(() => {
         if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -137,6 +136,7 @@ export function TagSearch() {
                             : ""}
                     </span>
                 </h2>
+                <VideoTypeSelector />
                 <DictionarySummaryTitle nicodic={nicodic} originalKeyword={getSearchVideoData.keyword} />
                 <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />

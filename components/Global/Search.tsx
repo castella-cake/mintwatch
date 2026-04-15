@@ -5,7 +5,9 @@ import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
 
 const searchType = {
     search: ["キーワード", "で"],
+    search_shorts: ["キーワード", "で"],
     tag: ["タグ", "で"],
+    tag_shorts: ["タグ", "で"],
     mylist: ["マイリスト", "を"],
     series: ["シリーズ", "を"],
     user: ["ユーザー", "を"],
@@ -135,8 +137,8 @@ function Search({ enableHotKey }: { enableHotKey?: boolean }) {
     return (
         <search className="searchbox-container" id="pmw-searchbox" data-in-search-page={returnSearchWhatWeReIn(location.pathname) !== undefined}>
             <div className="searchbox-typeselector">
-                {searchTypeKeys.map((elem, index) => {
-                    const isActive = currentSearchType === elem
+                {searchTypeKeys.filter(k => !k.includes("_shorts")).map((elem, index) => {
+                    const isActive = currentSearchType.replace("_shorts", "") === elem
                     return (
                         <button
                             key={elem}

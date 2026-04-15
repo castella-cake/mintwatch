@@ -9,18 +9,17 @@ import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
+import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
+import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
     const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
-    /*
-    const currentPageIndex = Number.isNaN(Number(pathUrl.searchParams.get("page") ?? "1")) ? 1 : Number(pathUrl.searchParams.get("page") ?? "1")
-    const currentSort = pathUrl.searchParams.get("sort") ?? undefined
-    const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
+    const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
-    const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
+    const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj, isShorts)
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -134,6 +133,7 @@ export function KeywordSearch() {
                             : ""}
                     </span>
                 </h2>
+                <VideoTypeSelector />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />

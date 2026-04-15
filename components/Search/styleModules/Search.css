@@ -9,7 +9,7 @@
     grid-template-areas:
         "title title title"
         "related related related"
-        "pagel options ."
+        "vidsel options ."
         "pagel result result"
         "filter result result"
         ". result result"
@@ -31,7 +31,7 @@
         grid-template-areas:
             "title title title"
             "dict dict ."
-            "pagel options related"
+            "vidsel options related"
             "pagel result related"
             "filter result related"
             ". result related"
@@ -43,7 +43,7 @@
             "title title title"
             "dict dict ."
             "related related related"
-            "pagel options ."
+            "vidsel options ."
             "pagel result ."
             "filter result ."
             ". result ."

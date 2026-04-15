@@ -5,7 +5,9 @@ const rankingPattern = new MatchPattern("*://www.nicovideo.jp/ranking*")
 
 const searchPatternArray = [
     new MatchPattern("*://www.nicovideo.jp/search/*"),
+    new MatchPattern("*://www.nicovideo.jp/search_shorts/*"),
     new MatchPattern("*://www.nicovideo.jp/tag/*"),
+    new MatchPattern("*://www.nicovideo.jp/tag_shorts/*"),
     new MatchPattern("*://www.nicovideo.jp/series_search/*"),
     new MatchPattern("*://www.nicovideo.jp/mylist_search/*"),
     new MatchPattern("*://www.nicovideo.jp/user_search/*"),
