@@ -143,7 +143,13 @@ function Search({ enableHotKey }: { enableHotKey?: boolean }) {
                         <button
                             key={elem}
                             className={`searchbox-type-item${isActive ? " searchbox-type-active" : ""}`}
-                            onClick={() => handleSearchTypeChange(elem as keyof typeof searchType)}
+                            onClick={() => {
+                                if (currentSearchType.endsWith("_shorts") && (elem === "search" || elem === "tag")) {
+                                    handleSearchTypeChange((elem + "_shorts") as keyof typeof searchType)
+                                } else {
+                                    handleSearchTypeChange(elem as keyof typeof searchType)
+                                }
+                            }}
                             title={searchType[elem as keyof typeof searchType][0]}
                             data-searchtype={elem}
                         >
