@@ -65,7 +65,7 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
             counts={(
                 showStats && <InfoCardCount count={video.count} registeredAt={layoutType === "vertical-simple" ? undefined : video.registeredAt} />
             )}
-            thumbnailUrl={video.thumbnail.listingUrl}
+            thumbnailUrl={video.contentType === "short" ? video.thumbnail.shortUrl : video.thumbnail.listingUrl}
             thumbText={`${secondsToTime(video.duration)}`}
             thumbMarkAsLazy={markAsLazy}
             thumbChildren={(
@@ -74,6 +74,7 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
                 </ExternalButton>
             )}
             data-layout={layoutType}
+            data-is-short={video.contentType === "short"}
             {...additionalAttributes}
         >
             {video.title}

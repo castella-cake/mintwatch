@@ -152,6 +152,35 @@
     }
 }
 
+.genericitem-card[data-layout="vertical-simple"][data-is-short="true"] {
+    padding: 0;
+
+    & .info-card-thumbnail {
+        aspect-ratio: 9 / 16;
+    }
+    
+    & .info-card-datacolumn {
+        position: absolute;
+        bottom: 0;
+        padding: 8px;
+        background: linear-gradient(0deg, #000a, #0000);
+        width: 100%;
+    }
+
+    & .info-card-title {
+        text-shadow: 0 0 4px #000a;
+            height: auto;
+        max-height: 3rem;
+    }
+
+    & .info-card-durationtext {
+        top: 0;
+        bottom: auto;
+        margin: 4px;
+        padding: 4px 6px;
+    }
+}
+
 .genericitem-card[data-layout="horizontal-simple"] {
     border-radius: var(--radius);
     padding: 6px;

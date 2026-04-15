@@ -1,6 +1,7 @@
 export interface VideoItem {
     type: string
     id: string
+    contentType: "long" | "short"
     title: string
     registeredAt: string
     count: GenericCount
