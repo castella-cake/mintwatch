@@ -6,8 +6,8 @@ import APIError from "../classes/APIError"
  * @param body レジューム再生のオブジェクト
  * @returns
  */
-export async function putPlaybackPosition(body: PlaybackPositionBody) {
-    const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/watch/history/playback-position", {
+export async function putPlaybackPosition(body: PlaybackPositionBody, date: Date) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v2/users/me/watch/history/playback-position?t=${encodeURIComponent(date.getTime().toString())}`, {
         headers: {
             "content-type": "application/json",
             "x-frontend-id": "6",

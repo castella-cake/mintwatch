@@ -364,10 +364,10 @@ function Player(props: Props) {
     const onPause = useCallback(() => {
         if (!videoRef.current) return
         const playbackPositionBody = {
-            watchId: videoId,
+            videoId,
             seconds: videoRef.current.currentTime,
         }
-        putPlaybackPosition(playbackPositionBody)
+        putPlaybackPosition(playbackPositionBody, new Date())
     }, [videoRef, videoInfo])
 
     const onEnded = () => {
