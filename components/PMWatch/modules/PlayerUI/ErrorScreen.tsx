@@ -2,6 +2,7 @@ import { errorHaiku } from "@/utils/errorHaiku"
 import DAnimeLinks from "./DAnimeLinks"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { ErrorResponse } from "@/types/VideoData"
+import { isRedirectResponse } from "@/utils/responseUtils"
 
 function ReturnErrorHaiku({ errorResponse }: { errorResponse: ErrorResponse }) {
     const [haikuRandom, setHaikuRandom] = useState(Math.random())
@@ -22,7 +23,24 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: unknown }) {
     const { flagHlsErrorScreenEnable } = useStorageVar(["flagHlsErrorScreenEnable"])
     const { videoInfo, errorInfo } = useVideoInfoContext()
     if (errorInfo && errorInfo.response) {
+        if (isRedirectResponse(errorInfo.response)) {
+            return (
+                <div className="player-errorscreen-wrapper">
+                    <div className="player-errorscreen">
+                        <h2 className="player-errorscreen-title">リダイレクトが発生しました</h2>
+                        <p>
+                            この動画URLは別のページへのリダイレクトです。
+                            <br />
+                            <a href={errorInfo.response.data.location}>
+                                再度移動する
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            )
+        }
         const errorResponse: ErrorResponse = errorInfo.response.data.response
+        if (!errorResponse) return
         return (
             <div className="player-errorscreen-wrapper">
                 <div className="player-errorscreen">
@@ -79,7 +97,7 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: unknown }) {
                         {isPremiumOnly && <p>この動画は現在プレミアム限定動画です。プレミアム会員に加入することで視聴できます。</p>}
                     </p>
                 </div>
-                { videoInfo.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED" && <DAnimeLinks /> }
+                {videoInfo.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED" && <DAnimeLinks />}
             </div>
         </div>
     )

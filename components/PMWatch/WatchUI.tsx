@@ -100,10 +100,10 @@ function CreateWatchUI() {
                 && videoRef.current instanceof HTMLVideoElement
             ) {
                 const playbackPositionBody = {
-                    watchId: smId,
+                    videoId: smId,
                     seconds: videoRef.current.currentTime,
                 }
-                putPlaybackPosition(playbackPositionBody)
+                putPlaybackPosition(playbackPositionBody, new Date())
             }
             /* console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`

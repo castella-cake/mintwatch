@@ -1,6 +1,7 @@
 export default function relativeTimeFrom(date: Date): string {
     const now = new Date()
     const diffMilliseconds = now.getTime() - date.getTime()
+    const diffMillisecondsAbs = Math.abs(diffMilliseconds)
 
     // 各単位のミリ秒
     const secondMs = 1000
@@ -12,25 +13,26 @@ export default function relativeTimeFrom(date: Date): string {
 
     let value: number
     let unit: string
+    const prefix = diffMilliseconds < 0 ? "後" : "前"
 
-    if (diffMilliseconds >= yearMs) {
-        value = Math.floor(diffMilliseconds / yearMs)
-        unit = "年前"
-    } else if (diffMilliseconds >= monthMs) {
-        value = Math.floor(diffMilliseconds / monthMs)
-        unit = "ヶ月前"
-    } else if (diffMilliseconds >= dayMs) {
-        value = Math.floor(diffMilliseconds / dayMs)
-        unit = "日前"
-    } else if (diffMilliseconds >= hourMs) {
-        value = Math.floor(diffMilliseconds / hourMs)
-        unit = "時間前"
-    } else if (diffMilliseconds >= minuteMs) {
-        value = Math.floor(diffMilliseconds / minuteMs)
-        unit = "分前"
+    if (diffMillisecondsAbs >= yearMs) {
+        value = Math.floor(diffMillisecondsAbs / yearMs)
+        unit = "年"
+    } else if (diffMillisecondsAbs >= monthMs) {
+        value = Math.floor(diffMillisecondsAbs / monthMs)
+        unit = "ヶ月"
+    } else if (diffMillisecondsAbs >= dayMs) {
+        value = Math.floor(diffMillisecondsAbs / dayMs)
+        unit = "日"
+    } else if (diffMillisecondsAbs >= hourMs) {
+        value = Math.floor(diffMillisecondsAbs / hourMs)
+        unit = "時間"
+    } else if (diffMillisecondsAbs >= minuteMs) {
+        value = Math.floor(diffMillisecondsAbs / minuteMs)
+        unit = "分"
     } else {
-        return `${Math.floor(diffMilliseconds / secondMs)}秒前`
+        return `${Math.floor(diffMillisecondsAbs / secondMs)}秒${prefix}`
     }
 
-    return `${value}${unit}`
+    return `${value}${unit}${prefix}`
 }
