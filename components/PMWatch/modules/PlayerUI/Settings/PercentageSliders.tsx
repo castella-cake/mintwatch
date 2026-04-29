@@ -29,7 +29,7 @@ export default function PercentageSliders({ settingKey, setting }: { settingKey:
                             {setting.sliders![key].name}
                             {" "}
                             <span>
-                                {Math.floor(percentages[key] * 100)}
+                                {Math.floor(currentValue * 100)}
                                 %
                             </span>
                         </label>
