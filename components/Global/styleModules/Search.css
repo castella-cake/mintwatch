@@ -55,8 +55,15 @@
             color: var(--textcolor1);
             border: none;
             padding: 8px;
-            display: flex;
-            align-items: center;
+
+            .searchbox-expand-item-title {
+                display: flex;
+                align-items: center;
+            }
+
+            .searchbox-expand-item-options {
+                color: var(--textcolor2);
+            }
 
             svg {
                 width: 20px;

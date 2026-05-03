@@ -116,7 +116,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                                 <IconSearch className="searchbox-expand-item-actionicon" />
                             </div>
                             <div className="searchbox-expand-item-options">
-                                {`${searchType[historyItem.type === "keyword" ? "search" : historyItem.type][0]}, ${historyItem.sort.key.label}`}
+                                {`${historyItem.sort.key.label}`}
                             </div>
                         </button>
                     ))}
@@ -142,10 +142,12 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                             }}
                             title={`選択して ${candidate} を入力欄に反映 (Shift+選択で直接検索)`}
                         >
-                            <span className="searchbox-expand-item-word">
-                                {candidate}
-                            </span>
-                            <IconInputSearch className="searchbox-expand-item-actionicon" />
+                            <div className="searchbox-expand-item-title">
+                                <span className="searchbox-expand-item-word">
+                                    {candidate}
+                                </span>
+                                <IconInputSearch className="searchbox-expand-item-actionicon" />
+                            </div>
                         </button>
                     ))}
                 </div>
