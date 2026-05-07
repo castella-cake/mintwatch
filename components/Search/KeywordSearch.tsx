@@ -21,7 +21,7 @@ export function KeywordSearch() {
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj, isShorts)
-    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", keywordSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), isShorts ? "keyword_shorts" : "keyword", keywordSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({

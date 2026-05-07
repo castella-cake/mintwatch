@@ -22,7 +22,7 @@ export function TagSearch() {
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj, isShorts)
-    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", tagSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), isShorts ? "tag_shorts" : "tag", tagSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({

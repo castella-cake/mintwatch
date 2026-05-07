@@ -17,9 +17,9 @@ const searchType = {
 } as const
 const searchTypeKeys = Object.keys(searchType)
 
-const nvPcSearchTypeKeys = ["keyword", "tag", "mylist", "series", "user"] as const
+const nvPcSearchTypeKeys = ["keyword", "keyword_shorts", "tag", "tag_shorts", "mylist", "series", "user"] as const
 
-const searchTypeIcons = [<IconMessageLanguage key="keyword" />, <IconTag key="tag" />, <IconFolder key="folder" />, <IconListNumbers key="series" />, <IconUser key="user" />]
+const searchTypeIcons = [<IconMessageLanguage key="keyword" />, <IconMessageLanguage key="keyword_shorts" />, <IconTag key="tag" />, <IconTag key="tag_shorts" />, <IconFolder key="folder" />, <IconListNumbers key="series" />, <IconUser key="user" />]
 
 function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSearch: handleSearch, enableHotKey }: {
     inputRef: React.RefObject<HTMLInputElement | null>
@@ -96,7 +96,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                             className="searchbox-expand-item"
                             onClick={(e) => {
                                 if (!e.shiftKey) {
-                                    const href = returnHrefFromSearchType(historyItem.word, historyItem.type === "keyword" ? "search" : historyItem.type)
+                                    const href = returnHrefFromSearchType(historyItem.word, historyItem.type.replace("keyword", "search") as keyof typeof searchType)
                                     startTransition(() => history.push(href))
                                 } else {
                                     setQuery(historyItem.word)
@@ -106,7 +106,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                                     }
                                 }
                             }}
-                            title={`選択して ${historyItem.word} で${searchType[historyItem.type === "keyword" ? "search" : historyItem.type][0]}検索 (Shift+選択で入力欄に反映)`}
+                            title={`選択して ${historyItem.word} で${searchType[historyItem.type.replace("keyword", "search") as keyof typeof searchType][0]}検索 (Shift+選択で入力欄に反映)`}
                         >
                             <div className="searchbox-expand-item-title">
                                 {nvPcSearchTypeKeys.indexOf(historyItem.type) !== -1 && searchTypeIcons[nvPcSearchTypeKeys.indexOf(historyItem.type)]}
@@ -116,6 +116,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                                 <IconSearch className="searchbox-expand-item-actionicon" />
                             </div>
                             <div className="searchbox-expand-item-options">
+                                {historyItem.type.includes("_shorts") && "ショート, "}
                                 {`${historyItem.sort.key.label}`}
                             </div>
                         </button>
@@ -186,7 +187,10 @@ function Search({ enableHotKey }: { enableHotKey?: boolean }) {
     return (
         <search className="searchbox-container" id="pmw-searchbox" data-in-search-page={returnSearchWhatWeReIn(location.pathname) !== undefined}>
             <div className="searchbox-typeselector">
-                {searchTypeKeys.filter(k => !k.includes("_shorts")).map((elem, index) => {
+                {searchTypeKeys.map((elem, index) => {
+                    if (elem.includes("_shorts")) {
+                        return
+                    }
                     const isActive = currentSearchType.replace("_shorts", "") === elem
                     return (
                         <button

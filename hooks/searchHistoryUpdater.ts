@@ -20,7 +20,19 @@ function activeSortResolver<T extends { default: boolean, active: boolean }>(opt
     return undefined
 }
 
-export function useSearchHistoryUpdater(word: string, type: "keyword" | "tag" | "user" | "mylist" | "series", option?: SearchOption, dependencies: any[] = []) {
+export function hrefTypeToHistoryType(type: "search" | "search_shorts" | "tag" | "tag_shorts" | "mylist" | "series" | "user"): "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "mylist" | "series" | "user" {
+    if (type === "search") return "keyword"
+    if (type === "search_shorts") return "keyword_shorts"
+    return type
+}
+
+export function historyTypeToHrefType(type: "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "mylist" | "series" | "user"): "search" | "search_shorts" | "tag" | "tag_shorts" | "mylist" | "series" | "user" {
+    if (type === "keyword") return "search"
+    if (type === "keyword_shorts") return "search_shorts"
+    return type
+}
+
+export function useSearchHistoryUpdater(word: string, type: "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "user" | "mylist" | "series", option?: SearchOption, dependencies: any[] = []) {
     const contextData = useServerContext()
     const { data: nvpcSearchdata, setBrowserLocalStorage } = useBrowserLocalStorage(`nvpc:search:${contextData?.sessionUser?.id ?? "0"}`)
     const searchStorageData = typeof nvpcSearchdata === "string" ? JSON.parse(nvpcSearchdata) as localStorageNvpcSearchRootObject : null
