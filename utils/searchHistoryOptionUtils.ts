@@ -1,6 +1,6 @@
-import { localStorageNvpcSearchHistoryItem } from "@/types/localStorage/nvpcSearch"
+import { localStorageNvpcSearchItem } from "@/types/localStorage/nvpcSearch"
 
-export function searchHistoryOptionToStrings(history: localStorageNvpcSearchHistoryItem): string[] {
+export function searchHistoryOptionToStrings(history: localStorageNvpcSearchItem): string[] {
     const result: string[] = []
 
     if (history.type.includes("_shorts")) {
@@ -34,7 +34,7 @@ export function searchHistoryOptionToStrings(history: localStorageNvpcSearchHist
     return result
 }
 
-export function searchHistoryOptionToUrlSearchParams(history: localStorageNvpcSearchHistoryItem): URLSearchParams {
+export function searchHistoryOptionToUrlSearchParams(history: localStorageNvpcSearchItem): URLSearchParams {
     const params = new URLSearchParams()
 
     history.presetFilters.forEach((filter) => {

@@ -9,7 +9,7 @@ interface Data {
 }
 
 interface Conditions {
-    data: any[]
+    data: localStorageNvpcSearchItem[]
     meta: object
 }
 
@@ -19,11 +19,11 @@ interface IsFollowedTagMigrated {
 }
 
 interface History {
-    data: localStorageNvpcSearchHistoryItem[]
+    data: localStorageNvpcSearchItem[]
     meta: object
 }
 
-export interface localStorageNvpcSearchHistoryItem {
+export interface localStorageNvpcSearchItem {
     type: "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "mylist" | "user" | "series"
     word: string
     sort: Sort
