@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased - 2026
+
+### Added
+- ショート動画検索を利用可能になりました
+- ssから始まる動画IDは正しくタグとコメント内で検出されるようになりました
+
+### Changed
+- 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました
+
+### Fixed
+- 依存関係を更新しました  
+  WXT の更新によるビルド時間の短縮、niconicomments の更新によるパフォーマンスの向上などが含まれます。
+- 動画カードの表示を一部修正しました
+
 ## 0.11.2 - 2026/04/29
 
 ### Fixed
