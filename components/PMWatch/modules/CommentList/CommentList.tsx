@@ -126,7 +126,7 @@ const Comments = ({
                 isCommentListHovered.current = false
             }}
         >
-            <VList ref={vlistRef} count={comments.length}>
+            <VList ref={vlistRef} data={comments}>
                 {comments.map((elem) => {
                 // console.log(elem)
                     return (

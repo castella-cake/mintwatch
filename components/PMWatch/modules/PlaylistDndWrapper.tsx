@@ -33,7 +33,7 @@ function insertPlaylistVideoItem(playlist: playlistVideoItem[], targetId: string
 } */
 
 function CardDragOverlay({ draggingItem }: { draggingItem: unknown }) {
-    if (isValidRecommendItem(draggingItem)) {
+    if (isValidRecommendItem(draggingItem) && isValidVideoItem(draggingItem.content)) {
         const thisVideoId
             = (draggingItem && draggingItem.id)
                 || (draggingItem && draggingItem.content && draggingItem.content.id)

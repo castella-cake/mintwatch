@@ -33,7 +33,8 @@ export default function RouterRoot() {
     return (
         <StrictMode>
             <ErrorBoundary
-                fallbackRender={({ error }: { error: Error }) => {
+                fallbackRender={({ error }: { error: unknown }) => {
+                    const isError = error instanceof Error
                     return (
                         <div className="pmwatch-outofbound-wrapper">
                             <div className="pmwatch-outofbound-container">
@@ -48,9 +49,9 @@ export default function RouterRoot() {
                                     この問題を開発者に Github もしくは Discord 経由で報告してください。
                                 </p>
                                 <p className="pmwatch-outofbound-msg">
-                                    <code>{error.message}</code>
+                                    <code>{isError ? error.message : "エラー情報は利用できません"}</code>
                                 </p>
-                                {error.stack && (
+                                {isError && error.stack && (
                                     <>
                                         <p>
                                             コールスタック:

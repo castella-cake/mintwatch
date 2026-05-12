@@ -304,6 +304,7 @@ export const watchTestData: VideoDataRootObject = {
                         id: "sm1",
                         title: "SeriesItem",
                         registeredAt: "1970-01-01T00:00:00.000Z",
+                        contentType: "long",
                         count: {
                             view: 0,
                             comment: 0,
@@ -316,6 +317,7 @@ export const watchTestData: VideoDataRootObject = {
                             largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                         },
                         duration: 0,
                         shortDescription: "For testing purpose only",
@@ -337,6 +339,7 @@ export const watchTestData: VideoDataRootObject = {
                     },
                     next: {
                         type: "essential",
+                        contentType: "long",
                         id: "sm1",
                         title: "SeriesItem",
                         registeredAt: "1970-01-01T00:00:00.000Z",
@@ -352,6 +355,7 @@ export const watchTestData: VideoDataRootObject = {
                             largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                         },
                         duration: 0,
                         shortDescription: "For testing purpose only",
@@ -373,6 +377,7 @@ export const watchTestData: VideoDataRootObject = {
                     },
                     first: {
                         type: "essential",
+                        contentType: "long",
                         id: "sm1",
                         title: "SeriesItem",
                         registeredAt: "1970-01-01T00:00:00.000Z",
@@ -388,6 +393,7 @@ export const watchTestData: VideoDataRootObject = {
                             largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                         },
                         duration: 0,
                         shortDescription: "For testing purpose only",
