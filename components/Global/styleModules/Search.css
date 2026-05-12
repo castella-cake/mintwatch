@@ -63,6 +63,8 @@
 
             .searchbox-expand-item-options {
                 color: var(--textcolor2);
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             svg {

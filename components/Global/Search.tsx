@@ -5,6 +5,7 @@ import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
 import useServerContext from "@/hooks/serverContextHook"
 import { useBrowserLocalStorage } from "@/hooks/browserLocalStorageHook"
 import { localStorageNvpcSearchRootObject } from "@/types/localStorage/nvpcSearch"
+import { searchHistoryOptionToStrings } from "@/utils/searchHistoryOptionToStrings"
 
 const searchType = {
     search: ["キーワード", "で"],
@@ -116,8 +117,7 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                                 <IconSearch className="searchbox-expand-item-actionicon" />
                             </div>
                             <div className="searchbox-expand-item-options">
-                                {historyItem.type.includes("_shorts") && "ショート, "}
-                                {`${historyItem.sort.key.label}`}
+                                {searchHistoryOptionToStrings(historyItem).join(", ")}
                             </div>
                         </button>
                     ))}
