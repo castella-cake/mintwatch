@@ -5,7 +5,7 @@ import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
 import useServerContext from "@/hooks/serverContextHook"
 import { useBrowserLocalStorage } from "@/hooks/browserLocalStorageHook"
 import { localStorageNvpcSearchRootObject } from "@/types/localStorage/nvpcSearch"
-import { searchHistoryOptionToStrings } from "@/utils/searchHistoryOptionToStrings"
+import { searchHistoryOptionToStrings } from "@/utils/searchHistoryOptionUtils"
 
 const searchType = {
     search: ["キーワード", "で"],
@@ -97,8 +97,11 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
                             className="searchbox-expand-item"
                             onClick={(e) => {
                                 if (!e.shiftKey) {
-                                    const href = returnHrefFromSearchType(historyItem.word, historyItem.type.replace("keyword", "search") as keyof typeof searchType)
-                                    startTransition(() => history.push(href))
+                                    const hrefString = returnHrefFromSearchType(historyItem.word, historyItem.type.replace("keyword", "search") as keyof typeof searchType)
+                                    const href = new URL(hrefString)
+                                    const searchHistoryOptions = searchHistoryOptionToUrlSearchParams(historyItem)
+                                    href.search = searchHistoryOptions.toString()
+                                    startTransition(() => history.push(href.toString()))
                                 } else {
                                     setQuery(historyItem.word)
                                     if (inputRef.current) {
