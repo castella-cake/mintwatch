@@ -142,12 +142,14 @@
 }
 
 .info-card[data-is-preview="true"] {
-    opacity: 0.5;
+    opacity: 0.8;
     border: var(--border);
     margin: 4px;
     height: 2em;
+    pointer-events: none;
+    box-shadow: 0 0 8px #000a;
 
-    .info-card-subtitle {
+    .info-card-thumbnail, .info-card-subtitle {
         display: none;
     }
 }

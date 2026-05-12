@@ -11,7 +11,6 @@ import {
 } from "@dnd-kit/core"
 import { Card } from "@/components/Global/InfoCard"
 import { secondsToTime } from "@/utils/readableValue"
-import { RecommendItem } from "@/types/RecommendData"
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider"
 import { arrayMove } from "@dnd-kit/sortable"
 import { ReactNode } from "react"
@@ -132,15 +131,16 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
             && e.active.id.toString().includes("-recommend")
             && e.active.data.current
         ) {
-            const data = e.active.data.current as RecommendItem
-            const thisPlaylistObject = recommendItemToPlaylistItem(data)
+            if (!isValidVideoItem(e.active.data.current)) return
+            const data = e.active.data.current as VideoItem
+            const thisPlaylistObject = videoItemToPlaylistItem(data)
             if (!thisPlaylistObject) return
             let itemsAfter = [...playlistData.items, thisPlaylistObject]
-            if (e.over.data.current) {
+            if (e.over !== null) {
                 // console.log(insertPlaylistVideoItem(playlistData.items, e.over.data.current.itemId, thisPlaylistObject))
                 let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
                 if (e.over.data.current) overIndex = playlistData.items.findIndex(item => item.itemId === e.over!.data.current!.itemId)
-                if (e.over.data.current.itemId === "0") overIndex = previewPlaylistItem.index
+                if (e.over.data.current?.itemId === "0") overIndex = previewPlaylistItem.index
                 if (overIndex !== -1) itemsAfter = playlistData.items.toSpliced(overIndex, 0, thisPlaylistObject)
             }
             setPlaylistData(playlistData => ({
@@ -153,15 +153,16 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
             && e.active.id.toString().includes("-series")
             && e.active.data.current
         ) {
+            if (!isValidVideoItem(e.active.data.current)) return
             const data = e.active.data.current as VideoItem
             const thisPlaylistObject = seriesItemToPlaylistItem(data)
             if (!thisPlaylistObject) return
             let itemsAfter = [...playlistData.items, thisPlaylistObject]
-            if (e.over.data.current) {
+            if (e.over !== null) {
                 // console.log(insertPlaylistVideoItem(playlistData.items, e.over.data.current.itemId, thisPlaylistObject))
                 let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
                 if (e.over.data.current) overIndex = playlistData.items.findIndex(item => item.itemId === e.over!.data.current!.itemId)
-                if (e.over.data.current.itemId === "0") overIndex = previewPlaylistItem.index
+                if (e.over.data.current?.itemId === "0") overIndex = previewPlaylistItem.index
                 if (overIndex !== -1) itemsAfter = playlistData.items.toSpliced(overIndex, 0, thisPlaylistObject)
             }
             setPlaylistData(playlistData => ({
@@ -200,8 +201,9 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
         if (
             e.active.id.toString().includes("-recommend")
         ) {
-            const data = e.active.data.current as RecommendItem
-            const thisPlaylistObject = recommendItemToPlaylistItem(data)
+            if (!isValidVideoItem(e.active.data.current)) return
+            const data = e.active.data.current as VideoItem
+            const thisPlaylistObject = videoItemToPlaylistItem(data)
             let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
             if (e.over.data.current) overIndex = playlistData.items.findIndex(item => item.itemId === e.over!.data.current!.itemId)
             if (thisPlaylistObject) {
@@ -222,6 +224,7 @@ export function PlaylistDndWrapper({ children }: { children: ReactNode }) {
         } else if (
             e.active.id.toString().includes("-series")
         ) {
+            if (!isValidVideoItem(e.active.data.current)) return
             const data = e.active.data.current as VideoItem
             const thisPlaylistObject = seriesItemToPlaylistItem(data)
             let overIndex = (e.over.id === "playlist-droppable-top" ? 0 : -1)
