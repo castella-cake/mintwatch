@@ -7,7 +7,7 @@ import { distance } from "fastest-levenshtein"
  * @param threshold 閾値(デフォルトは0.1)
  * @returns NGとしてみなされたユーザーIDの配列
  */
-export function doLyricCommentNg(threads: Thread[], lyricData: LyricDataRootObject, threshold = 0.1) {
+export function doLyricCommentNg(threads: Thread[], lyricData: LyricDataRootObject, threshold = 0.3) {
     let levenshteinBasedLyricNg: string[] = []
     if (lyricData) {
         const concatedUserComment = dothreadConcatByUser(threads)

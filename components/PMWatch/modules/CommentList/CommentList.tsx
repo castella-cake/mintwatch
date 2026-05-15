@@ -169,7 +169,7 @@ function CommentList() {
     const { ngData } = useViewerNgContext()
 
     const { commentListType } = useStorageVar(["commentListType"] as const)
-    const { sharedNgLevel } = useStorageVar(["sharedNgLevel"] as const, "local")
+    const { sharedNgLevel, lyricCommentFilter } = useStorageVar(["sharedNgLevel", "lyricCommentFilter"] as const, "local")
     const [currentForkType, setCurrentForkType] = useState(-1)
 
     const [autoScroll, setAutoScroll] = useState(true)
@@ -194,7 +194,9 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
-        const lyricNgIds = lyricData ? doLyricCommentNg([currentThread], lyricData) : []
+        console.time("filterLyricComments")
+        const lyricNgIds = lyricData && lyricCommentFilter > 0 ? doLyricCommentNg([currentThread], lyricData, lyricCommentFilter) : []
+        console.timeEnd("filterLyricComments")
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
@@ -214,6 +216,7 @@ function CommentList() {
         ngData,
         commentSortKey,
         reverseCommentSort,
+        lyricCommentFilter,
     ])
 
     const onNicoru = useCallback((

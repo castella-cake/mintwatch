@@ -172,6 +172,14 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: false,
                 name: "過去に投稿したコメントにオレンジの枠線を表示",
             },
+            lyricCommentFilter: {
+                type: "select",
+                defaultValue: 0,
+                options: [0, 0.5, 0.3, 0.1],
+                texts: ["OFF", "低(0.5)", "中(0.3)", "高(0.1)"],
+                name: "実験的: 歌詞コメント自動NGレベル",
+                hint: "歌詞データが利用可能な動画でのみ有効です。設定を上げると誤検知が増加します。",
+            },
         },
     },
     customCommentOpacity: {

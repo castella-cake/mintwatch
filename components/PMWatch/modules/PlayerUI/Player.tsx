@@ -81,6 +81,7 @@ function Player(props: Props) {
         "rewindTime",
         "borderPastMyComments",
         "enableAutoPlay",
+        "lyricCommentFilter",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -283,7 +284,7 @@ function Player(props: Props) {
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
-        const levensteinBasedLyricNg = lyricData ? doLyricCommentNg(commentContent.data.threads, lyricData) : []
+        const levensteinBasedLyricNg = lyricData && localStorage.lyricCommentFilter > 0 ? doLyricCommentNg(commentContent.data.threads, lyricData, localStorage.lyricCommentFilter) : []
         const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
@@ -298,7 +299,7 @@ function Player(props: Props) {
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
         const threadsBordered = borderMyComments(threadsOpacityApplied, lastSentCommentId ?? "", localStorage.borderPastMyComments ?? false)
         return threadsBordered
-    }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, lastSentCommentId, localStorage.borderPastMyComments, ngData])
+    }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
