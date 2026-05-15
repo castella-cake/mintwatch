@@ -316,7 +316,7 @@ function CommentList() {
     return (
         <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType ?? getDefault("commentListType")}>
             <div className="commentlist-title-container global-flex stacker-title">
-                <div className="global-flex1 global-bold">
+                <div className="global-flex1 global-bold" title={`${commentCount} 件受信済み (NG適用後 ${filteredComments?.length ?? 0} 件)`}>
                     {commentCount}
                     {" "}
                     件受信済み
