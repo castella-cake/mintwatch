@@ -31,9 +31,9 @@ const savedSearchTypeIcons = {
     user: <IconUser />,
 } as const
 
-function SavedSearchEditorItem({ item, index }: { item: localStorageNvpcSearchItem, index: number }) {
+function SavedSearchEditorItem({ item, index, isOpen, onToggle }: { item: localStorageNvpcSearchItem, index: number, isOpen: boolean, onToggle: (isOpen: boolean, index: number) => void }) {
+    const { flagEnableAdditionalJsonEditor } = useStorageVar(["flagEnableAdditionalJsonEditor"])
     const { updateSavedSearch, deleteSavedSearch } = useSavedSearchStorage()
-    const [isOpen, setIsOpen] = useState(false)
     const [conditionText, setConditionText] = useState(() => JSON.stringify({
         sort: item.sort,
         presetFilters: item.presetFilters,
@@ -81,12 +81,13 @@ function SavedSearchEditorItem({ item, index }: { item: localStorageNvpcSearchIt
         }
     }
 
-    const handleDelete = () => {
+    const handleDelete = useCallback(() => {
+        onToggle(false, index)
         deleteSavedSearch(index)
-    }
+    }, [index, deleteSavedSearch, onToggle])
 
     return (
-        <details className="saved-search-editor-item" open={isOpen} onToggle={(event) => { setIsOpen(event.currentTarget.open) }}>
+        <details className="saved-search-editor-item" open={isOpen} onToggle={(event) => { onToggle(event.currentTarget.open, index) }}>
             <summary className="saved-search-editor-summary">
                 <div className="saved-search-editor-summary-top">
                     <div className="saved-search-editor-summary-left">
@@ -131,16 +132,18 @@ function SavedSearchEditorItem({ item, index }: { item: localStorageNvpcSearchIt
                         <option value="user">ユーザー</option>
                     </select>
                 </label>
-                <label className="saved-search-editor-field">
-                    <span>条件JSON</span>
-                    <textarea
-                        value={conditionText}
-                        onChange={(e) => {
-                            handleConditionChange(e.target.value)
-                        }}
-                        rows={10}
-                    />
-                </label>
+                {flagEnableAdditionalJsonEditor && (
+                    <label className="saved-search-editor-field">
+                        <span>条件JSON</span>
+                        <textarea
+                            value={conditionText}
+                            onChange={(e) => {
+                                handleConditionChange(e.target.value)
+                            }}
+                            rows={10}
+                        />
+                    </label>
+                )}
                 {conditionError && <p className="saved-search-editor-error">{conditionError}</p>}
                 <div className="saved-search-editor-actions">
                     <button type="button" className="saved-search-editor-delete" onClick={handleDelete}>
@@ -155,6 +158,18 @@ function SavedSearchEditorItem({ item, index }: { item: localStorageNvpcSearchIt
 
 export function SavedSearchEditor() {
     const { savedSearches } = useSavedSearchStorage()
+    const [openIndexes, setOpenIndices] = useState<number[]>([])
+
+    const toggleIndex = useCallback((isOpen: boolean, index: number) => {
+        setOpenIndices((prev) => {
+            if (!isOpen && prev.includes(index)) {
+                return prev.filter(i => i !== index)
+            } else if (isOpen && !prev.includes(index)) {
+                return [...prev, index]
+            }
+            return prev
+        })
+    }, [setOpenIndices])
 
     if (savedSearches.length === 0) {
         return (
@@ -169,7 +184,13 @@ export function SavedSearchEditor() {
             <p className="saved-search-editor-intro">保存した検索を編集、削除します。新しいエントリーは検索ページから追加できます。</p>
             <div className="saved-search-editor-list">
                 {savedSearches.map((item, index) => (
-                    <SavedSearchEditorItem key={`${item.type}:${item.word}:${index}`} item={item} index={index} />
+                    <SavedSearchEditorItem
+                        key={`${index}`}
+                        item={item}
+                        index={index}
+                        isOpen={openIndexes.includes(index)}
+                        onToggle={toggleIndex}
+                    />
                 ))}
             </div>
         </div>
