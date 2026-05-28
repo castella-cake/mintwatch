@@ -2,7 +2,7 @@ import { IconFolder, IconInputSearch, IconListNumbers, IconMessageLanguage, Icon
 import { ReactNode, startTransition, useEffect, useId, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 import { useSearchExpandData } from "@/hooks/apiHooks/useSearchExpandData"
-import { searchHistoryOptionToStrings, searchHistoryOptionToUrlSearchParams } from "@/utils/searchHistoryOptionUtils"
+import { searchHistoryOptionToStrings, searchHistoryOptionToUrlSearchParams } from "@/utils/nvpcSearchOptionUtils"
 import { openSavedSearchEditorAlert } from "./SavedSearchEditor"
 import { useSavedSearchStorage } from "@/hooks/savedSearchStorage"
 import { useSetMessageContext, type IAlert } from "./Contexts/MessageProvider"

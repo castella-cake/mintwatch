@@ -1,7 +1,7 @@
 import { IconChevronDown, IconChevronUp, IconFolder, IconListNumbers, IconMessageLanguage, IconTrash, IconTag, IconUser } from "@tabler/icons-react"
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
 import { type IAlert } from "./Contexts/MessageProvider"
-import { searchHistoryOptionToStrings } from "@/utils/searchHistoryOptionUtils"
+import { searchHistoryOptionToStrings } from "@/utils/nvpcSearchOptionUtils"
 import { useSavedSearchStorage } from "@/hooks/savedSearchStorage"
 import { localStorageNvpcSearchItem } from "@/types/localStorage/nvpcSearch"
 import "./styleModules/SavedSearchEditor.css"
@@ -41,27 +41,11 @@ function SavedSearchEditorItem({ item, index, isOpen, onToggle }: { item: localS
     }, null, 2))
     const [conditionError, setConditionError] = useState<string | null>(null)
 
-    useEffect(() => {
-        setConditionText(JSON.stringify({
-            sort: item.sort,
-            presetFilters: item.presetFilters,
-            dateRangeFilter: item.dateRangeFilter,
-        }, null, 2))
-    }, [item.sort, item.presetFilters, item.dateRangeFilter])
-
-    const summaryText = useMemo(() => {
-        try {
-            return searchHistoryOptionToStrings(item).join(", ")
-        } catch {
-            return "条件の表示に失敗しました"
-        }
-    }, [item])
-
-    const updateItem = (nextItem: localStorageNvpcSearchItem) => {
+    const updateItem = useCallback((nextItem: localStorageNvpcSearchItem) => {
         updateSavedSearch(index, () => nextItem)
-    }
+    }, [index, updateSavedSearch])
 
-    const handleConditionChange = (nextText: string) => {
+    const handleConditionChange = useCallback((nextText: string) => {
         setConditionText(nextText)
         try {
             const parsed = JSON.parse(nextText) as Partial<Pick<localStorageNvpcSearchItem, "sort" | "presetFilters" | "dateRangeFilter">>
@@ -79,12 +63,20 @@ function SavedSearchEditorItem({ item, index, isOpen, onToggle }: { item: localS
         } catch {
             setConditionError("JSONの形式が正しくありません")
         }
-    }
+    }, [updateItem, setConditionError])
 
     const handleDelete = useCallback(() => {
         onToggle(false, index)
         deleteSavedSearch(index)
     }, [index, deleteSavedSearch, onToggle])
+
+    const summaryText = () => {
+        try {
+            return searchHistoryOptionToStrings(item).join(", ")
+        } catch {
+            return "条件の表示に失敗しました"
+        }
+    }
 
     return (
         <details className="saved-search-editor-item" open={isOpen} onToggle={(event) => { onToggle(event.currentTarget.open, index) }}>
@@ -96,7 +88,7 @@ function SavedSearchEditorItem({ item, index, isOpen, onToggle }: { item: localS
                     </div>
                     <span className="saved-search-editor-summary-arrow">{isOpen ? <IconChevronUp /> : <IconChevronDown />}</span>
                 </div>
-                <div className="saved-search-editor-summary-options">{summaryText}</div>
+                <div className="saved-search-editor-summary-options">{summaryText()}</div>
             </summary>
             <div className="saved-search-editor-body">
                 <label className="saved-search-editor-field">

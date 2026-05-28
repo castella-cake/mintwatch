@@ -61,3 +61,42 @@ export function searchHistoryOptionToUrlSearchParams(history: localStorageNvpcSe
 
     return params
 }
+
+/**
+ * 検索オプションのキー配列から、アクティブなソートオプションへResolveする関数
+ * @param options boolean で active と default を持つオブジェクトの配列
+ */
+export function activeSortResolver<T extends { default: boolean, active: boolean }>(options: T[] | undefined): Omit<T, "active"> | undefined {
+    if (!options) return undefined
+    const activeOption = options.find(option => option.active) ?? options.find(option => option.default)
+    if (!activeOption) return undefined
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { active, ...rest } = activeOption
+    return rest
+}
+
+export function PresetFilterToObject(filter: localStorageNvpcSearchItem["presetFilters"]) {
+    return Object.fromEntries(filter.map(f => [f.query, f.item.value]))
+}
+
+export function isSameSearchOption(a: localStorageNvpcSearchItem, b: localStorageNvpcSearchItem): boolean {
+    if (a.word !== b.word) return false
+
+    if (a.type !== b.type) return false
+
+    if (a.sort.key.value !== b.sort.key.value) return false
+
+    if (a.sort.order?.value !== b.sort.order?.value) return false
+
+    const aPreset = PresetFilterToObject(a.presetFilters)
+    const bPreset = PresetFilterToObject(b.presetFilters)
+    if (Object.keys(aPreset).length !== Object.keys(bPreset).length) return false
+    for (const key in aPreset) {
+        if (aPreset[key] !== bPreset[key]) return false
+    }
+
+    if (a.dateRangeFilter.start?.value !== b.dateRangeFilter.start?.value) return false
+    if (a.dateRangeFilter.end?.value !== b.dateRangeFilter.end?.value) return false
+
+    return true
+}

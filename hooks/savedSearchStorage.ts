@@ -3,6 +3,7 @@ import { useBrowserLocalStorage } from "./browserLocalStorageHook"
 import useServerContext from "./serverContextHook"
 import { localStorageNvpcSearchItem, localStorageNvpcSearchRootObject } from "@/types/localStorage/nvpcSearch"
 import { SearchOption } from "@/types/search/Option"
+import { SavedSearchDuplicatedError, SavedSearchLimitExceededError } from "@/utils/classes/SavedSearchError"
 
 const defaultPresetFilters = [
     {
@@ -43,15 +44,6 @@ const defaultPresetFilters = [
     },
 ] as const
 
-function activeSortResolver<T extends { default: boolean, active: boolean }>(options: T[] | undefined): Omit<T, "active"> | undefined {
-    if (!options) return undefined
-    const activeOption = options.find(option => option.active) ?? options.find(option => option.default)
-    if (!activeOption) return undefined
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { active, ...rest } = activeOption
-    return rest
-}
-
 function isDateRangeFilterActive(dateRangeFilter: SearchOption["dateRangeFilter"] | undefined): dateRangeFilter is NonNullable<SearchOption["dateRangeFilter"]> {
     return !!dateRangeFilter?.start?.value || !!dateRangeFilter?.end?.value
 }
@@ -87,7 +79,7 @@ function sanitizeItem(item: { label: string, value: number | string, default: bo
 
 export function createSavedSearchItemFromOption(word: string, type: localStorageNvpcSearchItem["type"], option?: SearchOption): localStorageNvpcSearchItem {
     const sort = option?.sort.key ? activeSortResolver(option.sort.key) : undefined
-    const order = option?.sort.order ? activeSortResolver(option.sort.order) : undefined
+    const order = sort?.orderable && option?.sort.order ? activeSortResolver(option.sort.order) : undefined
     const presetFilters = option?.presetFilter && option.presetFilter.every(filter => activeSortResolver(filter.items) !== undefined)
         ? option.presetFilter.map((filter) => {
                 const item = activeSortResolver(filter.items)
@@ -150,8 +142,14 @@ export function useSavedSearchStorage() {
         })
     }
 
-    const saveSavedSearch = (savedSearch: localStorageNvpcSearchItem) => {
-        const nextSavedSearches = [savedSearch, ...savedSearches.filter(item => !(item.word === savedSearch.word && item.type === savedSearch.type))]
+    const saveSavedSearch = (savedSearchItem: localStorageNvpcSearchItem) => {
+        if (savedSearches.some(item => isSameSearchOption(item, savedSearchItem))) {
+            throw new SavedSearchDuplicatedError(savedSearchItem)
+        }
+        const nextSavedSearches = [savedSearchItem, ...savedSearches]
+        if (nextSavedSearches.length > 30) {
+            throw new SavedSearchLimitExceededError()
+        }
         persist(nextSavedSearches)
     }
 

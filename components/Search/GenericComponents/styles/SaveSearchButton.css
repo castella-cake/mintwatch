@@ -23,6 +23,11 @@
     &:hover,
     &:focus-visible {
         background: var(--hover1);
-        outline: none;
+    }
+
+    &[aria-disabled="true"] {
+        background: var(--bgcolor1);
+        color: var(--textcolor2);
+        cursor: not-allowed;
     }
 }
