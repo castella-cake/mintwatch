@@ -1,6 +1,5 @@
-import { IconExclamationCircle, IconListSearch } from "@tabler/icons-react"
+import { IconCheck, IconExclamationCircle, IconListSearch } from "@tabler/icons-react"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
-import { openSavedSearchEditorAlert } from "@/components/Global/SavedSearchEditor"
 import { createSavedSearchItemFromOption, useSavedSearchStorage } from "@/hooks/savedSearchStorage"
 import { localStorageNvpcSearchItem } from "@/types/localStorage/nvpcSearch"
 import { SearchOption } from "@/types/search/Option"
@@ -12,41 +11,28 @@ export function SaveSearchButton({ option, word, type }: {
     word: string
     type: localStorageNvpcSearchItem["type"]
 }) {
-    const { showAlert } = useSetMessageContext()
-    const { savedSearches, saveSavedSearch } = useSavedSearchStorage()
+    const { showToast, showAlert } = useSetMessageContext()
+    const { savedSearches, saveSavedSearch, deleteSavedSearch } = useSavedSearchStorage()
 
     const isCurrentOptionSaved = savedSearches.some(saved => isSameSearchOption(saved, createSavedSearchItemFromOption(word, type, option)))
 
     const handleSave = () => {
-        if (isCurrentOptionSaved) return
+        if (isCurrentOptionSaved) {
+            const savedSearch = createSavedSearchItemFromOption(word, type, option)
+            const index = savedSearches.findIndex(saved => isSameSearchOption(saved, savedSearch))
+            if (index !== -1) {
+                deleteSavedSearch(index)
+                showToast({
+                    title: "検索を削除しました",
+                })
+            }
+            return
+        }
         const savedSearch = createSavedSearchItemFromOption(word, type, option)
         try {
             saveSavedSearch(savedSearch)
-            showAlert({
+            showToast({
                 title: "検索を保存しました",
-                body: (
-                    <>
-                        <strong>{word}</strong>
-                        {" "}
-                        の検索条件を保存しました。
-                    </>
-                ),
-                customCloseButton: [
-                    {
-                        text: "OK",
-                        key: "ok",
-                        primary: true,
-                    },
-                    {
-                        text: "編集する",
-                        key: "edit",
-                    },
-                ],
-                onClose: (key) => {
-                    if (key === "edit") {
-                        openSavedSearchEditorAlert(showAlert)
-                    }
-                },
             })
         } catch (error) {
             if (error instanceof SavedSearchLimitExceededError) {
@@ -65,8 +51,8 @@ export function SaveSearchButton({ option, word, type }: {
     }
 
     return (
-        <button className="search-save-button" type="button" onClick={handleSave} title="この検索を保存する" aria-disabled={isCurrentOptionSaved}>
-            <IconListSearch />
+        <button className="search-save-button" type="button" onClick={handleSave} title={isCurrentOptionSaved ? "保存済み(クリックして削除)" : "この検索を保存する"}>
+            { isCurrentOptionSaved ? <IconCheck /> : <IconListSearch /> }
             <span>
                 {isCurrentOptionSaved ? "保存済み" : "この検索を保存する"}
                 {" "}
