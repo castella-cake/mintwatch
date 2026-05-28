@@ -148,28 +148,37 @@ function ExpandableSearchInput({ inputRef, currentSearchType, initialValue, onSe
             </button>
             {query.trim().length < 1 && (
                 <div className="searchbox-expand" data-is-default="true">
-                    <div className="searchbox-expand-title">
-                        <div className="searchbox-expand-title-text">保存した検索</div>
-                        <div className="searchbox-expand-title-actions">
-                            <button type="button" title="保存した検索を編集する" onClick={() => { openSavedSearchEditorAlert(showAlert) }}>
-                                <IconPencilSearch />
-                            </button>
-                        </div>
-                    </div>
-                    {conditions.map((historyItem, index) => (
-                        <ExpandableSearchInputItem
-                            key={index}
-                            candidate={historyItem.word}
-                            type={historyItem.type.replace("keyword", "search") as keyof typeof searchType}
-                            additionalSearchOptions={searchHistoryOptionToUrlSearchParams(historyItem)}
-                            optionText={searchHistoryOptionToStrings(historyItem).join(", ")}
-                            inputRef={inputRef}
-                            setQuery={setQuery}
-                            isAnchor
-                            showIcon
-                            data-type="condition"
-                        />
-                    ))}
+                    {conditions.length > 0 && (
+                        <>
+                            <div className="searchbox-expand-title">
+                                <div className="searchbox-expand-title-text">
+                                    保存した検索 (
+                                    {conditions.length}
+                                    {" "}
+                                    / 30)
+                                </div>
+                                <div className="searchbox-expand-title-actions">
+                                    <button type="button" title="保存した検索を編集する" onClick={() => { openSavedSearchEditorAlert(showAlert) }}>
+                                        <IconPencilSearch />
+                                    </button>
+                                </div>
+                            </div>
+                            {conditions.map((historyItem, index) => (
+                                <ExpandableSearchInputItem
+                                    key={index}
+                                    candidate={historyItem.word}
+                                    type={historyItem.type.replace("keyword", "search") as keyof typeof searchType}
+                                    additionalSearchOptions={searchHistoryOptionToUrlSearchParams(historyItem)}
+                                    optionText={searchHistoryOptionToStrings(historyItem).join(", ")}
+                                    inputRef={inputRef}
+                                    setQuery={setQuery}
+                                    isAnchor
+                                    showIcon
+                                    data-type="condition"
+                                />
+                            ))}
+                        </>
+                    )}
                     <div className="searchbox-expand-title">
                         <div className="searchbox-expand-title-text">検索履歴</div>
                     </div>
