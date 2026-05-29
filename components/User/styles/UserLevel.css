@@ -1,12 +1,16 @@
 .user-level {
     background: var(--bgcolor2);
-    padding: 16px;
+    padding: 8px 16px;
     border-radius: var(--radius);
     flex: 1;
     justify-content: center;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.user-level-status {
+    font-size: .875rem;
 }
 
 .userdata-progress-bar {

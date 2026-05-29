@@ -48,25 +48,23 @@
 .userdata-links a {
     display: flex;
     align-items: center;
-    gap: calc(var(--info-block-gap) / 2);
     text-decoration: none;
     color: inherit;
     border: var(--border);
     background: var(--bgcolor2);
-    padding: 4px 8px;
-    border-radius: var(--radius-mini);
+    border-radius: 1024px;
     transition: var(--transition-normal);
 
     &:hover {
         background: var(--hover1);
         color: var(--linktext2);
     }
-}
 
-.userdata-links img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
+    img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+    }
 }
 
 .userdata-sidearea {
