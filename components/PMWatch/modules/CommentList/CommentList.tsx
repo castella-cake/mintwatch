@@ -19,6 +19,8 @@ import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import APIError from "@/utils/classes/APIError"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -158,12 +160,16 @@ function CommentList() {
     const { videoInfo } = useVideoInfoContext()
     const { commentContent } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
+
+    const { smId } = useSmIdContext()
+    const { lyricData } = useLyricData(smId)
+
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const { ngData } = useViewerNgContext()
 
     const { commentListType } = useStorageVar(["commentListType"] as const)
-    const { sharedNgLevel } = useStorageVar(["sharedNgLevel"] as const, "local")
+    const { sharedNgLevel, lyricCommentFilter } = useStorageVar(["sharedNgLevel", "lyricCommentFilter"] as const, "local")
     const [currentForkType, setCurrentForkType] = useState(-1)
 
     const [autoScroll, setAutoScroll] = useState(true)
@@ -188,6 +194,7 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
+        const lyricNgIds = lyricData && lyricCommentFilter > 0 ? doLyricCommentNg([currentThread], lyricData, lyricCommentFilter) : []
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
@@ -196,6 +203,7 @@ function CommentList() {
             ],
             ngData,
             onlyShowMyselfComments,
+            lyricNgIds,
         )
     }, [
         currentForkType,
@@ -206,6 +214,7 @@ function CommentList() {
         ngData,
         commentSortKey,
         reverseCommentSort,
+        lyricCommentFilter,
     ])
 
     const onNicoru = useCallback((
@@ -305,7 +314,7 @@ function CommentList() {
     return (
         <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType ?? getDefault("commentListType")}>
             <div className="commentlist-title-container global-flex stacker-title">
-                <div className="global-flex1 global-bold">
+                <div className="global-flex1 global-bold" title={`${commentCount} 件受信済み (NG適用後 ${filteredComments?.length ?? 0} 件)`}>
                     {commentCount}
                     {" "}
                     件受信済み

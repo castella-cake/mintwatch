@@ -31,6 +31,7 @@ import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { borderMyComments } from "@/utils/commentUtils"
 import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 
 type Props = {
     isFullscreenUi: boolean
@@ -49,6 +50,7 @@ function Player(props: Props) {
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
+    const { lyricData } = useLyricData(smId)
     const { ngData } = useViewerNgContext()
     const isBackgroundPlaying = useBackgroundPlayingContext()
 
@@ -79,6 +81,7 @@ function Player(props: Props) {
         "rewindTime",
         "borderPastMyComments",
         "enableAutoPlay",
+        "lyricCommentFilter",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -281,6 +284,7 @@ function Player(props: Props) {
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
+        const levensteinBasedLyricNg = lyricData && localStorage.lyricCommentFilter > 0 ? doLyricCommentNg(commentContent.data.threads, lyricData, localStorage.lyricCommentFilter) : []
         const filteredThreads = doFilterThreads(
             commentContent.data.threads,
             sharedNgLevelScore[
@@ -288,13 +292,14 @@ function Player(props: Props) {
                     ?? "mid") as keyof typeof sharedNgLevelScore
             ],
             ngData,
+            levensteinBasedLyricNg,
         )
         if (!videoInfo?.data.response.comment.threads) return []
         const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
         const threadsBordered = borderMyComments(threadsOpacityApplied, lastSentCommentId ?? "", localStorage.borderPastMyComments ?? false)
         return threadsBordered
-    }, [commentContent, videoInfo, localStorage.sharedNgLevel, localStorage.customCommentOpacity, lastSentCommentId, localStorage.borderPastMyComments, ngData])
+    }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
 
     function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
         if (playlistData.items.length > 0) {
