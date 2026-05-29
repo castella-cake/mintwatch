@@ -49,6 +49,49 @@
         display: flex;
         flex-direction: column;
 
+        .searchbox-expand-title {
+            padding: 8px;
+            font-size: 0.9rem;
+            color: var(--textcolor2);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .searchbox-expand-title-text {
+            flex: 1;
+        }
+
+        .searchbox-expand-title-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                background: transparent;
+                color: var(--textcolor1);
+                border-radius: var(--radius);
+                padding: 4px;
+                cursor: pointer;
+
+                .tabler-icon {
+                    width: 1.1rem;
+                    height: 1.1rem;
+                }
+
+                &:hover,
+                &:focus-visible {
+                    background: var(--hover1);
+                    outline: none;
+                }
+            }
+        }
+
         .searchbox-expand-item {
             text-align: left;
             background: var(--bgcolor2);
@@ -56,10 +99,35 @@
             border: none;
             padding: 8px;
 
+            .searchbox-expand-item-title {
+                display: flex;
+                align-items: center;
+            }
+
+            .searchbox-expand-item-options {
+                color: var(--textcolor2);
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            svg {
+                width: 20px;
+                height: 20px;
+                opacity: .7;
+            }
+
+            .searchbox-expand-item-word {
+                flex: 1;
+            }
+
             &:hover, &:focus-visible {
                 background: var(--hover1);
                 outline: none;
                 box-shadow: none;
+            }
+
+            &:not(:focus-visible, :hover) .searchbox-expand-item-actionicon {
+                visibility: hidden;
             }
         }
     }

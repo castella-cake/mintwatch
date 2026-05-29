@@ -6,11 +6,13 @@ import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
 import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
+import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -20,6 +22,7 @@ export function KeywordSearch() {
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj, isShorts)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), isShorts ? "keyword_shorts" : "keyword", keywordSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -138,6 +141,7 @@ export function KeywordSearch() {
                 <FilterSelector option={page.option} />
                 <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
                 <OptionSelector option={page.option} />
+                <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "keyword_shorts" : "keyword"} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {
                         return (

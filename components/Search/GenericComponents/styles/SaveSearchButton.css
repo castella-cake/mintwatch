@@ -1,0 +1,33 @@
+.search-save-button {
+    grid-area: save-search;
+    align-self: start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    box-shadow: var(--box-shadow);
+
+    .tabler-icon {
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+        background: var(--hover1);
+    }
+
+    &[aria-disabled="true"] {
+        background: var(--bgcolor1);
+        color: var(--textcolor2);
+        cursor: not-allowed;
+    }
+}

@@ -4,6 +4,7 @@ import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { useSearchUserData } from "@/hooks/apiHooks/search/userData"
 import { UserItemCard } from "../Global/ItemCard/UserItemCard"
 import APIError from "@/utils/classes/APIError"
@@ -20,6 +21,7 @@ export function UserSearch() {
     const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
     const { searchUserData: userSearchData, error, isFetching } = useSearchUserData(returnSearchWord(location.pathname), reducedObj)
+    useSearchHistoryUpdater(returnSearchWord(location.pathname), "keyword", userSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!userSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -136,6 +138,7 @@ export function UserSearch() {
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchUserData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <OptionSelector option={page.option} />
+                <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type="user" />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {
                         getSearchUserData.items.map((item, index) => {

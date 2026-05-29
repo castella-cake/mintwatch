@@ -1,4 +1,4 @@
-import Search from "@/components/Global/Search"
+import Search from "@/components/Global/SearchBar/Search"
 import { IconMenu2 } from "@tabler/icons-react"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import NavbarCustomArea from "./NavbarCustomArea"
