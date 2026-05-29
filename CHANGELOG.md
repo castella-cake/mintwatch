@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - ショート動画検索を利用可能になりました
 - ssから始まる動画IDは正しくタグとコメント内で検出されるようになりました
+- 「保存した検索」と「検索履歴」を追加しました
 
 ### Changed
-- 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました
+- 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
 - トースト通知はフォーカスをロックしないようになりました
+- おすすめの動画カードを汎用のものへ変更しました [#76](https://github.com/castella-cake/mintwatch/issues/76)
 
 ### Fixed
 - 依存関係を更新しました  
