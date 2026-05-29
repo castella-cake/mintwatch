@@ -21,8 +21,8 @@ export function doLyricCommentNg(threads: Thread[], lyricData: LyricDataRootObje
             }
         }, {})
         const filteredUserId = Object.keys(concatedUserComment).filter(key => ngTargetScores[key] > threshold)
-        console.log("lyricCommentNg: blocked", Object.keys(filteredUserId).length, "user(s), scores:", Object.keys(ngTargetScores).map(key => ngTargetScores[key]).sort((a, b) => b - a))
-        console.log("lyricCommentNg: blockedUserStrings", filteredUserId.map(key => concatedUserComment[key]))
+        // console.log("lyricCommentNg: blocked", Object.keys(filteredUserId).length, "user(s), scores:", Object.keys(ngTargetScores).map(key => ngTargetScores[key]).sort((a, b) => b - a))
+        // console.log("lyricCommentNg: blockedUserStrings", filteredUserId.map(key => concatedUserComment[key]))
         levenshteinBasedLyricNg = filteredUserId
     }
     return levenshteinBasedLyricNg

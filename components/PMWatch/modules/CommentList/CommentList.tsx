@@ -194,9 +194,7 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
-        console.time("filterLyricComments")
         const lyricNgIds = lyricData && lyricCommentFilter > 0 ? doLyricCommentNg([currentThread], lyricData, lyricCommentFilter) : []
-        console.timeEnd("filterLyricComments")
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
