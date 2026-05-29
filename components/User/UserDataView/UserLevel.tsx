@@ -3,7 +3,7 @@ import "../styles/UserLevel.css"
 export function UserLevel({ userLevel }: { userLevel: GenericUserData["userLevel"] }) {
     return (
         <div className="user-level">
-            <div>
+            <div className="user-level-status">
                 LV
                 {" "}
                 {userLevel.currentLevel}
