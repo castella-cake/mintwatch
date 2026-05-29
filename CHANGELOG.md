@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました
+- トースト通知はフォーカスをロックしないようになりました
 
 ### Fixed
 - 依存関係を更新しました  
