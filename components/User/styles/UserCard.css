@@ -30,7 +30,7 @@
     gap: calc(var(--info-block-gap) / 2);
 }
 
-.usercard-nickname {
+.usercard-title {
     margin: 0;
     font-size: 1.5rem;
     font-weight: bold;
@@ -38,6 +38,10 @@
     align-items: center;
     gap: calc(var(--info-block-gap) / 2);
     color: var(--textcolor1);
+
+    .usercard-nickname {
+        flex: 1;
+    }
 }
 
 .usercard-badge-me {
@@ -72,11 +76,9 @@
 .usercard-badge-premium {
     font-size: 0.75rem;
     font-weight: bold;
-    color: #fff;
-    background: #fa0;
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-big);
-    box-shadow: 0 2px 4px rgb(255, 170, 0 / 30%);
+    border: 1px solid #fa0;
+    padding: 4px 8px;
+    border-radius: var(--radius);
 }
 
 @media (width <= 600px) {
@@ -85,7 +87,7 @@
         text-align: center;
     }
 
-    .usercard-nickname {
+    .usercard-title {
         justify-content: center;
     }
 
