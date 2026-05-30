@@ -1,0 +1,21 @@
+.user-videos-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}
+
+.user-videos-options .pageselector-container[data-is-vertical="false"] {
+    flex: 1;
+    justify-content: end;
+}
+
+.user-videos-title {
+    padding: 8px 0;
+}
+
+.user-videos-items[data-is-grid-layout="true"] {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 8px;
+}
