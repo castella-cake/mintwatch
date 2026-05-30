@@ -5,7 +5,7 @@ import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
-import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { SearchOptionSelector } from "./GenericComponents/SearchOptionSelector"
 import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import APIError from "@/utils/classes/APIError"
@@ -140,7 +140,7 @@ export function KeywordSearch() {
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
-                <OptionSelector option={page.option} />
+                <SearchOptionSelector option={page.option} />
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "keyword_shorts" : "keyword"} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {

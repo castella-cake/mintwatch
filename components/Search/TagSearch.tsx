@@ -4,7 +4,7 @@ import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
-import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { SearchOptionSelector } from "./GenericComponents/SearchOptionSelector"
 import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
@@ -144,7 +144,7 @@ export function TagSearch() {
                 <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
-                <OptionSelector option={page.option} />
+                <SearchOptionSelector option={page.option} />
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "tag_shorts" : "tag"} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {

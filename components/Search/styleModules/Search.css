@@ -28,6 +28,10 @@
         opacity: 0.5;
     }
 
+    .search-options {
+        grid-area: options;
+    }
+
     &[data-is-nicodic-article-exists="true"] {
         grid-template-areas:
             "title title title"
