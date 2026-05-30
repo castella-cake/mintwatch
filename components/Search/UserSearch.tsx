@@ -3,7 +3,7 @@ import "./styleModules/Search.css"
 import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
-import { OptionSelector } from "./GenericComponents/OptionSelector"
+import { SearchOptionSelector } from "./GenericComponents/SearchOptionSelector"
 import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { useSearchUserData } from "@/hooks/apiHooks/search/userData"
 import { UserItemCard } from "../Global/ItemCard/UserItemCard"
@@ -139,7 +139,7 @@ export function UserSearch() {
                 <FilterSelector option={page.option} />
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type="user" />
                 <div className="search-result">
-                    <OptionSelector option={page.option} />
+                    <SearchOptionSelector option={page.option} />
                     <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                         {
                             getSearchUserData.items.map((item, index) => {
