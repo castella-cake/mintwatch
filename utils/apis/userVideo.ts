@@ -7,8 +7,15 @@ import APIError from "../classes/APIError"
  * @param sortKey ソートを行う種類
  * @param sortOrder 昇順/降順
  */
-export async function getUserVideo(userId: string | number, sortKey: string, sortOrder: "asc" | "desc") {
-    const response = await fetch(`https://nvapi.nicovideo.jp/v3/users/${encodeURIComponent(userId)}/videos?sortKey=${encodeURIComponent(sortKey)}&sortOrder=${encodeURIComponent(sortOrder)}`, {
+export async function getUserVideo(userId: string | number, sortKey: string, sortOrder: "asc" | "desc", selectContentType?: "long" | "short", sensitiveContents?: "mask", pageSize?: number, page?: number) {
+    const url = new URL(`https://nvapi.nicovideo.jp/v3/users/${encodeURIComponent(userId)}/videos`)
+    url.searchParams.set("sortKey", sortKey)
+    url.searchParams.set("sortOrder", sortOrder)
+    if (selectContentType) url.searchParams.set("selectContentType", selectContentType)
+    if (sensitiveContents) url.searchParams.set("sensitiveContents", sensitiveContents)
+    if (pageSize) url.searchParams.set("pageSize", pageSize.toString())
+    if (page) url.searchParams.set("page", page.toString())
+    const response = await fetch(url.toString(), {
         credentials: "include",
         headers: {
             "content-type": "application/json",

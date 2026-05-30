@@ -4,7 +4,9 @@ import { Card } from "../InfoCard"
 export function ActivityCard({ item, markAsLazy }: { item: Activity, markAsLazy?: boolean }) {
     return (
         <div key={`activity-${item.id}`} className="activity">
-            <img src={item.actor.iconUrl} className="activity-icon" loading={markAsLazy ? "lazy" : undefined}></img>
+            <a className="activity-message-actoricon" href={`https://www.nicovideo.jp/user/${item.actor.id}`} title={`${item.actor.name} のユーザーページを見る`}>
+                <img src={item.actor.iconUrl} className="activity-icon" loading={markAsLazy ? "lazy" : undefined}></img>
+            </a>
             <div className="activity-message-actor">{item.actor.name}</div>
             <div className="activity-time">{new Date(item.createdAt).toLocaleString("ja-JP")}</div>
             <div className="activity-message">{item.message.text}</div>
