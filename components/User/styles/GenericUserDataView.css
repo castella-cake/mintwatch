@@ -83,12 +83,25 @@
 }
 
 .userdata-action-button {
-    background: var(--primary1);
-    color: var(--primary-text1);
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
     font-weight: bold;
-    border: 1px solid var(--primary-text1);
+    border: 1px solid var(--primary1);
     border-radius: var(--radius);
     padding: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-size: .9rem;
+
+    &[aria-disabled="true"] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &[data-is-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor2);
+    }
 }
 
 @media (width <= 900px) {
