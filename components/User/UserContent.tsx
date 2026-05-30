@@ -4,6 +4,7 @@ import { GenericUserDataView } from "./UserDataView/GenericUserDataView"
 import { UserNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
 import { TimelineContent } from "./Timeline/TimelineContent"
+import { VideosContent } from "./Video/VideosContent"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -70,6 +71,13 @@ export function UserContent() {
             ]}
             >
                 <TimelineContent thisUserPageId={userId} />
+            </Match>
+            <Match targetPathname={[
+                `/user/${userId}/video`,
+                `/user/${userId}/shorts`,
+            ]}
+            >
+                <VideosContent userId={userId} />
             </Match>
         </div>
     )
