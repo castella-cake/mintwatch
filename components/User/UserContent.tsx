@@ -58,6 +58,7 @@ export function UserContent() {
             <GenericUserDataView
                 userData={userData.data.user}
                 isMe={userData.data.relationships?.isMe || false}
+                isFollowing={userData.data.relationships.sessionUser.isFollowing || false}
             />
             <UserNavigation userId={userId} />
             <Match targetPathname={[
