@@ -22,7 +22,12 @@ export function UserNavigation({ userId }: { userId: number }) {
             <NavigationAnchorButton href={`/user/${userId}/follow/follower`}>
                 フォロワー
             </NavigationAnchorButton>
-            <NavigationAnchorButton href={`/user/${userId}/video`}>
+            <NavigationAnchorButton
+                href={`/user/${userId}/video`}
+                otherMatchings={[
+                    `/user/${userId}/shorts`,
+                ]}
+            >
                 投稿動画
             </NavigationAnchorButton>
             <NavigationAnchorButton href={`/user/${userId}/mylist`} activeWhenStartsWith>
