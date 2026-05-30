@@ -1,10 +1,9 @@
-.search-options {
-    grid-area: options;
+.generic-optionselector {
     display: flex;
     gap: 8px;
 }
 
-.search-sortkey-selector {
+.generic-sortkey-selector {
     border: var(--border);
     border-radius: var(--radius);
     background: var(--bgcolor2);
@@ -12,7 +11,7 @@
     padding: 4px;
 }
 
-.search-option-switcher {
+.generic-option-switcher {
     &[aria-disabled="true"] {
         opacity: 0.5;
         pointer-events: none;
@@ -20,7 +19,7 @@
     }
 }
 
-.search-option-switcher button {
+.generic-option-switcher button {
     background: var(--bgcolor2);
     border: var(--border);
     color: var(--textcolor1);
@@ -32,19 +31,19 @@
     }
 }
 
-.search-option-switcher button svg {
+.generic-option-switcher button svg {
     height: 1.25rem;
 }
 
-.search-option-switcher button:first-child {
+.generic-option-switcher button:first-child {
     border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.search-option-switcher button:last-child {
+.generic-option-switcher button:last-child {
     border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.search-option-switcher button[data-is-active="true"] {
+.generic-option-switcher button[data-is-active="true"] {
     background: var(--textcolor1);
     color: var(--bgcolor1);
 }
