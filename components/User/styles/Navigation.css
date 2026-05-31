@@ -8,7 +8,8 @@
     border: var(--border);
     background: var(--bgcolor2);
     color: var(--textcolor1);
-    padding: 8px 16px;
+    font-size: 0.9rem;
+    padding: 8px 0;
     border-radius: var(--radius);
     flex: 1;
     cursor: pointer;
