@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 export function useActivitiesQuery(
-    context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline",
+    context: "header_timeline" | "my_timeline" | `user_timeline_${number}` | "top_follow" = "header_timeline",
     type: "publish" | "video" | "short_video" | "live" | "all" = "publish",
     actorType?: "users" | "channels",
     userId?: number,
