@@ -177,6 +177,11 @@ const settings: settingList = {
             name: "enableUserPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableVideoTop",
+            default: false,
+        },
     ],
 } as const
 

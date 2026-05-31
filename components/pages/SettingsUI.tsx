@@ -14,7 +14,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         return (
             <label>
                 <input id={thisElementId} type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.checked) }} />
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
             </label>
         )
     } else if (setting.type === "select" && setting.values) {
@@ -23,7 +23,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         })
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
                 <select id={thisElementId} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select>
             </label>
         )
@@ -36,20 +36,20 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
                     onClick={() => { storage.setItem(`sync:${setting.name}`, elem) }}
                     className={"select-button" + ((syncStorage[setting.name] ?? setting.default) == elem ? " select-button-current" : "")}
                 >
-                    {lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}
+                    {lang.SETTINGS_ITEMS[settingName]?.select[index] ?? elem}
                 </button>
             )
         })
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
                 <div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div>
             </label>
         )
     } else if (setting.type === "inputNumber") {
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
                 <input id={thisElementId} type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, Number(e.currentTarget.value)) }} />
             </label>
         )
@@ -57,15 +57,15 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         // console.log(syncStorage[settings.name])
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                <input id={thisElementId} type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
+                <input id={thisElementId} type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName]?.placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
             </label>
         )
     } else if (setting.type === "desc") {
         return (
             <div className="desc">
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                {setting.href && <a href={setting.href} target="_blank" rel="noreferrer">{lang.SETTINGS_ITEMS[settingName].linktitle ?? "LINK"}</a>}
+                {lang.SETTINGS_ITEMS[settingName]?.name ?? setting.name}
+                {setting.href && <a href={setting.href} target="_blank" rel="noreferrer">{lang.SETTINGS_ITEMS[settingName]?.linktitle ?? "LINK"}</a>}
             </div>
         )
     } else if (setting.type === "group") {
@@ -93,7 +93,7 @@ function LinkElem({ setting }: { setting: setting }) {
 }
 function HintElem({ setting }: { setting: setting }) {
     const lang: any = useLang()
-    if (lang.SETTINGS_ITEMS[setting.name].hint && lang.SETTINGS_ITEMS[setting.name].hint !== "") {
+    if (lang.SETTINGS_ITEMS[setting.name]?.hint && lang.SETTINGS_ITEMS[setting.name].hint !== "") {
         return <div className="hint">{lang.SETTINGS_ITEMS[setting.name].hint ?? ""}</div>
     } else {
         return <></>

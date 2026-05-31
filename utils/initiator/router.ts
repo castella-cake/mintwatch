@@ -63,6 +63,14 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         protectTargetElement.setAttribute("data-server", "protected")
     }
 
+    // videotopなどのviewportを持たないページでInitされた場合にviewportを追加する
+    if (!document.querySelector("meta[name=\"viewport\"]")) {
+        const viewportMeta = document.createElement("meta")
+        viewportMeta.name = "viewport"
+        viewportMeta.content = "width=device-width, initial-scale=1"
+        if (document.head) document.head.appendChild(viewportMeta)
+    }
+
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
     for (const scriptElement of document.getElementsByTagName("script")) {
         blockScriptElement(scriptElement)

@@ -1,0 +1,37 @@
+.videotop-content {
+    display: flex;
+    flex-direction: column;
+    width: min(95vw, 95em);
+    padding: 1rem 0;
+    position: relative;
+    margin: 0 auto;
+    gap: 0.5rem 1rem;
+}
+
+.videotop-genres {
+    display: flex;
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    padding: 8px;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.videotop-genre {
+    text-decoration: none;
+    color: inherit;
+    border-radius: 1024px;
+    padding: 6px 16px;
+    display: block;
+    border: var(--border);
+    font-size: .9rem;
+    background: var(--bgcolor1);
+}
+
+.videotop-row-items {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 8px;
+}
+
