@@ -6,7 +6,7 @@ const IHistoryContext = createContext<History | null>(null)
 const ILocationContext = createContext<Location | null>(null)
 
 export function RouterProvider({ children }: { children: ReactNode }) {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableUserPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableUserPage", "enableVideoTop"] as const)
     const targetPathnames = [
         "/watch/",
         ...(syncStorage.enableReshogi ? ["/ranking"] : []),
@@ -17,6 +17,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
             ? ["/user/", "/my"]
             : []
         ),
+        ...(syncStorage.enableVideoTop ? ["/video_top"] : []),
     ]
 
     const historyRef = useRef<History | null>(null)
