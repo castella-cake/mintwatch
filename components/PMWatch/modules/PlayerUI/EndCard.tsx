@@ -9,7 +9,7 @@ export function EndCard({ smId }: { smId: string | undefined }) {
     const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
-    const recommendData = useRecommendData(smId)
+    const recommendData = useRecommendData("video_watch_recommendation", smId)
 
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [duration, setDuration] = useState<number>(Infinity)
