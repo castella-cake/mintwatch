@@ -16,12 +16,13 @@ export function UserNavigation({ userId }: { userId: number }) {
             >
                 新着
             </NavigationAnchorButton>
-            <NavigationAnchorButton href={`/user/${userId}/follow`}>
-                フォロー中
+            <NavigationAnchorButton
+                href={`/user/${userId}/follow`}
+                otherMatchings={[`/user/${userId}/follow/follower`]}
+            >
+                フォロー
             </NavigationAnchorButton>
-            <NavigationAnchorButton href={`/user/${userId}/follow/follower`}>
-                フォロワー
-            </NavigationAnchorButton>
+
             <NavigationAnchorButton
                 href={`/user/${userId}/video`}
                 otherMatchings={[
@@ -30,11 +31,14 @@ export function UserNavigation({ userId }: { userId: number }) {
             >
                 投稿動画
             </NavigationAnchorButton>
-            <NavigationAnchorButton href={`/user/${userId}/mylist`} activeWhenStartsWith>
-                マイリスト
-            </NavigationAnchorButton>
-            <NavigationAnchorButton href={`/user/${userId}/series`}>
-                シリーズ
+            <NavigationAnchorButton
+                href={`/user/${userId}/mylist`}
+                otherMatchings={[
+                    `/user/${userId}/series`,
+                ]}
+                activeWhenStartsWith
+            >
+                マイリスト・シリーズ
             </NavigationAnchorButton>
             <NavigationAnchorButton href={`/user/${userId}/live_programs`}>
                 生放送
@@ -60,20 +64,14 @@ export function MyPageNavigation() {
             >
                 フォロー新着
             </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/follow">
-                フォロー中
-            </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/follow/follower">
-                フォロワー
+            <NavigationAnchorButton href="/my/follow" otherMatchings={["/my/follow/follower"]}>
+                フォロー
             </NavigationAnchorButton>
             <NavigationAnchorButton href="/my/creator-support">
                 サポート
             </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/watchlater">
-                あとで見る
-            </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/timeshift-reservations">
-                タイムシフト
+            <NavigationAnchorButton href="/my/watchlater" otherMatchings={["/my/timeshift-reservations"]}>
+                あとで見る・タイムシフト
             </NavigationAnchorButton>
             <NavigationAnchorButton href="/my/mylist" activeWhenStartsWith>
                 マイリスト
