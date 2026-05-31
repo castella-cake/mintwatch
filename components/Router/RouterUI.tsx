@@ -15,6 +15,7 @@ import { RecommendationsBody } from "../Recommendations/RecommendationsBody"
 import { UserBody } from "../User/UserBody"
 import { useQueryClient } from "@tanstack/react-query"
 import { useNavigationScroll, type NavigationState } from "../../hooks/useNavigationScroll"
+import { VideoTopBody } from "../VideoTop/VideoTopBody"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -55,7 +56,7 @@ export function Match({ targetPathname, children }: { targetPathname: string | s
 }
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage", "enableUserPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage", "enableUserPage", "enableVideoTop"] as const)
     const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
@@ -69,6 +70,9 @@ export default function RouterUI() {
             ? ["/user/", "/my!", "/my/"]
             : []
         ),
+        ...(syncStorage.enableVideoTop
+            ? ["/video_top"]
+            : []),
     ]
 
     const videoRef = useVideoRefContext()
@@ -199,6 +203,9 @@ export default function RouterUI() {
                 </Match>
                 <Match targetPathname={["/user/", "/my"]}>
                     <UserBody />
+                </Match>
+                <Match targetPathname="/video_top">
+                    <VideoTopBody />
                 </Match>
             </main>
             <Alert />

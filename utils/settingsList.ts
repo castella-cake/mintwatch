@@ -228,6 +228,11 @@ const settings: settingList = {
             type: "checkbox",
             name: "flagRecommendationsShowContinuousPlayButton",
         },
+        {
+            type: "checkbox",
+            name: "enableVideoTop",
+            default: false,
+        },
     ],
 } as const
 
