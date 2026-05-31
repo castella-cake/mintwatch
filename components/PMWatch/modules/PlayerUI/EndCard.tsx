@@ -9,7 +9,7 @@ import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 export function EndCard({ smId }: { smId: string }) {
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
-    const recommendData = useRecommendData(smId)
+    const recommendData = useRecommendData("video_watch_recommendation", smId)
     const syncStorage = useStorageVar(["muteKokenVoice"] as const, "sync")
     const localStorage = useStorageVar(["isMuted", "volume", "isLoop", "enableShufflePlay", "rewindTime", "enableBigView"] as const, "local")
     const supportersInfo = usePickupSupportersData(smId)

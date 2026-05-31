@@ -8,7 +8,7 @@ const IRecommendContext = createContext<RecommendDataRootObject | undefined>(und
 export function RecommendProvider({ children }: { children: ReactNode }) {
     const { smId } = useSmIdContext()
 
-    const recommendData = useRecommendData(smId)
+    const recommendData = useRecommendData("video_watch_recommendation", smId)
 
     useEffect(() => {
         if (

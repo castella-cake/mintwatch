@@ -18,6 +18,11 @@ export interface RecommendItem {
     contentType: string
     recommendType: string
     content: VideoItem | MylistItem
+    reason?: Reason
+}
+
+interface Reason {
+    tag?: string
 }
 
 interface Recipe {
