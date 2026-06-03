@@ -71,6 +71,10 @@ export default function RouterUI() {
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
 
+    const setHeaderActionState = useSetHeaderActionStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
+    const setSideMenuShown = useSetSideMenuShownContext()
+
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -97,6 +101,7 @@ export default function RouterUI() {
             }
         }
     }, [setBackgroundPlaying, location, history])
+
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
             if (!targetPathnames.some(path => location.pathname.startsWith(path))) {
@@ -108,16 +113,13 @@ export default function RouterUI() {
             } else {
                 setBackgroundPlaying(false)
             }
+            setSideMenuShown(false)
         })
-    }, [])
+    }, [setBackgroundPlaying, setSideMenuShown, history])
     const mintConfigElemRef = useRef<HTMLDivElement>(null)
     const mintModalElemRef = useRef<HTMLDivElement>(null)
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
     const sideMenuElemRef = useRef<HTMLDivElement>(null)
-
-    const setHeaderActionState = useSetHeaderActionStateContext()
-    const setMintConfigShown = useSetMintConfigShownContext()
-    const setSideMenuShown = useSetSideMenuShownContext()
 
     const handleKeydown = useCallback((e: KeyboardEvent) => {
         if (e.key === "Escape") {
