@@ -98,7 +98,7 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
                         src={`https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/${Math.floor(accountUserData.id / 10000)}/${accountUserData.id.toString()}.jpg`}
                         onError={(e: any) => {
                             e.target.src
-                                                = "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/defaults/blank.jpg"
+                                = "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/defaults/blank.jpg"
                         }}
                         alt="アカウントのアイコン"
                     />

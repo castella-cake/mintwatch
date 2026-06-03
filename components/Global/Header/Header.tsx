@@ -22,7 +22,11 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     const isFixedHeaderEnabled = syncStorage.enableFixedHeader ?? getDefault("enableFixedHeader")
     const isShinjukuNavbar = syncStorage.pmwlayouttype === "shinjuku" && !syncStorage.shinjukuEnableNavbar && !syncStorage.enableOmniHeader
     const isOmniHeaderEnabled = syncStorage.enableOmniHeader ?? getDefault("enableOmniHeader")
+
+    const isVideoTopPage = location.pathname.startsWith("/video_top")
+
     const navbarType = isShinjukuNavbar ? "shinjuku" : syncStorage.navbarType ?? getDefault("navbarType")
+
     const headerActionType = syncStorage.headerActionType ?? getDefault("headerActionType")
     const isSetToQuickHeaderAction = headerActionType === "quick"
 
@@ -88,7 +92,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                 </div>
                             </>
                         )}
-                <SideMenu nodeRef={sideMenuElemRef} isEditMode={isEditMode} setIsEditMode={setIsEditMode} showMintToolBox={isOmniHeaderEnabled} />
+                <SideMenu nodeRef={sideMenuElemRef} isEditMode={isEditMode} setIsEditMode={setIsEditMode} showMintToolBox={isOmniHeaderEnabled} displayMode={isVideoTopPage ? "dock" : "overlay"} />
                 { !isSetToQuickHeaderAction && <HeaderActionStacker nodeRef={headerActionStackerElemRef} /> }
             </div>
         </NavigationDndWrapper>

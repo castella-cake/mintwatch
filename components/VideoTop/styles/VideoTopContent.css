@@ -1,7 +1,7 @@
 .videotop-content {
     display: flex;
     flex-direction: column;
-    width: min(95vw, 95em);
+    width: min(100%, 95em);
     padding: 1rem 0;
     position: relative;
     margin: 0 auto;

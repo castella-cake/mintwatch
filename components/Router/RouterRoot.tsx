@@ -90,18 +90,18 @@ export default function RouterRoot() {
                                 },
                             }}
                         >
-                            <ModalStateProvider>
-                                <VideoRefContext value={IVideoRef}>
-                                    <BackgroundPlayProvider>
-                                        <MessageProvider>
-                                            <RouterProvider>
+                            <RouterProvider>
+                                <ModalStateProvider>
+                                    <VideoRefContext value={IVideoRef}>
+                                        <BackgroundPlayProvider>
+                                            <MessageProvider>
                                                 <RouterUI />
                                                 <PluginList />
-                                            </RouterProvider>
-                                        </MessageProvider>
-                                    </BackgroundPlayProvider>
-                                </VideoRefContext>
-                            </ModalStateProvider>
+                                            </MessageProvider>
+                                        </BackgroundPlayProvider>
+                                    </VideoRefContext>
+                                </ModalStateProvider>
+                            </RouterProvider>
                         </PersistQueryClientProvider>
                     </QueryClientProvider>
                 </StorageProvider>
