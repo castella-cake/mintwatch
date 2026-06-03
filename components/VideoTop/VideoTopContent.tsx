@@ -1,6 +1,6 @@
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
-import { useActivitiesQuery } from "@/hooks/apiHooks/global/activities"
+// import { useActivitiesQuery } from "@/hooks/apiHooks/global/activities"
 import { useMyWatchHistoryData } from "@/hooks/apiHooks/user/infinityHistoryData"
 import { useGenresQuery } from "@/hooks/apiHooks/global/genres"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
@@ -10,7 +10,7 @@ import "./styles/VideoTopContent.css"
 export function VideoTopContent() {
     const recommendData = useRecommendData("video_top_recommend")
 
-    const { activitiesData } = useActivitiesQuery("top_follow", "video")
+    // const { activitiesData } = useActivitiesQuery("top_follow", "video")
 
     const { myWatchHistoryData } = useMyWatchHistoryData(20)
 
@@ -47,16 +47,6 @@ export function VideoTopContent() {
             </div>
             <div className="videotop-row videotop-follow">
                 <div className="videotop-row-title">フォロー中の新着動画</div>
-                <div className="videotop-row-items">
-                    {
-                        activitiesData?.activities?.map((item) => {
-                            if (!isValidVideoItem(item.content)) return null
-                            return (
-                                <VideoItemCard key={item.id} video={item.content as VideoItem} layoutType="vertical-simple" />
-                            )
-                        })
-                    }
-                </div>
             </div>
             <div className="videotop-row videotop-history">
                 <div className="videotop-row-title">最近見た動画</div>
