@@ -1,14 +1,14 @@
 import ReactFocusLock from "react-focus-lock"
-import { useTransitionState } from "react-transition-state"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { MWButton } from "../../MWButton"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useEffect, useRef } from "react"
 import MintToolBox from "./MintToolBox"
 import { ZSnowBackground } from "./ZSnow"
 import { useOutsideClose } from "@/hooks/useOutsideClose"
+import { useTransitionState } from "react-transition-state"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -43,28 +43,43 @@ function SideMenuItem({ item, isEditMode }: { item: SideMenuItem, isEditMode: bo
     )
 }
 
-export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintToolBox }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, showMintToolBox: boolean }) {
+export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintToolBox, displayMode = "overlay" }: { nodeRef: React.RefObject<HTMLDivElement | null>, isEditMode: boolean, setIsEditMode: Dispatch<SetStateAction<boolean>>, showMintToolBox: boolean, displayMode?: "overlay" | "dock" }) {
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 300,
+        preEnter: true,
+        mountOnEnter: true,
+        unmountOnExit: true,
+    })
+
     const { disableSeasonalEffects } = useStorageVar(["disableSeasonalEffects"])
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
     useOutsideClose(nodeRef, isSideMenuShown, () => setIsSideMenuShown(false), "side-menu-trigger")
+    const isDockMode = displayMode === "dock"
+    const isCollapsed = isDockMode && !isSideMenuShown
+    const [previousCollapsed, setPreviousCollapsed] = useState(false)
+    const wasCollapsedDuringExit = status === "exiting" ? previousCollapsed : isCollapsed
 
     // ここでのnodeRefは、transitionではなく単に外側をクリックした場合に閉じるために使う。Transitionは内部で用意する。
     const wrapperTransitionRef = useRef<HTMLDivElement>(null)
-    const [{ status, isMounted }, toggle] = useTransitionState({
-        timeout: 300,
-        mountOnEnter: true,
-        unmountOnExit: true,
-        preEnter: true,
-    })
+
     useEffect(() => {
-        toggle(isSideMenuShown)
-    }, [isSideMenuShown])
+        if (status !== "exiting") setPreviousCollapsed(isCollapsed)
+    }, [isCollapsed, status])
+
+    if ((!isMounted && isSideMenuShown) || (isDockMode && !isMounted)) {
+        toggle(true)
+    }
+    if (isMounted && (!isSideMenuShown && !isDockMode)) {
+        toggle(false)
+    }
+
     if (!isMounted) return null
+
     return (
-        <div className="sidemenu-wrapper" ref={wrapperTransitionRef} data-animation={status}>
+        <div className="sidemenu-wrapper" data-animation={status} ref={wrapperTransitionRef} data-is-collapsed={isCollapsed} data-was-collapsed={wasCollapsedDuringExit} data-display-mode={displayMode}>
             { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
-            <ReactFocusLock>
+            <ReactFocusLock disabled={isDockMode && !isSideMenuShown}>
                 <div className="sidemenu-container" ref={nodeRef}>
                     <MWButton label="サイドメニューを閉じる" className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)}><IconX /></MWButton>
                     {
@@ -77,11 +92,16 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
                             )
                         })
                     }
-                    <button className="sidemenu-editmode-button" onClick={() => setIsEditMode(!isEditMode)}>
-                        <IconPencil />
-                        <span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span>
-                    </button>
-                    { showMintToolBox && <MintToolBox quietWhatsNew={true} /> }
+
+                    { !wasCollapsedDuringExit && (
+                        <>
+                            <button className="sidemenu-editmode-button" onClick={() => setIsEditMode(!isEditMode)}>
+                                <IconPencil />
+                                <span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span>
+                            </button>
+                            {showMintToolBox && <MintToolBox quietWhatsNew={true} />}
+                        </>
+                    ) }
                 </div>
             </ReactFocusLock>
         </div>
