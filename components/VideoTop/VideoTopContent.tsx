@@ -6,13 +6,14 @@ import { useGenresQuery } from "@/hooks/apiHooks/global/genres"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 
 import "./styles/VideoTopContent.css"
+import { RecentActivity } from "./RecentActivity/RecentActivity"
 
 export function VideoTopContent() {
     const recommendData = useRecommendData("video_top_recommend")
 
     // const { activitiesData } = useActivitiesQuery("top_follow", "video")
 
-    const { myWatchHistoryData } = useMyWatchHistoryData(20)
+    const { myWatchHistoryData } = useMyWatchHistoryData(10)
 
     const { genresData } = useGenresQuery()
 
@@ -31,7 +32,10 @@ export function VideoTopContent() {
                     ))}
                 </div>
             )}
-            <h2>VideoTopContent</h2>
+            <div className="videotop-left videotop-follow">
+                <div className="videotop-left-title">What&apos;s New</div>
+                <RecentActivity />
+            </div>
             <div className="videotop-row videotop-recommend">
                 <div className="videotop-row-title">おすすめ動画</div>
                 <div className="videotop-row-items">
@@ -44,9 +48,6 @@ export function VideoTopContent() {
                         })
                     }
                 </div>
-            </div>
-            <div className="videotop-row videotop-follow">
-                <div className="videotop-row-title">フォロー中の新着動画</div>
             </div>
             <div className="videotop-row videotop-history">
                 <div className="videotop-row-title">最近見た動画</div>
