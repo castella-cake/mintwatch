@@ -51,6 +51,12 @@
     border: var(--border);
     font-size: .9rem;
     background: var(--bgcolor1);
+
+    &[data-is-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor2);
+        font-weight: bold;
+    }
 }
 
 .videotop-row-items {
