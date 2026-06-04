@@ -8,6 +8,7 @@ import { HistoryAnchor } from "../Router/HistoryAnchor"
 import "./styles/VideoTopContent.css"
 import { RecentActivity } from "./RecentActivity/RecentActivity"
 import { useLocationContext } from "../Router/RouterContext"
+import { FeedRanking } from "./FeedRanking/FeedRanking"
 
 export function VideoTopContent() {
     const location = useLocationContext()
@@ -46,6 +47,10 @@ export function VideoTopContent() {
             <div className="videotop-left videotop-follow">
                 <div className="videotop-left-title">What&apos;s New</div>
                 <RecentActivity />
+            </div>
+            <div className="videotop-row videotop-ranking">
+                <div className="videotop-row-title">ランキング</div>
+                <FeedRanking />
             </div>
             <div className="videotop-row videotop-recommend">
                 <div className="videotop-row-title">おすすめ動画</div>

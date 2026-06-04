@@ -1,7 +1,7 @@
 import { getTeibanRanking } from "@/utils/apis/ranking/teiban"
 import { useQuery } from "@tanstack/react-query"
 
-export function useRankingTeibanData(featuredKey: string) {
+export function useRankingTeibanData(featuredKey: string | undefined) {
     const { data: rankingTeibanData, isLoading, error } = useQuery({
         queryKey: ["ranking", "teiban", featuredKey],
         queryFn: () => {

@@ -1,0 +1,114 @@
+.feed-ranking {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+}
+
+h3.feed-ranking-title {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.feed-ranking-videos-rest {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .feed-ranking-moreactions-anchor {
+        flex: 1;
+    }
+}
+
+.feed-ranking-moreactions-anchor {
+    background: var(--bgcolor2);
+    color: inherit;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    font-weight: normal; // for h3 override
+    transition: var(--transition-normal);
+
+    &:hover, &:focus-visible {
+        background: var(--hover1);
+    }
+
+    svg {
+        width: 1.25em;
+        height: 1.25em;
+    }
+}
+
+.feed-ranking-videos {
+    display: flex;
+    gap: 8px;
+}
+
+.feed-ranking-videos-podium {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(13rem, 1fr));
+    gap: 8px;
+}
+
+.feed-ranking-videos-podium-item {
+    padding: 8px;
+    background: var(--bgcolor1);
+    border-radius: var(--radius);
+}
+
+.feed-ranking-videos-podium-rank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.feed-ranking-videos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.feed-ranking-videos-list .info-card {
+    --thumb-height: 5rem;
+
+    box-shadow: var(--box-shadow);
+    background: var(--bgcolor2);
+    border: var(--border);
+    gap: 6px 10px;
+
+    .info-card-datacolumn {
+        gap: 6px;
+    }
+
+    .info-card-title {
+        font-size: 0.9rem;
+        font-weight: normal;
+        line-height: 1.25rem;
+    }
+
+    &::before {
+        content: attr(data-rank);
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 4px 8px;
+        font-style: italic;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: rgb(from var(--textcolor3) r g b / 90%);
+    }
+}
