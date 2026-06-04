@@ -3,8 +3,8 @@ import APIError from "../classes/APIError"
 /**
  * 動画投稿のフォロー新着を取得するAPI
  */
-export async function getVideoTimeline() {
-    const response = await fetch("https://api.feed.nicovideo.jp/v1/activities/followings/video?context=my_timeline", {
+export async function getVideoTimeline(context: "my_timeline" | "top_follow" = "my_timeline") {
+    const response = await fetch(`https://api.feed.nicovideo.jp/v1/activities/followings/video?context=${encodeURIComponent(context)}`, {
         headers: {
             "x-frontend-id": "6",
         },
