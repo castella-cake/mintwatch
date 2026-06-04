@@ -7,8 +7,11 @@ import { HistoryAnchor } from "../Router/HistoryAnchor"
 
 import "./styles/VideoTopContent.css"
 import { RecentActivity } from "./RecentActivity/RecentActivity"
+import { useLocationContext } from "../Router/RouterContext"
 
 export function VideoTopContent() {
+    const location = useLocationContext()
+
     const recommendData = useRecommendData("video_top_recommend")
 
     // const { activitiesData } = useActivitiesQuery("top_follow", "video")
@@ -21,11 +24,19 @@ export function VideoTopContent() {
         <div className="videotop-content">
             {genresData?.data?.genres && genresData.data.genres.length > 0 && (
                 <div className="videotop-genres">
+                    <HistoryAnchor
+                        className="videotop-genre"
+                        href="/video_top"
+                        data-is-active={location.pathname === `/video_top`}
+                    >
+                        TOP
+                    </HistoryAnchor>
                     {genresData.data.genres.map(genre => (
                         <HistoryAnchor
                             key={genre.key}
                             className="videotop-genre"
                             href={`/video_top/genre/${encodeURIComponent(genre.key)}`}
+                            data-is-active={location.pathname === `/video_top/genre/${encodeURIComponent(genre.key)}`}
                         >
                             {genre.label}
                         </HistoryAnchor>
