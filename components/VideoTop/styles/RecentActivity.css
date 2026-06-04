@@ -1,0 +1,91 @@
+.recent-activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recent-activity-user {
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+
+    .info-card {
+        border: var(--border);
+        background: var(--bgcolor2);
+        padding: var(--blocks-gap);
+    }
+}
+
+.recent-activity-user .recent-activity-user-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--blocks-gap);
+
+    .recent-activity-actoranchor {
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+
+    .recent-activity-actoricon {
+        width: 2rem;
+        aspect-ratio: 1;
+        border-radius: var(--radius);
+        object-fit: contain;
+    }
+
+    .recent-activity-text {
+        flex: 1;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: .5em;
+    }
+
+    .recent-activity-postcount {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25em;
+        background: var(--bgcolor2);
+        padding: 2px 6px;
+        border-radius: var(--radius);
+        vertical-align: middle;
+
+        svg {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+
+    .recent-activity-open {
+        display: flex;
+        background: var(--bgcolor1);
+        color: inherit;
+        align-items: center;
+        gap: 0.25em;
+        padding: 6px;
+        border: none;
+        border-radius: 1024px;
+        vertical-align: middle;
+        transition: var(--transition-normal);
+
+        &:hover, &:focus-visible {
+            background: var(--hover1);
+        }
+
+        svg {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+}
+
+.recent-activity-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}
