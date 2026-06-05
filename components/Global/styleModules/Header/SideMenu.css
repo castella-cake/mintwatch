@@ -225,6 +225,15 @@
     }
 }
 
+.header-container[data-navbar-type="shinjuku"] .sidemenu-wrapper[data-display-mode="dock"] .sidemenu-container{
+    top: 36px;
+}
+
+.header-container[data-navbar-type="shinjuku"] .sidemenu-wrapper[data-display-mode="dock"][data-is-collapsed="true"] .sidemenu-container .sidemenu-closebutton {
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .sidemenu-item, .sidemenu-editmode-button {
     display: flex;
     flex-wrap: nowrap;
