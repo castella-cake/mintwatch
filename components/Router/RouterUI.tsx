@@ -64,7 +64,7 @@ export default function RouterUI() {
                 nearestAnchor
                 && !nearestAnchor.getAttribute("data-seektime")
                 && (
-                    targetPathnames.map(path => nearestAnchor.href.startsWith(nicovideoPrefix + path) && !location.pathname.startsWith(path)).some(path => path)
+                    targetPathnames.some(path => (nearestAnchor.href.startsWith(nicovideoPrefix + path) && location.pathname !== path))
                 )
                 && !isOutOfBoundsLinkAnchor(nearestAnchor)
             ) {

@@ -13,6 +13,10 @@ export function RouterProvider({ children }: { children: ReactNode }) {
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
             : []),
+        ...(syncStorage.enableUserPage
+            ? ["/user/", "/my"]
+            : []
+        ),
     ]
 
     const historyRef = useRef<History | null>(null)
