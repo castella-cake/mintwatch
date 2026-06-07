@@ -1,5 +1,6 @@
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useLocationContext } from "../Router/RouterContext"
+import { pathMatcher } from "../Router/RouterUI"
 import "./styles/Navigation.css"
 
 export function UserNavigation({ userId }: { userId: number }) {
@@ -105,7 +106,7 @@ export function NavigationAnchorButton({ children, href, activeWhenStartsWith, o
     otherMatchings?: string[]
 }) {
     const location = useLocationContext()
-    const isActive = location.pathname === href || (activeWhenStartsWith && location.pathname.startsWith(href)) || (otherMatchings && otherMatchings.includes(location.pathname))
+    const isActive = location.pathname === href || (activeWhenStartsWith && pathMatcher(location.pathname, href)) || (otherMatchings && otherMatchings.some(path => pathMatcher(location.pathname, path)))
     return (
         <HistoryAnchor href={href} className="userdata-navigation-anchor" data-isactive={isActive}>
             {children}
