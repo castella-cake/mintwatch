@@ -3,7 +3,9 @@ export interface MylistsResponseRootObject extends baseResponse {
 }
 
 interface Data {
+    hasNext: boolean
     mylists: Mylist[]
+    totalCount: number
 }
 
 export interface Mylist {
@@ -15,18 +17,19 @@ export interface Mylist {
     defaultSortKey: string
     defaultSortOrder: string
     itemsCount: number
-    owner: Owner
-    sampleItems: any[]
+    owner: GenericOwner
+    sampleItems: SampleItem[]
     followerCount: number
     createdAt: string
     isFollowing: boolean
 }
 
-interface Owner {
-    ownerType: string
-    type: string
-    visibility: string
-    id: string
-    name: string
-    iconUrl: string
+interface SampleItem {
+    addedAt: string
+    decoratedDescriptionHtml: string
+    description: string
+    itemId: number
+    status: "public" | "private"
+    video: VideoItem
+    watchId: string
 }
