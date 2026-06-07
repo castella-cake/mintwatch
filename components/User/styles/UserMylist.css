@@ -1,0 +1,107 @@
+.user-mylist-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user-mylist-item-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.user-mylist-item-information {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+}
+
+.user-mylist-item-stats {
+    display: flex;
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+
+    .user-mylist-item-stat {
+        border-left: 2px solid var(--textcolor3);
+        padding: 0 8px;
+    }
+}
+
+.user-mylist-item-playbutton {
+    background: var(--bgcolor2);
+    color: inherit;
+    border: var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 0.25em;
+    font-size: 0.9rem;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition-normal);
+    
+    &:hover, &:focus-visible {
+        background: var(--hover1);
+    }
+
+    svg {
+        width: 1.2em;
+        height: 1.2em;
+    }
+}
+
+.user-mylist-videos-options .generic-option-switcher[data-switcher-type="display"] {
+    display: none;
+}
+
+.user-mylist-videos-options .pageselector-container {
+    flex: 1;
+    justify-content: end;
+}
+
+.user-mylist-item-video {
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 8px;
+    padding: 8px;
+    border-bottom: var(--border);
+
+    .genericitem-card {
+        border: none;
+        border-radius: var(--radius);
+        background: var(--bgcolor1);
+        padding: 8px;
+
+        --thumb-height: 5.5rem;
+
+        .info-card-title {
+            font-size: 1rem;
+            font-weight: normal;
+            line-height: 1.25em;
+        }
+
+        .info-card-datacolumn {
+            gap: 6px;
+        }
+    }
+}
+
+.user-mylist-item-video-mylistdata {
+    margin-top: 8px;
+}
+
+.user-mylist-item-video-mylistdata-addedAt {
+    color: var(--textcolor2);
+    font-size: 0.9rem;
+}
+
+.user-mylist-item-video-mylistdata-description {
+    padding: 4px 8px;
+    border-radius: var(--radius);
+    border: var(--border);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
