@@ -8,12 +8,13 @@ import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
 import { InfoCardCount } from "../Count"
 
-export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, ...additionalAttributes }: {
+export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, customHref, ...additionalAttributes }: {
     video: VideoItem
     markAsLazy?: boolean
     layoutType?: "horizontal" | "horizontal-simple" | "vertical-simple"
     showStats?: boolean
     externalVideoActionChildren?: React.ReactNode
+    customHref?: string
 } & React.HTMLAttributes<HTMLDivElement>) {
     if (video.isMuted) return (
         <Card
@@ -42,7 +43,7 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
 
     return (
         <Card
-            href={`https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
+            href={customHref || `https://www.nicovideo.jp/watch/${encodeURIComponent(video.id)}`}
             additionalClassName="videoitem-card genericitem-card"
             title={video.title}
             subTitle={(

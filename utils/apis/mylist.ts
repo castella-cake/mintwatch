@@ -26,9 +26,15 @@ export async function getMylist(mylistId: string | number, sortKey: string, sort
 
 /**
  * ユーザーのマイリスト一覧を取得するAPI
+ * @param sampleItemCount 各マイリストのサンプルとして表示するアイテム数
  */
-export async function getMylists() {
-    const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/mylists", {
+export async function getMylists(sampleItemCount?: number) {
+    const url = new URL("https://nvapi.nicovideo.jp/v1/users/me/mylists")
+    if (sampleItemCount !== undefined) {
+        url.searchParams.set("sampleItemCount", sampleItemCount.toString())
+    }
+
+    const response = await fetch(url, {
         credentials: "include",
         headers: {
             "X-Frontend-Id": "6",
