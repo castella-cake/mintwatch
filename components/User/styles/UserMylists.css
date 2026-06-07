@@ -1,0 +1,133 @@
+.user-mylists-container {
+    display: flex;
+    gap: var(--blocks-gap);
+}
+
+.user-mylists-body {
+    flex: 4;
+}
+
+.user-mylists-left {
+    flex: 1;
+}
+
+.user-mylists-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .mylist-item {
+        background: var(--bgcolor2);
+        color: inherit;
+        text-decoration: none;
+        padding: 8px;
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--box-shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        &[data-is-active="true"] {
+            border: 1px solid var(--primary1);
+            border-left: 4px solid var(--primary1);
+        }
+    }
+}
+
+.mylist-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+}
+
+.mylist-title-state {
+    display: inline-flex;
+    align-items: center;
+}
+
+.mylist-title svg {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+}
+
+.mylist-description {
+    font-size: 0.9rem;
+    color: var(--textcolor2);
+}
+
+
+.user-mylists-body .user-mylists-list {
+    .mylist-item {
+        flex-direction: row;
+        gap: 16px;
+
+        .mylist-item-data {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .mylist-sample-container {
+            grid-row: 1/3;
+            position: relative;
+            width: calc(8em + 40px);
+        }
+
+        .mylist-sample-item {
+            img {
+                width: 8em;
+                border-radius: var(--radius);
+                object-fit: cover;
+                aspect-ratio: 16 / 9;
+                border: 2px solid var(--textcolor3);
+                box-shadow: 0 0 4px #0008;
+            }
+
+            &:first-child {
+                position: relative;
+                z-index: 2;
+            }
+
+            &:not(:first-child) {
+                position: absolute;
+                top: 0;
+                left: 20px;
+                z-index: 1;
+
+                &:nth-child(3) {
+                    left: 40px;
+                    z-index: 0;
+                }
+            }
+        }
+
+        .mylist-sample-container[data-sample-count="1"] .mylist-sample-item {
+            &:first-child {
+                position: relative;
+                top: 0;
+                left: 20px;
+                z-index: 1;
+            }
+        }
+
+        .mylist-sample-container[data-sample-count="2"] .mylist-sample-item {
+            &:first-child {
+                position: relative;
+                top: 0;
+                left: 10px;
+                z-index: 1;
+            }
+
+            &:nth-child(2) {
+                position: absolute;
+                top: 0;
+                left: 30px;
+                z-index: 0;
+            }
+        }
+    }
+}

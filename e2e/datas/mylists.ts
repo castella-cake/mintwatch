@@ -5,6 +5,7 @@ export const mylistsTestData: MylistsResponseRootObject = {
         status: 200,
     },
     data: {
+        hasNext: false,
         mylists: [
             {
                 id: 0,
@@ -51,5 +52,6 @@ export const mylistsTestData: MylistsResponseRootObject = {
                 isFollowing: false,
             },
         ],
+        totalCount: 2,
     },
 }

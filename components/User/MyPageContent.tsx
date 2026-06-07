@@ -4,6 +4,7 @@ import { MyPageNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
 import { UserHistoryContent } from "./History/HistoryContent"
 import { TimelineContent } from "./Timeline/TimelineContent"
+import { UserMylistsContent } from "./UserMylists/UserMylistsContent"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
@@ -60,6 +61,12 @@ export function MyPageContent() {
             ]}
             >
                 <UserHistoryContent />
+            </Match>
+            <Match targetPathname={[
+                "/my/mylist",
+            ]}
+            >
+                <UserMylistsContent />
             </Match>
         </div>
     )

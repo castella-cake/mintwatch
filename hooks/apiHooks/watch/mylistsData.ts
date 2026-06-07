@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export function useMylistsData() {
+export function useMylistsData(sampleItemCount?: number) {
     const queryClient = useQueryClient()
     const { data: mylistsData } = useQuery({
-        queryKey: ["mylists"],
+        queryKey: ["mylists", sampleItemCount],
         queryFn: () => {
-            return getMylists()
+            return getMylists(sampleItemCount)
         },
     })
 
