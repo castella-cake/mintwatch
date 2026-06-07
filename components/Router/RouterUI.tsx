@@ -20,9 +20,22 @@ function MatchWatchPage({ targetPathname, children }: { targetPathname: string, 
     return <></>
 }
 
-function pathMatcher(pathname: string, targetPathname: string) {
-    if (targetPathname.endsWith("!")) return pathname === targetPathname.slice(0, -1)
-    return pathname.startsWith(targetPathname)
+export function pathMatcher(pathname: string, targetPathname: string) {
+    const normalizedPathname = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname
+    const normalizedTargetPathname = targetPathname.endsWith("/") ? targetPathname.slice(0, -1) : targetPathname
+
+    const splittedPathname = normalizedPathname.split("/")
+
+    if (normalizedTargetPathname.endsWith("/:")) {
+        const splittedTargetPathname = normalizedTargetPathname.slice(0, -2).split("/")
+        return splittedTargetPathname.every((segment, index) => segment === splittedPathname[index]) && splittedPathname.length === splittedTargetPathname.length + 1
+    }
+    if (normalizedTargetPathname.endsWith("!")) {
+        const splittedTargetPathname = normalizedTargetPathname.slice(0, -1).split("/")
+        return splittedTargetPathname.every((segment, index) => segment === splittedPathname[index]) && splittedPathname.length === splittedTargetPathname.length
+    }
+    const splittedTargetPathname = normalizedTargetPathname.split("/")
+    return splittedTargetPathname.every((segment, index) => segment === splittedPathname[index]) && splittedPathname.length >= splittedTargetPathname.length
 }
 
 export function Match({ targetPathname, children }: { targetPathname: string | string[], children?: ReactNode }) {
