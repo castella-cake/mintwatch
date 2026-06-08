@@ -81,7 +81,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 const context: mylistContext = playlistJson.context
                 const response = await queryClient.fetchQuery({
                     queryKey: ["mylist", context],
-                    queryFn: () => getMylist(
+                    queryFn: () => getPlaylistMylist(
                         context.mylistId,
                         context.sortKey ?? "registeredAt",
                         context.sortOrder ?? "desc",
