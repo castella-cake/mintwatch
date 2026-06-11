@@ -3,7 +3,7 @@ import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { UserMylistVideosOptionSelector } from "./UserMylistVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
-import "../styles/UserMylist.css"
+// import "../../styles/UserMylist.css"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useUserMylistData } from "@/hooks/apiHooks/user/userMylistData"
 

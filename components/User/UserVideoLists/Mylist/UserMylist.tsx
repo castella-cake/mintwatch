@@ -3,7 +3,6 @@ import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { UserMylistVideosOptionSelector } from "./UserMylistVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
-import "../styles/UserMylist.css"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useMylistData } from "@/hooks/apiHooks/watch/mylistData"
 
@@ -24,8 +23,8 @@ export function UserMylist({ userId }: { userId?: number }) {
     const { mylistData, isLoading, error } = useMylistData(mylistId, 100, parseInt(page, 10), sortKey, sortOrder)
     if (!mylistId || Number.isNaN(mylistId)) {
         return (
-            <div className="user-mylist-item">
-                <div className="user-mylist-item-error">
+            <div className="user-videolist-view">
+                <div className="user-videolist-view-error">
                     <p>無効なマイリストIDです</p>
                 </div>
             </div>
@@ -34,8 +33,8 @@ export function UserMylist({ userId }: { userId?: number }) {
 
     if (error) {
         return (
-            <div className="user-mylist-item">
-                <div className="user-mylist-item-error">
+            <div className="user-videolist-view">
+                <div className="user-videolist-view-error">
                     <p>マイリストの読み込み中にエラーが返されました</p>
                 </div>
             </div>
@@ -61,38 +60,40 @@ export function UserMylist({ userId }: { userId?: number }) {
     const firstValidId = mylistData?.data.mylist.items.find(item => item.status === "public" && isValidVideoItem(item.video))?.video.id
 
     return (
-        <div className="user-mylist-item">
-            <div className="user-mylist-item-information">
-                <h2 className="user-mylist-item-title">{mylistData?.data.mylist.name}</h2>
-                <div className="user-mylist-item-stats">
-                    <div className="user-mylist-item-stat">
-                        全
-                        {" "}
-                        <strong>{mylistData?.data.mylist.totalItemCount}</strong>
-                        {" "}
-                        件
+        <div className="user-videolist-view user-mylist-view">
+            <div className="user-videolist-view-information">
+                <div className="user-videolist-view-information-data">
+                    <h2 className="user-videolist-view-title">{mylistData?.data.mylist.name}</h2>
+                    <div className="user-videolist-view-stats">
+                        <div className="user-videolist-view-stat">
+                            全
+                            {" "}
+                            <strong>{mylistData?.data.mylist.totalItemCount}</strong>
+                            {" "}
+                            件
+                        </div>
+                        <div className="user-videolist-view-stat">
+                            {mylistData?.data.mylist.isPublic ? "公開" : "非公開"}
+                        </div>
+                        <div className="user-videolist-view-stat">
+                            フォロワー
+                            {" "}
+                            <strong>{mylistData?.data.mylist.followerCount}</strong>
+                        </div>
                     </div>
-                    <div className="user-mylist-item-stat">
-                        {mylistData?.data.mylist.isPublic ? "公開" : "非公開"}
-                    </div>
-                    <div className="user-mylist-item-stat">
-                        フォロワー
-                        {" "}
-                        <strong>{mylistData?.data.mylist.followerCount}</strong>
-                    </div>
+                    { mylistData?.data.mylist.description && (
+                        <div className="user-videolist-view-description">
+                            {mylistData?.data.mylist.description}
+                        </div>
+                    )}
                 </div>
-                { mylistData?.data.mylist.description && (
-                    <div className="user-mylist-item-description">
-                        {mylistData?.data.mylist.description}
-                    </div>
-                )}
             </div>
             <UserMylistVideosOptionSelector>
                 {
                     firstValidId && (
-                        <a className="user-mylist-item-playbutton" href={`https://www.nicovideo.jp/watch/${firstValidId}?${watchPlaylistQuery.toString()}`}>
+                        <a className="user-videolist-view-playbutton" href={`https://www.nicovideo.jp/watch/${firstValidId}?${watchPlaylistQuery.toString()}`}>
                             <IconPlayerTrackNextFilled />
-                            <span className="user-mylist-item-playbutton-text">連続再生</span>
+                            <span className="user-videolist-view-playbutton-text">連続再生</span>
                         </a>
                     )
                 }
@@ -104,9 +105,9 @@ export function UserMylist({ userId }: { userId?: number }) {
                 }}
                 />
             </UserMylistVideosOptionSelector>
-            <div className="user-mylist-item-videos">
+            <div className="user-videolist-view-videos">
                 {mylistData?.data.mylist.items.map(item => (
-                    <div className="user-mylist-item-video" key={item.watchId}>
+                    <div className="user-videolist-view-video" key={item.watchId}>
                         <VideoItemCard
                             video={item.video}
                             customHref={`https://www.nicovideo.jp/watch/${item.video.id}?${watchPlaylistQuery.toString()}`}
@@ -116,13 +117,13 @@ export function UserMylist({ userId }: { userId?: number }) {
                                 </a>
                             )}
                         />
-                        <div className="user-mylist-item-video-mylistdata">
+                        <div className="user-videolist-view-video-mylistdata">
                             { item.description && (
-                                <div className="user-mylist-item-video-mylistdata-description">
+                                <div className="user-videolist-view-video-mylistdata-description">
                                     {item.description}
                                 </div>
                             )}
-                            <div className="user-mylist-item-video-mylistdata-addedAt">
+                            <div className="user-videolist-view-video-mylistdata-addedAt">
                                 追加日時
                                 {" "}
                                 {new Date(item.addedAt).toLocaleDateString()}
