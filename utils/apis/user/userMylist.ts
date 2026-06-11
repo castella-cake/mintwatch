@@ -1,7 +1,7 @@
 import { UserMylistResponseRootObject } from "@/types/user/userMylistData"
 import APIError from "@/utils/classes/APIError"
 
-export async function getUserMylistData(userId: number | "me", mylistId: number, pageSize = 100, page = 1, sortKey?: string, sortOrder?: "asc" | "desc") {
+export async function getUserMylistData(userId: "me", mylistId: number, pageSize = 100, page = 1, sortKey?: string, sortOrder?: "asc" | "desc") {
     const url = new URL(`https://nvapi.nicovideo.jp/v1/users/${userId}/mylists/${mylistId}?pageSize=${pageSize}&page=${page}`)
     if (sortKey) {
         url.searchParams.set("sortKey", sortKey)

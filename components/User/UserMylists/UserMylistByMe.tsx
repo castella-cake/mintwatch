@@ -5,15 +5,15 @@ import { UserMylistVideosOptionSelector } from "./UserMylistVideosOptionSelector
 import { PageSelector } from "@/components/Global/PageSelector"
 import "../styles/UserMylist.css"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
-import { useMylistData } from "@/hooks/apiHooks/watch/mylistData"
+import { useUserMylistData } from "@/hooks/apiHooks/user/userMylistData"
 
 const validOrder = ["asc", "desc"]
 
-export function UserMylist({ userId }: { userId?: number }) {
+export function UserMylistByMe() {
     // /my/mylist/<mylistId>
     const location = useLocationContext()
     const pathSegments = location.pathname.split("/")
-    const mylistIdStr = pathSegments[userId ? 4 : 3]
+    const mylistIdStr = pathSegments[3]
     const mylistId = mylistIdStr ? Number.parseInt(mylistIdStr, 10) : undefined
 
     const searchParams = new URLSearchParams(location.search)
@@ -21,7 +21,7 @@ export function UserMylist({ userId }: { userId?: number }) {
     const sortKey = searchParams.get("sortKey") ?? undefined
     const sortOrder = validOrder.includes(searchParams.get("sortOrder") ?? "") ? searchParams.get("sortOrder") as "asc" | "desc" : undefined
 
-    const { mylistData, isLoading, error } = useMylistData(mylistId, 100, parseInt(page, 10), sortKey, sortOrder)
+    const { mylistData, isLoading, error } = useUserMylistData("me", mylistId, 100, parseInt(page, 10), sortKey, sortOrder)
     if (!mylistId || Number.isNaN(mylistId)) {
         return (
             <div className="user-mylist-item">

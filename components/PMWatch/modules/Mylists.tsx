@@ -39,7 +39,7 @@ export function Mylists({ smId, compact = false, limit = Infinity, showMoreButto
         }
     }
 
-    const { mylistsData, mutateMylistsAddItem } = useMylistsData()
+    const { mylistsData, mutateMylistsAddItem } = useMylistsData("me")
     const [addedMylists, setAddedMylists] = useState<number[]>([])
 
     async function onAddToMylist(mylistId: number, itemId: string) {
