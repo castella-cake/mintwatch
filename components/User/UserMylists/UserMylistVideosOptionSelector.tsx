@@ -73,6 +73,9 @@ export function UserMylistVideosOptionSelector({ children }: { children?: React.
             })}
             onOrderChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
+                    if (!currentUrl.searchParams.has("sortKey")) {
+                        currentUrl.searchParams.set("sortKey", defaultSortOption)
+                    }
                     currentUrl.searchParams.set("sortOrder", value.toString())
                 })
             }}
