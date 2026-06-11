@@ -5,7 +5,7 @@ import { UserNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
 import { TimelineContent } from "./Timeline/TimelineContent"
 import { VideosContent } from "./Video/VideosContent"
-import { UserMylistsContent } from "./UserMylists/UserMylistsContent"
+import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -82,9 +82,10 @@ export function UserContent() {
             </Match>
             <Match targetPathname={[
                 `/user/${userId}/mylist`,
+                `/user/${userId}/series`,
             ]}
             >
-                <UserMylistsContent userId={userId} />
+                <UserVideoListsContent userId={userId} />
             </Match>
         </div>
     )

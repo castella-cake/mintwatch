@@ -1,33 +1,51 @@
-.user-mylist-item {
+.user-videolist-view {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.user-mylist-item-title {
+.user-videolist-view-title {
     margin: 0;
     font-size: 1.25rem;
 }
 
-.user-mylist-item-information {
+.user-videolist-view-information {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    align-items: center;
+}
+
+.user-videolist-view-information-data {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 16px;
 }
 
-.user-mylist-item-stats {
+.user-videolist-view-information-thumbnail {
+    width: 8em;
+    aspect-ratio: 16/9;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: var(--radius);
+    }
+}
+
+.user-videolist-view-stats {
     display: flex;
     font-size: 0.9rem;
     color: var(--textcolor2);
 
-    .user-mylist-item-stat {
+    .user-videolist-view-stat {
         border-left: 2px solid var(--textcolor3);
         padding: 0 8px;
     }
 }
 
-.user-mylist-item-playbutton {
+.user-videolist-view-playbutton {
     background: var(--bgcolor2);
     color: inherit;
     border: var(--border);
@@ -51,16 +69,23 @@
     }
 }
 
-.user-mylist-videos-options .generic-option-switcher[data-switcher-type="display"] {
-    display: none;
+.user-series-view-videos-options {
+    display: flex;
+    gap: var(--blocks-gap);
 }
 
-.user-mylist-videos-options .pageselector-container {
-    flex: 1;
-    justify-content: end;
+.user-mylist-videos-options, .user-series-view-videos-options {
+    .generic-option-switcher[data-switcher-type="display"] {
+        display: none;
+    }
+
+    .pageselector-container {
+        flex: 1;
+        justify-content: end;
+    }
 }
 
-.user-mylist-item-video {
+.user-videolist-view-video {
     background: var(--bgcolor2);
     border: var(--border);
     border-radius: var(--radius);
@@ -89,16 +114,16 @@
     }
 }
 
-.user-mylist-item-video-mylistdata {
+.user-videolist-view-video-mylistdata {
     margin-top: 8px;
 }
 
-.user-mylist-item-video-mylistdata-addedAt {
+.user-videolist-view-video-mylistdata-addedAt {
     color: var(--textcolor2);
     font-size: 0.9rem;
 }
 
-.user-mylist-item-video-mylistdata-description {
+.user-videolist-view-video-mylistdata-description {
     padding: 4px 8px;
     border-radius: var(--radius);
     border: var(--border);
