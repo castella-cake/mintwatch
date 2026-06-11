@@ -4,7 +4,7 @@ import { MyPageNavigation } from "./Navigation"
 import { Match } from "../Router/RouterUI"
 import { UserHistoryContent } from "./History/HistoryContent"
 import { TimelineContent } from "./Timeline/TimelineContent"
-import { UserMylistsContent } from "./UserMylists/UserMylistsContent"
+import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
@@ -66,7 +66,7 @@ export function MyPageContent() {
                 "/my/mylist",
             ]}
             >
-                <UserMylistsContent isMyPage />
+                <UserVideoListsContent isMyPage />
             </Match>
         </div>
     )
