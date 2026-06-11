@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 
-export function useMylistData(mylistId: number | undefined, sort = "addedAt", order: "asc" | "desc" = "desc") {
+export function useMylistData(mylistId: number | undefined, pageSize = 100, page = 1, sortKey?: string, sortOrder?: "asc" | "desc") {
     const { data: mylistData, isLoading, error } = useQuery({
-        queryKey: ["mylist", mylistId],
+        queryKey: ["mylist", mylistId, pageSize, page, sortKey, sortOrder],
         queryFn: () => {
             if (!mylistId) throw new Error("mylistId is required")
-            return getMylist(mylistId, sort, order)
+            return getMylist(mylistId, pageSize, page, sortKey, sortOrder)
         },
         enabled: !!mylistId,
     })
