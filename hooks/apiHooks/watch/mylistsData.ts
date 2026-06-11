@@ -1,12 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export function useMylistsData(sampleItemCount?: number) {
+export function useMylistsData(userId: "me" | number | undefined, sampleItemCount?: number) {
     const queryClient = useQueryClient()
     const { data: mylistsData } = useQuery({
-        queryKey: ["mylists", sampleItemCount],
+        queryKey: ["mylists", userId, sampleItemCount],
         queryFn: () => {
-            return getMylists(sampleItemCount)
+            if (!userId) throw new Error("userId is required")
+            return getMylists(userId, sampleItemCount)
         },
+        enabled: !!userId,
     })
 
     const mutateMylistsAddItem = useMutation({

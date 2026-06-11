@@ -5,7 +5,7 @@ import { IconAlertTriangle, IconCheck, IconFolder, IconLock, IconWorld } from "@
 export function Mylists({ smId, compact = false, limit = Infinity, showMoreButton, onMoreButtonClick }: { smId: string, compact?: boolean, limit?: number, showMoreButton?: boolean, onMoreButtonClick?: (e: React.MouseEvent) => void }) {
     const { showToast, showAlert } = useSetMessageContext()
 
-    const { mylistsData, mutateMylistsAddItem } = useMylistsData()
+    const { mylistsData, mutateMylistsAddItem } = useMylistsData("me")
     const [addedMylists, setAddedMylists] = useState<number[]>([])
 
     async function onAddToMylist(mylistId: number, itemId: string) {

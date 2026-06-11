@@ -3,6 +3,40 @@ import APIError from "../classes/APIError"
 /**
  * 指定したマイリストの内容を取得するAPI
  * @param mylistId 取得するマイリストのID
+ * @param pageSize 1ページのアイテム数
+ * @param page ページ番号
+ * @param sortKey ソートを行う種類
+ * @param sortOrder 昇順/降順の指定
+ * @returns UserMylistResponseRootObject
+ */
+export async function getMylist(mylistId: number, pageSize = 100, page = 1, sortKey?: string, sortOrder?: "asc" | "desc") {
+    const url = new URL(`https://nvapi.nicovideo.jp/v2/mylists/${mylistId}?pageSize=${pageSize}&page=${page}`)
+    if (sortKey) {
+        url.searchParams.set("sortKey", sortKey)
+    }
+    if (sortOrder) {
+        url.searchParams.set("sortOrder", sortOrder)
+    }
+
+    const response = await fetch(url, {
+        headers: {
+            "x-frontend-id": "6",
+            "x-frontend-version": "0",
+            "x-niconico-language": "ja-jp",
+        },
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+    })
+
+    const responseJson = await response.json() as UserMylistResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getUserData failed.", responseJson)
+    return responseJson
+}
+
+/**
+ * 指定したマイリストの内容をプレイリスト用に取得するAPI
+ * @param mylistId 取得するマイリストのID
  * @param sortKey ソートを行う種類
  * @param sortOrder 昇順/降順の指定
  */
@@ -26,8 +60,8 @@ export async function getPlaylistMylist(mylistId: string | number, sortKey: stri
  * ユーザーのマイリスト一覧を取得するAPI
  * @param sampleItemCount 各マイリストのサンプルとして表示するアイテム数
  */
-export async function getMylists(sampleItemCount?: number) {
-    const url = new URL("https://nvapi.nicovideo.jp/v1/users/me/mylists")
+export async function getMylists(userId: "me" | number | undefined = "me", sampleItemCount?: number) {
+    const url = new URL(`https://nvapi.nicovideo.jp/v1/users/${userId}/mylists`)
     if (sampleItemCount !== undefined) {
         url.searchParams.set("sampleItemCount", sampleItemCount.toString())
     }
