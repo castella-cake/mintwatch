@@ -66,7 +66,7 @@ export function MyPageContent() {
                 "/my/mylist",
             ]}
             >
-                <UserMylistsContent />
+                <UserMylistsContent isMyPage />
             </Match>
         </div>
     )

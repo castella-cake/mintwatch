@@ -2,9 +2,9 @@ import { useLocationContext } from "@/components/Router/RouterContext"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
 import { IconListNumbers, IconLock, IconWorld } from "@tabler/icons-react"
 
-export function UserMylistsList({ showRootAnchor, showSampleItems }: { showRootAnchor?: boolean, showSampleItems?: boolean }) {
+export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { showRootAnchor?: boolean, showSampleItems?: boolean, userId?: number }) {
     const location = useLocationContext()
-    const { mylistsData } = useMylistsData(3)
+    const { mylistsData } = useMylistsData(userId ?? "me", 3)
 
     if (!mylistsData) {
         return (
@@ -19,8 +19,8 @@ export function UserMylistsList({ showRootAnchor, showSampleItems }: { showRootA
             { showRootAnchor && (
                 <a
                     className="mylist-item"
-                    href="/my/mylist"
-                    data-is-active={location.pathname === `/my/mylist`}
+                    href={userId ? `/user/${userId}/mylist` : "/my/mylist"}
+                    data-is-active={location.pathname === (userId ? `/user/${userId}/mylist` : "/my/mylist")}
                 >
                     <div className="mylist-title">
                         <span className="mylist-title-state" title="すべてのマイリスト">
@@ -36,8 +36,8 @@ export function UserMylistsList({ showRootAnchor, showSampleItems }: { showRootA
                         <a
                             key={mylist.id}
                             className="mylist-item"
-                            href={`/my/mylist/${mylist.id}`}
-                            data-is-active={location.pathname === `/my/mylist/${mylist.id}`}
+                            href={userId ? `/user/${userId}/mylist/${mylist.id}` : `/my/mylist/${mylist.id}`}
+                            data-is-active={location.pathname === (userId ? `/user/${userId}/mylist/${mylist.id}` : `/my/mylist/${mylist.id}`)}
                         >
                             {
                                 showSampleItems && mylist.sampleItems.length > 0 && (
