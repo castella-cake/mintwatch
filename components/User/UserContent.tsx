@@ -52,11 +52,7 @@ export function UserContent() {
 
     return (
         <div className="user-content" data-usertype="user">
-            <title>
-                {userData.data.user.nickname}
-                {" "}
-                - ニコニコ
-            </title>
+            <title>{`${userData.data.user.nickname} - ニコニコ`}</title>
             <GenericUserDataView
                 userData={userData.data.user}
                 isMe={userData.data.relationships?.isMe || false}
@@ -78,14 +74,14 @@ export function UserContent() {
                 `/user/${userId}/shorts`,
             ]}
             >
-                <VideosContent userId={userId} />
+                <VideosContent userId={userId} nickname={userData?.data?.user.nickname} />
             </Match>
             <Match targetPathname={[
                 `/user/${userId}/mylist`,
                 `/user/${userId}/series`,
             ]}
             >
-                <UserVideoListsContent userId={userId} />
+                <UserVideoListsContent userId={userId} nickname={userData?.data?.user.nickname} />
             </Match>
         </div>
     )

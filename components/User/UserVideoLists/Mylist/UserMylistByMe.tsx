@@ -63,6 +63,7 @@ export function UserMylistByMe() {
 
     return (
         <div className="user-videolist-view user-mylist-view">
+            <title>{`マイページ ${mylistData ? `${mylistData?.data.mylist.name}` : ""} - ニコニコ`}</title>
             <UserMylistHeader mylistData={mylistData} />
             <UserMylistVideosOptionSelector>
                 {
