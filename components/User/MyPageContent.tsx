@@ -36,9 +36,7 @@ export function MyPageContent() {
 
     return (
         <div className="user-content" data-usertype="my">
-            <title>
-                マイページ - ニコニコ
-            </title>
+            <title>マイページ - ニコニコ</title>
             <GenericUserDataView
                 userData={myUserData.data.user}
                 isMe={true}
