@@ -1,6 +1,5 @@
 import { useMemo } from "react"
 import { useBrowserLocalStorage } from "./browserLocalStorageHook"
-import useServerContext from "./serverContextHook"
 import { localStorageNvpcSearchItem, localStorageNvpcSearchRootObject } from "@/types/localStorage/nvpcSearch"
 import { SearchOption } from "@/types/search/Option"
 import { SavedSearchDuplicatedError, SavedSearchLimitExceededError } from "@/utils/classes/SavedSearchError"
@@ -114,8 +113,8 @@ export function createSavedSearchItemFromOption(word: string, type: localStorage
 }
 
 export function useSavedSearchStorage() {
-    const contextData = useServerContext()
-    const storageKey = `nvpc:search:${contextData?.sessionUser?.id ?? "0"}`
+    const contextData = useAccountContext()
+    const storageKey = `nvpc:search:${contextData?.id ?? "0"}`
     const { data: rawData, setBrowserLocalStorage } = useBrowserLocalStorage(storageKey)
 
     const storage = useMemo(() => {

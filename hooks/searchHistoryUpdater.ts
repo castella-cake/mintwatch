@@ -1,5 +1,3 @@
-import useServerContext from "./serverContextHook"
-
 function isDateRangeFilterActive(dateRangeFilter: SearchOption["dateRangeFilter"] | undefined): dateRangeFilter is NonNullable<SearchOption["dateRangeFilter"]> {
     return !!dateRangeFilter?.start?.value || !!dateRangeFilter?.end?.value
 }
@@ -33,11 +31,11 @@ export function historyTypeToHrefType(type: "keyword" | "keyword_shorts" | "tag"
 }
 
 export function useSearchHistoryUpdater(word: string, type: "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "user" | "mylist" | "series", option?: SearchOption, dependencies: any[] = []) {
-    const contextData = useServerContext()
-    const { data: nvpcSearchdata, setBrowserLocalStorage } = useBrowserLocalStorage(`nvpc:search:${contextData?.sessionUser?.id ?? "0"}`)
+    const contextData = useAccountContext()
+    const { data: nvpcSearchdata, setBrowserLocalStorage } = useBrowserLocalStorage(`nvpc:search:${contextData?.id ?? "0"}`)
     const searchStorageData = typeof nvpcSearchdata === "string" ? JSON.parse(nvpcSearchdata) as localStorageNvpcSearchRootObject : null
     useEffect(() => {
-        if (!contextData?.sessionUser) return
+        if (!contextData) return
         const currentHistory = searchStorageData?.data.history?.data ?? []
         // SortとPresetFiltersの両方でresolveできることを保証してから追加する
         const newHistorySortOption = option && activeSortResolver(option.sort.key)
