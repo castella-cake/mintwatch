@@ -9,7 +9,7 @@ import { NavigationAnchorButton } from "../Navigation"
 import { UserSeriesList } from "./Series/UserSeriesList"
 import { UserSeries } from "./Series/UserSeries"
 
-export function UserVideoListsContent({ userId, isMyPage }: { userId?: number, isMyPage?: boolean }) {
+export function UserVideoListsContent({ userId, isMyPage, nickname }: { userId?: number, isMyPage?: boolean, nickname?: string }) {
     if (!userId && !isMyPage) return
 
     return (
@@ -53,6 +53,7 @@ export function UserVideoListsContent({ userId, isMyPage }: { userId?: number, i
                             `/user/${userId}/mylist!`,
                         ]}
                 >
+                    <title>{ isMyPage ? "マイページ マイリスト - ニコニコ" : `${nickname}さんの公開マイリスト - ニコニコ` }</title>
                     <UserMylistsList showSampleItems userId={userId} />
                 </Match>
                 <Match targetPathname={isMyPage
@@ -61,6 +62,7 @@ export function UserVideoListsContent({ userId, isMyPage }: { userId?: number, i
                             `/user/${userId}/series!`,
                         ]}
                 >
+                    <title>{`${nickname}さんの公開シリーズ - ニコニコ`}</title>
                     <UserSeriesList showThumbnail userId={userId} />
                 </Match>
                 <Match targetPathname={isMyPage

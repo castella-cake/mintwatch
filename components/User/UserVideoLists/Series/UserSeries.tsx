@@ -31,7 +31,7 @@ export function UserSeries() {
         return (
             <div className="user-videolist-view">
                 <div className="user-videolist-view-error">
-                    <p>マイリストの読み込み中にエラーが返されました</p>
+                    <p>シリーズの読み込み中にエラーが返されました</p>
                 </div>
             </div>
         )
@@ -55,6 +55,7 @@ export function UserSeries() {
 
     return (
         <div className="user-videolist-view user-series-view">
+            <title>{`${seriesData ? `${seriesData?.data.detail.title}` : ""} - ニコニコ`}</title>
             <div className="user-videolist-view-information">
                 <div className="user-videolist-view-information-thumbnail">
                     <img src={seriesData?.data.detail.thumbnailUrl} alt={`${seriesData?.data.detail.title} のサムネイル`} />

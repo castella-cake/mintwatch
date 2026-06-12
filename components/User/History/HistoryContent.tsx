@@ -5,6 +5,7 @@ import { WatchHistory } from "./Watch"
 export function UserHistoryContent() {
     return (
         <div className="watch-history user-category-container">
+            <title>マイページ 視聴履歴 - ニコニコ</title>
             <div className="watch-history-sidearea user-category-sidearea">
                 <NavigationAnchorButton href="/my/history/video">
                     動画視聴
