@@ -197,13 +197,13 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             previewUpdateTimeout.current = setTimeout(() => {
                 if (videoInfo && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
                     setPreviewCommentItem({
-                        id: "-1",
-                        no: -1,
+                        id: "0",
+                        no: 0,
                         vposMs: Math.floor(videoRef.current.currentTime * 1000),
                         body: commentInputRef.current.value,
                         commands: ["184", "nico:waku:#faf", ...commandInput.current.value.split(" ")],
                         isMyPost: true,
-                        userId: "-1",
+                        userId: "0",
                         isPremium: videoInfo.data?.response.viewer?.isPremium,
                         score: 0,
                         postedAt: new Date().toString(),
