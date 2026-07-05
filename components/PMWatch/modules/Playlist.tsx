@@ -1,5 +1,5 @@
 import { PlaylistVideoCard } from "./PlaylistInfoCard"
-import { MylistResponseRootObject } from "@/types/mylistData"
+import { PlaylistMylistResponseRootObject } from "@/types/playlistMylistData"
 import { SeriesResponseRootObject } from "@/types/seriesData"
 import { useDroppable } from "@dnd-kit/core"
 import { SortableContext } from "@dnd-kit/sortable"
@@ -24,7 +24,7 @@ export type playlistVideoItem = {
     isPreview?: boolean
 }
 
-export function mylistToSimplifiedPlaylist(obj: MylistResponseRootObject) {
+export function mylistToSimplifiedPlaylist(obj: PlaylistMylistResponseRootObject) {
     return obj.data.items.map((elem) => {
         return {
             title: elem.content.title,
