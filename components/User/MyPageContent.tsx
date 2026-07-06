@@ -5,6 +5,7 @@ import { Match } from "../Router/RouterUI"
 import { UserHistoryContent } from "./History/HistoryContent"
 import { TimelineContent } from "./Timeline/TimelineContent"
 import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
+import { WatchLaterContent } from "./WatchLater/WatchLaterContent"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
@@ -65,6 +66,13 @@ export function MyPageContent() {
             ]}
             >
                 <UserVideoListsContent isMyPage />
+            </Match>
+            <Match targetPathname={[
+                "/my/watchlater",
+                "/my/timeshift-reservations",
+            ]}
+            >
+                <WatchLaterContent />
             </Match>
         </div>
     )
