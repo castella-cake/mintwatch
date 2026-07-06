@@ -7,7 +7,10 @@ interface Data {
 }
 
 interface WatchLater {
-    item: Item
+    items: Item[]
+    hasInvisibleItems: boolean
+    totalCount: number
+    hasNext: boolean
 }
 
 interface Item {
