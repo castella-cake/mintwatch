@@ -1,6 +1,6 @@
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
-import { UserVideosOptionSelector } from "./UserVideosOptionSelector"
+import { UserVideosOptionSelector, videoSortKeys } from "./UserVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
 import { useLocationContext } from "@/components/Router/RouterContext"
 
@@ -24,7 +24,7 @@ export function Videos({ userId, contentType = "long" }: { userId: number, conte
                 件の
                 {contentType === "short" ? "ショート" : "動画"}
             </div>
-            <UserVideosOptionSelector>
+            <UserVideosOptionSelector sortKeys={videoSortKeys}>
                 <PageSelector pagination={{
                     page: parseInt(page),
                     totalCount: userVideoData?.data.totalCount ?? 0,
