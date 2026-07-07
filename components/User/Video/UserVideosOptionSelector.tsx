@@ -2,17 +2,25 @@ import { useLocationContext, useHistoryContext } from "../../Router/RouterContex
 import { OptionSelector } from "../../Global/OptionSelector"
 import type { ReactNode } from "react"
 
+interface UserVideosSortKey {
+    label: string
+    value: string
+    default?: boolean
+}
+
 interface UserVideosOptionSelectorProps {
     children?: ReactNode
+    sortKeys: UserVideosSortKey[]
 }
 
 const defaultSortOption = "registeredAt"
 const defaultOrderOption = "desc"
 
-const sortKeys = [
+export const videoSortKeys: UserVideosSortKey[] = [
     {
         label: "投稿日時",
         value: "registeredAt",
+        default: true,
     },
     {
         label: "再生数",
@@ -44,6 +52,7 @@ const sortOrders = [
     {
         label: "降順",
         value: "desc",
+        default: true,
     },
     {
         label: "昇順",
@@ -51,7 +60,7 @@ const sortOrders = [
     },
 ]
 
-export function UserVideosOptionSelector({ children }: UserVideosOptionSelectorProps) {
+export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptionSelectorProps) {
     const { userEnableGridCardLayout } = useStorageVar(["userEnableGridCardLayout"], "local")
     const history = useHistoryContext()
     const location = useLocationContext()
@@ -65,7 +74,7 @@ export function UserVideosOptionSelector({ children }: UserVideosOptionSelectorP
     return (
         <OptionSelector
             order={sortOrders.map((option) => {
-                const currentOption = new URLSearchParams(location.search).get("sortOrder") || defaultOrderOption
+                const currentOption = new URLSearchParams(location.search).get("sortOrder") || sortOrders.find(k => k.default)?.value || defaultOrderOption
                 return { ...option, active: option.value === currentOption }
             })}
             onOrderChanged={(value) => {
@@ -74,13 +83,13 @@ export function UserVideosOptionSelector({ children }: UserVideosOptionSelectorP
                 })
             }}
             sortKey={sortKeys.map((option) => {
-                const currentOption = new URLSearchParams(location.search).get("sortKey") || defaultSortOption
+                const currentOption = new URLSearchParams(location.search).get("sortKey") || sortKeys.find(k => k.default)?.value || defaultSortOption
                 return { ...option, active: option.value === currentOption }
             })}
             onSortKeyChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortKey", value.toString())
-                    const defaultOrder = "desc"
+                    const defaultOrder = sortOrders.find(k => k.default)?.value || defaultOrderOption
                     if (defaultOrder) currentUrl.searchParams.set("sortOrder", defaultOrder)
                 })
             }}
