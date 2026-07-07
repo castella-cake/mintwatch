@@ -1,11 +1,51 @@
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useLocationContext } from "@/components/Router/RouterContext"
-import { UserMylistVideosOptionSelector } from "./UserMylistVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useMylistData } from "@/hooks/apiHooks/watch/mylistData"
 import { UserMylistHeader } from "./UserMylistHeader"
+import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
+
+export const mylistSortKeys = [
+    {
+        label: "マイリスト登録日時",
+        value: "addedAt",
+        default: true,
+    },
+    {
+        label: "投稿日時",
+        value: "registeredAt",
+    },
+    {
+        label: "メモ",
+        value: "mylistComment",
+    },
+    {
+        label: "再生数",
+        value: "viewCount",
+    },
+    {
+        label: "最終コメント日時",
+        value: "lastCommentTime",
+    },
+    {
+        label: "コメント数",
+        value: "commentCount",
+    },
+    {
+        label: "いいね！数",
+        value: "likeCount",
+    },
+    {
+        label: "マイリスト数",
+        value: "mylistCount",
+    },
+    {
+        label: "動画時間",
+        value: "duration",
+    },
+]
 
 const validOrder = ["asc", "desc"]
 
@@ -64,7 +104,7 @@ export function UserMylist({ userId }: { userId?: number }) {
         <div className="user-videolist-view user-mylist-view">
             <title>{`${mylistData ? `「${mylistData?.data.mylist.name}」 ` : ""}${mylistData?.data.mylist.owner.name}さんの公開マイリスト - ニコニコ`}</title>
             <UserMylistHeader mylistData={mylistData} />
-            <UserMylistVideosOptionSelector>
+            <UserVideosOptionSelector sortKeys={mylistSortKeys}>
                 {
                     firstValidId && (
                         <a className="user-videolist-view-playbutton" href={`https://www.nicovideo.jp/watch/${firstValidId}?${watchPlaylistQuery.toString()}`}>
@@ -80,7 +120,7 @@ export function UserMylist({ userId }: { userId?: number }) {
                     maxPage: Math.ceil((mylistData?.data.mylist.totalItemCount ?? 0) / 100),
                 }}
                 />
-            </UserMylistVideosOptionSelector>
+            </UserVideosOptionSelector>
             <div className="user-videolist-view-videos">
                 {mylistData?.data.mylist.items.map(item => (
                     <div className="user-videolist-view-video" key={item.watchId}>
@@ -93,13 +133,13 @@ export function UserMylist({ userId }: { userId?: number }) {
                                 </a>
                             )}
                         />
-                        <div className="user-videolist-view-video-mylistdata">
+                        <div className="user-videolist-view-video-listdata">
                             { item.description && (
-                                <div className="user-videolist-view-video-mylistdata-description">
+                                <div className="user-videolist-view-video-listdata-description">
                                     {item.description}
                                 </div>
                             )}
-                            <div className="user-videolist-view-video-mylistdata-addedAt">
+                            <div className="user-videolist-view-video-listdata-addedAt">
                                 追加日時
                                 {" "}
                                 {new Date(item.addedAt).toLocaleDateString()}

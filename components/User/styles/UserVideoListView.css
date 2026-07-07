@@ -74,7 +74,7 @@
     gap: var(--blocks-gap);
 }
 
-.user-mylist-videos-options, .user-series-view-videos-options {
+.user-mylist-view .user-videos-options, .watch-later-content .user-videos-options {
     .generic-option-switcher[data-switcher-type="display"] {
         display: none;
     }
@@ -114,16 +114,16 @@
     }
 }
 
-.user-videolist-view-video-mylistdata {
+.user-videolist-view-video-listdata {
     margin-top: 8px;
 }
 
-.user-videolist-view-video-mylistdata-addedAt {
+.user-videolist-view-video-listdata-addedAt {
     color: var(--textcolor2);
     font-size: 0.9rem;
 }
 
-.user-videolist-view-video-mylistdata-description {
+.user-videolist-view-video-listdata-description {
     padding: 4px 8px;
     border-radius: var(--radius);
     border: var(--border);

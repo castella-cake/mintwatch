@@ -1,12 +1,13 @@
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useLocationContext } from "@/components/Router/RouterContext"
-import { UserMylistVideosOptionSelector } from "./UserMylistVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
 // import "../../styles/UserMylist.css"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useUserMylistData } from "@/hooks/apiHooks/user/userMylistData"
 import { UserMylistHeader } from "./UserMylistHeader"
+import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
+import { mylistSortKeys } from "./UserMylist"
 
 const validOrder = ["asc", "desc"]
 
@@ -65,7 +66,7 @@ export function UserMylistByMe() {
         <div className="user-videolist-view user-mylist-view">
             <title>{`マイページ ${mylistData ? `${mylistData?.data.mylist.name}` : ""} - ニコニコ`}</title>
             <UserMylistHeader mylistData={mylistData} />
-            <UserMylistVideosOptionSelector>
+            <UserVideosOptionSelector sortKeys={mylistSortKeys}>
                 {
                     firstValidId && (
                         <a className="user-videolist-view-playbutton" href={`https://www.nicovideo.jp/watch/${firstValidId}?${watchPlaylistQuery.toString()}`}>
@@ -81,7 +82,7 @@ export function UserMylistByMe() {
                     maxPage: Math.ceil((mylistData?.data.mylist.totalItemCount ?? 0) / 100),
                 }}
                 />
-            </UserMylistVideosOptionSelector>
+            </UserVideosOptionSelector>
             <div className="user-videolist-view-videos">
                 {mylistData?.data.mylist.items.map(item => (
                     <div className="user-videolist-view-video" key={item.watchId}>
@@ -94,13 +95,13 @@ export function UserMylistByMe() {
                                 </a>
                             )}
                         />
-                        <div className="user-videolist-view-video-mylistdata">
+                        <div className="user-videolist-view-video-listdata">
                             { item.description && (
-                                <div className="user-videolist-view-video-mylistdata-description">
+                                <div className="user-videolist-view-video-listdata-description">
                                     {item.description}
                                 </div>
                             )}
-                            <div className="user-videolist-view-video-mylistdata-addedAt">
+                            <div className="user-videolist-view-video-listdata-addedAt">
                                 追加日時
                                 {" "}
                                 {new Date(item.addedAt).toLocaleDateString()}
