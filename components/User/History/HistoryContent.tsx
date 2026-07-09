@@ -1,6 +1,7 @@
 import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { WatchHistory } from "./Watch"
+import { LikeHistory } from "./Like"
 
 export function UserHistoryContent() {
     return (
@@ -29,6 +30,12 @@ export function UserHistoryContent() {
             ]}
             >
                 <WatchHistory />
+            </Match>
+            <Match targetPathname={[
+                "/my/history/like!",
+            ]}
+            >
+                <LikeHistory />
             </Match>
         </div>
     )
