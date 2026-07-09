@@ -1,4 +1,4 @@
-.watch-history-date-title {
+.user-history-date-title {
     font-size: 1rem;
     font-weight: bold;
     border-left: 2px solid var(--accent1);
@@ -7,8 +7,37 @@
     margin-bottom: 0;
 }
 
-.watch-history-items {
+.user-history-items {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.user-history-like-item-data, .user-history-like-item-data-message {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.user-history-like-item-data {
+    margin-top: var(--blocks-gap);
+}
+
+.user-history-like-item-data-message {
+    .user-history-like-item-data-message-img img {
+        width: 2em;
+        aspect-ratio: 1/1;
+        border-radius: 1024px;
+    }
+
+    .user-history-like-item-data-message-text {
+        background: var(--bgcolor1);
+        padding: 4px 8px;
+        border-radius: var(--radius);
+        font-size: 0.875rem;
+    }
+}
+
+.user-history-date .user-videolist-view-videos {
+    margin-top: 8px;
 }
