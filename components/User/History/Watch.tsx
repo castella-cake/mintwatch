@@ -16,13 +16,13 @@ export function WatchHistory() {
     const splittedItems = splitWithYMD(flattenedItems, item => item.viewedAt)
 
     return (
-        <div className="watch-history-content user-category-content">
-            <div className="watch-history-items">
+        <div className="user-history-content user-category-content">
+            <div className="user-history-items">
                 {Object.keys(splittedItems).map((key) => {
                     return (
-                        <div key={`history-date-${key}`} className="watch-history-date">
-                            <div className="watch-history-date-title">{getRelativeDate(key)}</div>
-                            <div className="watch-history-item-container">
+                        <div key={`history-date-${key}`} className="user-history-date">
+                            <div className="user-history-date-title">{getRelativeDate(key)}</div>
+                            <div className="user-history-item-container">
                                 {splittedItems[key].map((item, itemIndex) => {
                                     return <VideoItemCard key={`history-item-${key}-${itemIndex}`} video={item.video} />
                                 })}
@@ -31,7 +31,7 @@ export function WatchHistory() {
                     )
                 })}
             </div>
-            <div ref={ref} className="watch-history-inview-anchor">
+            <div ref={ref} className="user-history-inview-anchor">
                 {isFetchingNextPage && <p>Loading...</p>}
             </div>
         </div>
