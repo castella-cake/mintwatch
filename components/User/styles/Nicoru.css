@@ -1,0 +1,86 @@
+.user-history-nicoru-totalcount {
+    display: flex;
+    align-items: center;
+
+    svg.nicoru-icon {
+        height: 1.25em;
+        margin-left: 0.5em;
+    }
+}
+
+.user-history-nicoru-item {
+    background: var(--bgcolor2);
+    padding: 8px;
+    border-radius: var(--radius);
+    border: var(--border);
+    margin-top: var(--blocks-gap);
+}
+
+.user-history-nicoru-total svg.nicoru-icon {
+    width: 1.5em;
+    display: block;
+    color: #000;
+}
+
+.user-history-nicoru-info {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    background: var(--bgcolor1);
+    padding: 8px;
+    border-radius: var(--radius);
+    align-items: center;
+}
+
+.user-history-nicoru-vpos {
+    grid-row: 2/3;
+    color: var(--textcolor2);
+    font-size: 0.9rem;
+}
+
+.user-history-nicoru-total {
+    grid-row: 1/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+}
+
+.user-history-nicoru-video {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.user-history-nicoru-video .genericitem-card {
+    --thumb-height: 5rem;
+
+    flex: 1;
+    border: var(--border);
+    background: var(--bgcolor1);
+
+    .info-card-title {
+        font-weight: normal;
+        font-size: 1rem;
+    }
+
+    .info-card-datacolumn {
+        gap: 6px;
+    }
+}
+
+a.user-history-nicoru-watch-link {
+    text-decoration: none;
+    color: inherit;
+    background: var(--bgcolor1);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    cursor: pointer;
+    border: var(--border);
+    font-size: 0.9rem;
+}
