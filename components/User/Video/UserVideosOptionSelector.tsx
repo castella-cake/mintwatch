@@ -80,6 +80,8 @@ export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptio
             onOrderChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortOrder", value.toString())
+                    const defaultSort = sortKeys.find(k => k.default)?.value || defaultSortOption
+                    if (defaultSort) currentUrl.searchParams.set("sortKey", defaultSort)
                 })
             }}
             sortKey={sortKeys.map((option) => {
