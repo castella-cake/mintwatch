@@ -82,6 +82,12 @@
     flex-direction: column;
 }
 
+.userdata-action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 .userdata-action-button {
     background: var(--bgcolor2);
     color: var(--textcolor1);
@@ -92,6 +98,8 @@
     text-decoration: none;
     text-align: center;
     font-size: .9rem;
+    flex: 1;
+    min-width: 10em;
 
     &[aria-disabled="true"] {
         opacity: 0.5;
