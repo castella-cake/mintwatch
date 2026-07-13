@@ -23,16 +23,18 @@ export function GenericUserDataView({ userData, isMe = false, isFollowing = fals
             )}
 
             <div className="userdata-action">
-                { !isMe && (
-                    <>
-                        <button type="button" className="userdata-action-button" data-is-active={isFollowing}>
-                            { isFollowing ? "フォロー中" : "フォローする" }
-                        </button>
-                        <a href={`https://creator-support.nicovideo.jp/registration/${userData.id}`} className="userdata-action-button" target="_blank" rel="noopener noreferrer">
-                            サポートする
-                        </a>
-                    </>
-                )}
+                <div className="userdata-action-buttons">
+                    { !isMe && (
+                        <>
+                            <button type="button" className="userdata-action-button" data-is-active={isFollowing}>
+                                { isFollowing ? "フォロー中" : "フォローする" }
+                            </button>
+                            <a href={`https://creator-support.nicovideo.jp/registration/${userData.id}`} className="userdata-action-button" target="_blank" rel="noopener noreferrer">
+                                サポートする
+                            </a>
+                        </>
+                    )}
+                </div>
                 <UserLevel userLevel={userData.userLevel} />
             </div>
         </div>
