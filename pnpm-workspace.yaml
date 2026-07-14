@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  spawn-sync: true
+  dtrace-provider: true
+patchedDependencies:
+  '@dnd-kit/core': patches/@dnd-kit__core.patch
