@@ -6,6 +6,7 @@ import { UserHistoryContent } from "./History/HistoryContent"
 import { TimelineContent } from "./Timeline/TimelineContent"
 import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 import { WatchLaterContent } from "./WatchLater/WatchLaterContent"
+import { FollowContent } from "./Follow/FollowContent"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
@@ -53,6 +54,12 @@ export function MyPageContent() {
             ]}
             >
                 <TimelineContent />
+            </Match>
+            <Match targetPathname={[
+                "/my/follow",
+            ]}
+            >
+                <FollowContent isMyPage={true} />
             </Match>
             <Match targetPathname={[
                 "/my/history",
