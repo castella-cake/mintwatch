@@ -6,6 +6,7 @@ import { Match } from "../Router/RouterUI"
 import { TimelineContent } from "./Timeline/TimelineContent"
 import { VideosContent } from "./Video/VideosContent"
 import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
+import { FollowContent } from "./Follow/FollowContent"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -68,6 +69,12 @@ export function UserContent() {
             ]}
             >
                 <TimelineContent thisUserPageId={userId} />
+            </Match>
+            <Match targetPathname={[
+                `/user/${userId}/follow`,
+            ]}
+            >
+                <FollowContent userId={userId} isMyPage={false} />
             </Match>
             <Match targetPathname={[
                 `/user/${userId}/video`,
