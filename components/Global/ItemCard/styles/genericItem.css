@@ -55,6 +55,18 @@
     }
 }
 
+.genericitem-resume {
+    height: 4px;
+    position: absolute;
+    background: var(--primary1);
+    bottom: 0;
+    left: 0;
+    width: var(--width);
+    border-radius: var(--radius);
+    opacity: 0.9;
+    z-index: 0;
+}
+
 .genericitem-owner {
     text-decoration: none;
     pointer-events: auto;

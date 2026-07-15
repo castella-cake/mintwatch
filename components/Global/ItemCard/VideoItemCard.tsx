@@ -69,9 +69,15 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
             thumbText={`${secondsToTime(video.duration)}`}
             thumbMarkAsLazy={markAsLazy}
             thumbChildren={(
-                <ExternalButton smId={video.id} title={video.title}>
-                    {externalVideoActionChildren}
-                </ExternalButton>
+                <>
+                    { video.playbackPosition && (
+                        <div className="genericitem-resume" style={{ ["--width" as any]: `${(video.playbackPosition / video.duration) * 100}%` }}>
+                        </div>
+                    )}
+                    <ExternalButton smId={video.id} title={video.title}>
+                        {externalVideoActionChildren}
+                    </ExternalButton>
+                </>
             )}
             data-layout={layoutType}
             data-is-short={video.contentType === "short"}
