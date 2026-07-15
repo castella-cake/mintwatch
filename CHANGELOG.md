@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ショート動画検索を利用可能になりました
 - ssから始まる動画IDは正しくタグとコメント内で検出されるようになりました
 - 「保存した検索」と「検索履歴」を追加しました
+- 動画カードにレジューム位置を示すバーが表示されるようになりました
+- 実験的: 歌詞コメントの自動NGを追加しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
@@ -21,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 依存関係を更新しました  
   WXT の更新によるビルド時間の短縮、niconicomments の更新によるパフォーマンスの向上などが含まれます。
 - 動画カードの表示を一部修正しました
+- MintWatch 設定のモーダルの外側をクリックしても、モーダルが閉じられない問題を修正しました
 
 ## 0.11.2 - 2026/04/29
 
