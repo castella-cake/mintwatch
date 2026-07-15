@@ -20,22 +20,24 @@ import CreateSettingsList from "@/components/pages/SettingsUI"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
-// nodeRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
-export function MintWatchModal({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
+// containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
+export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLDivElement | null> }) {
+    const wrapperRef = useRef(null)
+
     const mintModalState = useMintConfigShownContext()
     const setMintModalState = useSetMintConfigShownContext()
 
     return (
         <CSSTransition
-            nodeRef={nodeRef}
+            nodeRef={wrapperRef}
             in={mintModalState !== false && mintModalState !== "quick"}
             timeout={300}
             unmountOnExit
             classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef}>
-                    <div className="modal-container" data-select-placement="top">
+                <div className="modal-wrapper" ref={wrapperRef}>
+                    <div className="modal-container" data-select-placement="top" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
                                 {returnTitle(mintModalState)}

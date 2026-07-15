@@ -134,7 +134,7 @@ export default function RouterUI() {
         <div className="router" onClickCapture={linkClickHandler} onClick={onModalOutsideClick}>
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
-            <MintWatchModal nodeRef={mintModalElemRef} />
+            <MintWatchModal containerRef={mintModalElemRef} />
             <main>
                 <MatchWatchPage targetPathname="/watch">
                     <WatchBody />
