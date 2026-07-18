@@ -10,6 +10,8 @@
     --textcolor2: #ddd;
     --textcolor3: #aaa;
     --bgcolor2: #222a;
+    --hover1: #555a;
+    --accent1: #444a;
 }
 
 .endcard-left {
@@ -20,10 +22,67 @@
     justify-content: center;
 
     .endcard-supporters {
-        font-size: 1.5em;
-        font-weight: bold;
-        -webkit-text-stroke: 2px #fff5;
         margin: auto;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        
+        .endcard-supporters-main {
+            flex: 1;
+            font-size: 1.5em;
+            font-weight: bold;
+            -webkit-text-stroke: 2px #fff5;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            .endcard-supporters-notfound {
+                font-size: 0.9rem;
+                -webkit-text-stroke: 0;
+                color: var(--textcolor2);
+            }
+        }
+
+        .endcard-supporters-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            margin: 0.5em 0;
+
+            .endcard-supporters-mute {
+                background: transparent;
+                border: none;
+                border-radius: 1024px;
+                padding: 8px;
+                color: var(--textcolor2);
+                cursor: pointer;
+                transition: var(--transition-normal);
+
+                &:hover {
+                    background: #fff2;
+                }
+
+                svg {
+                    width: 1.5em;
+                    height: 1.5em;
+                }
+            }
+
+            .endcard-supporters-link {
+                background: var(--bgcolor2);
+                border: var(--border);
+                border-radius: var(--radius);
+                padding: 8px;
+                color: var(--textcolor1);
+                cursor: pointer;
+                transition: var(--transition-normal);
+
+                &:hover {
+                    background: var(--hover1);
+                }
+            }
+        }
 
         .endcard-title {
             font-size: 1.5em;
