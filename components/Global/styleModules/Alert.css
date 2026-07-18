@@ -140,12 +140,11 @@
 }
 
 .alert-button[data-isprimary="true"] {
-    background: var(--textcolor1);
-    color: var(--bgcolor2);
+    background: var(--primary1);
+    color: var(--primary-text1);
 
-    &:hover {
-        background: var(--textcolor2);
-        color: var(--bgcolor2);
+    &.alert-button:hover {
+        background: var(--primary-hover1)
     }
 }
 
