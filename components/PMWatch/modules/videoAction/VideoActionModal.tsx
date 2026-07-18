@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
 import { Mylist } from "./MylistUI"
-import { Share } from "./ShareUI"
+import { ShareAction } from "./ShareUI"
 import { ReactNode, RefObject } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { CSSTransition } from "react-transition-group"
@@ -107,7 +107,7 @@ export function VideoActionModal({
                                 <Mylist onClose={() => { }} videoInfo={videoInfo} />
                             )}
                             {videoActionModalState === "share" && (
-                                <Share videoInfo={videoInfo} />
+                                <ShareAction videoInfo={videoInfo} />
                             )}
                             {videoActionModalState === "ngcomments" && (
                                 <NgComments />

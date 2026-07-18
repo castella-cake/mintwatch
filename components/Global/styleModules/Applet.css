@@ -1,10 +1,14 @@
-.mylist-add-alert {
+.applet-container {
     width: min(40rem, 90vw);
-    height: 30rem;
+    max-height: min(30rem, 80vh);
     overflow: auto;
+
+    &.mylist-add-alert {
+        max-height: min(30rem, 80vh);
+    }
 }
 
-.mylist-add-alert-title {
+.applet-subtitle {
     padding-bottom: 16px;
     color: var(--textcolor2);
     position: sticky;

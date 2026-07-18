@@ -1,12 +1,13 @@
 import { IconCancel, IconCircleX, IconClockFilled, IconDots } from "@tabler/icons-react"
 import { Card } from "../InfoCard"
 import "./styles/genericItem.css"
-import "./styles/mylistAddAlert.css"
 import { useTransitionState } from "react-transition-state"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
 import { InfoCardCount } from "../Count"
+import { ShareApplet } from "../Share"
+import { VideoItemToShareBody } from "@/utils/videoShareUtils"
 
 export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, ...additionalAttributes }: {
     video: VideoItem
@@ -74,7 +75,7 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
                         <div className="genericitem-resume" style={{ ["--width" as any]: `${(video.playbackPosition / video.duration) * 100}%` }}>
                         </div>
                     )}
-                    <ExternalButton smId={video.id} title={video.title}>
+                    <ExternalButton video={video}>
                         {externalVideoActionChildren}
                     </ExternalButton>
                 </>
@@ -88,7 +89,9 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
     )
 }
 
-function ExternalButton({ smId, title, children }: { smId: string, title: string, children?: React.ReactNode }) {
+function ExternalButton({ video, children }: { video: VideoItem, children?: React.ReactNode }) {
+    const { id: smId, title } = video
+
     const { showAlert, showToast } = useSetMessageContext()
     const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
     const [{ status, isMounted }, toggle] = useTransitionState({
@@ -128,6 +131,57 @@ function ExternalButton({ smId, title, children }: { smId: string, title: string
         }
     }
 
+    const handleShareOpen = () => {
+        const shareURL = `https://www.nicovideo.jp/watch/${smId}`
+        const body = VideoItemToShareBody(video)
+        const ogp = {
+            title: video.title,
+            image: video.thumbnail.listingUrl,
+            description: null,
+            siteName: "ニコニコ動画",
+        }
+        showAlert({
+            title: "共有",
+            icon: null,
+            body: (
+                <ShareApplet body={body} plainUrl={shareURL} ogp={ogp} />
+            ),
+            customCloseButton: [
+                {
+                    key: "close",
+                    text: "おしまい",
+                    primary: true,
+                },
+            ],
+        })
+        toggle(false)
+    }
+
+    const handleAddToMylistOpen = () => {
+        showAlert({
+            title: "マイリストに追加",
+            icon: null,
+            body: (
+                <div className="applet-container mylist-add-alert">
+                    <div className="applet-subtitle">
+                        <strong>{title}</strong>
+                        {" "}
+                        をマイリストに追加します
+                    </div>
+                    <Mylists smId={smId} />
+                </div>
+            ),
+            customCloseButton: [
+                {
+                    key: "close",
+                    text: "おしまい",
+                    primary: true,
+                },
+            ],
+        })
+        toggle(false)
+    }
+
     return (
         <div className="info-card-externalbutton-wrapper">
             {children}
@@ -141,6 +195,12 @@ function ExternalButton({ smId, title, children }: { smId: string, title: string
                 <div className="info-card-externalbutton-context generic-contextmenu" data-animation={status}>
                     <button
                         className="generic-contextmenu-item"
+                        onClick={handleShareOpen}
+                    >
+                        共有
+                    </button>
+                    <button
+                        className="generic-contextmenu-item"
                         onClick={handleAddToWatchLater}
                         disabled={isWatchLaterAdding}
                     >
@@ -148,30 +208,7 @@ function ExternalButton({ smId, title, children }: { smId: string, title: string
                     </button>
                     <button
                         className="generic-contextmenu-item"
-                        onClick={() => {
-                            showAlert({
-                                title: "マイリストに追加",
-                                icon: null,
-                                body: (
-                                    <div className="mylist-add-alert">
-                                        <div className="mylist-add-alert-title">
-                                            <strong>{title}</strong>
-                                            {" "}
-                                            をマイリストに追加します
-                                        </div>
-                                        <Mylists smId={smId} />
-                                    </div>
-                                ),
-                                customCloseButton: [
-                                    {
-                                        key: "close",
-                                        text: "おしまい",
-                                        primary: true,
-                                    },
-                                ],
-                            })
-                            toggle(false)
-                        }}
+                        onClick={handleAddToMylistOpen}
                     >
                         マイリストに追加
                     </button>
