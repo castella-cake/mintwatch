@@ -71,10 +71,12 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
             thumbMarkAsLazy={markAsLazy}
             thumbChildren={(
                 <>
-                    { video.playbackPosition && (
-                        <div className="genericitem-resume" style={{ ["--width" as any]: `${(video.playbackPosition / video.duration) * 100}%` }}>
-                        </div>
-                    )}
+                    { video.playbackPosition
+                        ? (
+                                <div className="genericitem-resume" style={{ ["--width" as any]: `${(video.playbackPosition / video.duration) * 100}%` }}>
+                                </div>
+                            )
+                        : null }
                     <ExternalButton video={video}>
                         {externalVideoActionChildren}
                     </ExternalButton>
