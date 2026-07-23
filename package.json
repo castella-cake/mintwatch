@@ -17,7 +17,8 @@
     "lint:script": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:style": "stylelint {entrypoints,components}/**/*.css",
     "postinstall": "wxt prepare && lefthook install",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "test": "vitest"
   },
   "dependencies": {
     "@discordapp/perceptual": "^1.1.0",
@@ -70,6 +71,7 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.1",
     "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.10",
     "wxt": "^0.20.27"
   },
   "engines": {
