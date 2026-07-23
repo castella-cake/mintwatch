@@ -11,6 +11,7 @@ import { secondsToTime } from "@/utils/readableValue"
 export type playlistData = {
     type: "mylist" | "series" | "custom" | "none"
     id?: string
+    name?: string
     items: playlistVideoItem[]
 }
 

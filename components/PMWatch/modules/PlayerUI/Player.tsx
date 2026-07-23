@@ -282,6 +282,30 @@ function Player(props: Props) {
                 = localStorage.playbackRate || 1.0
     }, [localStorage])
 
+    useEffect(() => {
+        if (errorInfo || !videoInfo) return
+        if ("mediaSession" in navigator) {
+            const { title, artist } = resolveTitleAndArtist(
+                videoInfo.data.response.video.title,
+                videoInfo.data.response.owner?.nickname ?? videoInfo.data.response.channel?.name ?? null,
+            )
+            const albumTitle = playlistData?.name ?? videoInfo.data.response.series?.title ?? "リスト情報なし"
+
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: title,
+                artist: artist ?? "非公開または退会済みユーザー",
+                album: albumTitle,
+                artwork: (videoInfo.data.response.video.thumbnail.player
+                    ? [
+                            {
+                                src: videoInfo.data.response.video.thumbnail.player,
+                            },
+                        ]
+                    : []),
+            })
+        }
+    }, [videoInfo, playlistData])
+
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
         const levensteinBasedLyricNg = lyricData && localStorage.lyricCommentFilter > 0 ? doLyricCommentNg(commentContent.data.threads, lyricData, localStorage.lyricCommentFilter) : []

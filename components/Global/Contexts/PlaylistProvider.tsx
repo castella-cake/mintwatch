@@ -92,6 +92,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 setPlaylistData({
                     type: "mylist",
                     id: response.data.id.value,
+                    name: response.data.meta.title,
                     items: mylistToSimplifiedPlaylist(response),
                 })
             } else if (
@@ -109,6 +110,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 setPlaylistData({
                     type: "series",
                     id: playlistJson.context.seriesId,
+                    name: response.data.detail.title,
                     items: seriesToSimplifiedPlaylist(response),
                 })
             } else if (videoInfo) {

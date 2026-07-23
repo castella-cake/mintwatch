@@ -4,15 +4,9 @@ import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 import "../styleModules/Lyric.css"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { IconTransitionBottom } from "@tabler/icons-react"
+import { resolveTitleAndArtist } from "@/utils/titleArtistResolver"
 
 type lyricKeyRef = { [key: number]: HTMLDivElement | null }
-
-const artistRegex = /(.*)\s?[/／]\s?(.*)/
-const removeZeroWidthSpacesRegex = /[\u200B-\u200D\uFEFF]/g
-
-function trimWithZeroWidthSpaces(str: string): string {
-    return str.replace(removeZeroWidthSpacesRegex, "").trim()
-}
 
 export default function Lyric() {
     const { smId } = useSmIdContext()
@@ -74,10 +68,7 @@ export default function Lyric() {
 
     const videoTitle = videoInfo.data.response.video.title
     const ownerNickname = videoInfo.data.response.owner && videoInfo.data.response.owner.nickname
-    const titleRegexResult = artistRegex.exec(videoTitle)
-    const artistString = titleRegexResult && titleRegexResult[2]
-    // ゼロ幅スペースが仕込まれていても対応できるようにtrim
-    const isArtistNameIncludeOwnerNickName = artistString && ownerNickname && trimWithZeroWidthSpaces(artistString).includes(trimWithZeroWidthSpaces(ownerNickname))
+    const { title: parsedTitle, artist: parsedArtist } = resolveTitleAndArtist(videoTitle, ownerNickname)
 
     const greatestAvailableQuality = videoInfo.data.response.media.domand && returnGreatestQuality(videoInfo.data.response.media.domand.audios)
     const audioQualityLabel = greatestAvailableQuality ? `${Math.floor(greatestAvailableQuality.bitRate / 1000)}kbps / ${greatestAvailableQuality.samplingRate}Hz` : "音声クオリティ不明"
@@ -105,11 +96,10 @@ export default function Lyric() {
             </div>
             <div className="lyrics-content" ref={lyricsContentRef} data-is-time-information={lyricData.data.hasTimeInformation}>
                 <div className="lyrics-header">
-                    <div className="lyrics-video-title">{titleRegexResult ? titleRegexResult[1] : videoTitle}</div>
-                    {titleRegexResult && (
+                    <div className="lyrics-video-title">{parsedTitle}</div>
+                    {parsedArtist && (
                         <div className="lyrics-video-artist">
-                            {isArtistNameIncludeOwnerNickName ? "" : `${ownerNickname} `}
-                            {artistString}
+                            {parsedArtist}
                         </div>
                     )}
                     <div className="lyrics-video-quality">{audioQualityLabel}</div>
