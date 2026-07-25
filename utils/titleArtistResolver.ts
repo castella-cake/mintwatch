@@ -4,6 +4,8 @@ const artistSlashSeparatedRegex = /(.*)\s?[/／-]\s?(.*)/
 // A『B』C
 // A, C=アーティスト名ORボーカル名, B=楽曲名
 const artistParenthesesRegex = /(.*)\s?[「『]\s?(.*)\s?[」』](.*)/
+// B (SubtitleA - SubtitleB)
+// const subTitleParenthesesRegex = /(.*)\s?[（(]\s?(.*)\s?[/／-]\s?(.*)\s?[）)]/
 
 const removeZeroWidthSpacesRegex = /[\u200B-\u200D\uFEFF]/g
 
@@ -16,6 +18,56 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
 
     let title = videoTitle
     let artist = ownerNickname ?? null
+
+    const parenthesesMethodResult = artistParenthesesRegex.exec(videoTitle)
+    if (parenthesesMethodResult) {
+        const artistStringA = parenthesesMethodResult[1].trim()
+        const artistStringB = parenthesesMethodResult[3].trim()
+        const isArtistStringAIncludeOwnerNickName = artistStringA && ownerNickname && trimWithZeroWidthSpaces(artistStringA).includes(trimWithZeroWidthSpaces(ownerNickname))
+        const isArtistStringBIncludeOwnerNickName = artistStringB && ownerNickname && trimWithZeroWidthSpaces(artistStringB).includes(trimWithZeroWidthSpaces(ownerNickname))
+
+        if (isArtistStringAIncludeOwnerNickName && artistStringA.length > 0 && artistStringB.length > 0) {
+            // Owner「Title」Somebody
+            artist = `${artistStringA} / ${artistStringB}`.trim()
+        } else if (isArtistStringBIncludeOwnerNickName && artistStringA.length > 0 && artistStringB.length > 0) {
+            // Somebody「Title」Owner
+            artist = `${artistStringB} / ${artistStringA}`.trim()
+        } else if (isArtistStringAIncludeOwnerNickName && artistStringA.length > 0) {
+            // Owner「Title」
+            artist = artistStringA
+        } else if (isArtistStringBIncludeOwnerNickName && artistStringB.length > 0) {
+            // 「Title」Somebody / Owner から Owner / Somebody へ並び替える
+            const SeparatedMethodResult = artistSlashSeparatedRegex.exec(artistStringB)
+            if (SeparatedMethodResult) {
+                const stringA = SeparatedMethodResult[1].trim()
+                const stringB = SeparatedMethodResult[2].trim()
+                const isStringAIncludeOwnerNickName = stringA && ownerNickname && trimWithZeroWidthSpaces(stringA).includes(trimWithZeroWidthSpaces(ownerNickname))
+                const isStringBIncludeOwnerNickName = stringB && ownerNickname && trimWithZeroWidthSpaces(stringB).includes(trimWithZeroWidthSpaces(ownerNickname))
+                if (isStringAIncludeOwnerNickName) {
+                    artist = `${stringA} / ${stringB}`.trim()
+                } else if (isStringBIncludeOwnerNickName) {
+                    artist = `${stringB} / ${stringA}`.trim()
+                } // この時点でオーナーが含まれていることは確定しているのでelseはない
+            } else {
+                // 「Title」Owner
+                artist = artistStringB
+            }
+        } else if (ownerNickname && artistStringA.length > 0 && artistStringB.length > 0) {
+            // Somebody「Title」Somebody
+            artist = `${ownerNickname} / ${artistStringA} / ${artistStringB}`.trim()
+        } else if (ownerNickname && artistStringA.length > 0) { // Owner「Title」
+            artist = `${ownerNickname} / ${artistStringA}`.trim()
+        } else if (ownerNickname && artistStringB.length > 0) { // 「Title」Owner
+            artist = `${ownerNickname} / ${artistStringB}`.trim()
+        }
+
+        title = parenthesesMethodResult[2].trim()
+
+        return {
+            title,
+            artist,
+        }
+    }
 
     const SlashSeparatedMethodResult = artistSlashSeparatedRegex.exec(videoTitle)
     if (SlashSeparatedMethodResult) {
@@ -35,33 +87,6 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
             title = stringA
             artist = `${ownerNickname} / ${stringB}`
         }
-
-        return {
-            title,
-            artist,
-        }
-    }
-
-    const parenthesesMethodResult = artistParenthesesRegex.exec(videoTitle)
-    if (parenthesesMethodResult) {
-        const artistStringA = parenthesesMethodResult[1].trim()
-        const artistStringB = parenthesesMethodResult[3].trim()
-        const isArtistStringAIncludeOwnerNickName = artistStringA && ownerNickname && trimWithZeroWidthSpaces(artistStringA).includes(trimWithZeroWidthSpaces(ownerNickname))
-        const isArtistStringBIncludeOwnerNickName = artistStringB && ownerNickname && trimWithZeroWidthSpaces(artistStringB).includes(trimWithZeroWidthSpaces(ownerNickname))
-
-        if (isArtistStringAIncludeOwnerNickName) { // Owner「Title」Somebody
-            artist = `${artistStringA} / ${artistStringB}`.trim()
-        } else if (isArtistStringBIncludeOwnerNickName) { // Somebody「Title」Owner
-            artist = `${artistStringB} / ${artistStringA}`.trim()
-        } else if (ownerNickname && artistStringA.length > 0 && artistStringB.length > 0) { // Somebody「Title」Somebody
-            artist = `${ownerNickname} / ${artistStringA} / ${artistStringB}`.trim()
-        } else if (ownerNickname && artistStringA.length > 0) { // Owner「Title」
-            artist = `${ownerNickname} / ${artistStringA}`.trim()
-        } else if (ownerNickname && artistStringB.length > 0) { // 「Title」Owner
-            artist = `${ownerNickname} / ${artistStringB}`.trim()
-        }
-
-        title = parenthesesMethodResult[2].trim()
 
         return {
             title,

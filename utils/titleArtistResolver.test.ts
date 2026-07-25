@@ -16,7 +16,7 @@ test("反転したCDタグ式のタイトルとアーティストが正しく分
     expect(resolveTitleAndArtist("Artist feat.Somebody - Title", "Artist")).toEqual({ title: "Title", artist: "Artist feat.Somebody" })
 })
 
-test.todo("事実上判別できない反転したタイトルは誤ったパースを返す", () => {
+test.fails("事実上判別できない反転したタイトルは誤ったパースを返す", () => {
     expect(resolveTitleAndArtist("Somebody - Title", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
 })
 
@@ -38,4 +38,12 @@ test("括弧式の後に名前を含むタイトル表示が正しく分離さ�
 
 test("異なるホワイトスペースを正しくハンドルできる", () => {
     expect(resolveTitleAndArtist("Title　/　Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
+})
+
+test("括弧式はCDタグ式よりも優先される", () => {
+    expect(resolveTitleAndArtist("『Title』Somebody / Artist", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
+})
+
+test.todo("連なったCDタグ式を正しく分離できる", () => {
+    expect(resolveTitleAndArtist("Title / Artist Somebody - TITLE / ARTIST SOMEBODY", "Artist")).toEqual({ title: "Title", artist: "Artist Somebody" })
 })
