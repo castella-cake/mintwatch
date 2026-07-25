@@ -21,6 +21,10 @@ export function KokenScreen({ smId }: { smId: string }) {
         audioElemRef.current.muted = localStorage.isMuted ?? false
     }, [localStorage.volume, localStorage.isMuted, audioElemRef.current])
 
+    const handleMuteToggle = useCallback(() => {
+        storage.setItem("sync:muteKokenVoice", !isKokenMuted)
+    }, [isKokenMuted])
+
     const onSupportLinkClicked = useCallback(() => {
         window.open(
             `https://nicoad.nicovideo.jp/video/publish/${smId}`,
@@ -61,7 +65,7 @@ export function KokenScreen({ smId }: { smId: string }) {
 
             </div>
             <div className="endcard-supporters-control">
-                <button type="button" className="endcard-supporters-mute">
+                <button type="button" className="endcard-supporters-mute" onClick={handleMuteToggle}>
                     {isKokenMuted ? <IconVolume3 /> : <IconVolume />}
                 </button>
                 <button type="button" className="endcard-supporters-link" onClick={onSupportLinkClicked}>
