@@ -52,9 +52,9 @@ export function seriesToSimplifiedPlaylist(obj: SeriesResponseRootObject) {
 }
 
 const playlistTypeString = {
-    mylist: "マイリストからの",
-    series: "シリーズからの",
-    custom: "一時的な",
+    mylist: "マイリスト",
+    series: "シリーズ",
+    custom: "一時的",
     none: "",
 }
 
@@ -134,13 +134,13 @@ function Playlist() {
         >
             <div className="playlist-title-container global-flex stacker-title">
                 <div className="playlist-title global-flex1 global-bold">
-                    {playlistTypeString[playlistData.type]}
                     再生キュー
                     <span className="stacker-subtitle">
                         (
+                        {playlistTypeString[playlistData.type]}
+                        {" / "}
                         {extendedItems.length}
-                        {" "}
-                        動画 /
+                        {" 動画 / "}
                         {secondsToTime(estimatedDuration)}
                         )
                     </span>

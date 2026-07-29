@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ニコニ広告の貢献表示UIを変更しました
 - アラートのメインボタンの色が変更されました
 - 動画情報からのタイトル/アーティスト推定の精度を向上させました
-
+- 再生キューのタイトルバーの表示をより簡潔な形に変更しました
 
 ### Fixed
 - 依存関係を更新しました  
