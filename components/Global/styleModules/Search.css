@@ -136,6 +136,8 @@
         opacity: 0;
         pointer-events: none;
         user-select: none;
+        height: 0;
+        overflow: hidden;
     }
 }
 
