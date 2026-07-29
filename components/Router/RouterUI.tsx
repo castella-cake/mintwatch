@@ -11,6 +11,7 @@ import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
+import { useQueryClient } from "@tanstack/react-query"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -45,6 +46,8 @@ export default function RouterUI() {
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
 
+    const queryClient = useQueryClient()
+
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -65,6 +68,14 @@ export default function RouterUI() {
                     setBackgroundPlaying(true)
                 } else {
                     setBackgroundPlaying(false)
+                    if (location.pathname.startsWith("/watch/")) {
+                        const smId = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+                        if (smId) {
+                            // この動画IDのキャッシュをあらかじめ破棄する
+                            queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
+                            queryClient.invalidateQueries({ queryKey: ["videoData", smId] })
+                        }
+                    }
                 }
                 history.push(nearestAnchor.href)
                 window.scroll({ top: 0 })
@@ -83,7 +94,7 @@ export default function RouterUI() {
                 setBackgroundPlaying(false)
             }
         })
-    }, [])
+    }, [queryClient])
     const mintConfigElemRef = useRef<HTMLDivElement>(null)
     const mintModalElemRef = useRef<HTMLDivElement>(null)
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null)

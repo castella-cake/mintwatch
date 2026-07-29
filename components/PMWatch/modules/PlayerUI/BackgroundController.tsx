@@ -3,8 +3,10 @@ import { useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "@/c
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useHistoryContext } from "@/components/Router/RouterContext"
 import { IconScreenShare, IconX } from "@tabler/icons-react"
+import { useQueryClient } from "@tanstack/react-query"
 
 export default function BackgroundController() {
+    const queryClient = useQueryClient()
     const { videoInfo } = useVideoInfoContext()
     const history = useHistoryContext()
     const isBackgroundPlaying = useBackgroundPlayingContext()
@@ -16,7 +18,13 @@ export default function BackgroundController() {
     }, [videoInfo])
     const closeBackgroundPlayer = useCallback(() => {
         setBackgroundPlaying(false)
-    }, [])
+        const smId = videoInfo?.data.response.video.id
+        if (smId) {
+            // この動画IDのキャッシュをあらかじめ破棄する
+            queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
+            queryClient.invalidateQueries({ queryKey: ["videoData", smId] })
+        }
+    }, [videoInfo])
 
     if (!isBackgroundPlaying) return
     return (

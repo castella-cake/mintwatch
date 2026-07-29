@@ -43,7 +43,6 @@ function CreateWatchUI() {
     const queryClient = useQueryClient()
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const backgroundPlaying = useBackgroundPlayingContext()
 
     const scrollRequestIdRef = useRef(0)
     const pendingVideoChangeScrollRef = useRef<{
@@ -201,7 +200,7 @@ function CreateWatchUI() {
             className={isFullscreenUi ? "container fullscreen" : "container"}
             onKeyDown={handleKeydown}
             data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
-            data-background-playing={backgroundPlaying}
+            data-background-playing={isBackgroundPlaying}
             data-layout-density={layoutDensity ?? getDefault("layoutDensity")}
             onClickCapture={linkClickHandler}
         >
