@@ -30,6 +30,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   WXT の更新によるビルド時間の短縮、niconicomments の更新によるパフォーマンスの向上などが含まれます。
 - 動画カードの表示を一部修正しました
 - MintWatch 設定のモーダルの外側をクリックしても、モーダルが閉じられない問題を修正しました
+- 古いフィルターによるワークアラウンドを削除しました  
+  これにより、RTX VSRなどの一部の超解像度技術によるアップスケールが動作しやすくなります。
 
 ## 0.11.2 - 2026/04/29
 
