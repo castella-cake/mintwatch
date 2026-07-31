@@ -51,7 +51,6 @@ export function KokenScreen({ smId }: { smId: string }) {
                             <>
                                 {supportersInfo?.data && supportersInfo?.data.supporters && <span className="endcard-title">提　供</span>}
                                 <br />
-                                <br />
                                 {supportersInfo?.data && supportersInfo?.data.supporters.map((elem) => {
                                     return (
                                         <span key={`${elem.supporterName}-${elem.userId}-${elem.contribution}`}>
