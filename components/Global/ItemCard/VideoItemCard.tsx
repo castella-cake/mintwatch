@@ -1,13 +1,13 @@
-import { IconCancel, IconCircleX, IconClockFilled, IconDots } from "@tabler/icons-react"
+import { IconCancel, IconCircleX, IconClock, IconClockFilled, IconDots, IconFolderPlus, IconShare } from "@tabler/icons-react"
 import { Card } from "../InfoCard"
 import "./styles/genericItem.css"
-import { useTransitionState } from "react-transition-state"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
 import { InfoCardCount } from "../Count"
 import { ShareApplet } from "../Share"
 import { VideoItemToShareBody } from "@/utils/videoShareUtils"
+import { PopupMenu } from "../PopupMenu"
 
 export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, ...additionalAttributes }: {
     video: VideoItem
@@ -96,13 +96,8 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
 
     const { showAlert, showToast } = useSetMessageContext()
     const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
-    const [{ status, isMounted }, toggle] = useTransitionState({
-        timeout: 200,
-        mountOnEnter: true,
-        unmountOnExit: true,
-        preEnter: true,
-        preExit: true,
-    })
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const buttonRef = useRef<HTMLButtonElement>(null)
 
     const handleAddToWatchLater = async () => {
         if (isWatchLaterAdding) return
@@ -156,7 +151,7 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 },
             ],
         })
-        toggle(false)
+        setIsPopupOpen(false)
     }
 
     const handleAddToMylistOpen = () => {
@@ -181,7 +176,12 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 },
             ],
         })
-        toggle(false)
+        setIsPopupOpen(false)
+    }
+
+    const handlePopupToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setIsPopupOpen(s => !s)
+        e.stopPropagation()
     }
 
     return (
@@ -189,33 +189,42 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
             {children}
             <button
                 className="info-card-externalbutton"
-                onClick={() => { toggle(!isMounted) }}
+                onClick={handlePopupToggle}
+                ref={buttonRef}
+                data-is-active={isPopupOpen}
             >
                 <IconDots />
             </button>
-            { isMounted && (
-                <div className="info-card-externalbutton-context generic-contextmenu" data-animation={status}>
-                    <button
-                        className="generic-contextmenu-item"
-                        onClick={handleShareOpen}
-                    >
+            <PopupMenu isOpen={isPopupOpen} onClose={() => { setIsPopupOpen(false) }} positionElemRef={buttonRef}>
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleShareOpen}
+                >
+                    <IconShare />
+                    <span>
                         共有
-                    </button>
-                    <button
-                        className="generic-contextmenu-item"
-                        onClick={handleAddToWatchLater}
-                        disabled={isWatchLaterAdding}
-                    >
+                    </span>
+                </button>
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleAddToWatchLater}
+                    disabled={isWatchLaterAdding}
+                >
+                    <IconClock />
+                    <span>
                         あとで見る
-                    </button>
-                    <button
-                        className="generic-contextmenu-item"
-                        onClick={handleAddToMylistOpen}
-                    >
+                    </span>
+                </button>
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleAddToMylistOpen}
+                >
+                    <IconFolderPlus />
+                    <span>
                         マイリストに追加
-                    </button>
-                </div>
-            )}
+                    </span>
+                </button>
+            </PopupMenu>
         </div>
     )
 }

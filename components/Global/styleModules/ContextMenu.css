@@ -14,6 +14,7 @@
     &[data-animation="preEnter"], &[data-animation="exiting"] {
         opacity: 0;
         transform: translateY(-10%);
+        pointer-events: none;
     }
 
     &[data-animation="exited"] {
@@ -43,4 +44,8 @@
             width: 1.5em;
         }
     }
+}
+
+.popupmenu-container {
+    position: absolute;
 }
