@@ -4,7 +4,8 @@
     gap: 16px;
     justify-content: center;
     margin: 0 auto;
-    max-width: round(98vw, 1px);
+    max-width: max(var(--page-max-width, round(98vw, 1px)), round(60rem, 1px));
+    min-width: round(60rem, 1px);
 
     .watch-container-top {
         flex-basis: 100%;
@@ -102,8 +103,6 @@
 .watch-container-grid {
     display: grid; 
     width: 100%;
-    max-width: var(--page-max-width, round(98vw, 1px));
-    min-width: 55rem;
 
     // grid-auto-rows: 1fr; 
     grid-template-rows: repeat(3, max-content);
@@ -116,7 +115,7 @@
         "sch rec rec"
         "sch rec rec"; */
     grid-template-areas: "inf inf sch" "vid act act" "rec rec rec" "btm srs srs";
-    grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(18% + var(--page-padding) / 2), 1px), 320px);
+    grid-template-columns: 1fr min(round(8%, 1px), 120px) min(round(calc(20% + var(--page-padding) / 2), 1px), 300px);
     margin: 0 round(var(--page-padding), 1px);
 
     > .player-container {
@@ -166,10 +165,13 @@
 
 @media (width <= 1024px) {
     .container[data-disallow-grid-fallback="false"] {
+        .watch-container {
+            min-width: 20rem;
+        }
+
         .watch-container-grid {
             display: flex;
             flex-direction: column;
-            min-width: 20rem;
         }
 
         .stacker-container {
