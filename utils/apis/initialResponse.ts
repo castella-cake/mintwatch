@@ -10,7 +10,7 @@ export async function initialResponse<T extends baseResponse>(
     targetResponsePathname: string,
     fallbackCallback: (
         keyword: string,
-        options: VideoSearchQuery
+        options: VideoSearchQuery,
     ) => Promise<T>,
     keyword: string,
     options: VideoSearchQuery = {},
