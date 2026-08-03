@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 実験的: 歌詞コメントの自動NGを追加しました
 - 動画カードから直接動画を共有できるようになりました [#77](https://github.com/castella-cake/mintwatch/issues/77)
 - 再生中の動画情報がブラウザへ正しく報告されるようになりました
+- 主要なボタン群をtitle属性での説明から、独自のツールチップへ変更しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)

@@ -1,4 +1,5 @@
 import { PopupMenu } from "@/components/Global/PopupMenu"
+import { ToolTip } from "@/components/Global/ToolTip"
 import { IconBook2, IconDotsVertical, IconFolderPin } from "@tabler/icons-react"
 
 type Props = {
@@ -11,14 +12,15 @@ function ExternalLinkMenu({ videoId }: Props) {
 
     return (
         <div className="videoinfo-externallink-container">
-            <button
-                ref={buttonRef}
-                className="videoinfo-externallink-button"
-                title={isMenuOpen ? "外部リンクメニューを閉じる" : "外部リンクメニューを開く"}
-                onClick={() => setIsMenuOpen(s => !s)}
-            >
-                <IconDotsVertical />
-            </button>
+            <ToolTip label={isMenuOpen ? "外部リンクメニューを閉じる" : "外部リンクメニューを開く"}>
+                <button
+                    ref={buttonRef}
+                    className="videoinfo-externallink-button"
+                    onClick={() => setIsMenuOpen(s => !s)}
+                >
+                    <IconDotsVertical />
+                </button>
+            </ToolTip>
             <PopupMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} positionElemRef={buttonRef}>
                 <a
                     className="generic-contextmenu-item"

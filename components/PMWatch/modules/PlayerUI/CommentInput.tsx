@@ -6,6 +6,7 @@ import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { CommandPalette } from "./CommandPalette"
 
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
@@ -252,16 +253,16 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     return (
         <div className="commentinput-container global-flex" id="pmw-commentinput" data-is-prohibited={isCommentProhibited}>
             <div className="commentinput-cmdpalette">
-                <button
+                <MWButton
+                    label={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
                     className="commentinput-cmdpalette-button"
                     type="button"
                     onClick={onCommandPaletteButtonClick}
                     data-is-active={isCommandPaletteOpen}
-                    title={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
                     aria-disabled={isCommentProhibited}
                 >
                     { isCommandPaletteOpen ? <IconPaletteFilled /> : <IconPalette /> }
-                </button>
+                </MWButton>
                 <CommandPalette
                     isOpen={!isCommentProhibited && isCommandPaletteOpen}
                     commandInputRef={commandInput}

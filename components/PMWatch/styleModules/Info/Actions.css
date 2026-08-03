@@ -4,7 +4,7 @@
     gap: 8px;
     justify-content: center;
 
-    > button {
+    > button, > .tooltip-wrapper > button {
         background: var(--bgcolor2);
         color: var(--textcolor1);
         border: var(--border);
@@ -27,17 +27,17 @@
         }
     }
 
-    > button.video-action-disabled {
+    > button.video-action-disabled, > .tooltip-wrapper > button.video-action-disabled {
         color: var(--bgcolor4);
     }
 
-    > button:not(.video-action-disabled):hover {
+    > button:not(.video-action-disabled):hover, > .tooltip-wrapper > button:not(.video-action-disabled):hover {
         background: var(--hover1);
         color: var(--textcolor1);
         cursor: pointer;
     }
 
-    > button:not(:has(span)) {
+    > button:not(:has(span)), > .tooltip-wrapper > button:not(:has(span)) {
         padding: 0;
 
         svg {
@@ -47,7 +47,7 @@
 }
 
 .watch-container:not([data-watch-type="shinjuku"]) .video-actions {
-    > button {
+    > button, > .tooltip-wrapper > button {
         transition: background 0.1s ease, transform 0.05s ease;
 
         &:active {

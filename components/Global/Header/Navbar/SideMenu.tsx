@@ -1,6 +1,7 @@
 import ReactFocusLock from "react-focus-lock"
 import { CSSTransition } from "react-transition-group"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
+import { MWButton } from "../../MWButton"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
@@ -63,7 +64,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
                 { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
                 <ReactFocusLock>
                     <div className="sidemenu-container" ref={nodeRef}>
-                        <button className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)} title="サイドメニューを閉じる"><IconX /></button>
+                        <MWButton label="サイドメニューを閉じる" className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)}><IconX /></MWButton>
                         {
                             SideMenuContents.map((item, index) => {
                                 if ("type" in item && item.type === "separator") {

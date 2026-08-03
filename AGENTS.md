@@ -1,0 +1,26 @@
+# MintWatch 開発ガイド
+
+## 構成と実行フロー
+
+- WXT + React のブラウザ拡張機能。`entrypoints/index.content.ts` がニコニコの対象ページを判定し、`utils/initiator/router.ts` が元ページの script/style を抑止して React UI をマウントする。
+- `components/PMWatch` は視聴ページ、`components/ReShogi` はランキング、`components/Search` は検索、`components/Global` は共通 UI、`components/Router` はSPAルーターを担当する。
+- `utils/apis` にAPI呼び出し本体、`hooks/apiHooks` にReact Query経由のデータ取得を置く。APIをUIコンポーネントから直接呼ばない。
+- `entrypoints/watch_injector.ts` はページスクリプトとして注入されるため、拡張機能APIを使用できない。
+
+## 開発コマンド
+
+- Node.jsとpnpm 11以上を使う。初回または依存関係変更後は`pnpm install`を実行する。
+- 開発サーバーは`pnpm run dev`（Chromium）または`pnpm run dev:firefox`（Firefox）。
+- ビルドは`pnpm run build`（Chromium MV3）または`pnpm run build:firefox`（Firefox MV2）。成果物は`.output`に出る。
+- パッケージ作成は`pnpm run zip`または`pnpm run zip:firefox`。
+- 型チェックは`pnpm run compile`。スクリプトとCSSの検証は`pnpm run lint:script && pnpm run lint:style`。
+- E2EはPlaywrightを使い、`pnpm run build`で`.output/chrome-mv3`を作成してから`pnpm run e2e`を実行する。単一テストは`pnpm run e2e -- e2e/watch/basicRenderTest.spec.ts`のようにパスを渡す。
+- 単体テストはVitest。単一テストは`pnpm run test -- utils/titleArtistResolver.test.ts`のようにパスを渡す。
+
+## 実装規約
+
+- 設定保存はWXT Storageを使う。通常設定は`sync`と`useStorageVar()`、プレイヤー設定は`local`と`useStorageVar(..., "local")`を使い、`browser.storage`を直接操作しない。
+- 新しいコンポーネントはnamed exportを使い、単一箇所でしか使わない関数や型を安易に`utils`や`types`へ切り出さない。
+- TypeScript/Reactのコンポーネント・型はPascalCase、関数・変数はcamelCase。ESLintの設定は4スペース、ダブルクォート、セミコロンなし。
+- CSSは`components/<component>/styleModules/*.css`を基本とし、状態表現はクラスより`data-*`属性を優先する。CSS変更後はStylelintを実行する。
+- 通常設定を追加するときは`.github/skills/customizable-settings/SKILL.md`、プレイヤー設定を追加するときは`.github/skills/player-settings/SKILL.md`を先に確認する。

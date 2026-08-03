@@ -4,6 +4,7 @@ import { IconMaximize, IconX } from "@tabler/icons-react"
 import { RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { MWButton } from "@/components/Global/MWButton"
 
 export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const manifestData = useManifestData()
@@ -24,8 +25,8 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
             <div className="mintwatch-config" id="pmw-config" ref={nodeRef}>
                 <h2>
                     MintWatch の設定
-                    <button onClick={() => { setMintConfigShown("settings") }} title="モーダルで開く"><IconMaximize /></button>
-                    <button onClick={() => { setMintConfigShown(false) }} title="閉じる"><IconX /></button>
+                    <MWButton label="モーダルで開く" onClick={() => { setMintConfigShown("settings") }}><IconMaximize /></MWButton>
+                    <MWButton label="閉じる" onClick={() => { setMintConfigShown(false) }}><IconX /></MWButton>
                 </h2>
                 <CreateSettingsList settings={settingsObject} />
                 <div className="mintwatch-config-credit">

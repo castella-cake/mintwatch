@@ -9,6 +9,7 @@ import {
 import { ReactNode, startTransition, useEffect, useState } from "react"
 import { readableInt } from "@/utils/readableValue"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import LikeThanksMessage from "./LikeThanksMessage"
 import { useQueryClient } from "@tanstack/react-query"
 import { MylistsPopup } from "./MylistsPopup"
@@ -177,22 +178,22 @@ function Actions({ onModalOpen }: Props) {
                     )}
                 </span>
             </button>
-            <button
+            <MWButton
+                label="ニコニ広告する"
                 type="button"
                 className="video-action-adbutton"
                 onClick={onAdsClicked}
-                title="ニコニ広告する"
             >
                 <IconSpeakerphone />
-            </button>
-            <button
+            </MWButton>
+            <MWButton
+                label="共有"
                 type="button"
                 className="video-action-sharebutton"
                 onClick={onShareClicked}
-                title="共有"
             >
                 <IconShare />
-            </button>
+            </MWButton>
             <button
                 type="button"
                 className="video-action-mylistbutton"
@@ -203,14 +204,14 @@ function Actions({ onModalOpen }: Props) {
             >
                 <IconFolder />
             </button>
-            <button
+            <MWButton
+                label="ギフト"
                 type="button"
                 className="video-action-giftbutton"
                 onClick={onGiftClicked}
-                title="ギフト"
             >
                 <IconGift />
-            </button>
+            </MWButton>
             {isLiked && likeThanksMsg
                 && ((videoInfo.data.response.video.viewer && videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered)
                     || (videoInfo.data.response.video.viewer && !videoInfo.data.response.video.viewer.like.isLiked

@@ -3,6 +3,7 @@ import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 
 import "../styleModules/Lyric.css"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { IconTransitionBottom } from "@tabler/icons-react"
 import { resolveTitleAndArtist } from "@/utils/titleArtistResolver"
 
@@ -79,20 +80,20 @@ export default function Lyric() {
                 <div className="global-flex1 global-bold">
                     この動画の歌詞
                 </div>
-                <button
+                <MWButton
+                    label={!lyricData.data.hasTimeInformation ? "この歌詞データにはタイミング情報がありません" : (autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化")}
                     className="lyrics-toggleautoscroll"
                     data-isenabled={autoScroll}
+                    aria-disabled={!lyricData.data.hasTimeInformation}
                     onClick={() => {
                         if (!lyricData.data.hasTimeInformation) return
                         setAutoScroll((state) => {
                             return !state
                         })
                     }}
-                    aria-disabled={!lyricData.data.hasTimeInformation}
-                    title={!lyricData.data.hasTimeInformation ? "この歌詞データにはタイミング情報がありません" : (autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化")}
                 >
                     <IconTransitionBottom />
-                </button>
+                </MWButton>
             </div>
             <div className="lyrics-content" ref={lyricsContentRef} data-is-time-information={lyricData.data.hasTimeInformation}>
                 <div className="lyrics-header">

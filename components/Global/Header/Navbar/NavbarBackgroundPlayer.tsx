@@ -1,5 +1,6 @@
 import { useBackgroundPlayInfoContext, useBackgroundPlayingContext, useSetBackgroundPlayingContext } from "../../Contexts/BackgroundPlayProvider"
 import { IconX } from "@tabler/icons-react"
+import { MWButton } from "../../MWButton"
 
 export default function NavbarBackgroundPlayer() {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -21,7 +22,7 @@ export default function NavbarBackgroundPlayer() {
                 <br />
                 <span className="navbar-background-player-title-video">{backgroundPlayInfo.title ?? "タイトル不明"}</span>
             </div>
-            <button className="navbar-background-player-action" onClick={closeBackground} title="バックグラウンド再生を終了"><IconX /></button>
+            <MWButton label="バックグラウンド再生を終了" className="navbar-background-player-action" onClick={closeBackground}><IconX /></MWButton>
         </div>
     )
 }

@@ -79,10 +79,6 @@
         }
     }
 
-    .playercontroller-tooltip {
-        top: 3.5em;
-    }
-
     .commentinput-container > input, .commentinput-container > .commentinput-textarea-container > .commentinput-input {
         background: var(--bgcolor2);
     }

@@ -138,7 +138,7 @@
         position: relative;
     }
 
-    .video-actions > button, .video-actions > button.video-action-likebutton.active {
+    .video-actions > button, .video-actions > .tooltip-wrapper > button, .video-actions > button.video-action-likebutton.active {
         background-image: linear-gradient(#4f4f4f, #101010);
         color: #fff;
         border: 1px solid #000;
@@ -147,11 +147,11 @@
         font-size: 1em;
     }
 
-    .video-actions > button:not(:has(span)) {
+    .video-actions > button:not(:has(span)), .video-actions > .tooltip-wrapper > button:not(:has(span)) {
         padding: 0;
     }
 
-    .video-actions > button svg {
+    .video-actions > button svg, .video-actions > .tooltip-wrapper > button svg {
         width: 1.5em;
         height: 1.5em;
     }

@@ -1,5 +1,6 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { playlistVideoItem } from "../Playlist"
 import { IconCheck, IconPlaylistAdd } from "@tabler/icons-react"
 
@@ -11,9 +12,9 @@ export function WatchNextVideoAction({ playlistObject }: { playlistObject: playl
     if (!playlistObject) return
     return (
         <>
-            <button
+            <MWButton
+                label="再生キューに追加"
                 className="info-card-externalbutton"
-                title="再生キューに追加"
                 onClick={() => {
                     setAdded(true)
                     showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
@@ -28,7 +29,7 @@ export function WatchNextVideoAction({ playlistObject }: { playlistObject: playl
                 }}
             >
                 { added ? <IconCheck /> : <IconPlaylistAdd /> }
-            </button>
+            </MWButton>
         </>
     )
 }

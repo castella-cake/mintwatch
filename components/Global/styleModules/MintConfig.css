@@ -36,7 +36,7 @@
         display: flex;
         align-items: center;
 
-        > button {
+        > .tooltip-wrapper > button {
             background: transparent;
             color: #fff;
             border: none;
@@ -44,7 +44,7 @@
             cursor: pointer;
         }
         
-        > button:first-child {
+        > .tooltip-wrapper:first-child > button {
             margin-left: auto;
         }
     }

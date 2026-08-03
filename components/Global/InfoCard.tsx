@@ -4,6 +4,7 @@ import { ReactNode } from "react"
 import { secondsToTime } from "@/utils/readableValue"
 import { useControlPlaylistContext } from "./Contexts/PlaylistProvider"
 import { useSetMessageContext } from "./Contexts/MessageProvider"
+import { MWButton } from "./MWButton"
 import { playlistVideoItem } from "../PMWatch/modules/Playlist"
 
 export function VideoQueueDraggable({ id, obj, children }: { id: string, obj: any, children: ReactNode }) {
@@ -146,9 +147,9 @@ export function InfoCardAddToPlaylist({ obj }: { obj: playlistVideoItem | undefi
     if (!obj) return
     return (
         <div className="info-card-externalbutton-wrapper">
-            <button
+            <MWButton
+                label="再生キューに追加"
                 className="info-card-externalbutton"
-                title="再生キューに追加"
                 onClick={() => {
                     setAdded(true)
                     showToast({ title: "再生キューに追加しました", icon: <IconCheck /> })
@@ -163,7 +164,7 @@ export function InfoCardAddToPlaylist({ obj }: { obj: playlistVideoItem | undefi
                 }}
             >
                 { added ? <IconCheck /> : <IconPlaylistAdd /> }
-            </button>
+            </MWButton>
         </div>
     )
 }

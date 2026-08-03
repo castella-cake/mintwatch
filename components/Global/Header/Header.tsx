@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import { IconDoorExit, IconTool } from "@tabler/icons-react"
 import { useSetMintConfigShownContext } from "../Contexts/ModalStateProvider"
+import { MWButton } from "../MWButton"
 import { HeaderActionStacker } from "./HeaderActionStacker"
 import { RefObject } from "react"
 import Navbar from "./Navbar/Navbar"
@@ -53,14 +54,14 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                             <>
                                 <header className="header-upper-container global-flex">
                                     <div className="global-flex1 header-left-container global-flex">
-                                        <button
+                                        <MWButton
+                                            label="MintWatch の設定"
                                             onClick={() => {
                                                 setIsMintConfigShown(current => current === false ? "quick" : false)
                                             }}
-                                            title="MintWatch の設定"
                                         >
                                             <IconTool />
-                                        </button>
+                                        </MWButton>
                                     </div>
                                     <div className="global-flex1 global-flex header-center-container">
                                         <div className="header-center-left">
@@ -75,12 +76,12 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                     </div>
 
                                     <div className="global-flex1 global-flex header-right-container">
-                                        <button
+                                        <MWButton
+                                            label="元のページを表示"
                                             onClick={onVanillaPageReturn}
-                                            title="元のページを表示"
                                         >
                                             <IconDoorExit />
-                                        </button>
+                                        </MWButton>
                                     </div>
                                 </header>
                                 <div className="header-bottom-container">

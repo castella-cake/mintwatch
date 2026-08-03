@@ -1,0 +1,28 @@
+.tooltip-wrapper {
+    display: contents;
+}
+
+.tooltip {
+    position: fixed;
+    z-index: 1100;
+    pointer-events: none;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 0.8em;
+    padding: 6px 8px;
+    padding-bottom: 5px;
+    line-height: 1em;
+    background: #000a;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: var(--radius-mini);
+    box-shadow: 0 0 4px #000a;
+    backdrop-filter: var(--backdrop-blur-normal);
+    transform: translate(-50%, 0);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        opacity: 0;
+        transform: translate(-50%, 4px);
+    }
+}

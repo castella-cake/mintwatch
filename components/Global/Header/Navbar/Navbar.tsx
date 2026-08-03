@@ -1,6 +1,7 @@
 import Search from "@/components/Global/SearchBar/Search"
 import { IconMenu2 } from "@tabler/icons-react"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
+import { MWButton } from "../../MWButton"
 import NavbarCustomArea from "./NavbarCustomArea"
 import { Dispatch, SetStateAction } from "react"
 import MintToolBox from "./MintToolBox"
@@ -14,9 +15,9 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
 
     return (
         <nav className="navbar-container" id="pmw-navbar">
-            <button
+            <MWButton
+                label="サイドメニューを切り替え"
                 className="navbar-sidemenu-button"
-                title="サイドメニューを切り替え"
                 onClick={(e) => {
                     e.stopPropagation()
                     setIsSideMenuShown(!isSideMenuShown)
@@ -25,7 +26,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
                 data-has-update={lastCheckedUpdate !== whatsNewData.version}
             >
                 { isShinjukuMode ? <RandomHidariueImg /> : <IconMenu2 /> }
-            </button>
+            </MWButton>
             <div className="navbar-logo">
                 { isShinjukuMode
                     ? <NicoHarajukuLogo />

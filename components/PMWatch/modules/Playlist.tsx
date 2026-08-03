@@ -5,6 +5,7 @@ import { useDroppable } from "@dnd-kit/core"
 import { SortableContext } from "@dnd-kit/sortable"
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider"
 import { secondsToTime } from "@/utils/readableValue"
 
@@ -145,8 +146,8 @@ function Playlist() {
                         )
                     </span>
                 </div>
-                <button
-                    title={
+                <MWButton
+                    label={
                         (isRemoveMode ?? false)
                             ? "削除モードを終了"
                             : "再生キューからアイテムを削除"
@@ -157,9 +158,9 @@ function Playlist() {
                     }
                 >
                     <IconPencilMinus />
-                </button>
-                <button
-                    title={
+                </MWButton>
+                <MWButton
+                    label={
                         (enableContinuousPlay ?? true)
                             ? "連続再生を無効化"
                             : "連続再生を有効化"
@@ -170,9 +171,9 @@ function Playlist() {
                     }
                 >
                     <IconArrowBigRightLine />
-                </button>
-                <button
-                    title={
+                </MWButton>
+                <MWButton
+                    label={
                         (enableShufflePlay ?? false)
                             ? "シャッフル再生を無効化"
                             : "シャッフル再生を有効化"
@@ -183,7 +184,7 @@ function Playlist() {
                     }
                 >
                     <IconArrowsShuffle />
-                </button>
+                </MWButton>
             </div>
             <SortableContext
                 items={extendedItems.map(elem => elem.itemId)}

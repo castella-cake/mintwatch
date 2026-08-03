@@ -99,56 +99,6 @@
         }
     }
 
-    button:not(:hover, :focus-visible) .playercontroller-tooltip {
-        transform: translateX(-50%) translateY(50%);
-        opacity: 0;
-        transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-}
-
-.playercontroller-tooltip {
-    display: block;
-    transform: translateX(-50%);
-    text-align: center;
-    font-size: 0.9em;
-    z-index: 1;
-    backdrop-filter: var(--backdrop-blur-normal);
-    padding: 2px 4px;
-    top: 3em;
-    border: 1px solid #333;
-    box-shadow: 0 0 4px #000a;
-    left: 50%;
-    right: 50%;
-    width: fit-content;
-    border-radius: var(--radius-mini);
-    pointer-events: none;
-    white-space: nowrap;
-    background: #000a;
-    color: #fff;
-    position: absolute;
-    margin: 0 auto;
-}
-
-.playercontroller-tooltip-transition {
-    &-enter, &-exit-active {
-        --translateY: 50%;
-
-        transform: translateX(-50%) translateY(var(--translateY));
-        opacity: 0;
-    }
-
-    &-enter-active {
-        transition: transform 0.15s ease-out, opacity 0.15s ease-out;
-    }
-
-    &-exit-active {
-        transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    &-enter-done, &-enter-active {
-        transform: translateX(-50%) translateY(0%);
-        opacity: 1;
-    }
 }
 
 .playercontroller-qualityselect {

@@ -18,6 +18,7 @@ import { CommentRow } from "./CommentRow"
 import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import APIError from "@/utils/classes/APIError"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
@@ -319,16 +320,17 @@ function CommentList() {
                     {" "}
                     件受信済み
                 </div>
-                <button
+                <MWButton
+                    label="NG設定を開く"
                     className="commentlist-list-openng"
                     onClick={() => {
                         setVideoActionModalState("ngcomments")
                     }}
-                    title="NG設定を開く"
                 >
                     <IconBubbleX />
-                </button>
-                <button
+                </MWButton>
+                <MWButton
+                    label={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                     className="commentlist-list-togglemycomments"
                     data-isenabled={showTimemachineUi}
                     onClick={() => {
@@ -336,11 +338,11 @@ function CommentList() {
                             return !state
                         })
                     }}
-                    title={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                 >
                     <IconHistoryToggle />
-                </button>
-                <button
+                </MWButton>
+                <MWButton
+                    label={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                     className="commentlist-list-toggleautoscroll"
                     data-isenabled={autoScroll}
                     aria-disabled={commentSortKey !== "vposMs"}
@@ -350,11 +352,11 @@ function CommentList() {
                             return !state
                         })
                     }}
-                    title={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                 >
                     <IconTransitionBottom />
-                </button>
-                <button
+                </MWButton>
+                <MWButton
+                    label={externalMenuExpanded ? "拡張メニューを閉じる" : "拡張メニューを開く"}
                     className="commentlist-list-toggleexternalmenu"
                     data-isenabled={externalMenuExpanded}
                     onClick={() => {
@@ -362,10 +364,9 @@ function CommentList() {
                             return !state
                         })
                     }}
-                    title={externalMenuExpanded ? "拡張メニューを閉じる" : "拡張メニューを開く"}
                 >
                     <IconAdjustmentsHorizontal />
-                </button>
+                </MWButton>
                 <select
                     onChange={(e) => {
                         setCurrentForkType(Number(e.currentTarget.value))
@@ -419,17 +420,17 @@ function CommentList() {
                             return <option key={sortKey} value={sortKey}>{sortKeys[sortKey as keyof typeof sortKeys]}</option>
                         })}
                     </select>
-                    <button
+                    <MWButton
+                        label={reverseCommentSort ? "昇順に切り替え" : "降順に切り替え"}
                         className="commentlist-list-togglesortasc"
                         onClick={() => {
                             setReverseCommentSort((state) => {
                                 return !state
                             })
                         }}
-                        title={reverseCommentSort ? "昇順に切り替え" : "降順に切り替え"}
                     >
                         {reverseCommentSort ? <IconSortDescending /> : <IconSortAscending />}
-                    </button>
+                    </MWButton>
                 </div>
             )}
             <button

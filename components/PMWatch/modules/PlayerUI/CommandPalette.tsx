@@ -1,4 +1,5 @@
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import SmallIcon from "@/assets/commandPalette/small.svg?react"
 import MediumIcon from "@/assets/commandPalette/medium.svg?react"
 import BigIcon from "@/assets/commandPalette/big.svg?react"
@@ -32,7 +33,8 @@ export function CommandPalette({
                     <span>
                         コマンドパレット
                     </span>
-                    <button
+                    <MWButton
+                        label="コマンドをクリア"
                         className="commandpalette-clearbutton"
                         onClick={() => {
                             if (commandInputRef.current) {
@@ -40,10 +42,9 @@ export function CommandPalette({
                             }
                         }}
                         aria-disabled={currentCommand.split(" ").length === 0}
-                        title="コマンドをクリア"
                     >
                         <IconTrash />
-                    </button>
+                    </MWButton>
                 </h3>
                 {commandList.map((commandGroup) => {
                     const commandStringArray = toCommandItemToStringArray(commandGroup.items)
