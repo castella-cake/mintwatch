@@ -1,5 +1,7 @@
+/// <reference types="cloudflare-turnstile" />
+
 // MV3 doesn't accept remote code
-import "url:https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+import "../libs/turnstile-api.js"
 
 interface NewWindow extends Window {
     turnstile?: Turnstile.Turnstile

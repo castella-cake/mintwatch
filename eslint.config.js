@@ -29,7 +29,7 @@ export default defineConfig([
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
     pluginReact.configs.flat["jsx-runtime"],
-    globalIgnores(["node_modules/*", ".output/*", ".wxt/*"]),
+    globalIgnores(["node_modules/*", ".output/*", ".wxt/*", "libs/*"]),
     {
         settings: {
             react: {
