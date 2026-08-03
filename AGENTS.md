@@ -14,7 +14,7 @@
 - ビルドは`pnpm run build`（Chromium MV3）または`pnpm run build:firefox`（Firefox MV2）。成果物は`.output`に出る。
 - パッケージ作成は`pnpm run zip`または`pnpm run zip:firefox`。
 - 型チェックは`pnpm run compile`。スクリプトとCSSの検証は`pnpm run lint:script && pnpm run lint:style`。
-- E2EはPlaywrightを使い、`pnpm run build`で`.output/chrome-mv3`を作成してから`pnpm run e2e`を実行する。単一テストは`pnpm run e2e -- e2e/watch/basicRenderTest.spec.ts`のようにパスを渡す。
+- E2EはPlaywrightを使い、`pnpm run build`で`.output/chrome-mv3`を作成してから`pnpm run e2e`を実行する。単一テストは`pnpm run e2e e2e/watch/basicRenderTest.spec.ts`のようにパスを渡す。
 - 単体テストはVitest。単一テストは`pnpm run test -- utils/titleArtistResolver.test.ts`のようにパスを渡す。
 
 ## 実装規約
@@ -24,3 +24,6 @@
 - TypeScript/Reactのコンポーネント・型はPascalCase、関数・変数はcamelCase。ESLintの設定は4スペース、ダブルクォート、セミコロンなし。
 - CSSは`components/<component>/styleModules/*.css`を基本とし、状態表現はクラスより`data-*`属性を優先する。CSS変更後はStylelintを実行する。
 - 通常設定を追加するときは`.github/skills/customizable-settings/SKILL.md`、プレイヤー設定を追加するときは`.github/skills/player-settings/SKILL.md`を先に確認する。
+
+## WXT について
+- WXT に関する API などについては、`https://wxt.dev/llms.txt` から概要や型データを参照可能。必要に応じて使用すること。
