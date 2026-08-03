@@ -1,9 +1,43 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
-import { IconAlertTriangle, IconCheck, IconFolder, IconLock, IconWorld } from "@tabler/icons-react"
+import APIError from "@/utils/classes/APIError"
+import { IconAlertTriangle, IconCheck, IconCircleX, IconClock, IconFolder, IconLock, IconWorld } from "@tabler/icons-react"
 
 export function Mylists({ smId, compact = false, limit = Infinity, showMoreButton, onMoreButtonClick }: { smId: string, compact?: boolean, limit?: number, showMoreButton?: boolean, onMoreButtonClick?: (e: React.MouseEvent) => void }) {
     const { showToast, showAlert } = useSetMessageContext()
+
+    const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
+    const [isWatchLaterAdded, setIsWatchLaterAdded] = useState(false)
+
+    const handleAddToWatchLater = async () => {
+        if (isWatchLaterAdding) return
+
+        setIsWatchLaterAdding(true)
+        try {
+            await addToWatchLater(smId)
+            setIsWatchLaterAdded(true)
+            showToast({
+                title: "あとで見るに追加しました",
+                icon: <IconCheck />,
+            })
+        } catch (error) {
+            console.error("Failed to add to watch later:", error)
+            if (error instanceof APIError && error.response.meta.status === 409) {
+                showToast({
+                    icon: <IconCircleX />,
+                    title: "この動画は既に追加済みです",
+                })
+                setIsWatchLaterAdded(true)
+            } else {
+                showAlert({
+                    icon: <IconCircleX />,
+                    title: "あとで見るへの追加に失敗しました",
+                    body: "追加上限を超えていないか確認してください。それでも追加できない場合は、時間を置いて再度お試しください。",
+                })
+                setIsWatchLaterAdding(false)
+            }
+        }
+    }
 
     const { mylistsData, mutateMylistsAddItem } = useMylistsData()
     const [addedMylists, setAddedMylists] = useState<number[]>([])
@@ -33,6 +67,24 @@ export function Mylists({ smId, compact = false, limit = Infinity, showMoreButto
 
     return (
         <div className="mylist-item-container" data-is-compact={compact}>
+            <button
+                className="mylist-item mylist-item-watchlater"
+                onClick={handleAddToWatchLater}
+                data-added={isWatchLaterAdded}
+                data-is-loading={isWatchLaterAdding}
+            >
+                <div className="mylist-title">
+                    <span className="mylist-title-state">
+                        {
+                            isWatchLaterAdded ? <IconCheck /> : <IconClock />
+                        }
+                    </span>
+                    {isWatchLaterAdded && <strong className="mylist-title-added">追加済み</strong>}
+                    <span className="mylist-title-name">
+                        あとで見る
+                    </span>
+                </div>
+            </button>
             {
                 mylistsData
                     ? mylistsData.data.mylists.slice(0, limit).map((mylist) => {
