@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { IconAdjustments, IconAdjustmentsCheck, IconAdjustmentsFilled, IconLayoutSidebarRightCollapseFilled, IconLayoutSidebarRightExpand, IconMaximize, IconMessage2, IconMessage2Off, IconMinimize, IconPlayerPauseFilled, IconPlayerPlayFilled, IconPlayerSkipBack, IconPlayerSkipBackFilled, IconPlayerSkipForward, IconPlayerSkipForwardFilled, IconRepeat, IconRepeatOff, IconRewindBackward10, IconRewindBackward15, IconRewindBackward30, IconRewindBackward5, IconRewindForward10, IconRewindForward15, IconRewindForward30, IconRewindForward5, IconSettings, IconSettingsFilled } from "@tabler/icons-react"
 import type { Dispatch, JSX, RefObject, SetStateAction } from "react"
-import Hls from "hls.js"
+import Hls, { Level } from "hls.js"
 import { useStorageVar } from "@/hooks/extensionHook"
 import ShinjukuPlay from "@/assets/shinjuku/Play.svg?react"
 import ShinjukuPaused from "@/assets/shinjuku/Paused.svg?react"
@@ -71,13 +71,20 @@ function PlayerController(props: Props) {
 
     const [isIconPlay, setIsIconPlay] = useState(false)
 
+    const [hlsLevelList, setHlsLevelList] = useState<Level[]>([])
     const [hlsLevel, setHlsLevel] = useState(0)
 
     useEffect(() => {
         if (!hlsRef.current) return
-        hlsRef.current.on(Hls.Events.LEVEL_SWITCHED, () => {
-            if (!hlsRef.current) return
-            setHlsLevel(hlsRef.current.currentLevel)
+        setHlsLevelList(hlsRef.current.levels)
+        hlsRef.current.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+            setHlsLevel(data.level)
+        })
+        hlsRef.current.on(Hls.Events.LEVELS_UPDATED, (event, data) => {
+            setHlsLevelList(data.levels)
+        })
+        hlsRef.current.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+            setHlsLevelList(data.levels)
         })
     }, [hlsRef.current])
 
@@ -288,7 +295,7 @@ function PlayerController(props: Props) {
                                         title="画質選択"
                                         id="pmw-qualityselector"
                                     >
-                                        {hlsRef.current.levels.map((elem, index) => {
+                                        {hlsLevelList.map((elem, index) => {
                                             return <option value={index} key={index}>{(qualityLabels && qualityLabels[index]) || `${elem.height}p`}</option>
                                         })}
                                         <option value={-1}>Auto</option>
