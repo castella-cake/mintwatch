@@ -43,13 +43,14 @@ export function VolumeController({ currentPlayerType }: { currentPlayerType: key
             if (!videoRef.current) return
             setVideoVolume(amplitudeToPerceptual(videoRef.current.volume, 1, 40) * 100)
             storage.setItem("local:volume", amplitudeToPerceptual(videoRef.current.volume, 1, 40) * 100)
-            if (videoRef.current.muted !== isMuted) {
-                setIsMuted(videoRef.current.muted)
-                storage.setItem("local:isMuted", videoRef.current.muted)
-            }
+            setIsMuted(videoRef.current.muted)
+            storage.setItem("local:isMuted", videoRef.current.muted)
         }
         videoRef.current?.addEventListener("volumechange", updateVolumeState)
-    }, [])
+        return () => {
+            videoRef.current?.removeEventListener("volumechange", updateVolumeState)
+        }
+    }, [setIsMuted, setVideoVolume, videoRef])
     return (
         <>
             <MuteToggleButton isMuted={isMuted} handleMuteToggle={handleMuteToggle} videoVolume={videoVolume} currentPlayerType={currentPlayerType} />
@@ -69,12 +70,12 @@ function VolumeSlider({ videoVolume, handleVolumeChange: onVolumeChange, isMuted
                 max="100"
                 value={videoVolume}
                 disabled={isMuted}
-                aria-label={`音量 ${Math.floor(videoVolume)}%`}
+                aria-label={`音量 ${Math.round(videoVolume)}%`}
                 onChange={onVolumeChange}
                 id={elementId}
             />
             <span className="playercontroller-volume-tooltip">
-                {Math.floor(videoVolume)}
+                {Math.round(videoVolume)}
                 %
             </span>
         </span>

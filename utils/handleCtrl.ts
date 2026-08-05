@@ -12,7 +12,7 @@ export const handleCtrl = (
     rewindTime: string | undefined,
 ) => {
     const eachSkipTime = Number(rewindTime ?? 10)
-    if (e.ctrlKey) return true
+    if (e.ctrlKey || e.metaKey) return true
     if (e.target instanceof Element) {
         if (e.target.closest("input, textarea")) return true
     }
