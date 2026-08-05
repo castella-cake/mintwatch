@@ -12,6 +12,8 @@
 
     .watch-container {
         --page-padding: 0%;
+        
+        min-width: 0;
     }
 
     .watch-container-grid {
