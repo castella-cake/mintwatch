@@ -325,7 +325,7 @@ function Player(props: Props) {
         return threadsBordered
     }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
 
-    function playlistIndexControl(add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) {
+    const playlistIndexControl = useCallback((add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => {
         if (playlistData.items.length > 0) {
             let nextVideo = playlistData.items[0]
             if (isShuffle) {
@@ -388,7 +388,7 @@ function Player(props: Props) {
                 isBackgroundPlaying,
             )
         }
-    }
+    }, [playlistData, videoId, changeVideo, recommendData, isBackgroundPlaying])
 
     const onPause = useCallback(() => {
         if (!videoRef.current) return
@@ -399,7 +399,7 @@ function Player(props: Props) {
         putPlaybackPosition(playbackPositionBody, new Date())
     }, [videoRef, videoInfo])
 
-    const onEnded = () => {
+    const onEnded = useCallback(() => {
         const enableContinuousPlay = localStorage.enableContinuousPlay ?? true
         const withRecommend = localStorage.continuousPlayWithRecommend ?? false
 
@@ -413,7 +413,7 @@ function Player(props: Props) {
                 true,
             )
         }
-    }
+    }, [localStorage.enableContinuousPlay, localStorage.continuousPlayWithRecommend, localStorage.isLoop, localStorage.enableShufflePlay, playlistData.items.length, playlistIndexControl])
 
     const videoOnClick = useCallback(() => {
         const video = videoRef.current

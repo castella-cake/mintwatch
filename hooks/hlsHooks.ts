@@ -4,6 +4,8 @@ import { RefObject } from "react"
 export function useHls(videoRef: RefObject<HTMLVideoElement | null>, hlsResponse: any, isEnabled = true, preferredLevel = -1) {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), [])
     const hlsRef = useRef<Hls>(null!)
+    const preferredLevelRef = useRef(preferredLevel)
+    preferredLevelRef.current = preferredLevel
     useEffect(() => {
         if (!hlsResponse || !videoRef.current || !isEnabled) {
             if (videoRef.current) videoRef.current.src = ""
@@ -22,14 +24,14 @@ export function useHls(videoRef: RefObject<HTMLVideoElement | null>, hlsResponse
             // videoのrefにアタッチ
             hls.attachMedia(videoRef.current)
             // 読み込み
-            hls.startLevel = preferredLevel
+            hls.startLevel = preferredLevelRef.current
             hls.loadSource(hlsResponse.data.contentUrl)
             hls.on(Hls.Events.ERROR, (err) => {
                 console.log(err)
             })
             hls.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
                 // console.log(data.levels)
-                if (preferredLevel !== -1 && hls.currentLevel !== preferredLevel) hls.currentLevel = Math.min(preferredLevel, (data.levels.length - 1))
+                if (preferredLevelRef.current !== -1 && hls.currentLevel !== preferredLevelRef.current) hls.currentLevel = Math.min(preferredLevelRef.current, (data.levels.length - 1))
             })
             hlsRef.current = hls
         } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
@@ -41,7 +43,14 @@ export function useHls(videoRef: RefObject<HTMLVideoElement | null>, hlsResponse
             }
             if (videoRef.current) videoRef.current.src = ""
         }
-    }, [hlsRef, hlsResponse, isSupportedBrowser, preferredLevel, videoRef, isEnabled])
+    }, [hlsRef, hlsResponse, isSupportedBrowser, videoRef, isEnabled])
+
+    useEffect(() => {
+        const hls = hlsRef.current
+        if (!hls || preferredLevel === -1 || !hls.levels.length) return
+        const target = Math.min(preferredLevel, hls.levels.length - 1)
+        if (hls.currentLevel !== target) hls.currentLevel = target
+    }, [preferredLevel, hlsRef])
 
     return hlsRef
 }

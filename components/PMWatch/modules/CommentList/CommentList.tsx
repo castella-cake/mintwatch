@@ -458,7 +458,7 @@ function CommentList() {
                 />
             )}
             <Comments
-                key={currentForkType}
+                key={`${smId}-${currentForkType}`}
                 comments={filteredComments}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}
