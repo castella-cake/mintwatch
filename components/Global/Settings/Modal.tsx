@@ -18,6 +18,7 @@ import { AboutMintWatch } from "./About"
 import settings from "@/utils/settingsList"
 import CreateSettingsList from "@/components/pages/SettingsUI"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
+import { MWButton } from "../MWButton"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
 // containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
@@ -42,15 +43,15 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             <h2 className="global-flex1">
                                 {returnTitle(mintModalState)}
                             </h2>
-                            <button
+                            <MWButton
                                 className="modal-close"
                                 onClick={() => {
                                     setMintModalState(false)
                                 }}
-                                title="閉じる"
+                                label="閉じる"
                             >
                                 <IconX />
-                            </button>
+                            </MWButton>
                         </div>
                         <div className="modal-selector">
                             <div className="modal-select-separator">設定</div>

@@ -204,7 +204,7 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 >
                     <IconShare />
                     <span>
-                        共有
+                        共有…
                     </span>
                 </button>
                 <button
@@ -223,7 +223,7 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 >
                     <IconFolderPlus />
                     <span>
-                        マイリストに追加
+                        マイリストに追加…
                     </span>
                 </button>
             </PopupMenu>

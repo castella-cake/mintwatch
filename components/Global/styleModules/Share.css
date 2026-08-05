@@ -94,6 +94,7 @@
 
 .share-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 1em;
 }
 
@@ -107,6 +108,7 @@
     cursor: pointer;
     transition: var(--transition-normal);
     border: none;
+    white-space: nowrap;
 
     > * {
         vertical-align: middle;

@@ -285,6 +285,13 @@
     gap: 8px;
     border-bottom: var(--border);
 
+    label {
+        font-size: 0.9em;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+
     button {
         background: var(--bgcolor2);
         border: var(--border);
