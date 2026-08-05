@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画情報からのタイトル/アーティスト推定の精度を向上させました
 - 再生キューのタイトルバーの表示をより簡潔な形に変更しました
 - 新視聴系レイアウトの幅を、Re:crescなどに近づくように右カラムを少し拡大しました
+- コメントリストのNG設定ボタンを拡張メニューへ移動しました
 
 ### Fixed
 - 依存関係を更新しました  

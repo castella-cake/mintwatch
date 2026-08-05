@@ -321,15 +321,6 @@ function CommentList() {
                     件受信済み
                 </div>
                 <MWButton
-                    label="NG設定を開く"
-                    className="commentlist-list-openng"
-                    onClick={() => {
-                        setVideoActionModalState("ngcomments")
-                    }}
-                >
-                    <IconBubbleX />
-                </MWButton>
-                <MWButton
                     label={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                     className="commentlist-list-togglemycomments"
                     data-isenabled={showTimemachineUi}
@@ -430,6 +421,18 @@ function CommentList() {
                         }}
                     >
                         {reverseCommentSort ? <IconSortDescending /> : <IconSortAscending />}
+                    </MWButton>
+                    <MWButton
+                        label="NG設定を開く"
+                        className="commentlist-list-openng"
+                        onClick={() => {
+                            setVideoActionModalState("ngcomments")
+                        }}
+                    >
+                        <IconBubbleX />
+                        <span>
+                            NG設定
+                        </span>
                     </MWButton>
                 </div>
             )}

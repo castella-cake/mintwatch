@@ -282,6 +282,7 @@
     padding: 8px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
     border-bottom: var(--border);
 
@@ -297,9 +298,12 @@
         border: var(--border);
         border-radius: var(--radius);
         color: var(--textcolor1);
-        padding: 2px 4px;
+        padding: 2px 6px;
         transition: var(--transition-normal);
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 
     button svg {
