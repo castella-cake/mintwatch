@@ -49,7 +49,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         const abortController = new AbortController()
         let isResponded = false
         const messageHandler = (event: MessageEvent) => {
-            console.log(event)
+            // console.log(event)
             if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "helloFromHandler") {
                 console.log("Turnstile handler is alive")
                 window.removeEventListener("message", messageHandler)

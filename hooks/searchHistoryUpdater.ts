@@ -110,7 +110,7 @@ export function useSearchHistoryUpdater(word: string, type: "keyword" | "keyword
                 },
             },
         }
-        console.log("DEBUG >>> Updating search history in localStorage with data:", newStorageData)
+        // console.log("DEBUG >>> Updating search history in localStorage with data:", newStorageData)
         setBrowserLocalStorage(newStorageData)
     }, [contextData, searchStorageData, option, word, type, ...dependencies])
 }
