@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://github.com/castella-cake/niconico-peppermint-extension#readme",
+  "homepage": "https://github.com/castella-cake/mintwatch#readme",
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",

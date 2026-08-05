@@ -14,7 +14,7 @@ function PluginList() {
                 </button>
                 <div className="footer-links global-flex1">
                     <a href="https://github.com/sponsors/castella-cake" target="_blank" rel="noopener noreferrer" className="titlelink">Sponsor</a>
-                    <a href="https://github.com/castella-cake/niconico-peppermint-extension/issues" target="_blank" rel="noopener noreferrer" className="titlelink">Feedback</a>
+                    <a href="https://github.com/castella-cake/mintwatch/issues" target="_blank" rel="noopener noreferrer" className="titlelink">Feedback</a>
                     <PageTopButton isLabelShown={true} isFixed={false} />
                 </div>
             </div>
