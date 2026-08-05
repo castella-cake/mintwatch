@@ -54,6 +54,22 @@
     }
 }
 
+.player-video-buffering {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0008;
+    pointer-events: none;
+    z-index: 60;
+    
+    --textcolor2: #fafafa;
+
+    .loading-spinner {
+        margin: 0;
+    }
+}
 
 .player-video-container-inner .videotitle-container {
     position: absolute;

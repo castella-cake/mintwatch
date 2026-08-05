@@ -160,7 +160,7 @@ function Player(props: Props) {
         actionTrackId,
         shouldUseContentScriptHls,
     )
-    const hlsRef = useHls(
+    const { hlsRef, error: hlsError, isBuffering } = useHls(
         videoRef,
         hlsAccessRightsData,
         shouldUseContentScriptHls,
@@ -493,6 +493,11 @@ function Player(props: Props) {
                 setShortcutFeedback={setShortcutFeedback}
                 isAutoplayEnabled={localStorage.enableAutoPlay ?? true}
             >
+                {isBuffering && (
+                    <div className="player-video-buffering" data-is-buffering="true">
+                        <div className="loading-spinner" />
+                    </div>
+                )}
                 {filteredComments && (
                     <CommentRender
                         videoRef={videoRef}
@@ -576,7 +581,7 @@ function Player(props: Props) {
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
-                <ErrorScreen hlsErrorInfo={errorInfo} />
+                <ErrorScreen hlsErrorInfo={errorInfo ?? hlsError ?? null} />
                 {isFullscreenUi && localStorage.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">
