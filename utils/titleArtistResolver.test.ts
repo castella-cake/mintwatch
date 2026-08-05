@@ -47,3 +47,7 @@ test("括弧式はCDタグ式よりも優先される", () => {
 test.todo("連なったCDタグ式を正しく分離できる", () => {
     expect(resolveTitleAndArtist("Title / Artist Somebody - TITLE / ARTIST SOMEBODY", "Artist")).toEqual({ title: "Title", artist: "Artist Somebody" })
 })
+
+test("CDタグ式の分離で、-より/を優先する", () => {
+    expect(resolveTitleAndArtist("Title / A-B feat.Somebody", "A-B")).toEqual({ title: "Title", artist: "A-B feat.Somebody" })
+})

@@ -1,6 +1,7 @@
 // A / B
 // A=楽曲名, B=アーティスト名ORボーカル名
-const artistSlashSeparatedRegex = /(.*)\s?[/／-]\s?(.*)/
+const artistSlashSeparatedRegex = /(.*)\s?[/／]\s?(.*)/
+const artistHyphenSeparatedRegex = /(.*)\s?-\s?(.*)/
 // A『B』C
 // A, C=アーティスト名ORボーカル名, B=楽曲名
 const artistParenthesesRegex = /(.*)\s?[「『]\s?(.*)\s?[」』](.*)/
@@ -37,7 +38,7 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
             artist = artistStringA
         } else if (isArtistStringBIncludeOwnerNickName && artistStringB.length > 0) {
             // 「Title」Somebody / Owner から Owner / Somebody へ並び替える
-            const SeparatedMethodResult = artistSlashSeparatedRegex.exec(artistStringB)
+            const SeparatedMethodResult = artistSlashSeparatedRegex.exec(artistStringB) ?? artistHyphenSeparatedRegex.exec(artistStringB)
             if (SeparatedMethodResult) {
                 const stringA = SeparatedMethodResult[1].trim()
                 const stringB = SeparatedMethodResult[2].trim()
@@ -69,7 +70,7 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
         }
     }
 
-    const SlashSeparatedMethodResult = artistSlashSeparatedRegex.exec(videoTitle)
+    const SlashSeparatedMethodResult = artistSlashSeparatedRegex.exec(videoTitle) ?? artistHyphenSeparatedRegex.exec(videoTitle)
     if (SlashSeparatedMethodResult) {
         const stringA = SlashSeparatedMethodResult[1].trim()
         const stringB = SlashSeparatedMethodResult[2].trim()
