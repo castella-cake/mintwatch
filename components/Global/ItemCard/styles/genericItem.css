@@ -84,6 +84,11 @@
     &:hover {
         color: var(--linktext1);
     }
+
+    &[data-owner-visibility="hidden"] {
+        opacity: .5;
+        pointer-events: none;
+    }
 }
 
 .genericitem-owner-icon {

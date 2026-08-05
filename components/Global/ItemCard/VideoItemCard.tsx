@@ -48,9 +48,11 @@ export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true,
             title={video.title}
             subTitle={(
                 <>
-                    <a className="genericitem-owner" href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`}>
-                        <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name} のアイコン`} />
-                        <span className="genericitem-owner-name">{video.owner.name}</span>
+                    <a className="genericitem-owner" href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} data-owner-visibility={video.owner.visibility}>
+                        { video.owner.iconUrl && (
+                            <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name ?? "非公開または退会済みユーザー"} のアイコン`} />
+                        ) }
+                        <span className="genericitem-owner-name">{video.owner.name ?? "非公開または退会済みユーザー"}</span>
                     </a>
                     { layoutType === "vertical-simple" && (
                         <span className="genericitem-time" data-count-type="registeredAt">
