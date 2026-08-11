@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新視聴系レイアウトの幅を、Re:crescなどに近づくように右カラムを少し拡大しました
 - コメントリストのNG設定ボタンを拡張メニューへ移動しました
 - 一部の表示をよりわかりやすく調整しました
+- 例外表示を改善しました
 
 ### Fixed
 - 依存関係を更新しました  

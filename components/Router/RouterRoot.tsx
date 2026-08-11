@@ -1,7 +1,6 @@
 import { createRef, StrictMode } from "react"
 import { ModalStateProvider } from "../Global/Contexts/ModalStateProvider"
 import { ErrorBoundary } from "react-error-boundary"
-import { IconBoom } from "@tabler/icons-react"
 import PluginList from "../Global/PluginList"
 import "../Global/baseUI.css"
 import.meta.glob("../Global/styleModules/**/*.css", { eager: true })
@@ -13,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MessageProvider } from "../Global/Contexts/MessageProvider"
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client"
 import { createExtensionStoragePersister } from "@/utils/extensionStoragePersister"
+import { OutOfBounds } from "./OutOfBounds"
 
 const IVideoRef = createRef<HTMLVideoElement>()
 
@@ -33,45 +33,7 @@ export default function RouterRoot() {
     return (
         <StrictMode>
             <ErrorBoundary
-                fallbackRender={({ error }: { error: unknown }) => {
-                    const isError = error instanceof Error
-                    return (
-                        <div className="pmwatch-outofbound-wrapper">
-                            <div className="pmwatch-outofbound-container">
-                                <h2>
-                                    <IconBoom />
-                                    {" "}
-                                    <span>Aw, snap!</span>
-                                </h2>
-                                <p>
-                                    申し訳ありません。MintWatch の表示中に重大なエラーが発生しました。
-                                    <br />
-                                    この問題を開発者に Github もしくは Discord 経由で報告してください。
-                                </p>
-                                <p className="pmwatch-outofbound-msg">
-                                    <code>{isError ? error.message : "エラー情報は利用できません"}</code>
-                                </p>
-                                {isError && error.stack && (
-                                    <>
-                                        <p>
-                                            コールスタック:
-                                        </p>
-                                        <pre className="pmwatch-outofbound-msg">
-                                            <code>{error.stack}</code>
-                                        </pre>
-                                    </>
-                                )}
-                                <p className="pmwatch-outofbound-button-container">
-                                    ページを再読み込みして再試行できます。
-                                    <br />
-                                    <a href="https://www.nicovideo.jp/video_top">
-                                        ニコニコ動画へ戻る
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    )
-                }}
+                fallbackRender={OutOfBounds}
             >
                 <StorageProvider>
                     <QueryClientProvider client={queryClient}>
