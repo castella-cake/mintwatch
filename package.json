@@ -46,7 +46,7 @@
     "react-transition-state": "^2.4.0",
     "remark-gfm": "^4.0.1",
     "sanitize.css": "^13.0.0",
-    "virtua": "^0.49.2"
+    "virtua": "^0.50.1"
   },
   "devDependencies": {
     "@csstools/postcss-minify": "^3.0.0",
