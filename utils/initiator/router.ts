@@ -2,10 +2,13 @@ import { ContentScriptContext } from "#imports"
 import RouterRoot from "@/components/Router/RouterRoot"
 import { scan } from "react-scan"
 import { createRoot } from "react-dom/client"
-import { getStorageItemsWithObject } from "../storageControl"
 // import MigrateRoot from "@/components/Safemode/MigrateRoot"
 
-export default async function initiateRouter(ctx: ContentScriptContext) {
+let pageBlocked = false
+
+export function blockPage() {
+    if (pageBlocked) return
+    pageBlocked = true
     document.getElementById("root")?.remove()
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
@@ -19,6 +22,11 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
                 }
                 if (node.nodeType === Node.ELEMENT_NODE) {
                     // console.log("nodetype")
+                    // 後で追加されたbodyを削除する
+                    if (elem.tagName === "BODY") {
+                        elem.innerHTML = ""
+                        continue
+                    }
                     blockScriptElement(elem)
                     elem.querySelectorAll("script").forEach(
                         blockScriptElement,
@@ -31,8 +39,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
             )
         })
     })
-    if (!document.documentElement) return
-    observer.observe(document.documentElement, {
+    observer.observe(document, {
         childList: true,
         subtree: true,
     })
@@ -40,25 +47,7 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
         observer.disconnect()
     }, 500)
 
-    const currentStorage = await getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "local:playersettings", "sync:enableFirefoxWindowStop"] as const)
-
-    // HACK: 元のスクリプトがheadのタグを全削除する問題に対処するため、セレクターから避けるように属性を変更する
-    const metaTags = document.getElementsByTagName("meta")
-    for (const meta of metaTags) {
-        if (meta.getAttribute("name") === "server-context") {
-            meta.setAttribute("name", "server-context-mw")
-        }
-        if (meta.getAttribute("name") === "server-response") {
-            meta.setAttribute("name", "server-response-mw")
-            // pathnameとsearchを記録
-            meta.setAttribute("data-pathname", window.location.pathname)
-            meta.setAttribute("data-search", window.location.search)
-        }
-    }
-    const protectTarget = document.querySelectorAll("[data-server=\"1\"]")
-    for (const protectTargetElement of protectTarget) {
-        protectTargetElement.setAttribute("data-server", "protected")
-    }
+    reserveEssentialMetaTags()
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
     for (const scriptElement of document.getElementsByTagName("script")) {
@@ -90,6 +79,30 @@ export default async function initiateRouter(ctx: ContentScriptContext) {
     if (document.body) {
         document.body.innerHTML = ""
     }
+}
+
+function reserveEssentialMetaTags() {
+    // HACK: 元のスクリプトがheadのタグを全削除する問題に対処するため、セレクターから避けるように属性を変更する
+    const metaTags = document.getElementsByTagName("meta")
+    for (const meta of metaTags) {
+        if (meta.getAttribute("name") === "server-context") {
+            meta.setAttribute("name", "server-context-mw")
+        }
+        if (meta.getAttribute("name") === "server-response") {
+            meta.setAttribute("name", "server-response-mw")
+            // pathnameとsearchを記録
+            meta.setAttribute("data-pathname", window.location.pathname)
+            meta.setAttribute("data-search", window.location.search)
+        }
+    }
+    const protectTarget = document.querySelectorAll("[data-server=\"1\"]")
+    for (const protectTargetElement of protectTarget) {
+        protectTargetElement.setAttribute("data-server", "reserved-by-mw")
+    }
+}
+
+export async function initiateRouter(ctx: ContentScriptContext, currentStorage: { [key: string]: any }) {
+    blockPage()
 
     document.documentElement.classList.add("MW-Enabled")
     if (currentStorage["sync:starNightPalette"]) {

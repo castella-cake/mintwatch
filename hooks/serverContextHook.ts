@@ -1,18 +1,23 @@
 import { ServerContextRootObject } from "@/types/serverContextData"
 
 export default function useServerContext() {
+    const serverContextMwElements = document.getElementsByName("server-context-mw")
     if (
-        document.getElementsByName("server-context-mw").length > 0
-        && typeof document
-            .getElementsByName("server-context-mw")[0]
-            .getAttribute("content") === "string"
+        serverContextMwElements.length > 0
+        && typeof serverContextMwElements[0].getAttribute("content") === "string"
     ) {
         return JSON.parse(
-            document
-                .getElementsByName("server-context-mw")[0]
-                .getAttribute("content")!,
+            serverContextMwElements[0].getAttribute("content")!,
         ) as ServerContextRootObject
-    } else {
-        return null
     }
+    const serverContextElements = document.getElementsByName("server-context")
+    if (
+        serverContextElements.length > 0
+        && typeof serverContextElements[0].getAttribute("content") === "string"
+    ) {
+        return JSON.parse(
+            serverContextElements[0].getAttribute("content")!,
+        ) as ServerContextRootObject
+    }
+    return null
 }
