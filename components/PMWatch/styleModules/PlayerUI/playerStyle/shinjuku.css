@@ -157,7 +157,7 @@
             height: 8px;
         }
 
-        .playercontroller-volume::moz-range-thumb {
+        .playercontroller-volume::-moz-range-thumb {
             border: none;    
             height: 8px;
         }
