@@ -15,6 +15,7 @@ import { CSSTransition } from "react-transition-group"
 import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import NgComments from "./NgComments"
 import { TagInfo } from "./TagInfo"
+import { MWButton } from "@/components/Global/MWButton"
 
 export function VideoActionModal({
     nodeRef,
@@ -49,14 +50,15 @@ export function VideoActionModal({
                             <h2 className="global-flex1">
                                 動画アクション
                             </h2>
-                            <button
+                            <MWButton
                                 className="modal-close"
                                 onClick={() => {
                                     setVideoActionModalState(false)
                                 }}
+                                label="閉じる"
                             >
                                 <IconX />
-                            </button>
+                            </MWButton>
                         </div>
                         <div className="modal-selector">
                             <div className="modal-select-separator">動画アクション</div>
