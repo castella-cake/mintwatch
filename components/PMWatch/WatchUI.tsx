@@ -12,7 +12,7 @@ import {
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
-import { useHistoryContext } from "../Router/RouterContext"
+import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
 import { useQueryClient } from "@tanstack/react-query"
 import { parseFromQuery } from "@/utils/fromQuery"
@@ -21,6 +21,7 @@ function CreateWatchUI() {
     // const lang = useLang()
     const { smId, setSmId } = useSmIdContext()
     const history = useHistoryContext()
+    const location = useLocationContext()
 
     const {
         autoScrollPositionOnVideoChange,
@@ -192,6 +193,8 @@ function CreateWatchUI() {
 
     const playerSize = playerAreaSize ?? 1
 
+    const isShortsPage = location.pathname.startsWith("/shorts/")
+
     function handleKeydown(e: React.KeyboardEvent) {
         if (e.key === "Escape") {
             setVideoActionModalState(false)
@@ -232,6 +235,7 @@ function CreateWatchUI() {
                     onChangeVideo={changeVideo}
                     isFullscreenUi={isFullscreenUi}
                     setIsFullscreenUi={setIsFullscreenUi}
+                    isShortsPage={isShortsPage}
                 />
             </PlaylistDndWrapper>
         </div>

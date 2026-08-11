@@ -13,10 +13,14 @@ import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
 import { useQueryClient } from "@tanstack/react-query"
 
-function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
+function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
     const location = useLocationContext()
-    if (location.pathname.startsWith(targetPathname) || backgroundPlaying) return children
+    if (
+        (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
+        || (typeof targetPathname === "object" && targetPathname.some(path => location.pathname.startsWith(path)))
+    ) return children
+    if (backgroundPlaying) return children
     return <></>
 }
 
@@ -141,7 +145,7 @@ export default function RouterUI() {
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal containerRef={mintModalElemRef} />
             <main>
-                <MatchWatchPage targetPathname="/watch">
+                <MatchWatchPage targetPathname={["/watch", "/shorts"]}>
                     <WatchBody />
                 </MatchWatchPage>
                 <Match targetPathname="/ranking">

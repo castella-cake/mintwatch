@@ -15,12 +15,20 @@ const ISmIdContext = createContext<smIdContext>({
     setSmId: null!,
 })
 
+function pathnameToSmId(pathname: string) {
+    if (pathname.startsWith("/watch/")) {
+        return pathname.replace("/watch/", "").replace(/\?.*/, "")
+    }
+    if (pathname.startsWith("/shorts/")) {
+        return pathname.replace("/shorts/", "").replace(/\?.*/, "")
+    }
+    return null
+}
+
 export function SmIdProvider({ children }: { children: ReactNode }) {
     const location = useLocationContext()
     const [smId, setSmId] = useState<null | string>(
-        location.pathname.startsWith("/watch/")
-            ? location.pathname.replace("/watch/", "").replace(/\?.*/, "")
-            : null,
+        pathnameToSmId(location.pathname),
     )
     return (
         <ISmIdContext value={{ smId, setSmId }}>

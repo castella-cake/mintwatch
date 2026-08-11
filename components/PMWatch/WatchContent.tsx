@@ -24,6 +24,7 @@ export const watchLayoutType = {
     threeColumn: "3col",
     shinjuku: "shinjuku",
     gridTest: "gridtest",
+    shorts: "shorts",
 }
 
 type Props = {
@@ -31,6 +32,7 @@ type Props = {
     onChangeVideo: (smId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
+    isShortsPage: boolean
 }
 
 export function WatchContent(_props: Props) {
@@ -39,6 +41,7 @@ export function WatchContent(_props: Props) {
         onChangeVideo,
         isFullscreenUi,
         setIsFullscreenUi,
+        isShortsPage,
     } = _props
     const {
         enableBigView,
@@ -54,7 +57,8 @@ export function WatchContent(_props: Props) {
         pmwlayouttype,
         shinjukuDotFontType,
     } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType"] as const, "sync")
-    const layoutType = pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
+
+    const layoutType = isShortsPage ? watchLayoutType.shorts : pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
 
     useEffect(() => {
         document.dispatchEvent(
@@ -172,6 +176,7 @@ export function WatchContent(_props: Props) {
         "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, contentTreeElem, searchElem],
         "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, watchNextElem, searchElem],
         "shinjuku": [infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
+        "shorts": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, contentTreeElem, watchNextElem],
     }
 
     const currentLayout = layoutPresets[layoutType]

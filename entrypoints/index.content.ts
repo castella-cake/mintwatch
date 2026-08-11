@@ -1,6 +1,7 @@
 import { initiateRouter, blockPage } from "@/utils/initiator/router"
 
 const watchPattern = new MatchPattern("*://www.nicovideo.jp/watch/*")
+const shortsWatchPattern = new MatchPattern("*://www.nicovideo.jp/shorts/*")
 const rankingPattern = new MatchPattern("*://www.nicovideo.jp/ranking*")
 const recommendationPattern = new MatchPattern("*://www.nicovideo.jp/recommendations*")
 
@@ -26,6 +27,7 @@ export default defineContentScript({
     runAt: "document_start",
     main(ctx) {
         const isWatch = watchPattern.includes(window.location.toString())
+        const isShortsWatch = shortsWatchPattern.includes(window.location.toString())
         const isRanking = rankingPattern.includes(window.location.toString())
         const isSearch = searchPatternArray.some(m => m.includes(window.location.toString()))
         // nopmwだったら何もしない
@@ -36,22 +38,35 @@ export default defineContentScript({
         // 視聴ページは常に動作するため、storageを待たずにブロック処理を即時実行する
         if (isWatch) blockPage()
 
-        getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "sync:pmwplayertype", "local:playersettings", "sync:enableFirefoxWindowStop", "sync:enableReshogi", "sync:enableSearchPage"] as const).then((storage) => {
+        getStorageItemsWithObject([
+            "sync:starNightPalette",
+            "sync:colorPalette",
+            "sync:pmwforcepagehls",
+            "sync:pmwplayertype",
+            "local:playersettings",
+            "sync:enableFirefoxWindowStop",
+            "sync:enableReshogi",
+            "sync:enableSearchPage",
+            "sync:enableShortsPage",
+        ] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
+            const enableShortsPage = storage["sync:enableShortsPage"] ?? true
 
             if (
                 isWatch
                 || (isRanking && enableReshogi)
                 || (isSearch && enableSearchPage)
+                || (isShortsWatch && enableShortsPage)
             ) {
                 initiateRouter(ctx, storage)
-            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || recommendationPattern) {
+            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || recommendationPattern) {
                 const matchFor = {
                     watch: true,
                     ranking: enableReshogi,
                     search: enableSearchPage,
                     recommendations: false,
+                    shorts: enableShortsPage,
                 }
                 injectScript("/catchTargetPage.js", {
                     modifyScript(script) {

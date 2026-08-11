@@ -182,6 +182,11 @@ const settings: settingList = {
             name: "enableSearchPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableShortsPage",
+            default: true,
+        },
     ],
     flags: [
         {
