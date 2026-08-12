@@ -29,6 +29,12 @@ export function ToolTip({ children, label, position = "bottom", delay = 500, dis
         preExit: true,
     })
 
+    const isExiting = status === "preExit" || status === "exiting"
+    const [displayedLabel, setDisplayedLabel] = useState(label)
+    if (isHovered && !isExiting && displayedLabel !== label) {
+        setDisplayedLabel(label)
+    }
+
     const startHoverTimer = useCallback(() => {
         clearTimeout(timeoutRef.current)
         timeoutRef.current = setTimeout(() => setIsHovered(true), delay)
@@ -157,7 +163,7 @@ export function ToolTip({ children, label, position = "bottom", delay = 500, dis
                     id={tooltipId}
                     style={{ top: `${tooltipPosition.top}px`, left: `${tooltipPosition.left}px` }}
                 >
-                    {label}
+                    {displayedLabel}
                 </div>,
                 document.body,
             )}
