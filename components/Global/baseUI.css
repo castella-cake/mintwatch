@@ -1,9 +1,9 @@
 html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnight"]) {
     /* 基本背景色 */
-    --bgcolor1: #f5f5f8;
+    --bgcolor1: #f5f5f5;
 
     /* サブ背景色1 */
-    --bgcolor2: #fafafe;
+    --bgcolor2: #fafafa;
 
     /* サブ背景色2 */
     --bgcolor3: #e7e7e7;
@@ -40,7 +40,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
     --bgcolor2: #333;
     --bgcolor3: #666;
     --bgcolor4: #aaa;
-    --textcolor1: #fafafe;
+    --textcolor1: #fcfcfc;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
     --accent1: #444;
@@ -88,7 +88,7 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
         --bgcolor4: #aaa;
         --bgcolorab: rgba(#252525, 0.25);
         --bgcoloraw: rgba(#fff, 0.25);
-        --textcolor1: #fafafe;
+        --textcolor1: #fcfcfc;
         --textcolor2: #ddd;
         --textcolor3: #aaa;
         --textcolornew: #e05050;
@@ -119,7 +119,7 @@ html[data-mw-palette="dark"] {
     --bgcolor4: #aaa;
     --bgcolorab: rgba(#252525, 0.25);
     --bgcoloraw: rgba(#fff, 0.25);
-    --textcolor1: #fafafe;
+    --textcolor1: #fcfcfc;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
     --textcolornew: #e05050;
