@@ -113,6 +113,10 @@ html:not([class*="PMDMP-"], [data-mw-palette="dark"], [data-mw-palette="starnigh
         --navbar-logo-url: url("https://resource.video.nimg.jp/web/images/logo/logo_nicovideo_white.svg");
         --hrjk-logo-filter: brightness(0.86) invert(1);
         --primary-text-override: var(--textcolor1);
+
+        &:not(:has(.container.fullscreen)) .modal-container {
+            --bgcolor1: #252525;
+        }
     }
 }
 
