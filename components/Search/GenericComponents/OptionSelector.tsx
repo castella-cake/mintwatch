@@ -3,7 +3,7 @@ import { useHistoryContext } from "../../Router/RouterContext"
 import "./styles/OptionSelector.css"
 import { useId } from "react"
 
-export function OptionSelector(page: { option: SearchOption, isGridOptionUnavailable?: boolean }) {
+export function OptionSelector(page: { option: SearchOption, isGridOptionUnavailable?: boolean, children?: React.ReactNode }) {
     const sortKeySelectorId = useId()
 
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -54,6 +54,7 @@ export function OptionSelector(page: { option: SearchOption, isGridOptionUnavail
                 <button title="リスト表示" data-is-active={!searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", false) }}><IconListDetails /></button>
                 <button title="グリッド表示" data-is-active={searchEnableGridCardLayout} onClick={() => { storage.setItem("local:searchEnableGridCardLayout", true) }}><IconLayoutGrid /></button>
             </div>
+            {page.children}
         </div>
     )
 }

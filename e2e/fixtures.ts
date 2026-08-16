@@ -13,6 +13,7 @@ import { searchTagTestData } from "./datas/Search/tag"
 import { searchMylistTestData } from "./datas/Search/mylist"
 import { searchSeriesTestData } from "./datas/Search/series"
 import { searchUserTestData } from "./datas/Search/user"
+import { searchPlaylistTestData } from "./datas/playlist"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -139,6 +140,12 @@ export const test = base.extend<FixtureType>({
             await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*responseType=json.*/, route => route.fulfill({
                 status: 200,
                 json: keywordSearchTestData,
+            }))
+
+            // 検索プレイリストAPI
+            await page.route(/https:\/\/nvapi\.nicovideo\.jp\/v1\/playlist\/search.*/, route => route.fulfill({
+                status: 200,
+                json: searchPlaylistTestData,
             }))
 
             // ページネーション用 - 2ページ目

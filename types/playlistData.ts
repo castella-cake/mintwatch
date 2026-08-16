@@ -1,4 +1,4 @@
-export interface MylistResponseRootObject extends baseResponse {
+export interface PlaylistResponseRootObject extends baseResponse {
     data: Data
 }
 

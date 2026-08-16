@@ -1,14 +1,14 @@
-import { MylistResponseRootObject } from "@/types/mylistData"
+import { PlaylistResponseRootObject } from "@/types/playlistData"
 import { MylistsResponseRootObject } from "@/types/mylistsData"
 import APIError from "../classes/APIError"
 
 /**
- * 指定したマイリストの内容を取得するAPI
+ * 指定したマイリストをプレイリストとして取得するAPI
  * @param mylistId 取得するマイリストのID
  * @param sortKey ソートを行う種類
  * @param sortOrder 昇順/降順の指定
  */
-export async function getMylist(mylistId: string | number, sortKey: string, sortOrder: "asc" | "desc") {
+export async function getMylistAsPlaylist(mylistId: string | number, sortKey: string, sortOrder: "asc" | "desc") {
     const response = await fetch(`https://nvapi.nicovideo.jp/v1/playlist/mylist/${encodeURIComponent(mylistId)}?sortKey=${encodeURIComponent(sortKey)}&sortOrder=${encodeURIComponent(sortOrder)}`, {
         credentials: "include",
         headers: {
@@ -19,8 +19,8 @@ export async function getMylist(mylistId: string | number, sortKey: string, sort
         },
         method: "GET",
     })
-    const responseJson = await response.json() as MylistResponseRootObject
-    if (!validateBaseResponse(responseJson)) throw new APIError("getMylist failed.", responseJson)
+    const responseJson = await response.json() as PlaylistResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("getMylistAsPlaylist failed.", responseJson)
     return responseJson
 }
 

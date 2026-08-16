@@ -1,12 +1,13 @@
-import { mylistContext, playlistQueryData } from "@/types/playlistQuery"
+import { mylistContext, playlistQueryData, searchContext } from "@/types/playlistQuery"
 import { useVideoInfoContext } from "./VideoDataProvider"
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
 import {
-    mylistToSimplifiedPlaylist,
     playlistData,
+    playlistToSimplifiedPlaylist,
     playlistVideoItem,
     seriesToSimplifiedPlaylist,
 } from "../../PMWatch/modules/Playlist"
+import { decodePlaylistString, rotatePlaylistToStart } from "@/utils/playlistUtils"
 import { useQueryClient } from "@tanstack/react-query"
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] })
@@ -68,7 +69,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         // console.log(playlistString)
         const currentPlaylistData = _playlistData
 
-        // プレイリストの情報からマイリストもしくはシリーズのデータを取得する関数
+        // プレイリストの情報からマイリストもしくはシリーズ、検索のデータを取得する関数
         async function getData(playlistJson: playlistQueryData) {
             // console.log(playlistJson.context.mylistId)
             if (
@@ -81,7 +82,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 const context: mylistContext = playlistJson.context
                 const response = await queryClient.fetchQuery({
                     queryKey: ["mylist", context],
-                    queryFn: () => getMylist(
+                    queryFn: () => getMylistAsPlaylist(
                         context.mylistId,
                         context.sortKey ?? "registeredAt",
                         context.sortOrder ?? "desc",
@@ -93,7 +94,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     type: "mylist",
                     id: response.data.id.value,
                     name: response.data.meta.title,
-                    items: mylistToSimplifiedPlaylist(response),
+                    items: playlistToSimplifiedPlaylist(response),
                 })
             } else if (
                 playlistJson.type === "series"
@@ -113,6 +114,30 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     name: response.data.detail.title,
                     items: seriesToSimplifiedPlaylist(response),
                 })
+            } else if (
+                playlistJson.type === "search"
+                && playlistJson.context
+            ) {
+                // fetchしようとしている検索プレイリストが、すでにフェッチ済みのものと同一ならスキップする
+                if (currentPlaylistData.id === playlistString) return
+
+                const context: searchContext = playlistJson.context
+                const response = await queryClient.fetchQuery({
+                    queryKey: ["searchPlaylist", context],
+                    queryFn: () => getSearchPlaylist(context),
+                })
+                // クリックした動画を先頭にして再生するため、現在の動画を先頭に巡回させる
+                const currentVideoId = videoInfo?.data?.response.video.id
+                const items = rotatePlaylistToStart(
+                    playlistToSimplifiedPlaylist(response),
+                    currentVideoId,
+                )
+                setPlaylistData({
+                    type: "search",
+                    id: playlistString ?? undefined,
+                    name: response.data.meta.title,
+                    items,
+                })
             } else if (videoInfo) {
                 // setFetchedPlaylistData(null)
                 setInitialPlaylistState()
@@ -120,10 +145,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         }
         if (playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {
             // プレイリスト情報があり、カスタムプレイリストではない場合にデータを取得
-            const decodedPlaylist = atob(
-                playlistString.replace("-", "+").replace("_", "/"),
-            )
-            const playlistJson: playlistQueryData = JSON.parse(decodedPlaylist)
+            const playlistJson: playlistQueryData = decodePlaylistString(playlistString)
             // setCurrentPlaylist(playlistJson)
             getData(playlistJson)
         } else if (!playlistString && (currentPlaylistData.type === "none" || (currentPlaylistData.type === "custom" && currentPlaylistData.items.length < 2))) {

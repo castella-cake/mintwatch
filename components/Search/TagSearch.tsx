@@ -9,6 +9,7 @@ import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { useSearchTagData } from "@/hooks/apiHooks/search/tagData"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
 import { DictionarySummaryTitle } from "./GenericComponents/DictionarySummary"
+import { SearchContinuousPlayButton, SearchPlayFromVideoButton } from "./GenericComponents/ContinuousPlay"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
@@ -144,12 +145,14 @@ export function TagSearch() {
                 <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
-                <OptionSelector option={page.option} />
+                <OptionSelector option={page.option}>
+                    <SearchContinuousPlayButton playlistQuery={tagSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
+                </OptionSelector>
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "tag_shorts" : "tag"} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {
                         return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} />
+                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} externalVideoActionChildren={<SearchPlayFromVideoButton playlistQuery={tagSearchData.data.response.page.playlist} video={video} />} />
                         )
                     })}
                 </div>

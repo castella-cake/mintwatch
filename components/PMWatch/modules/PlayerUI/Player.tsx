@@ -22,6 +22,7 @@ import {
     useCommentContentContext,
 } from "@/components/Global/Contexts/CommentDataProvider"
 import { usePlaylistContext } from "@/components/Global/Contexts/PlaylistProvider"
+import { decodePlaylistString, encodePlaylistQuery } from "@/utils/playlistUtils"
 import { useRecommendContext } from "@/components/Global/Contexts/RecommendProvider"
 import BackgroundController from "./BackgroundController"
 import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvider"
@@ -368,10 +369,12 @@ function Player(props: Props) {
                 }
             } else if (playlistData.type === "series") {
                 playlistQuery.context = { seriesId: Number(playlistData.id) }
+            } else if (playlistData.type === "search" && playlistData.id) {
+                playlistQuery.context = decodePlaylistString(playlistData.id).context
             }
             if (!nextVideo) return
             changeVideo(
-                `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${btoa(JSON.stringify(playlistQuery))}`,
+                `https://www.nicovideo.jp/watch/${encodeURIComponent(nextVideo.id)}?playlist=${encodeURIComponent(encodePlaylistQuery(playlistQuery))}`,
                 !isAutoPlayTrigger,
                 isBackgroundPlaying,
             )

@@ -1,5 +1,5 @@
 export interface playlistQueryData {
-    type: "mylist" | "custom-ranking" | "series" | "pm-queue" | null
+    type: "mylist" | "custom-ranking" | "series" | "pm-queue" | "search" | null
     context?: any
 }
 
@@ -16,6 +16,17 @@ export interface rankingContext {
     laneId: number
     limit?: number
     offset?: number
+}
+
+export interface searchContext {
+    keyword?: string
+    tag?: string
+    sortKey?: string
+    sortOrder?: string
+    page?: number
+    pageSize?: number
+    channelVideoListingStatus?: string
+    selectContentType?: string
 }
 
 export interface queueContext {

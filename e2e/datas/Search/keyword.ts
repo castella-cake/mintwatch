@@ -388,7 +388,7 @@ export const keywordSearchTestData: SearchDataRootObject = {
                     },
                     isImmoralSearch: false,
                 },
-                playlist: "",
+                playlist: "eyJ0eXBlIjoic2VhcmNoIiwiY29udGV4dCI6eyJrZXl3b3JkIjoiVEVTVCIsInNvcnRLZXkiOiJob3QiLCJzb3J0T3JkZXIiOiJub25lIiwicGFnZSI6MSwicGFnZVNpemUiOjMyLCJjaGFubmVsVmlkZW9MaXN0aW5nU3RhdHVzIjoiaW5jbHVkZWQiLCJzZWxlY3RDb250ZW50VHlwZSI6ImxvbmcifX0",
             },
         },
     },

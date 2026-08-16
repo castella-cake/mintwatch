@@ -407,7 +407,7 @@ export const searchTagTestData: SearchTagDataRootObject = {
                 nicoadGroupsRequestIdMap: {
                     nicodic: 1,
                 },
-                playlist: "",
+                playlist: "eyJ0eXBlIjoic2VhcmNoIiwiY29udGV4dCI6eyJ0YWciOiJcdTMwYzZcdTMwYjlcdTMwYzgiLCJzb3J0S2V5IjoiaG90Iiwic29ydE9yZGVyIjoibm9uZSIsInBhZ2UiOjEsInBhZ2VTaXplIjozMiwiY2hhbm5lbFZpZGVvTGlzdGluZ1N0YXR1cyI6ImluY2x1ZGVkIiwic2VsZWN0Q29udGVudFR5cGUiOiJsb25nIn19",
             },
         },
     },

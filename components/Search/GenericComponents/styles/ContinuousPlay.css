@@ -1,0 +1,21 @@
+
+.search-continuous-play-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    grid-area: continuous-play;
+    justify-self: start;
+    padding: 2px 8px;
+    background: var(--bgcolor2);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow);
+    font-size: 0.85rem;
+    text-decoration: none;
+    color: inherit;
+
+    > svg {
+        width: 1.25em;
+        height: 1.25em;
+    }
+}

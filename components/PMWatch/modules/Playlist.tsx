@@ -1,5 +1,5 @@
 import { PlaylistVideoCard } from "./PlaylistInfoCard"
-import { MylistResponseRootObject } from "@/types/mylistData"
+import { PlaylistResponseRootObject } from "@/types/playlistData"
 import { SeriesResponseRootObject } from "@/types/seriesData"
 import { useDroppable } from "@dnd-kit/core"
 import { SortableContext } from "@dnd-kit/sortable"
@@ -7,10 +7,11 @@ import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabl
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { MWButton } from "@/components/Global/MWButton"
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider"
+import { decodePlaylistString, encodePlaylistQuery } from "@/utils/playlistUtils"
 import { secondsToTime } from "@/utils/readableValue"
 
 export type playlistData = {
-    type: "mylist" | "series" | "custom" | "none"
+    type: "mylist" | "series" | "search" | "custom" | "none"
     id?: string
     name?: string
     items: playlistVideoItem[]
@@ -26,7 +27,7 @@ export type playlistVideoItem = {
     isPreview?: boolean
 }
 
-export function mylistToSimplifiedPlaylist(obj: MylistResponseRootObject) {
+export function playlistToSimplifiedPlaylist(obj: PlaylistResponseRootObject) {
     return obj.data.items.map((elem) => {
         return {
             title: elem.content.title,
@@ -55,6 +56,7 @@ export function seriesToSimplifiedPlaylist(obj: SeriesResponseRootObject) {
 const playlistTypeString = {
     mylist: "マイリスト",
     series: "シリーズ",
+    search: "検索",
     custom: "一時的",
     none: "",
 }
@@ -94,8 +96,10 @@ function Playlist() {
         }
     } else if (playlistData.type === "series") {
         playlistQuery.context = { seriesId: Number(playlistData.id) }
+    } else if (playlistData.type === "search" && playlistData.id) {
+        playlistQuery.context = decodePlaylistString(playlistData.id).context
     }
-    const query = encodeURIComponent(btoa(JSON.stringify(playlistQuery)))
+    const query = encodeURIComponent(encodePlaylistQuery(playlistQuery))
     function onRandomShuffle() {
         const currentShufflePlayState = enableShufflePlay ?? false
         storage.setItem("local:enableShufflePlay", !currentShufflePlayState)

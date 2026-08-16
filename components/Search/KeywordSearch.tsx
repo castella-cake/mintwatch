@@ -8,6 +8,7 @@ import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
 import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
+import { SearchContinuousPlayButton, SearchPlayFromVideoButton } from "./GenericComponents/ContinuousPlay"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
@@ -140,12 +141,14 @@ export function KeywordSearch() {
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
                 <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
-                <OptionSelector option={page.option} />
+                <OptionSelector option={page.option}>
+                    <SearchContinuousPlayButton playlistQuery={keywordSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
+                </OptionSelector>
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "keyword_shorts" : "keyword"} />
                 <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                     {getSearchVideoData.items.map((video, index) => {
                         return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} />
+                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} externalVideoActionChildren={<SearchPlayFromVideoButton playlistQuery={keywordSearchData.data.response.page.playlist} video={video} />} />
                         )
                     })}
                 </div>
