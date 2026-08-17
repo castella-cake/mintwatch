@@ -11,7 +11,6 @@ import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider"
-import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { useHistoryContext } from "../Router/RouterContext"
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
@@ -37,7 +36,6 @@ function CreateWatchUI() {
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
 
     const videoRef = useVideoRefContext()
-    const { updatePlaylistState } = useControlPlaylistContext()
     const { videoInfo } = useVideoInfoContext()
 
     const queryClient = useQueryClient()
@@ -164,13 +162,12 @@ function CreateWatchUI() {
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
                 internalChangeVideo(smIdAfter)
-                updatePlaylistState(location.search)
             };
         })
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, videoInfo, internalChangeVideo, updatePlaylistState])
+    }, [smId, internalChangeVideo])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)

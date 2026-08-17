@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 再生中の動画情報がブラウザへ正しく報告されるようになりました
 - 主要なボタン群をtitle属性での説明から、独自のツールチップへ変更しました
 - バッファリング表示を追加しました
+- 検索ページからの連続再生に対応しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
@@ -53,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 残っていたデバッグログのうち不要なものを削除しました
 - イニシエートの処理を改善しました
 - カラーパレットを再調整しました
+- 再生キューの処理を改善しました
 
 ## 0.11.2 - 2026/04/29
 
