@@ -68,12 +68,13 @@ export default function RouterUI() {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
+                const isVideoPage = isPathnameIsVideoPage(location.pathname)
+                if (videoRef.current && !videoRef.current.paused && !isVideoPage) {
                     setBackgroundPlaying(true)
                 } else {
                     setBackgroundPlaying(false)
-                    if (location.pathname.startsWith("/watch/")) {
-                        const smId = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+                    if (isVideoPage) {
+                        const smId = pathnameToVideoId(location.pathname)
                         if (smId) {
                             // この動画IDのキャッシュをあらかじめ破棄する
                             queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
@@ -92,7 +93,7 @@ export default function RouterUI() {
                 console.log("out of bounds")
                 window.location.reload()
             }
-            if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
+            if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname)) {
                 setBackgroundPlaying(true)
             } else {
                 setBackgroundPlaying(false)

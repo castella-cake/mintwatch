@@ -176,7 +176,7 @@ export function WatchContent(_props: Props) {
         "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, contentTreeElem, searchElem],
         "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, watchNextElem, searchElem],
         "shinjuku": [infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
-        "shorts": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, contentTreeElem, watchNextElem],
+        "shorts": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, contentTreeElem],
     }
 
     const currentLayout = layoutPresets[layoutType]

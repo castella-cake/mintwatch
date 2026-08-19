@@ -76,7 +76,8 @@ function CreateWatchUI() {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
         const autoScrollTimingSetting = autoScrollTimingOnVideoChange ?? getDefault("autoScrollTimingOnVideoChange")
         const parsedUrl = new URL(videoUrl)
-        const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
+        const smIdAfter = urlToVideoId(parsedUrl)
+        if (!smIdAfter) return
         const shouldHandleTimingWithGate = doScroll
             && autoScrollSetting === "player"
             && autoScrollTimingSetting !== "disable"
@@ -114,7 +115,7 @@ function CreateWatchUI() {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
-            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
+            if (nearestAnchor && urlToVideoId(nearestAnchor.href) !== null && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
@@ -161,8 +162,8 @@ function CreateWatchUI() {
             /* console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`
             ); */
-            if (location.pathname.startsWith("/watch/")) {
-                const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+            const smIdAfter = pathnameToVideoId(location.pathname)
+            if (smIdAfter) {
                 internalChangeVideo(smIdAfter)
                 // 同一動画への ?from= の再指定は動画の再読み込みを伴わないため、シークとして処理する
                 if (smIdAfter === smId && videoRef.current) {
