@@ -11,6 +11,8 @@ import {
 } from "../../PMWatch/modules/Playlist"
 import { decodePlaylistString, rotatePlaylistToStart } from "@/utils/playlistUtils"
 import { useQueryClient } from "@tanstack/react-query"
+import { getShortsRecommend } from "@/utils/apis/shortsRecommend"
+import { videoItemToPlaylistItem } from "@/utils/playlistUtils"
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] })
 
@@ -63,6 +65,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient()
     const { videoInfo } = useVideoInfoContext()
     const location = useLocationContext()
+    const isShortsPage = location.pathname.startsWith("/shorts/")
     const [_playlistData, setPlaylistData] = useState<playlistData>({
         type: "none",
         items: [],
@@ -71,6 +74,59 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
 
     // URLのクエリパラメータ。playlistにはbase64でエンコードされたプレイリストの情報が入っている。
     const playlistString = new URLSearchParams(location.search).get("playlist")
+    const setInitialPlaylistState = useCallback(async () => {
+        if (!videoInfo) return
+        const video = videoInfo.data.response.video
+        const ownerName
+            = videoInfo.data.response.owner
+                && videoInfo.data.response.owner.nickname
+        const channelName
+            = videoInfo.data.response.channel
+                && videoInfo.data.response.channel.name
+        const initialItem = {
+            title: video.title,
+            id: video.id,
+            itemId: crypto.randomUUID(),
+            ownerName:
+                ownerName
+                ?? channelName
+                ?? "非公開または退会済みユーザー",
+            duration: video.duration,
+            thumbnailUrl:
+                video.thumbnail.middleUrl
+                ?? video.thumbnail.url,
+        }
+
+        if (!isShortsPage) {
+            setPlaylistData({
+                type: "custom",
+                items: [initialItem],
+            })
+            return
+        }
+
+        let recommendItems: playlistVideoItem[] = []
+        try {
+            const recommendData = await queryClient.fetchQuery({
+                queryKey: ["shortsRecommendData", video.id],
+                queryFn: () => getShortsRecommend(video.id),
+            })
+            console.log("Fetched shorts recommendations:", recommendData)
+            recommendItems = recommendData.data?.items
+                .filter(item => !item.content.isMuted)
+                .map(item => videoItemToPlaylistItem(item.content as VideoItem))
+                .filter((item): item is playlistVideoItem => !!item)
+                .filter(item => item.id !== video.id)
+                ?? []
+        } catch (error) {
+            console.error("Failed to fetch shorts recommendations.", error)
+        }
+
+        setPlaylistData({
+            type: "shorts",
+            items: [initialItem, ...recommendItems],
+        })
+    }, [videoInfo, isShortsPage, queryClient])
 
     // フォールバックのプレイリスト(現在の動画のみ)はレンダリング中に派生する。
     // プレイリストのクエリパラメータがなく、プレイリストが未カスタマイズの場合のみ設定する。
@@ -97,6 +153,9 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         const playlistJson: playlistQueryData = decodePlaylistString(playlistString)
 
         async function getData() {
+            if (!playlistString) {
+                setInitialPlaylistState()
+            }
             if (
                 playlistJson.type === "mylist"
                 && playlistJson.context.mylistId
