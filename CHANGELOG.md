@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - イニシエートの処理を改善しました
 - カラーパレットを再調整しました
 - 再生キューの処理を改善しました
+- Avenir が混植される環境(主にmacOS)での高さのズレを解消しました
 
 ## 0.11.2 - 2026/04/29
 
