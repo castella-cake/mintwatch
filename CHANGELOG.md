@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 主要なボタン群をtitle属性での説明から、独自のツールチップへ変更しました
 - バッファリング表示を追加しました
 - 検索ページからの連続再生に対応しました
+- 実験的: ニコスクリプトでのジャンプに対応しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)

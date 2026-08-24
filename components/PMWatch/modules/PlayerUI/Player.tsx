@@ -29,10 +29,11 @@ import { useViewerNgContext } from "@/components/Global/Contexts/ViewerNgProvide
 import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
-import { borderMyComments } from "@/utils/commentUtils"
+import { borderMyComments, parseNicoScriptEvent } from "@/utils/commentUtils"
 import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { JumpVideoCard } from "./JumpVideoCard"
 
 type Props = {
     isFullscreenUi: boolean
@@ -98,6 +99,48 @@ function Player(props: Props) {
     const commentInputRef = useRef<HTMLTextAreaElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
     const [previewCommentItem, setPreviewCommentItem] = useState<Comment | null>(null) // プレビューコメント
+    const [jumpVideo, setJumpVideo] = useState<{ smId: string, message: string } | null>(null)
+    const jumpEventIdRef = useRef<string | null>(null)
+    const jumpFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
+
+    useEffect(() => {
+        jumpEventIdRef.current = null
+        setJumpVideo(null)
+        clearTimeout(jumpFeedbackTimeoutRef.current)
+    }, [videoId])
+
+    useEffect(() => {
+        const nicoScriptEvents = parseNicoScriptEvent(commentContent?.data?.threads ?? [], videoInfo?.data.response?.video?.duration ?? 0)
+        const video = videoRef.current
+        if (!video) return
+        const jumpEvents = nicoScriptEvents.filter(event => event.type === "jump")
+        const onTimeUpdate = () => {
+            const currentVpos = video.currentTime * 1000
+            const activeEvent = jumpEvents.find(event => currentVpos >= event.startVpos && currentVpos <= event.endVpos)
+            if (!activeEvent) {
+                jumpEventIdRef.current = null
+                return
+            }
+            if (jumpEventIdRef.current === activeEvent.id) return
+            jumpEventIdRef.current = activeEvent.id
+            if (activeEvent.targetType === "time") {
+                video.currentTime = activeEvent.target as number
+                return
+            }
+            video.pause()
+            setJumpVideo({ smId: activeEvent.target as string, message: activeEvent.message ?? "" })
+            clearTimeout(jumpFeedbackTimeoutRef.current)
+            jumpFeedbackTimeoutRef.current = setTimeout(() => {
+                setJumpVideo(null)
+                changeVideo(`https://www.nicovideo.jp/watch/${encodeURIComponent(activeEvent.target as string)}`, false, true)
+            }, 5000)
+        }
+        video.addEventListener("timeupdate", onTimeUpdate)
+        return () => {
+            video.removeEventListener("timeupdate", onTimeUpdate)
+            clearTimeout(jumpFeedbackTimeoutRef.current)
+        }
+    }, [commentContent, videoInfo, videoId, changeVideo, videoRef])
 
     // ショートカットのフィードバックツールチップ
     const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false)
@@ -478,6 +521,7 @@ function Player(props: Props) {
                     : "false"
             }
             data-is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
+            data-is-jump-video={jumpVideo ? "true" : "false"}
             data-player-type={currentPlayerType}
             ref={containerRef}
         >
@@ -581,6 +625,17 @@ function Player(props: Props) {
                         videoInfo={videoInfo}
                         videoRef={videoRef}
                         hlsRef={hlsRef}
+                    />
+                )}
+                {jumpVideo && (
+                    <JumpVideoCard
+                        smId={jumpVideo.smId}
+                        message={jumpVideo.message}
+                        onCancel={() => {
+                            clearTimeout(jumpFeedbackTimeoutRef.current)
+                            setJumpVideo(null)
+                            videoRef.current?.play().catch(() => {})
+                        }}
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}

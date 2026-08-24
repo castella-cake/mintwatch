@@ -362,6 +362,47 @@
     }
 }
 
+.player-jump-card {
+    position: absolute;
+    z-index: 70;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: #0008;
+    pointer-events: none;
+
+    .player-jump-message, .player-jump-status {
+        max-width: 100%;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 1px 3px #000;
+    }
+
+    .player-jump-message {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .videoitem-card {
+        width: min(480px, 100%);
+        pointer-events: auto;
+    }
+
+    .player-jump-cancel {
+        pointer-events: auto;
+        padding: 6px 12px;
+        border: 1px solid #aaa;
+        border-radius: var(--radius);
+        background: #000a;
+        color: #fff;
+        cursor: pointer;
+    }
+}
+
 .player-video-playbutton-container {
     display: grid;
     place-content: center;

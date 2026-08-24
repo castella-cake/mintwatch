@@ -64,17 +64,59 @@ export function borderMyComments(threads: Thread[], lastCommentId: string, borde
 }
 
 const nicoScriptStringRegex = /^[@＠](.+)/
-const nicoScriptDurationRegex = /^[@＠]([0-9]+)/
 
-type nicoScriptEvent = { type: string, startVpos: number, endVpos: number }
+export type NicoScriptEvent = {
+    type: "commentProhibited" | "jump"
+    startVpos: number
+    endVpos: number
+    id: string
+    targetType?: "time" | "video"
+    target?: number | string
+    message?: string
+}
+
+function normalizeDigits(value: string) {
+    return value.replace(/[０-９]/g, digit => String.fromCharCode(digit.charCodeAt(0) - 0xfee0))
+}
+
+function tokenizeNicoScript(value: string) {
+    const tokens: string[] = []
+    const tokenRegex = /"((?:\\.|[^"\\])*)"|'((?:\\.|[^'\\])*)'|(\S+)/g
+    for (const match of value.matchAll(tokenRegex)) {
+        tokens.push((match[1] ?? match[2] ?? match[3]).replace(/\\([\\"'])/g, "$1"))
+    }
+    return tokens
+}
+
+function parseDuration(commands: string[]) {
+    for (const command of commands) {
+        const normalized = normalizeDigits(command)
+        const durationMatch = normalized.match(/^[@＠](\d+(?:\.\d+)?)$/)
+        if (durationMatch) return Number(durationMatch[1])
+    }
+    return undefined
+}
+
+function parseJumpTarget(value: string) {
+    const normalized = normalizeDigits(value)
+    const timeMatch = normalized.match(/^#(\d+):(\d{2})(?:\.(\d+))?$/)
+    if (timeMatch) {
+        const seconds = Number(timeMatch[1]) * 60 + Number(timeMatch[2]) + Number(`0.${timeMatch[3] ?? "0"}`)
+        return { targetType: "time" as const, target: seconds }
+    }
+    if (/^(?:sm|nm|so)\d+$/.test(normalized)) {
+        return { targetType: "video" as const, target: normalized }
+    }
+    return undefined
+}
 
 /**
  * スレッドからニコスクリプトのイベント情報を解析して取得する
  * @param threads コメントのスレッド配列
  * @returns nicoScriptEventの配列
  */
-export function parseNicoScriptEvent(threads: Thread[]): nicoScriptEvent[] {
-    const eventArray: nicoScriptEvent[] = []
+export function parseNicoScriptEvent(threads: Thread[], videoDuration?: number): NicoScriptEvent[] {
+    const eventArray: NicoScriptEvent[] = []
 
     // オーナースレッドを見つける
     const ownerThread = threads.find(thread => thread.fork === "owner")
@@ -85,13 +127,33 @@ export function parseNicoScriptEvent(threads: Thread[]): nicoScriptEvent[] {
         const stringRegexResult = comment.body.match(nicoScriptStringRegex)
         if (!stringRegexResult) continue
 
-        // 今はコメント禁止コマンドのみ対応
-        switch (stringRegexResult?.[1]) {
+        const scriptTokens = tokenizeNicoScript(stringRegexResult[1])
+        switch (scriptTokens[0]) {
             case "コメント禁止": {
-                const durationCommand = comment.commands.find(command => nicoScriptDurationRegex.test(command))
-                const durationMatch = durationCommand?.match(nicoScriptDurationRegex)
-                const duration = durationMatch ? Number(durationMatch[1]) : 30
-                eventArray.push({ type: "commentProhibited", startVpos: comment.vposMs, endVpos: comment.vposMs + duration * 1000 })
+                const duration = parseDuration(comment.commands) ?? 30
+                eventArray.push({ type: "commentProhibited", id: comment.id, startVpos: comment.vposMs, endVpos: comment.vposMs + duration * 1000 })
+                break
+            }
+            case "ジャンプ": {
+                const target = parseJumpTarget(scriptTokens[1] ?? "")
+                if (!target) break
+                const duration = parseDuration(comment.commands)
+                let endVpos = Infinity
+                if (duration === undefined && videoDuration !== undefined) {
+                    endVpos = videoDuration * 1000 + 999
+                } else if (duration !== undefined && Math.floor((comment.vposMs + duration * 1000) / 1000) === videoDuration) {
+                    endVpos = comment.vposMs + duration * 1000 + 999
+                } else if (duration !== undefined) {
+                    endVpos = comment.vposMs + duration * 1000
+                }
+                eventArray.push({
+                    type: "jump",
+                    id: comment.id,
+                    startVpos: comment.vposMs,
+                    endVpos,
+                    ...target,
+                    message: target.targetType === "video" ? scriptTokens.slice(2).join(" ") : undefined,
+                })
                 break
             }
         }
