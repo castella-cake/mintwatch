@@ -1,0 +1,28 @@
+.maybe-container {
+    grid-area: maybe;
+    padding: 8px;
+    border: var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.maybe-title {
+    color: var(--textcolor2);
+
+    span {
+        vertical-align: middle;
+    }
+}
+
+.maybe-items .info-card.videoitem-card.genericitem-card {
+    background: var(--bgcolor2);
+    border: var(--border);
+
+    --thumb-height: 5rem;
+
+    .info-card-title {
+        font-size: 1rem;
+    }
+}

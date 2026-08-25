@@ -15,6 +15,7 @@ import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
 import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
 import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
+import { MaybeFromVideoId } from "./GenericComponents/MaybeFromVideoId"
 
 export function TagSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
@@ -23,8 +24,9 @@ export function TagSearch() {
     const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
     const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
-    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(returnSearchWord(location.pathname), reducedObj, isShorts)
-    useSearchHistoryUpdater(returnSearchWord(location.pathname), isShorts ? "tag_shorts" : "tag", tagSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
+    const keyword = returnSearchWord(location.pathname)
+    const { searchTagData: tagSearchData, error, isFetching } = useSearchTagData(keyword, reducedObj, isShorts)
+    useSearchHistoryUpdater(keyword, isShorts ? "tag_shorts" : "tag", tagSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!tagSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -145,16 +147,19 @@ export function TagSearch() {
                 <AdditionalRelatedTags getSearchVideoData={tagSearchData?.data.response.$getSearchVideoV2} />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
-                <OptionSelector option={page.option}>
-                    <SearchContinuousPlayButton playlistQuery={tagSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
-                </OptionSelector>
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type={isShorts ? "tag_shorts" : "tag"} />
-                <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                    {getSearchVideoData.items.map((video, index) => {
-                        return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} externalVideoActionChildren={<SearchPlayFromVideoButton playlistQuery={tagSearchData.data.response.page.playlist} video={video} />} />
-                        )
-                    })}
+                <div className="search-result">
+                    <MaybeFromVideoId keyword={keyword} />
+                    <OptionSelector option={page.option}>
+                        <SearchContinuousPlayButton playlistQuery={tagSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
+                    </OptionSelector>
+                    <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
+                        {getSearchVideoData.items.map((video, index) => {
+                            return (
+                                <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} externalVideoActionChildren={<SearchPlayFromVideoButton playlistQuery={tagSearchData.data.response.page.playlist} video={video} />} />
+                            )
+                        })}
+                    </div>
                 </div>
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} />
             </div>

@@ -9,7 +9,7 @@
     grid-template-areas:
         "title title title"
         "related related related"
-        "vidsel options ."
+        "vidsel result result"
         "pagel result result"
         "filter result result"
         "save-search result result"
@@ -32,7 +32,7 @@
         grid-template-areas:
             "title title title"
             "dict dict ."
-            "vidsel options related"
+            "vidsel result related"
             "pagel result related"
             "filter result related"
             "save-search result related"
@@ -45,11 +45,11 @@
             "title title title"
             "dict dict ."
             "related related related"
-            "vidsel options ."
-            "pagel result ."
-            "filter result ."
-            "save-search result ."
-            ". result ."
+            "vidsel result result"
+            "pagel result result"
+            "filter result result"
+            "save-search result result"
+            ". result result"
             ". pageb pageb";
     }
 
@@ -78,11 +78,17 @@
     }
 }
 
+.search-result {
+    grid-area: result;
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}
+
 .search-result-items {
     display: flex;
     flex-direction: column;
     gap: 0;
-    grid-area: result;
 }
 
 .search-title {

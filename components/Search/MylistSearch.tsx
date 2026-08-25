@@ -137,14 +137,16 @@ export function MylistSearch() {
                 </h2>
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchListData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
-                <OptionSelector option={page.option} />
                 <SaveSearchButton option={page.option} word={returnSearchWord(location.pathname)} type="mylist" />
-                <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                    {
-                        getSearchListData.items.map((item, index) => {
-                            return <GenericListItemCard key={item.id} list={item} markAsLazy={index > 5} isVerticalLayout={searchEnableGridCardLayout ?? false} />
-                        })
-                    }
+                <div className="search-result">
+                    <OptionSelector option={page.option} />
+                    <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
+                        {
+                            getSearchListData.items.map((item, index) => {
+                                return <GenericListItemCard key={item.id} list={item} markAsLazy={index > 5} isVerticalLayout={searchEnableGridCardLayout ?? false} />
+                            })
+                        }
+                    </div>
                 </div>
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchListData.items.length} />
             </div>
