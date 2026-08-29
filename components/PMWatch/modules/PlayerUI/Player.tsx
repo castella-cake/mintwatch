@@ -40,10 +40,11 @@ type Props = {
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
     changeVideo: (videoId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void
+    isShortsPlayer: boolean
 }
 
 function Player(props: Props) {
-    const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged } = props
+    const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged, isShortsPlayer } = props
 
     const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
@@ -70,6 +71,7 @@ function Player(props: Props) {
         "enableContinuousPlay",
         "continuousPlayWithRecommend",
         "isLoop",
+        "isLoopInShorts",
         "enableShufflePlay",
         "commentRenderFps",
         "enableCommentPiP",
@@ -91,6 +93,7 @@ function Player(props: Props) {
         "pmwforcepagehls",
         "disableBorderlessPlayer",
         "flagTimetravelCommentRenderMode",
+        "flagEnableShortsLayout",
     ] as const)
 
     const [isVefxShown, setIsVefxShown] = useState(false)
@@ -455,7 +458,7 @@ function Player(props: Props) {
 
         if (
             (enableContinuousPlay && (playlistData.items.length > 1 || withRecommend))
-            && !localStorage.isLoop
+            && !(localStorage.isLoop || (isShortsPlayer && localStorage.isLoopInShorts))
         ) {
             playlistIndexControl(
                 1,
@@ -463,7 +466,7 @@ function Player(props: Props) {
                 true,
             )
         }
-    }, [localStorage.enableContinuousPlay, localStorage.continuousPlayWithRecommend, localStorage.isLoop, localStorage.enableShufflePlay, playlistData.items.length, playlistIndexControl])
+    }, [isShortsPlayer, localStorage.enableContinuousPlay, localStorage.continuousPlayWithRecommend, localStorage.isLoop, localStorage.isLoopInShorts, localStorage.enableShufflePlay, playlistData.items.length, playlistIndexControl])
 
     const videoOnClick = useCallback(() => {
         const video = videoRef.current
@@ -502,7 +505,7 @@ function Player(props: Props) {
     const thumbnailSrc = videoInfo?.data.response.video.thumbnail.player
 
     const thisVideoAuthor = (videoInfo?.data.response.owner && videoInfo?.data.response.owner.nickname) ?? (videoInfo?.data.response.channel && videoInfo?.data.response.channel.name) ?? ""
-    const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
+    const currentPlayerType = isShortsPlayer ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
 
     // 過去ログロード中はコメント互換モードをdefaultに変更
     const commentRenderMode = currentLogData?.when ? (syncStorage.flagTimetravelCommentRenderMode || "default") : localStorage.commentRenderMode ?? "html5"
@@ -530,7 +533,7 @@ function Player(props: Props) {
             data-is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
             data-is-jump-video={jumpVideo ? "true" : "false"}
             data-is-borderless-player={syncStorage.disableBorderlessPlayer ? "false" : "true"}
-            data-player-type={currentPlayerType}
+            data-player-type={syncStorage.flagEnableShortsLayout ? currentPlayerType : (syncStorage.pmwplayertype || playerTypes.default)}
             ref={containerRef}
         >
             <VideoPlayer

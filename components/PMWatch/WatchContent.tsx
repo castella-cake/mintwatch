@@ -56,9 +56,10 @@ export function WatchContent(_props: Props) {
     const {
         pmwlayouttype,
         shinjukuDotFontType,
-    } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType"] as const, "sync")
+        flagEnableShortsLayout,
+    } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType", "flagEnableShortsLayout"] as const, "sync")
 
-    const layoutType = isShortsPage ? watchLayoutType.shorts : pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
+    const layoutType = (isShortsPage && flagEnableShortsLayout) ? watchLayoutType.shorts : pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
 
     useEffect(() => {
         document.dispatchEvent(
@@ -96,6 +97,7 @@ export function WatchContent(_props: Props) {
             setIsFullscreenUi={setIsFullscreenUi}
             changeVideo={onChangeVideo}
             onModalStateChanged={onModalStateChanged}
+            isShortsPlayer={isShortsPage}
             key="watchui-player"
         />
     )

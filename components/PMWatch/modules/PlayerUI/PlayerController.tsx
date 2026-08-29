@@ -38,6 +38,7 @@ export const playerTypes = {
     officialPlayer: "html5",
     shinjuku: "shinjuku",
     ginzaPlus: "ginzaplus",
+    shorts: "shorts",
 }
 
 /**
@@ -66,7 +67,7 @@ function PlayerController(props: Props) {
     const seekbarElem = (
         <Seekbar
             key="control-seekbar"
-            showTime={currentPlayerType === playerTypes.default}
+            showTime={currentPlayerType === playerTypes.default || currentPlayerType === playerTypes.shorts}
             storyBoardData={storyBoardData}
             hlsRef={hlsRef}
         />
@@ -92,6 +93,12 @@ function PlayerController(props: Props) {
 
     const controlLayouts: { [key: string]: { top: JSX.Element[], left: JSX.Element[], center: JSX.Element[], right: JSX.Element[] } } = {
         default: {
+            top: [seekbarElem],
+            left: [effectChangeElem, volumeElem, toggleLoopElem],
+            center: [skipBackElem, backwardElem, togglePauseElem, forwardElem, skipForwardElem],
+            right: [],
+        },
+        shorts: {
             top: [seekbarElem],
             left: [effectChangeElem, volumeElem, toggleLoopElem],
             center: [skipBackElem, backwardElem, togglePauseElem, forwardElem, skipForwardElem],

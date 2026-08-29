@@ -1,4 +1,5 @@
-.player-container[data-player-type="default"] {
+.player-container[data-player-type="default"],
+.player-container[data-player-type="shorts"] {
     .playercontroller-container-right, .playercontroller-container-left {
         button {
             padding: 6px;
@@ -79,8 +80,8 @@
 
 }
 
-
-.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"] {
+.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"],
+.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="shorts"] {
     background: var(--bgcolor1);
 
     .playercontroller-container {
