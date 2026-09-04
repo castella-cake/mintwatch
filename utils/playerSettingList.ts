@@ -162,6 +162,14 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: false,
                 name: "コメントの縁取りを無効化",
             },
+            commentRenderMode: {
+                type: "select",
+                defaultValue: "html5",
+                options: ["html5", "flash", "default"],
+                texts: ["HTML5互換", "Flash互換", "自動調整"],
+                name: "コメント互換モード",
+                hint: "niconicomments の互換モードを切り替えます。\n過去ログを読み込んでいる場合、この設定は無視されます",
+            },
             pauseOnCommentInput: {
                 type: "checkbox",
                 defaultValue: false,

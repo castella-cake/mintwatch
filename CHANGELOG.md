@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - コメントリストのNG設定ボタンを拡張メニューへ移動しました
 - 一部の表示をよりわかりやすく調整しました
 - 例外表示を改善しました
+- niconicomments の表示互換モードを設定から切り替えられるようになりました
+- 過去ログを読み込んでいる場合に niconicomments の表示モードが「自動調整」に強制されるようになりました  
+  これにより、Flash 時代に投稿されたコメントアートが期待通りに表示されやすくなります。
 
 ### Fixed
 - 依存関係を更新しました  

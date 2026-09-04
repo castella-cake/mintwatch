@@ -5,7 +5,7 @@ import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData"
 import { UseMutateFunction } from "@tanstack/react-query"
 import { VideoDataThread } from "@/types/VideoData"
 
-const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined }>({ commentContent: undefined, lastSentCommentId: undefined })
+const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined, currentLogData: { when: number } | undefined }>({ commentContent: undefined, lastSentCommentId: undefined, currentLogData: undefined })
 
 type CommentControllerContext = {
     setCommentContent: (newCommentContent: CommentDataRootObject) => void
@@ -25,7 +25,7 @@ const ICommentControllerContext = createContext<CommentControllerContext>({
 export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext()
 
-    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
+    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
     const [lastSentCommentId, setLastSentCommentId] = useState<string | undefined>()
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     }, [commentContent]) // コメント情報が最後に更新されると踏んで、commentContentだけを依存する
 
     return (
-        <ICommentContentContext value={{ commentContent, lastSentCommentId }}>
+        <ICommentContentContext value={{ commentContent, lastSentCommentId, currentLogData }}>
             <ICommentControllerContext
                 value={{ setCommentContent, reloadCommentContent, sendNicoru, setLastSentCommentId }}
             >

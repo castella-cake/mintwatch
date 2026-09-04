@@ -30,6 +30,7 @@ export function CommentRender(props: {
     disableCommentOutline: boolean
     enableFancyRendering: boolean
     enableInterpolateCommentRendering: boolean
+    renderMode?: "default" | "html5" | "flash"
 }) {
     const {
         videoRef,
@@ -45,6 +46,7 @@ export function CommentRender(props: {
         defaultPostTargetIndex,
         enableFancyRendering,
         enableInterpolateCommentRendering,
+        renderMode,
     } = props
 
     const canUseFastRenderConfig = !(enableFancyRendering || enableCommentPiP) // コメントPIPと描画優先のどちらも有効になっていない
@@ -91,7 +93,7 @@ export function CommentRender(props: {
                 format: "v1",
                 enableLegacyPiP: true,
                 video: (enableCommentPiP ? videoRef.current : undefined),
-                mode: "html5",
+                mode: renderMode ?? "html5",
                 config: {
                     ...(disableCommentOutline ? disableOutlineConfig : {}),
                     ...(canUseFastRenderConfig ? fastConfig : {}),
@@ -112,7 +114,7 @@ export function CommentRender(props: {
                 if (pipVideoRef.current) pipVideoRef.current.srcObject = null
             }
         }
-    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline, canUseFastRenderConfig, enableInterpolateCommentRendering])
+    }, [threads, enableCommentPiP, previewCommentItem, commentRenderFps, disableCommentOutline, canUseFastRenderConfig, enableInterpolateCommentRendering, renderMode])
 
     useInterval(() => {
         if (!videoRef.current || !isCommentShown || !niconicommentsRef.current) return

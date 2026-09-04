@@ -47,7 +47,7 @@ function Player(props: Props) {
 
     const { smId } = useSmIdContext()
     const { videoInfo } = useVideoInfoContext()
-    const { commentContent, lastSentCommentId } = useCommentContentContext()
+    const { commentContent, lastSentCommentId, currentLogData } = useCommentContentContext()
     const videoRef = useVideoRefContext()
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
@@ -79,6 +79,7 @@ function Player(props: Props) {
         "disableCommentOutline",
         "enableFancyRendering",
         "enableInterpolateCommentRendering",
+        "commentRenderMode",
         "enableBigView",
         "rewindTime",
         "borderPastMyComments",
@@ -500,6 +501,9 @@ function Player(props: Props) {
     const thisVideoAuthor = (videoInfo?.data.response.owner && videoInfo?.data.response.owner.nickname) ?? (videoInfo?.data.response.channel && videoInfo?.data.response.channel.name) ?? ""
     const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
 
+    // 過去ログロード中はコメント互換モードをdefaultに変更
+    const commentRenderMode = currentLogData?.when ? "default" : localStorage.commentRenderMode ?? "html5"
+
     return (
         <div
             className="player-container"
@@ -571,6 +575,7 @@ function Player(props: Props) {
                             localStorage.enableInterpolateCommentRendering
                             ?? true
                         }
+                        renderMode={commentRenderMode}
                         commentRenderFps={commentRenderFps}
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={

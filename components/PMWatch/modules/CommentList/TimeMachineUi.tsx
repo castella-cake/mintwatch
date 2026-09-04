@@ -67,7 +67,7 @@ export function TimeMachine({ onConfirm, onReload }: { onConfirm: (dateTime: Dat
                 </button>
             </div>
             <div className="comment-timemachine-description">
-                新しいコメントを投稿すると、ロードした過去ログは破棄されます。
+                コメント投稿などの操作を行うと、過去ログは解除されます。
             </div>
         </div>
     )
