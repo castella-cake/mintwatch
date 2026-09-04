@@ -47,11 +47,13 @@ const sortKeys = {
 }
 
 function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
-    return (
-        videoInfo.data?.response.comment.threads.findIndex(
-            elem => elem.isDefaultPostTarget,
-        ) ?? 0
+    const defaultThreadIndex = videoInfo.data?.response.comment.threads.findIndex(
+        elem => elem.isDefaultPostTarget,
     )
+    // findIndex は見つからない場合 -1 を返す。?? では -1 をフォールバックできないため明示的に0へ
+    return defaultThreadIndex === undefined || defaultThreadIndex === -1
+        ? 0
+        : defaultThreadIndex
 }
 
 const Comments = ({
