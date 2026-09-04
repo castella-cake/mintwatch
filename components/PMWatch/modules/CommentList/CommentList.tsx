@@ -116,6 +116,7 @@ const Comments = ({
     }, [
         videoRef.current,
         doAutoScroll,
+        updateScrollPosition,
     ])
 
     if (!comments) return
@@ -461,7 +462,6 @@ function CommentList() {
                 />
             )}
             <Comments
-                key={`${smId}-${currentForkType}`}
                 comments={filteredComments}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}
