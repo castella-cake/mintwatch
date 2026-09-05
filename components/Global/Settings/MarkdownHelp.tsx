@@ -7,9 +7,10 @@ import remarkGfm from "remark-gfm"
 
 const docs = { help: onboardingMarkdown, whatsnew: whatsNewMarkdown, whatsnew_archive: whatsNewArchiveMarkdown }
 
-export function MarkdownHelp({ contentKey, children }: { contentKey: keyof typeof docs, children?: ReactNode }) {
+export function MarkdownHelp({ contentKey, children, preChildren }: { contentKey: keyof typeof docs, children?: ReactNode, preChildren?: ReactNode }) {
     return (
         <div className="pmw-help-content">
+            {preChildren}
             <Markdown remarkPlugins={[[remarkGfm, { singleTilde: false }]]}>
                 {docs[contentKey]}
             </Markdown>

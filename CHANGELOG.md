@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 実験的: ニコスクリプトでのジャンプに対応しました
 - `?past_log=` クエリパラメータによる過去ログ読み込みに対応しました [#58](https://github.com/castella-cake/mintwatch/issues/58)
 - Shinjuku ナビゲーションバーでも、更新情報をバナーとしてお知らせするようになりました
+- 「更新情報」の先頭に各種リンクを追加しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)

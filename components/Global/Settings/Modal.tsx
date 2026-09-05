@@ -19,6 +19,7 @@ import settings from "@/utils/settingsList"
 import CreateSettingsList from "@/components/pages/SettingsUI"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
 import { MWButton } from "../MWButton"
+import { UpdateNotice } from "./UpdateNotice"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
 // containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
@@ -104,15 +105,22 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                                 </div>
                             )}
                             {(mintModalState === "help" || mintModalState === "whatsnew") && (
-                                <MarkdownHelp contentKey={mintModalState}>
-                                    {mintModalState === "whatsnew" && (
-                                        <details>
-                                            <summary>過去の更新情報</summary>
-                                            <MarkdownHelp contentKey="whatsnew_archive" />
-                                            <ForgottenThing />
-                                        </details>
-                                    )}
-                                </MarkdownHelp>
+                                <>
+                                    <MarkdownHelp
+                                        contentKey={mintModalState}
+                                        preChildren={mintModalState === "whatsnew" && (
+                                            <UpdateNotice />
+                                        )}
+                                    >
+                                        {mintModalState === "whatsnew" && (
+                                            <details>
+                                                <summary>過去の更新情報</summary>
+                                                <MarkdownHelp contentKey="whatsnew_archive" />
+                                                <ForgottenThing />
+                                            </details>
+                                        )}
+                                    </MarkdownHelp>
+                                </>
                             )}
                             {mintModalState === "shortcuts" && (
                                 <KeyboardShortcuts />
