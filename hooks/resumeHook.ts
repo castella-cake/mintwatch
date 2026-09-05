@@ -1,7 +1,9 @@
+import { useLocationContext } from "@/components/Router/RouterContext"
 import { VideoDataRootObject } from "@/types/VideoData"
 import { RefObject } from "react"
 
 export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | undefined, resumePlaybackType?: string) {
+    const location = useLocationContext()
     // レジューム再生の処理
     useEffect(() => {
         if (!videoInfo) return
@@ -21,7 +23,7 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
         if (!videoInfo || !videoRef.current) return
         const searchParams = new URLSearchParams(location.search)
         const fromSecond = Number(searchParams.get("from"))
-        if (fromSecond) {
+        if (fromSecond || fromSecond === 0) {
             videoRef.current.currentTime = fromSecond
             return
         }
@@ -34,5 +36,5 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
             )
         )) return
         videoRef.current.currentTime = videoInfo.data.response.player.initialPlayback?.positionSec
-    }, [videoInfo])
+    }, [videoInfo, location.search, resumePlaybackType])
 }

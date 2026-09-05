@@ -1,4 +1,4 @@
-import { IconCancel, IconCircleX, IconClock, IconClockFilled, IconDots, IconFolderPlus, IconShare } from "@tabler/icons-react"
+import { IconArrowBigRightLine, IconCancel, IconCheck, IconCircleX, IconClock, IconClockFilled, IconDots, IconFolderPlus, IconShare } from "@tabler/icons-react"
 import { Card } from "../InfoCard"
 import "./styles/genericItem.css"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
@@ -97,16 +97,17 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
     const { id: smId, title } = video
 
     const { showAlert, showToast } = useSetMessageContext()
-    const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
+    const [watchLaterState, setWatchLaterState] = useState<"unknownOrNot" | "adding" | "added">("unknownOrNot")
     const [isPopupOpen, setIsPopupOpen] = useState(false)
     const buttonRef = useRef<HTMLButtonElement>(null)
 
     const handleAddToWatchLater = async () => {
-        if (isWatchLaterAdding) return
+        if (watchLaterState !== "unknownOrNot") return
 
-        setIsWatchLaterAdding(true)
+        setWatchLaterState("adding")
         try {
             await addToWatchLater(smId)
+            setWatchLaterState("added")
             showToast({
                 title: "あとで見るに追加しました",
                 body: title,
@@ -125,7 +126,7 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                     title: "あとで見るへの追加に失敗しました",
                     body: "追加上限を超えていないか確認してください。それでも追加できない場合は、時間を置いて再度お試しください。",
                 })
-                setIsWatchLaterAdding(false)
+                setWatchLaterState("unknownOrNot")
             }
         }
     }
@@ -198,6 +199,17 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 <IconDots />
             </button>
             <PopupMenu isOpen={isPopupOpen} onClose={() => { setIsPopupOpen(false) }} positionElemRef={buttonRef}>
+                { video.playbackPosition && (
+                    <a
+                        className="generic-contextmenu-item"
+                        href={`https://www.nicovideo.jp/watch/${smId}?from=0`}
+                    >
+                        <IconArrowBigRightLine />
+                        <span>
+                            初めから直接再生
+                        </span>
+                    </a>
+                )}
                 <button
                     className="generic-contextmenu-item"
                     onClick={handleShareOpen}
@@ -210,11 +222,17 @@ function ExternalButton({ video, children }: { video: VideoItem, children?: Reac
                 <button
                     className="generic-contextmenu-item"
                     onClick={handleAddToWatchLater}
-                    disabled={isWatchLaterAdding}
+                    disabled={watchLaterState !== "unknownOrNot"}
                 >
-                    <IconClock />
+                    {watchLaterState === "added"
+                        ? (
+                                <IconCheck />
+                            )
+                        : (
+                                <IconClock />
+                            )}
                     <span>
-                        あとで見る
+                        あとで見るに追加
                     </span>
                 </button>
                 <button

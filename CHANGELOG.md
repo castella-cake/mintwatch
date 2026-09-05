@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `?past_log=` クエリパラメータによる過去ログ読み込みに対応しました [#58](https://github.com/castella-cake/mintwatch/issues/58)
 - Shinjuku ナビゲーションバーでも、更新情報をバナーとしてお知らせするようになりました
 - 「更新情報」の先頭に各種リンクを追加しました
+- 動画カードアクションに「初めから直接再生」を追加しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - デフォルトプレイヤーテーマ以外でもフチ無しプレイヤーを使うように変更しました  
   これに伴い、「クラシック」テーマを廃止し、詳細設定に「クラシックなプレイヤー表示」を追加しました。
 - MintWatch モーダルの幅と高さを拡大しました
+- 動画カードからあとで見るに追加した場合のフィードバックを修正しました
 
 ### Fixed
 - 依存関係を更新しました  
@@ -70,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Avenir が混植される環境(主にmacOS)での高さのズレを解消しました
 - 過去ログをロードしてもコメントログの自動スクロールが壊れないようになりました
 - コメントリストのスレッド選択が、デフォルトスレッドの違う動画へ移動すると取り残される問題を修正しました
+- fromパラメーターが0sの場合に無視される問題を修正しました
 
 ## 0.11.2 - 2026/04/29
 
