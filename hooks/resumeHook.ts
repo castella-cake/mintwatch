@@ -22,8 +22,9 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
     useEffect(() => {
         if (!videoInfo || !videoRef.current) return
         const searchParams = new URLSearchParams(location.search)
-        const fromSecond = Number(searchParams.get("from"))
-        if (fromSecond || fromSecond === 0) {
+        const fromParam = searchParams.get("from")
+        const fromSecond = Number(fromParam)
+        if ((fromSecond || fromSecond === 0) && fromParam !== null) {
             videoRef.current.currentTime = fromSecond
             return
         }
