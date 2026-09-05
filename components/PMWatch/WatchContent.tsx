@@ -98,7 +98,9 @@ export function WatchContent(_props: Props) {
     const titleElem = <VideoTitle key="watch-container-title" showStats={true} />
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
 
-    const commentListElem = <CommentList key="watchui-commentlist" />
+    // HACKY: defaultPostTargetをベースにコンポーネントのキーを作成することで、チャンネルとユーザー動画の遷移時にコメントスレッド選択が取り残されないようになる。
+    const commentListKey = videoInfo?.data.response?.comment?.threads.map(thread => thread.isDefaultPostTarget).join("-")
+    const commentListElem = <CommentList key={`watchui-commentlist-${commentListKey}`} />
     const playListElem = <Playlist key="watchui-playlist" />
     const actionsElem = <Actions onModalOpen={onModalOpen} key="watchui-actions" />
     const lyricsElem = <Lyric key="watchui-lyrics" />
