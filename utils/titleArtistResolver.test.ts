@@ -48,6 +48,18 @@ test.todo("連なったCDタグ式を正しく分離できる", () => {
     expect(resolveTitleAndArtist("Title / Artist Somebody - TITLE / ARTIST SOMEBODY", "Artist")).toEqual({ title: "Title", artist: "Artist Somebody" })
 })
 
+test("CDタグ式の分離で、スペースがある方を優先する", () => {
+    expect(resolveTitleAndArtist("Ti-tle - A-B feat.Somebody", "A-B")).toEqual({ title: "Ti-tle", artist: "A-B feat.Somebody" })
+})
+
 test("CDタグ式の分離で、-より/を優先する", () => {
-    expect(resolveTitleAndArtist("Title / A-B feat.Somebody", "A-B")).toEqual({ title: "Title", artist: "A-B feat.Somebody" })
+    expect(resolveTitleAndArtist("Ti-tle/A-B feat.Somebody", "A-B")).toEqual({ title: "Ti-tle", artist: "A-B feat.Somebody" })
+})
+
+test("三連分離を正しく解釈する", () => {
+    expect(resolveTitleAndArtist("Artist - Title - feat.Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist / feat.Somebody" })
+})
+
+test("三連分離で/より-を優先する", () => {
+    expect(resolveTitleAndArtist("Artist/Participant - Title - feat.Somebody/Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist/Participant / feat.Somebody/Somebody" })
 })
