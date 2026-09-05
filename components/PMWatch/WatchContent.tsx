@@ -15,6 +15,7 @@ import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPlaylist } from "@tabler/icons-react"
 import { useVideoInfoContext } from "../Global/Contexts/VideoDataProvider"
+import { usePastLogConfirm } from "@/hooks/pastLogQuery"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -45,6 +46,9 @@ export function WatchContent(_props: Props) {
         enableShufflePlay,
     } = useStorageVar(["enableBigView", "enableContinuousPlay", "enableShufflePlay"] as const, "local")
     const { videoInfo } = useVideoInfoContext()
+
+    // ?past_log= クエリ時の過去ログ確認アラート
+    usePastLogConfirm()
 
     const {
         pmwlayouttype,

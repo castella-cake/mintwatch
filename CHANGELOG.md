@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 検索ページからの連続再生に対応しました
 - 検索時に動画IDが含まれていて、その動画が見つかった場合に、先頭に該当の動画カードを表示するようになりました
 - 実験的: ニコスクリプトでのジャンプに対応しました
+- `?past_log=` クエリパラメータによる過去ログ読み込みに対応しました [#58](https://github.com/castella-cake/mintwatch/issues/58)
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)

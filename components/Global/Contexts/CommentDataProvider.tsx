@@ -4,8 +4,9 @@ import { CommentDataRootObject } from "@/types/CommentData"
 import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData"
 import { UseMutateFunction } from "@tanstack/react-query"
 import { VideoDataThread } from "@/types/VideoData"
+import { usePastLogQuery, PendingPastLog } from "@/hooks/pastLogQuery"
 
-const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined, currentLogData: { when: number } | undefined }>({ commentContent: undefined, lastSentCommentId: undefined, currentLogData: undefined })
+const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined, currentLogData: { when: number } | undefined, pendingPastLog: PendingPastLog | undefined }>({ commentContent: undefined, lastSentCommentId: undefined, currentLogData: undefined, pendingPastLog: undefined })
 
 type CommentControllerContext = {
     setCommentContent: (newCommentContent: CommentDataRootObject) => void
@@ -14,12 +15,14 @@ type CommentControllerContext = {
     }) => Promise<CommentDataRootObject | undefined>
     sendNicoru: UseMutateFunction<CommentDataRootObject, Error, { currentForkType: number, currentThread: VideoDataThread, commentNo: number, commentBody: string, nicoruId: string | null, isMyPost: boolean }, unknown>
     setLastSentCommentId: (id: string | undefined) => void
+    consumePendingPastLog: (key: string) => boolean
 }
 const ICommentControllerContext = createContext<CommentControllerContext>({
     setCommentContent: () => {},
     reloadCommentContent: null!,
     sendNicoru: null!,
     setLastSentCommentId: () => {},
+    consumePendingPastLog: () => false,
 })
 
 export function CommentDataProvider({ children }: { children: ReactNode }) {
@@ -27,6 +30,9 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
 
     const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
     const [lastSentCommentId, setLastSentCommentId] = useState<string | undefined>()
+
+    // 過去ログを読み取るクエリ past_log を解釈してUI側へ公開する
+    const { pendingPastLog, consumePendingPastLog } = usePastLogQuery()
 
     useEffect(() => {
         if (
@@ -41,9 +47,9 @@ export function CommentDataProvider({ children }: { children: ReactNode }) {
     }, [commentContent]) // コメント情報が最後に更新されると踏んで、commentContentだけを依存する
 
     return (
-        <ICommentContentContext value={{ commentContent, lastSentCommentId, currentLogData }}>
+        <ICommentContentContext value={{ commentContent, lastSentCommentId, currentLogData, pendingPastLog }}>
             <ICommentControllerContext
-                value={{ setCommentContent, reloadCommentContent, sendNicoru, setLastSentCommentId }}
+                value={{ setCommentContent, reloadCommentContent, sendNicoru, setLastSentCommentId, consumePendingPastLog }}
             >
                 {children}
             </ICommentControllerContext>
