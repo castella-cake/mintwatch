@@ -63,7 +63,7 @@
     background: #0008;
     pointer-events: none;
     z-index: 60;
-    
+
     --textcolor2: #fafafa;
 
     .loading-spinner {
@@ -429,5 +429,63 @@
     svg {
         width: 3rem;
         height: 3rem;
+    }
+}
+
+.container:not(.fullscreen)[data-background-playing="false"] .watch-container:not([data-watch-type="shinjuku"]) .player-container[data-is-borderless-player="true"] {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+
+    .player-video-container {
+        background: var(--bgcolor2);
+        padding: 0;
+        border-radius: var(--radius) var(--radius) 0 0;
+        box-shadow: var(--box-shadow);
+        border: var(--border);
+        width: auto;
+    }
+
+    .playercontroller-container {
+        padding: 0;
+        border-radius: 0 0 8px 8px;
+        border: var(--border);
+        border-top: none;
+        box-shadow: var(--box-shadow);
+    }
+
+    .commentinput-container > input, .commentinput-container > .commentinput-textarea-container > .commentinput-input {
+        background: var(--bgcolor2);
+    }
+
+    .commentinput-container {
+        box-shadow: var(--box-shadow);
+
+        --border: 1px solid var(--accent1);
+    }
+
+    .commentinput-input {
+        padding: 9px;
+    }
+
+    &[data-is-integrated-controller="true"] {
+        .player-video-container {
+            border-radius: var(--radius);
+        }
+
+        .playercontroller-container {
+            box-shadow: none;
+            border: none;
+            padding: 16px 8px 4px;
+            left: 0;
+            right: 0;
+            bottom: calc(var(--blocks-gap) + 36px);
+        }
+
+        .playersettings-container, .vefx-container {
+            bottom: 96px;
+        }
     }
 }

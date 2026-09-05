@@ -33,7 +33,7 @@
         margin-top: 0;
     }
 
-    .player-container[data-player-type="default"] .playercontroller-container, .player-container[data-player-type="classic"] .playercontroller-container {
+    .player-container[data-player-type="default"] .playercontroller-container {
         padding: 8px;
         padding-bottom: 0;
     }

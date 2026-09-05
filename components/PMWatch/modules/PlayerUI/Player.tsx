@@ -89,6 +89,7 @@ function Player(props: Props) {
     const syncStorage = useStorageVar([
         "pmwplayertype",
         "pmwforcepagehls",
+        "disableBorderlessPlayer",
     ] as const)
 
     const [isVefxShown, setIsVefxShown] = useState(false)
@@ -526,6 +527,7 @@ function Player(props: Props) {
             }
             data-is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
             data-is-jump-video={jumpVideo ? "true" : "false"}
+            data-is-borderless-player={syncStorage.disableBorderlessPlayer ? "false" : "true"}
             data-player-type={currentPlayerType}
             ref={containerRef}
         >

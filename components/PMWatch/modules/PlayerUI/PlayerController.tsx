@@ -42,7 +42,6 @@ type Props = {
 
 export const playerTypes = {
     default: "default",
-    classic: "classic",
     officialPlayer: "html5",
     shinjuku: "shinjuku",
     ginzaPlus: "ginzaplus",
@@ -157,7 +156,7 @@ function PlayerController(props: Props) {
     const seekbarElem = (
         <Seekbar
             key="control-seekbar"
-            showTime={currentPlayerType === playerTypes.default || currentPlayerType === playerTypes.classic}
+            showTime={currentPlayerType === playerTypes.default}
             storyBoardData={storyBoardData}
             hlsRef={hlsRef}
         />

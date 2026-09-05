@@ -18,7 +18,7 @@
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
             "hint": "動画プレイヤーの見た目を指定します",
-            "select": ["デフォルト", "クラシック", "cresc.", "Shinjuku", "GINZA+"]
+            "select": ["デフォルト", "cresc.", "Shinjuku", "GINZA+"]
         },
         "commentListType": {
             "name": "コメントリストの表示",
@@ -84,6 +84,10 @@
         },
         "disallowGridFallback": {
             "name": "画面幅に応じたグリッド表示のフォールバックを無効化"
+        },
+        "disableBorderlessPlayer": {
+            "name": "クラシックなプレイヤー表示",
+            "hint": "以前のプレイヤー表示に戻します。Shinjuku レイアウトではこの設定は無視されます"
         },
         "shinjukuEnableNavbar": {
             "name": "Shinjuku レイアウトでナビゲーションバーを表示"

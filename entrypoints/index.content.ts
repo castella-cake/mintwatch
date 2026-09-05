@@ -28,7 +28,7 @@ export default defineContentScript({
         // 視聴ページは常に動作するため、storageを待たずにブロック処理を即時実行する
         if (isWatch) blockPage()
 
-        getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "local:playersettings", "sync:enableFirefoxWindowStop", "sync:enableReshogi", "sync:enableSearchPage"] as const).then((storage) => {
+        getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "sync:pmwplayertype", "local:playersettings", "sync:enableFirefoxWindowStop", "sync:enableReshogi", "sync:enableSearchPage"] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
 

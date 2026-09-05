@@ -104,6 +104,13 @@ function reserveEssentialMetaTags() {
 export async function initiateRouter(ctx: ContentScriptContext, currentStorage: { [key: string]: any }) {
     blockPage()
 
+    if (currentStorage["sync:pmwplayertype"] === "classic") {
+        await storage.setItems([
+            { key: "sync:disableBorderlessPlayer", value: true },
+            { key: "sync:pmwplayertype", value: "default" },
+        ])
+    }
+
     document.documentElement.classList.add("MW-Enabled")
     if (currentStorage["sync:starNightPalette"]) {
         document.documentElement.setAttribute("data-mw-palette", "starnight")

@@ -1,45 +1,24 @@
-.container[data-background-playing="false"] .player-container[data-player-type="default"] {
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    border: none;
-    padding: 0;
-
-    .player-video-container {
-        background: var(--bgcolor2);
-        padding: 0;
-        border-radius: var(--radius);
-        box-shadow: var(--box-shadow);
-        border: var(--border);
-        width: auto;
-    }
-
-    .playercontroller-container {
-        margin-top: 8px;
-        padding: 2px 0;
-        padding-bottom: 4px;
-        background: var(--bgcolor2);
-        border-radius: var(--radius);
-        border: var(--border);
-        box-shadow: var(--box-shadow);
-    }
-
-    .playercontroller-container-right button, .playercontroller-container-left button {
-        padding: 6px;
-    }
-
-    .playercontroller-container-center button {
-        padding: 8px;
-        border-radius: 1024px;
-        background: var(--accent1);
-
-        &:hover {
-            background: var(--hover1);
+.player-container[data-player-type="default"] {
+    .playercontroller-container-right, .playercontroller-container-left {
+        button {
+            padding: 6px;
         }
+    }
 
-        & svg {
-            width: 22px;
-            height: 22px;
+    .playercontroller-container-center {
+        button {
+            padding: 8px;
+            border-radius: 1024px;
+            background: var(--accent1);
+
+            &:hover {
+                background: var(--hover1);
+            }
+
+            & svg {
+                width: 22px;
+                height: 22px;
+            }
         }
     }
 
@@ -63,13 +42,30 @@
         padding: 0 10px;
         padding-top: 6px;
     }
-    
+
     .playercontroller-container > div {
         transition: opacity 0.2s ease;
     }
-    
-    &[data-is-integrated-controller="true"] {
+
+}
+
+.container:not(.fullscreen)[data-background-playing="false"] .watch-container:not([data-watch-type="shinjuku"]) {
+    .player-container[data-player-type="default"][data-is-borderless-player="true"] {
+        .player-video-container {
+            border-radius: var(--radius);
+        }
+
         .playercontroller-container {
+            margin-top: 8px;
+            padding: 2px 0;
+            padding-bottom: 4px;
+            background: var(--bgcolor2);
+            border-radius: var(--radius);
+            border: var(--border);
+            box-shadow: var(--box-shadow);
+        }
+
+        &[data-is-integrated-controller="true"] .playercontroller-container {
             backdrop-filter: var(--backdrop-blur-high);
             box-shadow: 0 0 4px #000;
         }
@@ -79,22 +75,8 @@
         }
     }
 
-    .commentinput-container > input, .commentinput-container > .commentinput-textarea-container > .commentinput-input {
-        background: var(--bgcolor2);
-    }
-
-    .commentinput-container {
-        box-shadow: var(--box-shadow);
-
-        --border: 1px solid var(--accent1);
-    }
-
-    .commentinput-input {
-        padding: 9px;
-    }
-
-    
 }
+
 
 .fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"] {
     background: var(--bgcolor1);

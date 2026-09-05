@@ -29,7 +29,7 @@ const settings: settingList = {
         {
             type: "select",
             name: "pmwplayertype",
-            values: ["default", "classic", "html5", "shinjuku", "ginzaplus"],
+            values: ["default", "html5", "shinjuku", "ginzaplus"],
             default: "default",
         },
         {
@@ -80,6 +80,11 @@ const settings: settingList = {
                 {
                     type: "checkbox",
                     name: "disallowGridFallback",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "disableBorderlessPlayer",
                     default: false,
                 },
                 {
