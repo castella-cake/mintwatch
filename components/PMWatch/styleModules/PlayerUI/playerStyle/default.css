@@ -70,8 +70,10 @@
             box-shadow: 0 0 4px #000;
         }
 
-        .playersettings-container, .vefx-container {
-            bottom: 96px;
+        &[data-is-integrated-controller="true"] {
+            .playersettings-container, .vefx-container {
+                bottom: 96px;
+            }
         }
     }
 
