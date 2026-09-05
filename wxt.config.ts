@@ -19,7 +19,7 @@ export default defineConfig({
         }
     },
     manifest: {
-        name: "MintWatch (Beta)",
+        name: "MintWatch",
         permissions: [
             "storage",
         ],
