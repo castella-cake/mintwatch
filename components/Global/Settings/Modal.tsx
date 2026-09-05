@@ -38,7 +38,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
         >
             <ReactFocusLock>
                 <div className="modal-wrapper" ref={wrapperRef}>
-                    <div className="modal-container" data-select-placement="top" ref={containerRef}>
+                    <div className="modal-container mwextendedmodal-container" data-select-placement="top" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
                                 {returnTitle(mintModalState)}

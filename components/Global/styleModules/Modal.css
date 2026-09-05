@@ -14,8 +14,9 @@
     background: var(--modal-background);
     border-radius: var(--radius);
     width: min(50em,100vw);
-    height: max(70vh, 480px);
-    padding: min(1%, 16px);
+    height: 100vh;
+    max-height: 42.5rem;
+    padding: max(1%, 8px);
     border: var(--border);
     box-shadow: var(--box-shadow);
     margin: auto;
@@ -23,6 +24,12 @@
     grid-template-columns: 0.3fr 1fr;
     grid-template-rows: max-content 1fr;
     min-width: 30em;
+}
+
+.mwextendedmodal-container {
+    width: min(65em, 98vw);
+    max-height: 47.5rem;
+    min-width: 0;
 }
 
 .modal-transition {
@@ -181,6 +188,7 @@ button.modal-close:hover {
     }
 
     .modal-selector .modal-select[data-is-active="true"] {
-        background: var(--bgcolor2);
+        background: var(--primary1);
+        color: var(--primary-text1);
     }
 }
