@@ -1,4 +1,4 @@
-import { setting, settingList } from "../../utils/settingsList"
+import { categoryUnlockFlags, setting, settingList } from "../../utils/settingsList"
 import { useLang } from "@/hooks/localizeHook"
 import { useStorageVar } from "@/hooks/extensionHook"
 import { useId } from "react"
@@ -10,20 +10,21 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
     const thisElementId = useId()
 
     const settingName = setting.name as keyof typeof lang.SETTINGS_ITEMS
+    const langItem = lang.SETTINGS_ITEMS[settingName]
     if (setting.type === "checkbox") {
         return (
             <label>
                 <input id={thisElementId} type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.checked) }} />
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {langItem?.name ?? setting.name}
             </label>
         )
     } else if (setting.type === "select" && setting.values) {
         const settingsOption = setting.values.map((elem, index) => {
-            return <option value={elem} key={elem}>{lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}</option>
+            return <option value={elem} key={elem}>{langItem?.select?.[index] ?? elem}</option>
         })
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {langItem?.name ?? setting.name}
                 <select id={thisElementId} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select>
             </label>
         )
@@ -36,20 +37,20 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
                     onClick={() => { storage.setItem(`sync:${setting.name}`, elem) }}
                     className={"select-button" + ((syncStorage[setting.name] ?? setting.default) == elem ? " select-button-current" : "")}
                 >
-                    {lang.SETTINGS_ITEMS[settingName].select[index] ?? elem}
+                    {langItem?.select?.[index] ?? elem}
                 </button>
             )
         })
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {langItem?.name ?? setting.name}
                 <div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div>
             </label>
         )
     } else if (setting.type === "inputNumber") {
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
+                {langItem?.name ?? setting.name}
                 <input id={thisElementId} type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, Number(e.currentTarget.value)) }} />
             </label>
         )
@@ -57,21 +58,21 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
         // console.log(syncStorage[settings.name])
         return (
             <label>
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                <input id={thisElementId} type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={lang.SETTINGS_ITEMS[settingName].placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
+                {langItem?.name ?? setting.name}
+                <input id={thisElementId} type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={langItem?.placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
             </label>
         )
     } else if (setting.type === "desc") {
         return (
             <div className="desc">
-                {lang.SETTINGS_ITEMS[settingName].name ?? setting.name}
-                {setting.href && <a href={setting.href} target="_blank" rel="noreferrer">{lang.SETTINGS_ITEMS[settingName].linktitle ?? "LINK"}</a>}
+                {langItem?.name ?? setting.name}
+                {setting.href && <a href={setting.href} target="_blank" rel="noreferrer">{langItem?.linktitle ?? "LINK"}</a>}
             </div>
         )
     } else if (setting.type === "group") {
         return (
             <details className="settings-group">
-                <summary>{(lang.SETTINGS_ITEMS[settingName] && lang.SETTINGS_ITEMS[settingName].name) ?? setting.name}</summary>
+                <summary>{langItem?.name ?? setting.name}</summary>
                 {setting.children && setting.children.map((elem) => {
                     return <CreateSettingsRow setting={elem} key={`${elem.name}-group-children`} />
                 })}
@@ -93,8 +94,9 @@ function LinkElem({ setting }: { setting: setting }) {
 }
 function HintElem({ setting }: { setting: setting }) {
     const lang: any = useLang()
-    if (lang.SETTINGS_ITEMS[setting.name].hint && lang.SETTINGS_ITEMS[setting.name].hint !== "") {
-        return <div className="hint">{lang.SETTINGS_ITEMS[setting.name].hint ?? ""}</div>
+    const hint = lang.SETTINGS_ITEMS[setting.name]?.hint
+    if (hint && hint !== "") {
+        return <div className="hint">{hint}</div>
     } else {
         return <></>
     }
@@ -123,20 +125,26 @@ function CreateSettingsRow({ setting }: { setting: setting }) {
     )
 }
 
-function CreateSettingsList({ settings }: { settings: settingList }) {
+function CreateSettingsArea({ categoryName, settings }: { categoryName: string, settings: setting[] }) {
     const lang: any = useLang()
+    const unlockFlag = categoryUnlockFlags[categoryName]
+    const syncStorage = useStorageVar(unlockFlag ? [unlockFlag] : [])
+    if (unlockFlag && !syncStorage[unlockFlag]) return
 
+    const settingsAreaElems = settings.map((settingsElem) => {
+        return <CreateSettingsRow setting={settingsElem} key={`${settingsElem.name}-row`} />
+    })
+    return (
+        <div className="settings-area" id={categoryName}>
+            <h1>{lang.SETTINGS_AREATITLE[categoryName] ?? categoryName}</h1>
+            {settingsAreaElems}
+        </div>
+    )
+}
+
+function CreateSettingsList({ settings }: { settings: settingList }) {
     const elemArray = Object.keys(settings).map((elem) => {
-        const settingsAreaElems = settings[elem].map((settingsElem) => {
-            // console.log(settingsElem)
-            return <CreateSettingsRow setting={settingsElem} key={`${settingsElem.name}-row`} />
-        })
-        return (
-            <div className="settings-area" key={`${elem}-area`} id={elem}>
-                <h1>{lang.SETTINGS_AREATITLE[elem] ?? elem}</h1>
-                {settingsAreaElems}
-            </div>
-        )
+        return <CreateSettingsArea categoryName={elem} settings={settings[elem]} key={`${elem}-area`} />
     })
     // console.log(elemArray)
     return (

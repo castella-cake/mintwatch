@@ -117,6 +117,10 @@
         "enableShokuninMode": {
             "name": "Enable Shokunin Mode",
             "hint": "Extends the command palette and comment detail display"
+        },
+
+        "flagSettingDescription": {
+            "name": "These settings are either experimental, or in progress. We do not guarantee that they will be work, nor do we provide support, and their functionality may also change in the future."
         }
     }
 }

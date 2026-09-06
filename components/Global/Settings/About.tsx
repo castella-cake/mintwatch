@@ -3,7 +3,7 @@ import MintWatchLogo from "@/public/mintwatch.svg?react"
 import PMFamilyLogo from "@/public/pmfamily.svg?react"
 import { DndContext, DragEndEvent, DragOverEvent, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from "@dnd-kit/core"
 import { CSS } from "@dnd-kit/utilities"
-import { IconComet } from "@tabler/icons-react"
+import { IconComet, IconFlag } from "@tabler/icons-react"
 
 const manifestData = browser.runtime.getManifest()
 
@@ -99,12 +99,24 @@ function EasterDraggablePMFamilyLogo() {
 }
 
 function EasterDroppableHeader({ progress, onUnlock }: { progress: 0 | 1 | 2 | 3, onUnlock: (event: React.MouseEvent) => void }) {
+    const { showToast } = useSetMessageContext()
+    const [versionClickCount, setVersionClickCount] = useState(0)
     const { setNodeRef: setLogoNodeRef } = useDroppable({
         id: "droppableLogo",
     })
     const { setNodeRef: setTextNodeRef } = useDroppable({
         id: "droppableText",
     })
+    function handleVersionClick() {
+        const nextCount = versionClickCount + 1
+        if (nextCount >= 10) {
+            setVersionClickCount(0)
+            storage.setItem("sync:flagSectionEnabled", true)
+            showToast({ icon: <IconFlag />, title: "Here it is!", body: "ポップアップ設定にフラグ設定を追加しました。" })
+            return
+        }
+        setVersionClickCount(nextCount)
+    }
     return (
         <div className="about-mintwatch-header" style={progress >= 1 ? { position: "relative" } : {}}>
             <MintWatchLogo
@@ -127,7 +139,7 @@ function EasterDroppableHeader({ progress, onUnlock }: { progress: 0 | 1 | 2 | 3
                 {progress === 1 && <button onClick={onUnlock}>ロック解除</button>}
                 <span key="about-mintwatch-egg-title" style={progress === 1 ? { animation: "aboutshow 0.2s linear 1 forwards", display: "inline-block", position: "absolute" } : {}}>MintWatch</span>
             </h1>
-            <span className="about-mintwatch-version">
+            <span className="about-mintwatch-version" onClick={handleVersionClick}>
                 v
                 {manifestData.version_name || manifestData.version || "Unknown"}
             </span>

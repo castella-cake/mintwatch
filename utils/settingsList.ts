@@ -178,7 +178,27 @@ const settings: settingList = {
             default: false,
         },
     ],
+    flags: [
+        {
+            type: "desc",
+            name: "flagSettingDescription",
+        },
+        {
+            type: "checkbox",
+            name: "flagEnableAdditionalJsonEditor",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "flagHlsErrorScreenEnable",
+            default: false,
+        },
+    ],
 } as const
+
+export const categoryUnlockFlags: { [categoryName: string]: string } = {
+    flags: "flagSectionEnabled",
+}
 
 export function getDefault(name: string) {
     for (const category of Object.values(settings)) {

@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shinjuku ナビゲーションバーでも、更新情報をバナーとしてお知らせするようになりました
 - 「更新情報」の先頭に各種リンクを追加しました
 - 動画カードアクションに「初めから直接再生」を追加しました
+- MintWatch モーダル内の「MintWatch について」にあるバージョン番号をクリックし続けると、ポップアップ設定に隠しフラグ設定を表示するようになりました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
