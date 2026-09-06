@@ -193,6 +193,12 @@ const settings: settingList = {
             name: "flagHlsErrorScreenEnable",
             default: false,
         },
+        {
+            type: "select",
+            name: "flagTimetravelCommentRenderMode",
+            values: ["default", "html5", "flash"],
+            default: "default",
+        },
     ],
 } as const
 

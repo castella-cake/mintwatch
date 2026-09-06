@@ -1,3 +1,6 @@
+import { IconDots } from "@tabler/icons-react"
+import { PopupMenu } from "../PopupMenu"
+
 export function NicoServiceLinks() {
     return (
         <div className="header-nicoservicelinks-container">
@@ -26,6 +29,44 @@ export function NicoServiceLinks() {
             <a href="https://dic.nicovideo.jp">大百科</a>
             <a href="https://originalnews.nico/464285">実況</a>
             <a href="https://anime.nicovideo.jp">Nアニメ</a>
+            <NicoServiceLinksMore />
         </div>
+    )
+}
+
+function NicoServiceLinksMore() {
+    const buttonRef = useRef<HTMLButtonElement | null>(null)
+    const [isMoreMenuShown, setIsMoreMenuShown] = useState(false)
+    const handleMoreMenuToggle = useCallback(() => {
+        setIsMoreMenuShown(current => !current)
+    }, [])
+
+    return (
+        <>
+            <button
+                ref={buttonRef}
+                className="header-nicoservicelinks-morebutton"
+                title="その他のサービス"
+                onClick={handleMoreMenuToggle}
+                data-is-active={isMoreMenuShown}
+            >
+                <IconDots />
+            </button>
+            <PopupMenu isOpen={isMoreMenuShown} onClose={() => { setIsMoreMenuShown(false) }} positionElemRef={buttonRef} additionalClassNames="header-nicoservicelinks-morelinks">
+                <div className="header-nicoservicelinks-morelinks-grid">
+                    <a href="https://ch.nicovideo.jp/portal/blomaga">ブロマガ</a>
+                    <a href="https://commons.nicovideo.jp/">コモンズ</a>
+                    <a href="https://nicoft.io/">NicoFT</a>
+                    <a href="https://q.nicovideo.jp/">ニコニコQ</a>
+                    <a href="https://koken.nicovideo.jp/">ニコニ貢献</a>
+                    <a href="https://3d.nicovideo.jp/">ニコニ立体</a>
+                    <a href="https://news.nicovideo.jp/">ニュース</a>
+                    <a href="https://www.beta.hiroba.nicovideo.jp/">ニコニコ広場</a>
+                </div>
+                <a href="https://site.nicovideo.jp/service_list" className="header-nicoservicelinks-morelinks-andmore">
+                    もっと見る
+                </a>
+            </PopupMenu>
+        </>
     )
 }

@@ -9,7 +9,7 @@
     flex-direction: column;
     gap: 4px;
     transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 50;
+    z-index: 100;
 
     &[data-animation="preEnter"], &[data-animation="exiting"] {
         opacity: 0;

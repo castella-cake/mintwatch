@@ -7,9 +7,10 @@ type Props = {
     positionElemRef: React.RefObject<HTMLElement | null>
     isOpen: boolean
     onClose: () => void
+    additionalClassNames?: string
 }
 
-export function PopupMenu({ children, positionElemRef, isOpen, onClose }: Props) {
+export function PopupMenu({ children, positionElemRef, isOpen, onClose, additionalClassNames }: Props) {
     const [{ status, isMounted }, toggle] = useTransitionState({
         timeout: 200,
         mountOnEnter: true,
@@ -82,7 +83,7 @@ export function PopupMenu({ children, positionElemRef, isOpen, onClose }: Props)
             <ReactFocusLock>
                 <div
                     ref={popupMenuRef}
-                    className="generic-contextmenu popupmenu-container"
+                    className={`generic-contextmenu popupmenu-container ${additionalClassNames || ""}`}
                     onKeyDown={handleKeyDown}
                     data-animation={status}
                     style={{

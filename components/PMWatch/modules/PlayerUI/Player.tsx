@@ -90,6 +90,7 @@ function Player(props: Props) {
         "pmwplayertype",
         "pmwforcepagehls",
         "disableBorderlessPlayer",
+        "flagTimetravelCommentRenderMode",
     ] as const)
 
     const [isVefxShown, setIsVefxShown] = useState(false)
@@ -503,7 +504,7 @@ function Player(props: Props) {
     const currentPlayerType = syncStorage.pmwplayertype || playerTypes.default
 
     // 過去ログロード中はコメント互換モードをdefaultに変更
-    const commentRenderMode = currentLogData?.when ? "default" : localStorage.commentRenderMode ?? "html5"
+    const commentRenderMode = currentLogData?.when ? (syncStorage.flagTimetravelCommentRenderMode || "default") : localStorage.commentRenderMode ?? "html5"
 
     return (
         <div
