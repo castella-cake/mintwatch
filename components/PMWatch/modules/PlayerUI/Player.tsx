@@ -223,7 +223,8 @@ function Player(props: Props) {
         localStorage.resumePlayback,
     )
 
-    const toggleFullscreen = () => {
+    // FullscreenButton の memo 化に対応するため、参照を安定させる
+    const toggleFullscreen = useCallback(() => {
         const shouldRequestFullscreen
             = localStorage.requestMonitorFullscreen ?? true
         if (!isFullscreenUi && shouldRequestFullscreen) {
@@ -232,7 +233,7 @@ function Player(props: Props) {
             document.exitFullscreen()
         }
         setIsFullscreenUi(!isFullscreenUi)
-    }
+    }, [isFullscreenUi, localStorage.requestMonitorFullscreen, setIsFullscreenUi])
 
     useEffect(() => {
         // カーソル表示状態の管理
@@ -652,7 +653,6 @@ function Player(props: Props) {
             </VideoPlayer>
             <div className="player-bottom-container">
                 <PlayerController
-                    videoRef={videoRef}
                     hlsRef={hlsRef}
                     effectsState={effectsState}
                     isVefxShown={isVefxShown}
