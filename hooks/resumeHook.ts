@@ -1,9 +1,10 @@
-import { useLocationContext } from "@/components/Router/RouterContext"
 import { VideoDataRootObject } from "@/types/VideoData"
+import { parseFromQuery } from "@/utils/fromQuery"
 import { RefObject } from "react"
 
 export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | undefined, resumePlaybackType?: string) {
-    const location = useLocationContext()
+    const appliedVideoIdRef = useRef<string | null>(null)
+
     // レジューム再生の処理
     useEffect(() => {
         if (!videoInfo) return
@@ -21,12 +22,20 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
     // fromから再生位置の指定をするか、レジューム再生で再生位置を指定する
     useEffect(() => {
         if (!videoInfo || !videoRef.current) return
-        const searchParams = new URLSearchParams(location.search)
-        const fromParam = searchParams.get("from")
-        const fromSecond = Number(fromParam)
-        if ((fromSecond || fromSecond === 0) && fromParam !== null) {
-            videoRef.current.currentTime = fromSecond
-            return
+        const videoId = videoInfo.data.response.video.id
+        // 同じ動画への再適用(設定変更やキャッシュ更新による再実行)を抑止し、レジューム設定は次の動画から適用する
+        if (appliedVideoIdRef.current === videoId) return
+        appliedVideoIdRef.current = videoId
+        // from は動画情報の到着時に一度だけ評価する。ナビゲーションは必ずfetch前に完了しているため、
+        // その時点の location を直接読み取る。noLocationChange の動画切替で別動画のURLに付いた from が
+        // 適用されないよう、path がこの動画自身のものかを検証する
+        const watchPath = `/watch/${videoId}`
+        if (location.pathname === watchPath || location.pathname.startsWith(`${watchPath}/`)) {
+            const fromSecond = parseFromQuery(location.search)
+            if (fromSecond !== null) {
+                videoRef.current.currentTime = fromSecond
+                return
+            }
         }
 
         if (!videoInfo.data.response.player.initialPlayback || resumePlaybackType === "never" || (
@@ -37,5 +46,5 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
             )
         )) return
         videoRef.current.currentTime = videoInfo.data.response.player.initialPlayback?.positionSec
-    }, [videoInfo, location.search, resumePlaybackType])
+    }, [videoInfo, resumePlaybackType])
 }

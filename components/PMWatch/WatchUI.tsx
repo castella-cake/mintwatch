@@ -15,6 +15,7 @@ import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts
 import { useHistoryContext } from "../Router/RouterContext"
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
 import { useQueryClient } from "@tanstack/react-query"
+import { parseFromQuery } from "@/utils/fromQuery"
 
 function CreateWatchUI() {
     // const lang = useLang()
@@ -162,6 +163,11 @@ function CreateWatchUI() {
             if (location.pathname.startsWith("/watch/")) {
                 const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
                 internalChangeVideo(smIdAfter)
+                // 同一動画への ?from= の再指定は動画の再読み込みを伴わないため、シークとして処理する
+                if (smIdAfter === smId && videoRef.current) {
+                    const fromSecond = parseFromQuery(location.search)
+                    if (fromSecond !== null) videoRef.current.currentTime = fromSecond
+                }
             };
         })
         return () => {
