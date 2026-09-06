@@ -234,9 +234,8 @@
         align-items: center;
     }
 
-    .commandpalette-commandgroup[data-kind="shokunin"] .commandpalette-commandbutton svg {
-        height: 1rem;
-        width: 1rem;
+    .commandpalette-clearbutton {
+        color: #fff;
     }
 
     .commandpalette-commandbutton svg {
@@ -278,9 +277,24 @@
         }
     }
 
+    .commandpalette-commandgroup:not([data-kind="color"]) .commandpalette-commandbutton:not([data-is-active="true"]) {
+        &:hover, &:focus-visible {
+            background: linear-gradient(#555, #222);
+        }
+    }
+
     .commandpalette-commandgroup[data-kind="color"] .commandpalette-commandbutton {
         border-radius: 0;
         background: var(--commandpalette-color);
+
+        &[data-is-active="false"] {
+            border-color: #000; // 指定し直す
+        }
+    }
+
+    .commandpalette-commandgroup[data-kind="shokunin"] .commandpalette-commandbutton svg {
+        height: 1rem;
+        width: 1rem;
     }
 
     .commandpalette-commandgroup {
