@@ -47,5 +47,5 @@
 }
 
 .popupmenu-container {
-    position: absolute;
+    position: fixed;
 }

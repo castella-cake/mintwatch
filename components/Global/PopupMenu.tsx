@@ -22,16 +22,15 @@ export function PopupMenu({ children, positionElemRef, isOpen, onClose, addition
 
     const [topPosition, setTopPosition] = useState(0)
     const [leftPosition, setLeftPosition] = useState(0)
+    const updatePositionRef = useRef<() => void>(() => { })
 
-    useEffect(() => {
-        if (!isMounted) return
+    const updatePosition = useCallback(() => {
         if (!positionElemRef.current) return
-
         const positionElemRect = positionElemRef.current.getBoundingClientRect()
         const popupMenuRect = popupMenuRef.current?.getBoundingClientRect()
 
-        const top = positionElemRect.bottom + window.scrollY
-        let left = positionElemRect.left + window.scrollX
+        const top = positionElemRect.bottom
+        let left = positionElemRect.left
 
         if (popupMenuRect) {
             const viewportWidth = window.innerWidth
@@ -44,7 +43,31 @@ export function PopupMenu({ children, positionElemRef, isOpen, onClose, addition
 
         setTopPosition(top)
         setLeftPosition(left)
-    }, [isMounted, positionElemRef, setTopPosition, setLeftPosition])
+    }, [positionElemRef])
+
+    useEffect(() => {
+        updatePositionRef.current = updatePosition
+    }, [updatePosition])
+
+    useEffect(() => {
+        if (!isMounted) return
+        updatePosition()
+        let frame = 0
+        const handleScrollOrResize = () => {
+            if (frame) return
+            frame = requestAnimationFrame(() => {
+                frame = 0
+                updatePositionRef.current()
+            })
+        }
+        document.addEventListener("scroll", handleScrollOrResize, true)
+        window.addEventListener("resize", handleScrollOrResize)
+        return () => {
+            if (frame) cancelAnimationFrame(frame)
+            document.removeEventListener("scroll", handleScrollOrResize, true)
+            window.removeEventListener("resize", handleScrollOrResize)
+        }
+    }, [isMounted, updatePosition])
 
     useEffect(() => {
         if (!isMounted) return
