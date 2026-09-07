@@ -20,10 +20,13 @@
 ## 実装規約
 
 - 設定保存はWXT Storageを使う。通常設定は`sync`と`useStorageVar()`、プレイヤー設定は`local`と`useStorageVar(..., "local")`を使い、`browser.storage`を直接操作しない。
-- 新しいコンポーネントはnamed exportを使い、単一箇所でしか使わない関数や型を安易に`utils`や`types`へ切り出さない。
+- 新しいコンポーネントはnamed exportを使い、単一箇所でしか使わない関数や型を安易に`utils`や`types`へ切り出さない。(テストを書く場合は関数へ切り出す)
 - TypeScript/Reactのコンポーネント・型はPascalCase、関数・変数はcamelCase。ESLintの設定は4スペース、ダブルクォート、セミコロンなし。
 - CSSは`components/<component>/styleModules/*.css`を基本とし、状態表現はクラスより`data-*`属性を優先する。CSS変更後はStylelintを実行する。
+- 新しいCSSクラス名はケバブケース。よく使われるワードはコンテナに`-container`、それをpositionなどの理由で囲む場合に`-wrapper`、複数アイテムを入れるのに`-items`、アイテムそのものに`-item`を使う。
 - 通常設定を追加するときは`.github/skills/customizable-settings/SKILL.md`、プレイヤー設定を追加するときは`.github/skills/player-settings/SKILL.md`を先に確認する。
+- 自動インポートが構成されており、Reactのよく使うフックや、utils,hooks,typesにあるものは大抵自動でインポートされる(詳しくは構成ファイルかWXTのllmsを参照)。インポート漏れがあるように見えても、TSエラーが起きていない場合は足さない。逆に自動インポートされるはずがエラーが起きる場合は、`pnpm exec wxt prepare` を一度実行して型を再生成させてみると良い。
+- stylistic から発生する ESLint エラーは全て安全に自動修正可能。
 
 ## WXT について
 - WXT に関する API などについては、`https://wxt.dev/llms.txt` から概要や型データを参照可能。必要に応じて使用すること。
