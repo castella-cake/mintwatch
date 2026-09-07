@@ -1,5 +1,6 @@
 import type { VideoDataRootObject } from "#imports"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { FeatureTips } from "@/components/Global/FeatureTips/FeatureTips"
 import { getArticle } from "@/utils/apis/dictionaly/articles"
 import { IconArrowRight, IconBook2, IconDeviceTv, IconLock, IconLockOpen, IconSearch } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
@@ -9,6 +10,9 @@ export function TagInfo() {
     const tags = videoInfo?.data.response.tag?.items || []
     return (
         <div className="taginfo-container">
+            <FeatureTips tipId="tag-dic-availability" settingKey="alwaysGetTagDataFromApi">
+                MintWatch の設定からタグに大百科記事の可用性を表示できます
+            </FeatureTips>
             <div className="videoaction-actiontitle">
                 この動画のタグ情報
                 <br />
