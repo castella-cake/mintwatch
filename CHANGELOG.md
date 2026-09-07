@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MintWatch モーダルの幅と高さを拡大しました
 - 動画カードからあとで見るに追加した場合のフィードバックを修正しました
 - `タグデータをAPIから自動取得する` は `大百科の可用性をタグ編集APIから取得` に名称を変更しました
+- Shinjuku レイアウトのコメント送信ボタンの見た目を改善しました
 
 ### Fixed
 - 依存関係を更新しました  

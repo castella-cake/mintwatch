@@ -174,22 +174,64 @@
         padding: 6px 7px;
     }
 
-    .commentinput-submit svg {
-        height: 1.5em;
-        width: 1.5em;
-    }
-
     .commentinput-submit {
-        background: linear-gradient(#ff9e3c 1%,#ffa114 40%,#ff5919 60%,#f4781a 100%);
-        color: #fff;
-        border-color: #eee;
-        font-weight: bold;
-        text-shadow: 0 0 2px #000;
-        padding: 2px 4px;
-    }
+        --comment-button-background: linear-gradient(to bottom, #ffd46e 0%, #ff6711 50%, #ff4711 51%, #ff6b11 100%);
+        --comment-button-outer-frame: linear-gradient(to bottom, #d6d6d6 0%, #c3c3c3 50%, #909090 51%, #a1a1a1 100%);
+        --comment-button-dark-frame: linear-gradient(to bottom, #333 0%, #222 100%);
+        --comment-button-orange-frame: linear-gradient(to bottom, #ffe18b 0%, #ffac25 50%, #ff731a 51%, #ff991a 100%);
 
-    .commentinput-submit:not([aria-disabled="true"]):hover {
-        background: linear-gradient(#ffac59 1%, #ffab2d 40%, #ff8d2d 60%, #ff9646 100%);
+        position: relative;
+        border: 1px solid transparent;
+        border-image: var(--comment-button-outer-frame) 1;
+        border-radius: 0;
+        background: var(--comment-button-background);
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 2px 3px #a00, 0 2px 3px #a00;
+        padding: 0 4px;
+
+        &::before, &::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &::before {
+            inset: 0;
+            z-index: 0;
+            border: 1px solid transparent;
+            border-image: var(--comment-button-dark-frame) 1;
+        }
+
+        &::after {
+            inset: 1px;
+            z-index: 1;
+            border: 1px solid transparent;
+            border-image: var(--comment-button-orange-frame) 1;
+        }
+
+        > svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        &:not([aria-disabled="true"]):hover {
+            --comment-button-background: linear-gradient(to bottom, #fff65d 0%, #ff8900 50%, #ff6900 51%, #ffba00 100%);
+            --comment-button-orange-frame: linear-gradient(to bottom, #ff6 0%, #ffb800 50%, #ffa500 51%, #ffdf00 100%);
+
+            cursor: pointer;
+        }
+
+        &:not([aria-disabled="true"]):active {
+        --comment-button-background: linear-gradient(to bottom, #ff7211 0%, #ff4711 50%, #ff6511 51%, #ffc861 100%);
+        --comment-button-orange-frame: linear-gradient(to bottom, #d33902 0%, #e63209 50%, #e64709 51%, #d3650e 100%);
+
+            box-shadow: inset 0 1px 2px #0008, inset 0 0 0 1px #0008;
+        }
+
+        &[aria-disabled="true"] {
+            filter: grayscale(1) brightness(0.8);
+        }
     }
 
     // コマンドパレット
