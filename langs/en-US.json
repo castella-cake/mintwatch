@@ -108,8 +108,8 @@
             "select": ["Disable", "Delay", "Re-scroll"]
         },
         "alwaysGetTagDataFromApi": {
-            "name": "Experimental: Always get tag data from API",
-            "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."
+            "name": "Experimental: Retrieve tag availability from the tag editing API",
+            "hint": "Automatically calls the tag editing API to restore the display of tag article availability."
         },
         "disableSeasonalEffects": {
             "name": "Disable Seasonal Effects"
