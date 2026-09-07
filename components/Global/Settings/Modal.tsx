@@ -7,11 +7,11 @@ import {
     IconX,
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
-import { ReactNode, RefObject } from "react"
+import { ReactNode, RefObject, useEffect, useRef } from "react"
 import { MarkdownHelp } from "./MarkdownHelp"
 import { KeyboardShortcuts } from "./KeyboardShortcuts"
 import { CSSTransition } from "react-transition-group"
-import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useHighlightedSettingKeyContext, useMintConfigShownContext, useSetHighlightedSettingKeyContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import MintWatchIcon from "@/public/mintwatch-white.svg?react"
 import { AboutMintWatch } from "./About"
 
@@ -25,9 +25,43 @@ const settingsObject = { mintwatch: settings.mintwatch, header: settings.header 
 // containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
 export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLDivElement | null> }) {
     const wrapperRef = useRef(null)
+    const highlightedTargetRef = useRef<HTMLElement | null>(null)
+    const highlightTimeoutRefs = useRef<number[]>([])
 
     const mintModalState = useMintConfigShownContext()
     const setMintModalState = useSetMintConfigShownContext()
+    const highlightedSettingKey = useHighlightedSettingKeyContext()
+    const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
+
+    useEffect(() => {
+        if (highlightedSettingKey && mintModalState === "settings") {
+            const target = document.querySelector(`[data-setting-key="${highlightedSettingKey}"]`)
+            if (target instanceof HTMLElement) {
+                highlightedTargetRef.current = target
+                const details = target.closest("details")
+                if (details && !details.open) details.open = true
+                const scrollTimeout = window.setTimeout(() => {
+                    target.scrollIntoView({ behavior: "smooth", block: "center" })
+                    target.setAttribute("data-highlighted", "true")
+                    const clearTimeoutId = window.setTimeout(() => {
+                        target.removeAttribute("data-highlighted")
+                        setHighlightedSettingKey(null)
+                    }, 3000)
+                    highlightTimeoutRefs.current.push(clearTimeoutId)
+                }, 100)
+                highlightTimeoutRefs.current.push(scrollTimeout)
+            }
+        }
+
+        return () => {
+            for (const id of highlightTimeoutRefs.current) {
+                window.clearTimeout(id)
+            }
+            highlightTimeoutRefs.current = []
+            highlightedTargetRef.current?.removeAttribute("data-highlighted")
+            highlightedTargetRef.current = null
+        }
+    }, [highlightedSettingKey, mintModalState, setHighlightedSettingKey])
 
     return (
         <CSSTransition

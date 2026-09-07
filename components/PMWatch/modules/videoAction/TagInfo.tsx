@@ -1,17 +1,31 @@
 import type { VideoDataRootObject } from "#imports"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { FeatureTips } from "@/components/Global/FeatureTips/FeatureTips"
+import { useSetHighlightedSettingKeyContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { getArticle } from "@/utils/apis/dictionaly/articles"
 import { IconArrowRight, IconBook2, IconDeviceTv, IconLock, IconLockOpen, IconSearch } from "@tabler/icons-react"
 import { useQuery } from "@tanstack/react-query"
+import { useCallback } from "react"
 
 export function TagInfo() {
     const { videoInfo } = useVideoInfoContext()
     const tags = videoInfo?.data.response.tag?.items || []
+    const setVideoActionModalState = useSetVideoActionModalStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
+    const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
+
+    const handleOpenSettingsWithHighlight = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        setVideoActionModalState(false)
+        setMintConfigShown("settings")
+        setHighlightedSettingKey("alwaysGetTagDataFromApi")
+        e.stopPropagation()
+    }, [setVideoActionModalState, setMintConfigShown, setHighlightedSettingKey])
+
     return (
         <div className="taginfo-container">
-            <FeatureTips tipId="tag-dic-availability" settingKey="alwaysGetTagDataFromApi">
-                MintWatch の設定からタグに大百科記事の可用性を表示できます
+            <FeatureTips tipId="tag-dic-availability" settingKey="alwaysGetTagDataFromApi" actionLabel="設定を開く" onAction={handleOpenSettingsWithHighlight}>
+                タグに大百科記事の可用性を表示できる設定があります
             </FeatureTips>
             <div className="videoaction-actiontitle">
                 この動画のタグ情報

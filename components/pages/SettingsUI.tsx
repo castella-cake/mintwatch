@@ -13,7 +13,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
     const langItem = lang.SETTINGS_ITEMS[settingName]
     if (setting.type === "checkbox") {
         return (
-            <label>
+            <label data-setting-key={setting.name}>
                 <input id={thisElementId} type="checkbox" checked={syncStorage[setting.name] ?? setting.default} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.checked) }} />
                 {langItem?.name ?? setting.name}
             </label>
@@ -23,7 +23,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
             return <option value={elem} key={elem}>{langItem?.select?.[index] ?? elem}</option>
         })
         return (
-            <label>
+            <label data-setting-key={setting.name}>
                 {langItem?.name ?? setting.name}
                 <select id={thisElementId} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} value={syncStorage[setting.name] ?? setting.default}>{ settingsOption }</select>
             </label>
@@ -42,14 +42,14 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
             )
         })
         return (
-            <label>
+            <label data-setting-key={setting.name}>
                 {langItem?.name ?? setting.name}
                 <div className="select-button-container" key={`${setting.name}-selectbutton`}>{ settingsOption }</div>
             </label>
         )
     } else if (setting.type === "inputNumber") {
         return (
-            <label>
+            <label data-setting-key={setting.name}>
                 {langItem?.name ?? setting.name}
                 <input id={thisElementId} type="number" min={setting.min} max={setting.max} value={(syncStorage[setting.name] ?? setting.default)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, Number(e.currentTarget.value)) }} />
             </label>
@@ -57,7 +57,7 @@ function CreateSettingsControl({ setting }: { setting: setting }) {
     } else if (setting.type === "inputString") {
         // console.log(syncStorage[settings.name])
         return (
-            <label>
+            <label data-setting-key={setting.name}>
                 {langItem?.name ?? setting.name}
                 <input id={thisElementId} type="text" value={(syncStorage[setting.name] ?? setting.default)} placeholder={langItem?.placeholder ?? (setting.placeholder ?? null)} onChange={(e) => { storage.setItem(`sync:${setting.name}`, e.currentTarget.value) }} />
             </label>

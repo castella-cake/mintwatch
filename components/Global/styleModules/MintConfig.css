@@ -134,6 +134,27 @@
 	white-space: pre-wrap;
 }
 
+[data-highlighted="true"] {
+    animation: highlight-pulse 3s ease-out;
+}
+
+@keyframes highlight-pulse {
+    0% {
+        background: transparent;
+        box-shadow: 0 0 0 0 var(--linktext3);
+    }
+
+    15% {
+        background: rgb(from var(--linktext3) r g b / 15%);
+        box-shadow: 0 0 0 3px rgb(from var(--linktext3) r g b / 30%);
+    }
+
+    100% {
+        background: transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
 .settings-row {
     padding: 8px;
     border-radius: 4px;

@@ -32,6 +32,27 @@
     overflow-wrap: anywhere;
 }
 
+.featuretips-action {
+    flex-shrink: 0;
+    padding: 4px 12px;
+    border-radius: var(--radius-mini);
+    background: var(--accent1);
+    color: var(--textcolor1);
+    border: var(--border);
+    font-size: 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+
+    &:active {
+        background: var(--hover2);
+    }
+}
+
 .featuretips-close {
     flex-shrink: 0;
     display: flex;
