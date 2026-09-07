@@ -135,14 +135,8 @@ export default function RouterUI() {
         return () => controller.abort()
     }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
-    const onModalOutsideClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
-        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target) && !mintModalElemRef.current?.contains(e.target)) setMintConfigShown(false)
-        if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
-    }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
-
     return (
-        <div className="router" onClickCapture={linkClickHandler} onClick={onModalOutsideClick}>
+        <div className="router" onClickCapture={linkClickHandler}>
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal containerRef={mintModalElemRef} />

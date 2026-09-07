@@ -156,10 +156,9 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
                         ? (
                                 <button
                                     className="pmw-onboarding-popup-button-primary"
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         setMintConfigShown("help")
                                         storage.setItem("local:onboardingIgnored", true)
-                                        e.stopPropagation()
                                     }}
                                 >
                                     MintWatch のはじめに

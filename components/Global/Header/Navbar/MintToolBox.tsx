@@ -10,26 +10,22 @@ export default function MintToolBox({ omitKeys, quietWhatsNew }: { omitKeys?: ("
 
     const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
 
-    const onWhatsNewClick = useCallback((e: React.MouseEvent) => {
+    const onWhatsNewClick = useCallback(() => {
         setMintConfigShown("whatsnew")
         storage.setItem("sync:lastCheckedUpdate", whatsNewData.version)
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onHelpClick = useCallback((e: React.MouseEvent) => {
+    const onHelpClick = useCallback(() => {
         setMintConfigShown("help")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onKeyboardClick = useCallback((e: React.MouseEvent) => {
+    const onKeyboardClick = useCallback(() => {
         setMintConfigShown("shortcuts")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onSettingsClick = useCallback((e: React.MouseEvent) => {
+    const onSettingsClick = useCallback(() => {
         setMintConfigShown("settings")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
     const onVanillaModeClick = useCallback(() => {
         location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`

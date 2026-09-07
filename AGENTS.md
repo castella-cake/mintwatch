@@ -26,6 +26,13 @@
 - 新しいCSSクラス名はケバブケース。よく使われるワードはコンテナに`-container`、それをpositionなどの理由で囲む場合に`-wrapper`、複数アイテムを入れるのに`-items`、アイテムそのものに`-item`を使う。
 - 通常設定を追加するときは`.github/skills/customizable-settings/SKILL.md`、プレイヤー設定を追加するときは`.github/skills/player-settings/SKILL.md`を先に確認する。
 - 自動インポートが構成されており、Reactのよく使うフックや、utils,hooks,typesにあるものは大抵自動でインポートされる(詳しくは構成ファイルかWXTのllmsを参照)。インポート漏れがあるように見えても、TSエラーが起きていない場合は足さない。逆に自動インポートされるはずがエラーが起きる場合は、`pnpm exec wxt prepare` を一度実行して型を再生成させてみると良い。
+- モーダル/ポップオーバー/メニュー領域の「外側クリックで閉じる」挙動は、各コンポーネントが `hooks/useOutsideClose` を使って自分で所有する。
+  `RouterUI.tsx` のグローバルハンドラに依存しない (削除済み)。
+  新規領域を追加する場合は `useOutsideClose(nodeRef, isOpen, onClose)` を組み込む。
+  このため、上記を開くボタンの `e.stopPropagation()` は原則として不要。領域内ボタンの onClick で自由に state を変えて良い。
+  ただしトグルボタンが**領域 DOM の外**に固定配置されている場合 (例: 固定ヘッダー内のハンバーガー)、
+  ボタンに `data-outside-ignore="<識別子>"` を付け、`useOutsideClose` の第4引数 `ignoreId` に同じ識別子文字列を渡す。
+  識別子は対象領域が連想できる名前にする (例: `side-menu-trigger`)。
 - stylistic から発生する ESLint エラーは全て安全に自動修正可能。
 
 ## WXT について

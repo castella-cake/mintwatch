@@ -5,6 +5,7 @@ import { RefObject } from "react"
 import { CSSTransition } from "react-transition-group"
 import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { MWButton } from "@/components/Global/MWButton"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const manifestData = useManifestData()
@@ -12,6 +13,7 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
 
     const mintConfigShown = useMintConfigShownContext()
     const setMintConfigShown = useSetMintConfigShownContext()
+    useOutsideClose(nodeRef, mintConfigShown === "quick", () => setMintConfigShown(false))
     return (
         <CSSTransition
             nodeRef={nodeRef}

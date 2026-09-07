@@ -19,7 +19,6 @@ export function TagInfo() {
         setVideoActionModalState(false)
         setMintConfigShown("settings")
         setHighlightedSettingKey("alwaysGetTagDataFromApi")
-        e.stopPropagation()
     }, [setVideoActionModalState, setMintConfigShown, setHighlightedSettingKey])
 
     return (

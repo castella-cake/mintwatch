@@ -8,6 +8,7 @@ import { useDraggable } from "@dnd-kit/core"
 import { Dispatch, SetStateAction } from "react"
 import MintToolBox from "./MintToolBox"
 import { ZSnowBackground } from "./ZSnow"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -46,6 +47,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
     const { disableSeasonalEffects } = useStorageVar(["disableSeasonalEffects"])
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
+    useOutsideClose(nodeRef, isSideMenuShown, () => setIsSideMenuShown(false), "side-menu-trigger")
 
     // ここでのnodeRefは、transitionではなく単に外側をクリックした場合に閉じるために使う。Transitionは内部で用意する。
     const wrapperTransitionRef = useRef<HTMLDivElement>(null)

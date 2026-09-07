@@ -15,11 +15,10 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
     const setIsSideMenuShown = useSetSideMenuShownContext()
     const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
 
-    const onWhatsNewClick = useCallback((e: React.MouseEvent) => {
+    const onWhatsNewClick = useCallback(() => {
         setMintConfigShown("whatsnew")
         storage.setItem("sync:lastCheckedUpdate", whatsNewData.version)
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
 
     const hasUpdate = lastCheckedUpdate !== whatsNewData.version
@@ -29,12 +28,12 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
             <MWButton
                 label="サイドメニューを切り替え"
                 className="navbar-sidemenu-button"
-                onClick={(e) => {
-                    e.stopPropagation()
+                onClick={() => {
                     setIsSideMenuShown(!isSideMenuShown)
                 }}
                 data-is-active={isSideMenuShown}
                 data-has-update={hasUpdate}
+                data-outside-ignore="side-menu-trigger"
             >
                 { isShinjukuMode ? <RandomHidariueImg /> : <IconMenu2 /> }
             </MWButton>

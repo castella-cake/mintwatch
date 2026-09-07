@@ -16,6 +16,7 @@ import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVi
 import NgComments from "./NgComments"
 import { TagInfo } from "./TagInfo"
 import { MWButton } from "@/components/Global/MWButton"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 export function VideoActionModal({
     nodeRef,
@@ -28,10 +29,7 @@ export function VideoActionModal({
     const videoActionModalState = useVideoActionModalStateContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setIsMintConfigShown = useSetMintConfigShownContext()
-
-    const onWrapperClick = useCallback((e: React.MouseEvent) => {
-        if (e.target instanceof HTMLElement && containerRef.current && !containerRef.current.contains(e.target)) setVideoActionModalState(false)
-    }, [])
+    useOutsideClose(containerRef, videoActionModalState !== false, () => setVideoActionModalState(false))
 
     if (!videoInfo) return <></>
 
@@ -44,7 +42,7 @@ export function VideoActionModal({
             classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef} onClick={onWrapperClick}>
+                <div className="modal-wrapper" ref={nodeRef}>
                     <div className="modal-container" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
@@ -93,10 +91,9 @@ export function VideoActionModal({
                             <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
                             <button
                                 className="modal-select modal-select-bottom"
-                                onClick={(e) => {
+                                onClick={() => {
                                     setIsMintConfigShown("help")
                                     setVideoActionModalState(false)
-                                    e.stopPropagation()
                                 }}
                             >
                                 <IconHelpCircle />

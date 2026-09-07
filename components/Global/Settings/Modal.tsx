@@ -20,6 +20,7 @@ import CreateSettingsList from "@/components/pages/SettingsUI"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
 import { MWButton } from "../MWButton"
 import { UpdateNotice } from "./UpdateNotice"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
 // containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
@@ -32,6 +33,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
     const setMintModalState = useSetMintConfigShownContext()
     const highlightedSettingKey = useHighlightedSettingKeyContext()
     const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
+    useOutsideClose(containerRef, mintModalState !== false && mintModalState !== "quick", () => setMintModalState(false))
 
     useEffect(() => {
         if (highlightedSettingKey && mintModalState === "settings") {

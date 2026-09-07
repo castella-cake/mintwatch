@@ -11,10 +11,12 @@ import { CSSTransition } from "react-transition-group"
 import { useHeaderActionStateContext, useSetHeaderActionStateContext } from "../Contexts/ModalStateProvider"
 import { RefObject } from "react"
 import HeaderActivities from "./Activities"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 export function HeaderActionStacker({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
     const headerActionState = useHeaderActionStateContext()
     const setHeaderActionState = useSetHeaderActionStateContext()
+    useOutsideClose(nodeRef, headerActionState !== false, () => setHeaderActionState(false))
 
     return (
         <CSSTransition
