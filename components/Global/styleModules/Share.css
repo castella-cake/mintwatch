@@ -33,6 +33,7 @@
     grid-area: body;
     margin: 0;
     margin-top: 8px;
+    white-space: pre-wrap;
 }
 
 .share-dummy-actions {
@@ -69,6 +70,9 @@
         grid-area: title;
         align-self: end;
         font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .share-ogp-description {

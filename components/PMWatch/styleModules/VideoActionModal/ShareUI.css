@@ -4,3 +4,27 @@
     padding: 1em;
 }
 
+.shareaction-pastlogoption {
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.shareaction-pastlogoption label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.shareaction-pastloghint {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    padding-left: 1.5em;
+}
+

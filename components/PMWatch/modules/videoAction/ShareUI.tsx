@@ -1,19 +1,27 @@
+import { useState } from "react"
 import { Share } from "@/components/Global/Share"
 import { VideoDataRootObject } from "@/types/VideoData"
 import { VideoDataToShareBody } from "@/utils/videoShareUtils"
+import { useCommentContentContext } from "@/components/Global/Contexts/CommentDataProvider"
+import "../../styleModules/VideoActionModal/ShareUI.css"
 
 function returnMatchedKeyObject(objectArray: { [key: string]: any }[], keyName: string, value: string) {
     return objectArray.find(elem => elem[keyName] === value)
 }
 
 export function ShareAction({ videoInfo }: { videoInfo: VideoDataRootObject }) {
+    const [includePastLog, setIncludePastLog] = useState(false)
+    const { currentLogData } = useCommentContentContext()
+
     if (!videoInfo.data) return <></>
 
     const videoInfoResponse = videoInfo.data.response
     if (!videoInfoResponse.video) return
 
-    const shareBody = VideoDataToShareBody(videoInfoResponse)
-    const shareURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
+    const pastLogWhen = includePastLog && currentLogData ? currentLogData.when : undefined
+    const shareBody = VideoDataToShareBody(videoInfoResponse, pastLogWhen)
+    const baseURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
+    const shareURL = pastLogWhen ? `${baseURL}?past_log=${pastLogWhen}` : baseURL
 
     const metaTags = videoInfo.data.metadata.metaTags
     const ogpTitle = returnMatchedKeyObject(metaTags, "property", "og:title")
@@ -30,6 +38,21 @@ export function ShareAction({ videoInfo }: { videoInfo: VideoDataRootObject }) {
                     インテントリンクまたは直接リンクを使用してお使いのSNSにリンクを共有できます
                 </span>
             </div>
+            {currentLogData && (
+                <div className="shareaction-pastlogoption">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={includePastLog}
+                            onChange={e => setIncludePastLog(e.target.checked)}
+                        />
+                        過去ログ情報を付加する
+                    </label>
+                    <div className="shareaction-pastloghint">
+                        リンクから過去ログをロードするためには、対応したプレイヤーが必要になります。
+                    </div>
+                </div>
+            )}
             <Share
                 body={shareBody}
                 plainUrl={shareURL}
