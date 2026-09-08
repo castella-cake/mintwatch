@@ -63,6 +63,8 @@
     background: #0008;
     pointer-events: none;
     z-index: 60;
+    opacity: 0;
+    animation: buffering-fade-in 0.2s ease 1s forwards;
 
     --textcolor2: #fafafa;
 
@@ -487,5 +489,15 @@
         .playersettings-container, .vefx-container {
             bottom: 96px;
         }
+    }
+}
+
+@keyframes buffering-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
