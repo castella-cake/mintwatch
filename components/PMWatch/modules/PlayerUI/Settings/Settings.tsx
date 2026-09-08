@@ -19,7 +19,7 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: { isStatsShown: bo
             <p>
                 この設定はローカルに保存されます。
                 <br />
-                視聴ページの設定は左上のスパナアイコンから設定できます。
+                MintWatch の設定は左上のスパナアイコンから行えます。
                 <br />
             </p>
             <Stacker items={Object.keys(playerSettings).map((name) => {
@@ -32,13 +32,13 @@ function Settings({ isStatsShown, setIsStatsShown, nodeRef }: { isStatsShown: bo
             />
             <div className="playersettings-item">
                 <label>
+                    統計情報を表示(一時的)
                     <input
                         type="checkbox"
                         checked={isStatsShown}
                         onChange={(e) => { setIsStatsShown(e.currentTarget.checked) }}
                         id={statisticsCheckboxId}
                     />
-                    統計情報を表示(一時的)
                 </label>
             </div>
         </div>

@@ -113,7 +113,7 @@ export const playerSettings: PlayerSettingList = {
             enableCommentPiP: {
                 type: "checkbox",
                 defaultValue: false,
-                name: "PiPでコメントを表示(実験的)",
+                name: "実験的: PiPでコメントを表示",
                 hint: "コメント透過率と描画FPSが固定されます。",
             },
             enableLoudnessData: {

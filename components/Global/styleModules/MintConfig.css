@@ -16,7 +16,7 @@
     height: max-content;
     max-height: calc(100vh - 96px);
     overflow: auto;
-    width: clamp(10em, 25em, 90vw);
+    width: clamp(10em, 27em, 90vw);
     padding: 16px;
     z-index: 100;
     border-radius: 8px;
@@ -58,7 +58,6 @@
     }
 
     select {
-        margin-left: 5px;
         border: 0 solid #fff;
         border-radius: 2px;
         padding: 4px 6px;
@@ -76,9 +75,14 @@
         background: var(--bg-hover);
     }
 
-    label {
+    .settings-row label {
         margin-right: 8px;
         font-size: 13px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0 4px;
+        line-height: 20px;
     }
 
     .mintwatch-config-credit {
@@ -209,14 +213,7 @@
     }
 
     .settings-row label {
-        display: flex;
-        align-items: center;
-        gap: 4px;
         font-size: 0.9rem;
-    }
-
-    .settings-row label select {
-        margin-left: 0;
     }
 
     .settings-area:nth-child(2) h1 {
