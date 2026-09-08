@@ -81,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fromパラメーターが0sの場合に無視される問題を修正しました
 - Shinjuku コマンドパレットのカラーパレットの問題を修正しました
 - レジューム再生の処理を改善しました
+- 動画カードで発生していた過剰な拡大などのスタイル問題を修正しました
 
 ## 0.11.2 - 2026/04/29
 

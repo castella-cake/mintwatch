@@ -168,10 +168,6 @@
     white-space: normal;
 }
 
-.info-card-datacolumn:has(.info-card-counts) .info-card-title {
-    -webkit-line-clamp: 1;
-}
-
 .info-card-subtitle {
     font-size: 0.8rem;
     opacity: 0.8;

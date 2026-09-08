@@ -112,6 +112,7 @@
     gap: 8px;
     padding: 8px;
     align-items: stretch;
+    max-width: 14rem;
 
     --thumb-height: auto;
 
@@ -123,6 +124,7 @@
     .info-card-title {
         font-size: 0.95rem;
         max-lines: 2;
+        -webkit-line-clamp: 2;
         height: 3rem;
     }
 
