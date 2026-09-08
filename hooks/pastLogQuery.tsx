@@ -2,6 +2,7 @@ import { useLocationContext } from "@/components/Router/RouterContext"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { useStorageVar } from "@/hooks/extensionHook"
 import { parsePastLogQuery } from "@/utils/pastLogQuery"
 import { IconExclamationCircle, IconHistoryToggle } from "@tabler/icons-react"
 
@@ -52,6 +53,7 @@ export function usePastLogConfirm() {
     const { pendingPastLog } = useCommentContentContext()
     const { reloadCommentContent, consumePendingPastLog } = useCommentControllerContext()
     const { showAlert, showToast } = useSetMessageContext()
+    const { pastLogAutoLoad } = useStorageVar(["pastLogAutoLoad"] as const)
 
     useEffect(() => {
         if (!pendingPastLog) return
@@ -59,14 +61,37 @@ export function usePastLogConfirm() {
         if (!consumePendingPastLog(pendingPastLog.key)) return
 
         const { when } = pendingPastLog
+
+        const doLoad = async () => {
+            try {
+                await reloadCommentContent({ when })
+            } catch (e) {
+                console.error(e)
+                showToast({
+                    title: "過去ログの読み込みに失敗しました",
+                    icon: <IconExclamationCircle />,
+                })
+            }
+        }
+
+        // 「past_logから過去ログを自動で読み込む」がONのときは確認を出さずに直接読み込む
+        if (pastLogAutoLoad) {
+            doLoad()
+            return
+        }
+
         showAlert({
             icon: <IconHistoryToggle />,
-            title: "過去ログを読み込みますか？",
-            body: `開かれた URL には過去ログを読み込むクエリが指定されています。\n指定された日時で過去ログを読み込みますか？\n指定日時: ${new Date(when * 1000).toLocaleString()}`,
+            title: "読み込める過去ログがあります",
+            body: `開いた URL には過去ログを読み込むクエリが指定されています。\n指定された日時で過去ログを読み込みますか？\n指定日時: ${new Date(when * 1000).toLocaleString()}`,
             customCloseButton: [
                 {
                     key: "cancel",
                     text: "キャンセル",
+                },
+                {
+                    key: "auto",
+                    text: "自動で読み込む",
                 },
                 {
                     key: "load",
@@ -75,17 +100,13 @@ export function usePastLogConfirm() {
                 },
             ],
             onClose: async (type) => {
-                if (type !== "load") return
-                try {
-                    await reloadCommentContent({ when })
-                } catch (e) {
-                    console.error(e)
-                    showToast({
-                        title: "過去ログの読み込みに失敗しました",
-                        icon: <IconExclamationCircle />,
-                    })
+                if (type === "cancel") return
+                if (type === "auto") {
+                    // 「自動で読み込む」を選んだ場合は、設定をONにしてから読み込み
+                    await storage.setItem("sync:pastLogAutoLoad", true)
                 }
+                await doLoad()
             },
         })
-    }, [pendingPastLog, consumePendingPastLog, reloadCommentContent, showAlert, showToast])
+    }, [pendingPastLog, consumePendingPastLog, reloadCommentContent, showAlert, showToast, pastLogAutoLoad])
 }

@@ -23,6 +23,7 @@ type FixtureType = {
     mockApi: () => Promise<void>
     enableSearchPage: () => Promise<void>
     enableRankingPage: () => Promise<void>
+    enablePastLogAutoLoad: () => Promise<void>
 }
 
 export const test = base.extend<FixtureType>({
@@ -173,7 +174,17 @@ export const test = base.extend<FixtureType>({
             await page.goto(`chrome-extension://${extensionId}/settings.html`)
             await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).click()
         }
+
         await use(enableRankingPageFunction)
+    },
+    enablePastLogAutoLoad: async ({ page, extensionId }, use) => {
+        async function enablePastLogAutoLoadFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.locator("details.settings-group summary", { hasText: "Detailed settings" }).click()
+            await page.getByRole("checkbox", { name: "Auto-load past log from past_log URL" }).click()
+        }
+
+        await use(enablePastLogAutoLoadFunction)
     },
 })
 export const expect = test.expect

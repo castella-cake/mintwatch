@@ -63,7 +63,7 @@ test("Watch: past_log クエリで confirm 後に過去ログが読み込まれ�
     await expect(alert).toContainText("過去ログを読み込みますか？")
     await expect(alert).toContainText("指定日時")
 
-    await alert.getByRole("button", { name: "読み込む" }).click()
+    await alert.getByRole("button", { name: "読み込む", exact: true }).click()
 
     const commentBody = page.locator(".commentlist-list-item-body").first()
     await expect(commentBody).toHaveText("過去ログのコメント")
@@ -100,4 +100,40 @@ test("Watch: 不正な past_log クエリでは確認が表示されない", asy
     await page.waitForTimeout(2000)
     await expect(page.locator(".alert-container")).toHaveCount(0)
     expect(whenRequests).toEqual([])
+})
+
+test("Watch: 自動で読み込み を押すと過去ログが読み込まれる", async ({ page, mockApi }) => {
+    await mockApi()
+    const whenRequests: number[] = []
+    await mockCommentApi(page, whenRequests)
+
+    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.bringToFront()
+
+    const alert = page.locator(".alert-container")
+    await expect(alert).toBeVisible()
+    await alert.getByRole("button", { name: "自動で読み込む" }).click()
+
+    const commentBody = page.locator(".commentlist-list-item-body").first()
+    await expect(commentBody).toHaveText("過去ログのコメント")
+    expect(whenRequests).toEqual([pastLogEpoch])
+})
+
+test("Watch: 自動読み込み設定がONのとき past_log クエリで確認なしで読み込まれる", async ({ page, mockApi, enablePastLogAutoLoad }) => {
+    await mockApi()
+    await enablePastLogAutoLoad()
+
+    const whenRequests: number[] = []
+    await mockCommentApi(page, whenRequests)
+
+    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.bringToFront()
+
+    await page.waitForSelector("#pmw-element-video")
+    await page.waitForTimeout(2000)
+    await expect(page.locator(".alert-container")).toHaveCount(0)
+
+    const commentBody = page.locator(".commentlist-list-item-body").first()
+    await expect(commentBody).toHaveText("過去ログのコメント")
+    expect(whenRequests).toEqual([pastLogEpoch])
 })

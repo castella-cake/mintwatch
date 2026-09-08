@@ -135,6 +135,11 @@ const settings: settingList = {
                     name: "disableSeasonalEffects",
                     default: false,
                 },
+                {
+                    type: "checkbox",
+                    name: "pastLogAutoLoad",
+                    default: false,
+                },
             ],
         },
     ],
