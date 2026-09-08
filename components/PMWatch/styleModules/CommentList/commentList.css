@@ -182,6 +182,11 @@
     color: #fff;
 }
 
+.commentlist-list-togglemycomments[data-pastlogactive="true"] {
+    outline: 2px dashed var(--accent1);
+    outline-offset: -2px;
+}
+
 .commentlist-list-toggletabindex[data-isopen="false"]:not(:focus-visible) {
     opacity: 0;
     font-size: 0;

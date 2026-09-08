@@ -162,7 +162,7 @@ function CommentList() {
 
     const { showAlert, showToast } = useSetMessageContext()
     const { videoInfo } = useVideoInfoContext()
-    const { commentContent } = useCommentContentContext()
+    const { commentContent, currentLogData } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
 
     const { smId } = useSmIdContext()
@@ -327,6 +327,7 @@ function CommentList() {
                     label={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                     className="commentlist-list-togglemycomments"
                     data-isenabled={showTimemachineUi}
+                    data-pastlogactive={!!currentLogData}
                     onClick={() => {
                         setShowTimemachineUi((state) => {
                             return !state
@@ -453,6 +454,8 @@ function CommentList() {
             </button>
             {showTimemachineUi && (
                 <TimeMachine
+                    currentLogData={currentLogData}
+                    smId={smId}
                     onConfirm={(date) => {
                         reloadCommentContent({
                             when: Math.floor(date.getTime() / 1000),
