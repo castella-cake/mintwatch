@@ -13,7 +13,7 @@ export function MintConfig({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | nu
 
     const mintConfigShown = useMintConfigShownContext()
     const setMintConfigShown = useSetMintConfigShownContext()
-    useOutsideClose(nodeRef, mintConfigShown === "quick", () => setMintConfigShown(false))
+    useOutsideClose(nodeRef, mintConfigShown === "quick", () => setMintConfigShown(false), "mintconfig")
     return (
         <CSSTransition
             nodeRef={nodeRef}

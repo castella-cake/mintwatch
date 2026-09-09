@@ -59,6 +59,7 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
                                             onClick={() => {
                                                 setIsMintConfigShown(current => current === false ? "quick" : false)
                                             }}
+                                            data-outside-ignore="mintconfig"
                                         >
                                             <IconTool />
                                         </MWButton>

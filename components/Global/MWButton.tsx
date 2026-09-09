@@ -7,7 +7,7 @@ type MWButtonProps = {
 export function MWButton({ label, children, disabled, ...buttonProps }: MWButtonProps) {
     return (
         <ToolTip label={label}>
-            <button {...buttonProps} aria-label={label} disabled={disabled}>
+            <button aria-label={label} disabled={disabled} {...buttonProps}>
                 {children}
             </button>
         </ToolTip>
