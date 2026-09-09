@@ -18,9 +18,14 @@ export interface RecommendItem {
     contentType: string
     recommendType: string
     content: VideoItem | MylistItem
+    reason?: Reason
 }
 
 interface Recipe {
     id: string
     meta: null
+}
+
+interface Reason {
+    tag?: string
 }
