@@ -1,0 +1,21 @@
+.recommendations-videolist {
+    /* VList のための高さ制約。flex 親の main 領域を埋める */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* vertical-simple カードはグリッド表示 */
+.recommendations-videolist .videoitem-card[data-layout="vertical-simple"] {
+    width: 15rem;
+    margin: 4px;
+}
+
+/* 狭い画面ではカードのサイズを調整 */
+@media (width <= 600px) {
+    .recommendations-videolist .videoitem-card[data-layout="vertical-simple"] {
+        width: 100%;
+    }
+}
