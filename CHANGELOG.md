@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shinjuku レイアウトのコメント送信ボタンの見た目を改善しました
 - プレイヤー設定の外観を変更し、よりすっきりした見た目になりました
 - MintWatch 設定のスタイルを調整して細かいズレなどを直しました
+- トーストの表示時間を10→8秒に短縮しました
 
 ### Fixed
 - 依存関係を更新しました  

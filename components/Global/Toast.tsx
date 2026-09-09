@@ -36,7 +36,7 @@ function ToastItem({ toast, onClose }: { toast: IToast, onClose: () => void }) {
         preEnter: true,
     })
 
-    const timeoutMs = (toast.customTimeout ?? 10000)
+    const timeoutMs = (toast.customTimeout ?? 8000)
 
     function handleClose() {
         toggle(false)
