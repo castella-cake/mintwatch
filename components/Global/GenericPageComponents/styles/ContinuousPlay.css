@@ -1,9 +1,7 @@
-
-.search-continuous-play-button {
+.generic-continuous-play-button {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    grid-area: continuous-play;
     justify-self: start;
     padding: 2px 8px;
     background: var(--bgcolor2);

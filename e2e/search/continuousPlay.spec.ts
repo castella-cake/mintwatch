@@ -9,7 +9,7 @@ test("Search: 現在のページから連続再生ボタンと動画カードの
     await page.waitForSelector(".search-result-items .videoitem-card", { timeout: 10000 })
 
     // 現在のページから連続再生ボタン
-    const continuousPlayButton = page.locator(".search-continuous-play-button")
+    const continuousPlayButton = page.locator(".generic-continuous-play-button")
     await expect(continuousPlayButton).toBeVisible()
     await expect(continuousPlayButton).toContainText("現在のページから連続再生")
 
@@ -31,7 +31,7 @@ test("Search: 現在のページから連続再生で視聴ページへ遷移し
     await page.bringToFront()
     await page.waitForSelector(".search-result-items .videoitem-card", { timeout: 10000 })
 
-    await page.locator(".search-continuous-play-button").click()
+    await page.locator(".generic-continuous-play-button").click()
 
     // playlistクエリ付きで視聴ページに遷移する
     await page.waitForURL(/\/watch\/sm0\?playlist=.*/, { timeout: 10000 })

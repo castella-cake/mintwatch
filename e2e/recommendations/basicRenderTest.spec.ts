@@ -15,11 +15,11 @@ test("Recommendations: Basic rendering test", async ({ page, mockApi, enableReco
     await expect(page.locator(".recommendations-title-totalcount")).toContainText("3")
 
     // タグセクションに reason.tag が反映される (テストタグ1, テストタグ2)
-    await expect(page.locator(".recommendations-relatedtags-tag").first()).toContainText("テストタグ")
+    await expect(page.locator(".generic-relatedtags-tag").first()).toContainText("テストタグ")
 
     // 動画リストが表示される
     await expect(page.locator(".recommendations-videolist .videoitem-card").first()).toBeVisible()
 
     // 連続再生ボタンがヘッダに表示される
-    await expect(page.locator(".recommendations-header .search-continuous-play-button")).toBeVisible()
+    await expect(page.locator(".recommendations-header .generic-continuous-play-button")).toBeVisible()
 })

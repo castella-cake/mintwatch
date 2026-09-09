@@ -1,6 +1,6 @@
 import type { RecommendItem } from "@/types/RecommendData"
 import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
-import { SearchPlayFromVideoButton } from "../Search/GenericComponents/ContinuousPlay"
+import { PlayFromVideoButton } from "../Global/GenericPageComponents/ContinuousPlay"
 import { isContentIsVideoItem } from "@/utils/recommendUtils"
 
 export function RecommendationsVideoList({ items, playlist }: { items: RecommendItem[], playlist: string }) {
@@ -24,7 +24,7 @@ export function RecommendationsVideoList({ items, playlist }: { items: Recommend
                     markAsLazy={index >= 5}
                     data-index={index + 1}
                     externalVideoActionChildren={playlist
-                        ? <SearchPlayFromVideoButton playlistQuery={playlist} video={item.content} />
+                        ? <PlayFromVideoButton playlistQuery={playlist} video={item.content} />
                         : undefined}
                 />
             ))}

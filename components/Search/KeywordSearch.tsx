@@ -7,8 +7,8 @@ import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
 import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
-import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
-import { SearchContinuousPlayButton, SearchPlayFromVideoButton } from "./GenericComponents/ContinuousPlay"
+import { RelatedTags } from "../Global/GenericPageComponents/RelatedTags"
+import { ContinuousPlayButton, PlayFromVideoButton } from "../Global/GenericPageComponents/ContinuousPlay"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
@@ -119,6 +119,7 @@ export function KeywordSearch() {
     }
     if (!keywordSearchData) return <LoadingFiller />
     const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
+    const additionalTagTexts = (getSearchVideoData?.additionals.tags ?? []).map(t => t.text)
     const page = keywordSearchData.data.response.page.common
     return (
         <>
@@ -139,7 +140,7 @@ export function KeywordSearch() {
                             : ""}
                     </span>
                 </h2>
-                <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
+                <RelatedTags tags={additionalTagTexts} />
                 <VideoTypeSelector />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
@@ -147,12 +148,12 @@ export function KeywordSearch() {
                 <div className="search-result">
                     <MaybeFromVideoId keyword={keyword} />
                     <OptionSelector option={page.option}>
-                        <SearchContinuousPlayButton playlistQuery={keywordSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
+                        <ContinuousPlayButton playlistQuery={keywordSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
                     </OptionSelector>
                     <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
                         {getSearchVideoData.items.map((video, index) => {
                             return (
-                                <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} externalVideoActionChildren={<SearchPlayFromVideoButton playlistQuery={keywordSearchData.data.response.page.playlist} video={video} />} />
+                                <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} externalVideoActionChildren={<PlayFromVideoButton playlistQuery={keywordSearchData.data.response.page.playlist} video={video} />} />
                             )
                         })}
                     </div>

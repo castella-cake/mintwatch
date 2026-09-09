@@ -1,11 +1,20 @@
 import { useRecommendationsData } from "@/hooks/apiHooks/recommendations/recommendationsData"
 import { LoadingFiller } from "../Global/LoadingFiller"
-import { SearchContinuousPlayButton } from "../Search/GenericComponents/ContinuousPlay"
-import { RecommendationsTags } from "./RecommendationsTags"
+import { ContinuousPlayButton } from "../Global/GenericPageComponents/ContinuousPlay"
+import { RelatedTags } from "../Global/GenericPageComponents/RelatedTags"
 import { RecommendationsVideoList } from "./RecommendationsVideoList"
 
 export default function RecommendationsContent() {
     const recommendationsData = useRecommendationsData()
+
+    const items = recommendationsData?.data?.response.$getRecommend.data?.items ?? []
+    const recommendedTags = useMemo(
+        () => Array.from(new Set(items.map(i => i.reason?.tag).filter((t): t is string => Boolean(t)))),
+        [items],
+    )
+    const playlist = recommendationsData?.data?.response.page.playlist ?? ""
+    const totalCount = items.filter(item => item.contentType === "video").length
+    const firstVideoId = items.find(item => item.contentType === "video")?.id ?? ""
 
     if (!recommendationsData) return <LoadingFiller />
 
@@ -23,11 +32,6 @@ export default function RecommendationsContent() {
         )
     }
 
-    const items = recommendationsData.data?.response.$getRecommend.data?.items ?? []
-    const playlist = recommendationsData.data?.response.page.playlist ?? ""
-    const totalCount = items.filter(item => item.contentType === "video").length
-    const firstVideoId = items.find(item => item.contentType === "video")?.id ?? ""
-
     return (
         <div className="recommendations-content">
             <title>おすすめの動画 - ニコニコ動画</title>
@@ -44,13 +48,13 @@ export default function RecommendationsContent() {
                     )}
                 </h2>
                 {playlist && firstVideoId && (
-                    <SearchContinuousPlayButton
+                    <ContinuousPlayButton
                         playlistQuery={playlist}
                         firstVideoId={firstVideoId}
                     />
                 )}
             </div>
-            <RecommendationsTags items={items} />
+            <RelatedTags tags={recommendedTags} />
             <RecommendationsVideoList items={items} playlist={playlist} />
         </div>
     )
