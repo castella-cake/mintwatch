@@ -53,6 +53,9 @@
         "enableSearchPage": {
             "name": "Experimental: Enable replacement of the search page"
         },
+        "enableRecommendationsPage": {
+            "name": "Experimental: Enable replacement of the recommendations page"
+        },
 
         "enableFixedHeader": {
             "name": "Enable Fixed Header",

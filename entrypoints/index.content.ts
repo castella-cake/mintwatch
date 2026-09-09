@@ -28,6 +28,7 @@ export default defineContentScript({
         const isWatch = watchPattern.includes(window.location.toString())
         const isRanking = rankingPattern.includes(window.location.toString())
         const isSearch = searchPatternArray.some(m => m.includes(window.location.toString()))
+        const isRecommendations = recommendationPattern.includes(window.location.toString())
         // nopmwだったら何もしない
         const queryString = location.search
         const searchParams = new URLSearchParams(queryString)
@@ -36,22 +37,24 @@ export default defineContentScript({
         // 視聴ページは常に動作するため、storageを待たずにブロック処理を即時実行する
         if (isWatch) blockPage()
 
-        getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "sync:pmwplayertype", "local:playersettings", "sync:enableFirefoxWindowStop", "sync:enableReshogi", "sync:enableSearchPage"] as const).then((storage) => {
+        getStorageItemsWithObject(["sync:starNightPalette", "sync:colorPalette", "sync:pmwforcepagehls", "sync:pmwplayertype", "local:playersettings", "sync:enableFirefoxWindowStop", "sync:enableReshogi", "sync:enableSearchPage", "sync:enableRecommendationsPage"] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
+            const enableRecommendationsPage = storage["sync:enableRecommendationsPage"]
 
             if (
                 isWatch
                 || (isRanking && enableReshogi)
                 || (isSearch && enableSearchPage)
+                || (isRecommendations && enableRecommendationsPage)
             ) {
                 initiateRouter(ctx, storage)
-            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || recommendationPattern) {
+            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (isRecommendations && !enableRecommendationsPage)) {
                 const matchFor = {
                     watch: true,
                     ranking: enableReshogi,
                     search: enableSearchPage,
-                    recommendations: false,
+                    recommendations: enableRecommendationsPage,
                 }
                 injectScript("/catchTargetPage.js", {
                     modifyScript(script) {
