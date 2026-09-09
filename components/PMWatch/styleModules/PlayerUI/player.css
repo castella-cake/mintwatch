@@ -20,9 +20,9 @@
 
 .player-video-container-inner {
     aspect-ratio: 16 / 9;
-    width: 100%;
     position: relative;
-    height: 100%;
+    width: round(up, 100%, 1px);
+    height: round(up, 100%, 1px);
     overflow: hidden;
     margin: 0 auto;
     background: #000;
