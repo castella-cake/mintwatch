@@ -4,13 +4,16 @@
     gap: 8px;
 
     /* 背景は透明にしてページ背景に馴染ませる */
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 8px;
 }
 
 .recommendations-relatedtags h3 {
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     font-size: 1rem;
 
     svg {
@@ -32,11 +35,11 @@
     font-size: 0.9em;
     border-radius: 1024px;
     border: 2px solid var(--accent1);
-    background: var(--bgcolor1);
+    background: var(--bgcolor2);
     padding: 4px 12px;
-    transition: background-color 0.15s ease;
+    transition: var(--transition-normal);
 
-    &:hover {
-        background: var(--bgcolor3, var(--bgcolor1));
+    &:hover, &:focus-visible {
+        background: var(--hover1);
     }
 }

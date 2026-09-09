@@ -34,6 +34,10 @@
     opacity: 0.8;
 }
 
+.recommendations-header .search-continuous-play-button {
+    padding: 4px 8px;
+}
+
 .recommendations-error {
     padding: 32px 16px;
     text-align: center;
