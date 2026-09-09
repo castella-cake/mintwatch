@@ -1,4 +1,3 @@
-import { VList } from "virtua"
 import type { RecommendItem } from "@/types/RecommendData"
 import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
 import { SearchPlayFromVideoButton } from "../Search/GenericComponents/ContinuousPlay"
@@ -17,20 +16,18 @@ export function RecommendationsVideoList({ items, playlist }: { items: Recommend
 
     return (
         <div className="recommendations-videolist">
-            <VList data={videoItems}>
-                {videoItems.map((item, index) => (
-                    <VideoItemCard
-                        key={item.id}
-                        video={item.content}
-                        layoutType="vertical-simple"
-                        markAsLazy={index >= 5}
-                        data-index={index + 1}
-                        externalVideoActionChildren={playlist
-                            ? <SearchPlayFromVideoButton playlistQuery={playlist} video={item.content} />
-                            : undefined}
-                    />
-                ))}
-            </VList>
+            {videoItems.map((item, index) => (
+                <VideoItemCard
+                    key={item.id}
+                    video={item.content}
+                    layoutType="vertical-simple"
+                    markAsLazy={index >= 5}
+                    data-index={index + 1}
+                    externalVideoActionChildren={playlist
+                        ? <SearchPlayFromVideoButton playlistQuery={playlist} video={item.content} />
+                        : undefined}
+                />
+            ))}
         </div>
     )
 }

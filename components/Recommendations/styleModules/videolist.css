@@ -1,16 +1,12 @@
 .recommendations-videolist {
-    /* VList のための高さ制約。flex 親の main 領域を埋める */
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 8px;
 }
 
 /* vertical-simple カードはグリッド表示 */
 .recommendations-videolist .videoitem-card[data-layout="vertical-simple"] {
     width: 15rem;
-    margin: 4px;
 }
 
 /* 狭い画面ではカードのサイズを調整 */

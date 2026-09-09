@@ -3,34 +3,35 @@
     flex-direction: column;
     gap: 16px;
 
-    /* VList の仮想スクロールのため、高さを viewport からおおよそ算出 */
-    min-height: calc(100vh - var(--header-height, 36px) - var(--navbar-height, 55px));
-}
-
-.recommendations-type-selector {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-
-.recommendations-type-selector-button {
-    color: inherit;
-    text-decoration: none;
-    border: var(--border);
-    border-radius: var(--radius);
-    background: var(--bgcolor2);
-    padding: 6px 16px;
-
-    &[data-is-active="true"] {
-        background: var(--accent1);
-        color: var(--bgcolor1);
-    }
+    /* 検索 / ランキングページと同じ幅制約 */
+    width: min(95vw, 95em);
+    margin: 0 auto;
+    padding: 1rem 0;
 }
 
 .recommendations-content {
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.recommendations-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.recommendations-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+}
+
+.recommendations-title-totalcount {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 .recommendations-error {

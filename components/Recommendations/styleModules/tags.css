@@ -1,11 +1,9 @@
 .recommendations-relatedtags {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    background: var(--bgcolor2);
-    border: var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
+    gap: 8px;
+
+    /* 背景は透明にしてページ背景に馴染ませる */
 }
 
 .recommendations-relatedtags h3 {
@@ -41,10 +39,4 @@
     &:hover {
         background: var(--bgcolor3, var(--bgcolor1));
     }
-}
-
-.recommendations-relatedtags-continuousplay {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
