@@ -14,6 +14,7 @@ import { searchMylistTestData } from "./datas/Search/mylist"
 import { searchSeriesTestData } from "./datas/Search/series"
 import { searchUserTestData } from "./datas/Search/user"
 import { searchPlaylistTestData } from "./datas/playlist"
+import { recommendationsTestData } from "./datas/recommendations"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -23,6 +24,7 @@ type FixtureType = {
     mockApi: () => Promise<void>
     enableSearchPage: () => Promise<void>
     enableRankingPage: () => Promise<void>
+    enableRecommendationsPage: () => Promise<void>
     enablePastLogAutoLoad: () => Promise<void>
 }
 
@@ -102,6 +104,12 @@ export const test = base.extend<FixtureType>({
                 json: customRankingTestData,
             }))
 
+            // おすすめページAPI
+            await page.route("https://www.nicovideo.jp/recommendations?responseType=json", route => route.fulfill({
+                status: 200,
+                json: recommendationsTestData,
+            }))
+
             await page.route(/https:\/\/www\.nicovideo\.jp\/ranking\/genre\?responseType=json&page=.&term=.*/, route => route.fulfill({
                 status: 200,
                 json: genreRankingTestData,
@@ -176,6 +184,14 @@ export const test = base.extend<FixtureType>({
         }
 
         await use(enableRankingPageFunction)
+    },
+    enableRecommendationsPage: async ({ page, extensionId }, use) => {
+        async function enableRecommendationsPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the recommendations page" }).click()
+        }
+
+        await use(enableRecommendationsPageFunction)
     },
     enablePastLogAutoLoad: async ({ page, extensionId }, use) => {
         async function enablePastLogAutoLoadFunction() {
