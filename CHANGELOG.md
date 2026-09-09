@@ -53,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - プレイヤー設定の外観を変更し、よりすっきりした見た目になりました
 - MintWatch 設定のスタイルを調整して細かいズレなどを直しました
 - トーストの表示時間を10→8秒に短縮しました
+- 対象ページへの遷移割り込みを元ページの React Router にサブスクライブする形に変更しました
 
 ### Fixed
 - 依存関係を更新しました  

@@ -33,6 +33,7 @@ export default defineConfig({
                 "style/*",
                 "watch_injector.js",
                 "load_turnstile.js",
+                "catchTargetPage.js",
                 "dummy.js",
                 "content-scripts/deferStyle.css",
                 "fonts/*",
