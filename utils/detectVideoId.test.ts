@@ -30,14 +30,18 @@ test("detectVideoIdFromString: 文字列に動画IDが含まれない場合にnu
 })
 
 test("isPathnameIsVideoPage: 正しい動画ページのパス名がtrueを返す", () => {
-    expect(isPathnameIsVideoPage("/watch/sm12345678")).toBe(true)
-    expect(isPathnameIsVideoPage("/shorts/ss12345678")).toBe(true)
+    expect(isPathnameIsVideoPage("/watch/sm12345678", true)).toBe(true)
+    expect(isPathnameIsVideoPage("/shorts/ss12345678", true)).toBe(true)
 })
 
 test("isPathnameIsVideoPage: 不正な動画ページのパス名がfalseを返す", () => {
-    expect(isPathnameIsVideoPage("/watch/invalid")).toBe(false)
-    expect(isPathnameIsVideoPage("/shorts/invalid")).toBe(false)
-    expect(isPathnameIsVideoPage("/user/12345678")).toBe(false)
+    expect(isPathnameIsVideoPage("/watch/invalid", true)).toBe(false)
+    expect(isPathnameIsVideoPage("/shorts/invalid", true)).toBe(false)
+    expect(isPathnameIsVideoPage("/user/12345678", true)).toBe(false)
+})
+
+test("isPathnameIsVideoPage: ショートページが無効な場合にfalseを返す", () => {
+    expect(isPathnameIsVideoPage("/shorts/ss12345678", false)).toBe(false)
 })
 
 test("urlToVideoId: URLがnullの場合にnullが返る", () => {

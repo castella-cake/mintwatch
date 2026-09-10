@@ -11,10 +11,11 @@ export function detectVideoIdFromString(string: string): string[] | null {
     return matches ? Array.from(new Set(matches)) : null
 }
 
-export function isPathnameIsVideoPage(pathname: string): boolean {
+export function isPathnameIsVideoPage(pathname: string, isShortsPageEnabled?: boolean): boolean {
     const path = pathname.split("/").filter(Boolean)
     if (path.length !== 2) return false
     if (path[0] !== "watch" && path[0] !== "shorts") return false
+    if (path[0] === "shorts" && isShortsPageEnabled === false) return false
     if (!validateVideoId(path[1])) return false
     return true
 }

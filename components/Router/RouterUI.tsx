@@ -36,9 +36,11 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage"] as const)
+    const isShortsPageEnabled = syncStorage.enableShortsPage ?? true
     const targetPathnames = [
         "/watch/",
+        ...(isShortsPageEnabled ? ["/shorts/"] : []),
         ...(syncStorage.enableReshogi ? ["/ranking"] : []),
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
@@ -68,7 +70,7 @@ export default function RouterUI() {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                const isVideoPage = isPathnameIsVideoPage(location.pathname)
+                const isVideoPage = isPathnameIsVideoPage(location.pathname, isShortsPageEnabled)
                 if (videoRef.current && !videoRef.current.paused && !isVideoPage) {
                     setBackgroundPlaying(true)
                 } else {
@@ -93,7 +95,7 @@ export default function RouterUI() {
                 console.log("out of bounds")
                 window.location.reload()
             }
-            if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname)) {
+            if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname, isShortsPageEnabled)) {
                 setBackgroundPlaying(true)
             } else {
                 setBackgroundPlaying(false)
@@ -146,7 +148,7 @@ export default function RouterUI() {
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal containerRef={mintModalElemRef} />
             <main>
-                <MatchWatchPage targetPathname={["/watch", "/shorts"]}>
+                <MatchWatchPage targetPathname={["/watch", ...(isShortsPageEnabled ? ["/shorts"] : [])]}>
                     <WatchBody />
                 </MatchWatchPage>
                 <Match targetPathname="/ranking">
