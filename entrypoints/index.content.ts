@@ -65,7 +65,7 @@ export default defineContentScript({
                 || (isRecommendations && enableRecommendationsPage)
             ) {
                 initiateRouter(ctx, storage)
-            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || recommendationPattern) {
+            } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || (!enableRecommendationsPage && isRecommendations)) {
                 const matchFor = {
                     watch: true,
                     ranking: enableReshogi,
