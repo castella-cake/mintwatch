@@ -37,7 +37,7 @@ const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
     const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage"] as const)
-    const isShortsPageEnabled = syncStorage.enableShortsPage ?? true
+    const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
         ...(isShortsPageEnabled ? ["/shorts/"] : []),

@@ -185,7 +185,7 @@ const settings: settingList = {
         {
             type: "checkbox",
             name: "enableShortsPage",
-            default: true,
+            default: false,
         },
     ],
     flags: [

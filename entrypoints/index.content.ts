@@ -20,6 +20,7 @@ export type catchMatchFor = {
     ranking: boolean
     search: boolean
     recommendations: boolean
+    shorts: boolean
 }
 
 export default defineContentScript({
@@ -51,7 +52,7 @@ export default defineContentScript({
         ] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
-            const enableShortsPage = storage["sync:enableShortsPage"] ?? true
+            const enableShortsPage = storage["sync:enableShortsPage"] ?? getDefault("enableShortsPage")
 
             if (
                 isWatch
