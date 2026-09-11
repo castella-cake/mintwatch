@@ -8,6 +8,7 @@ import { PlayerControllerButton } from "../Button"
 import { playerTypes } from "../../PlayerController"
 
 type ToggleLoopButtonProps = {
+    isShortsPlayer?: boolean
     currentPlayerType: keyof typeof playerTypes
 }
 
@@ -15,10 +16,10 @@ type ToggleLoopButtonProps = {
  * ループ再生ボタン
  * isLoop の購読を内部に持つことで、ループ設定の変更時のみ再レンダリングされる
  */
-export function ToggleLoopButton({ currentPlayerType }: ToggleLoopButtonProps) {
+export function ToggleLoopButton({ currentPlayerType, isShortsPlayer }: ToggleLoopButtonProps) {
     const videoRef = useVideoRefContext()
-    const localStorage = useStorageVar(["isLoop"] as const, "local")
-    const isLoop = localStorage.isLoop
+    const localStorage = useStorageVar(["isLoop", "isLoopInShorts"] as const, "local")
+    const isLoop = isShortsPlayer ? (localStorage.isLoopInShorts ?? true) : localStorage.isLoop
 
     // 保存されたループ設定を video 要素へ反映する
     useEffect(() => {
@@ -28,7 +29,12 @@ export function ToggleLoopButton({ currentPlayerType }: ToggleLoopButtonProps) {
     const toggleLoopState = useCallback(() => {
         const video = videoRef.current
         if (video) {
-            storage.setItem("local:isLoop", !video.loop)
+            if (isShortsPlayer) {
+                storage.setItem("local:isLoopInShorts", !video.loop)
+            } else {
+                storage.setItem("local:isLoop", !video.loop)
+            }
+
             video.loop = !video.loop
         }
     }, [videoRef])

@@ -13,10 +13,14 @@ import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
 import { useQueryClient } from "@tanstack/react-query"
 
-function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
+function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
     const location = useLocationContext()
-    if (location.pathname.startsWith(targetPathname) || backgroundPlaying) return children
+    if (
+        (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
+        || (typeof targetPathname === "object" && targetPathname.some(path => location.pathname.startsWith(path)))
+    ) return children
+    if (backgroundPlaying) return children
     return <></>
 }
 
@@ -32,9 +36,11 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage"] as const)
+    const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
+        ...(isShortsPageEnabled ? ["/shorts/"] : []),
         ...(syncStorage.enableReshogi ? ["/ranking"] : []),
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
@@ -64,12 +70,13 @@ export default function RouterUI() {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
+                const isVideoPage = isPathnameIsVideoPage(location.pathname, isShortsPageEnabled)
+                if (videoRef.current && !videoRef.current.paused && !isVideoPage) {
                     setBackgroundPlaying(true)
                 } else {
                     setBackgroundPlaying(false)
-                    if (location.pathname.startsWith("/watch/")) {
-                        const smId = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+                    if (isVideoPage) {
+                        const smId = pathnameToVideoId(location.pathname)
                         if (smId) {
                             // この動画IDのキャッシュをあらかじめ破棄する
                             queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
@@ -88,7 +95,7 @@ export default function RouterUI() {
                 console.log("out of bounds")
                 window.location.reload()
             }
-            if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
+            if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname, isShortsPageEnabled)) {
                 setBackgroundPlaying(true)
             } else {
                 setBackgroundPlaying(false)
@@ -141,7 +148,7 @@ export default function RouterUI() {
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal containerRef={mintModalElemRef} />
             <main>
-                <MatchWatchPage targetPathname="/watch">
+                <MatchWatchPage targetPathname={["/watch", ...(isShortsPageEnabled ? ["/shorts"] : [])]}>
                     <WatchBody />
                 </MatchWatchPage>
                 <Match targetPathname="/ranking">

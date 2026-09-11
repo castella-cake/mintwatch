@@ -1,4 +1,5 @@
-.player-container[data-player-type="default"] {
+.player-container[data-player-type="default"],
+.player-container[data-player-type="shorts"] {
     .playercontroller-container-right, .playercontroller-container-left {
         button {
             padding: 6px;
@@ -50,7 +51,8 @@
 }
 
 .container:not(.fullscreen)[data-background-playing="false"] .watch-container:not([data-watch-type="shinjuku"]) {
-    .player-container[data-player-type="default"][data-is-borderless-player="true"] {
+    .player-container[data-player-type="default"][data-is-borderless-player="true"], 
+    .player-container[data-player-type="shorts"][data-is-borderless-player="true"] {
         .player-video-container {
             border-radius: var(--radius);
         }
@@ -79,8 +81,8 @@
 
 }
 
-
-.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"] {
+.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="default"],
+.fullscreen.container[data-background-playing="false"] .watch-container[data-is-bigview="false"] .player-container[data-player-type="shorts"] {
     background: var(--bgcolor1);
 
     .playercontroller-container {

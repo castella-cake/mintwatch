@@ -198,6 +198,10 @@
     --textcolor1: #fff;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
+    --border-color: #202020af;
+    --border-width: 1px;
+    --border-style: solid;
+    --border: var(--border-width) var(--border-style) var(--border-color);
 }
 
 // 非フルスクリーンもしくは非ダイナミックコントローラー時に、動画要素の上でカーソルが動いていない場合は半透明。

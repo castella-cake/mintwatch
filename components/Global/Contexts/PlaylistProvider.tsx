@@ -11,6 +11,8 @@ import {
 } from "../../PMWatch/modules/Playlist"
 import { decodePlaylistString, rotatePlaylistToStart } from "@/utils/playlistUtils"
 import { useQueryClient } from "@tanstack/react-query"
+import { getShortsRecommend } from "@/utils/apis/shortsRecommend"
+import { videoItemToPlaylistItem } from "@/utils/playlistUtils"
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] })
 
@@ -63,6 +65,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     const queryClient = useQueryClient()
     const { videoInfo } = useVideoInfoContext()
     const location = useLocationContext()
+    const isShortsPage = location.pathname.startsWith("/shorts/")
     const [_playlistData, setPlaylistData] = useState<playlistData>({
         type: "none",
         items: [],
@@ -71,6 +74,39 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
 
     // URLのクエリパラメータ。playlistにはbase64でエンコードされたプレイリストの情報が入っている。
     const playlistString = new URLSearchParams(location.search).get("playlist")
+    const setInitialPlaylistState = useCallback(async () => {
+        if (!videoInfo) return
+        const video = videoInfo.data.response.video
+        const initialPlaylist = buildInitialPlaylist(videoInfo)
+        if (!isShortsPage) {
+            setPlaylistData(initialPlaylist)
+            return
+        }
+
+        const initialItem = initialPlaylist.items[0]
+
+        let recommendItems: playlistVideoItem[] = []
+        try {
+            const recommendData = await queryClient.fetchQuery({
+                queryKey: ["shortsRecommendData", video.id],
+                queryFn: () => getShortsRecommend(video.id),
+            })
+            console.log("Fetched shorts recommendations:", recommendData)
+            recommendItems = recommendData.data?.items
+                .filter(item => !item.content.isMuted)
+                .map(item => videoItemToPlaylistItem(item.content as VideoItem))
+                .filter((item): item is playlistVideoItem => !!item)
+                .filter(item => item.id !== video.id)
+                ?? []
+        } catch (error) {
+            console.error("Failed to fetch shorts recommendations.", error)
+        }
+
+        setPlaylistData({
+            type: "shorts",
+            items: [initialItem, ...recommendItems],
+        })
+    }, [videoInfo, isShortsPage, queryClient])
 
     // フォールバックのプレイリスト(現在の動画のみ)はレンダリング中に派生する。
     // プレイリストのクエリパラメータがなく、プレイリストが未カスタマイズの場合のみ設定する。
@@ -79,15 +115,18 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     if (videoInfo && currentVideoId && currentVideoId !== prevVideoId) {
         setPrevVideoId(currentVideoId)
         if (!playlistString && isUnsetOrTrivial(_playlistData)) {
-            setPlaylistData(buildInitialPlaylist(videoInfo))
+            setInitialPlaylistState()
         }
+    }
+
+    // ショートを離れたのにショートキューを持っていたら破棄
+    if (!isShortsPage && _playlistData.type === "shorts") {
+        setInitialPlaylistState()
     }
 
     // updatePlaylistStateから最新のstateを参照するためのref
     const latestRef = useRef({ playlistData: _playlistData, videoInfo })
-    useEffect(() => {
-        latestRef.current = { playlistData: _playlistData, videoInfo }
-    })
+    latestRef.current = { playlistData: _playlistData, videoInfo }
 
     // プレイリストのクエリパラメータからマイリストもしくはシリーズ、検索のデータを取得してプレイリストに反映する
     const updatePlaylistState = useCallback((playlistString: string) => {
@@ -161,7 +200,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             }
         }
         getData()
-    }, [queryClient])
+    }, [queryClient, setInitialPlaylistState])
 
     // URLのプレイリストパラメータの変化に応じてデータを取得する。
     // 遷移(history.push)と戻る/進む(popstate)はいずれもRouterProviderがlocationに反映する。

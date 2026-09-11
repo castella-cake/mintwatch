@@ -31,6 +31,7 @@ type Props = {
     qualityLabels?: string[]
     storyBoardData?: StoryBoardImageRootObject | null
     currentPlayerType: keyof typeof playerTypes
+    tempIsShortsPlayer?: boolean // TODO: flagEnableShortsPlayerが消えたらcurrentPlayerTypeを使う
 }
 
 export const playerTypes = {
@@ -38,6 +39,7 @@ export const playerTypes = {
     officialPlayer: "html5",
     shinjuku: "shinjuku",
     ginzaPlus: "ginzaplus",
+    shorts: "shorts",
 }
 
 /**
@@ -61,12 +63,13 @@ function PlayerController(props: Props) {
         qualityLabels,
         storyBoardData,
         currentPlayerType,
+        tempIsShortsPlayer,
     } = props
 
     const seekbarElem = (
         <Seekbar
             key="control-seekbar"
-            showTime={currentPlayerType === playerTypes.default}
+            showTime={currentPlayerType === playerTypes.default || currentPlayerType === playerTypes.shorts}
             storyBoardData={storyBoardData}
             hlsRef={hlsRef}
         />
@@ -75,7 +78,7 @@ function PlayerController(props: Props) {
     const timeElem = <Time key="control-time" />
 
     const togglePauseElem = <TogglePauseButton key="control-togglepause" currentPlayerType={currentPlayerType} />
-    const toggleLoopElem = <ToggleLoopButton key="control-toggleloop" currentPlayerType={currentPlayerType} />
+    const toggleLoopElem = <ToggleLoopButton key="control-toggleloop" currentPlayerType={currentPlayerType} isShortsPlayer={tempIsShortsPlayer} />
     const effectChangeElem = (
         <VefxToggleButton
             key="control-effectchange"
@@ -92,6 +95,12 @@ function PlayerController(props: Props) {
 
     const controlLayouts: { [key: string]: { top: JSX.Element[], left: JSX.Element[], center: JSX.Element[], right: JSX.Element[] } } = {
         default: {
+            top: [seekbarElem],
+            left: [effectChangeElem, volumeElem, toggleLoopElem],
+            center: [skipBackElem, backwardElem, togglePauseElem, forwardElem, skipForwardElem],
+            right: [],
+        },
+        shorts: {
             top: [seekbarElem],
             left: [effectChangeElem, volumeElem, toggleLoopElem],
             center: [skipBackElem, backwardElem, togglePauseElem, forwardElem, skipForwardElem],

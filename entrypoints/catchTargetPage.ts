@@ -1,6 +1,7 @@
 import { catchMatchFor } from "./index.content"
 
 const watchPattern = "/watch/:"
+const shortsPattern = "/shorts/:"
 const rankingPattern = "/ranking"
 const recommendationsPattern = "/recommendations"
 
@@ -80,6 +81,13 @@ export default defineUnlistedScript({
                     script?.dispatchEvent(
                         new CustomEvent("mwReactRouterHit", {
                             detail: "watch",
+                        }),
+                    )
+                }
+                if (enabledMatchPattern.shorts && pathMatcher(newState.location.pathname, shortsPattern)) {
+                    script?.dispatchEvent(
+                        new CustomEvent("mwReactRouterHit", {
+                            detail: "shorts",
                         }),
                     )
                 }

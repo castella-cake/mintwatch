@@ -1,0 +1,95 @@
+.watch-container[data-watch-type="shorts"] {
+    max-width: 90vw;
+    
+    .watch-container-grid {
+        grid-template-columns: minmax(auto, 28rem) auto minmax(auto, 28rem);
+        grid-template-rows: 87.5vh repeat(4, max-content);
+        grid-template-areas: "inf vid act"
+        "rec rec rec"
+        "srs srs srs"
+        "btm btm btm"
+        "sch sch sch";
+        justify-content: center;
+        width: auto;
+        margin: 0 auto;
+
+        --page-padding: 0%;
+        --page-max-width: 100vw;
+        
+        min-width: 0;
+
+        .player-video-container-inner {
+            aspect-ratio: 9 / 16;
+        }
+    }
+
+    .playercontroller-container-left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 8px;
+        z-index: 50;
+    }
+
+    .playercontroller-container-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 8px;
+        z-index: 50;
+    }
+
+    .playercontroller-container-middle {
+        display: block;
+    }
+
+    div#pmw-playercontroller {
+        inset: 0;
+        background: none;
+        backdrop-filter: none;
+        box-shadow: none;
+        border: none;
+        position: static;
+        margin: 0;
+        padding: 0;
+    }
+
+    .player-video-container {
+        aspect-ratio: 9/16;
+        width: auto;
+        height: calc(100% - 36px - 8px);
+    }
+
+    .playercontroller-container-center {
+        position: absolute;
+        bottom: calc(36px + 16px + 32px);
+        left: 0;
+        right: 0;
+    }
+
+    div#pmw-seekbar {
+        position: absolute;
+        bottom: calc(36px + 16px);
+        left: 0;
+        right: 0;
+    }
+
+    .player-container {
+        justify-self: center;
+        min-width: 0;
+    }
+
+    .watchnext-wrapper {
+        min-width: 0;
+        overflow: hidden;
+        position: relatuve;
+        grid-area: rec;
+    }
+
+    .watch-container[data-use-card-recommend="true"] .watchnext-content {
+        width: unset;
+        min-width: 0;
+    }
+}
+
+

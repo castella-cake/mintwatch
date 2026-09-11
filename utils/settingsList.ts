@@ -182,6 +182,11 @@ const settings: settingList = {
             name: "enableSearchPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableShortsPage",
+            default: false,
+        },
     ],
     flags: [
         {
@@ -196,6 +201,11 @@ const settings: settingList = {
         {
             type: "checkbox",
             name: "flagHlsErrorScreenEnable",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "flagEnableShortsLayout",
             default: false,
         },
         {

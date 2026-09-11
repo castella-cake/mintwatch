@@ -11,7 +11,7 @@ import { decodePlaylistString, encodePlaylistQuery } from "@/utils/playlistUtils
 import { secondsToTime } from "@/utils/readableValue"
 
 export type playlistData = {
-    type: "mylist" | "series" | "search" | "custom" | "none"
+    type: "mylist" | "series" | "search" | "shorts" | "custom" | "none"
     id?: string
     name?: string
     items: playlistVideoItem[]
@@ -57,6 +57,7 @@ const playlistTypeString = {
     mylist: "マイリスト",
     series: "シリーズ",
     search: "検索",
+    shorts: "ショート",
     custom: "一時的",
     none: "",
 }
