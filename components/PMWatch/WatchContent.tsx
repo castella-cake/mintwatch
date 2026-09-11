@@ -97,7 +97,7 @@ export function WatchContent(_props: Props) {
             setIsFullscreenUi={setIsFullscreenUi}
             changeVideo={onChangeVideo}
             onModalStateChanged={onModalStateChanged}
-            isShortsPlayer={isShortsPage && flagEnableShortsLayout}
+            isShortsPlayer={isShortsPage}
             key="watchui-player"
         />
     )

@@ -31,6 +31,7 @@ type Props = {
     qualityLabels?: string[]
     storyBoardData?: StoryBoardImageRootObject | null
     currentPlayerType: keyof typeof playerTypes
+    tempIsShortsPlayer?: boolean // TODO: flagEnableShortsPlayerが消えたらcurrentPlayerTypeを使う
 }
 
 export const playerTypes = {
@@ -62,6 +63,7 @@ function PlayerController(props: Props) {
         qualityLabels,
         storyBoardData,
         currentPlayerType,
+        tempIsShortsPlayer,
     } = props
 
     const seekbarElem = (
@@ -76,7 +78,7 @@ function PlayerController(props: Props) {
     const timeElem = <Time key="control-time" />
 
     const togglePauseElem = <TogglePauseButton key="control-togglepause" currentPlayerType={currentPlayerType} />
-    const toggleLoopElem = <ToggleLoopButton key="control-toggleloop" currentPlayerType={currentPlayerType} />
+    const toggleLoopElem = <ToggleLoopButton key="control-toggleloop" currentPlayerType={currentPlayerType} isShortsPlayer={tempIsShortsPlayer} />
     const effectChangeElem = (
         <VefxToggleButton
             key="control-effectchange"

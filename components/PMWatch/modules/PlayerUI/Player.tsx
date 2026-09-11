@@ -455,10 +455,11 @@ function Player(props: Props) {
     const onEnded = useCallback(() => {
         const enableContinuousPlay = localStorage.enableContinuousPlay ?? true
         const withRecommend = localStorage.continuousPlayWithRecommend ?? false
+        const isLoopInShorts = localStorage.isLoopInShorts ?? true
 
         if (
             (enableContinuousPlay && (playlistData.items.length > 1 || withRecommend))
-            && !(localStorage.isLoop || (isShortsPlayer && localStorage.isLoopInShorts))
+            && !(localStorage.isLoop || (isShortsPlayer && isLoopInShorts))
         ) {
             playlistIndexControl(
                 1,
@@ -505,7 +506,8 @@ function Player(props: Props) {
     const thumbnailSrc = videoInfo?.data.response.video.thumbnail.player
 
     const thisVideoAuthor = (videoInfo?.data.response.owner && videoInfo?.data.response.owner.nickname) ?? (videoInfo?.data.response.channel && videoInfo?.data.response.channel.name) ?? ""
-    const currentPlayerType = isShortsPlayer ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
+
+    const currentPlayerType = isShortsPlayer && syncStorage.flagEnableShortsLayout ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
 
     // 過去ログロード中はコメント互換モードをdefaultに変更
     const commentRenderMode = currentLogData?.when ? (syncStorage.flagTimetravelCommentRenderMode || "default") : localStorage.commentRenderMode ?? "html5"
@@ -533,7 +535,7 @@ function Player(props: Props) {
             data-is-cursor-stopped={cursorStopRef.current ? "true" : "false"}
             data-is-jump-video={jumpVideo ? "true" : "false"}
             data-is-borderless-player={syncStorage.disableBorderlessPlayer ? "false" : "true"}
-            data-player-type={syncStorage.flagEnableShortsLayout ? currentPlayerType : (syncStorage.pmwplayertype || playerTypes.default)}
+            data-player-type={currentPlayerType}
             ref={containerRef}
         >
             <VideoPlayer
@@ -670,6 +672,7 @@ function Player(props: Props) {
                     qualityLabels={qualityLabels}
                     storyBoardData={storyBoardData}
                     currentPlayerType={currentPlayerType}
+                    tempIsShortsPlayer={isShortsPlayer}
                 />
                 <CommentInput
                     videoId={videoId}
