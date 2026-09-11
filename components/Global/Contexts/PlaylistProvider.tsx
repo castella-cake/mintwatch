@@ -77,33 +77,13 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     const setInitialPlaylistState = useCallback(async () => {
         if (!videoInfo) return
         const video = videoInfo.data.response.video
-        const ownerName
-            = videoInfo.data.response.owner
-                && videoInfo.data.response.owner.nickname
-        const channelName
-            = videoInfo.data.response.channel
-                && videoInfo.data.response.channel.name
-        const initialItem = {
-            title: video.title,
-            id: video.id,
-            itemId: crypto.randomUUID(),
-            ownerName:
-                ownerName
-                ?? channelName
-                ?? "非公開または退会済みユーザー",
-            duration: video.duration,
-            thumbnailUrl:
-                video.thumbnail.middleUrl
-                ?? video.thumbnail.url,
-        }
-
+        const initialPlaylist = buildInitialPlaylist(videoInfo)
         if (!isShortsPage) {
-            setPlaylistData({
-                type: "custom",
-                items: [initialItem],
-            })
+            setPlaylistData(initialPlaylist)
             return
         }
+
+        const initialItem = initialPlaylist.items[0]
 
         let recommendItems: playlistVideoItem[] = []
         try {
@@ -135,15 +115,13 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     if (videoInfo && currentVideoId && currentVideoId !== prevVideoId) {
         setPrevVideoId(currentVideoId)
         if (!playlistString && isUnsetOrTrivial(_playlistData)) {
-            setPlaylistData(buildInitialPlaylist(videoInfo))
+            setInitialPlaylistState()
         }
     }
 
     // updatePlaylistStateから最新のstateを参照するためのref
     const latestRef = useRef({ playlistData: _playlistData, videoInfo })
-    useEffect(() => {
-        latestRef.current = { playlistData: _playlistData, videoInfo }
-    })
+    latestRef.current = { playlistData: _playlistData, videoInfo }
 
     // プレイリストのクエリパラメータからマイリストもしくはシリーズ、検索のデータを取得してプレイリストに反映する
     const updatePlaylistState = useCallback((playlistString: string) => {
@@ -153,9 +131,6 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         const playlistJson: playlistQueryData = decodePlaylistString(playlistString)
 
         async function getData() {
-            if (!playlistString) {
-                setInitialPlaylistState()
-            }
             if (
                 playlistJson.type === "mylist"
                 && playlistJson.context.mylistId
@@ -220,7 +195,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             }
         }
         getData()
-    }, [queryClient])
+    }, [queryClient, setInitialPlaylistState])
 
     // URLのプレイリストパラメータの変化に応じてデータを取得する。
     // 遷移(history.push)と戻る/進む(popstate)はいずれもRouterProviderがlocationに反映する。
