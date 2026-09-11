@@ -204,6 +204,11 @@ const settings: settingList = {
             default: false,
         },
         {
+            type: "checkbox",
+            name: "flagEnableShortsLayout",
+            default: false,
+        },
+        {
             type: "select",
             name: "flagTimetravelCommentRenderMode",
             values: ["default", "html5", "flash"],
