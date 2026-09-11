@@ -1,0 +1,18 @@
+.recommendations-videolist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 14rem);
+    justify-content: center;
+    gap: 8px;
+}
+
+/* vertical-simple カードはグリッド表示 */
+.recommendations-videolist .videoitem-card[data-layout="vertical-simple"] {
+    width: 15rem;
+}
+
+/* 狭い画面ではカードのサイズを調整 */
+@media (width <= 600px) {
+    .recommendations-videolist .videoitem-card[data-layout="vertical-simple"] {
+        width: 100%;
+    }
+}

@@ -31,6 +31,7 @@ export default defineContentScript({
         const isShortsWatch = shortsWatchPattern.includes(window.location.toString())
         const isRanking = rankingPattern.includes(window.location.toString())
         const isSearch = searchPatternArray.some(m => m.includes(window.location.toString()))
+        const isRecommendations = recommendationPattern.includes(window.location.toString())
         // nopmwだったら何もしない
         const queryString = location.search
         const searchParams = new URLSearchParams(queryString)
@@ -49,16 +50,19 @@ export default defineContentScript({
             "sync:enableReshogi",
             "sync:enableSearchPage",
             "sync:enableShortsPage",
+            "sync:enableRecommendationsPage",
         ] as const).then((storage) => {
             const enableReshogi = storage["sync:enableReshogi"]
             const enableSearchPage = storage["sync:enableSearchPage"]
             const enableShortsPage = storage["sync:enableShortsPage"] ?? getDefault("enableShortsPage")
+            const enableRecommendationsPage = storage["sync:enableRecommendationsPage"]
 
             if (
                 isWatch
                 || (isRanking && enableReshogi)
                 || (isSearch && enableSearchPage)
                 || (isShortsWatch && enableShortsPage)
+                || (isRecommendations && enableRecommendationsPage)
             ) {
                 initiateRouter(ctx, storage)
             } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || recommendationPattern) {
@@ -66,7 +70,7 @@ export default defineContentScript({
                     watch: true,
                     ranking: enableReshogi,
                     search: enableSearchPage,
-                    recommendations: false,
+                    recommendations: enableRecommendationsPage,
                     shorts: enableShortsPage,
                 }
                 injectScript("/catchTargetPage.js", {

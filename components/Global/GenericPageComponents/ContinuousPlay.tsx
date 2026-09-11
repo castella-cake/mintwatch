@@ -6,15 +6,15 @@ function watchUrlWithPlaylist(videoId: string, playlistQuery: string) {
 }
 
 /**
- * 検索ページの動画をすべて再生キューにする「現在のページから連続再生」ボタン
- * @param playlistQuery 検索APIの応答に含まれるplaylistクエリ(base64)
+ * 現在のページの動画を連続再生キューにするボタン
+ * @param playlistQuery プレイリストクエリ (base64)
  * @param firstVideoId 現在のページの先頭動画ID
  */
-export function SearchContinuousPlayButton({ playlistQuery, firstVideoId }: { playlistQuery: string, firstVideoId: string }) {
-    if (!playlistQuery || !firstVideoId) return <></>
+export function ContinuousPlayButton({ playlistQuery, firstVideoId }: { playlistQuery: string, firstVideoId: string }) {
+    if (!playlistQuery || !firstVideoId) return null
     return (
         <a
-            className="search-continuous-play-button"
+            className="generic-continuous-play-button"
             href={watchUrlWithPlaylist(firstVideoId, playlistQuery)}
         >
             <IconPlayerPlayFilled />
@@ -24,12 +24,12 @@ export function SearchContinuousPlayButton({ playlistQuery, firstVideoId }: { pl
 }
 
 /**
- * 検索結果の動画カードに表示する、その動画を先頭にした連続再生ボタン
- * @param playlistQuery 検索APIの応答に含まれるplaylistクエリ(base64)
+ * 動画カードに表示する、その動画を先頭にした連続再生ボタン
+ * @param playlistQuery プレイリストクエリ (base64)
  * @param video 対象の動画
  */
-export function SearchPlayFromVideoButton({ playlistQuery, video }: { playlistQuery: string, video: VideoItem }) {
-    if (!playlistQuery) return <></>
+export function PlayFromVideoButton({ playlistQuery, video }: { playlistQuery: string, video: VideoItem }) {
+    if (!playlistQuery) return null
     return (
         <a
             className="info-card-externalbutton"

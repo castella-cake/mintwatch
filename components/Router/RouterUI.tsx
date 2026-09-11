@@ -11,6 +11,7 @@ import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
+import { RecommendationsBody } from "../Recommendations/RecommendationsBody"
 import { useQueryClient } from "@tanstack/react-query"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
@@ -36,7 +37,7 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage"] as const)
     const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
@@ -45,6 +46,7 @@ export default function RouterUI() {
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
             : []),
+        ...(syncStorage.enableRecommendationsPage ? ["/recommendations"] : []),
     ]
 
     const videoRef = useVideoRefContext()
@@ -156,6 +158,9 @@ export default function RouterUI() {
                 </Match>
                 <Match targetPathname={searchPagePaths}>
                     <SearchBody />
+                </Match>
+                <Match targetPathname="/recommendations">
+                    <RecommendationsBody />
                 </Match>
             </main>
             <Alert />

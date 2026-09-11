@@ -187,6 +187,11 @@ const settings: settingList = {
             name: "enableShortsPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableRecommendationsPage",
+            default: false,
+        },
     ],
     flags: [
         {

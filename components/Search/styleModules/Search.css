@@ -24,6 +24,10 @@
         grid-area: pageb;
     }
 
+    .generic-relatedtags {
+        grid-area: related;
+    }
+
     &[data-is-fetching="true"] {
         opacity: 0.5;
     }
@@ -38,6 +42,10 @@
             "save-search result related"
             ". result related"
             ". pageb pageb";
+
+        .generic-relatedtags .generic-relatedtags-items {
+            flex-direction: column;
+        }
     }
 
     &[data-is-nicodic-article-exists="false"] {
@@ -54,20 +62,20 @@
     }
 
     &:not([data-is-nicodic-article-exists="true"]) {
-        .search-result-relatedtags-items {
+        .generic-relatedtags-items {
             flex-wrap: wrap;
             flex-direction: row;
             gap: 4px;
             font-size: 0.9rem;
         }
 
-        .search-result-relatedtags {
+        .generic-relatedtags {
             border: var(--border);
             border-radius: var(--radius);
             padding: 8px;
         }
 
-        .search-result-relatedtags h3 {
+        .generic-relatedtags h3 {
             font-size: 0.9rem;
 
             svg {

@@ -27,10 +27,10 @@ test("Search: Basic tag search rendering test", async ({ page, mockApi, enableSe
     expect(nicodicUrl).toBe("https://dic.nicovideo.jp/a/%E3%83%86%E3%82%B9%E3%83%88")
 
     // 関連タグが表示されているか確認
-    const relatedTagsSection = page.locator(".search-result-relatedtags")
+    const relatedTagsSection = page.locator(".generic-relatedtags")
     await expect(relatedTagsSection).toBeVisible()
 
-    const relatedTag = await page.locator(".search-result-relatedtags-tag").first().textContent()
+    const relatedTag = await page.locator(".generic-relatedtags-tag").first().textContent()
     expect(relatedTag).toBe("MintWatchの楽しみは無限大です")
 
     // 動画タイトルが正しく表示されているか確認
