@@ -119,6 +119,11 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         }
     }
 
+    // ショートを離れたのにショートキューを持っていたら破棄
+    if (!isShortsPage && _playlistData.type === "shorts") {
+        setInitialPlaylistState()
+    }
+
     // updatePlaylistStateから最新のstateを参照するためのref
     const latestRef = useRef({ playlistData: _playlistData, videoInfo })
     latestRef.current = { playlistData: _playlistData, videoInfo }
