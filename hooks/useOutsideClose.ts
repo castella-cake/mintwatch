@@ -14,6 +14,7 @@ export function useOutsideClose(
         function handleMouseDown(e: MouseEvent) {
             const target = e.target as Node
             if (nodeRef.current?.contains(target)) return
+            if ((target as Element).closest?.(`.toast-container, .alert-container`)) return
             if (ignoreId) {
                 const closest = (target as Element).closest?.(`[data-outside-ignore="${ignoreId}"]`)
                 if (closest) return
