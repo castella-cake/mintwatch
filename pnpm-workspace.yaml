@@ -5,3 +5,4 @@ allowBuilds:
   dtrace-provider: true
 patchedDependencies:
   '@dnd-kit/core': patches/@dnd-kit__core.patch
+  '@xpadev-net/niconicomments': patches/@xpadev-net__niconicomments.patch
