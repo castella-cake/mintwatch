@@ -229,7 +229,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
     const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
-    if (commentableUser === "nobody" || isPaymentPreviewing || !videoInfo?.data.response.viewer) {
+    if (commentableUser === "nobody" || isPaymentPreviewing || (videoInfo?.data.response && !videoInfo?.data.response.viewer)) {
         return (
             <div className="commentinput-container global-flex" id="pmw-commentinput">
                 <div className="commentinput-disabled">
