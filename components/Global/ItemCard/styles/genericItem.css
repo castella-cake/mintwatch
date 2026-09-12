@@ -229,6 +229,7 @@
 
     &:not(:has(.info-card-count)) .info-card-title {
         max-lines: 2;
+        -webkit-line-clamp: 2;
     }
 }
 
