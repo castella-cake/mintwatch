@@ -55,7 +55,7 @@ test("Watch: past_log クエリで confirm 後に過去ログが読み込まれ�
     const whenRequests: number[] = []
     await mockCommentApi(page, whenRequests)
 
-    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.goto(`https://www.nicovideo.jp/watch/sm9?past_log=${pastLogEpoch}`)
     await page.bringToFront()
 
     const alert = page.locator(".alert-container")
@@ -75,7 +75,7 @@ test("Watch: past_log クエリでキャンセルすると読み込まれない"
     const whenRequests: number[] = []
     await mockCommentApi(page, whenRequests)
 
-    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.goto(`https://www.nicovideo.jp/watch/sm9?past_log=${pastLogEpoch}`)
     await page.bringToFront()
 
     const alert = page.locator(".alert-container")
@@ -93,7 +93,7 @@ test("Watch: 不正な past_log クエリでは確認が表示されない", asy
     const whenRequests: number[] = []
     await mockCommentApi(page, whenRequests)
 
-    await page.goto("https://www.nicovideo.jp/watch/sm0?past_log=abc")
+    await page.goto("https://www.nicovideo.jp/watch/sm9?past_log=abc")
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")
@@ -107,7 +107,7 @@ test("Watch: 自動で読み込み を押すと過去ログが読み込まれる
     const whenRequests: number[] = []
     await mockCommentApi(page, whenRequests)
 
-    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.goto(`https://www.nicovideo.jp/watch/sm9?past_log=${pastLogEpoch}`)
     await page.bringToFront()
 
     const alert = page.locator(".alert-container")
@@ -126,7 +126,7 @@ test("Watch: 自動読み込み設定がONのとき past_log クエリで確認�
     const whenRequests: number[] = []
     await mockCommentApi(page, whenRequests)
 
-    await page.goto(`https://www.nicovideo.jp/watch/sm0?past_log=${pastLogEpoch}`)
+    await page.goto(`https://www.nicovideo.jp/watch/sm9?past_log=${pastLogEpoch}`)
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")

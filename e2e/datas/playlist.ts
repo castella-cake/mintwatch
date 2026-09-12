@@ -67,8 +67,8 @@ export const searchPlaylistTestData: PlaylistResponseRootObject = {
                 content: makeVideo("sm15751190", "検索結果の2番目"),
             },
             {
-                watchId: "sm0",
-                content: makeVideo("sm0", "For testing purposes only"),
+                watchId: "sm9",
+                content: makeVideo("sm9", "For testing purposes only"),
             },
         ],
     },

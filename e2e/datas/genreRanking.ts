@@ -27,7 +27,7 @@ export const genreRankingTestData = {
                     items: [
                         {
                             "type": "essential",
-                            "id": "sm0",
+                            "id": "sm9",
                             "title": "For testing purposes only",
                             "registeredAt": "1970-01-01T00:00:00.000Z",
                             "count": {

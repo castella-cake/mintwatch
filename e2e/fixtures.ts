@@ -71,7 +71,7 @@ export const test = base.extend<FixtureType>({
             }))
 
             // 通常動画, PURELY
-            await page.route("https://www.nicovideo.jp/watch/sm0?responseType=json", route => route.fulfill({
+            await page.route("https://www.nicovideo.jp/watch/sm9?responseType=json", route => route.fulfill({
                 status: 200,
                 json: watchTestData,
             }))

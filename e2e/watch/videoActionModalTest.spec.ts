@@ -3,7 +3,7 @@ import { expect, test } from "../fixtures"
 test("Watch: Video action modal open test", async ({ page, mockApi }) => {
     await mockApi()
 
-    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.goto("https://www.nicovideo.jp/watch/sm9")
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")
@@ -20,7 +20,7 @@ test("Watch: Video action modal open test", async ({ page, mockApi }) => {
 
     await page.getByText("共有").click()
     await expect(page.locator("#root-pmw")).toContainText("視聴中の動画をソーシャルネットワークに共有インテントリンクまたは直接リンクを使用してお使いのSNSにリンクを共有できます")
-    await expect(page.locator("#root-pmw")).toContainText("For testing purpose only - by CYakigasi https://www.nicovideo.jp/watch/sm0 #sm0 #ニコニコ動画 #PepperMintShare")
+    await expect(page.locator("#root-pmw")).toContainText("For testing purpose only - by CYakigasi https://www.nicovideo.jp/watch/sm9 #sm9 #ニコニコ動画 #PepperMintShare")
 
     await page.getByRole("button", { name: "NGコメント設定" }).click()
     await expect(page.locator(".modal-content")).toBeVisible()

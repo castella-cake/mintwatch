@@ -3,7 +3,7 @@ import { expect, test } from "../fixtures"
 test("Watch: Basic rendering test", async ({ page, mockApi }) => {
     await mockApi()
 
-    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.goto("https://www.nicovideo.jp/watch/sm9")
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")

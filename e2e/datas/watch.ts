@@ -31,7 +31,7 @@ export const watchTestData: VideoDataRootObject = {
             channel: null,
             client: {
                 nicosid: "",
-                watchId: "sm0",
+                watchId: "sm9",
                 watchTrackId: "aaaaaaaaaa_0000000000000",
             },
             comment: {
@@ -448,7 +448,7 @@ export const watchTestData: VideoDataRootObject = {
                 viewer: null,
             },
             video: {
-                id: "sm0",
+                id: "sm9",
                 title: "For testing purpose only",
                 description: "MintWatch no tanoshimiha mugendai desu",
                 count: {
@@ -482,7 +482,7 @@ export const watchTestData: VideoDataRootObject = {
             },
             videoAds: {
                 additionalParams: {
-                    videoId: "sm0",
+                    videoId: "sm9",
                     videoDuration: 0,
                     isAdultRatingNG: false,
                     isAuthenticationRequired: false,

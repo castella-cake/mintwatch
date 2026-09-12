@@ -3,7 +3,7 @@ import { expect, test } from "../fixtures"
 test("Watch: ToolTip rendering test", async ({ page, mockApi }) => {
     await mockApi()
 
-    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.goto("https://www.nicovideo.jp/watch/sm9")
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")
@@ -19,7 +19,7 @@ test("Watch: ToolTip does not appear on programmatic focus when opening the side
     // 非固定ヘッダー時のみサイドメニューの閉じるボタンが表示・フォーカス可能になる
     await page.goto(`chrome-extension://${extensionId}/settings.html`)
     await page.getByRole("checkbox", { name: "Enable Fixed Header" }).click()
-    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.goto("https://www.nicovideo.jp/watch/sm9")
     await page.bringToFront()
     await page.waitForSelector("#pmw-element-video")
 

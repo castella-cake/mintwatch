@@ -153,7 +153,7 @@ test("Search: Video result card functionality", async ({ page, mockApi, enableSe
 
     // リンクのhref属性を確認
     const href = await videoLink.getAttribute("href")
-    expect(href).toContain("/watch/sm0")
+    expect(href).toContain("/watch/sm9")
 })
 
 test("Search: Search type selector functionality", async ({ page, mockApi, enableSearchPage }) => {
