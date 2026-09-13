@@ -26,7 +26,7 @@ export function EndCard({ smId }: { smId: string }) {
         videoRef.current.addEventListener("durationchange", onDurationChange)
     }, [videoRef.current])
 
-    if (currentTime < duration) return null
+    if (currentTime < duration && currentTime !== duration) return null
 
     let ownerName = "非公開または退会済みユーザー"
     if (videoInfo && videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname

@@ -499,7 +499,7 @@ function Player(props: Props) {
     const handleJumpCancel = useCallback(() => {
         clearTimeout(jumpFeedbackTimeoutRef.current)
         setJumpVideo(null)
-        if (videoRef.current && videoRef.current.currentTime < videoRef.current.duration) {
+        if (videoRef.current && videoRef.current.currentTime < videoRef.current.duration && videoRef.current.currentTime !== videoRef.current.duration) {
             videoRef.current?.play().catch(() => {})
         }
     }, [jumpFeedbackTimeoutRef, setJumpVideo, videoRef])
