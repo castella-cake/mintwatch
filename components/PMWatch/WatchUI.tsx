@@ -57,7 +57,11 @@ function CreateWatchUI() {
         // 再度来ても良いようにキャッシュを破棄する
         queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
         queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
-        if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
+        if (videoRef.current) {
+            if (import.meta.env.FIREFOX) videoRef.current.src = ""
+            videoRef.current.currentTime = 0
+            videoRef.current.pause()
+        }
         setSmId(smIdAfter)
     }, [smId])
 

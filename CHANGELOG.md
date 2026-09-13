@@ -90,6 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Turnstile を更新しました
 - @置換 の一部指定が機能しない問題を一時的に修正しました
 - 動画情報の取得前に「未ログインのためコメントできません」が表示される問題を修正しました
+- 動画移動時に即時でメディア状態をリセットするようになりました
 
 ## 0.11.2 - 2026/04/29
 
