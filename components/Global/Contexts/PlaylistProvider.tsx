@@ -11,7 +11,7 @@ import {
 } from "../../PMWatch/modules/Playlist"
 import { decodePlaylistString, rotatePlaylistToStart } from "@/utils/playlistUtils"
 import { useQueryClient } from "@tanstack/react-query"
-import { getShortsRecommend } from "@/utils/apis/shortsRecommend"
+import { getRecipePlaylist } from "@/utils/apis/recipePlaylist"
 import { videoItemToPlaylistItem } from "@/utils/playlistUtils"
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] })
@@ -88,8 +88,8 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         let recommendItems: playlistVideoItem[] = []
         try {
             const recommendData = await queryClient.fetchQuery({
-                queryKey: ["shortsRecommendData", video.id],
-                queryFn: () => getShortsRecommend(video.id),
+                queryKey: ["recipePlaylistData", video.id],
+                queryFn: () => getRecipePlaylist(video.id, { recipeId: "video_short_watch_recommendation" }),
             })
             console.log("Fetched shorts recommendations:", recommendData)
             recommendItems = recommendData.data?.items
@@ -197,12 +197,24 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     name: response.data.meta.title,
                     items,
                 })
+            } else if (playlistJson.type === "recipe" && playlistJson.context && videoInfo?.data?.response.video?.id) {
+                const context: RecipePlaylistOptions = playlistJson.context
+                const response = await queryClient.fetchQuery({
+                    queryKey: ["recipePlaylist", videoInfo?.data?.response.video?.id, context],
+                    queryFn: () => getRecipePlaylist(videoInfo?.data?.response.video?.id, context),
+                })
+                setPlaylistData({
+                    type: "recipe",
+                    id: context.recipeId || "video_short_watch_recommendation",
+                    name: response.data.meta.title,
+                    items: playlistToSimplifiedPlaylist(response),
+                })
             } else {
                 setInitialPlaylistState()
             }
         }
         getData()
-    }, [queryClient, setInitialPlaylistState])
+    }, [queryClient, setInitialPlaylistState, videoInfo])
 
     // URLのプレイリストパラメータの変化に応じてデータを取得する。
     // 遷移(history.push)と戻る/進む(popstate)はいずれもRouterProviderがlocationに反映する。

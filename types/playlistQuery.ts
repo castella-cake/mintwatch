@@ -1,5 +1,5 @@
 export interface playlistQueryData {
-    type: "mylist" | "custom-ranking" | "series" | "pm-queue" | "search" | null
+    type: "mylist" | "custom-ranking" | "series" | "pm-queue" | "search" | "recipe" | null
     context?: any
 }
 

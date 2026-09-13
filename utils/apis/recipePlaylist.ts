@@ -1,13 +1,13 @@
 import APIError from "../classes/APIError"
 import { PlaylistRecipeIdDataRootObject } from "@/types/PlaylistRecipeIdData"
 
-export type ShortsRecommendOptions = {
+export type RecipePlaylistOptions = {
     recipeId?: string
     recipeVersion?: number
     limit?: number
 }
 
-export async function getShortsRecommend(videoId: string, options: ShortsRecommendOptions = {}) {
+export async function getRecipePlaylist(videoId: string, options: RecipePlaylistOptions = {}) {
     const params = new URLSearchParams({
         recipeId: options.recipeId ?? "video_short_watch_recommendation",
         recipeVersion: String(options.recipeVersion ?? 1),
