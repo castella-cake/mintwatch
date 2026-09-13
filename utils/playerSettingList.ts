@@ -61,7 +61,7 @@ export const playerSettings: PlayerSettingList = {
             },
             integratedControl: {
                 type: "select",
-                defaultValue: "never",
+                defaultValue: "fullscreen",
                 options: ["never", "fullscreen", "always"],
                 texts: ["分割表示", "全画面時のみ統合表示", "常に統合表示"],
                 name: "コントローラーの表示",
