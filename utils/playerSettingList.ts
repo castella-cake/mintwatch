@@ -88,6 +88,14 @@ export const playerSettings: PlayerSettingList = {
                 texts: ["5秒", "10秒", "15秒", "30秒"],
                 name: "スキップ操作のシーク時間",
             },
+            jumpVideoBehaviour: {
+                type: "select",
+                defaultValue: "default",
+                options: ["default", "manual"],
+                texts: ["5秒後に移動", "手動移動"],
+                name: "@ジャンプでの動画移動",
+                hint: "動画を移動する@ジャンプの挙動を設定します。",
+            },
             enableAutoPlay: {
                 type: "checkbox",
                 defaultValue: true,

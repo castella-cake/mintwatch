@@ -38,7 +38,7 @@ import { JumpVideoCard } from "./JumpVideoCard"
 type Props = {
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
-    changeVideo: (videoId: string, doScroll?: boolean, noLocationChange?: boolean) => void
+    changeVideo: (videoUrl: string, doScroll?: boolean, noLocationChange?: boolean) => void
     onModalStateChanged: (isModalOpen: boolean, modalType: "mylist" | "share") => void
     isShortsPlayer: boolean
 }
@@ -87,6 +87,7 @@ function Player(props: Props) {
         "borderPastMyComments",
         "enableAutoPlay",
         "lyricCommentFilter",
+        "jumpVideoBehaviour",
     ] as const, "local")
     const syncStorage = useStorageVar([
         "pmwplayertype",
@@ -135,18 +136,20 @@ function Player(props: Props) {
             }
             video.pause()
             setJumpVideo({ smId: activeEvent.target as string, message: activeEvent.message ?? "" })
-            clearTimeout(jumpFeedbackTimeoutRef.current)
-            jumpFeedbackTimeoutRef.current = setTimeout(() => {
-                setJumpVideo(null)
-                changeVideo(`https://www.nicovideo.jp/watch/${encodeURIComponent(activeEvent.target as string)}`, false, true)
-            }, 5000)
+            if (localStorage.jumpVideoBehaviour !== "manual") {
+                clearTimeout(jumpFeedbackTimeoutRef.current)
+                jumpFeedbackTimeoutRef.current = setTimeout(() => {
+                    setJumpVideo(null)
+                    changeVideo(`https://www.nicovideo.jp/watch/${encodeURIComponent(activeEvent.target as string)}`, true)
+                }, 5000)
+            }
         }
         video.addEventListener("timeupdate", onTimeUpdate)
         return () => {
             video.removeEventListener("timeupdate", onTimeUpdate)
             clearTimeout(jumpFeedbackTimeoutRef.current)
         }
-    }, [commentContent, videoInfo, videoId, changeVideo, videoRef])
+    }, [commentContent, videoInfo, videoId, changeVideo, videoRef, localStorage.jumpVideoBehaviour])
 
     // ショートカットのフィードバックツールチップ
     const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false)
@@ -493,6 +496,14 @@ function Player(props: Props) {
         }
     }, [videoInfo])
 
+    const handleJumpCancel = useCallback(() => {
+        clearTimeout(jumpFeedbackTimeoutRef.current)
+        setJumpVideo(null)
+        if (videoRef.current && videoRef.current.currentTime < videoRef.current.duration) {
+            videoRef.current?.play().catch(() => {})
+        }
+    }, [jumpFeedbackTimeoutRef, setJumpVideo, videoRef])
+
     const preferredCommentFps
         = localStorage.commentRenderFps ?? 60 // 未指定の場合は60にフォールバック
     const commentRenderFps = localStorage.enableCommentPiP
@@ -645,11 +656,7 @@ function Player(props: Props) {
                     <JumpVideoCard
                         smId={jumpVideo.smId}
                         message={jumpVideo.message}
-                        onCancel={() => {
-                            clearTimeout(jumpFeedbackTimeoutRef.current)
-                            setJumpVideo(null)
-                            videoRef.current?.play().catch(() => {})
-                        }}
+                        onCancel={handleJumpCancel}
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}

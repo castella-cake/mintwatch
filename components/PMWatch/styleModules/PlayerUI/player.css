@@ -368,24 +368,35 @@
     }
 }
 
-.player-jump-card {
+.player-jump-card-wrapper {
     position: absolute;
     z-index: 70;
+    display: grid;
+    flex-direction: column;
+    place-content: center;
     inset: 0;
+    gap: 8px;
+    padding: 16px;
+    background: rgb(0, 0, 0 / 53.3%);
+}
+
+.player-jump-card {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     gap: 8px;
     padding: 16px;
     background: #0008;
-    pointer-events: none;
+    color: #fff;
+    border: 1px solid #888a;
+    border-radius: var(--radius);
+    backdrop-filter: var(--backdrop-blur-normal);
+    box-shadow: 0 0 8px #000;
+    width: min(35rem, 100%);
 
     .player-jump-message, .player-jump-status {
         max-width: 100%;
-        color: #fff;
-        text-align: center;
-        text-shadow: 0 1px 3px #000;
     }
 
     .player-jump-message {
@@ -406,6 +417,17 @@
         background: #000a;
         color: #fff;
         cursor: pointer;
+    }
+
+    .genericitem-card[data-layout="horizontal-simple"] {
+        --thumb-height: 5rem;
+
+        border: 1px solid #888;
+
+        .info-card-title {
+            font-weight: normal;
+            font-size: 1rem;
+        }
     }
 }
 
