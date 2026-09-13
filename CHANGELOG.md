@@ -11,13 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ショート動画検索を利用可能になりました
 - ssから始まる動画IDは正しくタグとコメント内で検出されるようになりました
 - 「保存した検索」と「検索履歴」を追加しました
-- 動画カードにレジューム位置を示すバーが表示されるようになりました
-- 実験的: 歌詞コメントの自動NGを追加しました
+- 動画カードにレジューム位置を示すバーが表示されるようになりました [#70](https://github.com/castella-cake/mintwatch/issues/70)
+- 実験的: 歌詞コメントの自動NGを追加しました [#57](https://github.com/castella-cake/mintwatch/issues/57)
 - 動画カードから直接動画を共有できるようになりました [#77](https://github.com/castella-cake/mintwatch/issues/77)
 - 再生中の動画情報がブラウザへ正しく報告されるようになりました
 - 主要なボタン群をtitle属性での説明から、独自のツールチップへ変更しました
 - バッファリング表示を追加しました
-- 検索ページからの連続再生に対応しました
+- 検索ページからの連続再生に対応しました [#75](https://github.com/castella-cake/mintwatch/issues/75)
 - 検索時に動画IDが含まれていて、その動画が見つかった場合に、先頭に該当の動画カードを表示するようになりました
 - 実験的: ニコスクリプトでのジャンプに対応しました
 - `?past_log=` クエリパラメータによる過去ログ読み込みに対応しました [#58](https://github.com/castella-cake/mintwatch/issues/58)
@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 動画カードアクションに「初めから直接再生」を追加しました
 - MintWatch モーダル内の「MintWatch について」にあるバージョン番号をクリックし続けると、ポップアップ設定に隠しフラグ設定を表示するようになりました
 - ヘッダーにその他へのサービスのリンクを追加しました
+- ショート視聴ページの置き換えに対応しました
+- おすすめの動画ページを追加しました
+- recipe プレイリストを再生キューに反映できるようになりました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)
@@ -93,6 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - @置換 の一部指定が機能しない問題を一時的に修正しました
 - 動画情報の取得前に「未ログインのためコメントできません」が表示される問題を修正しました
 - 動画移動時に即時でメディア状態をリセットするようになりました
+- 「コントローラーの表示」のデフォルト表示が誤っていた問題を修正しました
 
 ## 0.11.2 - 2026/04/29
 
