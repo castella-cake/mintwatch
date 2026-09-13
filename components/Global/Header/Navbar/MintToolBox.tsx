@@ -57,7 +57,7 @@ export default function MintToolBox({ omitKeys, quietWhatsNew }: { omitKeys?: ("
                     <MWButton label="更新情報" onClick={onWhatsNewClick} className="toolbox-button" data-has-update={lastCheckedUpdate !== whatsNewData.version}>
                         <IconComet />
                     </MWButton>
-                    {!quietWhatsNew && <WhatsNewTitle />}
+                    {!quietWhatsNew && <WhatsNewTitle onOpen={onWhatsNewClick} />}
                 </div>
             )}
         </div>

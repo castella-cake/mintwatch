@@ -32,8 +32,13 @@
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
+.whatsnew-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
 .whatsnew-gotit {
-    margin-left: auto;
     background: var(--bgcolor1);
     color: var(--textcolor1);
     border: var(--border);
@@ -43,6 +48,16 @@
 
     &:hover {
         background: var(--hover1);
+    }
+
+    &[data-is-primary="true"] {
+        background: var(--primary1);
+        color: var(--primary-text1);
+        font-weight: bold;
+
+        &:hover {
+            background: var(--primary-hover1);
+        }
     }
 }
 

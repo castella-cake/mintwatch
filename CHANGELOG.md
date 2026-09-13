@@ -56,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 対象ページへの遷移割り込みを元ページの React Router にサブスクライブする形に変更しました
 - エンドカードが「動画カードに統計情報を表示」を尊重するようになりました
 - 詳細設定の並び順を整理しました
+- 更新情報ポップアップに「更新情報を見る」を追加しました
 
 ### Fixed
 - 依存関係を更新しました  
