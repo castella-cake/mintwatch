@@ -5,6 +5,7 @@ import { RelatedTags } from "../Global/GenericPageComponents/RelatedTags"
 import { RecommendationsVideoList } from "./RecommendationsVideoList"
 
 export default function RecommendationsContent() {
+    const { flagRecommendationsShowContinuousPlayButton } = useStorageVar(["flagRecommendationsShowContinuousPlayButton"])
     const recommendationsData = useRecommendationsData()
 
     const items = recommendationsData?.data?.response.$getRecommend.data?.items ?? []
@@ -12,7 +13,7 @@ export default function RecommendationsContent() {
         () => Array.from(new Set(items.map(i => i.reason?.tag).filter((t): t is string => Boolean(t)))),
         [items],
     )
-    const playlist = recommendationsData?.data?.response.page.playlist ?? ""
+    const playlist = flagRecommendationsShowContinuousPlayButton ? recommendationsData?.data?.response.page.playlist ?? "" : ""
     const totalCount = items.filter(item => item.contentType === "video").length
     const firstVideoId = items.find(item => item.contentType === "video")?.id ?? ""
 

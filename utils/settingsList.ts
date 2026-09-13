@@ -219,6 +219,11 @@ const settings: settingList = {
             values: ["default", "html5", "flash"],
             default: "default",
         },
+        {
+            type: "checkbox",
+            name: "flagRecommendationsShowContinuousPlayButton",
+            default: false,
+        },
     ],
 } as const
 
