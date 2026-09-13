@@ -124,15 +124,6 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
         window.stop()
     }
 
-    // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
-    if (import.meta.env.FIREFOX || currentStorage["sync:pmwforcepagehls"]) {
-        const script = document.createElement("script")
-        script.src = browser.runtime.getURL("/watch_injector.js")
-        script.setAttribute("pmw-isplugin", "true")
-        if (document.head) document.head.appendChild(script)
-        // await injectScript("/watch_injector.js")
-    }
-
     // HACK: turnstileはscriptタグを要求し、そこで一部のモードを判断するので、実行されないダミーのscriptタグを事前に用意する
     const dummyScript = document.createElement("script")
     dummyScript.src = "https://challenges.cloudflare.com/turnstile/v0/api.js&render=explicit"
@@ -153,6 +144,8 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
     deferStyleLink.rel = "stylesheet"
     deferStyleLink.href = browser.runtime.getURL("/content-scripts/deferStyle.css" as any)
     if (document.head) document.head.appendChild(deferStyleLink)
+
+    let hlsPluginLoaded = false
 
     const ui = createIntegratedUi(ctx, {
         position: "inline",
@@ -176,6 +169,15 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
             })
             // metaタグのパースが間に合ってなかったときのためにもう一度行う
             reserveEssentialMetaTags()
+            // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
+            if ((import.meta.env.FIREFOX || currentStorage["sync:pmwforcepagehls"]) && !hlsPluginLoaded) {
+                hlsPluginLoaded = true
+                const script = document.createElement("script")
+                script.src = browser.runtime.getURL("/watch_injector.js")
+                script.setAttribute("pmw-isplugin", "true")
+                if (document.head) document.head.appendChild(script)
+                // await injectScript("/watch_injector.js")
+            }
             // root要素を足してレンダー！
             const rootElem = document.createElement("div")
             rootElem.id = "root-pmw"
