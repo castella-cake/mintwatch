@@ -54,7 +54,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     const nicodicExistIcon = isShinjukuLayout
         ? (
                 <img
-                    src="http://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_on.png"
+                    src="https://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_on.png"
                     alt="記事利用可能アイコン"
                 />
             )
@@ -64,7 +64,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     const nicodicNotExistIcon = isShinjukuLayout
         ? (
                 <img
-                    src="http://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_off.png"
+                    src="https://nicovideo.cdn.nimg.jp/web/img/common/icon/dic_off.png"
                     alt="記事未作成アイコン"
                 />
             )

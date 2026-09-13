@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 詳細設定の並び順を整理しました
 - 更新情報ポップアップに「更新情報を見る」を追加しました
 - 外部HLSプラグインを使用する環境では、HLSが実際に利用可能になってから起動するようになりました
+- 一部の外部画像を明示的にHTTPSで表示するように変更しました
 
 ### Fixed
 - 依存関係を更新しました  

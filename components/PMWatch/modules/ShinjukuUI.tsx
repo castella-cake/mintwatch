@@ -116,7 +116,7 @@ export function NicoHarajukuLogo() {
     return (
         <a href="https://www.nicovideo.jp/video_top" className="harajuku-logo">
             <img
-                src="http://nicovideo.cdn.nimg.jp/web/img/base/head/logo/hrjk.png"
+                src="https://nicovideo.cdn.nimg.jp/web/img/base/head/logo/hrjk.png"
                 alt="ニコニコ動画"
             />
         </a>
