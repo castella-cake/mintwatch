@@ -197,6 +197,8 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     name: response.data.meta.title,
                     items,
                 })
+            } else {
+                setInitialPlaylistState()
             }
         }
         getData()
