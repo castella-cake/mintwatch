@@ -91,7 +91,6 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 queryKey: ["recipePlaylistData", video.id],
                 queryFn: () => getRecipePlaylist(video.id, { recipeId: "video_short_watch_recommendation" }),
             })
-            console.log("Fetched shorts recommendations:", recommendData)
             recommendItems = recommendData.data?.items
                 .filter(item => !item.content.isMuted)
                 .map(item => videoItemToPlaylistItem(item.content as VideoItem))
