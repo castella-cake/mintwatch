@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - トーストの表示時間を10→8秒に短縮しました
 - 対象ページへの遷移割り込みを元ページの React Router にサブスクライブする形に変更しました
 - エンドカードが「動画カードに統計情報を表示」を尊重するようになりました
+- 詳細設定の並び順を整理しました
 
 ### Fixed
 - 依存関係を更新しました  

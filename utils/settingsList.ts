@@ -67,36 +67,8 @@ const settings: settingList = {
             children: [
                 {
                     type: "checkbox",
-                    name: "muteKokenVoice",
+                    name: "alwaysGetTagDataFromApi",
                     default: false,
-                },
-                {
-                    type: "inputNumber",
-                    name: "wheelGestureAmount",
-                    default: 5,
-                    min: 1,
-                    max: 10,
-                },
-                {
-                    type: "checkbox",
-                    name: "disallowGridFallback",
-                    default: false,
-                },
-                {
-                    type: "checkbox",
-                    name: "disableBorderlessPlayer",
-                    default: false,
-                },
-                {
-                    type: "checkbox",
-                    name: "shinjukuEnableNavbar",
-                    default: false,
-                },
-                {
-                    type: "select",
-                    name: "shinjukuDotFontType",
-                    default: "dotGothic",
-                    values: ["dotGothic", "MSGothic", "disable"],
                 },
                 {
                     type: "selectButtons",
@@ -112,17 +84,29 @@ const settings: settingList = {
                 },
                 {
                     type: "checkbox",
+                    name: "muteKokenVoice",
+                    default: false,
+                },
+                {
+                    type: "inputNumber",
+                    name: "wheelGestureAmount",
+                    default: 5,
+                    min: 1,
+                    max: 10,
+                },
+                {
+                    type: "checkbox",
+                    name: "pastLogAutoLoad",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
                     name: "pmwforcepagehls",
                     default: false,
                 },
                 {
                     type: "checkbox",
-                    name: "showLiveInRecommend",
-                    default: false,
-                },
-                {
-                    type: "checkbox",
-                    name: "alwaysGetTagDataFromApi",
+                    name: "disableBorderlessPlayer",
                     default: false,
                 },
                 {
@@ -132,12 +116,28 @@ const settings: settingList = {
                 },
                 {
                     type: "checkbox",
-                    name: "disableSeasonalEffects",
+                    name: "disallowGridFallback",
                     default: false,
                 },
                 {
                     type: "checkbox",
-                    name: "pastLogAutoLoad",
+                    name: "shinjukuEnableNavbar",
+                    default: false,
+                },
+                {
+                    type: "select",
+                    name: "shinjukuDotFontType",
+                    default: "dotGothic",
+                    values: ["dotGothic", "MSGothic", "disable"],
+                },
+                {
+                    type: "checkbox",
+                    name: "showLiveInRecommend",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "disableSeasonalEffects",
                     default: false,
                 },
             ],
