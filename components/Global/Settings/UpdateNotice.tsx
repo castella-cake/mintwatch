@@ -22,7 +22,7 @@ export function UpdateNotice() {
                     <IconBrandGithub />
                     <span>GitHub リポジトリを見る</span>
                 </a>
-                <a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">
+                <a href="https://github.com/sponsors/castella-cake" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">
                     <IconTipJar />
                     <span>Github Sponsors で寄付する</span>
                 </a>

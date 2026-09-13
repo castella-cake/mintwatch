@@ -65,7 +65,7 @@ export function AboutMintWatch() {
                     <br />
                     寄付はプロジェクトを維持するためのモチベーションの向上に繋がります。
                 </p>
-                <a href="https://github.com/castella-cake/mintwatch" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">Github Sponsors で寄付する</a>
+                <a href="https://github.com/sponsors/castella-cake" target="_blank" className="about-mintwatch-buttonlink" rel="noreferrer">Github Sponsors で寄付する</a>
                 <h2>クレジット</h2>
                 <p>
                     MintWatch のコメント描画には niconicomments を使用しています。
