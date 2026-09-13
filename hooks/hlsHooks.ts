@@ -75,7 +75,10 @@ export function useHls(videoRef: RefObject<HTMLVideoElement | null>, hlsResponse
     useEffect(() => {
         const video = videoRef.current
         if (!video) return
-        const onWaiting = () => setIsBuffering(true)
+        const onWaiting = () => {
+            if (videoRef.current?.ended) return
+            setIsBuffering(true)
+        }
         const onPlaying = () => setIsBuffering(false)
         video.addEventListener("waiting", onWaiting)
         video.addEventListener("playing", onPlaying)
