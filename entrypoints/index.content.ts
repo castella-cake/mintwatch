@@ -64,7 +64,19 @@ export default defineContentScript({
                 || (isShortsWatch && enableShortsPage)
                 || (isRecommendations && enableRecommendationsPage)
             ) {
-                initiateRouter(ctx, storage)
+                // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
+                if ((import.meta.env.FIREFOX || storage["sync:pmwforcepagehls"])) {
+                    injectScript("/watch_injector.js", {
+                        modifyScript(script) {
+                            script.setAttribute("pmw-isplugin", "true")
+                            script.addEventListener("mwPageHlsReady", () => {
+                                initiateRouter(ctx, storage)
+                            })
+                        },
+                    })
+                } else {
+                    initiateRouter(ctx, storage)
+                }
             } else if ((!enableReshogi && isRanking) || (!enableSearchPage && isSearch) || (!enableShortsPage && isShortsWatch) || (!enableRecommendationsPage && isRecommendations)) {
                 const matchFor = {
                     watch: true,

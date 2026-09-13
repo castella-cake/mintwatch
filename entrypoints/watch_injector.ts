@@ -196,5 +196,9 @@ export default defineUnlistedScript({
                 })
             }
         }
+        const script = document.currentScript
+        script?.dispatchEvent(
+            new CustomEvent("mwPageHlsReady", {}),
+        )
     },
 })

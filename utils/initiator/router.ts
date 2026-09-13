@@ -104,13 +104,6 @@ function reserveEssentialMetaTags() {
 export async function initiateRouter(ctx: ContentScriptContext, currentStorage: { [key: string]: any }) {
     blockPage()
 
-    if (currentStorage["sync:pmwplayertype"] === "classic") {
-        await storage.setItems([
-            { key: "sync:disableBorderlessPlayer", value: true },
-            { key: "sync:pmwplayertype", value: "default" },
-        ])
-    }
-
     document.documentElement.classList.add("MW-Enabled")
     if (currentStorage["sync:starNightPalette"]) {
         document.documentElement.setAttribute("data-mw-palette", "starnight")
@@ -135,7 +128,7 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
     deferStyleLink.href = browser.runtime.getURL("/content-scripts/deferStyle.css" as any)
     if (document.head) document.head.appendChild(deferStyleLink)
 
-    let externalPluginLoaded = false
+    let turnstileLoaded = false
 
     const ui = createIntegratedUi(ctx, {
         position: "inline",
@@ -159,17 +152,8 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
             })
             // metaタグのパースが間に合ってなかったときのためにもう一度行う
             reserveEssentialMetaTags()
-            if (!externalPluginLoaded) {
-                externalPluginLoaded = true
-
-                // 外部HLSプラグインを読み込む。pmw-ispluginを入れておかないとスクリプトの実行が阻止されます
-                if ((import.meta.env.FIREFOX || currentStorage["sync:pmwforcepagehls"])) {
-                    const script = document.createElement("script")
-                    script.src = browser.runtime.getURL("/watch_injector.js")
-                    script.setAttribute("pmw-isplugin", "true")
-                    if (document.head) document.head.appendChild(script)
-                // await injectScript("/watch_injector.js")
-                }
+            if (!turnstileLoaded) {
+                turnstileLoaded = true
 
                 // HACK: turnstileはscriptタグを要求し、そこで一部のモードを判断するので、実行されないダミーのscriptタグを事前に用意する
                 const dummyScript = document.createElement("script")
@@ -211,6 +195,12 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
         }
         await storage.removeItem("local:playersettings")
         console.timeEnd("migrate")
+    }
+    if (currentStorage["sync:pmwplayertype"] === "classic") {
+        await storage.setItems([
+            { key: "sync:disableBorderlessPlayer", value: true },
+            { key: "sync:pmwplayertype", value: "default" },
+        ])
     }
     ui.autoMount()
 }
