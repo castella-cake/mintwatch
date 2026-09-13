@@ -9,6 +9,8 @@ const artistSeparatedRegexWithSpaces = /(.*?)\s[/／-]\s(.*)/
 const artistParenthesesRegex = /(.*)\s?[「『]\s?(.*)\s?[」』](.*)/
 // B (SubtitleA - SubtitleB)
 // const subTitleParenthesesRegex = /(.*)\s?[（(]\s?(.*)\s?[/／-]\s?(.*)\s?[）)]/
+const prefixRemoverRegex = /^\s?[/／-]\s?/
+const suffixRemoverRegex = /\s?[/／-]$/
 
 const removeZeroWidthSpacesRegex = /[\u200B-\u200D\uFEFF]/g
 
@@ -53,7 +55,6 @@ function tryTripleSeparate(input: string, separatorRegexWithSpacesResult: RegExp
 }
 
 export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string | undefined | null): { title: string, artist: string | null } {
-    console.time("resolveTitleAndArtist")
     if (typeof ownerNickname !== "string") return { title: videoTitle, artist: null }
 
     let title = videoTitle
@@ -95,15 +96,15 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
         } else if (ownerNickname && artistStringA.length > 0 && artistStringB.length > 0) {
             // Somebody「Title」Somebody
             artist = `${ownerNickname} / ${artistStringA} / ${artistStringB}`.trim()
-        } else if (ownerNickname && artistStringA.length > 0) { // Owner「Title」
-            artist = `${ownerNickname} / ${artistStringA}`.trim()
-        } else if (ownerNickname && artistStringB.length > 0) { // 「Title」Owner
-            artist = `${ownerNickname} / ${artistStringB}`.trim()
+        } else if (ownerNickname && artistStringA.length > 0) { // Artist「Title」 → Owner / Artist
+            artist = `${ownerNickname} / ${artistStringA.replace(suffixRemoverRegex, "")}`.trim()
+        } else if (ownerNickname && artistStringB.length > 0) { // 「Title」Artist → Owner / Artist
+            artist = `${ownerNickname} / ${artistStringB.replace(prefixRemoverRegex, "")}`.trim()
         }
 
         title = parenthesesMethodResult[2].trim()
-
-        console.timeEnd("resolveTitleAndArtist")
+        artist = artist.replace(prefixRemoverRegex, "").trim()
+        artist = artist.replace(suffixRemoverRegex, "").trim()
         return {
             title,
             artist,
@@ -155,15 +156,11 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
             title = stringA
             artist = `${ownerNickname} / ${stringB}`
         }
-
-        console.timeEnd("resolveTitleAndArtist")
         return {
             title,
             artist,
         }
     }
-
-    console.timeEnd("resolveTitleAndArtist")
 
     return {
         title: videoTitle,

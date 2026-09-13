@@ -36,6 +36,16 @@ test("括弧式の後に名前を含むタイトル表示が正しく分離さ�
     expect(resolveTitleAndArtist("『Title』Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
 })
 
+test("オーナー表記を含む括弧式の後にセパレータが含まれていても取り除く", () => {
+    expect(resolveTitleAndArtist("『Title』 / Artist feat.Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist feat.Somebody" })
+    expect(resolveTitleAndArtist("Artist feat.Somebody / 『Title』", "Artist")).toEqual({ title: "Title", artist: "Artist feat.Somebody" })
+})
+
+test("オーナー表記を含まない括弧式の後にセパレータが含まれていても取り除く", () => {
+    expect(resolveTitleAndArtist("『Title』 / Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
+    expect(resolveTitleAndArtist("Somebody / 『Title』", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
+})
+
 test("異なるホワイトスペースを正しくハンドルできる", () => {
     expect(resolveTitleAndArtist("Title　/　Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist / Somebody" })
 })
