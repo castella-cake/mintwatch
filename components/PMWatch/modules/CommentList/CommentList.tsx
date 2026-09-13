@@ -166,7 +166,7 @@ function CommentList() {
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
 
     const { smId } = useSmIdContext()
-    const { lyricData } = useLyricData(smId)
+    const { lyricData } = useLyricData(smId, videoInfo?.data.response?.video?.hasLyrics ?? false)
 
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()

@@ -53,7 +53,7 @@ function Player(props: Props) {
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
-    const { lyricData } = useLyricData(smId)
+    const { lyricData } = useLyricData(smId, videoInfo?.data.response?.video?.hasLyrics ?? false)
     const { ngData } = useViewerNgContext()
     const isBackgroundPlaying = useBackgroundPlayingContext()
 
