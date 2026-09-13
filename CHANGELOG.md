@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MintWatch 設定のスタイルを調整して細かいズレなどを直しました
 - トーストの表示時間を10→8秒に短縮しました
 - 対象ページへの遷移割り込みを元ページの React Router にサブスクライブする形に変更しました
+- エンドカードが「動画カードに統計情報を表示」を尊重するようになりました
 
 ### Fixed
 - 依存関係を更新しました  

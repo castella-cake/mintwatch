@@ -6,6 +6,7 @@ import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { KokenScreen } from "./kokenScreen"
 
 export function EndCard({ smId }: { smId: string }) {
+    const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
     const recommendData = useRecommendData(smId)
@@ -87,7 +88,14 @@ export function EndCard({ smId }: { smId: string }) {
                                 <h2>おすすめの動画</h2>
                                 <div className="endcard-upnext-container">
                                     {recommendData && recommendData.data && recommendData.data.items.filter(item => isContentIsVideoItem(item) && !item.content.isMuted).slice(0, 4).map((elem) => {
-                                        return <VideoItemCard key={`${elem.id}`} video={elem.content as VideoItem} layoutType="horizontal-simple" /> // filterで保証されているのでアサーションして通す
+                                        return (
+                                            <VideoItemCard
+                                                key={`${elem.id}`}
+                                                video={elem.content as VideoItem}
+                                                layoutType="horizontal-simple"
+                                                showStats={showExtendedRecommend}
+                                            />
+                                        ) // filterで保証されているのでアサーションして通す
                                     })}
                                 </div>
                             </>
