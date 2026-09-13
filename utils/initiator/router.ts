@@ -174,6 +174,8 @@ export async function initiateRouter(ctx: ContentScriptContext, currentStorage: 
                     })
                 }
             })
+            // metaタグのパースが間に合ってなかったときのためにもう一度行う
+            reserveEssentialMetaTags()
             // root要素を足してレンダー！
             const rootElem = document.createElement("div")
             rootElem.id = "root-pmw"
