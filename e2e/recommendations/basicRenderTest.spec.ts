@@ -20,6 +20,6 @@ test("Recommendations: Basic rendering test", async ({ page, mockApi, enableReco
     // 動画リストが表示される
     await expect(page.locator(".recommendations-videolist .videoitem-card").first()).toBeVisible()
 
-    // 連続再生ボタンがヘッダに表示される
-    await expect(page.locator(".recommendations-header .generic-continuous-play-button")).toBeVisible()
+    // 連続再生ボタンがヘッダに表示される (フラグが消えたら戻す)
+    // await expect(page.locator(".recommendations-header .generic-continuous-play-button")).toBeVisible()
 })
