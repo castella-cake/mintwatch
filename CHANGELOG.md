@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2026
+## 1.0.0 - 2026/09/14
 
 ### Added
 - ショート動画検索を利用可能になりました
@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ショート視聴ページの置き換えに対応しました
 - おすすめの動画ページを追加しました
 - recipe プレイリストを再生キューに反映できるようになりました
+- MintWatch モーダル内の「MintWatch について」から開けるイースターエッグ画面を追加しました
 
 ### Changed
 - 「動画移動時の自動スクロールを遅延」を追加し、デフォルトで読み込みが終わるまで遅延するようになりました [#79](https://github.com/castella-cake/mintwatch/issues/79)

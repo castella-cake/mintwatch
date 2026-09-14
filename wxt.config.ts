@@ -35,6 +35,7 @@ export default defineConfig({
                 "load_turnstile.js",
                 "catchTargetPage.js",
                 "dummy.js",
+                "credits.json",
                 "content-scripts/deferStyle.css",
                 "fonts/*",
                 "*://*.nicovideo.jp/*",

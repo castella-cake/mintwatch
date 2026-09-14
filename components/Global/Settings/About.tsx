@@ -4,11 +4,12 @@ import PMFamilyLogo from "@/public/pmfamily.svg?react"
 import { DndContext, DragEndEvent, DragOverEvent, PointerSensor, useDraggable, useDroppable, useSensor, useSensors } from "@dnd-kit/core"
 import { CSS } from "@dnd-kit/utilities"
 import { IconComet, IconFlag } from "@tabler/icons-react"
+import { MintWatchThanks } from "../Thanks"
 
 const manifestData = browser.runtime.getManifest()
 
 export function AboutMintWatch() {
-    const { showToast } = useSetMessageContext()
+    const { showToast, showAlert } = useSetMessageContext()
     const [progress, setProgress] = useState<0 | 1 | 2 | 3>(0)
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -29,6 +30,7 @@ export function AboutMintWatch() {
             setTimeout(() => {
                 storage.setItem("sync:unlockStarNightSetting", true)
                 storage.setItem("sync:starNightPalette", true)
+                showAlert({ icon: null, title: "", body: <MintWatchThanks /> })
                 showToast({ icon: <IconComet />, title: "You did a thing!", body: "パレットが StarNight に変更されました。" })
             }, 1000)
         }
