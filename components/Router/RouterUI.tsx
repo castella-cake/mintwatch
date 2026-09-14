@@ -56,6 +56,15 @@ export default function RouterUI() {
 
     const queryClient = useQueryClient()
 
+    const mintConfigElemRef = useRef<HTMLDivElement>(null)
+    const mintModalElemRef = useRef<HTMLDivElement>(null)
+    const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
+    const sideMenuElemRef = useRef<HTMLDivElement>(null)
+
+    const setHeaderActionState = useSetHeaderActionStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
+    const setSideMenuShown = useSetSideMenuShownContext()
+
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -91,11 +100,14 @@ export default function RouterUI() {
             }
         }
     }, [setBackgroundPlaying, location, history])
+
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
             if (!targetPathnames.some(path => newLocation.pathname.startsWith(path))) {
-                console.log("out of bounds")
+                console.log("Out of bounds. reloading...")
                 window.location.reload()
+            } else if (newLocation.pathname.split("/")[1] !== location.pathname.split("/")[1]) {
+                setSideMenuShown(false)
             }
             if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname, isShortsPageEnabled)) {
                 setBackgroundPlaying(true)
@@ -104,14 +116,6 @@ export default function RouterUI() {
             }
         })
     }, [queryClient, targetPathnames])
-    const mintConfigElemRef = useRef<HTMLDivElement>(null)
-    const mintModalElemRef = useRef<HTMLDivElement>(null)
-    const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
-    const sideMenuElemRef = useRef<HTMLDivElement>(null)
-
-    const setHeaderActionState = useSetHeaderActionStateContext()
-    const setMintConfigShown = useSetMintConfigShownContext()
-    const setSideMenuShown = useSetSideMenuShownContext()
 
     const handleKeydown = useCallback((e: KeyboardEvent) => {
         if (e.key === "Escape") {
