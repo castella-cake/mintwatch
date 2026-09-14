@@ -7,27 +7,31 @@ export function searchHistoryOptionToStrings(history: localStorageNvpcSearchItem
         result.push("ショート")
     }
 
-    history.presetFilters.forEach((filter) => {
-        if (!filter.item.default) {
-            result.push(`${filter.item.label}`)
-        }
-    })
+    if (history.presetFilters) {
+        history.presetFilters.forEach((filter) => {
+            if (!filter.item.default) {
+                result.push(`${filter.item.label}`)
+            }
+        })
+    }
 
-    if (history.dateRangeFilter.start?.value || history.dateRangeFilter.end?.value) {
+    if (history.dateRangeFilter?.start?.value || history.dateRangeFilter?.end?.value) {
         let dateRangeString = ""
-        if (history.dateRangeFilter.start?.value) {
+        if (history.dateRangeFilter?.start?.value) {
             dateRangeString = `${history.dateRangeFilter.start.value.replace(/-/g, "/")}`
         }
         dateRangeString += "~"
-        if (history.dateRangeFilter.end?.value) {
+        if (history.dateRangeFilter?.end?.value) {
             dateRangeString += `${history.dateRangeFilter.end.value.replace(/-/g, "/")}`
         }
         result.push(dateRangeString)
     }
 
-    result.push(history.sort.key.label)
+    if (history.sort?.key.label) {
+        result.push(history.sort?.key.label)
+    }
 
-    if (history.sort.order && !history.sort.order.default) {
+    if (history.sort?.order && !history.sort.order.default) {
         result.push(history.sort.order.label)
     }
 
@@ -37,17 +41,19 @@ export function searchHistoryOptionToStrings(history: localStorageNvpcSearchItem
 export function searchHistoryOptionToUrlSearchParams(history: localStorageNvpcSearchItem): URLSearchParams {
     const params = new URLSearchParams()
 
-    history.presetFilters.forEach((filter) => {
-        if (!filter.item.default) {
-            params.append(filter.query, filter.item.value.toString())
-        }
-    })
+    if (history.presetFilters) {
+        history.presetFilters.forEach((filter) => {
+            if (!filter.item.default) {
+                params.append(filter.query, filter.item.value.toString())
+            }
+        })
+    }
 
-    if (history.dateRangeFilter.start?.value) {
+    if (history.dateRangeFilter?.start?.value) {
         params.append("start", history.dateRangeFilter.start.value)
     }
 
-    if (history.dateRangeFilter.end?.value) {
+    if (history.dateRangeFilter?.end?.value) {
         params.append("end", history.dateRangeFilter.end.value)
     }
 
@@ -70,12 +76,13 @@ export function activeSortResolver<T extends { default: boolean, active: boolean
     if (!options) return undefined
     const activeOption = options.find(option => option.active) ?? options.find(option => option.default)
     if (!activeOption) return undefined
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     const { active, ...rest } = activeOption
     return rest
 }
 
 export function PresetFilterToObject(filter: localStorageNvpcSearchItem["presetFilters"]) {
+    if (!filter) return {}
     return Object.fromEntries(filter.map(f => [f.query, f.item.value]))
 }
 
@@ -84,9 +91,9 @@ export function isSameSearchOption(a: localStorageNvpcSearchItem, b: localStorag
 
     if (a.type !== b.type) return false
 
-    if (a.sort.key.value !== b.sort.key.value) return false
+    if (a.sort?.key.value !== b.sort?.key.value) return false
 
-    if (a.sort.order?.value !== b.sort.order?.value) return false
+    if (a.sort?.order?.value !== b.sort?.order?.value) return false
 
     const aPreset = PresetFilterToObject(a.presetFilters)
     const bPreset = PresetFilterToObject(b.presetFilters)
@@ -95,8 +102,8 @@ export function isSameSearchOption(a: localStorageNvpcSearchItem, b: localStorag
         if (aPreset[key] !== bPreset[key]) return false
     }
 
-    if (a.dateRangeFilter.start?.value !== b.dateRangeFilter.start?.value) return false
-    if (a.dateRangeFilter.end?.value !== b.dateRangeFilter.end?.value) return false
+    if (a.dateRangeFilter?.start?.value !== b.dateRangeFilter?.start?.value) return false
+    if (a.dateRangeFilter?.end?.value !== b.dateRangeFilter?.end?.value) return false
 
     return true
 }

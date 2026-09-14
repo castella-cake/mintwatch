@@ -26,9 +26,9 @@ interface History {
 export interface localStorageNvpcSearchItem {
     type: "keyword" | "keyword_shorts" | "tag" | "tag_shorts" | "mylist" | "user" | "series"
     word: string
-    sort: Sort
-    presetFilters: PresetFilter[]
-    dateRangeFilter: DateRangeFilter
+    sort?: Sort
+    presetFilters?: PresetFilter[]
+    dateRangeFilter?: DateRangeFilter
 }
 
 interface Sort {
