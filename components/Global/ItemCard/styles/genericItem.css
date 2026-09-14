@@ -112,7 +112,7 @@
     gap: 8px;
     padding: 8px;
     align-items: stretch;
-    max-width: 14rem;
+    max-width: 28rem;
 
     --thumb-height: auto;
 
@@ -184,6 +184,9 @@
         padding: 8px;
         background: linear-gradient(0deg, #000a, #0000);
         width: 100%;
+        border-radius: 0 0 var(--radius) var(--radius);
+
+        --textcolor1: #fff;
     }
 
     & .info-card-title {
