@@ -1,6 +1,7 @@
 .header-nicoservicelinks-container {
     display: flex;
     border-radius: 8px;
+    align-items: center;
 }
 
 .header-nicoservicelinks-container > a {

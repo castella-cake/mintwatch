@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - ローカルストレージの検索履歴のnullチェックを強化しました
 - ドキュメントの変更忘れを修正しました
+- OmniHeader 使用時にヘッダーのサービスボタンが拡大しすぎる問題を修正しました
 
 ## 1.0.0 - 2026/09/14
 

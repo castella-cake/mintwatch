@@ -31,6 +31,10 @@
     border-bottom-right-radius: 8px;
 }
 
+.omniheader-items .header-nicoservicelinks-container .header-nicoservicelinks-morebutton {
+    height: 36px;
+}
+
 .omniheader-separator {
     margin: auto 4px;
     height: 20px;
