@@ -93,7 +93,7 @@ export default function RouterUI() {
     }, [setBackgroundPlaying, location, history])
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
-            if (!targetPathnames.some(path => location.pathname.startsWith(path))) {
+            if (!targetPathnames.some(path => newLocation.pathname.startsWith(path))) {
                 console.log("out of bounds")
                 window.location.reload()
             }
@@ -103,7 +103,7 @@ export default function RouterUI() {
                 setBackgroundPlaying(false)
             }
         })
-    }, [queryClient])
+    }, [queryClient, targetPathnames])
     const mintConfigElemRef = useRef<HTMLDivElement>(null)
     const mintModalElemRef = useRef<HTMLDivElement>(null)
     const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
