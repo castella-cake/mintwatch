@@ -119,7 +119,7 @@ export function MylistSearch() {
     return (
         <>
             <title>{mylistSearchData.data.metadata.title}</title>
-            <div className="search-container" data-is-fetching={isFetching}>
+            <div className="search-container" data-is-fetching={isFetching} data-search-type="mylist">
                 <h2 className="search-title">
                     <strong>{returnSearchWord(location.pathname)}</strong>
                     <span className="search-title-totalcount">

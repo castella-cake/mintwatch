@@ -124,7 +124,7 @@ export function KeywordSearch() {
     return (
         <>
             <title>{keywordSearchData.data.metadata.title}</title>
-            <div className="search-container" data-is-fetching={isFetching}>
+            <div className="search-container" data-is-fetching={isFetching} data-search-type="keyword">
                 <h2 className="search-title">
                     <strong>{getSearchVideoData.keyword}</strong>
                     <span className="search-title-totalcount">

@@ -9,12 +9,22 @@
     grid-template-areas:
         "title title title"
         "related related related"
-        "vidsel result result"
         "pagel result result"
-        "filter result result"
         "save-search result result"
         ". result result"
         ". pageb pageb";
+
+    &[data-search-type="keyword"], &[data-search-type="tag"] {
+        grid-template-areas:
+            "title title title"
+            "related related related"
+            "vidsel result result"
+            "pagel result result"
+            "filter result result"
+            "save-search result result"
+            ". result result"
+            ". pageb pageb";
+    }
 
     .pageselector-container[data-is-vertical="true"] {
         grid-area: pagel;
