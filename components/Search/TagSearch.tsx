@@ -13,7 +13,7 @@ import { ContinuousPlayButton, PlayFromVideoButton } from "../Global/GenericPage
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
 import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
-import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
+import { VideoTypeSelector } from "./GenericComponents/VideoTypeSelector"
 import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
 import { MaybeFromVideoId } from "./GenericComponents/MaybeFromVideoId"
 

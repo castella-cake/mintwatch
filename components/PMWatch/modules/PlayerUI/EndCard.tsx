@@ -3,7 +3,7 @@ import { SeriesVideoCard } from "@/components/Global/InfoCard"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
-import { KokenScreen } from "./kokenScreen"
+import { KokenScreen } from "./KokenScreen"
 
 export function EndCard({ smId }: { smId: string }) {
     const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
