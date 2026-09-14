@@ -3,6 +3,7 @@ allowBuilds:
   lefthook: true
   spawn-sync: true
   dtrace-provider: true
+minimumReleaseAgeExclude:
+  - '@xpadev-net/niconicomments@0.4.1'
 patchedDependencies:
   '@dnd-kit/core': patches/@dnd-kit__core.patch
-  '@xpadev-net/niconicomments': patches/@xpadev-net__niconicomments.patch
