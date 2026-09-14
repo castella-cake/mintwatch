@@ -24,7 +24,7 @@ export default function CustomRankingContent() {
                             {
                                 item.data.videoList.map((video, index) => {
                                     return (
-                                        <VideoItemCard video={video} isVerticalLayout={true} markAsLazy={index >= 5} key={`${item.data.laneId}-${video.id}`} data-index={index + 1} />
+                                        <VideoItemCard video={video} layoutType="vertical-simple" markAsLazy={index >= 5} key={`${item.data.laneId}-${video.id}`} data-index={index + 1} />
                                     )
                                 })
                             }

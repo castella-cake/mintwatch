@@ -6,13 +6,22 @@
  * @param options オプション
  */
 
+// keyword / options を必要としない場合のオーバーロード (例: /recommendations)
 export async function initialResponse<T extends baseResponse>(
     targetResponsePathname: string,
-    fallbackCallback: (
-        keyword: string,
-        options: VideoSearchQuery
-    ) => Promise<T>,
+    fallbackCallback: () => Promise<T>,
+): Promise<T>
+// keyword / options を必要とする場合のオーバーロード (例: /tag/:keyword)
+export async function initialResponse<T extends baseResponse>(
+    targetResponsePathname: string,
+    fallbackCallback: (keyword: string, options: VideoSearchQuery) => Promise<T>,
     keyword: string,
+    options?: VideoSearchQuery,
+): Promise<T>
+export async function initialResponse<T extends baseResponse>(
+    targetResponsePathname: string,
+    fallbackCallback: (keyword: string, options: VideoSearchQuery) => Promise<T>,
+    keyword: string = "",
     options: VideoSearchQuery = {},
 ) {
     const dataResponseElements = document.getElementsByName("server-response-mw")

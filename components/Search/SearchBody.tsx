@@ -10,8 +10,8 @@ export function SearchBody() {
     const location = useLocationContext()
     return (
         <div className="container page-search-container">
-            {location.pathname.startsWith("/search/") && <KeywordSearch />}
-            {location.pathname.startsWith("/tag/") && <TagSearch />}
+            {(location.pathname.startsWith("/search/") || location.pathname.startsWith("/search_shorts/")) && <KeywordSearch />}
+            {(location.pathname.startsWith("/tag/") || location.pathname.startsWith("/tag_shorts/")) && <TagSearch />}
             {location.pathname.startsWith("/mylist_search/") && <MylistSearch />}
             {location.pathname.startsWith("/series_search/") && <SeriesSearch />}
             {location.pathname.startsWith("/user_search/") && <UserSearch />}

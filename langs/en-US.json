@@ -18,7 +18,7 @@
         "pmwplayertype": {
             "name": "Player theme",
             "hint": "Specifies the appearance of the player used in MintWatch.",
-            "select": ["Default", "Classic", "cresc.", "Shinjuku", "GINZA+"]
+            "select": ["Default", "cresc.", "Shinjuku", "GINZA+"]
         },
         "commentListType": {
             "name": "Comment list display",
@@ -53,6 +53,12 @@
         "enableSearchPage": {
             "name": "Experimental: Enable replacement of the search page"
         },
+        "enableShortsPage": {
+            "name": "Experimental: Enable replacement of the Shorts page"
+        },
+        "enableRecommendationsPage": {
+            "name": "Experimental: Enable replacement of the recommendations page"
+        },
 
         "enableFixedHeader": {
             "name": "Enable Fixed Header",
@@ -85,6 +91,10 @@
         "disallowGridFallback": {
             "name": "Disable grid fallback based on screen width"
         },
+        "disableBorderlessPlayer": {
+            "name": "Classic player display",
+            "hint": "Reverts to the previous player display. This setting is ignored in the Shinjuku layout."
+        },
         "shinjukuEnableNavbar": {
             "name": "Show navigation bar in Shinjuku layout"
         },
@@ -99,9 +109,13 @@
             "name": "Automatic scroll position when moving video",
             "select": ["Page top", "Player", "Disable"]
         },
+        "autoScrollTimingOnVideoChange": {
+            "name": "Delayed automatic scroll when moving video",
+            "select": ["Disable", "Delay", "Re-scroll"]
+        },
         "alwaysGetTagDataFromApi": {
-            "name": "Experimental: Always get tag data from API",
-            "hint": "Automatically retrieves tag data from the tag editing API.\nThis will restore article availability display, but use at your own risk."
+            "name": "Experimental: Retrieve tag availability from the tag editing API",
+            "hint": "Automatically calls the tag editing API to restore the display of tag article availability."
         },
         "disableSeasonalEffects": {
             "name": "Disable Seasonal Effects"
@@ -109,6 +123,14 @@
         "enableShokuninMode": {
             "name": "Enable Shokunin Mode",
             "hint": "Extends the command palette and comment detail display"
+        },
+        "pastLogAutoLoad": {
+            "name": "Auto-load past log from past_log URL",
+            "hint": "Automatically loads the past log when the past_log query is present in the opened video URL"
+        },
+
+        "flagSettingDescription": {
+            "name": "These settings are either experimental, or in progress. We do not guarantee that they will be work, nor do we provide support, and their functionality may also change in the future."
         }
     }
 }

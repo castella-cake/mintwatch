@@ -3,5 +3,6 @@ export interface GenericThumbnail {
     middleUrl: string | null
     largeUrl: string
     listingUrl: string
+    shortUrl: string
     nHdUrl: string
 }

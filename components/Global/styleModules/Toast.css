@@ -85,13 +85,13 @@
     font-size: 0.8rem;
 }
 
-.toast-timer {
+.toast-timer-canvas {
     position: absolute;
     left: 0;
     bottom: -1px;
-    width: var(--width);
-    transition: width 0.1s ease, opacity 0.2s ease;
+    transition: opacity 0.2s ease;
     height: 4px;
-    background: var(--bgcolor1);
+    color: var(--bgcolor1);
     z-index: 1101;
+    width: 100%;
 }

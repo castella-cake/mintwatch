@@ -9,3 +9,7 @@
         opacity: 0.8;
     }
 }
+
+.taginfo-container > .featuretips-container {
+    margin-bottom: 8px;
+}

@@ -18,7 +18,7 @@
         "pmwplayertype": {
             "name": "プレイヤーテーマ",
             "hint": "動画プレイヤーの見た目を指定します",
-            "select": ["デフォルト", "クラシック", "cresc.", "Shinjuku", "GINZA+"]
+            "select": ["デフォルト", "cresc.", "Shinjuku", "GINZA+"]
         },
         "commentListType": {
             "name": "コメントリストの表示",
@@ -53,6 +53,12 @@
         "enableSearchPage": {
             "name": "実験的: 検索ページの置き換えを有効化"
         },
+        "enableShortsPage": {
+            "name": "実験的: ニコニコショートページの置き換えを有効化"
+        },
+        "enableRecommendationsPage": {
+            "name": "実験的: おすすめページの置き換えを有効化"
+        },
 
         "enableFixedHeader": {
             "name": "ヘッダーを画面に固定",
@@ -85,6 +91,10 @@
         "disallowGridFallback": {
             "name": "画面幅に応じたグリッド表示のフォールバックを無効化"
         },
+        "disableBorderlessPlayer": {
+            "name": "クラシックなプレイヤー表示",
+            "hint": "以前のプレイヤー表示に戻します。Shinjuku レイアウトではこの設定は無視されます"
+        },
         "shinjukuEnableNavbar": {
             "name": "Shinjuku レイアウトでナビゲーションバーを表示"
         },
@@ -99,9 +109,13 @@
             "name": "動画移動時の自動スクロール位置",
             "select": ["ページトップ", "プレイヤー", "無効"]
         },
+        "autoScrollTimingOnVideoChange": {
+            "name": "動画移動時の自動スクロールを遅延",
+            "select": ["無効", "遅延", "再スクロール"]
+        },
         "alwaysGetTagDataFromApi": {
-            "name": "実験的: タグデータをAPIから自動取得する",
-            "hint": "タグ編集APIからタグデータを自動取得します。大百科記事の表示が行われるようになりますが、自己責任で使用してください。"
+            "name": "実験的: 大百科の可用性をタグ編集APIから取得",
+            "hint": "タグ編集APIを自動的に呼び出すことで、タグの大百科記事表示を復元します。"
         },
         "disableSeasonalEffects": {
             "name": "季節の演出を無効化"
@@ -109,6 +123,14 @@
         "enableShokuninMode": {
             "name": "職人モードを有効化",
             "hint": "コマンドパレットとコメント詳細表示を拡張します"
+        },
+        "pastLogAutoLoad": {
+            "name": "past_logから過去ログを自動で読み込む",
+            "hint": "開いた動画URLに past_log クエリがある場合に自動的に過去ログを読み込みます"
+        },
+
+        "flagSettingDescription": {
+            "name": "これらの設定は実験的であるか、開発中のものです。動作保証もサポートもなく、機能が変更される可能性もあります。"
         }
     }
 }

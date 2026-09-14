@@ -16,7 +16,7 @@ test("Search: Keyword search data validation", async ({ page, mockApi, enableSea
     // 動画IDをhref属性から確認
     const videoLink = videoCard.locator(".info-card-link")
     const href = await videoLink.getAttribute("href")
-    expect(href).toContain("sm0")
+    expect(href).toContain("sm9")
 
     // タイトル確認
     const title = await videoCard.locator(".info-card-title").textContent()

@@ -61,7 +61,7 @@ export const playerSettings: PlayerSettingList = {
             },
             integratedControl: {
                 type: "select",
-                defaultValue: "never",
+                defaultValue: "fullscreen",
                 options: ["never", "fullscreen", "always"],
                 texts: ["分割表示", "全画面時のみ統合表示", "常に統合表示"],
                 name: "コントローラーの表示",
@@ -88,6 +88,14 @@ export const playerSettings: PlayerSettingList = {
                 texts: ["5秒", "10秒", "15秒", "30秒"],
                 name: "スキップ操作のシーク時間",
             },
+            jumpVideoBehaviour: {
+                type: "select",
+                defaultValue: "default",
+                options: ["default", "manual"],
+                texts: ["5秒後に移動", "手動移動"],
+                name: "@ジャンプでの動画移動",
+                hint: "動画を移動する@ジャンプの挙動を設定します。",
+            },
             enableAutoPlay: {
                 type: "checkbox",
                 defaultValue: true,
@@ -113,7 +121,7 @@ export const playerSettings: PlayerSettingList = {
             enableCommentPiP: {
                 type: "checkbox",
                 defaultValue: false,
-                name: "PiPでコメントを表示(実験的)",
+                name: "実験的: PiPでコメントを表示",
                 hint: "コメント透過率と描画FPSが固定されます。",
             },
             enableLoudnessData: {
@@ -162,6 +170,14 @@ export const playerSettings: PlayerSettingList = {
                 defaultValue: false,
                 name: "コメントの縁取りを無効化",
             },
+            commentRenderMode: {
+                type: "select",
+                defaultValue: "html5",
+                options: ["html5", "flash", "default"],
+                texts: ["HTML5互換", "Flash互換", "自動調整"],
+                name: "コメント互換モード",
+                hint: "niconicomments の互換モードを切り替えます。\n過去ログを読み込んでいる場合、この設定は無視されます",
+            },
             pauseOnCommentInput: {
                 type: "checkbox",
                 defaultValue: false,
@@ -171,6 +187,14 @@ export const playerSettings: PlayerSettingList = {
                 type: "checkbox",
                 defaultValue: false,
                 name: "過去に投稿したコメントにオレンジの枠線を表示",
+            },
+            lyricCommentFilter: {
+                type: "select",
+                defaultValue: 0,
+                options: [0, 0.5, 0.3, 0.1],
+                texts: ["OFF", "低(0.5)", "中(0.3)", "高(0.1)"],
+                name: "実験的: 歌詞コメント自動NGレベル",
+                hint: "歌詞データが利用可能な動画でのみ有効です。設定を上げると誤検知が増加します。",
             },
         },
     },

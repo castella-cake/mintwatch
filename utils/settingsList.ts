@@ -29,7 +29,7 @@ const settings: settingList = {
         {
             type: "select",
             name: "pmwplayertype",
-            values: ["default", "classic", "html5", "shinjuku", "ginzaplus"],
+            values: ["default", "html5", "shinjuku", "ginzaplus"],
             default: "default",
         },
         {
@@ -67,6 +67,23 @@ const settings: settingList = {
             children: [
                 {
                     type: "checkbox",
+                    name: "alwaysGetTagDataFromApi",
+                    default: false,
+                },
+                {
+                    type: "selectButtons",
+                    name: "autoScrollPositionOnVideoChange",
+                    values: ["top", "player", "disable"],
+                    default: "top",
+                },
+                {
+                    type: "selectButtons",
+                    name: "autoScrollTimingOnVideoChange",
+                    values: ["disable", "delay", "rescroll"],
+                    default: "delay",
+                },
+                {
+                    type: "checkbox",
                     name: "muteKokenVoice",
                     default: false,
                 },
@@ -76,6 +93,26 @@ const settings: settingList = {
                     default: 5,
                     min: 1,
                     max: 10,
+                },
+                {
+                    type: "checkbox",
+                    name: "pastLogAutoLoad",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "pmwforcepagehls",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "disableBorderlessPlayer",
+                    default: false,
+                },
+                {
+                    type: "checkbox",
+                    name: "enableShokuninMode",
+                    default: false,
                 },
                 {
                     type: "checkbox",
@@ -94,29 +131,8 @@ const settings: settingList = {
                     values: ["dotGothic", "MSGothic", "disable"],
                 },
                 {
-                    type: "selectButtons",
-                    name: "autoScrollPositionOnVideoChange",
-                    values: ["top", "player", "disable"],
-                    default: "top",
-                },
-                {
-                    type: "checkbox",
-                    name: "pmwforcepagehls",
-                    default: false,
-                },
-                {
                     type: "checkbox",
                     name: "showLiveInRecommend",
-                    default: false,
-                },
-                {
-                    type: "checkbox",
-                    name: "alwaysGetTagDataFromApi",
-                    default: false,
-                },
-                {
-                    type: "checkbox",
-                    name: "enableShokuninMode",
                     default: false,
                 },
                 {
@@ -166,8 +182,54 @@ const settings: settingList = {
             name: "enableSearchPage",
             default: false,
         },
+        {
+            type: "checkbox",
+            name: "enableShortsPage",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "enableRecommendationsPage",
+            default: false,
+        },
+    ],
+    flags: [
+        {
+            type: "desc",
+            name: "flagSettingDescription",
+        },
+        {
+            type: "checkbox",
+            name: "flagEnableAdditionalJsonEditor",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "flagHlsErrorScreenEnable",
+            default: false,
+        },
+        {
+            type: "checkbox",
+            name: "flagEnableShortsLayout",
+            default: false,
+        },
+        {
+            type: "select",
+            name: "flagTimetravelCommentRenderMode",
+            values: ["default", "html5", "flash"],
+            default: "default",
+        },
+        {
+            type: "checkbox",
+            name: "flagRecommendationsShowContinuousPlayButton",
+            default: false,
+        },
     ],
 } as const
+
+export const categoryUnlockFlags: { [categoryName: string]: string } = {
+    flags: "flagSectionEnabled",
+}
 
 export function getDefault(name: string) {
     for (const category of Object.values(settings)) {

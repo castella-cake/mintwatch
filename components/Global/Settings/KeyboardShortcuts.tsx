@@ -57,6 +57,11 @@ export function KeyboardShortcuts() {
     }, [])
 
     const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.repeat) {
+            e.preventDefault()
+            e.stopPropagation()
+            return false
+        }
         let key = ""
         if (e.key === "ArrowLeft") {
             setKeyPress(k => ({ ...k, left: true }))

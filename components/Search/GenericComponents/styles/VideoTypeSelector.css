@@ -1,0 +1,26 @@
+.search-videotype-selector {
+    grid-area: vidsel;
+    display: flex;
+    gap: 8px;
+}
+
+.search-videotype-selector-item {
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    flex: 1;
+    cursor: pointer;
+    transition: var(--transition-normal);
+
+    &:hover {
+        background: var(--hover1);
+    }
+    
+    &[data-isactive="true"] {
+        color: var(--bgcolor1);
+        background: var(--textcolor1);
+        font-weight: bold;
+    }
+}

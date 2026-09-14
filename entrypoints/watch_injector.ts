@@ -133,7 +133,7 @@ export default defineUnlistedScript({
                     = document.getElementById("pmw-element-video") // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
                 // testDiv.appendChild(videoElement)
                 const hlsResponse = await getHls(
-                    location.pathname.slice(7).replace(/\?.*/, ""),
+                    videoInfo.data.response.video.id,
                     JSON.stringify(hlsRequestBody),
                     actionTrackId,
                     accessRightKey,
@@ -196,5 +196,9 @@ export default defineUnlistedScript({
                 })
             }
         }
+        const script = document.currentScript
+        script?.dispatchEvent(
+            new CustomEvent("mwPageHlsReady", {}),
+        )
     },
 })

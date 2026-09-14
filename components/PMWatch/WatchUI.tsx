@@ -11,22 +11,24 @@ import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider"
-import { useControlPlaylistContext } from "@/components/Global/Contexts/PlaylistProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
-import { useHistoryContext } from "../Router/RouterContext"
+import { useHistoryContext, useLocationContext } from "../Router/RouterContext"
 import { useBackgroundPlayingContext } from "../Global/Contexts/BackgroundPlayProvider"
 import { useQueryClient } from "@tanstack/react-query"
+import { parseFromQuery } from "@/utils/fromQuery"
 
 function CreateWatchUI() {
     // const lang = useLang()
     const { smId, setSmId } = useSmIdContext()
     const history = useHistoryContext()
+    const location = useLocationContext()
 
     const {
         autoScrollPositionOnVideoChange,
+        autoScrollTimingOnVideoChange,
         layoutDensity,
         disallowGridFallback,
-    } = useStorageVar(["autoScrollPositionOnVideoChange", "layoutDensity", "disallowGridFallback"] as const, "sync")
+    } = useStorageVar(["autoScrollPositionOnVideoChange", "autoScrollTimingOnVideoChange", "layoutDensity", "disallowGridFallback"] as const, "sync")
     const {
         playerAreaSize,
         onboardingIgnored,
@@ -36,53 +38,88 @@ function CreateWatchUI() {
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
 
     const videoRef = useVideoRefContext()
-    const { updatePlaylistState } = useControlPlaylistContext()
     const { videoInfo } = useVideoInfoContext()
 
     const queryClient = useQueryClient()
 
     const setVideoActionModalState = useSetVideoActionModalStateContext()
-    const backgroundPlaying = useBackgroundPlayingContext()
+
+    const scrollRequestIdRef = useRef(0)
+    const pendingVideoChangeScrollRef = useRef<{
+        requestId: number
+        targetSmId: string
+        videoChanged: boolean
+        executed: boolean
+    } | null>(null)
 
     const internalChangeVideo = useCallback((smIdAfter: string) => {
         if (smId === smIdAfter) return
         // 再度来ても良いようにキャッシュを破棄する
         queryClient.invalidateQueries({ queryKey: ["commentData", smIdAfter, { logData: undefined }] })
         queryClient.invalidateQueries({ queryKey: ["videoData", smIdAfter] })
-        if (videoRef.current && import.meta.env.FIREFOX) videoRef.current.src = ""
+        if (videoRef.current) {
+            if (import.meta.env.FIREFOX) videoRef.current.src = ""
+            videoRef.current.currentTime = 0
+            videoRef.current.pause()
+        }
         setSmId(smIdAfter)
     }, [smId])
+
+    const scrollToPlayer = useCallback(() => {
+        startTransition(() => {
+            requestAnimationFrame(() => {
+                if (videoRef.current) {
+                    videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
+                }
+            })
+        })
+    }, [videoRef])
 
     // ナビゲーション処理はlistenPopStateで行います
     const changeVideo = useCallback((videoUrl: string, doScroll = true, noLocationChange = false) => {
         const autoScrollSetting = autoScrollPositionOnVideoChange ?? getDefault("autoScrollPositionOnVideoChange")
+        const autoScrollTimingSetting = autoScrollTimingOnVideoChange ?? getDefault("autoScrollTimingOnVideoChange")
+        const parsedUrl = new URL(videoUrl)
+        const smIdAfter = urlToVideoId(parsedUrl)
+        if (!smIdAfter) return
+        const shouldHandleTimingWithGate = doScroll
+            && autoScrollSetting === "player"
+            && autoScrollTimingSetting !== "disable"
+
+        if (shouldHandleTimingWithGate) {
+            scrollRequestIdRef.current += 1
+            pendingVideoChangeScrollRef.current = {
+                requestId: scrollRequestIdRef.current,
+                targetSmId: smIdAfter,
+                videoChanged: false,
+                executed: false,
+            }
+        } else {
+            pendingVideoChangeScrollRef.current = null
+        }
+
         if (autoScrollSetting === "top" && doScroll) {
             window.scroll({ top: 0, behavior: "smooth" })
         } else if (autoScrollSetting === "player" && doScroll) {
-            startTransition(() => {
-                requestAnimationFrame(() => {
-                    if (videoRef.current) {
-                        videoRef.current.scrollIntoView({ behavior: "smooth", block: "center" })
-                    }
-                })
-            })
+            const shouldDelayScroll = shouldHandleTimingWithGate && autoScrollTimingSetting === "delay"
+            if (!shouldDelayScroll) {
+                scrollToPlayer()
+            }
         }
         setVideoActionModalState(false)
         if (noLocationChange) {
-            const parsedUrl = new URL(videoUrl)
-            const smIdAfter = parsedUrl.pathname.replace("/watch/", "").replace(/\?.*/, "")
             internalChangeVideo(smIdAfter)
             return
         }
         // historyにpushして移動
         history.push(videoUrl)
-    }, [smId, autoScrollPositionOnVideoChange, internalChangeVideo])
+    }, [autoScrollPositionOnVideoChange, autoScrollTimingOnVideoChange, internalChangeVideo, scrollToPlayer])
 
     const linkClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
-            if (nearestAnchor && nearestAnchor.href.startsWith("https://www.nicovideo.jp/watch/") && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
+            if (nearestAnchor && urlToVideoId(nearestAnchor.href) !== null && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
@@ -90,6 +127,27 @@ function CreateWatchUI() {
             }
         }
     }
+
+    useEffect(() => {
+        if (!pendingVideoChangeScrollRef.current) return
+        if (pendingVideoChangeScrollRef.current.targetSmId === smId) {
+            pendingVideoChangeScrollRef.current.videoChanged = true
+        }
+    }, [smId])
+
+    const currentVideoId = videoInfo?.data?.response?.video?.id
+    useEffect(() => {
+        const pendingState = pendingVideoChangeScrollRef.current
+        if (!pendingState || pendingState.executed || !pendingState.videoChanged) return
+        if (currentVideoId !== pendingState.targetSmId) return
+
+        const requestId = pendingState.requestId
+        const latestPendingState = pendingVideoChangeScrollRef.current
+        if (!latestPendingState || latestPendingState.executed) return
+        if (latestPendingState.requestId !== requestId) return
+        latestPendingState.executed = true
+        scrollToPlayer()
+    }, [currentVideoId, scrollToPlayer])
 
     useEffect(() => {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
@@ -108,16 +166,20 @@ function CreateWatchUI() {
             /* console.log(
                 `The current URL is ${location.pathname}${location.search}${location.hash}`
             ); */
-            if (location.pathname.startsWith("/watch/")) {
-                const smIdAfter = location.pathname.replace("/watch/", "").replace(/\?.*/, "")
+            const smIdAfter = pathnameToVideoId(location.pathname)
+            if (smIdAfter) {
                 internalChangeVideo(smIdAfter)
-                updatePlaylistState(location.search)
+                // 同一動画への ?from= の再指定は動画の再読み込みを伴わないため、シークとして処理する
+                if (smIdAfter === smId && videoRef.current) {
+                    const fromSecond = parseFromQuery(location.search)
+                    if (fromSecond !== null) videoRef.current.currentTime = fromSecond
+                }
             };
         })
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, videoInfo, internalChangeVideo, updatePlaylistState])
+    }, [smId, internalChangeVideo])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)
@@ -136,6 +198,8 @@ function CreateWatchUI() {
 
     const playerSize = playerAreaSize ?? 1
 
+    const isShortsPage = location.pathname.startsWith("/shorts/")
+
     function handleKeydown(e: React.KeyboardEvent) {
         if (e.key === "Escape") {
             setVideoActionModalState(false)
@@ -147,7 +211,7 @@ function CreateWatchUI() {
             className={isFullscreenUi ? "container fullscreen" : "container"}
             onKeyDown={handleKeydown}
             data-disallow-grid-fallback={disallowGridFallback ?? getDefault("disallowGridFallback")}
-            data-background-playing={backgroundPlaying}
+            data-background-playing={isBackgroundPlaying}
             data-layout-density={layoutDensity ?? getDefault("layoutDensity")}
             onClickCapture={linkClickHandler}
         >
@@ -176,6 +240,7 @@ function CreateWatchUI() {
                     onChangeVideo={changeVideo}
                     isFullscreenUi={isFullscreenUi}
                     setIsFullscreenUi={setIsFullscreenUi}
+                    isShortsPage={isShortsPage}
                 />
             </PlaylistDndWrapper>
         </div>

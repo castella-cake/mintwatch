@@ -1,14 +1,21 @@
-import { IconCancel, IconCircleX, IconClockFilled, IconDots } from "@tabler/icons-react"
+import { IconArrowBigRightLine, IconCancel, IconCheck, IconCircleX, IconClock, IconClockFilled, IconDots, IconFolderPlus, IconShare } from "@tabler/icons-react"
 import { Card } from "../InfoCard"
 import "./styles/genericItem.css"
-import "./styles/mylistAddAlert.css"
-import { useTransitionState } from "react-transition-state"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { Mylists } from "@/components/PMWatch/modules/Mylists"
 import APIError from "@/utils/classes/APIError"
 import { InfoCardCount } from "../Count"
+import { ShareApplet } from "../Share"
+import { VideoItemToShareBody } from "@/utils/videoShareUtils"
+import { PopupMenu } from "../PopupMenu"
 
-export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...additionalAttributes }: { video: VideoItem, markAsLazy?: boolean, isVerticalLayout?: boolean }) {
+export function VideoItemCard({ video, markAsLazy, layoutType, showStats = true, externalVideoActionChildren, ...additionalAttributes }: {
+    video: VideoItem
+    markAsLazy?: boolean
+    layoutType?: "horizontal" | "horizontal-simple" | "vertical-simple"
+    showStats?: boolean
+    externalVideoActionChildren?: React.ReactNode
+} & React.HTMLAttributes<HTMLDivElement>) {
     if (video.isMuted) return (
         <Card
             additionalClassName="videoitem-card genericitem-card videoitem-muted"
@@ -21,7 +28,7 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
                     </div>
                 </>
             )}
-            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            data-layout={layoutType}
             subTitle={(
                 <></>
             )}
@@ -41,11 +48,13 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
             title={video.title}
             subTitle={(
                 <>
-                    <a className="genericitem-owner" href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`}>
-                        <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name} のアイコン`} />
-                        <span className="genericitem-owner-name">{video.owner.name}</span>
+                    <a className="genericitem-owner" href={video.owner.ownerType === "channel" ? `https://ch.nicovideo.jp/${video.owner.id}` : `https://www.nicovideo.jp/user/${video.owner.id}`} data-owner-visibility={video.owner.visibility}>
+                        { video.owner.iconUrl && (
+                            <img src={video.owner.iconUrl} className="genericitem-owner-icon" alt={`${video.owner.name ?? "非公開または退会済みユーザー"} のアイコン`} />
+                        ) }
+                        <span className="genericitem-owner-name">{video.owner.name ?? "非公開または退会済みユーザー"}</span>
                     </a>
-                    { isVerticalLayout && (
+                    { layoutType === "vertical-simple" && (
                         <span className="genericitem-time" data-count-type="registeredAt">
                             <IconClockFilled />
                             <span className="genericitem-time-value">
@@ -57,15 +66,26 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
             )}
             shortDescription={video.shortDescription}
             counts={(
-                <InfoCardCount count={video.count} registeredAt={isVerticalLayout ? undefined : video.registeredAt} />
+                showStats && <InfoCardCount count={video.count} registeredAt={layoutType === "vertical-simple" ? undefined : video.registeredAt} />
             )}
-            thumbnailUrl={video.thumbnail.listingUrl}
+            thumbnailUrl={video.contentType === "short" ? video.thumbnail.shortUrl : video.thumbnail.listingUrl}
             thumbText={`${secondsToTime(video.duration)}`}
             thumbMarkAsLazy={markAsLazy}
             thumbChildren={(
-                <ExternalButton smId={video.id} title={video.title} />
+                <>
+                    { video.playbackPosition
+                        ? (
+                                <div className="genericitem-resume" style={{ ["--width" as any]: `${(video.playbackPosition / video.duration) * 100}%` }}>
+                                </div>
+                            )
+                        : null }
+                    <ExternalButton video={video}>
+                        {externalVideoActionChildren}
+                    </ExternalButton>
+                </>
             )}
-            data-is-vertical-layout={isVerticalLayout ? true : undefined}
+            data-layout={layoutType}
+            data-is-short={video.contentType === "short"}
             {...additionalAttributes}
         >
             {video.title}
@@ -73,23 +93,21 @@ export function VideoItemCard({ video, markAsLazy, isVerticalLayout, ...addition
     )
 }
 
-function ExternalButton({ smId, title }: { smId: string, title: string }) {
+function ExternalButton({ video, children }: { video: VideoItem, children?: React.ReactNode }) {
+    const { id: smId, title } = video
+
     const { showAlert, showToast } = useSetMessageContext()
-    const [isWatchLaterAdding, setIsWatchLaterAdding] = useState(false)
-    const [{ status, isMounted }, toggle] = useTransitionState({
-        timeout: 200,
-        mountOnEnter: true,
-        unmountOnExit: true,
-        preEnter: true,
-        preExit: true,
-    })
+    const [watchLaterState, setWatchLaterState] = useState<"unknownOrNot" | "adding" | "added">("unknownOrNot")
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const buttonRef = useRef<HTMLButtonElement>(null)
 
     const handleAddToWatchLater = async () => {
-        if (isWatchLaterAdding) return
+        if (watchLaterState !== "unknownOrNot") return
 
-        setIsWatchLaterAdding(true)
+        setWatchLaterState("adding")
         try {
             await addToWatchLater(smId)
+            setWatchLaterState("added")
             showToast({
                 title: "あとで見るに追加しました",
                 body: title,
@@ -108,59 +126,125 @@ function ExternalButton({ smId, title }: { smId: string, title: string }) {
                     title: "あとで見るへの追加に失敗しました",
                     body: "追加上限を超えていないか確認してください。それでも追加できない場合は、時間を置いて再度お試しください。",
                 })
-                setIsWatchLaterAdding(false)
+                setWatchLaterState("unknownOrNot")
             }
         }
     }
 
+    const handleShareOpen = () => {
+        const shareURL = `https://www.nicovideo.jp/watch/${smId}`
+        const body = VideoItemToShareBody(video)
+        const ogp = {
+            title: video.title,
+            image: video.thumbnail.listingUrl,
+            description: null,
+            siteName: "ニコニコ動画",
+        }
+        showAlert({
+            title: "共有",
+            icon: null,
+            body: (
+                <ShareApplet body={body} plainUrl={shareURL} ogp={ogp} />
+            ),
+            customCloseButton: [
+                {
+                    key: "close",
+                    text: "おしまい",
+                    primary: true,
+                },
+            ],
+        })
+        setIsPopupOpen(false)
+    }
+
+    const handleAddToMylistOpen = () => {
+        showAlert({
+            title: "マイリストに追加",
+            icon: null,
+            body: (
+                <div className="applet-container mylist-add-alert">
+                    <div className="applet-subtitle">
+                        <strong>{title}</strong>
+                        {" "}
+                        をマイリストに追加します
+                    </div>
+                    <Mylists smId={smId} />
+                </div>
+            ),
+            customCloseButton: [
+                {
+                    key: "close",
+                    text: "おしまい",
+                    primary: true,
+                },
+            ],
+        })
+        setIsPopupOpen(false)
+    }
+
+    const handlePopupToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        setIsPopupOpen(s => !s)
+        e.stopPropagation()
+    }
+
     return (
         <div className="info-card-externalbutton-wrapper">
+            {children}
             <button
                 className="info-card-externalbutton"
-                onClick={() => { toggle(!isMounted) }}
+                onClick={handlePopupToggle}
+                ref={buttonRef}
+                data-is-active={isPopupOpen}
             >
                 <IconDots />
             </button>
-            { isMounted && (
-                <div className="info-card-externalbutton-context generic-contextmenu" data-animation={status}>
-                    <button
+            <PopupMenu isOpen={isPopupOpen} onClose={() => { setIsPopupOpen(false) }} positionElemRef={buttonRef}>
+                { video.playbackPosition && (
+                    <a
                         className="generic-contextmenu-item"
-                        onClick={handleAddToWatchLater}
-                        disabled={isWatchLaterAdding}
+                        href={`https://www.nicovideo.jp/watch/${smId}?from=0`}
                     >
-                        あとで見る
-                    </button>
-                    <button
-                        className="generic-contextmenu-item"
-                        onClick={() => {
-                            showAlert({
-                                title: "マイリストに追加",
-                                icon: null,
-                                body: (
-                                    <div className="mylist-add-alert">
-                                        <div className="mylist-add-alert-title">
-                                            <strong>{title}</strong>
-                                            {" "}
-                                            をマイリストに追加します
-                                        </div>
-                                        <Mylists smId={smId} />
-                                    </div>
-                                ),
-                                customCloseButton: [
-                                    {
-                                        key: "close",
-                                        text: "おしまい",
-                                        primary: true,
-                                    },
-                                ],
-                            })
-                            toggle(false)
-                        }}
-                    >
-                        マイリストに追加
-                    </button>
-                </div>
-            )}
+                        <IconArrowBigRightLine />
+                        <span>
+                            初めから直接再生
+                        </span>
+                    </a>
+                )}
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleShareOpen}
+                >
+                    <IconShare />
+                    <span>
+                        共有…
+                    </span>
+                </button>
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleAddToWatchLater}
+                    disabled={watchLaterState !== "unknownOrNot"}
+                >
+                    {watchLaterState === "added"
+                        ? (
+                                <IconCheck />
+                            )
+                        : (
+                                <IconClock />
+                            )}
+                    <span>
+                        あとで見るに追加
+                    </span>
+                </button>
+                <button
+                    className="generic-contextmenu-item"
+                    onClick={handleAddToMylistOpen}
+                >
+                    <IconFolderPlus />
+                    <span>
+                        マイリストに追加…
+                    </span>
+                </button>
+            </PopupMenu>
         </div>
     )
 }

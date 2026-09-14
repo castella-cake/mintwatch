@@ -1,5 +1,6 @@
 import { useSetMintConfigShownContext, useSetSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { IconComet, IconDoorExit, IconHelpCircle, IconKeyboard, IconTool } from "@tabler/icons-react"
+import { MWButton } from "../../MWButton"
 import WhatsNewTitle from "./WhatsNewTitle"
 import whatsNewData from "@/assets/whatsnew.json"
 
@@ -9,26 +10,22 @@ export default function MintToolBox({ omitKeys, quietWhatsNew }: { omitKeys?: ("
 
     const { lastCheckedUpdate } = useStorageVar(["lastCheckedUpdate"])
 
-    const onWhatsNewClick = useCallback((e: React.MouseEvent) => {
+    const onWhatsNewClick = useCallback(() => {
         setMintConfigShown("whatsnew")
         storage.setItem("sync:lastCheckedUpdate", whatsNewData.version)
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onHelpClick = useCallback((e: React.MouseEvent) => {
+    const onHelpClick = useCallback(() => {
         setMintConfigShown("help")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onKeyboardClick = useCallback((e: React.MouseEvent) => {
+    const onKeyboardClick = useCallback(() => {
         setMintConfigShown("shortcuts")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
-    const onSettingsClick = useCallback((e: React.MouseEvent) => {
+    const onSettingsClick = useCallback(() => {
         setMintConfigShown("settings")
         setIsSideMenuShown(false)
-        e.stopPropagation()
     }, [setMintConfigShown, setIsSideMenuShown])
     const onVanillaModeClick = useCallback(() => {
         location.href = `${location.href}${location.href.includes("?") ? "&" : "?"}nopmw=true`
@@ -36,31 +33,31 @@ export default function MintToolBox({ omitKeys, quietWhatsNew }: { omitKeys?: ("
     return (
         <div className="toolbox-container">
             {!omitKeys?.includes("vanilla") && (
-                <button onClick={onVanillaModeClick} className="toolbox-button" title="元のページを表示">
+                <MWButton label="元のページを表示" onClick={onVanillaModeClick} className="toolbox-button">
                     <IconDoorExit />
-                </button>
+                </MWButton>
             )}
             {!omitKeys?.includes("settings") && (
-                <button onClick={onSettingsClick} className="toolbox-button" title="MintWatch の設定">
+                <MWButton label="MintWatch の設定" onClick={onSettingsClick} className="toolbox-button">
                     <IconTool />
-                </button>
+                </MWButton>
             )}
             {!omitKeys?.includes("shortcuts") && (
-                <button onClick={onKeyboardClick} className="toolbox-button" title="キーボードショートカット">
+                <MWButton label="キーボードショートカット" onClick={onKeyboardClick} className="toolbox-button">
                     <IconKeyboard />
-                </button>
+                </MWButton>
             )}
             {!omitKeys?.includes("help") && (
-                <button onClick={onHelpClick} className="toolbox-button" title="MintWatch のはじめに">
+                <MWButton label="MintWatch のはじめに" onClick={onHelpClick} className="toolbox-button">
                     <IconHelpCircle />
-                </button>
+                </MWButton>
             )}
             {!omitKeys?.includes("whatsnew") && (
                 <div className="whatsnew-wrapper">
-                    <button onClick={onWhatsNewClick} className="toolbox-button" title="更新情報" data-has-update={lastCheckedUpdate !== whatsNewData.version}>
+                    <MWButton label="更新情報" onClick={onWhatsNewClick} className="toolbox-button" data-has-update={lastCheckedUpdate !== whatsNewData.version}>
                         <IconComet />
-                    </button>
-                    {!quietWhatsNew && <WhatsNewTitle />}
+                    </MWButton>
+                    {!quietWhatsNew && <WhatsNewTitle onOpen={onWhatsNewClick} />}
                 </div>
             )}
         </div>

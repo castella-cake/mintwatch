@@ -3,7 +3,7 @@ import "./styles/userItem.css"
 
 export function UserItemCard({ user, markAsLazy, isVerticalLayout, ...additionalAttributes }: { user: SearchUserItem, markAsLazy?: boolean, isVerticalLayout?: boolean }) {
     return (
-        <a className="useritem-card" key={user.id} href={userIdToUserUrl(user.id.toString())} data-is-vertical-layout={isVerticalLayout ? true : undefined} {...additionalAttributes}>
+        <a className="useritem-card" key={user.id} href={userIdToUserUrl(user.id.toString())} data-layout={isVerticalLayout ? "vertical-simple" : undefined} {...additionalAttributes}>
             <img className="useritem-icon" src={user.icons.large} loading={markAsLazy ? "lazy" : undefined} />
             <div className="useritem-datacolumn">
                 <div className="useritem-nickname">

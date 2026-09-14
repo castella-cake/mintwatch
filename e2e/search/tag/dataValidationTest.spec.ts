@@ -25,11 +25,11 @@ test("Search: Tag search data validation", async ({ page, mockApi, enableSearchP
     expect(nicodicUrl).toBe("https://dic.nicovideo.jp/a/%E3%83%86%E3%82%B9%E3%83%88")
 
     // 関連タグセクション確認
-    const relatedTagsSection = page.locator(".search-result-relatedtags")
+    const relatedTagsSection = page.locator(".generic-relatedtags")
     await expect(relatedTagsSection).toBeVisible()
 
     // 関連タグの内容確認
-    const relatedTag = page.locator(".search-result-relatedtags-tag").first()
+    const relatedTag = page.locator(".generic-relatedtags-tag").first()
     await expect(relatedTag).toBeVisible()
 
     const relatedTagText = await relatedTag.textContent()

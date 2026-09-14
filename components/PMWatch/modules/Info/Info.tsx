@@ -32,6 +32,7 @@ const reasonCodeLang = {
     DELETED_CHANNEL_VIDEO: "チャンネルが閉鎖されたため視聴できません",
     ADMINISTRATOR_DELETE_VIDEO: "削除された動画のため視聴できません",
     HARMFUL_VIDEO: "センシティブな内容が含まれる可能性のある動画です",
+    MWINTERNALQUERY_INVALID_VIDEO_ID: "指定された動画IDは無効です",
 }
 
 function returnErrorMessage(errorResponse: ErrorResponse) {

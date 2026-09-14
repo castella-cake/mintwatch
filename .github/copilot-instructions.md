@@ -1,79 +1,88 @@
-# MintWatch Development Guide
+# MintWatch 開発ガイド
 
-## Architecture Overview
-MintWatch is a **browser extension that replaces Niconico's video player** with a custom React-based interface. Built with **WXT framework**, it injects a complete replacement UI for watch/ranking/search pages while blocking the original site's scripts and styling.
+## プロジェクト概要
+MintWatch は、WXT と React を使用して、ニコニコの動画ページを独自 UI に置き換えるブラウザ拡張機能です。
+視聴ページ(watch)/ランキングページ(ranking)/検索ページ(search) に対応しており、元ページのスクリプト・スタイルを抑止して React 側で描画します。
 
-### Core Architecture Pattern
-1. **Content Script Entry** (`entrypoints/index.content.ts`): Detects target pages and initializes router
-2. **Script Blocking** (`utils/initiator/router.ts`): Aggressively blocks original site scripts using MutationObserver
-3. **DOM Replacement**: Completely replaces page content with React components
-
-## Project Structure (MintWatch-specific)
+## プロジェクトの構造
 ```
-entrypoints/           # Extension entry points (background, content scripts, popup pages)
-├── background.ts      # Extension lifecycle, welcome/update pages
-├── index.content.ts   # Main content script injection logic
-└── watch_injector.ts  # Video player injection script
+entrypoints/           # 拡張機能スクリプトのエントリポイント
+├── background.ts      # バックグラウンドスクリプト
+├── index.content.ts   # メイン機能のコンテンツスクリプト
+├── load_turnstile.ts  # Cloudflare Turnstile のインポートを含むハンドラーのページスクリプト
+└── watch_injector.ts  # Firefox 用 HLS ロジックのページスクリプト
 
 components/
-├── Router/           # SPA routing system for extension pages
-├── PMWatch/          # Video player components (core feature)
-├── ReShogi/          # Ranking page components
-├── Search/           # Search page components
-└── Global/           # Shared UI components and base styles
+├── Router/           # 独自のSPAルーター実装
+├── PMWatch/          # 視聴ページのコンポーネント
+├── ReShogi/          # ランキングページのコンポーネント
+├── Search/           # 検索ページのコンポーネント
+└── Global/           # ヘッダーなどの全ページ共通のコンポーネント
 
-utils/apis/           # Niconico API wrappers (auto-imported)
-hooks/apiHooks/       # React Query hooks for API calls (auto-imported)
-types/               # TypeScript definitions for Niconico API responses (auto-imported)
-e2e/                 # Playwright tests with browser extension loading
+utils/                # ユーティリティ関数 (自動インポート)
+├── apis/             # 外部APIラッパー
+├── classes/          # クラス定義
+└── initiator/        # ページの初期化ロジック
+
+hooks/                # React hooks (自動インポート)
+└── hooks/apiHooks/   # APIコール用の React Query フック
+
+types/                # API型定義などの TypeScript 型定義 (自動インポート)
+e2e/                  # Playwright E2E テスト
 ```
 
-## Development Patterns
+## 基本的なアーキテクチャ
+1. `entrypoints/index.content.ts` で対象ページを判定し、ルーティングを開始する。
+2. `utils/initiator/router.ts` の `MutationObserver` で元サイトの script を即時ブロックする。
+3. 置き換え対象 DOM を React で全面的に再構築する。
 
-### Extension Script Blocking Strategy
-```typescript
-// Pattern: Block all original scripts before DOM loads
-const observer = new MutationObserver((records) => {
-    records.forEach((record) => {
-        // Block script elements immediately
-        elem.querySelectorAll("script").forEach(blockScriptElement)
-    })
-})
-```
+## コードスタイル
+- 単一箇所でしか使わないような関数や型を必要以上に`utils`や`types`などへ切り出さない。
+- 型は `any` を安易に使わず、既存の `types/` や型推論を優先する。
 
-### API Integration Pattern
-- **API Functions**: `utils/apis/*.ts` - Direct fetch calls with error handling
-- **React Hooks**: `hooks/apiHooks/*.ts` - React Query wrappers
-- **Example**: `useSearchExpandData(query)` → `searchExpand(query)` → Niconico API
+## 実装ルール
+- ストレージアクセスを統一する。
+    - 設定保存は `browser.storage` 直叩きではなく WXT Storage（`storage.setItem()`）を使う。
+    - React 側からの参照は `useStorageVar()` を使う。
+    - 通常設定は `sync`、プレイヤー設定は `local` に保存する。
+- UI 実装の配置ルールを守る。
+    - これから実装されるコンポーネントでは `export default` を使わず、名前付き export にする。
+    - スタイルは data 属性を優先し、`components/<component>/styleModules/*.css` に配置する。
 
-### Storage Architecture
-- **WXT Storage**: Use `storage.setItem()`, not browser.storage directly
-- **React Integration**: Use `useStorageVar()` for reactive storage values
-- **Storage Keys**: Prefixed (`sync:`, `local:`) for organization
+## API 実装パターン
+- 役割分離を維持する。
+    - API 呼び出し本体は `utils/apis/*.ts` に実装する（fetch + エラーハンドリング）。
+    - UI 側のデータ取得は `hooks/apiHooks/*.ts`（React Query）経由で行う。
+- 例: `useSearchExpandData(query)` → `searchExpand(query)`。
+- React Query は `staleTime: Infinity` として構成済み。
 
-### Component & Styling
-- **No `export default`** - Use `export function ComponentName()`
-- **Data attributes over className**: `[data-active="true"]` instead of `.active`
-- **PostCSS nested without `&`**: Direct nesting supported
-- **Style modules**: `components/<component>/styleModules/*.css`
-- **Global variables**: Defined in `components/Global/baseUI.css`
+## 命名・フォーマット規約
+- TypeScript / React のコンポーネント・型は PascalCase、関数・変数は camelCase を基本。
+- スクリプトの整形は ESLint（`@stylistic`）に従い、`--fix` で修正される。（インデント 4 スペース、ダブルクォート、セミコロンなし）
+- CSS クラス名は kebab-case を基本とし、状態表現は data 属性（`data-*`）を優先する。(`.active`のようなクラスを使用しない)
+- CSS は Stylelint を使用して検証している。
+- CSS は PostCSS を使用しており、`& `不要で子要素へのネストを表現したり、ダブルスラッシュによるコメントを使用できる。(4階層を超えるネストはセレクターを分けるなどして避けること)
 
-## Development Workflow
+## スキル
+- `customizable-settings`:
+    - 通常設定（`sync`）の追加手順。
+    - 主に `utils/settingsList.ts` と `langs/*.json` を更新し、実装側は `useStorageVar()` で参照する。
+    - オプトイン/オプトアウト系の設定追加で使用する。
+- `player-settings`:
+    - プレイヤー設定（`local`）の追加手順。
+    - 主に `utils/playerSettingList.ts` を更新し、実装側は `useStorageVar(..., "local")` で参照する。
+    - プレイヤー挙動の個別設定追加で使用する。
+
+## 開発・検証フロー
 ```bash
-pnpm install          # Required: PNPM (not NPM)
-pnpm run dev          # Development with HMR
-pnpm run dev:firefox  # Firefox development
-pnpm run build        # Production build
-pnpm run e2e          # Playwright tests with extension (run after production build)
+pnpm install
+pnpm run dev
+pnpm run dev:firefox
+pnpm run build
+pnpm run compile
+pnpm run e2e
 ```
 
-## Testing Strategy
-- **E2E with Extension**: Tests load actual built extension in browser
-- **API Mocking**: `e2e/fixtures.ts` provides mock responses for Niconico APIs
-- **Page Detection**: Tests verify content script injection on specific URL patterns
-
-## Critical Implementation Details
-- **Meta tag protection**: Rename `server-context` → `server-context-mw` to avoid deletion
-- **Favicon handling**: Replace with Niconico's original favicon
-- **React Query**: Configured with `staleTime: Infinity` for aggressive caching
-- **Icon variants**: Different icons for dev (`icon-dev/`) vs production builds
+## WXT について
+WXT に関する API などについては、`https://wxt.dev/llms.txt` から概要や型データを参照可能。  
+必要に応じて使用すること。

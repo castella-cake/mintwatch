@@ -1,12 +1,14 @@
 export const searchPagePaths = [
     "/search/",
+    "/search_shorts/",
     "/tag/",
+    "/tag_shorts/",
     "/series_search/",
     "/mylist_search/",
     "/user_search/",
 ]
 
-type searchType = "search" | "tag" | "mylist" | "series" | "user"
+type searchType = "search" | "search_shorts" | "tag" | "tag_shorts" | "mylist" | "series" | "user"
 
 /**
  * pathnameから検索ワードを返す
@@ -23,7 +25,7 @@ export function returnSearchWord(pathname: string) {
     return ""
 }
 
-const searchPagePathRegex = /\/(search|tag|series|mylist|user)(_search)?\//
+const searchPagePathRegex = /\/(search|search_shorts|tag|tag_shorts|series|mylist|user)(_search)?\//
 
 /**
  * pathnameから現在の検索タイプを返す
@@ -49,8 +51,12 @@ export function returnSearchWhatWeReIn(pathname: string): searchType | undefined
  */
 export function returnHrefFromSearchType(keyword: string, type: searchType) {
     let href = `https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}`
-    if (type === "tag") {
+    if (type === "search_shorts") {
+        href = `https://www.nicovideo.jp/search_shorts/${encodeURIComponent(keyword)}`
+    } else if (type === "tag") {
         href = `https://www.nicovideo.jp/tag/${encodeURIComponent(keyword)}`
+    } else if (type === "tag_shorts") {
+        href = `https://www.nicovideo.jp/tag_shorts/${encodeURIComponent(keyword)}`
     } else if (type === "mylist") {
         href = `https://www.nicovideo.jp/mylist_search/${encodeURIComponent(keyword)}`
     } else if (type === "series") {
@@ -59,4 +65,14 @@ export function returnHrefFromSearchType(keyword: string, type: searchType) {
         href = `https://www.nicovideo.jp/user_search/${encodeURIComponent(keyword)}`
     }
     return href
+}
+
+/**
+ * このpathnameの検索がショート検索かどうかを返す
+ * @param pathname URLのパス
+ * @returns shortsでtrue、それ以外でfalse
+ */
+export function isCurrentSearchIsShorts(pathname: string) {
+    const searchType = returnSearchWhatWeReIn(pathname)
+    return (searchType === "search_shorts" || searchType === "tag_shorts")
 }

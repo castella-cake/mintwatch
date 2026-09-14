@@ -9,12 +9,13 @@ import { Owner, Stats } from "./modules/ShinjukuUI"
 import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import ContentTree from "./modules/Info/ContentTree"
-import Search from "../Global/Search"
+import Search from "../Global/SearchBar/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPlaylist } from "@tabler/icons-react"
 import { useVideoInfoContext } from "../Global/Contexts/VideoDataProvider"
+import { usePastLogConfirm } from "@/hooks/pastLogQuery"
 
 export const watchLayoutType = {
     reimaginedNewWatch: "renew",
@@ -23,6 +24,7 @@ export const watchLayoutType = {
     threeColumn: "3col",
     shinjuku: "shinjuku",
     gridTest: "gridtest",
+    shorts: "shorts",
 }
 
 type Props = {
@@ -30,6 +32,7 @@ type Props = {
     onChangeVideo: (smId: string, doScroll?: boolean, noLocationChange?: boolean) => void
     isFullscreenUi: boolean
     setIsFullscreenUi: Dispatch<SetStateAction<boolean>>
+    isShortsPage: boolean
 }
 
 export function WatchContent(_props: Props) {
@@ -38,6 +41,7 @@ export function WatchContent(_props: Props) {
         onChangeVideo,
         isFullscreenUi,
         setIsFullscreenUi,
+        isShortsPage,
     } = _props
     const {
         enableBigView,
@@ -46,11 +50,16 @@ export function WatchContent(_props: Props) {
     } = useStorageVar(["enableBigView", "enableContinuousPlay", "enableShufflePlay"] as const, "local")
     const { videoInfo } = useVideoInfoContext()
 
+    // ?past_log= クエリ時の過去ログ確認アラート
+    usePastLogConfirm()
+
     const {
         pmwlayouttype,
         shinjukuDotFontType,
-    } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType"] as const, "sync")
-    const layoutType = pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
+        flagEnableShortsLayout,
+    } = useStorageVar(["pmwlayouttype", "shinjukuDotFontType", "flagEnableShortsLayout"] as const, "sync")
+
+    const layoutType = (isShortsPage && flagEnableShortsLayout) ? watchLayoutType.shorts : pmwlayouttype ?? watchLayoutType.reimaginedOldWatch
 
     useEffect(() => {
         document.dispatchEvent(
@@ -88,13 +97,16 @@ export function WatchContent(_props: Props) {
             setIsFullscreenUi={setIsFullscreenUi}
             changeVideo={onChangeVideo}
             onModalStateChanged={onModalStateChanged}
+            isShortsPlayer={isShortsPage}
             key="watchui-player"
         />
     )
     const titleElem = <VideoTitle key="watch-container-title" showStats={true} />
     const infoElem = <Info isTitleShown={layoutType !== watchLayoutType.threeColumn} isShinjukuLayout={layoutType === watchLayoutType.shinjuku} key="watchui-info" />
 
-    const commentListElem = <CommentList key="watchui-commentlist" />
+    // HACKY: defaultPostTargetをベースにコンポーネントのキーを作成することで、チャンネルとユーザー動画の遷移時にコメントスレッド選択が取り残されないようになる。
+    const commentListKey = videoInfo?.data.response?.comment?.threads.map(thread => thread.isDefaultPostTarget).join("-")
+    const commentListElem = <CommentList key={`watchui-commentlist-${commentListKey}`} />
     const playListElem = <Playlist key="watchui-playlist" />
     const actionsElem = <Actions onModalOpen={onModalOpen} key="watchui-actions" />
     const lyricsElem = <Lyric key="watchui-lyrics" />
@@ -151,7 +163,7 @@ export function WatchContent(_props: Props) {
         </div>
     )
 
-    const watchNextElem = <WatchNext key="watchui-recommend" enableWheelTranslate={shouldUseCardRecommend} />
+    const watchNextElem = <WatchNext key="watchui-recommend" isHorizontalCardLayout={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
     const contentTreeElem = <ContentTree key="watchui-contenttree" />
     const searchElem = <Search key="watchui-search" />
@@ -166,6 +178,7 @@ export function WatchContent(_props: Props) {
         "3col": [titleElem, infoElem, playerElem, rightActionElem, watchNextElem, seriesElem, contentTreeElem, searchElem],
         "rerekari": [playerElem, rightActionElem, infoElem, seriesElem, contentTreeElem, watchNextElem, searchElem],
         "shinjuku": [infoElem, ownerElem, actionsElem, combinedPlayerElem, seriesElem, watchNextElem, contentTreeElem],
+        "shorts": [infoElem, searchElem, playerElem, rightActionElem, seriesElem, contentTreeElem],
     }
 
     const currentLayout = layoutPresets[layoutType]

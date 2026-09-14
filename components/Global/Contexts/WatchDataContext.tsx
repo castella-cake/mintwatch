@@ -18,9 +18,7 @@ const ISmIdContext = createContext<smIdContext>({
 export function SmIdProvider({ children }: { children: ReactNode }) {
     const location = useLocationContext()
     const [smId, setSmId] = useState<null | string>(
-        location.pathname.startsWith("/watch/")
-            ? location.pathname.replace("/watch/", "").replace(/\?.*/, "")
-            : null,
+        pathnameToVideoId(location.pathname),
     )
     return (
         <ISmIdContext value={{ smId, setSmId }}>

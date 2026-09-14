@@ -20,9 +20,9 @@
 
 .player-video-container-inner {
     aspect-ratio: 16 / 9;
-    width: 100%;
     position: relative;
-    height: 100%;
+    width: round(up, 100%, 1px);
+    height: round(up, 100%, 1px);
     overflow: hidden;
     margin: 0 auto;
     background: #000;
@@ -34,7 +34,6 @@
 
         /* display: none; */
         position: absolute;
-        filter: contrast(1); // Chromiumでなぜかスケーリング品質がよくなる
     }
 
     canvas {
@@ -55,6 +54,24 @@
     }
 }
 
+.player-video-buffering {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0008;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0;
+    animation: buffering-fade-in 0.2s ease 1s forwards;
+
+    --textcolor2: #fafafa;
+
+    .loading-spinner {
+        margin: 0;
+    }
+}
 
 .player-video-container-inner .videotitle-container {
     position: absolute;
@@ -181,6 +198,10 @@
     --textcolor1: #fff;
     --textcolor2: #ddd;
     --textcolor3: #aaa;
+    --border-color: #202020af;
+    --border-width: 1px;
+    --border-style: solid;
+    --border: var(--border-width) var(--border-style) var(--border-color);
 }
 
 // 非フルスクリーンもしくは非ダイナミックコントローラー時に、動画要素の上でカーソルが動いていない場合は半透明。
@@ -347,6 +368,69 @@
     }
 }
 
+.player-jump-card-wrapper {
+    position: absolute;
+    z-index: 70;
+    display: grid;
+    flex-direction: column;
+    place-content: center;
+    inset: 0;
+    gap: 8px;
+    padding: 16px;
+    background: rgb(0, 0, 0 / 53.3%);
+}
+
+.player-jump-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: #0008;
+    color: #fff;
+    border: 1px solid #888a;
+    border-radius: var(--radius);
+    backdrop-filter: var(--backdrop-blur-normal);
+    box-shadow: 0 0 8px #000;
+    width: min(35rem, 100%);
+
+    .player-jump-message, .player-jump-status {
+        max-width: 100%;
+    }
+
+    .player-jump-message {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .videoitem-card {
+        width: min(480px, 100%);
+        pointer-events: auto;
+    }
+
+    .player-jump-cancel {
+        pointer-events: auto;
+        padding: 6px 12px;
+        border: 1px solid #aaa;
+        border-radius: var(--radius);
+        background: #000a;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .genericitem-card[data-layout="horizontal-simple"] {
+        --thumb-height: 5rem;
+
+        border: 1px solid #888;
+
+        .info-card-title {
+            font-weight: normal;
+            font-size: 1rem;
+        }
+    }
+}
+
 .player-video-playbutton-container {
     display: grid;
     place-content: center;
@@ -373,5 +457,73 @@
     svg {
         width: 3rem;
         height: 3rem;
+    }
+}
+
+.container:not(.fullscreen)[data-background-playing="false"] .watch-container:not([data-watch-type="shinjuku"]) .player-container[data-is-borderless-player="true"] {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+
+    .player-video-container {
+        background: var(--bgcolor2);
+        padding: 0;
+        border-radius: var(--radius) var(--radius) 0 0;
+        box-shadow: var(--box-shadow);
+        border: var(--border);
+        width: auto;
+    }
+
+    .playercontroller-container {
+        padding: 0;
+        border-radius: 0 0 8px 8px;
+        border: var(--border);
+        border-top: none;
+        box-shadow: var(--box-shadow);
+    }
+
+    .commentinput-container > input, .commentinput-container > .commentinput-textarea-container > .commentinput-input {
+        background: var(--bgcolor2);
+    }
+
+    .commentinput-container {
+        box-shadow: var(--box-shadow);
+
+        --border: 1px solid var(--accent1);
+    }
+
+    .commentinput-input {
+        padding: 9px;
+    }
+
+    &[data-is-integrated-controller="true"] {
+        .player-video-container {
+            border-radius: var(--radius);
+        }
+
+        .playercontroller-container {
+            box-shadow: none;
+            border: none;
+            padding: 16px 8px 4px;
+            left: 0;
+            right: 0;
+            bottom: calc(var(--blocks-gap) + 36px);
+        }
+
+        .playersettings-container, .vefx-container {
+            bottom: 96px;
+        }
+    }
+}
+
+@keyframes buffering-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }

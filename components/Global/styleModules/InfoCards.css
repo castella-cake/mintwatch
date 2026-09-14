@@ -48,6 +48,7 @@
 }
 
 .info-card-externalbutton {
+    display: inline-block;
     color: rgb(255 255 255);
     font-size: 0.7rem;
     line-height: 1rem;
@@ -60,7 +61,7 @@
     pointer-events: auto;
     transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
 
-    &:hover {
+    &:hover, &[data-is-active="true"] {
         background: rgb(50 50 50 / 66.7%);
     }
 
@@ -70,7 +71,7 @@
     }
 }
 
-.info-card:not(:focus-visible, :hover) .info-card-externalbutton-wrapper:not(:has(.info-card-externalbutton-context)) .info-card-externalbutton {
+.info-card:not(:focus-visible, :hover) .info-card-externalbutton-wrapper:not(:has(.info-card-externalbutton[data-is-active="true"])) .info-card-externalbutton {
     pointer-events: none;
     opacity: 0;
     transform: translateX(-50%);
@@ -142,12 +143,14 @@
 }
 
 .info-card[data-is-preview="true"] {
-    opacity: 0.5;
+    opacity: 0.8;
     border: var(--border);
     margin: 4px;
     height: 2em;
+    pointer-events: none;
+    box-shadow: 0 0 8px #000a;
 
-    .info-card-subtitle {
+    .info-card-thumbnail, .info-card-subtitle {
         display: none;
     }
 }
@@ -163,10 +166,6 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     white-space: normal;
-}
-
-.info-card-datacolumn:has(.info-card-counts) .info-card-title {
-    -webkit-line-clamp: 1;
 }
 
 .info-card-subtitle {
@@ -206,7 +205,6 @@
     background: var(--bgcolor2);
     border: var(--border);
     box-shadow: var(--box-shadow);
-    margin-bottom: 0.5em;
 
     --thumb-height: 5rem;
 
@@ -244,7 +242,7 @@
     pointer-events: none;
 }
 
-.watch-container[data-use-card-recommend="true"] .watchnext-container .info-card, .shogi-ranking-lane-videolist-item .info-card {
+.watch-container[data-use-card-recommend="true"] .watchnext-container .info-card:not(.genericitem-card) {
     display: flex;
     flex-direction: column;
     height: auto;
@@ -257,8 +255,6 @@
         gap: 10px;
         width: 100%;
     }
-
-    /* height: 10em; */
 
     .info-card-thumbnail {
         aspect-ratio: 16 / 9;
@@ -304,23 +300,6 @@
 
     .info-card-count[data-count-type="like"], .info-card-count[data-count-type="registeredAt"] {
         display: none;
-    }
-}
-
-.shogi-ranking-lane-videolist-item .info-card {
-    width: 15rem;
-    gap: 8px;
-    background: var(--bgcolor2);
-    border: var(--border);
-    box-shadow: var(--box-shadow);
-    padding: 10px;
-
-    .info-card-title {
-        font-size: 0.9rem;
-    }
-
-    .info-card-subtitle {
-        font-size: 0.8rem;
     }
 }
 

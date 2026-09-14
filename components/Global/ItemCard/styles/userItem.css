@@ -43,7 +43,7 @@
     color: var(--textcolor2);
 }
 
-.useritem-card[data-is-vertical-layout="true"] {
+.useritem-card[data-layout="vertical-simple"] {
     flex-direction: column;
     overflow: hidden;
     align-items: start;

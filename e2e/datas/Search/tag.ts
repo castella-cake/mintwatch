@@ -30,7 +30,8 @@ export const searchTagTestData: SearchTagDataRootObject = {
                     items: [
                         {
                             type: "essential",
-                            id: "sm0",
+                            contentType: "long",
+                            id: "sm9",
                             title: "For testing purposes only",
                             registeredAt: "1970-01-01T00:00:00.000Z",
                             count: {
@@ -45,6 +46,7 @@ export const searchTagTestData: SearchTagDataRootObject = {
                                 largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                                 listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                                 nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                                shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
                             },
                             duration: 186,
                             shortDescription: "TestDescriptionThatJustForTesting",
@@ -405,7 +407,7 @@ export const searchTagTestData: SearchTagDataRootObject = {
                 nicoadGroupsRequestIdMap: {
                     nicodic: 1,
                 },
-                playlist: "",
+                playlist: "eyJ0eXBlIjoic2VhcmNoIiwiY29udGV4dCI6eyJ0YWciOiJcdTMwYzZcdTMwYjlcdTMwYzgiLCJzb3J0S2V5IjoiaG90Iiwic29ydE9yZGVyIjoibm9uZSIsInBhZ2UiOjEsInBhZ2VTaXplIjozMiwiY2hhbm5lbFZpZGVvTGlzdGluZ1N0YXR1cyI6ImluY2x1ZGVkIiwic2VsZWN0Q29udGVudFR5cGUiOiJsb25nIn19",
             },
         },
     },

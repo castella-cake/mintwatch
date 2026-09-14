@@ -1,0 +1,55 @@
+.recommendations-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* 検索 / ランキングページと同じ幅制約 */
+    width: min(95vw, 95em);
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.recommendations-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recommendations-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.recommendations-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+}
+
+.recommendations-title-totalcount {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.recommendations-header .generic-continuous-play-button {
+    padding: 4px 8px;
+}
+
+.recommendations-error {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-color2, inherit);
+
+    h2 {
+        margin: 0 0 8px;
+    }
+}
+
+.recommendations-videolist-empty {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-color2, inherit);
+}

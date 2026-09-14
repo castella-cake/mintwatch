@@ -13,6 +13,8 @@ import { searchTagTestData } from "./datas/Search/tag"
 import { searchMylistTestData } from "./datas/Search/mylist"
 import { searchSeriesTestData } from "./datas/Search/series"
 import { searchUserTestData } from "./datas/Search/user"
+import { searchPlaylistTestData } from "./datas/playlist"
+import { recommendationsTestData } from "./datas/recommendations"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -22,6 +24,8 @@ type FixtureType = {
     mockApi: () => Promise<void>
     enableSearchPage: () => Promise<void>
     enableRankingPage: () => Promise<void>
+    enableRecommendationsPage: () => Promise<void>
+    enablePastLogAutoLoad: () => Promise<void>
 }
 
 export const test = base.extend<FixtureType>({
@@ -67,7 +71,7 @@ export const test = base.extend<FixtureType>({
             }))
 
             // 通常動画, PURELY
-            await page.route("https://www.nicovideo.jp/watch/sm0?responseType=json", route => route.fulfill({
+            await page.route("https://www.nicovideo.jp/watch/sm9?responseType=json", route => route.fulfill({
                 status: 200,
                 json: watchTestData,
             }))
@@ -98,6 +102,12 @@ export const test = base.extend<FixtureType>({
             await page.route("https://www.nicovideo.jp/ranking/custom?responseType=json", route => route.fulfill({
                 status: 200,
                 json: customRankingTestData,
+            }))
+
+            // おすすめページAPI
+            await page.route("https://www.nicovideo.jp/recommendations?responseType=json", route => route.fulfill({
+                status: 200,
+                json: recommendationsTestData,
             }))
 
             await page.route(/https:\/\/www\.nicovideo\.jp\/ranking\/genre\?responseType=json&page=.&term=.*/, route => route.fulfill({
@@ -141,6 +151,12 @@ export const test = base.extend<FixtureType>({
                 json: keywordSearchTestData,
             }))
 
+            // 検索プレイリストAPI
+            await page.route(/https:\/\/nvapi\.nicovideo\.jp\/v1\/playlist\/search.*/, route => route.fulfill({
+                status: 200,
+                json: searchPlaylistTestData,
+            }))
+
             // ページネーション用 - 2ページ目
             await page.route(/https:\/\/www\.nicovideo\.jp\/search\/.*page=2.*responseType=json.*/, route => route.fulfill({
                 status: 200,
@@ -166,7 +182,25 @@ export const test = base.extend<FixtureType>({
             await page.goto(`chrome-extension://${extensionId}/settings.html`)
             await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the ranking page (Re:Shogi)" }).click()
         }
+
         await use(enableRankingPageFunction)
+    },
+    enableRecommendationsPage: async ({ page, extensionId }, use) => {
+        async function enableRecommendationsPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the recommendations page" }).click()
+        }
+
+        await use(enableRecommendationsPageFunction)
+    },
+    enablePastLogAutoLoad: async ({ page, extensionId }, use) => {
+        async function enablePastLogAutoLoadFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.locator("details.settings-group summary", { hasText: "Detailed settings" }).click()
+            await page.getByRole("checkbox", { name: "Auto-load past log from past_log URL" }).click()
+        }
+
+        await use(enablePastLogAutoLoadFunction)
     },
 })
 export const expect = test.expect

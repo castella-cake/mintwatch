@@ -75,7 +75,7 @@
         }
     }
 
-    .playercontroller-container-left > button {
+    .playercontroller-container-left button {
         border-right: 1px solid #333;
         padding: 6px 8px;
 
@@ -95,7 +95,7 @@
         }
     }
 
-    .playercontroller-container-right > button:first-child {
+    .playercontroller-container-right .tooltip-wrapper:first-child button {
         border-left: 1px solid #333;
     }
 

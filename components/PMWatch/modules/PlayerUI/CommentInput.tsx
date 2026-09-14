@@ -6,6 +6,7 @@ import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { CommandPalette } from "./CommandPalette"
 
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
@@ -48,7 +49,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         const abortController = new AbortController()
         let isResponded = false
         const messageHandler = (event: MessageEvent) => {
-            console.log(event)
+            // console.log(event)
             if (typeof event.data === "object" && event.data.source === "mintWatchTurnstileHandler" && event.data.type === "helloFromHandler") {
                 console.log("Turnstile handler is alive")
                 window.removeEventListener("message", messageHandler)
@@ -197,13 +198,13 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             previewUpdateTimeout.current = setTimeout(() => {
                 if (videoInfo && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
                     setPreviewCommentItem({
-                        id: "-1",
-                        no: -1,
+                        id: "0",
+                        no: 0,
                         vposMs: Math.floor(videoRef.current.currentTime * 1000),
                         body: commentInputRef.current.value,
                         commands: ["184", "nico:waku:#faf", ...commandInput.current.value.split(" ")],
                         isMyPost: true,
-                        userId: "-1",
+                        userId: "0",
                         isPremium: videoInfo.data?.response.viewer?.isPremium,
                         score: 0,
                         postedAt: new Date().toString(),
@@ -228,7 +229,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
     const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
-    if (commentableUser === "nobody" || isPaymentPreviewing || !videoInfo?.data.response.viewer) {
+    if (commentableUser === "nobody" || isPaymentPreviewing || (videoInfo?.data.response && !videoInfo?.data.response.viewer)) {
         return (
             <div className="commentinput-container global-flex" id="pmw-commentinput">
                 <div className="commentinput-disabled">
@@ -252,16 +253,16 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     return (
         <div className="commentinput-container global-flex" id="pmw-commentinput" data-is-prohibited={isCommentProhibited}>
             <div className="commentinput-cmdpalette">
-                <button
+                <MWButton
+                    label={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
                     className="commentinput-cmdpalette-button"
                     type="button"
                     onClick={onCommandPaletteButtonClick}
                     data-is-active={isCommandPaletteOpen}
-                    title={isCommandPaletteOpen ? "コマンドパレットを閉じる" : "コマンドパレットを開く"}
                     aria-disabled={isCommentProhibited}
                 >
                     { isCommandPaletteOpen ? <IconPaletteFilled /> : <IconPalette /> }
-                </button>
+                </MWButton>
                 <CommandPalette
                     isOpen={!isCommentProhibited && isCommandPaletteOpen}
                     commandInputRef={commandInput}

@@ -18,7 +18,10 @@ import { CommentRow } from "./CommentRow"
 import { threadLabelLang } from "@/utils/threadLabel"
 import { VList, VListHandle } from "virtua"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import APIError from "@/utils/classes/APIError"
+import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -44,11 +47,13 @@ const sortKeys = {
 }
 
 function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
-    return (
-        videoInfo.data?.response.comment.threads.findIndex(
-            elem => elem.isDefaultPostTarget,
-        ) ?? 0
+    const defaultThreadIndex = videoInfo.data?.response.comment.threads.findIndex(
+        elem => elem.isDefaultPostTarget,
     )
+    // findIndex は見つからない場合 -1 を返す。?? では -1 をフォールバックできないため明示的に0へ
+    return defaultThreadIndex === undefined || defaultThreadIndex === -1
+        ? 0
+        : defaultThreadIndex
 }
 
 const Comments = ({
@@ -113,6 +118,7 @@ const Comments = ({
     }, [
         videoRef.current,
         doAutoScroll,
+        updateScrollPosition,
     ])
 
     if (!comments) return
@@ -126,7 +132,7 @@ const Comments = ({
                 isCommentListHovered.current = false
             }}
         >
-            <VList ref={vlistRef} count={comments.length}>
+            <VList ref={vlistRef} data={comments}>
                 {comments.map((elem) => {
                 // console.log(elem)
                     return (
@@ -156,14 +162,18 @@ function CommentList() {
 
     const { showAlert, showToast } = useSetMessageContext()
     const { videoInfo } = useVideoInfoContext()
-    const { commentContent } = useCommentContentContext()
+    const { commentContent, currentLogData } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
+
+    const { smId } = useSmIdContext()
+    const { lyricData } = useLyricData(smId, videoInfo?.data.response?.video?.hasLyrics ?? false)
+
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const { ngData } = useViewerNgContext()
 
     const { commentListType } = useStorageVar(["commentListType"] as const)
-    const { sharedNgLevel } = useStorageVar(["sharedNgLevel"] as const, "local")
+    const { sharedNgLevel, lyricCommentFilter } = useStorageVar(["sharedNgLevel", "lyricCommentFilter"] as const, "local")
     const [currentForkType, setCurrentForkType] = useState(-1)
 
     const [autoScroll, setAutoScroll] = useState(true)
@@ -188,6 +198,7 @@ function CommentList() {
             if (a[commentSortKey] < b[commentSortKey]) return (reverseCommentSort ? 1 : -1)
             return 0
         })
+        const lyricNgIds = lyricData && lyricCommentFilter > 0 ? doLyricCommentNg([currentThread], lyricData, lyricCommentFilter) : []
         return doFilterComments(
             sortedComments,
             sharedNgLevelScore[
@@ -196,6 +207,7 @@ function CommentList() {
             ],
             ngData,
             onlyShowMyselfComments,
+            lyricNgIds,
         )
     }, [
         currentForkType,
@@ -206,6 +218,7 @@ function CommentList() {
         ngData,
         commentSortKey,
         reverseCommentSort,
+        lyricCommentFilter,
     ])
 
     const onNicoru = useCallback((
@@ -305,33 +318,26 @@ function CommentList() {
     return (
         <div className="commentlist-container" id="pmw-commentlist" data-commentlist-type={commentListType ?? getDefault("commentListType")}>
             <div className="commentlist-title-container global-flex stacker-title">
-                <div className="global-flex1 global-bold">
+                <div className="global-flex1 global-bold" title={`${commentCount} 件受信済み (NG適用後 ${filteredComments?.length ?? 0} 件)`}>
                     {commentCount}
                     {" "}
                     件受信済み
                 </div>
-                <button
-                    className="commentlist-list-openng"
-                    onClick={() => {
-                        setVideoActionModalState("ngcomments")
-                    }}
-                    title="NG設定を開く"
-                >
-                    <IconBubbleX />
-                </button>
-                <button
+                <MWButton
+                    label={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                     className="commentlist-list-togglemycomments"
                     data-isenabled={showTimemachineUi}
+                    data-pastlogactive={!!currentLogData}
                     onClick={() => {
                         setShowTimemachineUi((state) => {
                             return !state
                         })
                     }}
-                    title={showTimemachineUi ? "過去ログローダーを閉じる" : "過去ログローダーを開く"}
                 >
                     <IconHistoryToggle />
-                </button>
-                <button
+                </MWButton>
+                <MWButton
+                    label={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                     className="commentlist-list-toggleautoscroll"
                     data-isenabled={autoScroll}
                     aria-disabled={commentSortKey !== "vposMs"}
@@ -341,11 +347,11 @@ function CommentList() {
                             return !state
                         })
                     }}
-                    title={autoScroll ? "自動スクロールを無効化" : "自動スクロールを有効化"}
                 >
                     <IconTransitionBottom />
-                </button>
-                <button
+                </MWButton>
+                <MWButton
+                    label={externalMenuExpanded ? "拡張メニューを閉じる" : "拡張メニューを開く"}
                     className="commentlist-list-toggleexternalmenu"
                     data-isenabled={externalMenuExpanded}
                     onClick={() => {
@@ -353,10 +359,9 @@ function CommentList() {
                             return !state
                         })
                     }}
-                    title={externalMenuExpanded ? "拡張メニューを閉じる" : "拡張メニューを開く"}
                 >
                     <IconAdjustmentsHorizontal />
-                </button>
+                </MWButton>
                 <select
                     onChange={(e) => {
                         setCurrentForkType(Number(e.currentTarget.value))
@@ -410,17 +415,29 @@ function CommentList() {
                             return <option key={sortKey} value={sortKey}>{sortKeys[sortKey as keyof typeof sortKeys]}</option>
                         })}
                     </select>
-                    <button
+                    <MWButton
+                        label={reverseCommentSort ? "昇順に切り替え" : "降順に切り替え"}
                         className="commentlist-list-togglesortasc"
                         onClick={() => {
                             setReverseCommentSort((state) => {
                                 return !state
                             })
                         }}
-                        title={reverseCommentSort ? "昇順に切り替え" : "降順に切り替え"}
                     >
                         {reverseCommentSort ? <IconSortDescending /> : <IconSortAscending />}
-                    </button>
+                    </MWButton>
+                    <MWButton
+                        label="NG設定を開く"
+                        className="commentlist-list-openng"
+                        onClick={() => {
+                            setVideoActionModalState("ngcomments")
+                        }}
+                    >
+                        <IconBubbleX />
+                        <span>
+                            NG設定
+                        </span>
+                    </MWButton>
                 </div>
             )}
             <button
@@ -437,6 +454,8 @@ function CommentList() {
             </button>
             {showTimemachineUi && (
                 <TimeMachine
+                    currentLogData={currentLogData}
+                    smId={smId}
                     onConfirm={(date) => {
                         reloadCommentContent({
                             when: Math.floor(date.getTime() / 1000),
@@ -448,7 +467,6 @@ function CommentList() {
                 />
             )}
             <Comments
-                key={currentForkType}
                 comments={filteredComments}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}

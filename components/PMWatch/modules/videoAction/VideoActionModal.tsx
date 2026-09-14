@@ -8,13 +8,15 @@ import {
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
 import { Mylist } from "./MylistUI"
-import { Share } from "./ShareUI"
+import { ShareAction } from "./ShareUI"
 import { ReactNode, RefObject } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { CSSTransition } from "react-transition-group"
 import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import NgComments from "./NgComments"
 import { TagInfo } from "./TagInfo"
+import { MWButton } from "@/components/Global/MWButton"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 export function VideoActionModal({
     nodeRef,
@@ -27,10 +29,7 @@ export function VideoActionModal({
     const videoActionModalState = useVideoActionModalStateContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setIsMintConfigShown = useSetMintConfigShownContext()
-
-    const onWrapperClick = useCallback((e: React.MouseEvent) => {
-        if (e.target instanceof HTMLElement && containerRef.current && !containerRef.current.contains(e.target)) setVideoActionModalState(false)
-    }, [])
+    useOutsideClose(containerRef, videoActionModalState !== false, () => setVideoActionModalState(false))
 
     if (!videoInfo) return <></>
 
@@ -43,20 +42,21 @@ export function VideoActionModal({
             classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef} onClick={onWrapperClick}>
+                <div className="modal-wrapper" ref={nodeRef}>
                     <div className="modal-container" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
                                 動画アクション
                             </h2>
-                            <button
+                            <MWButton
                                 className="modal-close"
                                 onClick={() => {
                                     setVideoActionModalState(false)
                                 }}
+                                label="閉じる"
                             >
                                 <IconX />
-                            </button>
+                            </MWButton>
                         </div>
                         <div className="modal-selector">
                             <div className="modal-select-separator">動画アクション</div>
@@ -91,10 +91,9 @@ export function VideoActionModal({
                             <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
                             <button
                                 className="modal-select modal-select-bottom"
-                                onClick={(e) => {
+                                onClick={() => {
                                     setIsMintConfigShown("help")
                                     setVideoActionModalState(false)
-                                    e.stopPropagation()
                                 }}
                             >
                                 <IconHelpCircle />
@@ -107,7 +106,7 @@ export function VideoActionModal({
                                 <Mylist onClose={() => { }} videoInfo={videoInfo} />
                             )}
                             {videoActionModalState === "share" && (
-                                <Share videoInfo={videoInfo} />
+                                <ShareAction videoInfo={videoInfo} />
                             )}
                             {videoActionModalState === "ngcomments" && (
                                 <NgComments />

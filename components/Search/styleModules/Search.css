@@ -9,9 +9,10 @@
     grid-template-areas:
         "title title title"
         "related related related"
-        "pagel options ."
+        "vidsel result result"
         "pagel result result"
         "filter result result"
+        "save-search result result"
         ". result result"
         ". pageb pageb";
 
@@ -23,6 +24,10 @@
         grid-area: pageb;
     }
 
+    .generic-relatedtags {
+        grid-area: related;
+    }
+
     &[data-is-fetching="true"] {
         opacity: 0.5;
     }
@@ -31,11 +36,16 @@
         grid-template-areas:
             "title title title"
             "dict dict ."
-            "pagel options related"
+            "vidsel result related"
             "pagel result related"
             "filter result related"
+            "save-search result related"
             ". result related"
             ". pageb pageb";
+
+        .generic-relatedtags .generic-relatedtags-items {
+            flex-direction: column;
+        }
     }
 
     &[data-is-nicodic-article-exists="false"] {
@@ -43,28 +53,29 @@
             "title title title"
             "dict dict ."
             "related related related"
-            "pagel options ."
-            "pagel result ."
-            "filter result ."
-            ". result ."
+            "vidsel result result"
+            "pagel result result"
+            "filter result result"
+            "save-search result result"
+            ". result result"
             ". pageb pageb";
     }
 
     &:not([data-is-nicodic-article-exists="true"]) {
-        .search-result-relatedtags-items {
+        .generic-relatedtags-items {
             flex-wrap: wrap;
             flex-direction: row;
             gap: 4px;
             font-size: 0.9rem;
         }
 
-        .search-result-relatedtags {
+        .generic-relatedtags {
             border: var(--border);
             border-radius: var(--radius);
             padding: 8px;
         }
 
-        .search-result-relatedtags h3 {
+        .generic-relatedtags h3 {
             font-size: 0.9rem;
 
             svg {
@@ -75,11 +86,17 @@
     }
 }
 
+.search-result {
+    grid-area: result;
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}
+
 .search-result-items {
     display: flex;
     flex-direction: column;
     gap: 0;
-    grid-area: result;
 }
 
 .search-title {

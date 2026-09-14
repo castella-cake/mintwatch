@@ -39,7 +39,7 @@ createRoot(rootElement).render(
                             <div style={{ background: "var(--bgcolor3)", color: "var(--textcolor3)" }}>
                                 表示中に重大なエラーが発生しました:
                                 {" "}
-                                {error.message}
+                                {error instanceof Error ? error.message : "エラー情報は利用できません"}
                             </div>
                         )
                     }}

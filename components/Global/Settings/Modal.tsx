@@ -7,48 +7,88 @@ import {
     IconX,
 } from "@tabler/icons-react"
 import ReactFocusLock from "react-focus-lock"
-import { ReactNode, RefObject } from "react"
+import { ReactNode, RefObject, useEffect, useRef } from "react"
 import { MarkdownHelp } from "./MarkdownHelp"
 import { KeyboardShortcuts } from "./KeyboardShortcuts"
 import { CSSTransition } from "react-transition-group"
-import { useMintConfigShownContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
+import { useHighlightedSettingKeyContext, useMintConfigShownContext, useSetHighlightedSettingKeyContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import MintWatchIcon from "@/public/mintwatch-white.svg?react"
 import { AboutMintWatch } from "./About"
 
 import settings from "@/utils/settingsList"
 import CreateSettingsList from "@/components/pages/SettingsUI"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
+import { MWButton } from "../MWButton"
+import { UpdateNotice } from "./UpdateNotice"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 const settingsObject = { mintwatch: settings.mintwatch, header: settings.header }
 
-// nodeRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
-export function MintWatchModal({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
+// containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
+export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLDivElement | null> }) {
+    const wrapperRef = useRef(null)
+    const highlightedTargetRef = useRef<HTMLElement | null>(null)
+    const highlightTimeoutRefs = useRef<number[]>([])
+
     const mintModalState = useMintConfigShownContext()
     const setMintModalState = useSetMintConfigShownContext()
+    const highlightedSettingKey = useHighlightedSettingKeyContext()
+    const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
+    useOutsideClose(containerRef, mintModalState !== false && mintModalState !== "quick", () => setMintModalState(false))
+
+    useEffect(() => {
+        if (highlightedSettingKey && mintModalState === "settings") {
+            const target = document.querySelector(`[data-setting-key="${highlightedSettingKey}"]`)
+            if (target instanceof HTMLElement) {
+                highlightedTargetRef.current = target
+                const details = target.closest("details")
+                if (details && !details.open) details.open = true
+                const scrollTimeout = window.setTimeout(() => {
+                    target.scrollIntoView({ behavior: "smooth", block: "center" })
+                    target.setAttribute("data-highlighted", "true")
+                    const clearTimeoutId = window.setTimeout(() => {
+                        target.removeAttribute("data-highlighted")
+                        setHighlightedSettingKey(null)
+                    }, 3000)
+                    highlightTimeoutRefs.current.push(clearTimeoutId)
+                }, 100)
+                highlightTimeoutRefs.current.push(scrollTimeout)
+            }
+        }
+
+        return () => {
+            for (const id of highlightTimeoutRefs.current) {
+                window.clearTimeout(id)
+            }
+            highlightTimeoutRefs.current = []
+            highlightedTargetRef.current?.removeAttribute("data-highlighted")
+            highlightedTargetRef.current = null
+        }
+    }, [highlightedSettingKey, mintModalState, setHighlightedSettingKey])
 
     return (
         <CSSTransition
-            nodeRef={nodeRef}
+            nodeRef={wrapperRef}
             in={mintModalState !== false && mintModalState !== "quick"}
             timeout={300}
             unmountOnExit
             classNames="modal-transition"
         >
             <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef}>
-                    <div className="modal-container" data-select-placement="top">
+                <div className="modal-wrapper" ref={wrapperRef}>
+                    <div className="modal-container mwextendedmodal-container" data-select-placement="top" ref={containerRef}>
                         <div className="modal-header global-flex">
                             <h2 className="global-flex1">
                                 {returnTitle(mintModalState)}
                             </h2>
-                            <button
+                            <MWButton
                                 className="modal-close"
                                 onClick={() => {
                                     setMintModalState(false)
                                 }}
-                                title="閉じる"
+                                label="閉じる"
                             >
                                 <IconX />
-                            </button>
+                            </MWButton>
                         </div>
                         <div className="modal-selector">
                             <div className="modal-select-separator">設定</div>
@@ -101,15 +141,22 @@ export function MintWatchModal({ nodeRef }: { nodeRef: RefObject<HTMLDivElement 
                                 </div>
                             )}
                             {(mintModalState === "help" || mintModalState === "whatsnew") && (
-                                <MarkdownHelp contentKey={mintModalState}>
-                                    {mintModalState === "whatsnew" && (
-                                        <details>
-                                            <summary>過去の更新情報</summary>
-                                            <MarkdownHelp contentKey="whatsnew_archive" />
-                                            <ForgottenThing />
-                                        </details>
-                                    )}
-                                </MarkdownHelp>
+                                <>
+                                    <MarkdownHelp
+                                        contentKey={mintModalState}
+                                        preChildren={mintModalState === "whatsnew" && (
+                                            <UpdateNotice />
+                                        )}
+                                    >
+                                        {mintModalState === "whatsnew" && (
+                                            <details>
+                                                <summary>過去の更新情報</summary>
+                                                <MarkdownHelp contentKey="whatsnew_archive" />
+                                                <ForgottenThing />
+                                            </details>
+                                        )}
+                                    </MarkdownHelp>
+                                </>
                             )}
                             {mintModalState === "shortcuts" && (
                                 <KeyboardShortcuts />

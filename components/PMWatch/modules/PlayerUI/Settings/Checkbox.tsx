@@ -5,13 +5,13 @@ export default function Checkbox({ settingKey, setting }: { settingKey: string, 
     const settingStorage = useStorageVar([settingKey], "local")
     return (
         <label>
+            {setting.name}
             <input
                 id={elementId}
                 type="checkbox"
                 checked={settingStorage[settingKey] ?? setting.defaultValue}
                 onChange={(e) => { storage.setItem(`local:${settingKey}`, e.currentTarget.checked) }}
             />
-            {setting.name}
         </label>
     )
 }

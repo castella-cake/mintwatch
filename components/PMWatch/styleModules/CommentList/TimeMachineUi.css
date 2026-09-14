@@ -37,6 +37,37 @@
         opacity: 0.8;
         margin: 4px 0;
     }
+
+    .comment-timemachine-currentindicator {
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: var(--primary1);
+        margin: 8px 0 4px;
+    }
+
+    .comment-timemachine-copyrow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .comment-timemachine-copyurl {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+    }
+
+    .comment-timemachine-copyurl svg {
+        height: 1.5em;
+        width: 1.5em;
+    }
+
+    .comment-timemachine-copyhint {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
 }
 
 .comment-timemachine-content {
@@ -45,7 +76,7 @@
 }
 
 .comment-timemachine-input-container input {
-    height: 1.25rem;
+    height: 1.75rem;
     border: var(--border);
     border-radius: var(--radius);
     padding: 4px 8px;
@@ -55,5 +86,5 @@
 
 .comment-timemachine-title {
     font-size: 0.9rem;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }

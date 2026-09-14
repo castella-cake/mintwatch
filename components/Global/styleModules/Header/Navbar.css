@@ -275,16 +275,38 @@
         filter: var(--hrjk-logo-filter);
     }
 
-    .harajuku-header-migiue-filler {
+    .harajuku-header-migiue {
         flex: 1;
         text-align: center;
         color: var(--textcolor3);
-        max-width: 32rem;
+        max-width: 450px;
         margin-left: auto;
         display: grid;
-        height: 80%;
+        height: 58px;
         place-content: center;
         background: #8881;
+    }
+
+    .harajuku-header-migiue-filler {
+        opacity: 0.5;
+    }
+
+    button.harajuku-header-migiue-update {
+        padding: 0;
+        border: none;
+        background: none;
+        color: inherit;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .harajuku-header-migiue-update-text {
+        position: absolute;
+        left: 170px;
+        bottom: 4px;
+        color: #000;
+        font-weight: bold;
+        font-size: 22px;
     }
 
     .searchbox-container {

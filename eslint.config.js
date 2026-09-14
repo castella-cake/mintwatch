@@ -29,7 +29,7 @@ export default defineConfig([
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
     pluginReact.configs.flat["jsx-runtime"],
-    globalIgnores(["node_modules/*", ".output/*", ".wxt/*"]),
+    globalIgnores(["node_modules/*", ".output/*", ".wxt/*", "libs/*"]),
     {
         settings: {
             react: {
@@ -38,6 +38,7 @@ export default defineConfig([
         },
         rules: {
             "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-unused-vars": "off", // typescript側で見る
             "react/jsx-no-undef": ["error", {
                 allowGlobals: true,
             }],

@@ -1,16 +1,19 @@
 import { PlaylistVideoCard } from "./PlaylistInfoCard"
-import { MylistResponseRootObject } from "@/types/mylistData"
+import { PlaylistResponseRootObject } from "@/types/playlistData"
 import { SeriesResponseRootObject } from "@/types/seriesData"
 import { useDroppable } from "@dnd-kit/core"
 import { SortableContext } from "@dnd-kit/sortable"
 import { IconArrowBigRightLine, IconArrowsShuffle, IconPencilMinus } from "@tabler/icons-react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
+import { MWButton } from "@/components/Global/MWButton"
 import { useControlPlaylistContext, usePlaylistContext, usePreviewPlaylistItemContext } from "@/components/Global/Contexts/PlaylistProvider"
+import { decodePlaylistString, encodePlaylistQuery } from "@/utils/playlistUtils"
 import { secondsToTime } from "@/utils/readableValue"
 
 export type playlistData = {
-    type: "mylist" | "series" | "custom" | "none"
+    type: "mylist" | "series" | "search" | "shorts" | "recipe" | "custom" | "none"
     id?: string
+    name?: string
     items: playlistVideoItem[]
 }
 
@@ -24,7 +27,7 @@ export type playlistVideoItem = {
     isPreview?: boolean
 }
 
-export function mylistToSimplifiedPlaylist(obj: MylistResponseRootObject) {
+export function playlistToSimplifiedPlaylist(obj: PlaylistResponseRootObject) {
     return obj.data.items.map((elem) => {
         return {
             title: elem.content.title,
@@ -51,9 +54,12 @@ export function seriesToSimplifiedPlaylist(obj: SeriesResponseRootObject) {
 }
 
 const playlistTypeString = {
-    mylist: "マイリストからの",
-    series: "シリーズからの",
-    custom: "一時的な",
+    mylist: "マイリスト",
+    series: "シリーズ",
+    search: "検索",
+    shorts: "ショート",
+    recipe: "おすすめ",
+    custom: "一時的",
     none: "",
 }
 
@@ -92,8 +98,10 @@ function Playlist() {
         }
     } else if (playlistData.type === "series") {
         playlistQuery.context = { seriesId: Number(playlistData.id) }
+    } else if (playlistData.type === "search" && playlistData.id) {
+        playlistQuery.context = decodePlaylistString(playlistData.id).context
     }
-    const query = encodeURIComponent(btoa(JSON.stringify(playlistQuery)))
+    const query = encodeURIComponent(encodePlaylistQuery(playlistQuery))
     function onRandomShuffle() {
         const currentShufflePlayState = enableShufflePlay ?? false
         storage.setItem("local:enableShufflePlay", !currentShufflePlayState)
@@ -133,19 +141,19 @@ function Playlist() {
         >
             <div className="playlist-title-container global-flex stacker-title">
                 <div className="playlist-title global-flex1 global-bold">
-                    {playlistTypeString[playlistData.type]}
                     再生キュー
                     <span className="stacker-subtitle">
                         (
+                        {playlistTypeString[playlistData.type]}
+                        {" / "}
                         {extendedItems.length}
-                        {" "}
-                        動画 /
+                        {" 動画 / "}
                         {secondsToTime(estimatedDuration)}
                         )
                     </span>
                 </div>
-                <button
-                    title={
+                <MWButton
+                    label={
                         (isRemoveMode ?? false)
                             ? "削除モードを終了"
                             : "再生キューからアイテムを削除"
@@ -156,9 +164,9 @@ function Playlist() {
                     }
                 >
                     <IconPencilMinus />
-                </button>
-                <button
-                    title={
+                </MWButton>
+                <MWButton
+                    label={
                         (enableContinuousPlay ?? true)
                             ? "連続再生を無効化"
                             : "連続再生を有効化"
@@ -169,9 +177,9 @@ function Playlist() {
                     }
                 >
                     <IconArrowBigRightLine />
-                </button>
-                <button
-                    title={
+                </MWButton>
+                <MWButton
+                    label={
                         (enableShufflePlay ?? false)
                             ? "シャッフル再生を無効化"
                             : "シャッフル再生を有効化"
@@ -182,7 +190,7 @@ function Playlist() {
                     }
                 >
                     <IconArrowsShuffle />
-                </button>
+                </MWButton>
             </div>
             <SortableContext
                 items={extendedItems.map(elem => elem.itemId)}

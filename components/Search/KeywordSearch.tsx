@@ -6,21 +6,26 @@ import { PageSelector } from "../Global/PageSelector"
 import { useSetMessageContext } from "../Global/Contexts/MessageProvider"
 import { FilterSelector } from "./GenericComponents/FilterSelector"
 import { OptionSelector } from "./GenericComponents/OptionSelector"
-import { AdditionalRelatedTags } from "./GenericComponents/RelatedTags"
+import { SaveSearchButton } from "./GenericComponents/SaveSearchButton"
+import { RelatedTags } from "../Global/GenericPageComponents/RelatedTags"
+import { ContinuousPlayButton, PlayFromVideoButton } from "../Global/GenericPageComponents/ContinuousPlay"
 import APIError from "@/utils/classes/APIError"
 import { LoadingFiller } from "../Global/LoadingFiller"
+import { isCurrentSearchIsShorts } from "@/utils/searchPagePaths"
+import { VideoTypeSelector } from "./GenericComponents/videoTypeSelector"
+import { useSearchHistoryUpdater } from "@/hooks/searchHistoryUpdater"
+import { MaybeFromVideoId } from "./GenericComponents/MaybeFromVideoId"
 
 export function KeywordSearch() {
     const { searchEnableGridCardLayout } = useStorageVar(["searchEnableGridCardLayout"], "local")
     const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
     const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
-    /*
-    const currentPageIndex = Number.isNaN(Number(pathUrl.searchParams.get("page") ?? "1")) ? 1 : Number(pathUrl.searchParams.get("page") ?? "1")
-    const currentSort = pathUrl.searchParams.get("sort") ?? undefined
-    const currentOrder = pathUrl.searchParams.get("order") ?? undefined */
+    const isShorts = isCurrentSearchIsShorts(location.pathname)
     const reducedObj = searchParamsToObject(pathUrl.searchParams)
-    const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(returnSearchWord(location.pathname), reducedObj)
+    const keyword = returnSearchWord(location.pathname)
+    const { searchKeywordData: keywordSearchData, error, isFetching } = useSearchKeywordData(keyword, reducedObj, isShorts)
+    useSearchHistoryUpdater(keyword, isShorts ? "keyword_shorts" : "keyword", keywordSearchData?.data.response?.page?.common.option, [location.pathname + location.search])
     useEffect(() => {
         if (!keywordSearchData && error && error.name === "SyntaxError") {
             showAlert({
@@ -114,6 +119,7 @@ export function KeywordSearch() {
     }
     if (!keywordSearchData) return <LoadingFiller />
     const getSearchVideoData = keywordSearchData?.data.response.$getSearchVideoV2.data
+    const additionalTagTexts = (getSearchVideoData?.additionals.tags ?? []).map(t => t.text)
     const page = keywordSearchData.data.response.page.common
     return (
         <>
@@ -134,16 +140,23 @@ export function KeywordSearch() {
                             : ""}
                     </span>
                 </h2>
+                <RelatedTags tags={additionalTagTexts} />
+                <VideoTypeSelector />
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} vertical={true} />
                 <FilterSelector option={page.option} />
-                <AdditionalRelatedTags getSearchVideoData={keywordSearchData?.data.response.$getSearchVideoV2} />
-                <OptionSelector option={page.option} />
-                <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
-                    {getSearchVideoData.items.map((video, index) => {
-                        return (
-                            <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} isVerticalLayout={searchEnableGridCardLayout ?? false} />
-                        )
-                    })}
+                <SaveSearchButton option={page.option} word={keyword} type={isShorts ? "keyword_shorts" : "keyword"} />
+                <div className="search-result">
+                    <MaybeFromVideoId keyword={keyword} />
+                    <OptionSelector option={page.option}>
+                        <ContinuousPlayButton playlistQuery={keywordSearchData.data.response.page.playlist} firstVideoId={getSearchVideoData.items[0]?.id ?? ""} />
+                    </OptionSelector>
+                    <div className="search-result-items" data-is-grid-layout={searchEnableGridCardLayout ?? false}>
+                        {getSearchVideoData.items.map((video, index) => {
+                            return (
+                                <VideoItemCard video={video} markAsLazy={index >= 5} key={`${index}-${video.id}`} data-index={index + 1 + ((page.pagination.page - 1) * page.pagination.pageSize)} layoutType={searchEnableGridCardLayout ? "vertical-simple" : "horizontal"} externalVideoActionChildren={<PlayFromVideoButton playlistQuery={keywordSearchData.data.response.page.playlist} video={video} />} />
+                            )
+                        })}
+                    </div>
                 </div>
                 <PageSelector pagination={page.pagination} currentItemCount={getSearchVideoData.items.length} />
             </div>

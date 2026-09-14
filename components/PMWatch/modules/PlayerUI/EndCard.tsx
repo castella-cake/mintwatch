@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react"
-import { InfoCardFromRecommend, SeriesVideoCard } from "@/components/Global/InfoCard"
+import { SeriesVideoCard } from "@/components/Global/InfoCard"
 import { useVideoInfoContext, useVideoRefContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
-import { usePickupSupportersData } from "@/hooks/apiHooks/watch/getPickupSupportersData"
-import { perceptualToAmplitude } from "@discordapp/perceptual"
+import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
+import { KokenScreen } from "./kokenScreen"
 
 export function EndCard({ smId }: { smId: string }) {
+    const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
     const recommendData = useRecommendData(smId)
-    const syncStorage = useStorageVar(["muteKokenVoice"] as const, "sync")
-    const localStorage = useStorageVar(["isMuted", "volume", "isLoop", "enableShufflePlay", "rewindTime", "enableBigView"] as const, "local")
-    const supportersInfo = usePickupSupportersData(smId)
+
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [duration, setDuration] = useState<number>(Infinity)
 
-    const audioElemRef = useRef<HTMLAudioElement>(null)
     useEffect(() => {
         if (!videoRef.current) return
         const onTimeUpdate = () => {
@@ -28,21 +26,11 @@ export function EndCard({ smId }: { smId: string }) {
         videoRef.current.addEventListener("durationchange", onDurationChange)
     }, [videoRef.current])
 
-    useEffect(() => {
-        // console.log("vol set:", audioElemRef.current)
-        if (!audioElemRef.current) return
-
-        audioElemRef.current.volume = perceptualToAmplitude((localStorage.volume ?? 50) * 0.01, 1, 40)
-        audioElemRef.current.muted = localStorage.isMuted ?? false
-    }, [localStorage.volume, localStorage.isMuted, audioElemRef.current, currentTime])
-
-    if (currentTime < duration) return null
+    if (currentTime < duration && currentTime !== duration) return null
 
     let ownerName = "非公開または退会済みユーザー"
     if (videoInfo && videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname
     if (videoInfo && videoInfo.data && videoInfo.data.response.channel) ownerName = videoInfo.data.response.channel.name
-
-    const isKokenMuted = syncStorage.muteKokenVoice ?? getDefault("muteKokenVoice")
 
     const seriesData = videoInfo?.data.response.series
     const playlist = btoa(
@@ -57,20 +45,7 @@ export function EndCard({ smId }: { smId: string }) {
     return (
         <div className="endcard-container global-flex">
             <div className="endcard-left">
-                <div className="endcard-supporters">
-                    {supportersInfo?.data && supportersInfo?.data.supporters && <span className="endcard-title">提　供</span>}
-                    <br />
-                    <br />
-                    {supportersInfo?.data && supportersInfo?.data.supporters.map((elem) => {
-                        return (
-                            <span key={`${elem.supporterName}-${elem.userId}-${elem.contribution}`}>
-                                {elem.supporterName}
-                                <br />
-                            </span>
-                        )
-                    })}
-                </div>
-                { supportersInfo?.data && !isKokenMuted && <audio autoPlay src={supportersInfo?.data.voiceUrl} ref={audioElemRef} /> }
+                <KokenScreen smId={smId} />
             </div>
             <div className="endcard-right">
                 <h2>現在の動画</h2>
@@ -112,8 +87,15 @@ export function EndCard({ smId }: { smId: string }) {
                             <>
                                 <h2>おすすめの動画</h2>
                                 <div className="endcard-upnext-container">
-                                    {recommendData && recommendData.data && recommendData.data.items.slice(0, 4).map((elem) => {
-                                        return <InfoCardFromRecommend key={`${elem.id}`} obj={elem} omitTypes={["live"]} />
+                                    {recommendData && recommendData.data && recommendData.data.items.filter(item => isContentIsVideoItem(item) && !item.content.isMuted).slice(0, 4).map((elem) => {
+                                        return (
+                                            <VideoItemCard
+                                                key={`${elem.id}`}
+                                                video={elem.content as VideoItem}
+                                                layoutType="horizontal-simple"
+                                                showStats={showExtendedRecommend}
+                                            />
+                                        ) // filterで保証されているのでアサーションして通す
                                     })}
                                 </div>
                             </>

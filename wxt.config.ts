@@ -19,7 +19,7 @@ export default defineConfig({
         }
     },
     manifest: {
-        name: "MintWatch (Beta)",
+        name: "MintWatch",
         permissions: [
             "storage",
         ],
@@ -33,7 +33,9 @@ export default defineConfig({
                 "style/*",
                 "watch_injector.js",
                 "load_turnstile.js",
+                "catchTargetPage.js",
                 "dummy.js",
+                "credits.json",
                 "content-scripts/deferStyle.css",
                 "fonts/*",
                 "*://*.nicovideo.jp/*",

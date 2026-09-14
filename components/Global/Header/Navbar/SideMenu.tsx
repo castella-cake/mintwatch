@@ -1,12 +1,14 @@
 import ReactFocusLock from "react-focus-lock"
 import { CSSTransition } from "react-transition-group"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
+import { MWButton } from "../../MWButton"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
 import { IconPencil, IconX } from "@tabler/icons-react"
 import { useDraggable } from "@dnd-kit/core"
 import { Dispatch, SetStateAction } from "react"
 import MintToolBox from "./MintToolBox"
 import { ZSnowBackground } from "./ZSnow"
+import { useOutsideClose } from "@/hooks/useOutsideClose"
 
 type SideMenuEntry = SideMenuItem | SeparatorItem
 const SideMenuContents: SideMenuEntry[] = [
@@ -45,6 +47,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
     const { disableSeasonalEffects } = useStorageVar(["disableSeasonalEffects"])
     const isSideMenuShown = useSideMenuShownContext()
     const setIsSideMenuShown = useSetSideMenuShownContext()
+    useOutsideClose(nodeRef, isSideMenuShown, () => setIsSideMenuShown(false), "side-menu-trigger")
 
     // ここでのnodeRefは、transitionではなく単に外側をクリックした場合に閉じるために使う。Transitionは内部で用意する。
     const wrapperTransitionRef = useRef<HTMLDivElement>(null)
@@ -63,7 +66,7 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
                 { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
                 <ReactFocusLock>
                     <div className="sidemenu-container" ref={nodeRef}>
-                        <button className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)} title="サイドメニューを閉じる"><IconX /></button>
+                        <MWButton label="サイドメニューを閉じる" className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)}><IconX /></MWButton>
                         {
                             SideMenuContents.map((item, index) => {
                                 if ("type" in item && item.type === "separator") {

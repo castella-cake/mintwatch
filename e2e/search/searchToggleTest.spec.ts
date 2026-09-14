@@ -39,7 +39,7 @@ test("Search: Switch between keyword and tag search", async ({ page, mockApi, en
     }
 
     // 関連タグセクションが表示されているか確認（タグ検索特有の要素）
-    const relatedTagsSection = page.locator(".search-result-relatedtags")
+    const relatedTagsSection = page.locator(".generic-relatedtags")
     await expect(relatedTagsSection).toBeVisible()
 
     // キーワード検索に戻る
@@ -153,7 +153,7 @@ test("Search: Video result card functionality", async ({ page, mockApi, enableSe
 
     // リンクのhref属性を確認
     const href = await videoLink.getAttribute("href")
-    expect(href).toContain("/watch/sm0")
+    expect(href).toContain("/watch/sm9")
 })
 
 test("Search: Search type selector functionality", async ({ page, mockApi, enableSearchPage }) => {

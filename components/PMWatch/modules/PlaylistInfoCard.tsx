@@ -1,4 +1,5 @@
 import { Card } from "@/components/Global/InfoCard"
+import { MWButton } from "@/components/Global/MWButton"
 import { secondsToTime } from "@/utils/readableValue"
 import { CSS } from "@dnd-kit/utilities"
 import { IconCircleMinus, IconPlayerPlayFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react"
@@ -38,7 +39,7 @@ export function PlaylistVideoCard({ obj, additionalQuery, isNowPlaying, markerIn
                 )}
                 leftMarker={(
                     <>
-                        {!isNowPlaying && <button className="info-card-removebtn" onClick={onRemove} title="プレイリストから削除"><IconCircleMinus /></button>}
+                        {!isNowPlaying && <MWButton label="プレイリストから削除" className="info-card-removebtn" onClick={onRemove}><IconCircleMinus /></MWButton>}
                         { isNowPlaying && <span className="info-card-playingtext"><IconPlayerPlayFilled /></span> }
                         { isNextVideo && <span className="info-card-playingtext"><IconPlayerSkipForwardFilled /></span>}
                         { !isNowPlaying && markerIndex !== undefined && <span className="info-card-marker-index">{markerIndex % 100 + 1}</span>}

@@ -1,3 +1,4 @@
+import { amplitudeToPerceptual, perceptualToAmplitude } from "@discordapp/perceptual"
 import { timeCalc } from "./timeCalc"
 
 export const handleCtrl = (
@@ -11,7 +12,7 @@ export const handleCtrl = (
     rewindTime: string | undefined,
 ) => {
     const eachSkipTime = Number(rewindTime ?? 10)
-    if (e.ctrlKey) return true
+    if (e.ctrlKey || e.metaKey) return true
     if (e.target instanceof Element) {
         if (e.target.closest("input, textarea")) return true
     }
@@ -40,14 +41,20 @@ export const handleCtrl = (
     }
     if (e.shiftKey && e.key === "ArrowUp" && video) {
         e.preventDefault()
-        video.volume = video.volume + 0.05
-        setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
+        let actualVideoVolume = amplitudeToPerceptual(video.volume, 1, 40)
+        actualVideoVolume += 0.05
+        if (actualVideoVolume > 1) actualVideoVolume = 1
+        video.volume = perceptualToAmplitude(actualVideoVolume, 1, 40)
+        setShortcutFeedback(`音量: ${Math.round(actualVideoVolume * 100)}%`)
         return false
     }
     if (e.shiftKey && e.key === "ArrowDown" && video) {
         e.preventDefault()
-        video.volume = video.volume - 0.05
-        setShortcutFeedback(`音量: ${Math.round(video.volume * 100)}%`)
+        let actualVideoVolume = amplitudeToPerceptual(video.volume, 1, 40)
+        actualVideoVolume -= 0.05
+        if (actualVideoVolume < 0) actualVideoVolume = 0
+        video.volume = perceptualToAmplitude(actualVideoVolume, 1, 40)
+        setShortcutFeedback(`音量: ${Math.round(actualVideoVolume * 100)}%`)
         return false
     }
     if (e.key === "ArrowRight" && video) {

@@ -3,7 +3,7 @@ import { expect, test } from "../fixtures"
 test("Watch: Modal open test", async ({ page, mockApi }) => {
     await mockApi()
 
-    await page.goto("https://www.nicovideo.jp/watch/sm0")
+    await page.goto("https://www.nicovideo.jp/watch/sm9")
     await page.bringToFront()
 
     await page.waitForSelector("#pmw-element-video")
@@ -20,7 +20,7 @@ test("Watch: Modal open test", async ({ page, mockApi }) => {
     await page.getByRole("button", { name: "設定", exact: true }).click()
     await expect(page.locator(".modal-content")).toBeVisible()
 
-    await page.getByText("更新情報").click()
+    await page.getByText("更新情報", { exact: true }).click()
     await expect(page.getByText("過去の更新情報")).toBeVisible()
 
     await page.getByRole("button", { name: "ショートカット", exact: true }).click()

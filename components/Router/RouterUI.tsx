@@ -11,11 +11,17 @@ import Alert from "../Global/Alert"
 import Toast from "../Global/Toast"
 import { MintWatchModal } from "../Global/Settings/Modal"
 import { SearchBody } from "../Search/SearchBody"
+import { RecommendationsBody } from "../Recommendations/RecommendationsBody"
+import { useQueryClient } from "@tanstack/react-query"
 
-function MatchWatchPage({ targetPathname, children }: { targetPathname: string, children: ReactNode }) {
+function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
     const location = useLocationContext()
-    if (location.pathname.startsWith(targetPathname) || backgroundPlaying) return children
+    if (
+        (typeof targetPathname === "string" && location.pathname.startsWith(targetPathname))
+        || (typeof targetPathname === "object" && targetPathname.some(path => location.pathname.startsWith(path)))
+    ) return children
+    if (backgroundPlaying) return children
     return <></>
 }
 
@@ -31,19 +37,33 @@ function Match({ targetPathname, children }: { targetPathname: string | string[]
 const nicovideoPrefix = "https://www.nicovideo.jp"
 
 export default function RouterUI() {
-    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage"] as const)
+    const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage"] as const)
+    const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
+        ...(isShortsPageEnabled ? ["/shorts/"] : []),
         ...(syncStorage.enableReshogi ? ["/ranking"] : []),
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
             : []),
+        ...(syncStorage.enableRecommendationsPage ? ["/recommendations"] : []),
     ]
 
     const videoRef = useVideoRefContext()
     const history = useHistoryContext()
     const location = useLocationContext()
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
+
+    const queryClient = useQueryClient()
+
+    const mintConfigElemRef = useRef<HTMLDivElement>(null)
+    const mintModalElemRef = useRef<HTMLDivElement>(null)
+    const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
+    const sideMenuElemRef = useRef<HTMLDivElement>(null)
+
+    const setHeaderActionState = useSetHeaderActionStateContext()
+    const setMintConfigShown = useSetMintConfigShownContext()
+    const setSideMenuShown = useSetSideMenuShownContext()
 
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
@@ -61,37 +81,41 @@ export default function RouterUI() {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                if (videoRef.current && !videoRef.current.paused && !nearestAnchor.href.startsWith("/watch/")) {
+                const isVideoPage = isPathnameIsVideoPage(location.pathname, isShortsPageEnabled)
+                if (videoRef.current && !videoRef.current.paused && !isVideoPage) {
                     setBackgroundPlaying(true)
                 } else {
                     setBackgroundPlaying(false)
+                    if (isVideoPage) {
+                        const smId = pathnameToVideoId(location.pathname)
+                        if (smId) {
+                            // この動画IDのキャッシュをあらかじめ破棄する
+                            queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
+                            queryClient.invalidateQueries({ queryKey: ["videoData", smId] })
+                        }
+                    }
                 }
                 history.push(nearestAnchor.href)
                 window.scroll({ top: 0 })
             }
         }
     }, [setBackgroundPlaying, location, history])
+
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
-            if (!targetPathnames.some(path => location.pathname.startsWith(path))) {
-                console.log("out of bounds")
+            if (!targetPathnames.some(path => newLocation.pathname.startsWith(path))) {
+                console.log("Out of bounds. reloading...")
                 window.location.reload()
+            } else if (newLocation.pathname.split("/")[1] !== location.pathname.split("/")[1]) {
+                setSideMenuShown(false)
             }
-            if (videoRef.current && !videoRef.current.paused && !newLocation.pathname.startsWith("/watch/")) {
+            if (videoRef.current && !videoRef.current.paused && !isPathnameIsVideoPage(newLocation.pathname, isShortsPageEnabled)) {
                 setBackgroundPlaying(true)
             } else {
                 setBackgroundPlaying(false)
             }
         })
-    }, [])
-    const mintConfigElemRef = useRef<HTMLDivElement>(null)
-    const mintModalElemRef = useRef<HTMLDivElement>(null)
-    const headerActionStackerElemRef = useRef<HTMLDivElement>(null)
-    const sideMenuElemRef = useRef<HTMLDivElement>(null)
-
-    const setHeaderActionState = useSetHeaderActionStateContext()
-    const setMintConfigShown = useSetMintConfigShownContext()
-    const setSideMenuShown = useSetSideMenuShownContext()
+    }, [queryClient, targetPathnames])
 
     const handleKeydown = useCallback((e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -124,19 +148,13 @@ export default function RouterUI() {
         return () => controller.abort()
     }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
-    const onModalOutsideClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target instanceof HTMLElement && !headerActionStackerElemRef.current?.contains(e.target)) setHeaderActionState(false)
-        if (e.target instanceof HTMLElement && !mintConfigElemRef.current?.contains(e.target) && !mintModalElemRef.current?.contains(e.target)) setMintConfigShown(false)
-        if (e.target instanceof HTMLElement && !sideMenuElemRef.current?.contains(e.target)) setSideMenuShown(false)
-    }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
-
     return (
-        <div className="router" onClickCapture={linkClickHandler} onClick={onModalOutsideClick}>
+        <div className="router" onClickCapture={linkClickHandler}>
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
-            <MintWatchModal nodeRef={mintModalElemRef} />
+            <MintWatchModal containerRef={mintModalElemRef} />
             <main>
-                <MatchWatchPage targetPathname="/watch">
+                <MatchWatchPage targetPathname={["/watch", ...(isShortsPageEnabled ? ["/shorts"] : [])]}>
                     <WatchBody />
                 </MatchWatchPage>
                 <Match targetPathname="/ranking">
@@ -144,6 +162,9 @@ export default function RouterUI() {
                 </Match>
                 <Match targetPathname={searchPagePaths}>
                     <SearchBody />
+                </Match>
+                <Match targetPathname="/recommendations">
+                    <RecommendationsBody />
                 </Match>
             </main>
             <Alert />

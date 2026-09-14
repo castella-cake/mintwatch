@@ -27,7 +27,6 @@
             overflow: hidden;
             visibility: hidden;
             white-space: pre-wrap;
-            word-wrap: break-word;
             overflow-wrap: break-word;
             padding: 10px;
         }
