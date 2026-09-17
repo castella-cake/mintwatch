@@ -114,7 +114,7 @@
         margin: 0;
     }
 
-    .commentlist-fork-selector {
+    .commentlist-selector {
         border: 2px solid var(--textcolor3);
         border-image: linear-gradient(#666, #aaa) 2 / 1 / 0 stretch;
         background: transparent;
@@ -637,6 +637,11 @@
         &:active {
             border: 2px inset #aaa;
             background: linear-gradient(#ccc, #aaa);
+        }
+
+        svg {
+            width: 1.5em;
+            height: 1.5em;
         }
     }
 }
