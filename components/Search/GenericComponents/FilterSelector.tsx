@@ -26,7 +26,9 @@ export function FilterSelector({ option }: { option: SearchOption }) {
                 currentUrl.searchParams.delete("end")
             }
         })
+        currentUrl.searchParams.delete("page")
         history.push(currentUrl.toString())
+        window.scrollTo(0, 0)
         setPendingChanges(new Map())
     }
 

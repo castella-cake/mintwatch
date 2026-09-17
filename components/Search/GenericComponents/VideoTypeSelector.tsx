@@ -15,12 +15,16 @@ export function VideoTypeSelector() {
                 data-isactive={!isShorts}
                 data-search-type="video"
                 onClick={() => {
+                    let pathUrl: URL
                     if (searchType === "search_shorts") {
-                        const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/search_shorts/", "/search/") + location.search)
-                        history.push(pathUrl.toString())
+                        pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/search_shorts/", "/search/") + location.search)
                     } else if (searchType === "tag_shorts") {
-                        const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/tag_shorts/", "/tag/") + location.search)
-                        history.push(pathUrl.toString())
+                        pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/tag_shorts/", "/tag/") + location.search)
+                    }
+                    if (searchType === "search_shorts" || searchType === "tag_shorts") {
+                        pathUrl!.searchParams.delete("page")
+                        history.push(pathUrl!.toString())
+                        window.scrollTo(0, 0)
                     }
                 }}
             >
@@ -31,12 +35,16 @@ export function VideoTypeSelector() {
                 data-isactive={isShorts}
                 data-search-type="shorts"
                 onClick={() => {
+                    let pathUrl: URL
                     if (searchType === "search") {
-                        const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/search/", "/search_shorts/") + location.search)
-                        history.push(pathUrl.toString())
+                        pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/search/", "/search_shorts/") + location.search)
                     } else if (searchType === "tag") {
-                        const pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/tag/", "/tag_shorts/") + location.search)
-                        history.push(pathUrl.toString())
+                        pathUrl = new URL("https://www.nicovideo.jp" + location.pathname.replace("/tag/", "/tag_shorts/") + location.search)
+                    }
+                    if (searchType === "search" || searchType === "tag") {
+                        pathUrl!.searchParams.delete("page")
+                        history.push(pathUrl!.toString())
+                        window.scrollTo(0, 0)
                     }
                 }}
             >

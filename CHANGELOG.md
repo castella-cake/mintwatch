@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Shinjuku プレイヤーのセレクター表示が再びカスタマイズされるようになりました
 - Shinjuku ナビゲーションバーで検索ページに入ってもユーザーとシリーズ検索が表示されない問題を修正しました
+- 検索条件の変更時に最初のページに戻るようになりました
 
 ## 1.0.1 - 2026/09/15
 

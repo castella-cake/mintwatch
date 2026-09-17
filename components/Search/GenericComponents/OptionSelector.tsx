@@ -20,6 +20,7 @@ export function OptionSelector(page: { option: SearchOption, isGridOptionUnavail
                             onClick={() => {
                                 const currentUrl = new URL("https://www.nicovideo.jp" + location.pathname + location.search)
                                 currentUrl.searchParams.set("order", order.value.toString())
+                                currentUrl.searchParams.delete("page")
                                 history.push(currentUrl.toString())
                             }}
                             data-is-active={order.active}
@@ -38,7 +39,9 @@ export function OptionSelector(page: { option: SearchOption, isGridOptionUnavail
                     currentUrl.searchParams.set("sort", e.target.value)
                     const defaultOrder = page.option.sort.order.find(order => order.default)
                     if (defaultOrder) currentUrl.searchParams.set("order", defaultOrder.value.toString())
+                    currentUrl.searchParams.delete("page")
                     history.push(currentUrl.toString())
+                    window.scrollTo(0, 0)
                 }}
                 id={sortKeySelectorId}
             >
