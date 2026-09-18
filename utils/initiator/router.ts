@@ -18,9 +18,22 @@ export function blockPage() {
         records.forEach((record) => {
             const addedNodes = record.addedNodes
             for (const node of addedNodes) {
-                // console.log("node: ", node)
                 const elem = node as Element
                 if (elem.id === "root") {
+                    elem.remove()
+                    console.log("blacklist element removed")
+                }
+                if (elem.className) {
+                    if (elem.className === "BaseUniLayout-main") {
+                        elem.remove()
+                        console.log("blacklist element removed")
+                    }
+                    if (elem.className === "BaseUniLayout-footer") {
+                        elem.remove()
+                        console.log("blacklist element removed")
+                    }
+                }
+                if (elem.id === "CommonHeader") {
                     elem.remove()
                     console.log("blacklist element removed")
                 }
