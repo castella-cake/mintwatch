@@ -1,6 +1,6 @@
 const videoIdRegex = /(?:s[mos]|n[lm])(?!0)\d+/g
 
-const validateVideoIdRegex = /^(?:s[mos]|n[lm])(?!0)\d+$/
+const validateVideoIdRegex = /^(?:s[mos]|n[lm])?(?!0)\d+$/
 
 export function validateVideoId(videoId: string): boolean {
     return validateVideoIdRegex.test(videoId)
