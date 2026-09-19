@@ -9,6 +9,7 @@ let pageBlocked = false
 export function blockPage() {
     if (pageBlocked) return
     pageBlocked = true
+    reserveEssentialMetaTags()
     document.getElementById("root")?.remove()
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
@@ -46,8 +47,6 @@ export function blockPage() {
     setTimeout(() => {
         observer.disconnect()
     }, 500)
-
-    reserveEssentialMetaTags()
 
     // スクリプトの実行を早々に阻止する。innerHTMLの前にやった方が安定する。
     for (const scriptElement of document.getElementsByTagName("script")) {
