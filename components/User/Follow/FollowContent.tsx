@@ -1,6 +1,7 @@
 import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { FollowingUsers } from "./FollowingUsers"
+import { FollowedByUsers } from "./FollowedByUsers"
 
 export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?: boolean }) {
     const hrefPrefix = (isMyPage) ? `/my/follow` : `/user/${userId}/follow`
@@ -39,6 +40,13 @@ export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?
                 >
                     {isMyPage && <title>マイページ フォロー中 - ニコニコ</title>}
                     <FollowingUsers userId={(isMyPage) ? "me" : userId!} />
+                </Match>
+                <Match targetPathname={[
+                    `${hrefPrefix}/follower!`,
+                ]}
+                >
+                    {isMyPage && <title>マイページ フォロワー - ニコニコ</title>}
+                    <FollowedByUsers userId={(isMyPage) ? "me" : userId!} />
                 </Match>
             </div>
         </div>
