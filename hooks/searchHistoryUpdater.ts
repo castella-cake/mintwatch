@@ -12,7 +12,6 @@ function activeSortResolver<T extends { default: boolean, active: boolean }>(opt
     if (options) {
         const activeOption = options.find(option => option.active) ?? options.find(option => option.default)
         if (activeOption) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { active, ...rest } = activeOption
             return rest
         }
@@ -58,7 +57,6 @@ export function useSearchHistoryUpdater(word: string, type: "keyword" | "keyword
                         ...filter,
                         item: activeSortResolver(filter.items)!,
                     }
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const { items, ...rest } = b
                     return rest
                 })
