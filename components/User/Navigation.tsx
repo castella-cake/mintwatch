@@ -65,7 +65,15 @@ export function MyPageNavigation() {
             >
                 フォロー新着
             </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/follow" otherMatchings={["/my/follow/follower"]}>
+            <NavigationAnchorButton
+                href="/my/follow"
+                otherMatchings={[
+                    "/my/follow/follower",
+                    "/my/follow/follower",
+                    "/my/follow/mylist",
+                    "/my/follow/channel",
+                ]}
+            >
                 フォロー
             </NavigationAnchorButton>
             <NavigationAnchorButton href="/my/creator-support">

@@ -15,7 +15,7 @@ export function TimelineContent({ thisUserPageId }: { thisUserPageId?: number })
                 <div className="user-timeline-sidearea-title">
                     種別選択
                 </div>
-                <NavigationAnchorButton href={`${hrefPrefix}/postings`} otherMatchings={[`/user/${thisUserPageId}`]}>
+                <NavigationAnchorButton href={`${hrefPrefix}/postings`} otherMatchings={[`/user/${thisUserPageId}`, `/my!`]}>
                     コンテンツ投稿
                 </NavigationAnchorButton>
                 <NavigationAnchorButton href={`${hrefPrefix}/video`}>
