@@ -515,8 +515,9 @@ function Player(props: Props) {
             && validateThreadId(smId)
             && smId !== videoId
             && lastWarnedSmIdRef.current !== smId
-            && commentContent?.data?.threads.reduce((prev, current) => prev + current.comments.length, 0) === 0
             && videoInfo?.data.response.channel
+            && commentContent?.data?.threads.reduce((prev, current) => prev + current.comments.length, 0) === 0
+            && !videoInfo?.data.response.comment.threads.some(t => t.label === "community")
         ) {
             lastWarnedSmIdRef.current = smId
             showToast({

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - キーボードショートカットは Alt キーを一律で無視するようになりました [#82](https://github.com/castella-cake/mintwatch/issues/82)
+- 視聴ページ内で外部遷移が利用できない問題を修正しました
+- スレッドが空の場合の警告を、「コミュニティスレッドが見つからない」ことも条件に含めるようにしました
 
 ## 1.0.2 - 2026/09/20
 
