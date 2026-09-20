@@ -12,10 +12,12 @@ export const VideoRefContext = createContext<RefObject<HTMLVideoElement | null>>
 type VideoInfoContext = {
     videoInfo: VideoDataRootObject | undefined
     errorInfo: any
+    videoId: string | undefined
 }
 const IVideoInfoContext = createContext<VideoInfoContext>({
     videoInfo: undefined,
     errorInfo: false,
+    videoId: undefined,
 })
 
 export function VideoDataProvider({ children }: { children: ReactNode }) {
@@ -68,9 +70,11 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
         }
     }, [errorInfo])
 
+    const videoId = videoInfo?.data.response.video?.id || undefined
+
     return (
         <IActionTrackDataContext.Provider value={actionTrackId.current}>
-            <IVideoInfoContext.Provider value={{ videoInfo, errorInfo }}>
+            <IVideoInfoContext.Provider value={{ videoInfo, errorInfo, videoId }}>
                 {children}
             </IVideoInfoContext.Provider>
         </IActionTrackDataContext.Provider>

@@ -1,7 +1,7 @@
 import APIError from "@/utils/classes/APIError"
 import { useQuery } from "@tanstack/react-query"
 
-export function useAccessRightsData(videoId: string | null, videoInfo: VideoDataRootObject | undefined, actionTrackId: string, isEnabled = true) {
+export function useAccessRightsData(videoId: string | undefined, videoInfo: VideoDataRootObject | undefined, actionTrackId: string, isEnabled = true) {
     const { data: accessRightsData, error } = useQuery({
         queryKey: ["accessRightsData", videoId, actionTrackId],
         queryFn: async () => {

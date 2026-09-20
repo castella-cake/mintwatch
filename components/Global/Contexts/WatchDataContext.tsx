@@ -7,17 +7,17 @@ import { useLocationContext } from "@/components/Router/RouterContext"
 import { ViewerNgProvider } from "./ViewerNgProvider"
 
 type smIdContext = {
-    smId: null | string
-    setSmId: Dispatch<SetStateAction<null | string>>
+    smId: undefined | string
+    setSmId: Dispatch<SetStateAction<undefined | string>>
 }
 const ISmIdContext = createContext<smIdContext>({
-    smId: null!,
-    setSmId: null!,
+    smId: undefined!,
+    setSmId: () => {},
 })
 
 export function SmIdProvider({ children }: { children: ReactNode }) {
     const location = useLocationContext()
-    const [smId, setSmId] = useState<null | string>(
+    const [smId, setSmId] = useState<undefined | string>(
         pathnameToVideoId(location.pathname),
     )
     return (

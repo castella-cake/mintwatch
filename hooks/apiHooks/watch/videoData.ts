@@ -2,7 +2,7 @@ import getFastVideoData from "@/utils/getVideoData"
 import APIError from "@/utils/classes/APIError"
 import { useQuery } from "@tanstack/react-query"
 
-export function useVideoDataQuery(smId: string | null) {
+export function useVideoDataQuery(smId: string | undefined) {
     const { data: videoInfo, error: errorInfo, isLoading } = useQuery({
         queryKey: ["videoData", smId],
         queryFn: () => {

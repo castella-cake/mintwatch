@@ -1,4 +1,3 @@
-import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 
 import "../styleModules/Lyric.css"
@@ -10,8 +9,7 @@ import { resolveTitleAndArtist } from "@/utils/titleArtistResolver"
 type lyricKeyRef = { [key: number]: HTMLDivElement | null }
 
 export default function Lyric() {
-    const { smId } = useSmIdContext()
-    const { videoInfo } = useVideoInfoContext()
+    const { videoInfo, videoId } = useVideoInfoContext()
     const videoRef = useVideoRefContext()
 
     const [autoScroll, setAutoScroll] = useState(true)
@@ -19,7 +17,7 @@ export default function Lyric() {
     const lyricsContentRef = useRef<HTMLDivElement>(null)
     const [currentLyricKey, setCurrentLyricKey] = useState(0)
 
-    const { lyricData, error, isLoading } = useLyricData(smId)
+    const { lyricData, error, isLoading } = useLyricData(videoId)
 
     const updateScrollPosition = useCallback((e: Event) => {
         if (!lyricData || !lyricData.data.hasTimeInformation) return

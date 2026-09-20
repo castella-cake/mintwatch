@@ -29,7 +29,7 @@ type Props = {
     hlsRef: RefObject<Hls>
     playlistIndexControl: (index: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => void
     qualityLabels?: string[]
-    storyBoardData?: StoryBoardImageRootObject | null
+    storyBoardData?: StoryBoardImageRootObject
     currentPlayerType: keyof typeof playerTypes
     tempIsShortsPlayer?: boolean // TODO: flagEnableShortsPlayerが消えたらcurrentPlayerTypeを使う
 }

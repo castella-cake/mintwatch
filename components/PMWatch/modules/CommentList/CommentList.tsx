@@ -21,7 +21,6 @@ import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvid
 import { MWButton } from "@/components/Global/MWButton"
 import APIError from "@/utils/classes/APIError"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
-import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export type scrollPos = {
     [vposSec: string]: HTMLDivElement | null
@@ -161,12 +160,11 @@ function CommentList() {
     const elementId = useId()
 
     const { showAlert, showToast } = useSetMessageContext()
-    const { videoInfo } = useVideoInfoContext()
+    const { videoInfo, videoId } = useVideoInfoContext()
     const { commentContent, currentLogData } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
 
-    const { smId } = useSmIdContext()
-    const { lyricData } = useLyricData(smId, videoInfo?.data.response?.video?.hasLyrics ?? false)
+    const { lyricData } = useLyricData(videoId, videoInfo?.data.response?.video?.hasLyrics ?? false)
 
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
@@ -455,7 +453,6 @@ function CommentList() {
             {showTimemachineUi && (
                 <TimeMachine
                     currentLogData={currentLogData}
-                    smId={smId}
                     onConfirm={(date) => {
                         reloadCommentContent({
                             when: Math.floor(date.getTime() / 1000),

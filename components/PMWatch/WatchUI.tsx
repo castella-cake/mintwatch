@@ -38,7 +38,7 @@ function CreateWatchUI() {
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
 
     const videoRef = useVideoRefContext()
-    const { videoInfo } = useVideoInfoContext()
+    const { videoId: currentVideoId } = useVideoInfoContext()
 
     const queryClient = useQueryClient()
 
@@ -135,7 +135,6 @@ function CreateWatchUI() {
         }
     }, [smId])
 
-    const currentVideoId = videoInfo?.data?.response?.video?.id
     useEffect(() => {
         const pendingState = pendingVideoChangeScrollRef.current
         if (!pendingState || pendingState.executed || !pendingState.videoChanged) return
@@ -153,12 +152,12 @@ function CreateWatchUI() {
         // ページ移動が発生した場合にシーク位置を保存してキャッシュを破棄した後、Stateを変更する
         const listenPopState = history.listen(({ location }) => {
             if (
-                smId
+                currentVideoId
                 && videoRef.current
                 && videoRef.current instanceof HTMLVideoElement
             ) {
                 const playbackPositionBody = {
-                    videoId: smId,
+                    videoId: currentVideoId,
                     seconds: videoRef.current.currentTime,
                 }
                 putPlaybackPosition(playbackPositionBody, new Date())
@@ -179,7 +178,7 @@ function CreateWatchUI() {
         return () => {
             listenPopState() // unlisten
         }
-    }, [smId, internalChangeVideo])
+    }, [currentVideoId, smId, internalChangeVideo])
 
     // フォアグラウンドに戻された場合にレンダリングの後でスクロールする。初回レンダリングで行われないようにtrue→falseになった時だけ。
     const previousBackgroundStateRef = useRef(false)

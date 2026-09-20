@@ -1,18 +1,18 @@
 import { useState, useMemo, useId, useEffect } from "react"
 import { IconCopy } from "@tabler/icons-react"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 export function TimeMachine({
     currentLogData,
-    smId,
     onConfirm,
     onReload,
 }: {
     currentLogData?: { when: number }
-    smId: string | null
     onConfirm: (dateTime: Date) => void
     onReload: () => void
 }) {
+    const { smId } = useSmIdContext()
     const elementId = useId()
     const { showToast } = useSetMessageContext()
 

@@ -5,7 +5,7 @@ import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { KokenScreen } from "./KokenScreen"
 
-export function EndCard({ smId }: { smId: string }) {
+export function EndCard({ smId }: { smId: string | undefined }) {
     const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const videoRef = useVideoRefContext()
     const { videoInfo } = useVideoInfoContext()
@@ -45,7 +45,7 @@ export function EndCard({ smId }: { smId: string }) {
     return (
         <div className="endcard-container global-flex">
             <div className="endcard-left">
-                <KokenScreen smId={smId} />
+                {smId && <KokenScreen smId={smId} />}
             </div>
             <div className="endcard-right">
                 <h2>現在の動画</h2>

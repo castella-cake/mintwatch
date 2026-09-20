@@ -20,16 +20,16 @@ export function isPathnameIsVideoPage(pathname: string, isShortsPageEnabled?: bo
     return true
 }
 
-export function pathnameToVideoId(pathname: string): string | null {
+export function pathnameToVideoId(pathname: string): string | undefined {
     const path = pathname.split("/").filter(Boolean)
-    if (path.length !== 2) return null
-    if (path[0] !== "watch" && path[0] !== "shorts") return null
-    if (!validateVideoId(path[1])) return null
+    if (path.length !== 2) return
+    if (path[0] !== "watch" && path[0] !== "shorts") return
+    if (!validateVideoId(path[1])) return
     return path[1]
 }
 
-export function urlToVideoId(url: URL | string | null): string | null {
-    if (url === null) return null
+export function urlToVideoId(url: URL | string | null): string | undefined {
+    if (!url) return
 
     if (typeof url === "string") {
         url = new URL(url)

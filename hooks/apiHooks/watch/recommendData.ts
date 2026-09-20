@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-export function useRecommendData(smId: string | null) {
+export function useRecommendData(smId: string | undefined) {
     const { data: recommendData } = useQuery({
         queryKey: ["recommendData", smId],
         queryFn: () => {

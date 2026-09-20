@@ -1,14 +1,14 @@
 import { createContext, ReactNode } from "react"
-import { useSmIdContext } from "./WatchDataContext"
 import { RecommendDataRootObject } from "@/types/RecommendData"
 import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
+import { useVideoInfoContext } from "./VideoDataProvider"
 
 const IRecommendContext = createContext<RecommendDataRootObject | undefined>(undefined)
 
 export function RecommendProvider({ children }: { children: ReactNode }) {
-    const { smId } = useSmIdContext()
+    const { videoId } = useVideoInfoContext()
 
-    const recommendData = useRecommendData(smId)
+    const recommendData = useRecommendData(videoId)
 
     useEffect(() => {
         if (

@@ -20,7 +20,7 @@ type Props = {
 }
 
 function Actions({ onModalOpen }: Props) {
-    const { videoInfo } = useVideoInfoContext()
+    const { videoInfo, videoId } = useVideoInfoContext()
 
     const [isLiked, setIsLiked] = useState<boolean>(false)
     const [likeThanksMsg, setLikeThanksMsg] = useState<string | null>(null)
@@ -70,9 +70,9 @@ function Actions({ onModalOpen }: Props) {
     const videoInfoResponse = videoInfo.data.response
 
     async function likeChange() {
-        if (!videoInfo || !videoInfo.data.response.video.viewer) return
+        if (!videoInfo || !videoInfo.data.response.video.viewer || !videoId) return
         const method = isLiked ? "DELETE" : "POST"
-        const likeResponse = await sendLike(videoInfoResponse.video.id, method)
+        const likeResponse = await sendLike(videoId, method)
         if (likeResponse) {
             if (!isLiked) {
                 setTemporalLikeModifier(temporalLikeModifier + 1)
@@ -80,7 +80,7 @@ function Actions({ onModalOpen }: Props) {
                 setTemporalLikeModifier(temporalLikeModifier - 1)
             }
             setIsLiked(!isLiked)
-            queryClient.setQueryData(["likeResponse", videoInfoResponse.video.id], likeResponse)
+            queryClient.setQueryData(["likeResponse", videoId], likeResponse)
             if (likeResponse.data && likeResponse.data.thanksMessage) {
                 setLikeThanksMsg(likeResponse.data.thanksMessage)
                 setIsLikeThanksMsgClosed(false)
@@ -91,7 +91,7 @@ function Actions({ onModalOpen }: Props) {
     function onAdsClicked() {
         if (!videoInfo) return
         window.open(
-            `https://nicoad.nicovideo.jp/video/publish/${videoInfo.data.response.video.id}`,
+            `https://nicoad.nicovideo.jp/video/publish/${videoId}`,
             "_blank",
             "width=500,height=700,popup=yes",
         )
@@ -100,7 +100,7 @@ function Actions({ onModalOpen }: Props) {
     function onGiftClicked() {
         if (!videoInfo) return
         window.open(
-            `https://gift.nicovideo.jp/video/${videoInfo.data.response.video.id}/purchase?frontend_id=6&frontend_version=0`,
+            `https://gift.nicovideo.jp/video/${videoId}/purchase?frontend_id=6&frontend_version=0`,
             "_blank",
             "width=500,height=700,popup=yes",
         )
@@ -224,7 +224,13 @@ function Actions({ onModalOpen }: Props) {
                     iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
                 />
             )}
-            <MylistsPopup isOpen={isMylistsPopupOpen} onMouseEnter={onMylistMouseEnter} onMouseLeave={onMylistMouseLeave} onMoreButtonClick={onMylistClicked} />
+            <MylistsPopup
+                isOpen={isMylistsPopupOpen}
+                onMouseEnter={onMylistMouseEnter}
+                onMouseLeave={onMylistMouseLeave}
+                onMoreButtonClick={onMylistClicked}
+                videoId={videoId}
+            />
         </div>
     )
 }

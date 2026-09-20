@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-export function useLikeMessageDataQuery(smId: string | null) {
+export function useLikeMessageDataQuery(smId: string | undefined) {
     const { data: likeMessageData, isLoading } = useQuery({
         queryKey: ["likeResponse", smId],
         queryFn: () => {

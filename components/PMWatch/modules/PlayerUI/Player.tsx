@@ -47,17 +47,15 @@ function Player(props: Props) {
     const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged, isShortsPlayer } = props
 
     const { smId } = useSmIdContext()
-    const { videoInfo } = useVideoInfoContext()
+    const { videoInfo, videoId } = useVideoInfoContext()
     const { commentContent, lastSentCommentId, currentLogData } = useCommentContentContext()
     const videoRef = useVideoRefContext()
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
-    const { lyricData } = useLyricData(smId, videoInfo?.data.response?.video?.hasLyrics ?? false)
+    const { lyricData } = useLyricData(videoId, videoInfo?.data.response?.video?.hasLyrics ?? false)
     const { ngData } = useViewerNgContext()
     const isBackgroundPlaying = useBackgroundPlayingContext()
-
-    const videoId = smId ?? ""
 
     const localStorage = useStorageVar([
         "enableLoudnessData",
@@ -208,7 +206,7 @@ function Player(props: Props) {
         localStorage.preferredLevel ?? -1,
     ) */
     const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
-        videoId,
+        smId,
         videoInfo,
         actionTrackId,
         shouldUseContentScriptHls,
@@ -221,7 +219,7 @@ function Player(props: Props) {
     )
 
     // ストーリーボード
-    const storyBoardData = useStoryBoardData(videoInfo, videoId, actionTrackId)
+    const { storyboardData } = useStoryBoardData(videoInfo, smId, actionTrackId)
 
     useResumePlayback(
         videoRef,
@@ -380,6 +378,7 @@ function Player(props: Props) {
     }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
 
     const playlistIndexControl = useCallback((add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => {
+        if (!videoId) return
         if (playlistData.items.length > 0) {
             let nextVideo = playlistData.items[0]
             if (isShuffle) {
@@ -447,7 +446,7 @@ function Player(props: Props) {
     }, [playlistData, videoId, changeVideo, recommendData, isBackgroundPlaying])
 
     const onPause = useCallback(() => {
-        if (!videoRef.current) return
+        if (!videoRef.current || !videoId) return
         const playbackPositionBody = {
             videoId,
             seconds: videoRef.current.currentTime,
@@ -677,7 +676,7 @@ function Player(props: Props) {
                     setIsSettingsShown={setIsSettingsShown}
                     playlistIndexControl={playlistIndexControl}
                     qualityLabels={qualityLabels}
-                    storyBoardData={storyBoardData}
+                    storyBoardData={storyboardData}
                     currentPlayerType={currentPlayerType}
                     tempIsShortsPlayer={isShortsPlayer}
                 />

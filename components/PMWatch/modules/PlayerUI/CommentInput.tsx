@@ -12,7 +12,7 @@ import { CommandPalette } from "./CommandPalette"
 // import { getCommentPostKey, postComment } from "../../../modules/watchApi";
 
 type Props = {
-    videoId: string
+    videoId: string | undefined
     videoInfo: VideoDataRootObject | undefined
     videoRef: RefObject<HTMLVideoElement | null>
     commentInputRef: RefObject<HTMLTextAreaElement | null>
@@ -179,7 +179,14 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
 
     function onKeydown(e: KeyboardEvent<HTMLTextAreaElement>) {
         if (e.ctrlKey || e.altKey) return
-        if (!e.shiftKey && e.key === "Enter" && commentInputRef.current && commandInput.current && videoRef.current && !isComposing && !isCommentProhibited) {
+        if (!e.shiftKey
+            && e.key === "Enter"
+            && commentInputRef.current
+            && commandInput.current && videoRef.current
+            && !isComposing
+            && !isCommentProhibited
+            && videoId
+        ) {
             sendComment(videoId, commentInputRef.current.value, commandInput.current.value.split(""), Math.floor(videoRef.current.currentTime * 1000))
             commentInputRef.current.value = ""
             e.preventDefault()
@@ -303,7 +310,14 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                 type="button"
                 className="commentinput-submit"
                 onClick={() => {
-                    if (!commentInputRef.current || !videoRef.current || commentInputRef.current.value === "" || remainingLength < 0 || isCommentProhibited) return
+                    if (
+                        !commentInputRef.current
+                        || !videoRef.current
+                        || commentInputRef.current.value === ""
+                        || remainingLength < 0
+                        || isCommentProhibited
+                        || !videoId
+                    ) return
                     sendComment(videoId, commentInputRef.current.value, commandInput.current?.value.split(" "), Math.floor(videoRef.current.currentTime * 1000))
                 }}
                 aria-disabled={!commentInputRef.current || commentInputRef.current.value === "" || remainingLength < 0 || isCommentProhibited}

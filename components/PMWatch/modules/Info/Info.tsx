@@ -159,7 +159,7 @@ type Props = {
 }
 
 function Info({ isShinjukuLayout, isTitleShown }: Props) {
-    const { videoInfo, errorInfo } = useVideoInfoContext()
+    const { videoInfo, errorInfo, videoId } = useVideoInfoContext()
     const videoRef = useVideoRefContext()
 
     const {
@@ -307,7 +307,12 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     {descElem}
                 </div>
             </details>
-            <Tags key={`${videoInfoResponse.client.watchId}-${videoInfoResponse.client.watchTrackId}`} initialTagData={videoInfoResponse.tag} isShinjukuLayout={isShinjukuLayout} />
+            <Tags
+                key={`${videoInfoResponse.client.watchId}-${videoInfoResponse.client.watchTrackId}`}
+                initialTagData={videoInfoResponse.tag}
+                isShinjukuLayout={isShinjukuLayout}
+                videoId={videoId}
+            />
         </div>
     )
 }

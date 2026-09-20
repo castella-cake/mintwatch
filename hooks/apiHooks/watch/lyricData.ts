@@ -1,7 +1,7 @@
 import { getLyrics } from "@/utils/apis/lyric"
 import { useQuery } from "@tanstack/react-query"
 
-export function useLyricData(smId: string | null, enabled: boolean = true) {
+export function useLyricData(smId: string | undefined, enabled: boolean = true) {
     const { data: lyricData, error, isLoading } = useQuery({
         queryKey: ["lyricData", smId],
         queryFn: () => {

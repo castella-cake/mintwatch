@@ -1,9 +1,9 @@
 import { Tag } from "@/types/VideoData"
 import { IconAlertTriangle, IconCheck, IconCircleX, IconEdit, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react"
-import { useSmIdContext } from "../../../Global/Contexts/WatchDataContext"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import { useId } from "react"
+import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 
 type compatibleTag = {
     name: string
@@ -24,7 +24,7 @@ function tagLengthCounter(tagText: string) {
     return length
 }
 
-export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagData: Tag, isShinjukuLayout: boolean }) {
+export default function Tags({ initialTagData, isShinjukuLayout, videoId }: { initialTagData: Tag, isShinjukuLayout: boolean, videoId: string | undefined }) {
     const elementId = useId()
 
     const { smId } = useSmIdContext()
@@ -38,6 +38,8 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     const [isLockable, setIsLockable] = useState(false)
     const [isEditable, setIsEditable] = useState(initialTagData.edit.isEditable)
     const tagsUpdatedRef = useRef<boolean>(false)
+
+    // タグの編集キーはthreadIdとvideoId間で使い回せないので、pathname側から取る
     useEffect(() => {
         if (!tagsUpdatedRef.current && alwaysGetTagDataFromApi) {
             tagsUpdatedRef.current = true
@@ -49,6 +51,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             fetchTagsOnMount()
         }
     }, [smId, alwaysGetTagDataFromApi])
+
     const tagInputRef = useRef<HTMLInputElement>(null)
 
     const nicodicExistIcon = isShinjukuLayout
@@ -77,7 +80,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     }, [])
 
     async function onEditModeToggle() {
-        if (!smId) {
+        if (!videoId) {
             setIsEditable(false)
             setIsEditMode(false)
             setIsLockable(false)
@@ -88,7 +91,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             showAlert({ title: `タグを編集できません`, body: "タグ編集を開始するためのキーが存在しないため、編集を開始できません。", icon: <IconCircleX /> })
             return
         }
-        const response: TagsApiRootObject = await getTagsApi(smId, initialTagData.edit.editKey)
+        const response: TagsApiRootObject = await getTagsApi(videoId, initialTagData.edit.editKey)
         if (response.meta.status !== 200) {
             showAlert({ title: `タグを編集できません: ${response.meta.status}`, body: "リクエストに失敗したため、編集を開始できません。", icon: <IconCircleX /> })
             return
@@ -109,7 +112,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
 
     async function onTagAdd() {
         if (
-            !smId
+            !videoId
             || !isEditable
             || !tagInputRef.current
             || tagInputRef.current.value === ""
@@ -125,7 +128,7 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
             showAlert({ title: "タグを登録できません", body: "タグ編集を開始するためのキーが存在しないため、タグを登録できません。", icon: <IconAlertTriangle /> })
         } else {
             const tagName = tagInputRef.current.value
-            const response: TagsApiRootObject = await tagsEditApi(smId, initialTagData.edit.editKey, tagName, "POST")
+            const response: TagsApiRootObject = await tagsEditApi(videoId, initialTagData.edit.editKey, tagName, "POST")
             if (response.meta.status === 400 && response.meta.errorCode === "TAG_RESERVED") showAlert({ title: "タグを登録できません", body: "400: 予約済みのタグは登録できません。", icon: <IconCircleX /> })
             if (response.meta.status !== 200) return
             setTags(response.data.tags)
@@ -133,15 +136,15 @@ export default function Tags({ initialTagData, isShinjukuLayout }: { initialTagD
     }
 
     async function onTagRemove(tagName: string, isLocked: boolean) {
-        if (!isEditable || isLocked || !smId || !initialTagData.edit.editKey) return
-        const response: TagsApiRootObject = await tagsEditApi(smId, initialTagData.edit.editKey, tagName, "DELETE")
+        if (!isEditable || isLocked || !videoId || !initialTagData.edit.editKey) return
+        const response: TagsApiRootObject = await tagsEditApi(videoId, initialTagData.edit.editKey, tagName, "DELETE")
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
     }
 
     async function onTagLockEdit(tagName: string, isLocked: boolean) {
-        if (!isLockable || !isEditable || !smId || !initialTagData.edit.editKey) return
-        const response: TagsApiRootObject = await tagsLockApi(smId, initialTagData.edit.editKey, tagName, isLocked)
+        if (!isLockable || !isEditable || !videoId || !initialTagData.edit.editKey) return
+        const response: TagsApiRootObject = await tagsLockApi(videoId, initialTagData.edit.editKey, tagName, isLocked)
         if (response.meta.status !== 200) return
         setTags(response.data.tags)
     }
