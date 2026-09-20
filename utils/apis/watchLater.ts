@@ -17,6 +17,30 @@ export async function getWatchLater(sortKey: string, sortOrder: string, pageSize
     return responseJson
 }
 
+const controlOperationHeaders = {
+    "x-frontend-id": "6",
+    "x-frontend-version": "0",
+    "x-niconico-language": "ja-jp",
+    "x-request-with": "https://www.nicovideo.jp",
+}
+
+/**
+ * あとで見るからアイテムを削除するAPI
+ * @param itemIds watchId の配列
+ */
+export async function deleteWatchLaterItems(itemIds: string[]): Promise<baseResponse> {
+    const url = new URL("https://nvapi.nicovideo.jp/v1/users/me/watch-later")
+    url.searchParams.append("itemIds", itemIds.join(","))
+    const response = await fetch(url, {
+        credentials: "include",
+        headers: controlOperationHeaders,
+        method: "DELETE",
+    })
+    const responseJson = await response.json() as baseResponse
+    if (!validateBaseResponse(responseJson)) throw new APIError("deleteWatchLaterItems failed.", responseJson)
+    return responseJson
+}
+
 export async function addToWatchLater(smId: string, memo = "") {
     const response = await fetch("https://nvapi.nicovideo.jp/v1/users/me/watch-later", {
         headers: {
