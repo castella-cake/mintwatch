@@ -13,6 +13,7 @@ export function blockPage() {
     document.getElementById("root")?.remove()
     Array.from(document.getElementsByClassName("BaseUniLayout-main")).forEach(elem => elem.remove())
     Array.from(document.getElementsByClassName("BaseUniLayout-footer")).forEach(elem => elem.remove())
+    Array.from(document.getElementsByClassName("BaseLayout-container")).forEach(elem => elem.remove())
     document.getElementById("CommonHeader")?.remove()
     const observer = new MutationObserver((records) => {
         records.forEach((record) => {
@@ -29,6 +30,10 @@ export function blockPage() {
                         console.log("blacklist element removed")
                     }
                     if (elem.className === "BaseUniLayout-footer") {
+                        elem.remove()
+                        console.log("blacklist element removed")
+                    }
+                    if (elem.className === "BaseLayout-container") {
                         elem.remove()
                         console.log("blacklist element removed")
                     }
