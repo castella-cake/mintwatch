@@ -3,9 +3,13 @@ import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { PageSelector } from "@/components/Global/PageSelector"
 // import "../../styles/UserMylist.css"
-import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
+import { IconAlertTriangle, IconCheck, IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useUserMylistData } from "@/hooks/apiHooks/user/userMylistData"
+import { useCopyMylistItems, useDeleteMylistItems, useMoveMylistItems } from "@/hooks/apiHooks/user/mylistItemOperations"
+import { useItemSelection } from "@/hooks/useItemSelection"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { UserMylistHeader } from "./UserMylistHeader"
+import { MylistItemActionBar } from "./MylistItemActionBar"
 import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
 import { mylistSortKeys } from "./UserMylist"
 
@@ -24,6 +28,17 @@ export function UserMylistByMe() {
     const sortOrder = validOrder.includes(searchParams.get("sortOrder") ?? "") ? searchParams.get("sortOrder") as "asc" | "desc" : undefined
 
     const { mylistData, isLoading, error } = useUserMylistData("me", mylistId, 100, parseInt(page, 10), sortKey, sortOrder)
+
+    const copyMutation = useCopyMylistItems()
+    const moveMutation = useMoveMylistItems()
+    const deleteMutation = useDeleteMylistItems()
+
+    const [selectedDestinationId, setSelectedDestinationId] = useState<number | null>(null)
+    const isProcessing = copyMutation.isPending || moveMutation.isPending || deleteMutation.isPending
+    const items = mylistData?.data.mylist.items ?? []
+    const selection = useItemSelection(items, `${location.pathname}${location.search}`)
+    const { showAlert, showToast } = useSetMessageContext()
+
     if (!mylistId || Number.isNaN(mylistId)) {
         return (
             <div className="user-videolist-view user-mylist-item">
@@ -46,6 +61,91 @@ export function UserMylistByMe() {
 
     if (isLoading) {
         return <LoadingFiller />
+    }
+
+    const moveItemIds = items.filter(item => selection.selected.has(item.watchId)).map(item => item.video.id)
+
+    const handleDelete = () => {
+        const count = selection.selected.size
+        showAlert({
+            title: "アイテムを削除",
+            body: `${count} 件のアイテムを削除します。よろしいですか？`,
+            customCloseButton: [
+                { text: "キャンセル", key: "cancel" },
+                { text: "削除する", key: "confirm", primary: true },
+            ],
+            onClose: (key) => {
+                if (key === "confirm") {
+                    deleteMutation.mutate({ mylistId: mylistId!, itemIds: Array.from(selection.selected) })
+                    selection.clear()
+                    setSelectedDestinationId(null)
+                }
+            },
+        })
+    }
+
+    const handleMove = () => {
+        if (selectedDestinationId === null) return
+        moveMutation.mutate({ from: mylistId!, to: selectedDestinationId, itemIds: moveItemIds }, {
+            onSuccess: (data) => {
+                selection.clear()
+                setSelectedDestinationId(null)
+                const duplicated = data.data.duplicatedIds
+                if (duplicated.length > 0) {
+                    showAlert({
+                        title: "一部の動画は移動できませんでした",
+                        body: (
+                            <>
+                                移動先に既に存在するため、
+                                {duplicated.length}
+                                {" "}
+                                件はスキップされました。
+                                <br />
+                                対象:
+                                {" "}
+                                <code>{duplicated.join(", ")}</code>
+                            </>
+                        ),
+                        icon: <IconAlertTriangle />,
+                    })
+                } else {
+                    showToast({ title: `${data.data.processedIds.length} 件を移動しました`, icon: <IconCheck /> })
+                }
+            },
+            onError: error => showAlert({ title: "移動に失敗しました", body: String(error), icon: <IconAlertTriangle /> }),
+        })
+    }
+
+    const handleCopy = () => {
+        if (selectedDestinationId === null) return
+        copyMutation.mutate({ from: mylistId!, to: selectedDestinationId, itemIds: moveItemIds }, {
+            onSuccess: (data) => {
+                selection.clear()
+                setSelectedDestinationId(null)
+                const duplicated = data.data.duplicatedIds
+                if (duplicated.length > 0) {
+                    showAlert({
+                        title: "一部の動画はコピーできませんでした",
+                        body: (
+                            <>
+                                移動先に既に存在するため、
+                                {duplicated.length}
+                                {" "}
+                                件はスキップされました。
+                                <br />
+                                対象:
+                                {" "}
+                                <code>{duplicated.join(", ")}</code>
+                            </>
+                        ),
+                        icon: <IconAlertTriangle />,
+                    })
+                } else {
+                    showToast({ title: `${data.data.processedIds.length} 件をコピーしました`, icon: <IconCheck /> })
+                }
+            },
+            onError: error => showAlert({ title: "コピーに失敗しました", body: String(error), icon: <IconAlertTriangle /> }),
+        })
     }
 
     const watchPlaylistQuery = new URLSearchParams()
@@ -83,9 +183,34 @@ export function UserMylistByMe() {
                 }}
                 />
             </UserVideosOptionSelector>
+            <MylistItemActionBar
+                items={items.map(item => ({ watchId: item.watchId, videoId: item.video.id, title: item.video.title }))}
+                selectedIds={selection.selected}
+                onToggleOne={selection.toggleOne}
+                onToggleAll={selection.toggleAll}
+                allSelected={selection.allSelected}
+                someSelected={selection.someSelected}
+                currentSourceId={mylistId}
+                selectedDestinationId={selectedDestinationId}
+                onSelectDestination={setSelectedDestinationId}
+                onMove={handleMove}
+                onCopy={handleCopy}
+                onDelete={handleDelete}
+                isProcessing={isProcessing}
+            />
             <div className="user-videolist-view-videos">
                 {mylistData?.data.mylist.items.map(item => (
                     <div className="user-videolist-view-video" key={item.watchId}>
+                        <input
+                            type="checkbox"
+                            className="user-videolist-view-checkbox"
+                            checked={selection.selected.has(item.watchId)}
+                            onChange={(e) => {
+                                e.stopPropagation()
+                                selection.toggleOne(item.watchId)
+                            }}
+                            disabled={isProcessing}
+                        />
                         <VideoItemCard
                             video={item.video}
                             customHref={`https://www.nicovideo.jp/watch/${item.video.id}?${watchPlaylistQuery.toString()}`}
