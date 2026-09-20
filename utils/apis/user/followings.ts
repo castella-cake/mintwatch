@@ -1,9 +1,10 @@
 import APIError from "@/utils/classes/APIError"
 
-export async function getUserFollowingsUsers(userId: "me" | number, pageSize: number = 100) {
+export async function getUserFollowingsUsers(userId: "me" | number, pageSize: number = 100, cursor?: string) {
     const url = new URL(`https://nvapi.nicovideo.jp/v1/users/${userId}/following/users`)
 
     url.searchParams.append("pageSize", pageSize.toString())
+    if (cursor && cursor !== "") url.searchParams.append("cursor", cursor)
 
     const response = await fetch(url, {
         headers: {

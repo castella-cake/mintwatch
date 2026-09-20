@@ -1,9 +1,10 @@
 import APIError from "@/utils/classes/APIError"
 
-export async function getUserFollowedBy(userId: "me" | number, pageSize: number = 100) {
-    const url = new URL(`https://nvapi.nicovideo.jp/v1/users/${userId}/followed-by`)
+export async function getUserFollowedBy(userId: "me" | number, pageSize: number = 100, cursor?: string) {
+    const url = new URL(`https://nvapi.nicovideo.jp/v1/users/${userId}/followed-by/users`)
 
     url.searchParams.append("pageSize", pageSize.toString())
+    if (cursor && cursor !== "") url.searchParams.append("cursor", cursor)
 
     const response = await fetch(url, {
         headers: {

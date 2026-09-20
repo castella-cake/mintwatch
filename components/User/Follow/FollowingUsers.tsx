@@ -1,8 +1,16 @@
-import { useUserFollowingsData } from "@/hooks/apiHooks/user/UserFollowingsData"
+import { useInfiniteUserFollowingsData } from "@/hooks/apiHooks/user/infinityUserFollowingsData"
+import { useInView } from "react-intersection-observer"
 import { FollowUserItemCard } from "./FollowUserItemCard"
 
 export function FollowingUsers({ userId }: { userId: "me" | number }) {
-    const { data, error, isLoading } = useUserFollowingsData(userId, 20)
+    const { data, error, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteUserFollowingsData(userId)
+    const { ref, inView } = useInView()
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage()
+        }
+    }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage])
 
     if (isLoading) {
         return (
@@ -22,9 +30,12 @@ export function FollowingUsers({ userId }: { userId: "me" | number }) {
 
     return (
         <div className="user-following-users">
-            {data?.data.items.map(user => (
+            {data?.pages.flatMap(page => page.data.items).map(user => (
                 <FollowUserItemCard key={user.id} user={user} />
             ))}
+            <div ref={ref} className="user-following-users-inview-anchor">
+                {isFetchingNextPage && <p>Loading...</p>}
+            </div>
         </div>
     )
 }
