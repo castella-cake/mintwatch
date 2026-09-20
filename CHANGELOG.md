@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Shinjuku プレイヤーでのボタンのアイコンサイズを少し下げました
+- スレッドIDを指定してチャンネル動画を再生した場合に、完全に空のコメントが取得されたら通知を行うようになりました
 
 ### Fixed
 - Shinjuku プレイヤーのセレクター表示が再びカスタマイズされるようになりました
 - Shinjuku ナビゲーションバーで検索ページに入ってもユーザーとシリーズ検索が表示されない問題を修正しました
 - 検索条件の変更時に最初のページに戻るようになりました
+- スレッドIDを指定した動画URLから再生できない問題を修正しました [#81](https://github.com/castella-cake/mintwatch/issues/81)
 
 ## 1.0.1 - 2026/09/15
 

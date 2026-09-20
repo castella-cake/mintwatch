@@ -1,9 +1,16 @@
 const videoIdRegex = /(?:s[mos]|n[lm])(?!0)\d+/g
 
-const validateVideoIdRegex = /^(?:s[mos]|n[lm])?(?!0)\d+$/
+// const validateVideoIdRegex = /^(?:s[mos]|n[lm])(?!0)\d+$/
+const validateThreadIdRegex = /^(?!0)\d{10}$/
+
+const validateWatchVideoIdRegex = /^(?:s[mos]|n[lm])?(?!0)\d+$/
+
+export function validateThreadId(threadId: string): boolean {
+    return validateThreadIdRegex.test(threadId)
+}
 
 export function validateVideoId(videoId: string): boolean {
-    return validateVideoIdRegex.test(videoId)
+    return validateWatchVideoIdRegex.test(videoId)
 }
 
 export function detectVideoIdFromString(string: string): string[] | null {

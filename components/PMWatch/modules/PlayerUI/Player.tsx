@@ -34,6 +34,9 @@ import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
 import { JumpVideoCard } from "./JumpVideoCard"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { validateThreadId } from "@/utils/detectVideoId"
+import { IconMessage2Question } from "@tabler/icons-react"
 
 type Props = {
     isFullscreenUi: boolean
@@ -45,6 +48,8 @@ type Props = {
 
 function Player(props: Props) {
     const { isFullscreenUi, setIsFullscreenUi, changeVideo, onModalStateChanged, isShortsPlayer } = props
+
+    const { showToast } = useSetMessageContext()
 
     const { smId } = useSmIdContext()
     const { videoInfo, videoId } = useVideoInfoContext()
@@ -502,6 +507,31 @@ function Player(props: Props) {
             videoRef.current?.play().catch(() => {})
         }
     }, [jumpFeedbackTimeoutRef, setJumpVideo, videoRef])
+
+    const lastWarnedSmIdRef = useRef<string | null>(null)
+    useEffect(() => {
+        if (
+            smId
+            && validateThreadId(smId)
+            && smId !== videoId
+            && lastWarnedSmIdRef.current !== smId
+            && commentContent?.data?.threads.reduce((prev, current) => prev + current.comments.length, 0) === 0
+            && videoInfo?.data.response.channel
+        ) {
+            lastWarnedSmIdRef.current = smId
+            showToast({
+                icon: <IconMessage2Question />,
+                title: "指定されたスレッドIDにはコメントがありません",
+                body: (
+                    <>
+                        チャンネル動画をスレッドID指定で取得していますが、このスレッドにはコメントがありません。
+                        <br />
+                        すべてのコメントを表示するには、動画IDでアクセスし直してください。
+                    </>
+                ),
+            })
+        }
+    }, [smId, videoId, videoInfo, commentContent, showToast])
 
     const preferredCommentFps
         = localStorage.commentRenderFps ?? 60 // 未指定の場合は60にフォールバック
