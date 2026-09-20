@@ -124,7 +124,7 @@ export default function RouterUI() {
             setSideMenuShown(false)
             return false
         }
-        if (e.ctrlKey) return true
+        if (e.ctrlKey || e.metaKey || e.altKey) return true
         if (e.target instanceof Element) {
             if (e.target.closest("input, textarea")) return true
         }
