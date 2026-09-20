@@ -119,7 +119,7 @@ function CreateWatchUI() {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
-            if (nearestAnchor && urlToVideoId(nearestAnchor.href) !== null && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
+            if (nearestAnchor && typeof urlToVideoId(nearestAnchor.href) === "string" && !nearestAnchor.getAttribute("data-seektime") && !isOutOfBoundsLinkAnchor(nearestAnchor)) {
                 // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
