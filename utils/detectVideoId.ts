@@ -13,9 +13,9 @@ export function validateVideoId(videoId: string): boolean {
     return validateWatchVideoIdRegex.test(videoId)
 }
 
-export function detectVideoIdFromString(string: string): string[] | null {
+export function detectVideoIdFromString(string: string): string[] | undefined {
     const matches = string.match(videoIdRegex)
-    return matches ? Array.from(new Set(matches)) : null
+    return matches ? Array.from(new Set(matches)) : undefined
 }
 
 export function isPathnameIsVideoPage(pathname: string, isShortsPageEnabled?: boolean): boolean {
