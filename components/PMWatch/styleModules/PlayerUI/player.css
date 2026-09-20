@@ -22,7 +22,7 @@
     aspect-ratio: 16 / 9;
     position: relative;
     width: round(up, 100%, 1px);
-    height: round(up, 100%, 1px);
+    height: 100%;
     overflow: hidden;
     margin: 0 auto;
     background: #000;
