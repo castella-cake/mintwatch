@@ -196,7 +196,7 @@ const settings: settingList = {
             type: "checkbox",
             name: "enableUserPage",
             default: false,
-        }
+        },
     ],
     flags: [
         {
