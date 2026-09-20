@@ -36,7 +36,7 @@ export function NicoruHistory({ type }: { type: "send" | "receive" }) {
                                                 <div className="user-history-nicoru-vpos">{secondsToTime(item.commentVpos / 1000)}</div>
                                                 <div className="user-history-nicoru-total">
                                                     <NicoruSvg />
-                                                    <span>{item.totalCount}</span>
+                                                    <span>{item.count}</span>
                                                 </div>
                                             </div>
                                             <div className="user-history-nicoru-video">
