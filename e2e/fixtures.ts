@@ -60,12 +60,14 @@ export const test = base.extend<FixtureType>({
         const extensionId = background.url().split("/")[2]
         await use(extensionId)
     },
-    mockApi: async ({ page }, use) => {
+    mockApi: async ({ page, context }, use) => {
         async function applyMockApi() {
-            await page.route("https://**/*", route => route.abort())
-            await page.route("http://**/*", route => route.abort())
+            // context.route() を使い、新タブを開いた場合もモックが適用されるようにする
+            // (page.route() は該当ページのみで、target="_blank" で開いた新タブには適用されない)
+            await context.route("https://**/*", route => route.abort())
+            await context.route("http://**/*", route => route.abort())
 
-            await page.route(/^https:\/\/www\.nicovideo\.jp\/(?!.*\?responseType=json).*$/, route => route.fulfill({
+            await context.route(/^https:\/\/www\.nicovideo\.jp\/(?!.*\?responseType=json).*$/, route => route.fulfill({
                 status: 200,
                 body: `<!DOCTYPE html><html lang="ja"><head></head><body></body></html>`,
             }))
