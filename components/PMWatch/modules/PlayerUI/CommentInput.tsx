@@ -1,7 +1,7 @@
 import { IconAlertTriangle, IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
 import { useId, useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
-import type { VideoDataRootObject } from "@/types/VideoData"
+import type { VideoDataRootObject } from "@/types/watch/Base"
 import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"

@@ -1,5 +1,5 @@
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import APIError from "@/utils/classes/APIError"
 import { useQuery } from "@tanstack/react-query"
 

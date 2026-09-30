@@ -1,5 +1,5 @@
 import Hls from "hls.js"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { RefObject, useEffect, useState } from "react"
 
 export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootObject | undefined, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement | null> }) {

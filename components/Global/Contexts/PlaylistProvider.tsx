@@ -1,5 +1,5 @@
 import { mylistContext, playlistQueryData, searchContext } from "@/types/playlistQuery"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { useVideoInfoContext } from "./VideoDataProvider"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"

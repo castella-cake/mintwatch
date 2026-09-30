@@ -1,6 +1,6 @@
 import { createContext, createRef, ReactNode, RefObject } from "react"
 import { useSmIdContext } from "./WatchDataContext"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { useSetBackgroundPlayInfoContext } from "./BackgroundPlayProvider"
 import { useVideoDataQuery } from "@/hooks/apiHooks/watch/videoData"
 import APIError from "@/utils/classes/APIError"
@@ -44,11 +44,12 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             && videoInfo.meta?.status === 200
             && actionTrackId.current !== ""
         ) {
-            if (videoInfo.data.response.video) {
+            const video = videoInfo.data.response.$watchV4.data.video
+            if (video) {
                 setBackgroundPlayInfo({
-                    title: videoInfo.data.response.video.title,
-                    videoId: videoInfo.data.response.video.id,
-                    thumbnailSrc: videoInfo.data.response.video.thumbnail.player,
+                    title: video.title,
+                    videoId: video.id,
+                    thumbnailSrc: video.thumbnail.player,
                 })
             } else {
                 setBackgroundPlayInfo({})
@@ -70,7 +71,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
         }
     }, [errorInfo])
 
-    const videoId = videoInfo?.data.response.video?.id || undefined
+    const videoId = videoInfo?.data.response.$watchV4.data.video?.id || undefined
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId.current}>

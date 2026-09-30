@@ -1,4 +1,4 @@
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 
 export default async function getFastVideoData(smId: string) {
     // metaタグからのレスポンスを入れる。ないかもしれないので最初はnull。

@@ -1,7 +1,7 @@
 import { errorHaiku } from "@/utils/errorHaiku"
 import DAnimeLinks from "./DAnimeLinks"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { ErrorResponse } from "@/types/VideoData"
+import { ErrorResponse } from "@/types/watch/Base"
 import { isRedirectResponse } from "@/utils/responseUtils"
 
 function ReturnErrorHaiku({ errorResponse }: { errorResponse: ErrorResponse }) {

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Share } from "@/components/Global/Share"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { VideoDataToShareBody } from "@/utils/videoShareUtils"
 import { useCommentContentContext } from "@/components/Global/Contexts/CommentDataProvider"
 import "../../styleModules/VideoActionModal/ShareUI.css"

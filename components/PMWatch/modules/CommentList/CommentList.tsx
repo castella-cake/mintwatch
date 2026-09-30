@@ -1,7 +1,7 @@
 import { useState, useRef, useId } from "react"
 // import { useLang } from "../localizeHook";
 import type { Comment } from "@/types/CommentData"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { IconAdjustmentsHorizontal, IconAlertTriangle, IconBubbleX, IconExclamationCircle, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"
 import { TimeMachine } from "./TimeMachineUi"
 import {

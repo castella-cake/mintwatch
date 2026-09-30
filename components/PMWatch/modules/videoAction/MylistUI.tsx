@@ -1,4 +1,4 @@
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 import { Mylists } from "../Mylists"
 
 type Props = {

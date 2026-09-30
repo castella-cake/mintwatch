@@ -1,5 +1,5 @@
 // import { useLang } from "../localizeHook";
-import { VideoOwner } from "@/types/VideoData"
+import { VideoOwner } from "@/types/watch/Base"
 import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { WatchNextVideoAction } from "./WatchNextVideoAction"

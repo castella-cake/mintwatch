@@ -2,7 +2,7 @@ import {
     IconExclamationCircleFilled,
     IconTags,
 } from "@tabler/icons-react"
-import type { ErrorResponse } from "@/types/VideoData"
+import type { ErrorResponse } from "@/types/watch/Base"
 import { MouseEvent, useState } from "react"
 import DOMPurify from "dompurify"
 import HTMLReactParser from "html-react-parser"
@@ -170,7 +170,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     )
     if (errorInfo) return <ErrorUI error={errorInfo} />
     if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />
-    const videoInfoResponse = videoInfo.data.response
+    const videoInfoResponse = videoInfo.data.response.$watchV4.data
 
     // Not scary!
     const sanitizedDesc = DOMPurify.sanitize(
@@ -226,7 +226,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                                 </strong>
                                 {" "}
                                 投稿の
-                                {videoInfoResponse.channel ? "公式" : "ユーザー"}
+                                {videoInfoResponse.video.isChannelVideo ? "公式" : "ユーザー"}
                                 動画
                                 <span className="threeleader"> … </span>
                                 <strong>
@@ -236,18 +236,6 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                                     {" "}
                                 </strong>
                                 カテゴリ
-                                {videoInfoResponse.ranking.teiban
-                                    ? (
-                                            <>
-                                                (
-                                                <strong>{videoInfoResponse.ranking.teiban.label}</strong>
-                                                {" "}
-                                                内現在順位:
-                                                {videoInfoResponse.ranking.teiban.rank}
-                                                位)
-                                            </>
-                                        )
-                                    : ""}
                             </div>
                         )}
                         <VideoTitle showStats={!isShinjukuLayout} />

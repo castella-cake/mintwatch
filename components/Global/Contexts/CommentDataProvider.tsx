@@ -3,7 +3,7 @@ import { useVideoInfoContext } from "./VideoDataProvider"
 import { CommentDataRootObject } from "@/types/CommentData"
 import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData"
 import { UseMutateFunction } from "@tanstack/react-query"
-import { VideoDataThread } from "@/types/VideoData"
+import { VideoDataThread } from "@/types/watch/Base"
 import { usePastLogQuery, PendingPastLog } from "@/hooks/pastLogQuery"
 
 const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined, currentLogData: { when: number } | undefined, pendingPastLog: PendingPastLog | undefined }>({ commentContent: undefined, lastSentCommentId: undefined, currentLogData: undefined, pendingPastLog: undefined })
