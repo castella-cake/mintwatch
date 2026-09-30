@@ -16,11 +16,13 @@ export interface PreferredQuality {
 /**
  * HLS Level 配列と API の `media.hls.outputs[].assetUnitNames` から構築する lookup。
  *
- * Niconico の HLS は (video × audio) の cartesian product が
- * `media.hls.outputs[].assetUnitNames` に宣言されており、その順序がそのまま
- * m3u8 variant (= `hlsLevels[i]`) に対応する。
- * `assetUnitNames[0]` / `[1]` は `contents.videos[k].id` / `contents.audios[k].id`
- * と同一の文字列で、対応する level index を直接引ける。
+ * `media.hls.outputs[].assetUnitNames` にはHLSのURLから返されるレベルのの対応がある。
+ * `assetUnitNames[0]` / `[1]` == `contents.videos[k].id` / `contents.audios[k].id`
+ *
+ * ただし `outputs[]` は「高画質 + 高音質 → 低画質 + 低音質」の降順で列挙されるが、
+ * hls.js が読む master playlist は BANDWIDTH 昇順で列挙されるため、
+ * `outputs[i]` に対応する hls.js の level index は `hlsLevels.length - 1 - i` になる。
+ * (例: outputs[0]=1080p → hlsLevels の最上位)
  */
 export interface VideoLevelMap {
     /** videoId -> その videoId での最高音質の HLS level index (UI表示用) */
@@ -45,7 +47,8 @@ export function buildVideoLevelMap(
     const byLevel = new Map<number, { videoId: string, audioId: string }>()
     const byPair = new Map<string, number>()
 
-    // outputs[i] は hlsLevels[i] に対応する (Niconico はこの順序で master playlist を生成する)
+    // outputs[] は高→低の降順、hls.js の data.levels[] は低→高の昇順で逆順になっている。
+    // outputs[i] に対応する hls.js の level index は (levelCount - 1 - i) になる。
     const levelCount = Math.min(hlsLevels.length, hlsOutputs.length)
     for (let i = 0; i < levelCount; i++) {
         const names = hlsOutputs[i].assetUnitNames
@@ -56,10 +59,11 @@ export function buildVideoLevelMap(
         const video = videos.find(v => v.id === videoAsset)
         const audio = audios.find(a => a.id === audioAsset)
         if (!video || !audio) continue
-        // アカウントで利用不可 (premium 限定など) は除外
+        // 利用不可なクオリティは除外 (320kbpsのロールアウト以前などにfalseになることがあった)
         if (!video.isAvailable || !audio.isAvailable) continue
-        byLevel.set(i, { videoId: video.id, audioId: audio.id })
-        byPair.set(pairKey(video.id, audio.id), i)
+        const hlsLevelIdx = levelCount - 1 - i
+        byLevel.set(hlsLevelIdx, { videoId: video.id, audioId: audio.id })
+        byPair.set(pairKey(video.id, audio.id), hlsLevelIdx)
     }
 
     // 各 videoId について、最高音質 (audio bitrate 最大) の level を 1件選ぶ

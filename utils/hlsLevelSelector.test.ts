@@ -39,7 +39,7 @@ function makeAudio(id: string, qualityLevel: number, bitRate: number, isAvailabl
 }
 
 describe("buildVideoLevelMap", () => {
-    test("outputs[i] と hlsLevels[i] を 1:1 で対応付ける", () => {
+    test("outputs[i] と hlsLevels[levelCount-1-i] を逆順で対応付ける", () => {
         const levels = [makeLevel(1920, 1080, 5000000), makeLevel(1920, 1080, 4800000), makeLevel(1280, 720, 3000000)]
         const videos = [
             makeVideo("video-h264-1080p", 3, 1920, 1080, 4000000),
@@ -51,9 +51,12 @@ describe("buildVideoLevelMap", () => {
             { assetUnitNames: ["video-h264-720p", "audio-aac-192kbps"] },
         ]
         const map = buildVideoLevelMap(levels, outputs, videos, audios)
-        expect(map.byPair.get("video-h264-1080p|audio-aac-192kbps")).toBe(0)
-        expect(map.byPair.get("video-h264-720p|audio-aac-192kbps")).toBe(1)
-        expect(map.byLevel.get(0)).toEqual({ videoId: "video-h264-1080p", audioId: "audio-aac-192kbps" })
+        // outputs[0]=1080p+192k は hlsLevels の最上位 (= levelCount-1-0 = 1)
+        expect(map.byPair.get("video-h264-1080p|audio-aac-192kbps")).toBe(1)
+        // outputs[1]=720p+192k は hlsLevels の最下位 (= levelCount-1-1 = 0)
+        expect(map.byPair.get("video-h264-720p|audio-aac-192kbps")).toBe(0)
+        expect(map.byLevel.get(1)).toEqual({ videoId: "video-h264-1080p", audioId: "audio-aac-192kbps" })
+        expect(map.byLevel.get(0)).toEqual({ videoId: "video-h264-720p", audioId: "audio-aac-192kbps" })
     })
 
     test("isAvailable=false の video/audio は map から除外する", () => {
@@ -69,7 +72,8 @@ describe("buildVideoLevelMap", () => {
         ]
         const map = buildVideoLevelMap(levels, outputs, videos, audios)
         expect(map.byLevel.size).toBe(1)
-        expect(map.byLevel.get(1)).toEqual({ videoId: "video-h264-720p", audioId: "audio-aac-192kbps" })
+        // 1080p は除外されるので、720p (outputs[1]) のみ残る → levelCount-1-1 = 0
+        expect(map.byLevel.get(0)).toEqual({ videoId: "video-h264-720p", audioId: "audio-aac-192kbps" })
         expect(map.byVideo.get("video-h264-1080p")).toBeUndefined()
     })
 
@@ -96,10 +100,10 @@ describe("buildVideoLevelMap", () => {
             { assetUnitNames: ["video-h264-720p", "audio-aac-128kbps"] },
         ]
         const map = buildVideoLevelMap(levels, outputs, videos, audios)
-        // 1080p は audio 192kbps (bitrate 最大の組み合わせ) → level 0
-        expect(map.byVideo.get("video-h264-1080p")).toBe(0)
-        // 720p は audio 128kbps (bitrate 最大の組み合わせ) → level 3
-        expect(map.byVideo.get("video-h264-720p")).toBe(3)
+        // 1080p は audio 192kbps (bitrate 最大の組み合わせ) → outputs[0] → hlsLevels[3]
+        expect(map.byVideo.get("video-h264-1080p")).toBe(3)
+        // 720p は audio 128kbps (bitrate 最大の組み合わせ) → outputs[3] → hlsLevels[0]
+        expect(map.byVideo.get("video-h264-720p")).toBe(0)
     })
 
     test("outputs に含まれない video/audio は無視する", () => {
@@ -142,12 +146,14 @@ describe("pickLevelFromPreferred", () => {
     const map = buildVideoLevelMap(levels, outputs, videos, audios)
 
     test("完全一致の (videoId, audioId) が最優先", () => {
-        expect(pickLevelFromPreferred(map, { videoId: "video-h264-1080p", audioId: "audio-aac-192kbps" }, videos)).toBe(0)
+        // outputs[0]=1080p+192k → 反転後の index = levelCount-1-0 = 5
+        expect(pickLevelFromPreferred(map, { videoId: "video-h264-1080p", audioId: "audio-aac-192kbps" }, videos)).toBe(5)
     })
 
     test("videoId のみ一致したらその動画の最高音質 level", () => {
         // 1080p の audio を 64kbps に変えた想定 → byPair には無いが byVideo には 1080p が居る
-        expect(pickLevelFromPreferred(map, { videoId: "video-h264-1080p", audioId: "audio-aac-320kbps" }, videos)).toBe(0)
+        // byVideo["1080p"] = 5 (audio 192kbps の組み合わせ)
+        expect(pickLevelFromPreferred(map, { videoId: "video-h264-1080p", audioId: "audio-aac-320kbps" }, videos)).toBe(5)
     })
 
     test("videoId が無ければ qualityLevel が最も近い動画の最高音質", () => {
@@ -203,8 +209,8 @@ describe("pickHighestLevel", () => {
     const map = buildVideoLevelMap(levels, outputs, videos, audios)
 
     test("最も qualityLevel が高い動画の最高音質を返す", () => {
-        // 1080p=3 > 720p=2 → 1080p の audio 192kbps → level 0
-        expect(pickHighestLevel(map, videos, audios)).toBe(0)
+        // 1080p=3 > 720p=2 → 1080p の audio 192kbps → outputs[0] → 反転後の index = 3
+        expect(pickHighestLevel(map, videos, audios)).toBe(3)
     })
 })
 
