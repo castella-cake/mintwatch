@@ -24,8 +24,8 @@ export default async function getFastVideoData(smId: string) {
     if (
         initialResponse
         && initialResponse.meta?.status === 200
-        && initialResponse.data?.response.video
-        && initialResponse.data?.response.video.id === smId
+        && initialResponse.data?.response?.$watchV4?.data?.video
+        && initialResponse.data.response.$watchV4.data.video.id === smId
     ) {
         fetchedVideoInfo = initialResponse
         document.getElementsByName("server-response-mw")[0].remove() // 使いまわすべきではないので削除。Reactの思想(一貫性)に反するがこうするしかない。

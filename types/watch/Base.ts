@@ -19,18 +19,18 @@ interface WatchV4 {
     data: WatchV4Data
 }
 
-interface WatchV4Data {
+export interface WatchV4Data {
     responseType: string
     client: Client
-    comment: Comment
+    comment: VideoDataComment
     media: Media
     player: Player
-    video: Video2
+    video: VideoData
     genre: Genre
     tags: Tags
     lazy: Lazy
     system: System
-    viewer: Viewer2
+    viewer: Viewer
     videoAds: VideoAds
     videoLive: null
     payment: Payment
@@ -39,7 +39,7 @@ interface WatchV4Data {
     okReason: string
 }
 
-interface Metadata {
+export interface Metadata {
     jsonLd: JsonLd
     gtm: Gtm
 }
@@ -73,7 +73,7 @@ interface BaseVideo {
     thumbnail: null
 }
 
-interface Payment {
+export interface Payment {
     ppv: Ppv
     admission: Ppv
     continuationBenefit: Ppv
@@ -88,7 +88,7 @@ interface Ppv {
     showPromotion: boolean
 }
 
-interface VideoAds {
+export interface VideoAds {
     additionalParams: AdditionalParams
     items: any[]
     reason: null
@@ -108,14 +108,14 @@ interface AdditionalParams {
     age: number
 }
 
-interface Viewer2 {
+export interface Viewer {
     id: number
     nickname: string
     isPremium: boolean
     allowSensitiveContents: boolean
 }
 
-interface System {
+export interface System {
     serverTime: string
     isStellaAlive: boolean
     channelGtmContainerId: string
@@ -143,7 +143,7 @@ interface TagItem {
     isLocked: boolean
 }
 
-interface Genre {
+export interface Genre {
     key: string
     label: string
     isImmoral: boolean
@@ -151,7 +151,7 @@ interface Genre {
     isNotSet: boolean
 }
 
-interface Video2 {
+export interface VideoData {
     id: string
     contentType: string
     title: string
@@ -184,7 +184,7 @@ interface Rating {
     isAdult: boolean
 }
 
-interface Thumbnail2 {
+export interface Thumbnail2 {
     normal: string
     middle: string
     large: string
@@ -193,7 +193,7 @@ interface Thumbnail2 {
     short: null
 }
 
-interface Player {
+export interface Player {
     comment: Comment2
     initialPlayback: InitialPlayback | null
     layerMode: number
@@ -208,7 +208,7 @@ interface Comment2 {
     isDefaultInvisible: boolean
 }
 
-interface Media {
+export interface Media {
     contents: Contents
     isStoryboardAvailable: boolean
     accessRightKey: string
@@ -232,12 +232,12 @@ interface Output {
     assetUnitNames: string[]
 }
 
-interface Contents {
+export interface Contents {
     videos: Video[]
     audios: Audio[]
 }
 
-interface Audio {
+export interface Audio {
     id: string
     isAvailable: boolean
     qualityLevel: number
@@ -259,7 +259,7 @@ interface LoudnessCollection {
     value: number
 }
 
-interface Video {
+export interface Video {
     id: string
     isAvailable: boolean
     qualityLevel: number
@@ -269,8 +269,8 @@ interface Video {
     height: number
 }
 
-interface Comment {
-    threads: Thread[]
+export interface VideoDataComment {
+    threads: VideoDataThread[]
     layers: Layer[]
     ng: Ng
     isAttentionRequired: boolean
@@ -288,7 +288,7 @@ interface Assist {
     buttonDisplayOffsetSec: number
 }
 
-interface NvComment {
+export interface NvComment {
     threadKey: string
     server: string
     params: Params
@@ -339,7 +339,7 @@ export interface VideoDataThread {
     syncBufferTime: number
 }
 
-interface Client {
+export interface Client {
     nicosid: string
     watchId: string
     watchTrackId: string

@@ -1,28 +1,28 @@
-import { VideoDataRootObject } from "@/types/watch/Base"
+import { VideoData, Player } from "@/types/watch/Base"
 import { parseFromQuery } from "@/utils/fromQuery"
 import { RefObject } from "react"
 
-export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, videoInfo: VideoDataRootObject | undefined, resumePlaybackType?: string) {
+export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, video: VideoData | null | undefined, player: Player | null | undefined, resumePlaybackType?: string) {
     const appliedVideoIdRef = useRef<string | null>(null)
 
     // レジューム再生の処理
     useEffect(() => {
-        if (!videoInfo) return
+        if (!video) return
         const onUnload = () => {
             if (!videoRef.current) return
-            const playbackPositionBody = { videoId: videoInfo.data.response.video.id, seconds: videoRef.current.currentTime }
+            const playbackPositionBody = { videoId: video.id, seconds: videoRef.current.currentTime }
             putPlaybackPosition(playbackPositionBody, new Date())
         }
         window.addEventListener("beforeunload", onUnload)
         return () => {
             window.removeEventListener("beforeunload", onUnload)
         }
-    }, [videoInfo])
+    }, [video])
 
     // fromから再生位置の指定をするか、レジューム再生で再生位置を指定する
     useEffect(() => {
-        if (!videoInfo || !videoRef.current) return
-        const videoId = videoInfo.data.response.video.id
+        if (!video || !videoRef.current) return
+        const videoId = video.id
         // 同じ動画への再適用(設定変更やキャッシュ更新による再実行)を抑止し、レジューム設定は次の動画から適用する
         if (appliedVideoIdRef.current === videoId) return
         appliedVideoIdRef.current = videoId
@@ -38,13 +38,14 @@ export function useResumePlayback(videoRef: RefObject<HTMLVideoElement | null>, 
             }
         }
 
-        if (!videoInfo.data.response.player.initialPlayback || resumePlaybackType === "never" || (
+        const initialPlayback = player?.initialPlayback
+        if (!initialPlayback || resumePlaybackType === "never" || (
             // スマートなレジューム再生(デフォルト値) が有効で、再生位置が始まりか終わりに近い(10s)場合は無視する
             (resumePlaybackType === "smart" || !resumePlaybackType) && (
-                videoInfo.data.response.player.initialPlayback.positionSec <= 10
-                || videoInfo.data.response.player.initialPlayback.positionSec >= videoInfo.data.response.video.duration - 10
+                initialPlayback.positionSec <= 10
+                || initialPlayback.positionSec >= video.duration - 10
             )
         )) return
-        videoRef.current.currentTime = videoInfo.data.response.player.initialPlayback?.positionSec
-    }, [videoInfo, resumePlaybackType])
+        videoRef.current.currentTime = initialPlayback.positionSec
+    }, [video, player, resumePlaybackType])
 }

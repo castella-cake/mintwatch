@@ -28,7 +28,7 @@ const ICommentControllerContext = createContext<CommentControllerContext>({
 export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext()
 
-    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
+    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.comment?.nvComment, videoInfo?.video?.id)
     const [lastSentCommentId, setLastSentCommentId] = useState<string | undefined>()
 
     // 過去ログを読み取るクエリ past_log を解釈してUI側へ公開する

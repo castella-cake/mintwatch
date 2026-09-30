@@ -3,40 +3,6 @@
 import Hls from "hls.js"
 import { VideoDataRootObject } from "@/types/watch/Base"
 
-function returnGreatestQuality(array: any[]) {
-    for (const elem of array) {
-        if (elem.isAvailable) return elem
-    }
-    return false
-}
-
-async function getHls(
-    videoId: string,
-    body: string,
-    actionTrackId: string,
-    accessRightKey: string,
-) {
-    const response = await fetch(
-        `https://nvapi.nicovideo.jp/v1/watch/${encodeURIComponent(videoId)}/access-rights/hls?actionTrackId=${encodeURIComponent(actionTrackId)}`,
-        {
-            headers: {
-                "content-type": "application/json",
-                "x-access-right-key": accessRightKey,
-                "x-frontend-id": "6",
-                "x-frontend-version": "0",
-                "x-niconico-language": "ja-jp",
-                "x-request-with": "nicovideo",
-            },
-            referrer: "https://www.nicovideo.jp/",
-            body: body,
-            method: "POST",
-            credentials: "include",
-        },
-    )
-    const responseJson = await response.json()
-    return responseJson
-}
-
 export default defineUnlistedScript({
     main() {
         // window.__NV_PUBLIC_PATH__ = "https://256.256.256.256";
@@ -69,7 +35,6 @@ export default defineUnlistedScript({
 
         async function injectMediaToPlayer({
             videoInfo,
-            actionTrackId,
         }: {
             videoInfo: VideoDataRootObject
             actionTrackId: string
@@ -96,48 +61,27 @@ export default defineUnlistedScript({
             const levelSelector: HTMLElement | null = document.getElementById("pmw-qualityselector")
             const seekbarBuffered: Element | null = document.getElementsByClassName("seekbar-buffered")[0]
 
+            const watchV4Data = videoInfo?.data?.response?.$watchV4?.data
+            const media = watchV4Data?.media
+            const video = watchV4Data?.video
+
             if (
-                videoInfo.data
-                && videoInfo.data.response
-                && videoInfo.data.response.media
-                && videoInfo.data.response.media.domand
-                && videoInfo.data.response.media.domand.accessRightKey
-                && videoInfo.data.response.media.domand.videos
-                && videoInfo.data.response.media.domand.audios
-                && videoInfo.data.response.video.id !== previousVideoId
+                media
+                && media.hls
+                && media.hls.url
+                && media.accessRightKey
+                && media.contents?.videos
+                && media.contents?.audios
+                && video
+                && video.id !== previousVideoId
             ) {
                 // hlsの取得より先に動画が変更される可能性を考えて、とりあえず最初に前の動画IDを保存
-                previousVideoId = videoInfo.data.response.video.id
+                previousVideoId = video.id
 
-                const accessRightKey
-                    = videoInfo.data.response.media.domand.accessRightKey
-                const availableVideoQuality
-                    = videoInfo.data.response.media.domand.videos
-                const availableAudioQuality
-                    = videoInfo.data.response.media.domand.audios
+                const hlsUrl = media.hls.url
 
-                const greatestAudioQuality = returnGreatestQuality(
-                    availableAudioQuality,
-                )
-                // そもそも利用可能な音声クオリティがなかったら終了
-                if (!greatestAudioQuality) return false
-
-                // 使えるやつを全部希望する。音声クオリティは常に一番良いものを希望する。
-                const hlsRequestBody = {
-                    outputs: availableVideoQuality.map((elem) => {
-                        if (!elem.isAvailable) return null
-                        return [elem.id, greatestAudioQuality.id]
-                    }).filter(quality => quality !== null),
-                }
                 const videoElement: any
                     = document.getElementById("pmw-element-video") // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
-                // testDiv.appendChild(videoElement)
-                const hlsResponse = await getHls(
-                    videoInfo.data.response.video.id,
-                    JSON.stringify(hlsRequestBody),
-                    actionTrackId,
-                    accessRightKey,
-                )
                 const hls = new Hls({
                     debug: false,
                     xhrSetup: function (xhr) {
@@ -153,7 +97,7 @@ export default defineUnlistedScript({
                 // videoのrefにアタッチ
                 if (videoElement) hls.attachMedia(videoElement)
                 // 読み込み
-                hls.loadSource(hlsResponse.data.contentUrl)
+                hls.loadSource(hlsUrl)
                 hls.on(Hls.Events.ERROR, (err) => {
                     console.log(err)
                 })

@@ -1,29 +1,63 @@
 export interface VideoDataLazyRootObject extends baseResponse {
-    data: Data
+    data: LazyData
 }
 
-interface Data {
-    owner: Owner
-    ranking: Ranking
-    series: Series | null
-    waku: Waku
+interface LazyData {
+    owner: LazyOwner
+    ranking: LazyRanking
+    series: LazySeries | null
+    waku: LazyWaku
 }
 
-interface Series {
+// 投稿者情報
+export interface LazyOwner {
+    type: string
+    visibility: string
+    id: number
+    nickname: string
+    icon: LazyIcon
+    follow: LazyFollow
+    ownedChannel: null
+    currentLive: null
+    upcomingVideoLive: null
+}
+
+interface LazyIcon {
+    url: string
+}
+
+interface LazyFollow {
+    isFollowed: boolean
+}
+
+// ランキング情報
+export interface LazyRanking {
+    teiban: Teiban | null
+}
+
+interface Teiban {
+    featuredKey: string
+    label: string
+    rank: number
+}
+
+// シリーズ情報
+export interface LazySeries {
     id: number
     title: string
     description: string
     thumbnailUrl: string
-    video: SeriesVideos
+    video: LazySeriesVideos
 }
 
-interface SeriesVideos {
+interface LazySeriesVideos {
     prev?: VideoItem
     next?: VideoItem
     first?: VideoItem
 }
 
-interface Waku {
+// プロモーション
+export interface LazyWaku {
     information: null
     bgImages: any[]
     addContents: null
@@ -44,32 +78,17 @@ interface TagRelatedBanner {
     isNewWindow: boolean
 }
 
-interface Ranking {
-    teiban: Teiban
-}
+/**
+ * Lazy API (`v4/watch/lazy/{id}`) のレスポンス data の全フィールドを含む型。
+ * コンテキスト露出用には `Nullable<WatchLazyData>` を使う。
+ */
+export type WatchLazyData = LazyData
 
-interface Teiban {
-    featuredKey: string
-    label: string
-    rank: number
-}
-
-interface Owner {
-    type: string
-    visibility: string
-    id: number
-    nickname: string
-    icon: Icon
-    follow: Follow
-    ownedChannel: null
-    currentLive: null
-    upcomingVideoLive: null
-}
-
-interface Follow {
-    isFollowed: boolean
-}
-
-interface Icon {
-    url: string
+/**
+ * Lazy API リクエスト時のペイロード
+ * keyToken は watch/{id} のレスポンスの `lazy.authKey` から取得する想定
+ */
+export interface VideoDataLazyRequestBody {
+    actionTrackId: string
+    keyToken: string
 }
