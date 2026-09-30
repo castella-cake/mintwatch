@@ -74,17 +74,16 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: unknown }) {
         )
     }
 
-    if (!videoInfo || (videoInfo.data?.response.media.domand && videoInfo.data.response.viewer)) return
-    const isPPV = videoInfo.data?.response.payment.preview.ppv.isEnabled
-    const isAdmissionOnly = videoInfo.data?.response.payment.preview.admission.isEnabled
-    const isPremiumOnly = videoInfo.data?.response.payment.preview.premium.isEnabled
-    const viewer = videoInfo.data.response.viewer
+    if (!videoInfo?.media || (videoInfo?.media?.contents && videoInfo?.viewer)) return
+    const isPPV = videoInfo?.payment?.ppv.isEnabled
+    const isAdmissionOnly = videoInfo?.payment?.admission.isEnabled
+    const isPremiumOnly = videoInfo?.payment?.premium.isEnabled
     return (
         <div className="player-errorscreen-wrapper">
             <div className="player-errorscreen">
-                <h2 className="player-errorscreen-title">{viewer ? "視聴できません" : "ログインが必要です"}</h2>
+                <h2 className="player-errorscreen-title">{videoInfo?.viewer ? "視聴できません" : "ログインが必要です"}</h2>
                 <div className="player-errorscreen-body">
-                    {!viewer && (
+                    {!videoInfo?.viewer && (
                         <p>
                             MintWatch はゲストアカウントでの視聴に対応していません。
                             <br />
@@ -97,7 +96,7 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: unknown }) {
                         {isPremiumOnly && <p>この動画は現在プレミアム限定動画です。プレミアム会員に加入することで視聴できます。</p>}
                     </p>
                 </div>
-                {videoInfo.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED" && <DAnimeLinks />}
+                {videoInfo?.okReason === "PAYMENT_PREVIEW_SUPPORTED" && <DAnimeLinks />}
             </div>
         </div>
     )

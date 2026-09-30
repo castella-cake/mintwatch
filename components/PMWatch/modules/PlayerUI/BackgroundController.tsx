@@ -14,18 +14,18 @@ export default function BackgroundController() {
     const setBackgroundPlaying = useSetBackgroundPlayingContext()
 
     const returnToWatch = useCallback(() => {
-        if (videoInfo && videoInfo.data.response.video) history.push(`/watch/${videoInfo.data.response.video.id}`)
+        if (videoInfo?.video) history.push(`/watch/${videoInfo.video.id}`)
         setBackgroundPlaying(false)
-    }, [videoInfo])
+    }, [videoInfo?.video])
     const closeBackgroundPlayer = useCallback(() => {
         setBackgroundPlaying(false)
-        const smId = videoInfo?.data.response.video.id
+        const smId = videoInfo?.video?.id
         if (smId) {
             // この動画IDのキャッシュをあらかじめ破棄する
             queryClient.invalidateQueries({ queryKey: ["commentData", smId, { logData: undefined }] })
             queryClient.invalidateQueries({ queryKey: ["videoData", smId] })
         }
-    }, [videoInfo])
+    }, [videoInfo?.video])
 
     if (!isBackgroundPlaying) return
     return (
@@ -33,7 +33,7 @@ export default function BackgroundController() {
             <MWButton label="フォアグラウンドに戻す" onClick={returnToWatch}><IconScreenShare /></MWButton>
             <div className="navbar-background-player-title-subtitle">再生中</div>
             <CDMarquee>
-                <div className="navbar-background-player-title-video">{videoInfo?.data.response.video.title}</div>
+                <div className="navbar-background-player-title-video">{videoInfo?.video?.title}</div>
             </CDMarquee>
             <MWButton label="ミニプレイヤーを終了" onClick={closeBackgroundPlayer}><IconX /></MWButton>
         </div>

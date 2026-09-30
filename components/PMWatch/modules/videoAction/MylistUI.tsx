@@ -1,13 +1,10 @@
-import { VideoDataRootObject } from "@/types/watch/Base"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { Mylists } from "../Mylists"
 
-type Props = {
-    onClose: () => void
-    videoInfo: VideoDataRootObject
-}
-
-export function Mylist({ videoInfo }: Props) {
-    const videoTitle = (videoInfo.data.response && videoInfo.data.response.video && videoInfo.data.response.video.title) ? videoInfo.data.response.video.title : "タイトル不明"
+export function Mylist() {
+    const { videoInfo } = useVideoInfoContext()
+    if (!videoInfo?.video) return <></>
+    const videoTitle = videoInfo.video.title
     return (
         <div className="mylists-container" id="pmw-mylists">
             <div className="mylists-title videoaction-actiontitle">
@@ -19,7 +16,7 @@ export function Mylist({ videoInfo }: Props) {
                     を追加します
                 </span>
             </div>
-            <Mylists smId={videoInfo.data.response.video.id} />
+            <Mylists smId={videoInfo.video.id} />
         </div>
     )
 }

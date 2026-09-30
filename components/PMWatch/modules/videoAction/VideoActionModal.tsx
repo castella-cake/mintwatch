@@ -31,7 +31,7 @@ export function VideoActionModal({
     const setIsMintConfigShown = useSetMintConfigShownContext()
     useOutsideClose(containerRef, videoActionModalState !== false, () => setVideoActionModalState(false))
 
-    if (!videoInfo) return <></>
+    if (!videoInfo?.video) return <></>
 
     return (
         <CSSTransition
@@ -103,10 +103,10 @@ export function VideoActionModal({
                         </div>
                         <div className="modal-content">
                             {videoActionModalState === "mylist" && (
-                                <Mylist onClose={() => { }} videoInfo={videoInfo} />
+                                <Mylist />
                             )}
                             {videoActionModalState === "share" && (
-                                <ShareAction videoInfo={videoInfo} />
+                                <ShareAction />
                             )}
                             {videoActionModalState === "ngcomments" && (
                                 <NgComments />

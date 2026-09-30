@@ -1,7 +1,7 @@
 import { useState, useRef, useId } from "react"
 // import { useLang } from "../localizeHook";
 import type { Comment } from "@/types/CommentData"
-import { VideoDataRootObject } from "@/types/watch/Base"
+import { VideoDataComment as WatchComment } from "@/types/watch/Base"
 import { IconAdjustmentsHorizontal, IconAlertTriangle, IconBubbleX, IconExclamationCircle, IconHistoryToggle, IconSortAscending, IconSortDescending, IconTransitionBottom } from "@tabler/icons-react"
 import { TimeMachine } from "./TimeMachineUi"
 import {
@@ -45,9 +45,9 @@ const sortKeys = {
     nicoruCount: "ニコる数",
 }
 
-function getDefaultThreadIndex(videoInfo: VideoDataRootObject) {
-    const defaultThreadIndex = videoInfo.data?.response.comment.threads.findIndex(
-        elem => elem.isDefaultPostTarget,
+function getDefaultThreadIndex(comment: WatchComment) {
+    const defaultThreadIndex = comment.threads.findIndex(
+        elem => elem.isPostTarget,
     )
     // findIndex は見つからない場合 -1 を返す。?? では -1 をフォールバックできないため明示的に0へ
     return defaultThreadIndex === undefined || defaultThreadIndex === -1
@@ -164,7 +164,7 @@ function CommentList() {
     const { commentContent, currentLogData } = useCommentContentContext()
     const { reloadCommentContent, sendNicoru } = useCommentControllerContext()
 
-    const { lyricData } = useLyricData(videoId, videoInfo?.data.response?.video?.hasLyrics ?? false)
+    const { lyricData } = useLyricData(videoId, videoInfo?.video?.hasLyrics ?? false)
 
     const videoRef = useVideoRefContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
@@ -212,7 +212,7 @@ function CommentList() {
         commentContent,
         sharedNgLevel,
         onlyShowMyselfComments,
-        videoInfo,
+        videoInfo?.comment,
         ngData,
         commentSortKey,
         reverseCommentSort,
@@ -225,16 +225,16 @@ function CommentList() {
         nicoruId: string | null,
         isMyPost: boolean,
     ) => {
-        if (!videoInfo) return
+        if (!videoInfo?.comment) return
         sendNicoru({
             currentForkType,
-            currentThread: videoInfo.data.response.comment.threads[currentForkType],
+            currentThread: videoInfo.comment.threads[currentForkType],
             commentNo,
             commentBody,
             nicoruId,
             isMyPost,
         })
-    }, [currentForkType, videoInfo])
+    }, [currentForkType, videoInfo?.comment])
 
     const handleCommentDeletion = useCallback((commentNo: number) => {
         showAlert({
@@ -254,8 +254,8 @@ function CommentList() {
             ],
             onClose: async (type) => {
                 if (type !== "delete") return
-                if (!videoInfo || !commentContent || !commentContent.data) return
-                const currentThread = videoInfo.data.response.comment.threads[currentForkType]
+                if (!videoInfo?.comment || !videoInfo?.video || !commentContent || !commentContent.data) return
+                const currentThread = videoInfo.comment.threads[currentForkType]
                 const keyResponse = await getCommentDeleteKey(currentThread.id, currentThread.forkLabel).catch((e) => {
                     if (e instanceof APIError) {
                         showToast({
@@ -267,9 +267,9 @@ function CommentList() {
                 })
                 if (keyResponse && keyResponse.meta.status === 200) {
                     const deleteResponse = await putCommentOwnerDeletion(currentThread.id, {
-                        videoId: videoInfo.data.response.video.id,
+                        videoId: videoInfo.video.id,
                         fork: currentThread.forkLabel,
-                        language: videoInfo.data.response.comment.nvComment.params.language,
+                        language: videoInfo.comment.nvComment.params.language,
                         deleteKey: keyResponse.data.deleteKey,
                         targets: [
                             {
@@ -295,7 +295,7 @@ function CommentList() {
                 }
             },
         })
-    }, [showAlert, showToast, videoInfo, commentContent, currentForkType])
+    }, [showAlert, showToast, videoInfo?.comment, videoInfo?.video, commentContent, currentForkType])
 
     const seekTo = useCallback((time: number) => {
         if (videoRef.current) {
@@ -304,12 +304,12 @@ function CommentList() {
     }, [videoRef.current])
 
     // データが足りなかったら閉店
-    if (!videoInfo || !commentContent || !commentContent.data) return <></>
+    if (!videoInfo?.comment || !commentContent || !commentContent.data) return <></>
 
     const commentCount = commentContent.data?.threads.reduce((prev, current) => prev + current.comments.length, 0)
 
     // currentForkTypeが-1の場合は入れ直す
-    if (currentForkType === -1) setCurrentForkType(getDefaultThreadIndex(videoInfo))
+    if (currentForkType === -1) setCurrentForkType(getDefaultThreadIndex(videoInfo.comment!))
 
     // const videoInfo = videoInfo.data.response
 
@@ -370,7 +370,7 @@ function CommentList() {
                     title="コメント種類選択"
                     id={`${elementId}-fork-selector`}
                 >
-                    {videoInfo.data.response.comment.threads.map(
+                    {videoInfo.comment.threads.map(
                         (elem, index) => {
                             const key = elem.label as keyof typeof threadLabelLang
                             return (

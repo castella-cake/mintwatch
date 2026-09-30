@@ -6,7 +6,7 @@ import { IconPlus } from "@tabler/icons-react"
 function ContentTree() {
     const { videoInfo } = useVideoInfoContext()
 
-    const commonsRelativeData = useCommonsRelativeData(videoInfo?.data.response.video ? videoInfo?.data.response.video.id : undefined, videoInfo && !videoInfo.data.response.external.commons.hasContentTree)
+    const commonsRelativeData = useCommonsRelativeData(videoInfo?.video?.id)
     const parentItemsContainerRef = useRef<HTMLDivElement>(null)
     const childrenItemsContainerRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
@@ -31,7 +31,7 @@ function ContentTree() {
             )
         }
     })
-    if (!videoInfo || !videoInfo?.data.response.video) return <></>
+    if (!videoInfo?.video) return <></>
 
     return (
         <div
@@ -39,11 +39,11 @@ function ContentTree() {
             id="pmw-contenttree"
         >
             <div className="contenttree-title">コンテンツツリー</div>
-            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo?.data.response.video.id}/tree/children/edit`}>
+            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo.video.id}/tree/children/edit`}>
                 <IconPlus />
                 <span>自分の動画を登録する</span>
             </a>
-            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo?.data.response.video.id}`}>ニコニ・コモンズで見る</a>
+            <a className="contenttree-link" href={`https://commons.nicovideo.jp/works/${videoInfo.video.id}`}>ニコニ・コモンズで見る</a>
             <div className="contenttree-kind-container">
                 <div className="contenttree-kind-title">
                     親作品 (

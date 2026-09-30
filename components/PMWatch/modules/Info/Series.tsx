@@ -4,9 +4,8 @@ import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvi
 
 function SeriesInfo() {
     const { videoInfo } = useVideoInfoContext()
-    if (!videoInfo) return <></>
 
-    const seriesData = videoInfo.data.response.series
+    const seriesData = videoInfo?.series
     const playlist = btoa(
         `{"type":"series","context":{"seriesId":${(seriesData && seriesData.id) || 0}}}`,
     )

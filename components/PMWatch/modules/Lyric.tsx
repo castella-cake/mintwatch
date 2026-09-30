@@ -57,19 +57,17 @@ export default function Lyric() {
         </div>
     )
 
-    if (isLoading || !lyricData || !videoInfo) return (
+    if (isLoading || !lyricData || !videoInfo?.video) return (
         <div className="lyrics-container">
             Loading...
         </div>
     )
 
-    if (!videoInfo.data.response.video) return
-
-    const videoTitle = videoInfo.data.response.video.title
-    const ownerNickname = videoInfo.data.response.owner && videoInfo.data.response.owner.nickname
+    const videoTitle = videoInfo.video.title
+    const ownerNickname = videoInfo.owner?.nickname
     const { title: parsedTitle, artist: parsedArtist } = resolveTitleAndArtist(videoTitle, ownerNickname)
 
-    const greatestAvailableQuality = videoInfo.data.response.media.domand && returnGreatestQuality(videoInfo.data.response.media.domand.audios)
+    const greatestAvailableQuality = videoInfo.media ? returnGreatestQuality(videoInfo.media.contents.audios) : false
     const audioQualityLabel = greatestAvailableQuality ? `${Math.floor(greatestAvailableQuality.bitRate / 1000)}kbps / ${greatestAvailableQuality.samplingRate}Hz` : "音声クオリティ不明"
 
     return (

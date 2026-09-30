@@ -20,9 +20,7 @@ function Clock() {
 
 export function Stats() {
     const { videoInfo } = useVideoInfoContext()
-    if (!videoInfo || !videoInfo.data) return <></>
-
-    const videoInfoResponse = videoInfo.data.response
+    if (!videoInfo?.video) return <></>
 
     return (
         <div className="videostat-container" id="pmw-videostat">
@@ -33,7 +31,7 @@ export function Stats() {
                         ：
                     </span>
                     <span className="videostat-left-row-value">
-                        {videoInfoResponse.video.count.view.toLocaleString()}
+                        {videoInfo.video.count.view.toLocaleString()}
                     </span>
                 </div>
                 <div className="videostat-left-row">
@@ -42,7 +40,7 @@ export function Stats() {
                         ：
                     </span>
                     <span className="videostat-left-row-value">
-                        {videoInfoResponse.video.count.comment.toLocaleString()}
+                        {videoInfo.video.count.comment.toLocaleString()}
                     </span>
                 </div>
                 <div className="videostat-left-row">
@@ -51,7 +49,7 @@ export function Stats() {
                         ：
                     </span>
                     <span className="videostat-left-row-value">
-                        {videoInfoResponse.video.count.mylist.toLocaleString()}
+                        {videoInfo.video.count.mylist.toLocaleString()}
                     </span>
                 </div>
             </div>
@@ -67,47 +65,24 @@ export function Stats() {
 
 export function Owner() {
     const { videoInfo } = useVideoInfoContext()
-    if (!videoInfo) return <></>
-
-    const videoInfoResponse = videoInfo.data.response
+    if (!videoInfo?.owner) return <></>
 
     return (
         <div className="videoowner-container" id="pmw-videoowner">
-            {videoInfoResponse.owner && (
-                <>
-                    <a
-                        href={`https://www.nicovideo.jp/user/${videoInfoResponse.owner.id}`}
-                    >
-                        {videoInfoResponse.owner.iconUrl && (
-                            <img src={videoInfoResponse.owner.iconUrl} />
-                        )}
-                        <div>
-                            ユーザー:
-                            {" "}
-                            <br />
-                            <span>{videoInfoResponse.owner.nickname}</span>
-                        </div>
-                    </a>
-                    <UserFollowButton userId={videoInfoResponse.owner.id} />
-                </>
-            )}
-            {videoInfoResponse.channel && (
-                <a
-                    href={`https://ch.nicovideo.jp/${videoInfoResponse.channel.id}`}
-                >
-                    {videoInfoResponse.channel.thumbnail.smallUrl && (
-                        <img
-                            src={videoInfoResponse.channel.thumbnail.smallUrl}
-                        />
-                    )}
-                    <div>
-                        チャンネル:
-                        {" "}
-                        <br />
-                        <span>{videoInfoResponse.channel.name}</span>
-                    </div>
-                </a>
-            )}
+            <a
+                href={`https://www.nicovideo.jp/user/${videoInfo.owner.id}`}
+            >
+                {videoInfo.owner.icon.url && (
+                    <img src={videoInfo.owner.icon.url} />
+                )}
+                <div>
+                    ユーザー:
+                    {" "}
+                    <br />
+                    <span>{videoInfo.owner.nickname}</span>
+                </div>
+            </a>
+            <UserFollowButton userId={videoInfo.owner.id} />
         </div>
     )
 }

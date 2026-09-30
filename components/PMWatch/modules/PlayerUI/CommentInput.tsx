@@ -1,11 +1,11 @@
 import { IconAlertTriangle, IconCircleX, IconPalette, IconPaletteFilled, IconSend2 } from "@tabler/icons-react"
 import { useId, useRef, useState } from "react"
 import type { Dispatch, KeyboardEvent, RefObject, SetStateAction } from "react"
-import type { VideoDataRootObject } from "@/types/watch/Base"
 import type { Comment, CommentResponseRootObject } from "@/types/CommentData"
 import { CommentPostBody, KeyRootObjectResponse } from "@/types/CommentPostData"
 import { useCommentContentContext, useCommentControllerContext } from "@/components/Global/Contexts/CommentDataProvider"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { MWButton } from "@/components/Global/MWButton"
 import { CommandPalette } from "./CommandPalette"
 
@@ -13,17 +13,17 @@ import { CommandPalette } from "./CommandPalette"
 
 type Props = {
     videoId: string | undefined
-    videoInfo: VideoDataRootObject | undefined
     videoRef: RefObject<HTMLVideoElement | null>
     commentInputRef: RefObject<HTMLTextAreaElement | null>
     setPreviewCommentItem: Dispatch<SetStateAction<Comment | null>>
 }
-function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPreviewCommentItem }: Props) {
+function CommentInput({ videoRef, videoId, commentInputRef, setPreviewCommentItem }: Props) {
     const elementId = useId()
 
     const { pauseOnCommentInput } = useStorageVar(["pauseOnCommentInput"] as const, "local")
     const { showAlert, showToast } = useSetMessageContext()
     const { commentContent } = useCommentContentContext()
+    const { videoInfo } = useVideoInfoContext()
     const [isCommentProhibited, setIsCommentProhibited] = useState(false)
     const { reloadCommentContent, setLastSentCommentId } = useCommentControllerContext()
     const commandInput = useRef<HTMLInputElement>(null)
@@ -44,7 +44,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
     }, [setIsCommandPaletteOpen, isCommentProhibited])
 
     // idが遅い方のデフォルトの投稿ターゲット
-    const mainThreads = videoInfo?.data.response.comment.threads.filter(elem => elem.isDefaultPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
+    const mainThreads = videoInfo?.comment?.threads.filter(elem => elem.isPostTarget).sort((a, b) => Number(b.id) - Number(a.id))[0]
     useEffect(() => {
         const abortController = new AbortController()
         let isResponded = false
@@ -144,7 +144,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
             // console.log(reqBody)
             const commentPostResponse: CommentResponseRootObject = await postComment(mainThreads?.id, reqBody)
             // console.log(commentPostResponse)
-            if (commentPostResponse.meta.status === 201 && videoInfo.data) {
+            if (commentPostResponse.meta.status === 201 && videoInfo?.video) {
                 const commentResponse = await reloadCommentContent()
                 if (!commentResponse || !commentResponse.data || !commentResponse.data.threads) return
                 setLastSentCommentId(commentPostResponse.data.id)
@@ -203,7 +203,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         if (pauseOnCommentInput) {
             clearTimeout(previewUpdateTimeout.current)
             previewUpdateTimeout.current = setTimeout(() => {
-                if (videoInfo && videoInfo.data.response.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
+                if (videoInfo?.viewer && commentInputRef.current && commandInput.current && commentInputRef.current.value.length > 0 && videoRef.current) {
                     setPreviewCommentItem({
                         id: "0",
                         no: 0,
@@ -212,7 +212,7 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
                         commands: ["184", "nico:waku:#faf", ...commandInput.current.value.split(" ")],
                         isMyPost: true,
                         userId: "0",
-                        isPremium: videoInfo.data?.response.viewer?.isPremium,
+                        isPremium: videoInfo.viewer.isPremium,
                         score: 0,
                         postedAt: new Date().toString(),
                         nicoruCount: 0,
@@ -233,17 +233,17 @@ function CommentInput({ videoRef, videoId, videoInfo, commentInputRef, setPrevie
         onChange()
     }
 
-    const commentableUser = videoInfo?.data.response.video.commentableUserTypeForPayment
-    const isPaymentPreviewing = videoInfo?.data.response.okReason === "PAYMENT_PREVIEW_SUPPORTED"
+    const commentableUser = videoInfo?.payment?.commentableUserType
+    const isPaymentPreviewing = videoInfo?.okReason === "PAYMENT_PREVIEW_SUPPORTED"
 
-    if (commentableUser === "nobody" || isPaymentPreviewing || (videoInfo?.data.response && !videoInfo?.data.response.viewer)) {
+    if (commentableUser === "nobody" || isPaymentPreviewing || !videoInfo?.viewer) {
         return (
             <div className="commentinput-container global-flex" id="pmw-commentinput">
                 <div className="commentinput-disabled">
                     { isPaymentPreviewing
                         ? "未購入のため"
                         : (
-                                !videoInfo?.data.response.viewer
+                                !videoInfo?.viewer
                                     ? "未ログインのため"
                                     : "この動画には"
                             )}

@@ -29,17 +29,16 @@ export function EndCard({ smId }: { smId: string | undefined }) {
     if (currentTime < duration && currentTime !== duration) return null
 
     let ownerName = "非公開または退会済みユーザー"
-    if (videoInfo && videoInfo.data && videoInfo.data.response.owner) ownerName = videoInfo.data.response.owner.nickname
-    if (videoInfo && videoInfo.data && videoInfo.data.response.channel) ownerName = videoInfo.data.response.channel.name
+    if (videoInfo?.owner) ownerName = videoInfo.owner.nickname
 
-    const seriesData = videoInfo?.data.response.series
+    const seriesData = videoInfo?.series
     const playlist = btoa(
         `{"type":"series","context":{"seriesId":${(seriesData && seriesData.id) || 0}}}`,
     )
-    const showSeriesRecommend = seriesData && videoInfo?.data.response.channel && videoInfo?.data.response.genre.key === "anime"
+    const showSeriesRecommend = seriesData && videoInfo?.video?.isChannelVideo && videoInfo.genre?.key === "anime"
 
     // Firefox環境ではpreload済みのサムネイルを読み込まない(失敗する)
-    const currentVideoThumbnailSrc = videoInfo && (import.meta.env.FIREFOX ? videoInfo.data.response.video.thumbnail.url : videoInfo.data.response.video.thumbnail.player)
+    const currentVideoThumbnailSrc = videoInfo?.video ? (import.meta.env.FIREFOX ? videoInfo.video.thumbnail.normal : videoInfo.video.thumbnail.player) : undefined
 
     /* eslint no-irregular-whitespace: 0 */
     return (
@@ -49,11 +48,11 @@ export function EndCard({ smId }: { smId: string | undefined }) {
             </div>
             <div className="endcard-right">
                 <h2>現在の動画</h2>
-                {videoInfo && (
+                {videoInfo?.video && (
                     <div className="endcard-currentvideo-container">
-                        <img className="endcard-currentvideo-thumbnail" src={currentVideoThumbnailSrc} alt={`${videoInfo.data.response.video.title} のサムネイル`} />
+                        <img className="endcard-currentvideo-thumbnail" src={currentVideoThumbnailSrc} alt={`${videoInfo.video.title} のサムネイル`} />
                         <div className="endcard-currentvideo-text">
-                            <strong className="endcard-currentvideo-title">{videoInfo.data.response.video.title}</strong>
+                            <strong className="endcard-currentvideo-title">{videoInfo.video.title}</strong>
                             <br />
                             <span className="endcard-currentvideo-owner">{ownerName}</span>
                         </div>
