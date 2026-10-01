@@ -16,6 +16,7 @@ import Tags from "./Tags"
 import VideoTitle from "./VideoTitle"
 import ExternalLinkMenu from "./ExternalLinkMenu"
 import APIError from "@/utils/classes/APIError"
+import { isVideoInfoOwnerUser } from "@/utils/handleVideoInfoOwner"
 
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div")
@@ -242,9 +243,22 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                 )}
                 <ExternalLinkMenu videoId={videoInfo.video.id} />
                 {!isShinjukuLayout && videoInfo.owner && (
-                    <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.icon.url} name={videoInfo.owner.nickname}>
-                        <UserFollowButton userId={videoInfo.owner.id} />
-                    </OwnerInfo>
+                    <>
+                        {
+                            isVideoInfoOwnerUser(videoInfo.owner) && (
+                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.icon.url} name={videoInfo.owner.nickname}>
+                                    <UserFollowButton userId={videoInfo.owner.id} />
+                                </OwnerInfo>
+                            )
+                        }
+                        {
+                            isVideoInfoOwnerChannel(videoInfo.owner) && (
+                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.thumbnail.smallUrl} name={videoInfo.owner.name}>
+                                </OwnerInfo>
+                            )
+                        }
+                    </>
+
                 )}
             </div>
             {isShinjukuLayout && (

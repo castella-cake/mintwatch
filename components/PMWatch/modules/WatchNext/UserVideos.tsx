@@ -1,10 +1,10 @@
 // import { useLang } from "../localizeHook";
-import { LazyOwner } from "@/types/watch/Lazy"
+import { LazyOwnerUser } from "@/types/watch/Lazy"
 import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { WatchNextVideoAction } from "./WatchNextVideoAction"
 
-function UserVideos({ videoOwnerData, isHorizontalCardLayout }: { videoOwnerData?: LazyOwner | null, isHorizontalCardLayout?: boolean }) {
+function UserVideos({ videoOwnerData, isHorizontalCardLayout }: { videoOwnerData?: LazyOwnerUser | null, isHorizontalCardLayout?: boolean }) {
     // const lang = useLang()
     const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
     const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)

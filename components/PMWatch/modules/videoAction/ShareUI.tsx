@@ -13,7 +13,7 @@ export function ShareAction() {
     if (!videoInfo?.video) return <></>
 
     const pastLogWhen = includePastLog && currentLogData ? currentLogData.when : undefined
-    const shareBody = VideoDataToShareBody({ video: videoInfo.video, owner: videoInfo.owner ?? null }, pastLogWhen)
+    const shareBody = VideoDataToShareBody({ video: videoInfo.video, owner: videoInfo.owner }, pastLogWhen)
     const baseURL = `https://www.nicovideo.jp/watch/${videoInfo.video.id}`
     const shareURL = pastLogWhen ? `${baseURL}?past_log=${pastLogWhen}` : baseURL
 

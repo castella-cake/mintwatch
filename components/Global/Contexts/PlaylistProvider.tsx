@@ -1,6 +1,5 @@
 import { mylistContext, playlistQueryData, searchContext } from "@/types/playlistQuery"
 import { VideoData } from "@/types/watch/Base"
-import { LazyOwner } from "@/types/watch/Lazy"
 import { useVideoInfoContext } from "./VideoDataProvider"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
@@ -35,8 +34,8 @@ function isUnsetOrTrivial(playlistData: playlistData) {
 }
 
 // 現在の動画のみからなる初期プレイリストを生成する
-function buildInitialPlaylist(owner: LazyOwner | null, video: VideoData | null): playlistData {
-    const ownerName = owner?.nickname
+function buildInitialPlaylist(owner: LazyOwnerUser | LazyOwnerChannel | undefined, video: VideoData | null): playlistData {
+    const ownerName = returnVideoOwnerName(owner)
     return {
         type: "custom",
         items: [
@@ -72,7 +71,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     const playlistString = new URLSearchParams(location.search).get("playlist")
     const setInitialPlaylistState = useCallback(async () => {
         if (!videoInfo?.video) return
-        const initialPlaylist = buildInitialPlaylist(videoInfo.owner ?? null, videoInfo.video)
+        const initialPlaylist = buildInitialPlaylist(videoInfo.owner ?? undefined, videoInfo.video)
         if (!isShortsPage) {
             setPlaylistData(initialPlaylist)
             return

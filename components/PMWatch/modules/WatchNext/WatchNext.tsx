@@ -29,6 +29,8 @@ function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolea
         }
     }, [isHorizontalCardLayout, contentRef.current])
 
+    const canShowUserVideos = isVideoInfoOwnerUser(videoOwnerData)
+
     return (
         <div className="watchnext-wrapper">
             <div className="watchnext-container" id="pmw-watchnext">
@@ -45,7 +47,7 @@ function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolea
                     >
                         フォロー新着
                     </button>
-                    {videoOwnerData && videoOwnerData.nickname && (
+                    {canShowUserVideos && (
                         <button
                             data-active={recommendDisplayType === "userVideos"}
                             onClick={() => setRecommendDisplayType("userVideos")}
@@ -58,7 +60,7 @@ function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolea
                 </div>
                 <div className="watchnext-content" ref={contentRef}>
                     {recommendDisplayType === "recommend" && <Recommend isHorizontalCardLayout={isHorizontalCardLayout} />}
-                    {recommendDisplayType === "userVideos" && <UserVideos videoOwnerData={videoOwnerData} isHorizontalCardLayout={isHorizontalCardLayout} />}
+                    {recommendDisplayType === "userVideos" && canShowUserVideos && <UserVideos videoOwnerData={videoOwnerData} isHorizontalCardLayout={isHorizontalCardLayout} />}
                     {recommendDisplayType === "timeline" && <VideoActivities />}
                 </div>
             </div>

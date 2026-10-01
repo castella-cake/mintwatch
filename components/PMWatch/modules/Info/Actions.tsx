@@ -213,7 +213,7 @@ function Actions({ onModalOpen }: Props) {
                     onMouseLeave={onLikeMouseLeave}
                     onClose={onLikeClose}
                     isPermament={!videoInfo.video.isLikedByViewer}
-                    iconUrl={videoInfo.owner && videoInfo.owner.icon.url}
+                    iconUrl={returnVideoOwnerIcon(videoInfo.owner)}
                 />
             )}
             <MylistsPopup

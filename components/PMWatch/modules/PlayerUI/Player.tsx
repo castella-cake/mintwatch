@@ -389,7 +389,7 @@ function Player(props: Props) {
         if ("mediaSession" in navigator) {
             const { title, artist } = resolveTitleAndArtist(
                 videoInfo.video.title,
-                videoInfo.owner?.nickname ?? null,
+                returnVideoOwnerName(videoInfo.owner),
             )
             const albumTitle = playlistData?.name ?? videoInfo.series?.title ?? "リスト情報なし"
 
@@ -594,7 +594,7 @@ function Player(props: Props) {
 
     const thumbnailSrc = videoInfo?.video?.thumbnail.player
 
-    const thisVideoAuthor = videoInfo?.owner?.nickname ?? ""
+    const thisVideoAuthor = returnVideoOwnerName(videoInfo?.owner)
 
     const currentPlayerType = isShortsPlayer && syncStorage.flagEnableShortsLayout ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
 

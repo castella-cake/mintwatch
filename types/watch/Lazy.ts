@@ -1,32 +1,55 @@
 export interface VideoDataLazyRootObject extends baseResponse {
-    data: LazyData
+    data: WatchLazyData
 }
 
-interface LazyData {
-    owner: LazyOwner
+export interface WatchLazyData {
+    owner: LazyOwnerUser | LazyOwnerChannel
     ranking: LazyRanking
     series: LazySeries | null
     waku: LazyWaku
 }
 
 // 投稿者情報
-export interface LazyOwner {
+export interface LazyOwnerUser {
     type: string
     visibility: string
     id: number
     nickname: string
-    icon: LazyIcon
-    follow: LazyFollow
+    icon: LazyOwnerUserIcon
+    follow: LazyOwnerUserFollow
     ownedChannel: null
     currentLive: null
     upcomingVideoLive: null
 }
 
-interface LazyIcon {
+export interface LazyOwnerChannel {
+    type: string
+    visibility: string
+    id: string
+    name: string
+    isOfficialAnime: boolean
+    isDisplayAdBanner: boolean
+    thumbnail: LazyOwnerChannelThumbnail
+    follow: LazyOwnerChannelFollow
+}
+
+interface LazyOwnerChannelFollow {
+    isSubscribed: boolean
+    isBookmarked: boolean
+    token: string
+    tokenTimestamp: number
+}
+
+interface LazyOwnerChannelThumbnail {
+    url: string
+    smallUrl: string
+}
+
+interface LazyOwnerUserIcon {
     url: string
 }
 
-interface LazyFollow {
+interface LazyOwnerUserFollow {
     isFollowed: boolean
 }
 
@@ -77,12 +100,6 @@ interface TagRelatedBanner {
     linkOrigin: string
     isNewWindow: boolean
 }
-
-/**
- * Lazy API (`v4/watch/lazy/{id}`) のレスポンス data の全フィールドを含む型。
- * コンテキスト露出用には `Nullable<WatchLazyData>` を使う。
- */
-export type WatchLazyData = LazyData
 
 /**
  * Lazy API リクエスト時のペイロード

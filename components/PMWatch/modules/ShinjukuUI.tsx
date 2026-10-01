@@ -67,19 +67,21 @@ export function Owner() {
     const { videoInfo } = useVideoInfoContext()
     if (!videoInfo?.owner) return <></>
 
+    const iconUrl = returnVideoOwnerIcon(videoInfo.owner)
+
     return (
         <div className="videoowner-container" id="pmw-videoowner">
             <a
                 href={`https://www.nicovideo.jp/user/${videoInfo.owner.id}`}
             >
-                {videoInfo.owner.icon.url && (
-                    <img src={videoInfo.owner.icon.url} />
+                {iconUrl && (
+                    <img src={iconUrl} />
                 )}
                 <div>
                     ユーザー:
                     {" "}
                     <br />
-                    <span>{videoInfo.owner.nickname}</span>
+                    <span>{returnVideoOwnerName(videoInfo.owner)}</span>
                 </div>
             </a>
             <UserFollowButton userId={videoInfo.owner.id} />

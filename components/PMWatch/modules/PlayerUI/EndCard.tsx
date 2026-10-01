@@ -29,7 +29,7 @@ export function EndCard({ smId }: { smId: string | undefined }) {
     if (currentTime < duration && currentTime !== duration) return null
 
     let ownerName = "非公開または退会済みユーザー"
-    if (videoInfo?.owner) ownerName = videoInfo.owner.nickname
+    if (videoInfo?.owner && returnVideoOwnerName(videoInfo.owner)) ownerName = returnVideoOwnerName(videoInfo.owner)!
 
     const seriesData = videoInfo?.series
     const playlist = btoa(

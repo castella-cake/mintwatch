@@ -64,7 +64,7 @@ export default function Lyric() {
     )
 
     const videoTitle = videoInfo.video.title
-    const ownerNickname = videoInfo.owner?.nickname
+    const ownerNickname = returnVideoOwnerName(videoInfo.owner)
     const { title: parsedTitle, artist: parsedArtist } = resolveTitleAndArtist(videoTitle, ownerNickname)
 
     const greatestAvailableQuality = videoInfo.media ? returnGreatestQuality(videoInfo.media.contents.audios) : false
