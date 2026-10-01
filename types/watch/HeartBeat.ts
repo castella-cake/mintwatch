@@ -27,7 +27,7 @@ interface Hls {
 export type HeartBeatEventType = "start" | "impression" | "play" | "pause" | "seek" | "end" | "error" | "suspend"
 
 /** heartbeat の method */
-export type HeartBeatMethod = "premium" | "regular"
+export type HeartBeatMethod = "premium" | "regular" | "guest"
 
 /**
  * heartbeat イベント送信時のペイロード

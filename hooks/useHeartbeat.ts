@@ -12,48 +12,32 @@ import { detectEnvironment } from "@/utils/detectEnvironment"
 export type HeartbeatOptions = {
     videoId: string | undefined
     actionTrackId: string
-    /** プレミアム会員かどうか。`premium` / `free` の method 選択に使用 */
-    isPremium: boolean
-    /**
-     * nicosid は `videoInfo.client.nicosid` から取得する。
-     * Cookie は拡張機能のコンテキストでは touch しない方針のため、上位で解決して渡す。
-     */
+    method: HeartBeatMethod // 会員種別
     nicosid: string
-    /** `?nopmw=true` のような現在のクエリパラメータ */
     queryParameters: Record<string, string>
-    /** 初回アクセス時のクエリパラメータ(リプレイ用)。省略時は queryParameters と同値 */
     initialQueryParameters?: Record<string, string>
 }
 
-type PerformanceState = HeartBeatPerformance
-
 /**
- * heartbeat を統合的に管理する hook。
- *
- * ニコニコ動画の視聴ページでは、ページ遷移時に次の3イベントを v4/watch へ送信する必要がある:
- *   - `start`: ページ到達時
- *   - `impression`: プレイヤー UI が初回描画されたとき
- *   - `play`: 動画が実際に再生開始したとき
- *
- * この hook は1動画(=1 videoId)に対して start/impression/play を**一度だけ**送信する。
- * 動画ID が変わると内部状態がリセットされる。
+ * heartbeat の start, impression, play イベント送信を管理するフック
  */
 export function useHeartbeat({
     videoId,
     actionTrackId,
-    isPremium,
+    method,
     nicosid,
     queryParameters,
     initialQueryParameters,
 }: HeartbeatOptions) {
     const sentRef = useRef<Set<HeartBeatEventType>>(new Set())
-    const perfRef = useRef<PerformanceState>(createInitialPerformance())
+    const perfRef = useRef<HeartBeatPerformance>(createInitialPerformance())
     const envRef = useRef(detectEnvironment())
     const nicosidRef = useRef(nicosid)
     const initialQueryRef = useRef(initialQueryParameters ?? queryParameters)
     const lastQueryRef = useRef(queryParameters)
 
     // 動画ID が変わったら状態リセット
+    // TODO: useEffectを使用しない形に変更する(レンダー中の調整もしくはkey)
     useEffect(() => {
         sentRef.current = new Set()
         perfRef.current = createInitialPerformance()
@@ -67,7 +51,7 @@ export function useHeartbeat({
      * heartbeat payload は Unix エポックミリ秒を要求するため、
      * Date.now() で取得した絶対時刻を保存する。
      */
-    const markPerformance = useCallback(<K extends keyof PerformanceState>(key: K, value: PerformanceState[K]) => {
+    const markPerformance = useCallback(<K extends keyof HeartBeatPerformance>(key: K, value: HeartBeatPerformance[K]) => {
         perfRef.current = { ...perfRef.current, [key]: value }
     }, [])
 
@@ -78,6 +62,7 @@ export function useHeartbeat({
 
         const env = envRef.current
         const perf = perfRef.current
+        // ほとんどはアクセス分析だと思うので今はほとんどハードコードする
         const additionalParameters: HeartBeatAdditionalParameters = {
             ___pc_v: 1,
             os: env.os,
@@ -116,7 +101,7 @@ export function useHeartbeat({
         const payload: HeartBeatPayload = {
             actionTrackId,
             heartbeat: {
-                method: (isPremium ? "premium" : "regular") satisfies HeartBeatMethod,
+                method: method,
                 params: {
                     eventType,
                     eventOccurredAt: new Date().toISOString(),
@@ -126,8 +111,12 @@ export function useHeartbeat({
                 },
             },
         }
-        sendVideoInfoHeartbeat(videoId, payload)
-    }, [videoId, actionTrackId, isPremium])
+        try {
+            sendVideoInfoHeartbeat(videoId, payload)
+        } catch (e) {
+            console.warn("WatchAPI Heartbeat failed: ", e)
+        }
+    }, [videoId, actionTrackId, method])
 
     return {
         sendStart: useCallback(() => sendEvent("start"), [sendEvent]),
@@ -138,7 +127,7 @@ export function useHeartbeat({
     }
 }
 
-function createInitialPerformance(): PerformanceState {
+function createInitialPerformance(): HeartBeatPerformance {
     const now = Date.now()
     return {
         watch_access_start: now,

@@ -39,7 +39,7 @@ export function useStoryBoardData(
             }
         },
         staleTime: 24 * 60 * 60 * 1000, // 24時間
-        enabled: !!(media?.isStoryboardAvailable && smId && actionTrackId),
+        enabled: !!(media?.isStoryboardAvailable && smId && actionTrackId && media?.accessRightKey),
     })
     return { storyboardData, error }
 }

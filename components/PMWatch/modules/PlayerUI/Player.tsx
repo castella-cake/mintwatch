@@ -30,7 +30,6 @@ import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { borderMyComments, parseNicoScriptEvent } from "@/utils/commentUtils"
-import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
 import { useHeartbeat } from "@/hooks/useHeartbeat"
 import { useLocationContext } from "@/components/Router/RouterContext"
@@ -75,7 +74,7 @@ function Player(props: Props) {
     const { sendStart, sendImpression, sendPlay } = useHeartbeat({
         videoId,
         actionTrackId,
-        isPremium: videoInfo?.viewer?.isPremium ?? false,
+        method: videoInfo?.viewer ? (videoInfo?.viewer.isPremium ? "premium" : "regular") : "guest",
         nicosid,
         queryParameters,
     })
@@ -253,17 +252,16 @@ function Player(props: Props) {
         shouldUseContentScriptHls,
         localStorage.preferredLevel ?? -1,
     ) */
-    const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
+    /* const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
         smId,
         videoInfo?.media ?? null,
         actionTrackId,
         shouldUseContentScriptHls,
-    )
+    ) */
     const { hlsRef, error: hlsError, isBuffering, levelMapRef } = useHls(
         videoRef,
-        hlsAccessRightsData,
-        videoInfo?.media?.contents?.videos,
-        videoInfo?.media?.contents?.audios,
+        videoInfo?.media.hls.url,
+        videoInfo?.media?.contents,
         videoInfo?.media?.hls?.outputs,
         localStorage.preferredQuality,
         shouldUseContentScriptHls,
@@ -387,7 +385,7 @@ function Player(props: Props) {
     }, [localStorage])
 
     useEffect(() => {
-        if (errorInfo || !videoInfo?.video) return
+        if (!videoInfo?.video) return
         if ("mediaSession" in navigator) {
             const { title, artist } = resolveTitleAndArtist(
                 videoInfo.video.title,
@@ -408,7 +406,7 @@ function Player(props: Props) {
                     : []),
             })
         }
-    }, [videoInfo?.video, videoInfo?.owner, videoInfo?.series, playlistData, errorInfo])
+    }, [videoInfo?.video, videoInfo?.owner, videoInfo?.series, playlistData])
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
@@ -739,7 +737,7 @@ function Player(props: Props) {
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
-                <ErrorScreen hlsErrorInfo={errorInfo ?? hlsError ?? null} />
+                <ErrorScreen hlsErrorInfo={hlsError ?? null} />
                 {isFullscreenUi && localStorage.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">
@@ -755,8 +753,7 @@ function Player(props: Props) {
                     isSettingsShown={isSettingsShown}
                     setIsSettingsShown={setIsSettingsShown}
                     playlistIndexControl={playlistIndexControl}
-                    videos={videoInfo?.media?.contents?.videos}
-                    audios={videoInfo?.media?.contents?.audios}
+                    contents={videoInfo?.media?.contents}
                     levelMapRef={levelMapRef}
                     storyBoardData={storyboardData}
                     currentPlayerType={currentPlayerType}

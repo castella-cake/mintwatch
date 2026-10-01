@@ -15,7 +15,7 @@ import { CommentToggleButton } from "./PlayerController/buttons/CommentToggleBut
 import { SettingsToggleButton } from "./PlayerController/buttons/SettingsToggleButton"
 import { FullscreenButton } from "./PlayerController/buttons/FullscreenButton"
 import { TheaterViewButton } from "./PlayerController/buttons/TheaterViewButton"
-import type { Video as VideoQualityType, Audio as AudioQualityType } from "@/types/watch/Base"
+import type { Video as VideoQuality, Audio as AudioQuality } from "@/types/watch/Base"
 import type { VideoLevelMap } from "@/utils/hlsLevelSelector"
 
 type Props = {
@@ -30,8 +30,10 @@ type Props = {
     setIsSettingsShown: Dispatch<SetStateAction<boolean>>
     hlsRef: RefObject<Hls>
     playlistIndexControl: (index: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => void
-    videos: VideoQualityType[] | undefined
-    audios: AudioQualityType[] | undefined
+    contents?: {
+        videos: VideoQuality[] | undefined
+        audios: AudioQuality[] | undefined
+    }
     levelMapRef: RefObject<VideoLevelMap | null>
     storyBoardData?: StoryBoardImageRootObject
     currentPlayerType: keyof typeof playerTypes
@@ -64,8 +66,7 @@ function PlayerController(props: Props) {
         setIsSettingsShown,
         hlsRef,
         playlistIndexControl,
-        videos,
-        audios,
+        contents,
         levelMapRef,
         storyBoardData,
         currentPlayerType,
@@ -150,7 +151,7 @@ function PlayerController(props: Props) {
                 </div>
                 <div className="playercontroller-container-right">
                     {currentLayout.right}
-                    <QualitySelect hlsRef={hlsRef} videos={videos} audios={audios} levelMapRef={levelMapRef} />
+                    <QualitySelect hlsRef={hlsRef} videos={contents?.videos} audios={contents?.audios} levelMapRef={levelMapRef} />
                     <CommentToggleButton
                         currentPlayerType={currentPlayerType}
                         isCommentShown={isCommentShown}

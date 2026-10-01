@@ -15,13 +15,18 @@ export type HlsLevelsMetadata = {
 
 export function useHls(
     videoRef: RefObject<HTMLVideoElement | null>,
-    hlsResponse: any,
-    videos: VideoQuality[] | undefined,
-    audios: AudioQuality[] | undefined,
+    hlsUrl: string | undefined,
+    mediaContents: {
+        videos: VideoQuality[] | undefined
+        audios: AudioQuality[] | undefined
+    } | undefined,
     outputs: { assetUnitNames: string[] }[] | undefined,
     preferred: PreferredQuality | undefined,
     isEnabled = true,
 ) {
+    const videos = mediaContents?.videos
+    const audios = mediaContents?.audios
+
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), [])
     const hlsRef = useRef<Hls>(null!)
     const levelMapRef = useRef<VideoLevelMap | null>(null)
@@ -38,7 +43,7 @@ export function useHls(
     const [isBuffering, setIsBuffering] = useState(false)
 
     useEffect(() => {
-        if (!hlsResponse || !videoRef.current || !isEnabled) {
+        if (!hlsUrl || !videoRef.current || !isEnabled) {
             if (videoRef.current) videoRef.current.src = ""
             setError(null)
             setIsBuffering(false)
@@ -60,7 +65,7 @@ export function useHls(
                 enableCEA708Captions: false,
             })
             hls.attachMedia(videoRef.current)
-            hls.loadSource(hlsResponse.data.contentUrl)
+            hls.loadSource(hlsUrl)
 
             // manifest パース時に outputs[].assetUnitNames を権威として
             // (videoId, audioId) → level index の map を作り、
@@ -111,7 +116,7 @@ export function useHls(
             hls.on(Hls.Events.MANIFEST_LOADED, () => setIsBuffering(false))
             hlsRef.current = hls
         } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-            videoRef.current.src = hlsResponse.data.contentUrl
+            videoRef.current.src = hlsUrl
         }
         return () => {
             if (hlsRef.current) {
@@ -122,7 +127,7 @@ export function useHls(
                 videoRef.current.currentTime = 0
             }
         }
-    }, [hlsRef, hlsResponse, isSupportedBrowser, videoRef, isEnabled])
+    }, [hlsRef, hlsUrl, isSupportedBrowser, videoRef, isEnabled])
 
     useEffect(() => {
         const video = videoRef.current
@@ -138,7 +143,7 @@ export function useHls(
             video.removeEventListener("waiting", onWaiting)
             video.removeEventListener("playing", onPlaying)
         }
-    }, [videoRef, hlsResponse])
+    }, [videoRef, hlsUrl])
 
     return { hlsRef, error, isBuffering, levelMapRef }
 }

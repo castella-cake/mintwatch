@@ -53,33 +53,30 @@ export async function getVideoInfoLazy(videoId: string, body: { actionTrackId: s
 }
 
 /**
- * 視聴データに関するイベント (start / impression / play など) を v4/watch に送信する。
+ * 視聴データに関するイベント (start / impression / play など) 送信する
  *
- * heartbeat は副作用のあるメトリクス送信であり、エラーは握りつぶしてよい。
- * レスポンス (HLS URL 更新など) は現在未使用 — 必要になったタイミングで別途パースを追加する。
  */
 export async function sendVideoInfoHeartbeat(
     videoId: string,
     payload: HeartBeatPayload,
-): Promise<void> {
-    try {
-        await fetch(`https://nvapi.nicovideo.jp/v4/watch/${encodeURIComponent(videoId)}`, {
-            headers: {
-                "x-frontend-id": "6",
-                "x-frontend-version": "0",
-                "x-niconico-language": "ja-jp",
-                "x-request-with": "https://www.nicovideo.jp",
-                "content-type": "application/json",
-                "accept": "application/json",
-            },
-            referrer: "https://www.nicovideo.jp/",
-            body: JSON.stringify(payload),
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-        })
-    } catch (e) {
-        // heartbeat はベストエフォート。失敗してもユーザー体験を阻害しない。
-        console.warn("[heartbeat] failed:", e)
-    }
+) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v4/watch/${encodeURIComponent(videoId)}`, {
+        headers: {
+            "x-frontend-id": "6",
+            "x-frontend-version": "0",
+            "x-niconico-language": "ja-jp",
+            "x-request-with": "https://www.nicovideo.jp",
+            "content-type": "application/json",
+            "accept": "application/json",
+        },
+        referrer: "https://www.nicovideo.jp/",
+        body: JSON.stringify(payload),
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+    })
+
+    const responseJson: VideoDataHeartBeatRootObject = await response.json()
+    if (!validateBaseResponse) throw new APIError("VideoInfoHeartBeat failed.", responseJson)
+    return responseJson
 }

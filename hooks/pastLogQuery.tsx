@@ -23,7 +23,6 @@ export function usePastLogQuery() {
 
     const pendingPastLog = useMemo<PendingPastLog | undefined>(() => {
         const when = parsePastLogQuery(location.search)
-        // videoId は VideoDataProvider が baseSlices.video.id から導出した値をそのまま使う
         const resolvedVideoId = videoId
         if (when === null || !resolvedVideoId) return undefined
         const key = `${resolvedVideoId}:${when}`

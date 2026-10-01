@@ -82,9 +82,8 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
         }
     }, [errorInfo])
 
-    // ---- Context 値の組み立て ----
-    // videoInfo は Base/Lazy の単純スプレッド。Lazy 未確定時は
-    // owner/ranking/series/waku を null にして型整合させる (Nullable<WatchLazyData>)。
+    // Context値を構築する。
+    // videoInfo は Base/Lazy の単純スプレッド。
     const value: VideoDataContextValue = useMemo(() => {
         if (!baseSlices) return { ...defaultContextValue, errorInfo }
         const lazySlices = lazyData?.data
