@@ -41,6 +41,9 @@ export function StatsOverlay({ hlsRef }: { hlsRef: RefObject<Hls>, videoRef: Ref
                                     Lv
                                     {" "}
                                     {hlsLevel}
+                                    {" ("}
+                                    {hlsRef.current?.levels[hlsLevel].audioGroupId}
+                                    {") "}
                                     {" "}
                                     {hlsRef.current?.levels[hlsLevel].width}
                                     x
@@ -61,26 +64,6 @@ export function StatsOverlay({ hlsRef }: { hlsRef: RefObject<Hls>, videoRef: Ref
                     )
                 : <>内部HLS無効</>}
             <br />
-            利用可能なHLSレベル:
-            { hlsRef.current && hlsRef.current?.levels.map((l, i) => (
-                <div key={`${i}-${l.name}`}>
-                    Lv
-                    {" "}
-                    {i}
-                    {" ("}
-                    {" / "}
-                    {l.audioGroupId}
-                    {") "}
-                    {l.width}
-                    x
-                    {l.height}
-                    {" "}
-                    {l.frameRate}
-                    FPS -
-                    {l.bitrate / 1000}
-                    kbps
-                </div>
-            ))}
             <br />
             取得した動画クオリティ:
             {" "}
