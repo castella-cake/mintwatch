@@ -539,7 +539,10 @@ function Player(props: Props) {
         ) {
             document.dispatchEvent(
                 new CustomEvent("pmw_playerReady", {
-                    detail: JSON.stringify({ videoInfo: rawVideoInfo, actionTrackId }),
+                    detail: JSON.stringify({
+                        videoInfo: rawVideoInfo,
+                        actionTrackId,
+                    }),
                 }),
             )
         }

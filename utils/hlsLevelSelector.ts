@@ -3,10 +3,6 @@ import type { Video as VideoQuality, Audio as AudioQuality } from "@/types/watch
 
 /**
  * ユーザー設定として永続化する画質設定。
- *
- * 旧 `preferredLevel: number` (HLS インデックス) は API 仕様変更で
- * 動画ごとにインデックスが安定しないため廃止し、API レスポンス内の
- * `media.contents.{videos,audios}[*].id` で識別する。
  */
 export interface PreferredQuality {
     videoId: string
@@ -14,15 +10,7 @@ export interface PreferredQuality {
 }
 
 /**
- * HLS Level 配列と API の `media.hls.outputs[].assetUnitNames` から構築する lookup。
- *
- * `media.hls.outputs[].assetUnitNames` にはHLSのURLから返されるレベルのの対応がある。
- * `assetUnitNames[0]` / `[1]` == `contents.videos[k].id` / `contents.audios[k].id`
- *
- * ただし `outputs[]` は「高画質 + 高音質 → 低画質 + 低音質」の降順で列挙されるが、
- * hls.js が読む master playlist は BANDWIDTH 昇順で列挙されるため、
- * `outputs[i]` に対応する hls.js の level index は `hlsLevels.length - 1 - i` になる。
- * (例: outputs[0]=1080p → hlsLevels の最上位)
+ * HLS Level 配列と API の `media.hls.outputs[].assetUnitNames` から構築されるマップ
  */
 export interface VideoLevelMap {
     /** videoId -> その videoId での最高音質の HLS level index (UI表示用) */
@@ -44,6 +32,13 @@ export function buildVideoLevelMap(
     videos: VideoQuality[],
     audios: AudioQuality[],
 ): VideoLevelMap {
+    /*
+    `media.hls.outputs[].assetUnitNames` にはHLSのURLから返されるレベルの対応がある。
+    `assetUnitNames[0]` / `[1]` == `contents.videos[k].id` / `contents.audios[k].id`
+    ただし `outputs[]` は「高画質 + 高音質 → 低画質 + 低音質」の降順で列挙されるが、
+    hls.js が読む master playlist は BANDWIDTH 昇順で列挙されるため、
+    `outputs[i]` に対応する hls.js のインデックスは反転する。(例: outputs[0]=1080p → hlsLevels の最上位)
+    */
     const byLevel = new Map<number, { videoId: string, audioId: string }>()
     const byPair = new Map<string, number>()
 
@@ -185,6 +180,30 @@ export function pickBestAudioForVideo(
         }
     }
     return best?.id
+}
+
+/**
+ * 画質選択に並べる option 一覧の型
+ */
+export interface VideoLevelOption {
+    level: number
+    label: string
+}
+
+export function buildVideoLevelOptions(
+    videos: VideoQuality[],
+    map: VideoLevelMap,
+): VideoLevelOption[] {
+    const sortedVideos = [...videos]
+        .filter(v => v.isAvailable)
+        .sort((a, b) => b.height - a.height)
+    const out: VideoLevelOption[] = []
+    for (const video of sortedVideos) {
+        const level = map.byVideo.get(video.id)
+        if (level === undefined) continue
+        out.push({ level, label: video.label || `${video.height}p` })
+    }
+    return out
 }
 
 function pairKey(videoId: string, audioId: string): string {

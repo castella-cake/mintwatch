@@ -1,7 +1,13 @@
 // @unimport-disable
 // scriptタグ経由で注入される""ページスクリプト""。拡張機能APIは使えないことに注意。
 import Hls from "hls.js"
-import { VideoDataRootObject } from "@/types/watch/Base"
+import { VideoDataRootObject, Video, Audio } from "@/types/watch/Base"
+import {
+    buildVideoLevelMap,
+    buildVideoLevelOptions,
+    pickHighestLevel,
+    type VideoLevelMap,
+} from "@/utils/hlsLevelSelector"
 
 export default defineUnlistedScript({
     main() {
@@ -10,6 +16,8 @@ export default defineUnlistedScript({
         let previousATI = ""
         // 動画変更の検出
         let previousVideoId = ""
+        // 現在の VideoLevelMap (select change で逆引きするため)
+        let currentMap: VideoLevelMap | null = null
         document.addEventListener("pmw_playerReady", (e: any) => {
             // CORS関係でオブジェクトはStringになって渡されます。
             const detail = JSON.parse(e.detail)
@@ -72,6 +80,7 @@ export default defineUnlistedScript({
                 && media.accessRightKey
                 && media.contents?.videos
                 && media.contents?.audios
+                && media.hls.outputs
                 && video
                 && video.id !== previousVideoId
             ) {
@@ -79,6 +88,9 @@ export default defineUnlistedScript({
                 previousVideoId = video.id
 
                 const hlsUrl = media.hls.url
+                const videos: Video[] = media.contents.videos
+                const audios: Audio[] = media.contents.audios
+                const outputs = media.hls.outputs
 
                 const videoElement: any
                     = document.getElementById("pmw-element-video") // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
@@ -101,21 +113,64 @@ export default defineUnlistedScript({
                 hls.on(Hls.Events.ERROR, (err) => {
                     console.log(err)
                 })
+
+                // manifest パース時に outputs[].assetUnitNames を権威として
+                // (videoId, audioId) → level index の map を作り、最高レベルを startLevel / currentLevel に反映する。
+                hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+                    const map = buildVideoLevelMap(data.levels, outputs, videos, audios)
+                    currentMap = map
+
+                    const target = pickHighestLevel(map, videos, audios)
+                    if (target !== undefined) {
+                        hls.startLevel = target
+                        hls.currentLevel = target
+                    }
+                })
+
+                // LEVELS_UPDATED でも map を再構築し、最高レベルを再適用する
+                hls.on(Hls.Events.LEVELS_UPDATED, (event, data) => {
+                    const map = buildVideoLevelMap(data.levels, outputs, videos, audios)
+                    currentMap = map
+
+                    const target = pickHighestLevel(map, videos, audios)
+                    if (target !== undefined) {
+                        hls.currentLevel = target
+                    }
+                })
+
                 hls.on(Hls.Events.LEVEL_SWITCHED, (e, data) => {
                     // console.log("switched:", data)
-                    if (levelSelector && (levelSelector instanceof HTMLSelectElement)) levelSelector.selectedIndex = data.level
+                    if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
+                    // data.level === -1 は hls.js の Auto 相当
+                    if (data.level === -1) {
+                        const autoIdx = Array.from(levelSelector.options).findIndex(o => o.value === "-1")
+                        if (autoIdx >= 0) levelSelector.selectedIndex = autoIdx
+                    } else {
+                        levelSelector.selectedIndex = data.level
+                    }
                 })
-                hls.on(Hls.Events.MANIFEST_LOADED, () => {
-                    // console.log("levels",   hls.levels)
+
+                // manifest 確定後に select を API 提供の video ラベルで populate する
+                // (byVideo map を使い、各 video につき最高音質の hls level を 1件だけ表示)
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
                     levelSelector.innerHTML = ""
-                    hls.levels.forEach((level, index) => {
+                    const map = currentMap
+                    if (!map) return
+                    const options = buildVideoLevelOptions(videos, map)
+                    for (const opt of options) {
                         const option = document.createElement("option")
-                        option.setAttribute("value", index.toString())
-                        option.textContent = `${level.height}p`
+                        option.value = String(opt.level)
+                        option.textContent = opt.label
                         levelSelector.appendChild(option)
-                    })
+                    }
+
+                    const autoOpt = document.createElement("option")
+                    autoOpt.value = "-1"
+                    autoOpt.textContent = "Auto"
+                    levelSelector.appendChild(autoOpt)
                 })
+
                 hls.on(Hls.Events.BUFFER_APPENDED, () => {
                     if (videoElement.buffered.length && seekbarBuffered instanceof HTMLElement) {
                         const bufferedDuration = videoElement.buffered.end(videoElement.buffered.length - 1)
@@ -129,13 +184,12 @@ export default defineUnlistedScript({
                         seekbarBuffered.style.width = `0%`
                     }
                 })
-                hls.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
-                    hls.currentLevel = data.levels.length - 1
-                })
+
                 if (levelSelector) levelSelector.addEventListener("change", (e) => {
                     if (e.target && e.target instanceof HTMLSelectElement) {
+                        const level = Number(e.target.value)
                         // console.log("change: ", e)
-                        hls.currentLevel = Number(e.target.value)
+                        hls.currentLevel = level
                     }
                 })
             }

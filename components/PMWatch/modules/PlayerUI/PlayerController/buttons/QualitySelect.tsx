@@ -2,7 +2,12 @@ import { useEffect, useState } from "react"
 import type { RefObject } from "react"
 import Hls, { Level } from "hls.js"
 import type { Video as VideoQualityType, Audio as AudioQualityType } from "@/types/watch/Base"
-import { pickBestAudioForVideo, type PreferredQuality, type VideoLevelMap } from "@/utils/hlsLevelSelector"
+import {
+    buildVideoLevelOptions,
+    pickBestAudioForVideo,
+    type PreferredQuality,
+    type VideoLevelMap,
+} from "@/utils/hlsLevelSelector"
 
 type QualitySelectProps = {
     hlsRef: RefObject<Hls>
@@ -114,17 +119,7 @@ function computeVideoOptions(
     }
     if (!map) return []
 
-    // API の video を高さ降順に並べて、byVideo で対応する level を value にする
-    const sortedVideos = [...videos]
-        .filter(v => v.isAvailable)
-        .sort((a, b) => b.height - a.height)
-    const out: Array<{ level: number, label: string }> = []
-    for (const video of sortedVideos) {
-        const level = map.byVideo.get(video.id)
-        if (level === undefined) continue
-        out.push({ level, label: video.label || `${video.height}p` })
-    }
-    return out
+    return buildVideoLevelOptions(videos, map)
 }
 
 // 外部 (テスト等) から参照できるよう export する。

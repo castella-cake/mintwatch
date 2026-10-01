@@ -3,6 +3,7 @@ import type { Level } from "hls.js"
 import type { Video as VideoQuality, Audio as AudioQuality } from "@/types/watch/Base"
 import {
     buildVideoLevelMap,
+    buildVideoLevelOptions,
     pickBestAudioForVideo,
     pickHighestLevel,
     pickLevelFromPreferred,
@@ -229,5 +230,87 @@ describe("pickBestAudioForVideo", () => {
             makeAudio("audio-aac-192kbps", 1, 192000, false),
         ]
         expect(pickBestAudioForVideo(audios)).toBeUndefined()
+    })
+})
+
+describe("buildVideoLevelOptions", () => {
+    const levels: Level[] = [
+        makeLevel(1920, 1080, 4192000),
+        makeLevel(1920, 1080, 4064000),
+        makeLevel(1280, 720, 2256000),
+        makeLevel(1280, 720, 2126000),
+        makeLevel(854, 480, 1064000),
+        makeLevel(854, 480, 1006000),
+    ]
+    const outputs = [
+        { assetUnitNames: ["video-h264-1080p", "audio-aac-192kbps"] },
+        { assetUnitNames: ["video-h264-1080p", "audio-aac-64kbps"] },
+        { assetUnitNames: ["video-h264-720p", "audio-aac-192kbps"] },
+        { assetUnitNames: ["video-h264-720p", "audio-aac-64kbps"] },
+        { assetUnitNames: ["video-h264-480p", "audio-aac-192kbps"] },
+        { assetUnitNames: ["video-h264-480p", "audio-aac-64kbps"] },
+    ]
+
+    test("video を高さ降順に並べて、各 videoId で byVideo の level を value にする", () => {
+        const videos: VideoQuality[] = [
+            makeVideo("video-h264-480p", 1, 854, 480, 1000000),
+            makeVideo("video-h264-1080p", 3, 1920, 1080, 4000000),
+            makeVideo("video-h264-720p", 2, 1280, 720, 2500000),
+        ]
+        const audios: AudioQuality[] = [
+            makeAudio("audio-aac-192kbps", 1, 192000),
+            makeAudio("audio-aac-64kbps", 0, 64000),
+        ]
+        const map = buildVideoLevelMap(levels, outputs, videos, audios)
+        const opts = buildVideoLevelOptions(videos, map)
+        expect(opts.map(o => o.level)).toEqual([
+            map.byVideo.get("video-h264-1080p"),
+            map.byVideo.get("video-h264-720p"),
+            map.byVideo.get("video-h264-480p"),
+        ])
+    })
+
+    test("isAvailable=false の動画は除外する", () => {
+        const videos: VideoQuality[] = [
+            makeVideo("video-h264-1080p", 3, 1920, 1080, 4000000, false),
+            makeVideo("video-h264-720p", 2, 1280, 720, 2500000),
+        ]
+        const audios: AudioQuality[] = [makeAudio("audio-aac-192kbps", 1, 192000)]
+        const map = buildVideoLevelMap(levels, outputs, videos, audios)
+        const opts = buildVideoLevelOptions(videos, map)
+        expect(opts).toHaveLength(1)
+        expect(opts[0].level).toBe(map.byVideo.get("video-h264-720p"))
+    })
+
+    test("outputs に含まれない動画 (byVideo に居ない動画) は除外する", () => {
+        const videos: VideoQuality[] = [
+            // 1440p は outputs には居ないが videos には居る
+            makeVideo("video-h264-1440p", 4, 2560, 1440, 6000000),
+            makeVideo("video-h264-720p", 2, 1280, 720, 2500000),
+        ]
+        const audios: AudioQuality[] = [makeAudio("audio-aac-192kbps", 1, 192000)]
+        const map = buildVideoLevelMap(levels, outputs, videos, audios)
+        const opts = buildVideoLevelOptions(videos, map)
+        expect(opts).toHaveLength(1)
+        expect(opts[0].level).toBe(map.byVideo.get("video-h264-720p"))
+    })
+
+    test("video.label が空文字や undefined の時は `${height}p` にフォールバック", () => {
+        const videos: VideoQuality[] = [
+            { ...makeVideo("video-h264-720p", 2, 1280, 720, 2500000), label: "" },
+            makeVideo("video-h264-480p", 1, 854, 480, 1000000),
+        ]
+        const audios: AudioQuality[] = [makeAudio("audio-aac-192kbps", 1, 192000)]
+        const map = buildVideoLevelMap(levels, outputs, videos, audios)
+        const opts = buildVideoLevelOptions(videos, map)
+        expect(opts[0].label).toBe("720p")
+        expect(opts[1].label).toBe("480p")
+    })
+
+    test("videos が空なら空配列", () => {
+        const videos: VideoQuality[] = []
+        const audios: AudioQuality[] = [makeAudio("audio-aac-192kbps", 1, 192000)]
+        const map = buildVideoLevelMap(levels, outputs, videos, audios)
+        expect(buildVideoLevelOptions(videos, map)).toEqual([])
     })
 })
