@@ -164,7 +164,7 @@
 
 .watch-container[data-use-card-recommend="false"] { 
     .seriesinfo-content {
-        grid-template: "tmb tit fir" max-content "eps eps eps" 1fr / max-content max-content 1fr;
+        grid-template: "tmb tit fir" max-content "eps eps eps" 1fr / auto 1fr auto;
     }
 
     .seriesinfo-episodes {
