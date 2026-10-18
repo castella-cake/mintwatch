@@ -8,7 +8,7 @@ import APIError from "../classes/APIError"
  * @param body コメント取得のオブジェクト
  */
 export async function getCommentThread(server: string, body: string) {
-    const response = await fetch(`${server}/v1/threads`, {
+    const response = await fetch(`${server}/v1/threads?pc=1`, {
         credentials: "omit",
         headers: {
             "x-client-os-type": "others",

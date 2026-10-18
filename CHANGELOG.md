@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.0.5 - 2026/10
 
+## Changed
+- 予防的処置として、コメントスレッドの取得時に自身をPCとして報告するようになりました
+
 ### Fixed
 - 再生キューの構築時に、投稿者情報を取得していないまま初期プレイリストが構築される問題を修正しました
 - 非公開ユーザーの動画が視聴できない問題を修正しました
