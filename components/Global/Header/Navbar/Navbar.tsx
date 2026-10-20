@@ -1,4 +1,4 @@
-import Search from "@/components/Global/SearchBar/Search"
+import { MemoizedSearch } from "@/components/Global/SearchBar/Search"
 import { IconMenu2 } from "@tabler/icons-react"
 import { useSetMintConfigShownContext, useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { MWButton } from "../../MWButton"
@@ -45,7 +45,7 @@ export default function Navbar({ isEditMode, setIsEditMode, isShinjukuMode, chil
                             </a>
                         )}
             </div>
-            <Search enableHotKey={true} />
+            <MemoizedSearch enableHotKey={true} />
             { isShinjukuMode
                 ? (
                         <>

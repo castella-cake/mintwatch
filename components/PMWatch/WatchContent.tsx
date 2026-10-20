@@ -9,7 +9,7 @@ import { Owner, Stats } from "./modules/ShinjukuUI"
 import WatchNext from "./modules/WatchNext/WatchNext"
 import SeriesInfo from "./modules/Info/Series"
 import ContentTree from "./modules/Info/ContentTree"
-import Search from "../Global/SearchBar/Search"
+import { MemoizedSearch } from "../Global/SearchBar/Search"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import VideoTitle from "./modules/Info/VideoTitle"
 import Lyric from "./modules/Lyric"
@@ -166,7 +166,7 @@ export function WatchContent(_props: Props) {
     const watchNextElem = <WatchNext key="watchui-recommend" isHorizontalCardLayout={shouldUseCardRecommend} />
     const seriesElem = <SeriesInfo key="watchui-series" />
     const contentTreeElem = <ContentTree key="watchui-contenttree" />
-    const searchElem = <Search key="watchui-search" />
+    const searchElem = <MemoizedSearch key="watchui-search" />
     const ownerElem = <Owner key="watchui-owner" />
 
     const layoutPresets: {

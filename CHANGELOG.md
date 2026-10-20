@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased - 2026
 
+### Changed
+- v4/watch の新しいAPI仕様に対応しました
+
 ### Fixed
 - 新視聴系レイアウトのシリーズブロックが、シリーズタイトルが長すぎる場合に表示を引き伸ばしてしまう問題を修正しました
+- 軽微な最適化を行いました
 
 ## 1.0.3 - 2026/09/21
 

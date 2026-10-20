@@ -1,5 +1,5 @@
 import { IconFolder, IconListNumbers, IconMessageLanguage, IconTag, IconUser } from "@tabler/icons-react"
-import { startTransition, useEffect, useRef, useState } from "react"
+import { memo, startTransition, useEffect, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../../Router/RouterContext"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
 import { ExpandableSearchInput } from "./ExpandableSearchInput"
@@ -102,5 +102,7 @@ function Search({ enableHotKey }: { enableHotKey?: boolean }) {
         </search>
     )
 }
+
+export const MemoizedSearch = memo(Search)
 
 export default Search

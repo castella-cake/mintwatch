@@ -1,4 +1,4 @@
-import { useState, useRef, useId } from "react"
+import { useState, useRef, useId, memo } from "react"
 // import { useLang } from "../localizeHook";
 import type { Comment } from "@/types/CommentData"
 import { VideoDataComment as WatchComment } from "@/types/watch/Base"
@@ -152,6 +152,8 @@ const Comments = ({
         </div>
     )
 }
+
+const MemoizedComments = memo(Comments)
 
 const ariaDetails
     = "コメントリストはデフォルトでスクリーンリーダーから不可視です。\nコメントリストを読み上げたり、コメントに対してアクションする場合は、このボタンでコメントリストを開放することが出来ます。"
@@ -463,7 +465,7 @@ function CommentList() {
                     }}
                 />
             )}
-            <Comments
+            <MemoizedComments
                 comments={filteredComments}
                 listFocusable={listFocusable}
                 onNicoru={onNicoru}
