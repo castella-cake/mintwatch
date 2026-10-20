@@ -44,6 +44,7 @@
     border: none;
     color: #eee;
     padding: 0 8px;
+    height: var(--header-height);
 
     &:hover, &:focus-visible, &[data-is-active="true"] {
         background: #555;
