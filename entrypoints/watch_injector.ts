@@ -222,12 +222,11 @@ export default defineUnlistedScript({
                     // console.log("switched:", data)
                     if (!levelSelector || !(levelSelector instanceof HTMLSelectElement)) return
                     // data.level === -1 は hls.js の Auto 相当
-                    if (data.level === -1) {
-                        const autoIdx = Array.from(levelSelector.options).findIndex(o => o.value === "-1")
-                        if (autoIdx >= 0) levelSelector.selectedIndex = autoIdx
-                    } else {
-                        levelSelector.selectedIndex = data.level
-                    }
+                    // select の option は画質降順で並んでいるため、selectedIndex に level を直接代入すると表示が反転する。
+                    // また media.hls 由来の outputs (動画×音声の組み合わせ) では level 数が option 数より多くなり範囲外代入で未選択になる。
+                    // 必ず option の value で照合する。(QualitySelect.tsx と同じ挙動)
+                    const idx = Array.from(levelSelector.options).findIndex(o => o.value === String(data.level))
+                    if (idx >= 0) levelSelector.selectedIndex = idx
                 })
 
                 // manifest 確定後に select を API 提供の video ラベルで populate する
