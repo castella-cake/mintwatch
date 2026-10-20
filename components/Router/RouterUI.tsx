@@ -78,15 +78,19 @@ export default function RouterUI() {
                 )
                 && !isOutOfBoundsLinkAnchor(nearestAnchor)
             ) {
-                // 別の動画リンクであることが確定したら、これ以上イベントが伝播しないようにする
+                // MintWatch内の別リンクであることが確定したら、これ以上イベントが伝播しないようにする
                 e.stopPropagation()
                 e.preventDefault()
-                const isVideoPage = isPathnameIsVideoPage(location.pathname, isShortsPageEnabled)
-                if (videoRef.current && !videoRef.current.paused && !isVideoPage) {
+                // バックグラウンド再生に入れるかどうかは遷移先のページ種別で判定する。
+                const destinationPathname = new URL(nearestAnchor.href).pathname
+                const isPlaying = !!(videoRef.current && !videoRef.current.paused)
+                const willVisitVideoPage = isPathnameIsVideoPage(destinationPathname, isShortsPageEnabled)
+
+                if (isPlaying && !willVisitVideoPage) {
                     setBackgroundPlaying(true)
                 } else {
                     setBackgroundPlaying(false)
-                    if (isVideoPage) {
+                    if (isPathnameIsVideoPage(location.pathname, isShortsPageEnabled)) {
                         const smId = pathnameToVideoId(location.pathname)
                         if (smId) {
                             // この動画IDのキャッシュをあらかじめ破棄する
