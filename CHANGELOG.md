@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - 2026
+## 1.0.4 - 2026/10/21
 
 ### Changed
 - v4/watch の新しいAPI仕様に対応しました
 
 ### Fixed
 - 新視聴系レイアウトのシリーズブロックが、シリーズタイトルが長すぎる場合に表示を引き伸ばしてしまう問題を修正しました
+- 汎用動画カードの投稿者欄のオーバーフローを修正しました
 - ヘッダーのその他サービスを開くボタンのスタイルの問題を修正しました
 - 軽微な最適化を行いました
 

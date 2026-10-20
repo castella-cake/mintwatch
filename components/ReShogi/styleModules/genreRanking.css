@@ -60,6 +60,7 @@
 
     .videoitem-card .info-card-subtitle {
         place-self: start;
+        max-width: calc(100% - 4rem);
     }
 
     .shogi-genre-teiban-selector-container {

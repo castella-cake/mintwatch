@@ -99,6 +99,13 @@
     margin: 0;
 }
 
+.genericitem-owner-name {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+}
+
 .genericitem-card.info-card, .genericitem-card.info-card .info-card-thumbnail {
     overflow: visible;
 }
