@@ -164,14 +164,12 @@ test("Search: Display options test", async ({ page, mockApi, enableSearchPage })
     await expect(gridButton).toBeVisible()
 
     // デフォルトでリスト表示が選択されているか確認
-    const isListActive = await listButton.getAttribute("data-is-active")
-    expect(isListActive).toBe("true")
+    await expect(listButton).toHaveAttribute("data-is-active", "true")
 
     // グリッド表示に切り替え
     await gridButton.click()
 
     // 検索結果コンテナのレイアウト属性が変更されるか確認
     const searchResultItems = page.locator(".search-result-items")
-    const gridLayout = await searchResultItems.getAttribute("data-is-grid-layout")
-    expect(gridLayout).toBe("true")
+    await expect(searchResultItems).toHaveAttribute("data-is-grid-layout", "true")
 })
