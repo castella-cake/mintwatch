@@ -255,7 +255,7 @@ function Player(props: Props) {
     ) */
     const { accessRightsData: hlsAccessRightsData, error: accessRightsError } = useAccessRightsData(
         smId,
-        videoInfo?.media,
+        videoInfo?.media ?? undefined,
         actionTrackId,
         shouldUseContentScriptHls,
     )

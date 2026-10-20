@@ -1,6 +1,8 @@
-export const watchForbiddenTestData: any = {
+import { VideoDataErrorRootObject } from "@/types/watch/Base"
+
+export const watchForbiddenTestData: VideoDataErrorRootObject = {
     meta: {
-        status: 400,
+        status: 403,
         code: "FORBIDDEN",
     },
     data: {
@@ -10,7 +12,8 @@ export const watchForbiddenTestData: any = {
             ],
             metaTags: [
             ],
-            jsonLds: [],
+            jsonLds: [
+            ],
         },
         googleTagManager: {
             user: {
@@ -18,13 +21,12 @@ export const watchForbiddenTestData: any = {
             },
         },
         response: {
-            statusCode: 400,
+            statusCode: 403,
             errorCode: "FORBIDDEN",
             reasonCode: "ADMINISTRATOR_DELETE_VIDEO",
             deletedMessage: null,
-            communityLink: null,
             publishScheduledAt: null,
-            data: null,
+            dataSet: null,
         },
         treatAs: false,
     },

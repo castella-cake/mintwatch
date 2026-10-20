@@ -8,5 +8,5 @@ test("Watch: Forbidden video rendering test", async ({ page, mockApi }) => {
 
     await page.waitForSelector("#pmw-element-video")
 
-    await expect(page.locator(".videotitle")).toHaveText("400 FORBIDDEN: 削除された動画のため視聴できません")
+    await expect(page.locator(".videotitle")).toHaveText("403 FORBIDDEN: 削除された動画のため視聴できません")
 })

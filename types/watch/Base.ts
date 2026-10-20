@@ -6,6 +6,19 @@ interface Data extends jsonResponseData {
     response: Response
 }
 
+/**
+ * `meta.status !== 200` のときの動画情報レスポンス。
+ * 成功時と異なり `data.response` に `$watchV4` は入らず、エラー情報が入る。
+ */
+export interface VideoDataErrorRootObject extends baseResponse {
+    data: DataOnError
+}
+
+interface DataOnError extends jsonResponseData {
+    response: ErrorResponse
+    treatAs: boolean
+}
+
 interface Response {
     $watchV4: WatchV4
     pcweb: Pcweb
@@ -23,14 +36,15 @@ export interface WatchV4Data {
     responseType: string
     client: Client
     comment: VideoDataComment
-    media: Media
+    media: Media | null
     player: Player
     video: VideoData
     genre: Genre
     tags: Tags
     lazy: Lazy
     system: System
-    viewer: Viewer
+    /** 未ログイン時は null */
+    viewer: Viewer | null
     videoAds: VideoAds
     videoLive: null
     payment: Payment
@@ -45,7 +59,13 @@ export interface Metadata {
 }
 
 interface Gtm {
-    channel: null
+    channel: GtmChannel | null
+}
+
+/** チャンネル動画のときのみ存在する */
+interface GtmChannel {
+    id: string
+    isMember: boolean
 }
 
 interface JsonLd {
@@ -54,8 +74,8 @@ interface JsonLd {
 }
 
 interface VideoObject {
-    regionsAllowed: null
-    expiresAt: null
+    regionsAllowed: string | null
+    expiresAt: string | null
 }
 
 interface Owner {
@@ -91,7 +111,7 @@ interface Ppv {
 export interface VideoAds {
     additionalParams: AdditionalParams
     items: any[]
-    reason: null
+    reason: string | null
 }
 
 interface AdditionalParams {
@@ -103,9 +123,10 @@ interface AdditionalParams {
     nicosid: string
     lang: string
     watchTrackId: string
-    genre: string
-    gender: string
-    age: number
+    /** チャンネル動画のときのみ存在する */
+    channelId?: string
+    /** チャンネル動画のときのみ存在する */
+    genre?: string
 }
 
 export interface Viewer {
@@ -134,8 +155,9 @@ export interface Tags {
 
 interface Edit {
     isEditable: boolean
-    uneditableReason: null
-    editKey: string
+    /** 未ログインなら "NEED_LOGIN"、自分の作品でない場合は "USER_FORBIDDEN" が入る */
+    uneditableReason: string | null
+    editKey: string | null
 }
 
 interface TagItem {
@@ -186,8 +208,8 @@ interface Rating {
 
 export interface Thumbnail2 {
     normal: string
-    middle: string
-    large: string
+    middle: string | null
+    large: string | null
     player: string
     ogp: string
     short: null
@@ -312,7 +334,8 @@ interface Target {
 interface Ng {
     ngScore: NgScore
     owner: any[]
-    viewer: NgData
+    /** 未ログイン時は null */
+    viewer: NgData | null
 }
 
 interface NgScore {
@@ -340,7 +363,8 @@ export interface VideoDataThread {
     isOwnerThread: boolean
     is184Forced: boolean
     label: string
-    postNgReason: null
+    /** チャンネル限定動画では "channelRestriction" のような理由が入る */
+    postNgReason: string | null
     syncBufferTime: number
 }
 
@@ -350,13 +374,15 @@ export interface Client {
     watchTrackId: string
 }
 
+/**
+ * `meta.status !== 200` のときのレスポンス (`data.response` に入る)。
+ * 実例: 削除済み動画なら statusCode 403 / errorCode "FORBIDDEN" / reasonCode "ADMINISTRATOR_DELETE_VIDEO"
+ */
 export interface ErrorResponse {
-    isCustomError: boolean
     statusCode: number
     errorCode: string
     reasonCode: string
-    deletedMessage: null
-    communityLink: null
-    publishScheduledAt: null
-    data: null
+    deletedMessage: string | null
+    publishScheduledAt: string | null
+    dataSet: null
 }

@@ -74,10 +74,11 @@ export function ErrorScreen({ hlsErrorInfo }: { hlsErrorInfo: unknown }) {
         )
     }
 
-    if (!videoInfo?.media || (videoInfo?.media?.contents && videoInfo?.viewer)) return
-    const isPPV = videoInfo?.payment?.ppv.isEnabled
-    const isAdmissionOnly = videoInfo?.payment?.admission.isEnabled
-    const isPremiumOnly = videoInfo?.payment?.premium.isEnabled
+    const isPPV = !!videoInfo?.payment?.ppv.isEnabled
+    const isAdmissionOnly = !!videoInfo?.payment?.admission.isEnabled
+    const isPremiumOnly = !!videoInfo?.payment?.premium.isEnabled
+    const isPaymentGated = isPPV || isAdmissionOnly || isPremiumOnly
+    if (!videoInfo || !isPaymentGated || videoInfo.okReason === "PURELY") return
     return (
         <div className="player-errorscreen-wrapper">
             <div className="player-errorscreen">

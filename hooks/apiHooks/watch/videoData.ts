@@ -13,14 +13,12 @@ export function useVideoDataQuery(smId: string | undefined) {
                     meta: { status: 400, code: "MWINTERNALQUERY_INVALID_VIDEO_ID" },
                     data: {
                         response: {
-                            isCustomError: true,
                             statusCode: 400,
                             errorCode: "MWINTERNALQUERY_INVALID_VIDEO_ID",
                             reasonCode: "MWINTERNALQUERY_INVALID_VIDEO_ID",
                             deletedMessage: null,
-                            communityLink: null,
                             publishScheduledAt: null,
-                            data: null,
+                            dataSet: null,
                         },
                     },
                 })

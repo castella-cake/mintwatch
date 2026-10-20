@@ -12,6 +12,10 @@ interface GoogleTagManagerContent {
     player_type: string
     genre: string
     content_type: string
+    /** チャンネル動画のときのみ存在する */
+    channel_id?: string
+    ch_register_status?: string
+    pay_status?: string
 }
 
 interface GoogleTagManagerUser {
@@ -45,6 +49,10 @@ interface JsonLd {
     "thumbnailUrl"?: string[]
     "requiresSubscription"?: boolean
     "isAccessibleForFree"?: boolean
+    /** チャンネル動画にのみ入る */
+    "regionsAllowed"?: string
+    /** チャンネル動画にのみ入る。jsonLd.videoObject.expiresAt と対応する */
+    "expires"?: string
     "commentCount"?: number
     "keywords"?: string
     "genre"?: string
@@ -57,18 +65,17 @@ interface JsonLd {
 interface ItemListElement {
     "@type": string
     "position": number
-    "item": Item
-}
-
-interface Item {
-    "@id": string
+    /** パンくずリストでは URL が入る */
+    "item": string
     "name": string
 }
 
 interface Author {
     "@type": string
     "name": string
-    "description": string
+    /** チャンネル動画では description が無い */
+    "description"?: string
+    "image": string
     "url": string
 }
 
@@ -99,7 +106,12 @@ interface MetaTag {
 interface LinkTag {
     rel: string
     href: string
-    attrs: Attr | Attrs2 | Attrs3 | any[] | Attrs5
+    attrs: Attr | Attrs2 | Attrs3 | any[] | Attrs5 | Attrs6
+}
+
+interface Attrs6 {
+    as: string
+    fetchpriority: string
 }
 
 interface Attrs5 {

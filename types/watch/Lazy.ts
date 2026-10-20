@@ -16,7 +16,8 @@ export interface LazyOwnerUser {
     id: number
     nickname: string
     icon: LazyOwnerUserIcon
-    follow: LazyOwnerUserFollow
+    /** 未ログイン時は null */
+    follow: LazyOwnerUserFollow | null
     ownedChannel: null
     currentLive: null
     upcomingVideoLive: null
