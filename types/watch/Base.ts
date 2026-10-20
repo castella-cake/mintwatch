@@ -212,7 +212,7 @@ export interface Media {
     contents: Contents
     isStoryboardAvailable: boolean
     accessRightKey: string
-    hls: Hls
+    hls: Hls | null
     lowDataMode: LowDataMode
 }
 
@@ -221,7 +221,12 @@ interface LowDataMode {
     audioUpperLimit: number
 }
 
-interface Hls {
+/**
+ * 再生可能な HLS の情報。
+ * `?responseType=json&withAccessRight=1` で取得したレスポンスでは `Media.hls` に、
+ * access-rights API から取得した場合は `accessRightsApiHlsToNormalizedHls` によってこの形になる。
+ */
+export interface Hls {
     url: string
     outputs: Output[]
     createdAt: string

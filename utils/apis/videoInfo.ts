@@ -9,9 +9,9 @@ const manifestData = browser.runtime.getManifest()
  * 動画情報を取得する(正確には視聴ページ情報を取得する)API
  * @param smId 動画ID
  */
-export async function getVideoInfo(smId: string) {
+export async function getVideoInfo(smId: string, withAccessRight = 1) {
     // responseType=jsonで取得。
-    const response = await fetch(`https://www.nicovideo.jp/watch/${encodeURIComponent(smId)}?responseType=json`, {
+    const response = await fetch(`https://www.nicovideo.jp/watch/${encodeURIComponent(smId)}?responseType=json&nvpcClientVersion=1&withAccessRight=${withAccessRight}`, {
         credentials: "include",
         headers: {
             "User-Agent": `PepperMintPlus-Watch/${manifestData.version}`,

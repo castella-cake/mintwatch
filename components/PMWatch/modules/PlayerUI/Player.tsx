@@ -34,6 +34,7 @@ import { useBackgroundPlayingContext } from "@/components/Global/Contexts/Backgr
 import { useHeartbeat } from "@/hooks/useHeartbeat"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { JumpVideoCard } from "./JumpVideoCard"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { validateThreadId } from "@/utils/detectVideoId"
@@ -252,17 +253,17 @@ function Player(props: Props) {
         shouldUseContentScriptHls,
         localStorage.preferredLevel ?? -1,
     ) */
-    /* const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
+    const { accessRightsData: hlsAccessRightsData, error: accessRightsError } = useAccessRightsData(
         smId,
-        videoInfo?.media ?? null,
+        videoInfo?.media,
         actionTrackId,
         shouldUseContentScriptHls,
-    ) */
+    )
     const { hlsRef, error: hlsError, isBuffering, levelMapRef } = useHls(
         videoRef,
-        videoInfo?.media.hls.url,
+        hlsAccessRightsData?.url,
         videoInfo?.media?.contents,
-        videoInfo?.media?.hls?.outputs,
+        hlsAccessRightsData?.outputs,
         localStorage.preferredQuality,
         shouldUseContentScriptHls,
     )
@@ -740,7 +741,7 @@ function Player(props: Props) {
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
-                <ErrorScreen hlsErrorInfo={hlsError ?? null} />
+                <ErrorScreen hlsErrorInfo={accessRightsError ?? hlsError ?? null} />
                 {isFullscreenUi && localStorage.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">

@@ -1,13 +1,66 @@
 // @unimport-disable
 // scriptタグ経由で注入される""ページスクリプト""。拡張機能APIは使えないことに注意。
 import Hls from "hls.js"
-import { VideoDataRootObject, Video, Audio } from "@/types/watch/Base"
+import { VideoDataRootObject, Video, Audio, Hls as HlsInfo } from "@/types/watch/Base"
+import type { AccessRightsRootObject } from "@/types/accessRightsApi"
+import { buildHlsOutputs } from "@/utils/hlsOutputs"
 import {
     buildVideoLevelMap,
     buildVideoLevelOptions,
     pickHighestLevel,
     type VideoLevelMap,
 } from "@/utils/hlsLevelSelector"
+
+/**
+ * access-rights API から HLS のURLを取得する。
+ * 動画情報APIが HLS のURLを返すのは `responseType=json&withAccessRight=1` を明示した時だけで、
+ * HTML に同梱された動画情報レスポンスには入らない。そのため外部HLSプラグインは
+ * ページスクリプトのコンテキストから直接取得する。
+ *
+ * @param videoId 取得する動画ID
+ * @param actionTrackId 現在のレンダーで使っているアクショントラックID
+ * @param accessRightKey 動画情報の `media.accessRightKey`
+ * @param videos 動画情報の `media.contents.videos`
+ * @param audios 動画情報の `media.contents.audios`
+ */
+async function fetchHlsInPageContext(
+    videoId: string,
+    actionTrackId: string,
+    accessRightKey: string,
+    videos: Video[],
+    audios: Audio[],
+): Promise<HlsInfo> {
+    // 使える映像クオリティを全部希望する。音声クオリティは常に一番良いものを希望する。
+    const outputs = buildHlsOutputs(videos, audios)
+    const response = await fetch(
+        `https://nvapi.nicovideo.jp/v1/watch/${encodeURIComponent(videoId)}/access-rights/hls?actionTrackId=${encodeURIComponent(actionTrackId)}`,
+        {
+            headers: {
+                "content-type": "application/json",
+                "x-access-right-key": accessRightKey,
+                "x-frontend-id": "6",
+                "x-frontend-version": "0",
+                "x-niconico-language": "ja-jp",
+                "x-request-with": "nicovideo",
+            },
+            referrer: "https://www.nicovideo.jp/",
+            body: JSON.stringify({ outputs }),
+            method: "POST",
+            credentials: "include",
+        },
+    )
+    const hlsResponse = await response.json() as AccessRightsRootObject
+    if (hlsResponse.meta?.status !== 201 || !hlsResponse.data?.contentUrl) {
+        throw new Error(`Invalid HLS Response (status: ${hlsResponse.meta?.status})`)
+    }
+    return {
+        url: hlsResponse.data.contentUrl,
+        createdAt: hlsResponse.data.createTime,
+        expiredAt: hlsResponse.data.expireTime,
+        // access-rights API はURLしか返さないので、リクエストした対応付けをそのまま使う。
+        outputs: outputs.map(output => ({ assetUnitNames: output })),
+    }
+}
 
 export default defineUnlistedScript({
     main() {
@@ -16,8 +69,15 @@ export default defineUnlistedScript({
         let previousATI = ""
         // 動画変更の検出
         let previousVideoId = ""
+        // accessRights の取得は非同期なので、取得中に別の動画へ遷移した場合に
+        // 古い結果を捨てられるように動画IDを印付けしておく
+        let latestVideoId = ""
         // 現在の VideoLevelMap (select change で逆引きするため)
         let currentMap: VideoLevelMap | null = null
+        // 動画切替時に確実に破棄するため、現在のHlsインスタンスを保持する
+        let currentHls: Hls | null = null
+        // select の change リスナは動画ごとに張り直すので、前回の解除手段を保持する
+        let detachLevelSelectorListener: (() => void) | null = null
         document.addEventListener("pmw_playerReady", (e: any) => {
             // CORS関係でオブジェクトはStringになって渡されます。
             const detail = JSON.parse(e.detail)
@@ -43,6 +103,7 @@ export default defineUnlistedScript({
 
         async function injectMediaToPlayer({
             videoInfo,
+            actionTrackId,
         }: {
             videoInfo: VideoDataRootObject
             actionTrackId: string
@@ -75,25 +136,43 @@ export default defineUnlistedScript({
 
             if (
                 media
-                && media.hls
-                && media.hls.url
                 && media.accessRightKey
                 && media.contents?.videos
                 && media.contents?.audios
-                && media.hls.outputs
                 && video
                 && video.id !== previousVideoId
             ) {
-                // hlsの取得より先に動画が変更される可能性を考えて、とりあえず最初に前の動画IDを保存
-                previousVideoId = video.id
+                // 取得中に別の動画へ遷移したら、古い結果が新しい動画を壊さないように印を付ける
+                latestVideoId = video.id
 
-                const hlsUrl = media.hls.url
                 const videos: Video[] = media.contents.videos
                 const audios: Audio[] = media.contents.audios
-                const outputs = media.hls.outputs
+
+                // HTML同梱のレスポンスには media.hls が入らないため、
+                // 入っていなければ access-rights API から自分で取りに行く
+                let hlsInfo: HlsInfo | null = null
+                try {
+                    hlsInfo = media.hls
+                        ?? await fetchHlsInPageContext(video.id, actionTrackId, media.accessRightKey, videos, audios)
+                } catch (error) {
+                    console.log("PMW Plugin: accessRightsの取得に失敗しました", error)
+                    return
+                }
+                // 取得中に動画が切り替わっていたら、古いHLSをロードしてはいけない
+                if (!hlsInfo || video.id !== latestVideoId) return
 
                 const videoElement: any
                     = document.getElementById("pmw-element-video") // <HTMLVideoElement>で回避できるけど、babelがjsxに関するエラーを吐くのでanyにしておく。
+
+                // hlsの取得より先に動画が変更される可能性を考えて、直前に前の動画IDを保存
+                previousVideoId = video.id
+
+                const hlsUrl = hlsInfo.url
+                const outputs = hlsInfo.outputs
+
+                // 前の動画のインスタンスが残ったままだと音声が二重に流れるので破棄する
+                currentHls?.destroy()
+                detachLevelSelectorListener?.()
                 const hls = new Hls({
                     debug: false,
                     xhrSetup: function (xhr) {
@@ -106,6 +185,7 @@ export default defineUnlistedScript({
                         return new Request(context.url, initParams)
                     },
                 })
+                currentHls = hls
                 // videoのrefにアタッチ
                 if (videoElement) hls.attachMedia(videoElement)
                 // 読み込み
@@ -185,13 +265,17 @@ export default defineUnlistedScript({
                     }
                 })
 
-                if (levelSelector) levelSelector.addEventListener("change", (e) => {
-                    if (e.target && e.target instanceof HTMLSelectElement) {
-                        const level = Number(e.target.value)
-                        // console.log("change: ", e)
-                        hls.currentLevel = level
+                if (levelSelector) {
+                    const onLevelSelectorChange = (e: Event) => {
+                        if (e.target && e.target instanceof HTMLSelectElement) {
+                            const level = Number(e.target.value)
+                            // console.log("change: ", e)
+                            hls.currentLevel = level
+                        }
                     }
-                })
+                    levelSelector.addEventListener("change", onLevelSelectorChange)
+                    detachLevelSelectorListener = () => levelSelector.removeEventListener("change", onLevelSelectorChange)
+                }
             }
         }
         const script = document.currentScript
