@@ -6,10 +6,10 @@ const IViewerNgContext = createContext<{ ngData: NgData | undefined | null, setN
 
 export function ViewerNgProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext()
-    const [ngData, setNgData] = useState<NgData | undefined | null>(videoInfo && videoInfo.data.response.comment.ng.viewer)
+    const [ngData, setNgData] = useState<NgData | undefined | null>(videoInfo?.comment?.ng.viewer)
     useEffect(() => {
-        if (!videoInfo) return
-        setNgData(videoInfo.data.response.comment.ng.viewer)
+        if (!videoInfo?.comment) return
+        setNgData(videoInfo.comment.ng.viewer)
     }, [videoInfo])
     return (
         <IViewerNgContext value={{ ngData, setNgData }}>

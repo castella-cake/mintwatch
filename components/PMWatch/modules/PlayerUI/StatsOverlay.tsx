@@ -1,8 +1,9 @@
 import Hls from "hls.js"
-import { VideoDataRootObject } from "@/types/VideoData"
 import { RefObject, useEffect, useState } from "react"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 
-export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootObject | undefined, hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement | null> }) {
+export function StatsOverlay({ hlsRef }: { hlsRef: RefObject<Hls>, videoRef: RefObject<HTMLVideoElement | null> }) {
+    const { videoInfo } = useVideoInfoContext()
     const [hlsLevel, setHlsLevel] = useState(hlsRef.current?.currentLevel || 0)
 
     useEffect(() => {
@@ -13,13 +14,14 @@ export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootOb
         })
     }, [hlsRef.current])
 
-    if (!videoInfo) return <div className="statsoverlay">動画情報が利用できません</div>
-    const loudnessData = (videoInfo.data?.response.media.domand && videoInfo.data?.response.media.domand?.audios[0].loudnessCollection[0].value)
+    if (!videoInfo?.media) return <div className="statsoverlay">動画情報が利用できません</div>
+    const media = videoInfo.media
+    const loudnessData = (media.contents && media.contents.audios[0]?.loudnessCollection[0]?.value)
     return (
         <div className="statsoverlay">
             動画ID:
             {" "}
-            {videoInfo.data?.response.video.id}
+            {videoInfo?.video?.id}
             <br />
             <br />
             現在のHLS再生クオリティ:
@@ -39,6 +41,9 @@ export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootOb
                                     Lv
                                     {" "}
                                     {hlsLevel}
+                                    {" ("}
+                                    {hlsRef.current?.levels[hlsLevel].audioGroupId}
+                                    {") "}
                                     {" "}
                                     {hlsRef.current?.levels[hlsLevel].width}
                                     x
@@ -63,7 +68,7 @@ export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootOb
             取得した動画クオリティ:
             {" "}
             <br />
-            {videoInfo.data?.response.media.domand?.videos.map((elem) => {
+            {media.contents.videos.map((elem) => {
                 return (
                     <span key={`videoq-${elem.id}`}>
                         {`ID: ${elem.id} - ${elem.width}x${elem.height} (${elem.label} / ${elem.bitRate / 1000}kbps)`}
@@ -75,7 +80,7 @@ export function StatsOverlay({ videoInfo, hlsRef }: { videoInfo: VideoDataRootOb
             取得した音声クオリティ:
             {" "}
             <br />
-            {videoInfo.data?.response.media.domand?.audios.map((elem) => {
+            {media.contents.audios.map((elem) => {
                 return (
                     <span key={`audioq-${elem.id}`}>
                         {`ID: ${elem.id} - ${elem.bitRate / 1000}kbps / ${elem.samplingRate}Hz`}

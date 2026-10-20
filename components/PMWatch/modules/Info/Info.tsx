@@ -2,7 +2,7 @@ import {
     IconExclamationCircleFilled,
     IconTags,
 } from "@tabler/icons-react"
-import type { ErrorResponse } from "@/types/VideoData"
+import type { ErrorResponse } from "@/types/watch/Base"
 import { MouseEvent, useState } from "react"
 import DOMPurify from "dompurify"
 import HTMLReactParser from "html-react-parser"
@@ -16,6 +16,7 @@ import Tags from "./Tags"
 import VideoTitle from "./VideoTitle"
 import ExternalLinkMenu from "./ExternalLinkMenu"
 import APIError from "@/utils/classes/APIError"
+import { isVideoInfoOwnerUser } from "@/utils/handleVideoInfoOwner"
 
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div")
@@ -170,11 +171,10 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     )
     if (errorInfo) return <ErrorUI error={errorInfo} />
     if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />
-    const videoInfoResponse = videoInfo.data.response
 
     // Not scary!
     const sanitizedDesc = DOMPurify.sanitize(
-        videoInfoResponse.video.description || "",
+        videoInfo.video.description || "",
     )
     const descElem = HTMLReactParser(sanitizedDesc)
 
@@ -221,50 +221,44 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                             <div className="uploaddate">
                                 <strong>
                                     {new Date(
-                                        videoInfoResponse.video.registeredAt,
+                                        videoInfo.video.registeredAt,
                                     ).toLocaleString("ja-JP")}
                                 </strong>
                                 {" "}
                                 投稿の
-                                {videoInfoResponse.channel ? "公式" : "ユーザー"}
+                                {videoInfo.video.isChannelVideo ? "公式" : "ユーザー"}
                                 動画
                                 <span className="threeleader"> … </span>
                                 <strong>
-                                    {videoInfoResponse.genre.isNotSet
+                                    {videoInfo.genre?.isNotSet
                                         ? "未設定"
-                                        : videoInfoResponse.genre.label}
+                                        : videoInfo.genre?.label}
                                     {" "}
                                 </strong>
                                 カテゴリ
-                                {videoInfoResponse.ranking.teiban
-                                    ? (
-                                            <>
-                                                (
-                                                <strong>{videoInfoResponse.ranking.teiban.label}</strong>
-                                                {" "}
-                                                内現在順位:
-                                                {videoInfoResponse.ranking.teiban.rank}
-                                                位)
-                                            </>
-                                        )
-                                    : ""}
                             </div>
                         )}
                         <VideoTitle showStats={!isShinjukuLayout} />
                     </div>
                 )}
-                <ExternalLinkMenu videoId={videoInfoResponse.video.id} />
-                {!isShinjukuLayout && (
+                <ExternalLinkMenu videoId={videoInfo.video.id} />
+                {!isShinjukuLayout && videoInfo.owner && (
                     <>
-                        {videoInfoResponse.owner && (
-                            <OwnerInfo id={videoInfoResponse.owner.id} iconUrl={videoInfoResponse.owner.iconUrl} name={videoInfoResponse.owner.nickname}>
-                                <UserFollowButton userId={videoInfoResponse.owner.id} />
-                            </OwnerInfo>
-                        )}
-                        {videoInfoResponse.channel && (
-                            <OwnerInfo id={videoInfoResponse.channel.id} iconUrl={videoInfoResponse.channel.thumbnail.smallUrl} name={videoInfoResponse.channel.name} isChannel />
-                        )}
+                        {
+                            isVideoInfoOwnerUser(videoInfo.owner) && (
+                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.icon.url} name={videoInfo.owner.nickname}>
+                                    <UserFollowButton userId={videoInfo.owner.id} />
+                                </OwnerInfo>
+                            )
+                        }
+                        {
+                            isVideoInfoOwnerChannel(videoInfo.owner) && (
+                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.thumbnail.smallUrl} name={videoInfo.owner.name}>
+                                </OwnerInfo>
+                            )
+                        }
                     </>
+
                 )}
             </div>
             {isShinjukuLayout && (
@@ -307,12 +301,14 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     {descElem}
                 </div>
             </details>
-            <Tags
-                key={`${videoInfoResponse.client.watchId}-${videoInfoResponse.client.watchTrackId}`}
-                initialTagData={videoInfoResponse.tag}
-                isShinjukuLayout={isShinjukuLayout}
-                videoId={videoId}
-            />
+            {videoInfo.tags && (
+                <Tags
+                    key={`${videoInfo.client?.watchId ?? ""}-${videoInfo.client?.watchTrackId ?? ""}`}
+                    initialTagData={videoInfo.tags}
+                    isShinjukuLayout={isShinjukuLayout}
+                    videoId={videoId}
+                />
+            )}
         </div>
     )
 }

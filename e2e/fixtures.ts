@@ -15,6 +15,7 @@ import { searchSeriesTestData } from "./datas/Search/series"
 import { searchUserTestData } from "./datas/Search/user"
 import { searchPlaylistTestData } from "./datas/playlist"
 import { recommendationsTestData } from "./datas/recommendations"
+import { watchLazyTestData } from "./datas/watchLazy"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -72,28 +73,35 @@ export const test = base.extend<FixtureType>({
                 body: `<!DOCTYPE html><html lang="ja"><head></head><body></body></html>`,
             }))
 
+            // 動画情報のURLはクエリが増えるため、正規表現で前方一致させておく
             // 通常動画, PURELY
-            await page.route("https://www.nicovideo.jp/watch/sm9?responseType=json", route => route.fulfill({
+            await page.route(/^https:\/\/www\.nicovideo\.jp\/watch\/sm9\?responseType=json/, route => route.fulfill({
                 status: 200,
                 json: watchTestData,
             }))
 
             // PPV, 未レンタル
-            await page.route("https://www.nicovideo.jp/watch/so1?responseType=json", route => route.fulfill({
+            await page.route(/^https:\/\/www\.nicovideo\.jp\/watch\/so22102776\?responseType=json/, route => route.fulfill({
                 status: 200,
                 json: ppvForbiddenWatchTestData,
             }))
 
             // Admission, 未加入
-            await page.route("https://www.nicovideo.jp/watch/so2?responseType=json", route => route.fulfill({
+            await page.route(/^https:\/\/www\.nicovideo\.jp\/watch\/so31960146\?responseType=json/, route => route.fulfill({
                 status: 200,
                 json: admissionForbiddenWatchTestData,
             }))
 
             // 削除動画
-            await page.route("https://www.nicovideo.jp/watch/sm1?responseType=json", route => route.fulfill({
-                status: 400,
+            await page.route(/^https:\/\/www\.nicovideo\.jp\/watch\/sm1\?responseType=json/, route => route.fulfill({
+                status: 403,
                 json: watchForbiddenTestData,
+            }))
+
+            // 動画情報のうち Base 取得後に lazy で取得される部分
+            await page.route("https://nvapi.nicovideo.jp/v4/watch/lazy/sm9", route => route.fulfill({
+                status: 200,
+                json: watchLazyTestData,
             }))
 
             await page.route("https://nvapi.nicovideo.jp/v1/users/me/mylists", route => route.fulfill({

@@ -1,6 +1,6 @@
 import { Thread, Comment } from "@/types/CommentData"
 import { NgData } from "@/types/NgCommentsApiData"
-import { VideoDataThread } from "@/types/VideoData"
+import { VideoDataThread } from "@/types/watch/Base"
 
 // https://dic.nicovideo.jp/a/ng%E5%85%B1%E6%9C%89%E6%A9%9F%E8%83%BD より。
 export const sharedNgLevelScore = {

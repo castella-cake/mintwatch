@@ -1,5 +1,5 @@
 import { mylistContext, playlistQueryData, searchContext } from "@/types/playlistQuery"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoData } from "@/types/watch/Base"
 import { useVideoInfoContext } from "./VideoDataProvider"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { createContext, Dispatch, ReactNode, SetStateAction } from "react"
@@ -34,28 +34,23 @@ function isUnsetOrTrivial(playlistData: playlistData) {
 }
 
 // 現在の動画のみからなる初期プレイリストを生成する
-function buildInitialPlaylist(videoInfo: VideoDataRootObject): playlistData {
-    const ownerName
-        = videoInfo.data.response.owner
-            && videoInfo.data.response.owner.nickname
-    const channelName
-        = videoInfo.data.response.channel
-            && videoInfo.data.response.channel.name
+function buildInitialPlaylist(owner: LazyOwnerUser | LazyOwnerChannel | undefined, video: VideoData | null): playlistData {
+    const ownerName = returnVideoOwnerName(owner)
     return {
         type: "custom",
         items: [
             {
-                title: videoInfo.data.response.video.title,
-                id: videoInfo.data.response.video.id,
+                title: video?.title ?? "",
+                id: video?.id ?? "",
                 itemId: crypto.randomUUID(),
                 ownerName:
                     ownerName
-                    ?? channelName
                     ?? "非公開または退会済みユーザー",
-                duration: videoInfo.data.response.video.duration,
+                duration: video?.duration ?? 0,
                 thumbnailUrl:
-                    videoInfo.data.response.video.thumbnail.middleUrl
-                    ?? videoInfo.data.response.video.thumbnail.url,
+                    video?.thumbnail.middle
+                    ?? video?.thumbnail.normal
+                    ?? "",
             },
         ],
     }
@@ -75,9 +70,8 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     // URLのクエリパラメータ。playlistにはbase64でエンコードされたプレイリストの情報が入っている。
     const playlistString = new URLSearchParams(location.search).get("playlist")
     const setInitialPlaylistState = useCallback(async () => {
-        if (!videoInfo) return
-        const video = videoInfo.data.response.video
-        const initialPlaylist = buildInitialPlaylist(videoInfo)
+        if (!videoInfo?.video) return
+        const initialPlaylist = buildInitialPlaylist(videoInfo.owner ?? undefined, videoInfo.video)
         if (!isShortsPage) {
             setPlaylistData(initialPlaylist)
             return
@@ -88,14 +82,14 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
         let recommendItems: playlistVideoItem[] = []
         try {
             const recommendData = await queryClient.fetchQuery({
-                queryKey: ["recipePlaylistData", video.id],
-                queryFn: () => getRecipePlaylist(video.id, { recipeId: "video_short_watch_recommendation" }),
+                queryKey: ["recipePlaylistData", videoInfo.video.id],
+                queryFn: () => getRecipePlaylist(videoInfo.video.id, { recipeId: "video_short_watch_recommendation" }),
             })
             recommendItems = recommendData.data?.items
                 .filter(item => !item.content.isMuted)
                 .map(item => videoItemToPlaylistItem(item.content as VideoItem))
                 .filter((item): item is playlistVideoItem => !!item)
-                .filter(item => item.id !== video.id)
+                .filter(item => item.id !== videoInfo.video.id)
                 ?? []
         } catch (error) {
             console.error("Failed to fetch shorts recommendations.", error)
@@ -105,13 +99,13 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             type: "shorts",
             items: [initialItem, ...recommendItems],
         })
-    }, [videoInfo, isShortsPage, queryClient])
+    }, [videoInfo?.owner, videoInfo?.video, isShortsPage, queryClient])
 
     // フォールバックのプレイリスト(現在の動画のみ)はレンダリング中に派生する。
     // プレイリストのクエリパラメータがなく、プレイリストが未カスタマイズの場合のみ設定する。
-    const currentVideoId = videoInfo?.data?.response?.video?.id
+    const currentVideoId = videoInfo?.video?.id
     const [prevVideoId, setPrevVideoId] = useState<string>()
-    if (videoInfo && currentVideoId && currentVideoId !== prevVideoId) {
+    if (videoInfo?.video && currentVideoId && currentVideoId !== prevVideoId) {
         setPrevVideoId(currentVideoId)
         if (!playlistString && isUnsetOrTrivial(_playlistData)) {
             setInitialPlaylistState()
@@ -124,12 +118,12 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     }
 
     // updatePlaylistStateから最新のstateを参照するためのref
-    const latestRef = useRef({ playlistData: _playlistData, videoInfo })
-    latestRef.current = { playlistData: _playlistData, videoInfo }
+    const latestRef = useRef({ playlistData: _playlistData, video: videoInfo?.video })
+    latestRef.current = { playlistData: _playlistData, video: videoInfo?.video }
 
     // プレイリストのクエリパラメータからマイリストもしくはシリーズ、検索のデータを取得してプレイリストに反映する
     const updatePlaylistState = useCallback((playlistString: string) => {
-        const { playlistData: currentPlaylistData, videoInfo } = latestRef.current
+        const { playlistData: currentPlaylistData, video } = latestRef.current
         // カスタマイズ済みのプレイリストは上書きしない
         if (!isUnsetOrTrivial(currentPlaylistData)) return
         const playlistJson: playlistQueryData = decodePlaylistString(playlistString)
@@ -188,7 +182,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                 // クリックした動画を先頭にして再生するため、現在の動画を先頭に巡回させる
                 const items = rotatePlaylistToStart(
                     playlistToSimplifiedPlaylist(response),
-                    videoInfo?.data?.response.video.id,
+                    video?.id,
                 )
                 setPlaylistData({
                     type: "search",
@@ -196,11 +190,11 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
                     name: response.data.meta.title,
                     items,
                 })
-            } else if (playlistJson.type === "recipe" && playlistJson.context && videoInfo?.data?.response.video?.id) {
+            } else if (playlistJson.type === "recipe" && playlistJson.context && video?.id) {
                 const context: RecipePlaylistOptions = playlistJson.context
                 const response = await queryClient.fetchQuery({
-                    queryKey: ["recipePlaylist", videoInfo?.data?.response.video?.id, context],
-                    queryFn: () => getRecipePlaylist(videoInfo?.data?.response.video?.id, context),
+                    queryKey: ["recipePlaylist", video.id, context],
+                    queryFn: () => getRecipePlaylist(video.id, context),
                 })
                 setPlaylistData({
                     type: "recipe",
@@ -213,14 +207,14 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
             }
         }
         getData()
-    }, [queryClient, setInitialPlaylistState, videoInfo])
+    }, [queryClient, setInitialPlaylistState, videoInfo?.video])
 
     // URLのプレイリストパラメータの変化に応じてデータを取得する。
     // 遷移(history.push)と戻る/進む(popstate)はいずれもRouterProviderがlocationに反映する。
-    // searchプレイリストの巡回にはvideoInfoが必要なので、到着するまで待つ。
+    // searchプレイリストの巡回にはvideoが必要なので、到着するまで待つ。
     useEffect(() => {
-        if (videoInfo && playlistString) updatePlaylistState(playlistString)
-    }, [playlistString, videoInfo, updatePlaylistState])
+        if (videoInfo?.video && playlistString) updatePlaylistState(playlistString)
+    }, [playlistString, videoInfo?.video, updatePlaylistState])
 
     const controlFunctionsMemo = useMemo(() => ({
         setPlaylistData,

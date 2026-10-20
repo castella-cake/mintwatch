@@ -24,7 +24,7 @@ export function CommandPalette({
 }) {
     const { enableShokuninMode } = useStorageVar(["enableShokuninMode"])
     const { videoInfo } = useVideoInfoContext()
-    const isPremiumUser = videoInfo?.data.response.viewer?.isPremium || false
+    const isPremiumUser = videoInfo?.viewer?.isPremium || false
     if (!isOpen) return
     return (
         <div className="commandpalette-wrapper">

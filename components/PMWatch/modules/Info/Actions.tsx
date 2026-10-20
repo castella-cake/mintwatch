@@ -26,7 +26,7 @@ function Actions({ onModalOpen }: Props) {
     const [likeThanksMsg, setLikeThanksMsg] = useState<string | null>(null)
     const [isLikeThanksMsgClosed, setIsLikeThanksMsgClosed] = useState(false)
     const [isLikeHovered, setIsLikeHovered] = useState(false)
-    const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0) // videoInfoに焼き込まれていない「いいね」のための加算。
+    const [temporalLikeModifier, setTemporalLikeModifier] = useState<number>(0) // videoに焼き込まれていない「いいね」のための加算。
 
     const likeMessageTimeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
 
@@ -35,20 +35,14 @@ function Actions({ onModalOpen }: Props) {
 
     const queryClient = useQueryClient()
     useEffect(() => {
-        if (!videoInfo) return
+        if (!videoInfo?.video) return
         setTemporalLikeModifier(0)
-        setIsLiked(
-            videoInfo.data.response.video.viewer
-                ? videoInfo.data.response.video.viewer.like.isLiked
-                : false,
-        )
-        if (
-            videoInfo.data.response.video.viewer
-            && videoInfo.data.response.video.viewer.like.isLiked
-        ) {
+        setIsLiked(videoInfo.video.isLikedByViewer)
+        if (videoInfo.video.isLikedByViewer) {
+            const targetVideoId = videoInfo.video.id
             async function getData() {
                 const likeResponse = await sendLike(
-                    videoInfoResponse.video.id,
+                    targetVideoId,
                     "GET",
                 )
                 if (
@@ -64,13 +58,11 @@ function Actions({ onModalOpen }: Props) {
             setLikeThanksMsg(null)
         }
         setIsLikeThanksMsgClosed(false)
-    }, [videoInfo])
-    if (!videoInfo) return <></>
-
-    const videoInfoResponse = videoInfo.data.response
+    }, [videoInfo?.video, videoId])
+    if (!videoInfo?.video) return <></>
 
     async function likeChange() {
-        if (!videoInfo || !videoInfo.data.response.video.viewer || !videoId) return
+        if (!videoInfo?.video || !videoId) return
         const method = isLiked ? "DELETE" : "POST"
         const likeResponse = await sendLike(videoId, method)
         if (likeResponse) {
@@ -89,7 +81,7 @@ function Actions({ onModalOpen }: Props) {
     }
 
     function onAdsClicked() {
-        if (!videoInfo) return
+        if (!videoInfo?.video) return
         window.open(
             `https://nicoad.nicovideo.jp/video/publish/${videoId}`,
             "_blank",
@@ -98,7 +90,7 @@ function Actions({ onModalOpen }: Props) {
     }
 
     function onGiftClicked() {
-        if (!videoInfo) return
+        if (!videoInfo?.video) return
         window.open(
             `https://gift.nicovideo.jp/video/${videoId}/purchase?frontend_id=6&frontend_version=0`,
             "_blank",
@@ -173,7 +165,7 @@ function Actions({ onModalOpen }: Props) {
                 <span>
                     いいね！
                     {readableInt(
-                        videoInfoResponse.video.count.like
+                        videoInfo.video.count.like
                         + temporalLikeModifier,
                     )}
                 </span>
@@ -213,15 +205,15 @@ function Actions({ onModalOpen }: Props) {
                 <IconGift />
             </MWButton>
             {isLiked && likeThanksMsg
-                && ((videoInfo.data.response.video.viewer && videoInfo.data.response.video.viewer.like.isLiked && isLikeHovered)
-                    || (videoInfo.data.response.video.viewer && !videoInfo.data.response.video.viewer.like.isLiked
+                && ((videoInfo.video.isLikedByViewer && isLikeHovered)
+                    || (!videoInfo.video.isLikedByViewer
                         && (!isLikeThanksMsgClosed || isLikeHovered))) && (
                 <LikeThanksMessage
                     onMouseEnter={onLikeMouseEnter}
                     onMouseLeave={onLikeMouseLeave}
                     onClose={onLikeClose}
-                    isPermament={!videoInfo.data.response.video.viewer.like.isLiked}
-                    iconUrl={videoInfo.data.response.owner && videoInfo.data.response.owner.iconUrl}
+                    isPermament={!videoInfo.video.isLikedByViewer}
+                    iconUrl={returnVideoOwnerIcon(videoInfo.owner)}
                 />
             )}
             <MylistsPopup

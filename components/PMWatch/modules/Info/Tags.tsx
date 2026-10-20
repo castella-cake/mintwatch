@@ -1,4 +1,4 @@
-import { Tag } from "@/types/VideoData"
+import { Tags } from "@/types/watch/Base"
 import { IconAlertTriangle, IconCheck, IconCircleX, IconEdit, IconLock, IconLockOpen, IconTags, IconTrash } from "@tabler/icons-react"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
@@ -8,7 +8,7 @@ import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 type compatibleTag = {
     name: string
     isLocked: boolean
-    isNicodicArticleExists: boolean
+    isNicodicArticleExists?: boolean
 }
 
 function tagLengthCounter(tagText: string) {
@@ -24,7 +24,7 @@ function tagLengthCounter(tagText: string) {
     return length
 }
 
-export default function Tags({ initialTagData, isShinjukuLayout, videoId }: { initialTagData: Tag, isShinjukuLayout: boolean, videoId: string | undefined }) {
+export default function Tags({ initialTagData, isShinjukuLayout, videoId }: { initialTagData: Tags, isShinjukuLayout: boolean, videoId: string | undefined }) {
     const elementId = useId()
 
     const { smId } = useSmIdContext()

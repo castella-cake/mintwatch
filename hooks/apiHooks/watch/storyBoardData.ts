@@ -1,10 +1,10 @@
 import { StoryBoardImageRootObject } from "@/types/StoryBoardData"
-import { VideoDataRootObject } from "@/types/VideoData"
+import { Media } from "@/types/watch/Base"
 import APIError from "@/utils/classes/APIError"
 import { useQuery } from "@tanstack/react-query"
 
 export function useStoryBoardData(
-    videoInfo: VideoDataRootObject | undefined,
+    media: Media | null,
     smId: string | undefined,
     actionTrackId: string,
 ) {
@@ -12,11 +12,13 @@ export function useStoryBoardData(
         queryKey: ["storyboardData", smId, actionTrackId],
         queryFn: async () => {
             if (!smId) throw new Error("invalidVideoId")
-            if (!videoInfo) throw new Error("videoInfoNotAvailable")
-            if (!videoInfo.data.response.media.domand) throw new Error("domandNotAvailable")
-            const accessRightKey = videoInfo.data.response.media.domand.accessRightKey
+            if (!media) throw new Error("mediaNotAvailable")
+            if (!media.accessRightKey) throw new Error("accessRightKeyNotAvailable")
+            if (!media.isStoryboardAvailable) throw new Error("storyboardNotAvailable")
 
-            const hlsResponse = await getHls(smId, "{}", actionTrackId, accessRightKey, true)
+            // storyboard は access rights API から storyboard.json を取得する従来フローを継続する。
+            // (新 API では m3u8 は media.hls.url を直接使えるが、storyboard 用エンドポイントは別途)
+            const hlsResponse = await getHls(smId, "{}", actionTrackId, media.accessRightKey, true)
             if (hlsResponse.meta.status != 201 || !hlsResponse.data || !hlsResponse.data.contentUrl) {
                 throw new APIError("Invalid HLS Response", hlsResponse)
             }
@@ -37,13 +39,7 @@ export function useStoryBoardData(
             }
         },
         staleTime: 24 * 60 * 60 * 1000, // 24時間
-        enabled: !!(
-            videoInfo
-            && videoInfo.data.response.media?.domand
-            && videoInfo?.data.response.media.domand?.isStoryboardAvailable
-            && smId
-            && actionTrackId
-        ),
+        enabled: !!(media?.isStoryboardAvailable && smId && actionTrackId && media?.accessRightKey),
     })
     return { storyboardData, error }
 }

@@ -1,3 +1,5 @@
+import type { VideoData } from "@/types/watch/Base"
+
 export function VideoItemToShareBody(video: VideoItem) {
     const shareURL = `https://www.nicovideo.jp/watch/${video.id}`
     const hashtags = [video.id, "ニコニコ動画", "PepperMintShare"]
@@ -6,14 +8,14 @@ export function VideoItemToShareBody(video: VideoItem) {
     return `${video.title} - by ${ownerName}\n${shareURL}\n#${hashtags.join(" #")}`
 }
 
-export function VideoDataToShareBody(videoInfoResponse: VideoDataRootObject["data"]["response"], pastLogWhen?: number) {
-    const baseURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
+export function VideoDataToShareBody(videoInfo: { video: VideoData | undefined, owner: LazyOwnerUser | LazyOwnerChannel | undefined }, pastLogWhen?: number) {
+    const baseURL = `https://www.nicovideo.jp/watch/${videoInfo.video?.id}`
     const shareURL = pastLogWhen ? `${baseURL}?past_log=${pastLogWhen}` : baseURL
-    const hashtags = [videoInfoResponse.video.id, "ニコニコ動画", "PepperMintShare"]
-    const ownerName = videoInfoResponse.owner ? videoInfoResponse.owner.nickname : (videoInfoResponse.channel ? videoInfoResponse.channel.name : "非公開または退会済みユーザー")
+    const hashtags = [videoInfo.video?.id, "ニコニコ動画", "PepperMintShare"]
+    const ownerName = returnVideoOwnerName(videoInfo.owner) ?? "非公開または退会済みユーザー"
 
     const lines = [
-        `${videoInfoResponse.video.title} - by ${ownerName}`,
+        `${videoInfo.video?.title} - by ${ownerName}`,
         shareURL,
     ]
     if (pastLogWhen) {

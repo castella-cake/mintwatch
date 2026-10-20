@@ -5,22 +5,21 @@ import { readableInt } from "@/utils/readableValue"
 
 export default function VideoTitle({ children, showStats }: { children?: ReactNode, showStats?: boolean }) {
     const { videoInfo } = useVideoInfoContext()
-    if (!videoInfo) return
-    const videoInfoResponse = videoInfo.data.response
+    if (!videoInfo?.video) return
 
-    const isPaidVideo = Object.keys(videoInfoResponse.payment.preview).some(key => videoInfoResponse.payment.preview[key as keyof typeof videoInfoResponse.payment.preview].isEnabled)
-    const isPremiumOnlyVideo = videoInfoResponse.payment.preview.premium.isEnabled
+    const isPaidVideo = [videoInfo.payment?.ppv, videoInfo.payment?.admission, videoInfo.payment?.premium, videoInfo.payment?.continuationBenefit].some(p => p?.isEnabled)
+    const isPremiumOnlyVideo = videoInfo.payment?.premium?.isEnabled ?? false
 
     return (
         <div className="videotitle-container">
-            <div className="videotitle">{videoInfoResponse.video.title}</div>
+            <div className="videotitle">{videoInfo.video.title}</div>
             {showStats && (
                 <div className="videostats">
                     <span className="videostats-item">
                         <IconClockHour4Filled />
                         <span>
                             {new Date(
-                                videoInfoResponse.video.registeredAt,
+                                videoInfo.video.registeredAt,
                             ).toLocaleString("ja-JP")}
                         </span>
                     </span>
@@ -28,7 +27,7 @@ export default function VideoTitle({ children, showStats }: { children?: ReactNo
                         <IconPlayerPlayFilled />
                         <span>
                             {readableInt(
-                                videoInfoResponse.video.count.view,
+                                videoInfo.video.count.view,
                             )}
                         </span>
                     </span>
@@ -36,7 +35,7 @@ export default function VideoTitle({ children, showStats }: { children?: ReactNo
                         <IconMessageFilled />
                         <span>
                             {readableInt(
-                                videoInfoResponse.video.count.comment,
+                                videoInfo.video.count.comment,
                             )}
                         </span>
                     </span>
@@ -44,23 +43,23 @@ export default function VideoTitle({ children, showStats }: { children?: ReactNo
                         <IconFolderFilled />
                         <span>
                             {readableInt(
-                                videoInfoResponse.video.count.mylist,
+                                videoInfo.video.count.mylist,
                             )}
                         </span>
                     </span>
                     <span className="videostats-item">
                         <span>
-                            {videoInfoResponse.genre.isNotSet
+                            {videoInfo.genre?.isNotSet
                                 ? "未設定"
-                                : videoInfoResponse.genre.label}
-                            {videoInfoResponse.ranking.teiban
+                                : videoInfo.genre?.label}
+                            {videoInfo.ranking?.teiban
                                 ? (
                                         <>
                                             (
-                                            <strong>{videoInfoResponse.ranking.teiban.label}</strong>
+                                            <strong>{videoInfo.ranking.teiban.label}</strong>
                                             {" "}
                                             内現在順位:
-                                            {videoInfoResponse.ranking.teiban.rank}
+                                            {videoInfo.ranking.teiban.rank}
                                             位)
                                         </>
                                     )

@@ -15,6 +15,8 @@ import { CommentToggleButton } from "./PlayerController/buttons/CommentToggleBut
 import { SettingsToggleButton } from "./PlayerController/buttons/SettingsToggleButton"
 import { FullscreenButton } from "./PlayerController/buttons/FullscreenButton"
 import { TheaterViewButton } from "./PlayerController/buttons/TheaterViewButton"
+import type { Video as VideoQuality, Audio as AudioQuality } from "@/types/watch/Base"
+import type { VideoLevelMap } from "@/utils/hlsLevelSelector"
 
 type Props = {
     effectsState: effectsState
@@ -28,7 +30,11 @@ type Props = {
     setIsSettingsShown: Dispatch<SetStateAction<boolean>>
     hlsRef: RefObject<Hls>
     playlistIndexControl: (index: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => void
-    qualityLabels?: string[]
+    contents?: {
+        videos: VideoQuality[] | undefined
+        audios: AudioQuality[] | undefined
+    }
+    levelMapRef: RefObject<VideoLevelMap | null>
     storyBoardData?: StoryBoardImageRootObject
     currentPlayerType: keyof typeof playerTypes
     tempIsShortsPlayer?: boolean // TODO: flagEnableShortsPlayerが消えたらcurrentPlayerTypeを使う
@@ -60,7 +66,8 @@ function PlayerController(props: Props) {
         setIsSettingsShown,
         hlsRef,
         playlistIndexControl,
-        qualityLabels,
+        contents,
+        levelMapRef,
         storyBoardData,
         currentPlayerType,
         tempIsShortsPlayer,
@@ -144,7 +151,7 @@ function PlayerController(props: Props) {
                 </div>
                 <div className="playercontroller-container-right">
                     {currentLayout.right}
-                    <QualitySelect hlsRef={hlsRef} qualityLabels={qualityLabels} />
+                    <QualitySelect hlsRef={hlsRef} videos={contents?.videos} audios={contents?.audios} levelMapRef={levelMapRef} />
                     <CommentToggleButton
                         currentPlayerType={currentPlayerType}
                         isCommentShown={isCommentShown}

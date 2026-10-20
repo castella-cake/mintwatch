@@ -1,4 +1,4 @@
-import { NvComment } from "@/types/VideoData"
+import { NvComment } from "@/types/watch/Base"
 import { RefObject } from "react"
 import APIError from "./classes/APIError"
 

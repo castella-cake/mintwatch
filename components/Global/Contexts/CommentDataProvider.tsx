@@ -3,7 +3,7 @@ import { useVideoInfoContext } from "./VideoDataProvider"
 import { CommentDataRootObject } from "@/types/CommentData"
 import { useCommentDataQuery } from "@/hooks/apiHooks/watch/commentData"
 import { UseMutateFunction } from "@tanstack/react-query"
-import { VideoDataThread } from "@/types/VideoData"
+import { VideoDataThread } from "@/types/watch/Base"
 import { usePastLogQuery, PendingPastLog } from "@/hooks/pastLogQuery"
 
 const ICommentContentContext = createContext<{ commentContent: CommentDataRootObject | undefined, lastSentCommentId: string | undefined, currentLogData: { when: number } | undefined, pendingPastLog: PendingPastLog | undefined }>({ commentContent: undefined, lastSentCommentId: undefined, currentLogData: undefined, pendingPastLog: undefined })
@@ -28,7 +28,7 @@ const ICommentControllerContext = createContext<CommentControllerContext>({
 export function CommentDataProvider({ children }: { children: ReactNode }) {
     const { videoInfo } = useVideoInfoContext()
 
-    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.data.response.comment.nvComment, videoInfo?.data.response.video.id)
+    const { commentContent, setCommentContent, reloadCommentContent, sendNicoru, currentLogData } = useCommentDataQuery(videoInfo?.comment?.nvComment, videoInfo?.video?.id)
     const [lastSentCommentId, setLastSentCommentId] = useState<string | undefined>()
 
     // 過去ログを読み取るクエリ past_log を解釈してUI側へ公開する

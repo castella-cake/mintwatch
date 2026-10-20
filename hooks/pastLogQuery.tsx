@@ -18,24 +18,24 @@ export type PendingPastLog = {
  */
 export function usePastLogQuery() {
     const location = useLocationContext()
-    const { videoInfo } = useVideoInfoContext()
+    const { videoId } = useVideoInfoContext()
     const [consumedKeys, setConsumedKeys] = useState<string[]>([])
 
     const pendingPastLog = useMemo<PendingPastLog | undefined>(() => {
         const when = parsePastLogQuery(location.search)
-        const videoId = videoInfo?.data?.response?.video?.id
-        if (when === null || !videoId) return undefined
-        const key = `${videoId}:${when}`
-        if (consumedKeys.includes(key)) return undefined
+        const resolvedVideoId = videoId
+        if (when === null || !resolvedVideoId) return undefined
+        const key = `${resolvedVideoId}:${when}`
+        if (consumedKeys.indexOf(key) !== -1) return undefined
         return { when, key }
-    }, [location.search, videoInfo, consumedKeys])
+    }, [location.search, videoId, consumedKeys])
 
     /**
      * 指定されたキーを「確認済み」として消費する。
      * 新規に消費できた場合のみ true を返す。同一キーの二重発火防止のための同期判定。
      */
     const consumePendingPastLog = useCallback((key: string): boolean => {
-        if (consumedKeys.includes(key)) return false
+        if (consumedKeys.indexOf(key) !== -1) return false
         setConsumedKeys(prev => [...prev, key])
         return true
     }, [consumedKeys])

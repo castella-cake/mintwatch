@@ -200,7 +200,7 @@ function Playlist() {
                     <div className="playlist-droppable-area-upper" ref={droppableTopRef}></div>
                     {extendedItems.length > 0
                         && extendedItems?.map((item, index) => {
-                            const isNowPlaying = videoInfo?.data?.response.video.id === item.id
+                            const isNowPlaying = videoInfo?.video?.id === item.id
                             return (
                                 <PlaylistVideoCard
                                     key={`playlist-${item.itemId}`}

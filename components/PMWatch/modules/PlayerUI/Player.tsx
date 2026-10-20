@@ -30,9 +30,11 @@ import VideoTitle from "../Info/VideoTitle"
 import { useStoryBoardData } from "@/hooks/apiHooks/watch/storyBoardData"
 import { useSmIdContext } from "@/components/Global/Contexts/WatchDataContext"
 import { borderMyComments, parseNicoScriptEvent } from "@/utils/commentUtils"
-import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { useBackgroundPlayingContext } from "@/components/Global/Contexts/BackgroundPlayProvider"
+import { useHeartbeat } from "@/hooks/useHeartbeat"
+import { useLocationContext } from "@/components/Router/RouterContext"
 import { useLyricData } from "@/hooks/apiHooks/watch/lyricData"
+import { useAccessRightsData } from "@/hooks/apiHooks/accessRightsData"
 import { JumpVideoCard } from "./JumpVideoCard"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { validateThreadId } from "@/utils/detectVideoId"
@@ -52,20 +54,36 @@ function Player(props: Props) {
     const { showToast } = useSetMessageContext()
 
     const { smId } = useSmIdContext()
-    const { videoInfo, videoId } = useVideoInfoContext()
+    const { videoInfo, rawVideoInfo, videoId } = useVideoInfoContext()
     const { commentContent, lastSentCommentId, currentLogData } = useCommentContentContext()
     const videoRef = useVideoRefContext()
     const actionTrackId = useActionTrackDataContext()
     const playlistData = usePlaylistContext()
     const recommendData = useRecommendContext()
-    const { lyricData } = useLyricData(videoId, videoInfo?.data.response?.video?.hasLyrics ?? false)
+    const { lyricData } = useLyricData(videoId, videoInfo?.video?.hasLyrics ?? false)
     const { ngData } = useViewerNgContext()
     const isBackgroundPlaying = useBackgroundPlayingContext()
+    const location = useLocationContext()
+
+    // heartbeat: Player ライフサイクルで start / impression / play を発火する
+    const searchParams = new URLSearchParams(location.search)
+    const queryParameters: Record<string, string> = {}
+    searchParams.forEach((value, key) => {
+        queryParameters[key] = value
+    })
+    const nicosid = videoInfo?.client?.nicosid ?? ""
+    const { sendStart, sendImpression, sendPlay } = useHeartbeat({
+        videoId,
+        actionTrackId,
+        method: videoInfo?.viewer ? (videoInfo?.viewer.isPremium ? "premium" : "regular") : "guest",
+        nicosid,
+        queryParameters,
+    })
 
     const localStorage = useStorageVar([
         "enableLoudnessData",
         "vefxSettings",
-        "preferredLevel",
+        "preferredQuality",
         "resumePlayback",
         "requestMonitorFullscreen",
         "playbackRate",
@@ -119,13 +137,38 @@ function Player(props: Props) {
         clearTimeout(jumpFeedbackTimeoutRef.current)
     }, [videoId])
 
+    // heartbeat: start は Base API 受信 + actionTrackId 確定直後に1回だけ発火
     useEffect(() => {
-        const nicoScriptEvents = parseNicoScriptEvent(commentContent?.data?.threads ?? [], videoInfo?.data.response?.video?.duration ?? 0)
-        const video = videoRef.current
-        if (!video) return
+        if (!videoId || !actionTrackId) return
+        sendStart()
+    }, [videoId, actionTrackId, sendStart])
+
+    // heartbeat: impression は初回マウント後1回だけ発火(レンダリング完了後を意図して rAF で送る)
+    useEffect(() => {
+        if (!videoId || !actionTrackId) return
+        const raf = requestAnimationFrame(() => sendImpression())
+        return () => cancelAnimationFrame(raf)
+    }, [videoId, actionTrackId, sendImpression])
+
+    // heartbeat: play は video 要素の最初の 'play' イベントで1回だけ発火
+    useEffect(() => {
+        const videoEl = videoRef.current
+        if (!videoEl || !videoId || !actionTrackId) return
+        const onFirstPlay = () => {
+            sendPlay()
+            videoEl.removeEventListener("play", onFirstPlay)
+        }
+        videoEl.addEventListener("play", onFirstPlay)
+        return () => videoEl.removeEventListener("play", onFirstPlay)
+    }, [videoId, actionTrackId, sendPlay, videoRef])
+
+    useEffect(() => {
+        const nicoScriptEvents = parseNicoScriptEvent(commentContent?.data?.threads ?? [], videoInfo?.video?.duration ?? 0)
+        const videoEl = videoRef.current
+        if (!videoEl) return
         const jumpEvents = nicoScriptEvents.filter(event => event.type === "jump")
         const onTimeUpdate = () => {
-            const currentVpos = video.currentTime * 1000
+            const currentVpos = videoEl.currentTime * 1000
             const activeEvent = jumpEvents.find(event => currentVpos >= event.startVpos && currentVpos <= event.endVpos)
             if (!activeEvent) {
                 jumpEventIdRef.current = null
@@ -134,10 +177,10 @@ function Player(props: Props) {
             if (jumpEventIdRef.current === activeEvent.id) return
             jumpEventIdRef.current = activeEvent.id
             if (activeEvent.targetType === "time") {
-                video.currentTime = activeEvent.target as number
+                videoEl.currentTime = activeEvent.target as number
                 return
             }
-            video.pause()
+            videoEl.pause()
             setJumpVideo({ smId: activeEvent.target as string, message: activeEvent.message ?? "" })
             if (localStorage.jumpVideoBehaviour !== "manual") {
                 clearTimeout(jumpFeedbackTimeoutRef.current)
@@ -147,12 +190,12 @@ function Player(props: Props) {
                 }, 5000)
             }
         }
-        video.addEventListener("timeupdate", onTimeUpdate)
+        videoEl.addEventListener("timeupdate", onTimeUpdate)
         return () => {
-            video.removeEventListener("timeupdate", onTimeUpdate)
+            videoEl.removeEventListener("timeupdate", onTimeUpdate)
             clearTimeout(jumpFeedbackTimeoutRef.current)
         }
-    }, [commentContent, videoInfo, videoId, changeVideo, videoRef, localStorage.jumpVideoBehaviour])
+    }, [commentContent, videoInfo?.video, videoId, changeVideo, videoRef, localStorage.jumpVideoBehaviour])
 
     // ショートカットのフィードバックツールチップ
     const [shortcutFeedbackShown, _setShortcutFeedbackShown] = useState(false)
@@ -174,9 +217,9 @@ function Player(props: Props) {
 
     const isLoudnessEnabled = localStorage.enableLoudnessData ?? true
     const integratedLoudness = (
-        videoInfo?.data?.response.media.domand && videoInfo?.data.response.media.domand?.audios.length > 0
-        && videoInfo?.data.response.media.domand.audios[0].loudnessCollection.length > 0
-        && videoInfo?.data.response.media.domand.audios[0].loudnessCollection[0].value
+        videoInfo?.media?.contents && videoInfo.media.contents.audios.length > 0
+        && videoInfo.media.contents.audios[0].loudnessCollection.length > 0
+        && videoInfo.media.contents.audios[0].loudnessCollection[0].value
     ) || 1
     const loudnessData = isLoudnessEnabled ? integratedLoudness : 1
     const { effectsState, setEffectsState, frequencies, handleEffectsChange } = useAudioEffects(
@@ -210,25 +253,28 @@ function Player(props: Props) {
         shouldUseContentScriptHls,
         localStorage.preferredLevel ?? -1,
     ) */
-    const { accessRightsData: hlsAccessRightsData, error: errorInfo } = useAccessRightsData(
+    const { accessRightsData: hlsAccessRightsData, error: accessRightsError } = useAccessRightsData(
         smId,
-        videoInfo,
+        videoInfo?.media ?? undefined,
         actionTrackId,
         shouldUseContentScriptHls,
     )
-    const { hlsRef, error: hlsError, isBuffering } = useHls(
+    const { hlsRef, error: hlsError, isBuffering, levelMapRef } = useHls(
         videoRef,
-        hlsAccessRightsData,
+        hlsAccessRightsData?.url,
+        videoInfo?.media?.contents,
+        hlsAccessRightsData?.outputs,
+        localStorage.preferredQuality,
         shouldUseContentScriptHls,
-        localStorage.preferredLevel ?? -1,
     )
 
     // ストーリーボード
-    const { storyboardData } = useStoryBoardData(videoInfo, smId, actionTrackId)
+    const { storyboardData } = useStoryBoardData(videoInfo?.media ?? null, smId, actionTrackId)
 
     useResumePlayback(
         videoRef,
-        videoInfo,
+        videoInfo?.video,
+        videoInfo?.player,
         localStorage.resumePlayback,
     )
 
@@ -340,28 +386,28 @@ function Player(props: Props) {
     }, [localStorage])
 
     useEffect(() => {
-        if (errorInfo || !videoInfo) return
+        if (!videoInfo?.video) return
         if ("mediaSession" in navigator) {
             const { title, artist } = resolveTitleAndArtist(
-                videoInfo.data.response.video.title,
-                videoInfo.data.response.owner?.nickname ?? videoInfo.data.response.channel?.name ?? null,
+                videoInfo.video.title,
+                returnVideoOwnerName(videoInfo.owner),
             )
-            const albumTitle = playlistData?.name ?? videoInfo.data.response.series?.title ?? "リスト情報なし"
+            const albumTitle = playlistData?.name ?? videoInfo.series?.title ?? "リスト情報なし"
 
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: title,
                 artist: artist ?? "非公開または退会済みユーザー",
                 album: albumTitle,
-                artwork: (videoInfo.data.response.video.thumbnail.player
+                artwork: (videoInfo.video.thumbnail.player
                     ? [
                             {
-                                src: videoInfo.data.response.video.thumbnail.player,
+                                src: videoInfo.video.thumbnail.player,
                             },
                         ]
                     : []),
             })
         }
-    }, [videoInfo, playlistData])
+    }, [videoInfo?.video, videoInfo?.owner, videoInfo?.series, playlistData])
 
     const filteredComments = useMemo(() => {
         if (!commentContent || !commentContent.data) return
@@ -375,12 +421,12 @@ function Player(props: Props) {
             ngData,
             levensteinBasedLyricNg,
         )
-        if (!videoInfo?.data.response.comment.threads) return []
-        const threadLabels = returnThreadLabels(videoInfo?.data.response.comment.threads)
+        if (!videoInfo?.comment?.threads) return []
+        const threadLabels = returnThreadLabels(videoInfo.comment.threads)
         const threadsOpacityApplied = applyOpacityToThreads(filteredThreads, threadLabels, localStorage.customCommentOpacity ?? {})
         const threadsBordered = borderMyComments(threadsOpacityApplied, lastSentCommentId ?? "", localStorage.borderPastMyComments ?? false)
         return threadsBordered
-    }, [commentContent, videoInfo, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
+    }, [commentContent, videoInfo?.comment, lyricData, localStorage.sharedNgLevel, localStorage.customCommentOpacity, localStorage.borderPastMyComments, localStorage.lyricCommentFilter, lastSentCommentId, ngData])
 
     const playlistIndexControl = useCallback((add: number, isShuffle?: boolean, isAutoPlayTrigger?: boolean) => {
         if (!videoId) return
@@ -393,7 +439,7 @@ function Player(props: Props) {
                     shuffleBagRef.current = []
                 shuffleBagRef.current.push(videoId)
                 const bagItems = playlistData.items.filter(
-                    item => !shuffleBag.includes(item.id),
+                    item => shuffleBag.indexOf(item.id) === -1,
                 )
                 const pickedIndex = Math.floor(
                     Math.random() * (bagItems.length - 1),
@@ -457,7 +503,7 @@ function Player(props: Props) {
             seconds: videoRef.current.currentTime,
         }
         putPlaybackPosition(playbackPositionBody, new Date())
-    }, [videoRef, videoInfo])
+    }, [videoRef, videoInfo?.video, videoId])
 
     const onEnded = useCallback(() => {
         const enableContinuousPlay = localStorage.enableContinuousPlay ?? true
@@ -489,16 +535,19 @@ function Player(props: Props) {
 
     useEffect(() => {
         if (
-            videoInfo?.meta.status === 200
+            rawVideoInfo?.meta.status === 200
             && actionTrackId !== ""
         ) {
             document.dispatchEvent(
                 new CustomEvent("pmw_playerReady", {
-                    detail: JSON.stringify({ videoInfo, actionTrackId }),
+                    detail: JSON.stringify({
+                        videoInfo: rawVideoInfo,
+                        actionTrackId,
+                    }),
                 }),
             )
         }
-    }, [videoInfo])
+    }, [rawVideoInfo, actionTrackId])
 
     const handleJumpCancel = useCallback(() => {
         clearTimeout(jumpFeedbackTimeoutRef.current)
@@ -515,9 +564,9 @@ function Player(props: Props) {
             && validateThreadId(smId)
             && smId !== videoId
             && lastWarnedSmIdRef.current !== smId
-            && videoInfo?.data.response.channel
+            && videoInfo?.video?.isChannelVideo
             && commentContent?.data?.threads.reduce((prev, current) => prev + current.comments.length, 0) === 0
-            && !videoInfo?.data.response.comment.threads.some(t => t.label === "community")
+            && !videoInfo?.comment?.threads.some(t => t.label === "community")
         ) {
             lastWarnedSmIdRef.current = smId
             showToast({
@@ -532,21 +581,24 @@ function Player(props: Props) {
                 ),
             })
         }
-    }, [smId, videoId, videoInfo, commentContent, showToast])
+    }, [smId, videoId, videoInfo?.video, videoInfo?.comment, commentContent, showToast])
 
     const preferredCommentFps
         = localStorage.commentRenderFps ?? 60 // 未指定の場合は60にフォールバック
     const commentRenderFps = localStorage.enableCommentPiP
         ? 60
-        : preferredCommentFps // PiPでコメント表示する場合はメモリリークを防ぐために60FPSで固定する
-    // .map() から生成されている string[] の一次元配列なら大丈夫だと信じて.reverse()する
-    const qualityLabels = videoInfo?.data.response.media.domand?.videos
-        .map(video => video.label)
-        .reverse()
+        : preferredCommentFps // PiPでコメント表示する場合はメモリリークを防ぐために60FPSに固定する
 
-    const thumbnailSrc = videoInfo?.data.response.video.thumbnail.player
+    // 旧 `preferredLevel: number` (HLS インデックス) は新 API で動画ごとに安定しないため削除。
+    // 新形式は `preferredQuality: { videoId, audioId }` で保存される。
+    // 旧値が残っている場合は useStorageVar の参照外なので直接削除する。
+    if (localStorage.preferredQuality === undefined) {
+        storage.removeItem("local:preferredLevel")
+    }
 
-    const thisVideoAuthor = (videoInfo?.data.response.owner && videoInfo?.data.response.owner.nickname) ?? (videoInfo?.data.response.channel && videoInfo?.data.response.channel.name) ?? ""
+    const thumbnailSrc = videoInfo?.video?.thumbnail.player
+
+    const thisVideoAuthor = returnVideoOwnerName(videoInfo?.owner)
 
     const currentPlayerType = isShortsPlayer && syncStorage.flagEnableShortsLayout ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
 
@@ -585,9 +637,9 @@ function Player(props: Props) {
                 onEnded={onEnded}
                 onClick={videoOnClick}
                 thumbnailSrc={thumbnailSrc}
-                videoTitle={videoInfo?.data.response.video.title}
+                videoTitle={videoInfo?.video?.title}
                 videoAuthor={thisVideoAuthor}
-                videoGenre={videoInfo?.data.response.genre.label}
+                videoGenre={videoInfo?.genre?.label}
                 enableVolumeGesture={
                     localStorage.enableWheelGesture
                 }
@@ -629,8 +681,8 @@ function Player(props: Props) {
                         commentRenderFps={commentRenderFps}
                         previewCommentItem={previewCommentItem}
                         defaultPostTargetIndex={
-                            videoInfo
-                                ? videoInfo.data.response.comment.threads.findIndex(elem => elem.isDefaultPostTarget)
+                            videoInfo?.comment
+                                ? videoInfo.comment.threads.findIndex(elem => elem.isPostTarget)
                                 : -1
                         }
                     />
@@ -677,7 +729,6 @@ function Player(props: Props) {
                 </CSSTransition>
                 {isStatsShown && (
                     <StatsOverlay
-                        videoInfo={videoInfo}
                         videoRef={videoRef}
                         hlsRef={hlsRef}
                     />
@@ -690,7 +741,7 @@ function Player(props: Props) {
                     />
                 )}
                 {videoId !== "" && <EndCard smId={videoId} />}
-                <ErrorScreen hlsErrorInfo={errorInfo ?? hlsError ?? null} />
+                <ErrorScreen hlsErrorInfo={accessRightsError ?? hlsError ?? null} />
                 {isFullscreenUi && localStorage.enableBigView && <VideoTitle showStats={true} />}
             </VideoPlayer>
             <div className="player-bottom-container">
@@ -706,7 +757,8 @@ function Player(props: Props) {
                     isSettingsShown={isSettingsShown}
                     setIsSettingsShown={setIsSettingsShown}
                     playlistIndexControl={playlistIndexControl}
-                    qualityLabels={qualityLabels}
+                    contents={videoInfo?.media?.contents}
+                    levelMapRef={levelMapRef}
                     storyBoardData={storyboardData}
                     currentPlayerType={currentPlayerType}
                     tempIsShortsPlayer={isShortsPlayer}
@@ -714,7 +766,6 @@ function Player(props: Props) {
                 <CommentInput
                     videoId={videoId}
                     videoRef={videoRef}
-                    videoInfo={videoInfo}
                     commentInputRef={commentInputRef}
                     setPreviewCommentItem={setPreviewCommentItem}
                 />

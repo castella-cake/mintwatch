@@ -1,4 +1,4 @@
-import { VideoDataRootObject } from "@/types/VideoData"
+import { VideoDataRootObject } from "@/types/watch/Base"
 
 export const admissionForbiddenWatchTestData: VideoDataRootObject = {
     meta: {
@@ -22,396 +22,320 @@ export const admissionForbiddenWatchTestData: VideoDataRootObject = {
             content: {
                 player_type: "er",
                 genre: "アニメ",
-                content_type: "user",
+                content_type: "channel",
+                channel_id: "2632720",
+                ch_register_status: "未入会",
+                pay_status: "無料（会員限定）",
             },
         },
         response: {
-            ads: null,
-            category: null,
-            channel: {
-                id: "ch2",
-                name: "Test Channel 2",
-                isOfficialAnime: true,
-                isDisplayAdBanner: true,
-                thumbnail: {
-                    url: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
-                    smallUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
-                },
-                viewer: {
-                    follow: {
-                        isFollowed: false,
-                        isBookmarked: false,
-                        token: "",
-                        tokenTimestamp: 0,
+            $watchV4: {
+                data: {
+                    responseType: "normal",
+                    client: {
+                        nicosid: "",
+                        watchId: "so31960146",
+                        watchTrackId: "a_1",
                     },
-                },
-            },
-            client: {
-                nicosid: "",
-                watchId: "so2",
-                watchTrackId: "a_1",
-            },
-            comment: {
-                server: {
-                    url: "",
-                },
-                keys: {
-                    userKey: "",
-                },
-                layers: [],
-                threads: [],
-                ng: {
-                    ngScore: {
-                        isDisabled: false,
-                    },
-                    channel: [],
-                    owner: [],
-                    viewer: null,
-                },
-                isAttentionRequired: false,
-                nvComment: {
-                    threadKey: "",
-                    server: "https://public.nvcomment.nicovideo.jp",
-                    params: {
-                        targets: [
+                    comment: {
+                        threads: [
+                            {
+                                id: 1505890119,
+                                fork: 1,
+                                forkLabel: "owner",
+                                videoId: "so31960146",
+                                isPostTarget: false,
+                                isOwnerThread: true,
+                                is184Forced: false,
+                                label: "owner",
+                                postNgReason: null,
+                                syncBufferTime: 300,
+                            },
+                            {
+                                id: 1505890119,
+                                fork: 0,
+                                forkLabel: "main",
+                                videoId: "so31960146",
+                                isPostTarget: false,
+                                isOwnerThread: false,
+                                is184Forced: false,
+                                label: "default",
+                                postNgReason: null,
+                                syncBufferTime: 300,
+                            },
+                            {
+                                id: 1505890120,
+                                fork: 0,
+                                forkLabel: "main",
+                                videoId: "so31960146",
+                                isPostTarget: true,
+                                isOwnerThread: false,
+                                is184Forced: true,
+                                label: "community",
+                                postNgReason: "channelRestriction",
+                                syncBufferTime: 300,
+                            },
+                            {
+                                id: 1505890120,
+                                fork: 2,
+                                forkLabel: "easy",
+                                videoId: "so31960146",
+                                isPostTarget: false,
+                                isOwnerThread: false,
+                                is184Forced: true,
+                                label: "easy",
+                                postNgReason: "channelRestriction",
+                                syncBufferTime: 300,
+                            },
                         ],
-                        language: "ja-jp",
+                        layers: [
+                            {
+                                index: 0,
+                                isTranslucent: false,
+                                components: [
+                                    {
+                                        threadId: 1505890119,
+                                        fork: 1,
+                                        forkLabel: "owner",
+                                    },
+                                ],
+                            },
+                            {
+                                index: 1,
+                                isTranslucent: false,
+                                components: [
+                                    {
+                                        threadId: 1505890120,
+                                        fork: 0,
+                                        forkLabel: "main",
+                                    },
+                                    {
+                                        threadId: 1505890120,
+                                        fork: 2,
+                                        forkLabel: "easy",
+                                    },
+                                ],
+                            },
+                            {
+                                index: 2,
+                                isTranslucent: true,
+                                components: [
+                                    {
+                                        threadId: 1505890119,
+                                        fork: 0,
+                                        forkLabel: "main",
+                                    },
+                                ],
+                            },
+                        ],
+                        ng: {
+                            ngScore: {
+                                isDisabled: false,
+                            },
+                            owner: [
+                            ],
+                            viewer: null,
+                        },
+                        isAttentionRequired: false,
+                        nvComment: {
+                            threadKey: "noThreadKey4U",
+                            server: "https://public.nvcomment.nicovideo.jp",
+                            params: {
+                                targets: [
+                                    {
+                                        id: "1505890119",
+                                        fork: "owner",
+                                    },
+                                    {
+                                        id: "1505890119",
+                                        fork: "main",
+                                    },
+                                    {
+                                        id: "1505890120",
+                                        fork: "main",
+                                    },
+                                    {
+                                        id: "1505890120",
+                                        fork: "easy",
+                                    },
+                                ],
+                                language: "ja-jp",
+                            },
+                        },
+                        assist: {
+                            sectionDurationSec: 6,
+                            minMatchCharacters: 15,
+                            ignorePostElapsedTimeSec: 0,
+                            ignoreCommentNgScoreThreshold: -1000,
+                            commentCountThresholdList: [
+                                [
+                                    4,
+                                    6,
+                                ],
+                                [
+                                    14,
+                                    18,
+                                ],
+                                [
+                                    26,
+                                    1500,
+                                ],
+                            ],
+                            buttonDisplayDurationSec: 6,
+                            buttonDisplayOffsetSec: 2,
+                        },
                     },
-                },
-                assist: {
-                    sectionDurationSec: 6,
-                    minMatchCharacters: 15,
-                    ignorePostElapsedTimeSec: 0,
-                    ignoreCommentNgScoreThreshold: -1000,
-                    commentCountThresholdList: [
-                    ],
-                    buttonDisplayDurationSec: 6,
-                    buttonDisplayOffsetSec: 2,
-                },
-            },
-            community: null,
-            easyComment: {
-                phrases: [],
-            },
-            external: {
-                commons: {
-                    hasContentTree: true,
-                },
-                ichiba: {
-                    isEnabled: true,
-                },
-            },
-            genre: {
-                key: "anime",
-                label: "\u30a2\u30cb\u30e1",
-                isImmoral: false,
-                isDisabled: false,
-                isNotSet: false,
-            },
-            marquee: {
-                isDisabled: false,
-                tagRelatedLead: null,
-            },
-            media: {
-                domand: null,
-                delivery: null,
-                deliveryLegacy: null,
-            },
-            okReason: "PAYMENT_PREVIEW_SUPPORTED",
-            owner: null,
-            payment: {
-                video: {
-                    isPpv: false,
-                    isAdmission: true,
-                    isContinuationBenefit: true,
-                    isPremium: false,
-                    watchableUserType: "member",
-                    commentableUserType: "member",
-                    billingType: "custom",
-                },
-                preview: {
-                    ppv: {
-                        isEnabled: false,
+                    media: null,
+                    player: {
+                        comment: {
+                            isDefaultInvisible: false,
+                        },
+                        initialPlayback: null,
+                        layerMode: 0,
                     },
-                    admission: {
-                        isEnabled: true,
-                    },
-                    continuationBenefit: {
-                        isEnabled: true,
-                    },
-                    premium: {
-                        isEnabled: false,
-                    },
-                },
-            },
-            pcWatchPage: {
-                tagRelatedBanner: null,
-                videoEnd: {
-                    bannerIn: null,
-                    overlay: null,
-                },
-                showOwnerMenu: false,
-                showOwnerThreadCoEditingLink: false,
-                showMymemoryEditingLink: false,
-                channelGtmContainerId: "",
-            },
-            player: {
-                initialPlayback: null,
-                comment: {
-                    isDefaultInvisible: false,
-                },
-                layerMode: 0,
-            },
-            ppv: {
-                accessFrom: null,
-            },
-            ranking: {
-                genre: null,
-                popularTag: [],
-                teiban: null,
-            },
-            series: {
-                id: 1,
-                title: "Test Series",
-                description: "For testing purpose only",
-                thumbnailUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                video: {
-                    prev: {
-                        type: "essential",
+                    video: {
+                        id: "so31960146",
                         contentType: "long",
-                        id: "sm1",
-                        title: "SeriesItem",
-                        registeredAt: "1970-01-01T00:00:00.000Z",
+                        title: "For Admission testing purpose only",
+                        description: "For testing purpose only",
+                        supplements: [
+                        ],
                         count: {
                             view: 0,
                             comment: 0,
                             mylist: 0,
                             like: 0,
                         },
+                        duration: 1435,
                         thumbnail: {
-                            url: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            middleUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            normal: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            middle: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            large: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            player: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            ogp: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                            short: null,
                         },
-                        duration: 0,
-                        shortDescription: "For testing purpose only",
-                        latestCommentSummary: "MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です",
-                        isChannelVideo: false,
-                        isPaymentRequired: false,
-                        playbackPosition: null,
-                        owner: {
-                            ownerType: "user",
-                            type: "user",
-                            visibility: "visible",
-                            id: "92343354",
-                            name: "CYakigasi",
-                            iconUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
-                        },
-                        requireSensitiveMasking: false,
-                        videoLive: null,
-                        isMuted: false,
-                    },
-                    next: {
-                        type: "essential",
-                        contentType: "long",
-                        id: "sm1",
-                        title: "SeriesItem",
                         registeredAt: "1970-01-01T00:00:00.000Z",
-                        count: {
-                            view: 0,
-                            comment: 0,
-                            mylist: 0,
-                            like: 0,
+                        permission: {
+                            isPrivate: false,
+                            isDeleted: false,
+                            isAuthenticationRequired: true,
+                            isEmbedPlayerAllowed: false,
+                            isGiftAllowed: false,
+                            isNgForVocacolleApp: true,
+                            rating: {
+                                isAdult: false,
+                            },
                         },
-                        thumbnail: {
-                            url: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            middleUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                        },
-                        duration: 0,
-                        shortDescription: "For testing purpose only",
-                        latestCommentSummary: "MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です",
-                        isChannelVideo: false,
-                        isPaymentRequired: false,
-                        playbackPosition: null,
-                        owner: {
-                            ownerType: "user",
-                            type: "user",
-                            visibility: "visible",
-                            id: "92343354",
-                            name: "CYakigasi",
-                            iconUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
-                        },
-                        requireSensitiveMasking: false,
-                        videoLive: null,
-                        isMuted: false,
+                        hasLyrics: false,
+                        isHighRiskVideo: true,
+                        isChannelVideo: true,
+                        isOwnedByViewer: false,
+                        showOwnerMenu: false,
+                        isLikedByViewer: false,
                     },
-                    first: {
-                        type: "essential",
-                        contentType: "long",
-                        id: "sm1",
-                        title: "SeriesItem",
-                        registeredAt: "1970-01-01T00:00:00.000Z",
-                        count: {
-                            view: 0,
-                            comment: 0,
-                            mylist: 0,
-                            like: 0,
+                    genre: {
+                        key: "anime",
+                        label: "アニメ",
+                        isImmoral: false,
+                        isDisabled: false,
+                        isNotSet: false,
+                    },
+                    tags: {
+                        items: [
+                            {
+                                name: "アニメ",
+                                isLocked: true,
+                            },
+                        ],
+                        hasR18Tag: false,
+                        isPublishedNicoscript: false,
+                        edit: {
+                            isEditable: false,
+                            uneditableReason: "USER_FORBIDDEN",
+                            editKey: null,
                         },
-                        thumbnail: {
-                            url: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            middleUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            largeUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            listingUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            nHdUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                            shortUrl: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
+                    },
+                    lazy: {
+                        authKey: "e2e-lazy-auth-key",
+                    },
+                    system: {
+                        serverTime: "2026-01-01T00:00:00+09:00",
+                        isStellaAlive: true,
+                        channelGtmContainerId: "GTM-K8M6VGZ",
+                    },
+                    viewer: null,
+                    videoAds: {
+                        additionalParams: {
+                            videoId: "so31960146",
+                            videoDuration: 1435,
+                            isAdultRatingNG: true,
+                            isAuthenticationRequired: true,
+                            isR18: false,
+                            nicosid: "",
+                            lang: "ja-jp",
+                            watchTrackId: "a_1",
+                            channelId: "ch0",
+                            genre: "anime",
                         },
-                        duration: 0,
-                        shortDescription: "For testing purpose only",
-                        latestCommentSummary: "MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です MintWatchの楽しみは無限大です",
-                        isChannelVideo: false,
-                        isPaymentRequired: false,
-                        playbackPosition: null,
-                        owner: {
-                            ownerType: "user",
-                            type: "user",
-                            visibility: "visible",
-                            id: "92343354",
-                            name: "CYakigasi",
-                            iconUrl: "https://secure-dcdn.cdn.nimg.jp/nicoaccount/usericon/9234/92343354.jpg",
+                        items: [
+                        ],
+                        reason: null,
+                    },
+                    videoLive: null,
+                    payment: {
+                        ppv: {
+                            isEnabled: false,
+                            showPromotion: false,
                         },
-                        requireSensitiveMasking: false,
-                        videoLive: null,
-                        isMuted: false,
+                        admission: {
+                            isEnabled: true,
+                            showPromotion: true,
+                        },
+                        continuationBenefit: {
+                            isEnabled: false,
+                            showPromotion: false,
+                        },
+                        premium: {
+                            isEnabled: false,
+                            showPromotion: false,
+                        },
+                        watchableUserType: "member",
+                        commentableUserType: "member",
+                        billingType: "member_only",
                     },
-                },
-            },
-            smartphone: null,
-            system: {
-                serverTime: "2025-10-02T19:40:16+09:00",
-                isPeakTime: true,
-                isStellaAlive: true,
-            },
-            tag: {
-                items: [
-                    {
-                        name: "Tag0",
-                        isCategory: false,
-                        isCategoryCandidate: false,
-                        isNicodicArticleExists: true,
-                        isLocked: true,
+                    baseVideo: {
+                        baseVideoId: null,
+                        contentType: null,
+                        title: null,
+                        thumbnail: null,
                     },
-                    {
-                        name: "Tag1",
-                        isCategory: false,
-                        isCategoryCandidate: false,
-                        isNicodicArticleExists: false,
-                        isLocked: false,
+                    metadata: {
+                        jsonLd: {
+                            owner: {
+                                id: "ch0",
+                                type: "channel",
+                                name: "Test Channel",
+                                description: "For testing purpose only",
+                                iconUrl: "https://example.com/e2e-icon.jpg",
+                            },
+                            videoObject: {
+                                regionsAllowed: "JP",
+                                expiresAt: "2038-01-01T00:00:00+09:00",
+                            },
+                        },
+                        gtm: {
+                            channel: {
+                                id: "ch0",
+                                isMember: false,
+                            },
+                        },
                     },
-                ],
-                hasR18Tag: false,
-                isPublishedNicoscript: false,
-                edit: {
-                    isEditable: false,
-                    uneditableReason: "USER_FORBIDDEN",
-                    editKey: null,
-                },
-                viewer: {
-                    isEditable: false,
-                    uneditableReason: "USER_FORBIDDEN",
-                    editKey: null,
+                    okReason: "PAYMENT_PREVIEW_SUPPORTED",
                 },
             },
-            video: {
-                id: "so2",
-                title: "For Admission testing purpose only",
-                description: "MintWatch no tanoshimiha mugendai desu",
-                count: {
-                    view: 0,
-                    comment: 0,
-                    mylist: 0,
-                    like: 0,
-                },
-                duration: 0,
-                thumbnail: {
-                    url: "https://nicovideo.cdn.nimg.jp/thumbnails/9/9",
-                    middleUrl: null,
-                    largeUrl: null,
-                    player: "https://img.cdn.nimg.jp/s/nicovideo/thumbnails/9/9.original/a960x540l?key=00208e6cfc9ead0306cfa0291c2734a15cdea8f58df302b5ac8ed05428ef1190",
-                    ogp: "https://img.cdn.nimg.jp/s/nicovideo/thumbnails/9/9.original/r1280x720l?key=8d46976aca8120e4969537a0c10b47590a67740a5994c11969d4ae7fa5c2bf74",
-                },
-                rating: {
-                    isAdult: false,
-                },
-                registeredAt: "1970-01-01T00:00:00.000Z",
-                isPrivate: false,
-                isDeleted: false,
-                isNoBanner: false,
-                isAuthenticationRequired: true,
-                isEmbedPlayerAllowed: true,
-                isGiftAllowed: false,
-                viewer: {
-                    isOwner: false,
-                    like: {
-                        isLiked: false,
-                        count: null,
-                    },
-                },
-                watchableUserTypeForPayment: "member",
-                commentableUserTypeForPayment: "member",
-                hasLyrics: false,
-            },
-            videoAds: {
-                additionalParams: {
-                    videoId: "so2",
-                    videoDuration: 0,
-                    isAdultRatingNG: false,
-                    isAuthenticationRequired: false,
-                    isR18: false,
-                    nicosid: "0",
-                    lang: "ja-jp",
-                    watchTrackId: "aaaaaaaaaa_0000000000000",
-                    genre: "something",
-                    age: 0,
-                },
-                items: [],
-                reason: null,
-            },
-            videoLive: null,
-            viewer: {
-                id: 0,
-                nickname: "TestUser",
-                isPremium: true,
-                allowSensitiveContents: true,
-                existence: {
-                    age: 0,
-                    prefecture: "Earth",
-                    sex: "other",
-                },
-            },
-            waku: {
-                information: null,
-                bgImages: [],
-                addContents: null,
-                addVideo: null,
-                tagRelatedBanner: {
-                    title: "SomeTagEventTitle",
-                    imageUrl: "",
-                    description: "SomeTagEventDescription",
-                    isEvent: false,
-                    linkUrl: "https://www.nicovideo.jp",
-                    linkType: "link",
-                    linkOrigin: "https://www.nicovideo.jp",
-                    isNewWindow: false,
-                },
-                tagRelatedMarquee: null,
-                pcWatchHeaderCustomBanner: null,
+            pcweb: {
+                prebidAdSlotName: "",
             },
         },
     },

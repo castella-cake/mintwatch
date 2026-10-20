@@ -1,4 +1,4 @@
-import type { VideoDataRootObject } from "#imports"
+import type { Tags } from "@/types/watch/Base"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import { FeatureTips } from "@/components/Global/FeatureTips/FeatureTips"
 import { useSetHighlightedSettingKeyContext, useSetMintConfigShownContext, useSetVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
@@ -9,7 +9,7 @@ import { useCallback } from "react"
 
 export function TagInfo() {
     const { videoInfo } = useVideoInfoContext()
-    const tags = videoInfo?.data.response.tag?.items || []
+    const tagItems = videoInfo?.tags?.items || []
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setMintConfigShown = useSetMintConfigShownContext()
     const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
@@ -34,7 +34,7 @@ export function TagInfo() {
                 </span>
             </div>
             <div className="taginfo-items">
-                {tags.map((tag) => {
+                {tagItems.map((tag) => {
                     return (
                         <TagItem key={tag.name} tag={tag} />
                     )
@@ -44,7 +44,7 @@ export function TagInfo() {
     )
 }
 
-export function TagItem({ tag }: { tag: typeof VideoDataRootObject["data"]["response"]["tag"]["items"][0] }) {
+export function TagItem({ tag }: { tag: Tags["items"][number] }) {
     const { data: dictInfo, isError } = useQuery({
         queryKey: ["persistent", "dictionaly", "articles", "article", tag.name],
         queryFn: () => {

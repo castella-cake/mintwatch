@@ -1,33 +1,28 @@
 import { useState } from "react"
 import { Share } from "@/components/Global/Share"
-import { VideoDataRootObject } from "@/types/VideoData"
 import { VideoDataToShareBody } from "@/utils/videoShareUtils"
 import { useCommentContentContext } from "@/components/Global/Contexts/CommentDataProvider"
+import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import "../../styleModules/VideoActionModal/ShareUI.css"
 
-function returnMatchedKeyObject(objectArray: { [key: string]: any }[], keyName: string, value: string) {
-    return objectArray.find(elem => elem[keyName] === value)
-}
-
-export function ShareAction({ videoInfo }: { videoInfo: VideoDataRootObject }) {
+export function ShareAction() {
     const [includePastLog, setIncludePastLog] = useState(false)
     const { currentLogData } = useCommentContentContext()
+    const { videoInfo } = useVideoInfoContext()
 
-    if (!videoInfo.data) return <></>
-
-    const videoInfoResponse = videoInfo.data.response
-    if (!videoInfoResponse.video) return
+    if (!videoInfo?.video) return <></>
 
     const pastLogWhen = includePastLog && currentLogData ? currentLogData.when : undefined
-    const shareBody = VideoDataToShareBody(videoInfoResponse, pastLogWhen)
-    const baseURL = `https://www.nicovideo.jp/watch/${videoInfoResponse.video.id}`
+    const shareBody = VideoDataToShareBody({ video: videoInfo.video, owner: videoInfo.owner }, pastLogWhen)
+    const baseURL = `https://www.nicovideo.jp/watch/${videoInfo.video.id}`
     const shareURL = pastLogWhen ? `${baseURL}?past_log=${pastLogWhen}` : baseURL
 
-    const metaTags = videoInfo.data.metadata.metaTags
-    const ogpTitle = returnMatchedKeyObject(metaTags, "property", "og:title")
-    const ogpThumbnail = returnMatchedKeyObject(metaTags, "property", "og:image")
-    const ogpDescription = returnMatchedKeyObject(metaTags, "property", "og:description")
-    const ogpSiteName = returnMatchedKeyObject(metaTags, "property", "og:site_name")
+    const ogp = {
+        title: videoInfo.video.title,
+        description: videoInfo.video.description,
+        image: videoInfo.video.thumbnail.ogp || videoInfo.video.thumbnail.large || null,
+        siteName: "ニコニコ動画",
+    }
 
     return (
         <div className="shareaction-container">
@@ -56,12 +51,7 @@ export function ShareAction({ videoInfo }: { videoInfo: VideoDataRootObject }) {
             <Share
                 body={shareBody}
                 plainUrl={shareURL}
-                ogp={{
-                    title: ogpTitle ? ogpTitle.content : null,
-                    description: ogpDescription ? ogpDescription.content : null,
-                    image: ogpThumbnail ? ogpThumbnail.content : null,
-                    siteName: ogpSiteName ? ogpSiteName.content : null,
-                }}
+                ogp={ogp}
             />
         </div>
     )

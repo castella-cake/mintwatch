@@ -115,7 +115,7 @@ export default function MyMenu() {
     const { videoInfo } = useVideoInfoContext()
     const contextData = useServerContext()
 
-    const videoViewerInfo = videoInfo?.data.response.viewer
+    const videoViewerInfo = videoInfo?.viewer
 
     const alternativeUserData = contextData && contextData.sessionUser
         ? {
