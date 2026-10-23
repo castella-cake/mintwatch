@@ -3,16 +3,20 @@ export interface VideoDataLazyRootObject extends baseResponse {
 }
 
 export interface WatchLazyData {
-    owner: LazyOwnerUser | LazyOwnerChannel
+    owner: LazyOwnerUser | LazyOwnerChannel | LazyOwnerUnavailable
     ranking: LazyRanking
     series: LazySeries | null
     waku: LazyWaku
 }
 
 // 投稿者情報
+export interface LazyOwnerUnavailable {
+    type: "user" | "channel"
+    visibility: "unavailable"
+}
 export interface LazyOwnerUser {
-    type: string
-    visibility: string
+    type: "user"
+    visibility: "visible"
     id: number
     nickname: string
     icon: LazyOwnerUserIcon
@@ -24,8 +28,8 @@ export interface LazyOwnerUser {
 }
 
 export interface LazyOwnerChannel {
-    type: string
-    visibility: string
+    type: "channel"
+    visibility: "visible"
     id: string
     name: string
     isOfficialAnime: boolean

@@ -14,7 +14,7 @@ export function useVideoLazyData(
     actionTrackId: string,
     enabled = true,
 ) {
-    const { data, error } = useQuery<VideoDataLazyRootObject | undefined>({
+    const { data, error, isLoading } = useQuery<VideoDataLazyRootObject | undefined>({
         queryKey: ["videoLazyData", smId, authKey, actionTrackId],
         queryFn: async () => {
             if (!smId || !authKey || !actionTrackId) return undefined
@@ -26,5 +26,5 @@ export function useVideoLazyData(
         enabled: !!smId && !!authKey && !!actionTrackId && enabled,
         staleTime: 24 * 60 * 60 * 1000,
     })
-    return { lazyData: data, error }
+    return { lazyData: data, error, isLazyLoading: isLoading }
 }

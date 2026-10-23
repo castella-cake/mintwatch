@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
 import UserFollowButton from "./Info/UserFollowButton"
+import { isValidVideoInfoOwner } from "@/utils/handleVideoInfoOwner"
 
 const weekDay = ["日", "月", "火", "水", "木", "金", "土"]
 
@@ -65,7 +66,7 @@ export function Stats() {
 
 export function Owner() {
     const { videoInfo } = useVideoInfoContext()
-    if (!videoInfo?.owner) return <></>
+    if (!isValidVideoInfoOwner(videoInfo?.owner)) return <></>
 
     const iconUrl = returnVideoOwnerIcon(videoInfo.owner)
 
@@ -84,7 +85,7 @@ export function Owner() {
                     <span>{returnVideoOwnerName(videoInfo.owner)}</span>
                 </div>
             </a>
-            <UserFollowButton userId={videoInfo.owner.id} />
+            { isValidVideoInfoOwner(videoInfo.owner) && <UserFollowButton userId={videoInfo.owner.id} /> }
         </div>
     )
 }

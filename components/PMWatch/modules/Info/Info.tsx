@@ -16,7 +16,7 @@ import Tags from "./Tags"
 import VideoTitle from "./VideoTitle"
 import ExternalLinkMenu from "./ExternalLinkMenu"
 import APIError from "@/utils/classes/APIError"
-import { isVideoInfoOwnerUser } from "@/utils/handleVideoInfoOwner"
+import { isValidVideoInfoOwner, isVideoInfoOwnerUser } from "@/utils/handleVideoInfoOwner"
 
 function htmlToText(htmlString: string) {
     const dummyDiv = document.createElement("div")
@@ -242,7 +242,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     </div>
                 )}
                 <ExternalLinkMenu videoId={videoInfo.video.id} />
-                {!isShinjukuLayout && videoInfo.owner && (
+                {!isShinjukuLayout && isValidVideoInfoOwner(videoInfo.owner) && (
                     <>
                         {
                             isVideoInfoOwnerUser(videoInfo.owner) && (

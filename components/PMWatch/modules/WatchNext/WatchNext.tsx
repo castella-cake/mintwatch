@@ -4,6 +4,7 @@ import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvi
 import Recommend from "./Recommend"
 import UserVideos from "./UserVideos"
 import { VideoActivities } from "@/components/Global/Activities/VideoActivities"
+import { isValidVideoInfoOwner } from "@/utils/handleVideoInfoOwner"
 
 function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolean }) {
     const { videoInfo } = useVideoInfoContext()
@@ -29,7 +30,7 @@ function WatchNext({ isHorizontalCardLayout }: { isHorizontalCardLayout?: boolea
         }
     }, [isHorizontalCardLayout, contentRef.current])
 
-    const canShowUserVideos = isVideoInfoOwnerUser(videoOwnerData)
+    const canShowUserVideos = isValidVideoInfoOwner(videoOwnerData) && isVideoInfoOwnerUser(videoOwnerData)
 
     return (
         <div className="watchnext-wrapper">

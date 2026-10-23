@@ -39,7 +39,7 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
     const actionTrackId = baseSlices?.client?.watchTrackId ?? ""
 
     // 残りのデータをLazyから取得する
-    const { lazyData } = useVideoLazyData(smId, authKey, actionTrackId, isReady)
+    const { lazyData, isLazyLoading } = useVideoLazyData(smId, authKey, actionTrackId, isReady)
 
     useEffect(() => {
         if (!actionTrackId) return
@@ -95,8 +95,9 @@ export function VideoDataProvider({ children }: { children: ReactNode }) {
             videoId: baseSlices.video?.id,
             rawVideoInfo: videoInfo,
             errorInfo,
+            isLazyLoading,
         }
-    }, [baseSlices, lazyData, videoInfo, errorInfo])
+    }, [baseSlices, lazyData, videoInfo, errorInfo, isLazyLoading])
 
     return (
         <IActionTrackDataContext.Provider value={actionTrackId}>

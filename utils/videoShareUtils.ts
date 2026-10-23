@@ -1,4 +1,5 @@
 import type { VideoData } from "@/types/watch/Base"
+import { LazyOwnerUnavailable } from "@/types/watch/Lazy"
 
 export function VideoItemToShareBody(video: VideoItem) {
     const shareURL = `https://www.nicovideo.jp/watch/${video.id}`
@@ -8,11 +9,11 @@ export function VideoItemToShareBody(video: VideoItem) {
     return `${video.title} - by ${ownerName}\n${shareURL}\n#${hashtags.join(" #")}`
 }
 
-export function VideoDataToShareBody(videoInfo: { video: VideoData | undefined, owner: LazyOwnerUser | LazyOwnerChannel | undefined }, pastLogWhen?: number) {
+export function VideoDataToShareBody(videoInfo: { video: VideoData | undefined, owner: LazyOwnerUser | LazyOwnerChannel | LazyOwnerUnavailable | undefined }, pastLogWhen?: number) {
     const baseURL = `https://www.nicovideo.jp/watch/${videoInfo.video?.id}`
     const shareURL = pastLogWhen ? `${baseURL}?past_log=${pastLogWhen}` : baseURL
     const hashtags = [videoInfo.video?.id, "ニコニコ動画", "PepperMintShare"]
-    const ownerName = returnVideoOwnerName(videoInfo.owner) ?? "非公開または退会済みユーザー"
+    const ownerName = returnVideoOwnerName(videoInfo.owner)
 
     const lines = [
         `${videoInfo.video?.title} - by ${ownerName}`,

@@ -13,6 +13,7 @@ import { decodePlaylistString, rotatePlaylistToStart } from "@/utils/playlistUti
 import { useQueryClient } from "@tanstack/react-query"
 import { getRecipePlaylist } from "@/utils/apis/recipePlaylist"
 import { videoItemToPlaylistItem } from "@/utils/playlistUtils"
+import { isValidVideoInfoOwner } from "@/utils/handleVideoInfoOwner"
 
 const IPlaylistContext = createContext<playlistData>({ type: "none", items: [] })
 
@@ -71,7 +72,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     const playlistString = new URLSearchParams(location.search).get("playlist")
     const setInitialPlaylistState = useCallback(async () => {
         if (!videoInfo?.video) return
-        const initialPlaylist = buildInitialPlaylist(videoInfo.owner ?? undefined, videoInfo.video)
+        const initialPlaylist = buildInitialPlaylist(isValidVideoInfoOwner(videoInfo.owner) ? videoInfo.owner : undefined, videoInfo.video)
         if (!isShortsPage) {
             setPlaylistData(initialPlaylist)
             return

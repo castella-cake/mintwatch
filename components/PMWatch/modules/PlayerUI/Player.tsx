@@ -598,7 +598,7 @@ function Player(props: Props) {
 
     const thumbnailSrc = videoInfo?.video?.thumbnail.player
 
-    const thisVideoAuthor = returnVideoOwnerName(videoInfo?.owner)
+    const thisVideoAuthor = returnVideoOwnerName(videoInfo?.owner, true)
 
     const currentPlayerType = isShortsPlayer && syncStorage.flagEnableShortsLayout ? playerTypes.shorts : (syncStorage.pmwplayertype || playerTypes.default)
 
