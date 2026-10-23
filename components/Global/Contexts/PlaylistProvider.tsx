@@ -105,7 +105,7 @@ export function PlaylistProvider({ children }: { children: ReactNode }) {
     // プレイリストのクエリパラメータがなく、プレイリストが未カスタマイズの場合のみ設定する。
     const currentVideoId = videoInfo?.video?.id
     const [prevVideoId, setPrevVideoId] = useState<string>()
-    if (videoInfo?.video && currentVideoId && currentVideoId !== prevVideoId) {
+    if (videoInfo?.video && videoInfo?.owner && currentVideoId && currentVideoId !== prevVideoId) {
         setPrevVideoId(currentVideoId)
         if (!playlistString && isUnsetOrTrivial(_playlistData)) {
             setInitialPlaylistState()
