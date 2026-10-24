@@ -20,10 +20,13 @@ const splitWithYMD = (items: Activity[]) => {
 }
 
 const getRelativeDate = (dateStr: string) => {
-    const date = new Date(dateStr)
+    // key がY-M-Dなのでローカルでパースする
+    const [year, month, day] = dateStr.split("-").map(Number)
+    const date = new Date(year, month - 1, day)
     const today = new Date()
-    const diffTime = today.getTime() - date.getTime()
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+    // 今日の0時基準に揃えて引く
+    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    const diffDays = (todayDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
 
     if (diffDays === 0) {
         return "今日"
@@ -31,6 +34,12 @@ const getRelativeDate = (dateStr: string) => {
         return "昨日"
     } else if (diffDays < 7) {
         return `${diffDays}日前`
+    } else if (diffDays === -1) {
+        return `明日`
+    } else if (diffDays === -2) {
+        return `明後日`
+    } else if (diffDays < 0 && diffDays > -7) {
+        return `${-diffDays}日後`
     } else {
         return dateStr.replace(/-/g, "/")
     }

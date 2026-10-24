@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - 再生キューの構築時に、投稿者情報を取得していないまま初期プレイリストが構築される問題を修正しました
 - 非公開ユーザーの動画が視聴できない問題を修正しました
+- タイムラインの日別表示を修正しました
 
 ## 1.0.4 - 2026/10/21
 
