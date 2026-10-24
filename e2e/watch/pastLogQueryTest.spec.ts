@@ -36,7 +36,7 @@ function makeCommentData(body: string) {
 
 // リクエストボディに when が含まれるかで、過去ログ用と通常用のレスポンスを切り替えるモック
 async function mockCommentApi(page: Page, whenRequests: number[]) {
-    await page.route("https://public.nvcomment.nicovideo.jp/v1/threads", async (route) => {
+    await page.route("https://public.nvcomment.nicovideo.jp/v1/threads?pc=1", async (route) => {
         const postData = route.request().postDataJSON() as { additionals?: { when?: unknown } } | null
         const when = postData?.additionals?.when
         if (typeof when === "number") whenRequests.push(when)
