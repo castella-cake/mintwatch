@@ -96,6 +96,7 @@
             cursor: pointer;
             font-size: 0.9em;
             line-height: 1.5rem;
+            white-space: nowrap;
             align-self: end;
             flex: 1;
             border-bottom: transparent;

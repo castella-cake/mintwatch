@@ -97,7 +97,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             >
                                 <IconTool />
                                 {" "}
-                                設定
+                                <span>設定</span>
                             </TabButton>
                             <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
 
@@ -107,7 +107,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             >
                                 <IconComet />
                                 {" "}
-                                更新情報
+                                <span>更新情報</span>
                             </TabButton>
                             <TabButton
                                 stateKey="shortcuts"
@@ -115,7 +115,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             >
                                 <IconKeyboard />
                                 {" "}
-                                ショートカット
+                                <span>ショートカット</span>
                             </TabButton>
                             <TabButton
                                 stateKey="help"
@@ -123,7 +123,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             >
                                 <IconHelpCircle />
                                 {" "}
-                                はじめに
+                                <span>はじめに</span>
                             </TabButton>
                             <TabButton
                                 stateKey="about"
@@ -131,7 +131,7 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
                             >
                                 <MintWatchIcon />
                                 {" "}
-                                MintWatch について
+                                <span>MintWatch について</span>
                             </TabButton>
                         </div>
                         <div className="modal-content">

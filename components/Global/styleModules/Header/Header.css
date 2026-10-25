@@ -88,6 +88,7 @@
     .header-center-left {
         white-space: nowrap;
         overflow-x: auto;
+        overflow-y: hidden;
     }
 
     &[data-is-fixed="true"] {

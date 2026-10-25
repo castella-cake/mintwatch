@@ -27,6 +27,11 @@
         }
     }
 
+    > .video-action-likebutton span {
+        vertical-align: unset;
+        line-height: 1em;
+    }
+
     > button.video-action-disabled, > .tooltip-wrapper > button.video-action-disabled {
         color: var(--bgcolor4);
     }
@@ -47,6 +52,9 @@
 }
 
 .watch-container:not([data-watch-type="shinjuku"]) .video-actions {
+    container-name: mw-videoactions;
+    container-type: inline-size;
+
     > button, > .tooltip-wrapper > button {
         transition: background 0.1s ease, transform 0.05s ease;
 
@@ -74,6 +82,12 @@
         border: 1px solid var(--likecolor, #F58);
         background: var(--likebg, #502834);
         box-shadow: 0 0 4px var(--likecolor, #502834);
+    }
+}
+
+@container mw-videoactions (width <= 360px) {
+    .video-action-likebutton-label {
+        display: none;
     }
 }
 

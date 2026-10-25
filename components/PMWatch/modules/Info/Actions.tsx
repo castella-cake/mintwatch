@@ -162,8 +162,10 @@ function Actions({ onModalOpen }: Props) {
                 data-is-liked={isLiked ? "true" : "false"}
             >
                 {isLiked ? <IconHeartFilled /> : <IconHeart />}
-                <span>
+                <span className="video-action-likebutton-label">
                     いいね！
+                </span>
+                <span className="video-action-likebutton-count">
                     {readableInt(
                         videoInfo.video.count.like
                         + temporalLikeModifier,
