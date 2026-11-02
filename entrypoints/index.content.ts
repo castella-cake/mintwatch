@@ -8,7 +8,8 @@ const recommendationPattern = new MatchPattern("*://www.nicovideo.jp/recommendat
 const userPagePattern = new MatchPattern("*://www.nicovideo.jp/user/*")
 const myPagePattern = new MatchPattern("*://www.nicovideo.jp/my*")
 
-const videoTopPattern = new MatchPattern("*://www.nicovideo.jp/video_top")
+const videoTopIndexPattern = new MatchPattern("*://www.nicovideo.jp/video_top")
+const videoTopPattern = new MatchPattern("*://www.nicovideo.jp/video_top/*")
 
 const searchPatternArray = [
     new MatchPattern("*://www.nicovideo.jp/search/*"),
@@ -39,7 +40,7 @@ export default defineContentScript({
         const isSearch = searchPatternArray.some(m => m.includes(window.location.toString()))
         const isRecommendations = recommendationPattern.includes(window.location.toString())
         const isUserPage = userPagePattern.includes(window.location.toString()) || myPagePattern.includes(window.location.toString())
-        const isVideoTop = videoTopPattern.includes(window.location.toString())
+        const isVideoTop = videoTopPattern.includes(window.location.toString()) || videoTopIndexPattern.includes(window.location.toString())
         // nopmwだったら何もしない
         const queryString = location.search
         const searchParams = new URLSearchParams(queryString)
