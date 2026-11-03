@@ -4,8 +4,8 @@ import { useMyWatchHistoryData } from "@/hooks/apiHooks/user/infinityHistoryData
 import { FeedRanking } from "./FeedRanking/FeedRanking"
 
 export function VideoTopIndex() {
-    const recommendData = useRecommendData("video_top_recommend")
-    const { myWatchHistoryData } = useMyWatchHistoryData(10)
+    const recommendData = useRecommendData("video_top_recommend", undefined, 10)
+    const { myWatchHistoryData } = useMyWatchHistoryData(20) // 重複消去のために余裕を持たせる
 
     return (
         <div className="videotop-feed">
@@ -30,7 +30,7 @@ export function VideoTopIndex() {
                 <div className="videotop-row-title">最近見た動画</div>
                 <div className="videotop-row-items">
                     {
-                        myWatchHistoryData?.pages.flatMap(page => page.data.items).map((item) => {
+                        myWatchHistoryData?.pages.flatMap(page => page.data.items).filter((v, i, a) => a.findIndex(t => t.video.id === v.video.id) === i).slice(0, 10).map((item) => {
                             return (
                                 <VideoItemCard key={item.itemId} video={item.video} layoutType="vertical-simple" />
                             )

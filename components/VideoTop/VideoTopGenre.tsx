@@ -5,11 +5,11 @@ import { useV2SearchData } from "@/hooks/apiHooks/search/v2SearchData"
 
 export function VideoTopGenre({ genre }: { genre: string }) {
     const { genresData } = useGenresQuery()
-    const recommendData = useRecommendData("video_top_genre_tag_recommend", genre)
+    const recommendData = useRecommendData("video_top_genre_tag_recommend", genre, 10)
 
     const thisGenre = genresData && genresData.data.genres.find(g => g.key === genre)
-    const genreLastCommentSearchData = useV2SearchData("keyword", thisGenre?.label ?? "", 8, "lastCommentTime", "desc", genre)
-    const genreRegisteredAtSearchData = useV2SearchData("keyword", thisGenre?.label ?? "", 8, "registeredAt", "desc", genre)
+    const genreLastCommentSearchData = useV2SearchData("keyword", thisGenre?.label ?? "", 10, "lastCommentTime", "desc", genre)
+    const genreRegisteredAtSearchData = useV2SearchData("keyword", thisGenre?.label ?? "", 10, "registeredAt", "desc", genre)
 
     return (
         <div className="videotop-feed">
