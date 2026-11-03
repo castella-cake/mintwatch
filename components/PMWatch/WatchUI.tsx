@@ -175,6 +175,7 @@ function CreateWatchUI() {
                 }
             };
         })
+        queryClient.invalidateQueries({ queryKey: ["myHistoryData"] })
         return () => {
             listenPopState() // unlisten
         }
