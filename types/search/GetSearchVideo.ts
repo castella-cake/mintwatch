@@ -9,9 +9,14 @@ interface Data {
     keyword: string
     tag: null
     lockTag: null
-    genres: any[]
+    genres: Genre[]
     items: VideoItem[]
     additionals: Additionals
+}
+
+interface Genre {
+    key: string
+    label: string
 }
 
 interface Additionals {
