@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 
 export function useMyWatchHistoryData(limit = 6) {
     const { data: myWatchHistoryData, error, isLoading, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ["myHistoryData", 6],
+        queryKey: ["myHistoryData", limit],
         queryFn: ({ pageParam }) => {
             return getMyWatchHistory(limit, pageParam)
         },
