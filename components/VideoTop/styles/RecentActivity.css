@@ -19,6 +19,7 @@
 .recent-activity-user .recent-activity-user-summary {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--blocks-gap);
 
     .recent-activity-actoranchor {
@@ -28,7 +29,6 @@
         align-items: center;
         gap: 0.5em;
         font-size: 0.9rem;
-        flex: 1;
     }
 
     .recent-activity-actoricon {

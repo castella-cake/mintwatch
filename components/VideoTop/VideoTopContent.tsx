@@ -1,25 +1,21 @@
-import { useRecommendData } from "@/hooks/apiHooks/watch/recommendData"
-import { VideoItemCard } from "../Global/ItemCard/VideoItemCard"
-// import { useActivitiesQuery } from "@/hooks/apiHooks/global/activities"
-import { useMyWatchHistoryData } from "@/hooks/apiHooks/user/infinityHistoryData"
 import { useGenresQuery } from "@/hooks/apiHooks/global/genres"
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 
 import "./styles/VideoTopContent.css"
+import "./styles/VideoTopFeed.css"
 import { RecentActivity } from "./RecentActivity/RecentActivity"
 import { useLocationContext } from "../Router/RouterContext"
-import { FeedRanking } from "./FeedRanking/FeedRanking"
+import { Match } from "../Router/RouterUI"
+import { VideoTopIndex } from "./VideoTopIndex"
+import { VideoTopGenre } from "./VideoTopGenre"
 
 export function VideoTopContent() {
     const location = useLocationContext()
 
-    const recommendData = useRecommendData("video_top_recommend")
-
-    // const { activitiesData } = useActivitiesQuery("top_follow", "video")
-
-    const { myWatchHistoryData } = useMyWatchHistoryData(10)
-
     const { genresData } = useGenresQuery()
+
+    const splittedPathname = location.pathname.split("/")
+    const genreKey = (splittedPathname.length === 4 && splittedPathname[3]) || null
 
     return (
         <div className="videotop-content">
@@ -48,35 +44,22 @@ export function VideoTopContent() {
                 <div className="videotop-left-title">What&apos;s New</div>
                 <RecentActivity />
             </div>
-            <div className="videotop-row videotop-ranking">
-                <div className="videotop-row-title">ランキング</div>
-                <FeedRanking />
-            </div>
-            <div className="videotop-row videotop-recommend">
-                <div className="videotop-row-title">おすすめ動画</div>
-                <div className="videotop-row-items">
-                    {
-                        recommendData?.data?.items.map((item) => {
-                            if (!isValidVideoItem(item.content)) return null
-                            return (
-                                <VideoItemCard key={item.id} video={item.content as VideoItem} layoutType="vertical-simple" />
-                            )
-                        })
-                    }
-                </div>
-            </div>
-            <div className="videotop-row videotop-history">
-                <div className="videotop-row-title">最近見た動画</div>
-                <div className="videotop-row-items">
-                    {
-                        myWatchHistoryData?.pages.flatMap(page => page.data.items).map((item) => {
-                            return (
-                                <VideoItemCard key={item.itemId} video={item.video} layoutType="vertical-simple" />
-                            )
-                        })
-                    }
-                </div>
-            </div>
+            <Match targetPathname="/video_top!">
+                <VideoTopIndex />
+            </Match>
+            <Match targetPathname="/video_top/genre/:">
+                {
+                    genresData?.data.genres && genreKey && (
+                        genresData?.data.genres.map(g => g.key).includes(genreKey)
+                            ? <VideoTopGenre genre={genreKey} />
+                            : (
+                                    <div className="videotop-invalidgenre">
+                                        不明なジャンルキーです
+                                    </div>
+                                )
+                    )
+                }
+            </Match>
         </div>
     )
 }

@@ -16,16 +16,6 @@ h3.feed-ranking-title {
     font-size: 1.25rem;
 }
 
-.feed-ranking-videos-rest {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    .feed-ranking-moreactions-anchor {
-        flex: 1;
-    }
-}
-
 .feed-ranking-moreactions-anchor {
     background: var(--bgcolor2);
     color: inherit;
@@ -37,7 +27,7 @@ h3.feed-ranking-title {
     justify-content: center;
     align-items: center;
     font-size: 0.9rem;
-    padding: 2px 8px;
+    padding: 4px 8px;
     font-weight: normal; // for h3 override
     transition: var(--transition-normal);
 
@@ -54,12 +44,14 @@ h3.feed-ranking-title {
 .feed-ranking-videos {
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .feed-ranking-videos-podium {
     display: grid;
     grid-template-columns: repeat(3, minmax(13rem, 1fr));
     gap: 8px;
+    flex: 2
 }
 
 .feed-ranking-videos-podium-item {
@@ -74,6 +66,18 @@ h3.feed-ranking-title {
     align-items: center;
     font-weight: bold;
     margin-bottom: 4px;
+}
+
+.feed-ranking-videos-rest {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 26rem;
+
+    .feed-ranking-moreactions-anchor {
+        flex: 1;
+    }
 }
 
 .feed-ranking-videos-list {
