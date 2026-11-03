@@ -1,3 +1,8 @@
+.page-videotop-container {
+    margin-left: 72px;
+    padding: 0 16px;
+}
+
 .videotop-content {
     display: grid;
     grid-template-columns: 25rem 1fr;
@@ -26,6 +31,15 @@
     // padding: 8px;
     // border: var(--border);
     border-radius: var(--radius);
+}
+
+.videotop-left {
+    padding: 16px;
+    border: var(--border);
+}
+
+.videotop-left-title {
+    margin-bottom: 16px;
 }
 
 .videotop-row .videotop-row-items {
@@ -65,3 +79,4 @@
     grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     gap: 8px;
 }
+

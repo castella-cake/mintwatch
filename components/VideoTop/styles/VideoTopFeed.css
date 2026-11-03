@@ -1,0 +1,24 @@
+.videotop-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+h2.videotop-genre-title {
+    margin: 0;
+    font-size: 1.2rem;
+    display: flex;
+    gap: .5em;
+    align-items: center;
+    background: var(--bgcolor2);
+    border-radius: var(--radius);
+    padding: 8px;
+    border-left: var(--border);
+    border-left-width: 4px;
+}
+
+span.videotop-genre-title-label {
+    font-size: 0.75em;
+    font-weight: normal;
+    color: var(--textcolor2);
+}
