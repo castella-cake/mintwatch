@@ -1,9 +1,9 @@
-const videoIdRegex = /(?:s[mos]|n[lm])(?!0)\d+/g
+const videoIdRegex = /(?:[a-z]{2})(?!0)\d+/g
 
 // const validateVideoIdRegex = /^(?:s[mos]|n[lm])(?!0)\d+$/
 const validateThreadIdRegex = /^(?!0)\d{10}$/
 
-const validateWatchVideoIdRegex = /^(?:s[mos]|n[lm])?(?!0)\d+$/
+const validateWatchVideoIdRegex = /^(?:[a-z]{2})?(?!0)\d+$/
 
 export function validateThreadId(threadId: string): boolean {
     return validateThreadIdRegex.test(threadId)
