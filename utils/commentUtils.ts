@@ -22,6 +22,7 @@ export function doFilterThreads(threads: Thread[], sharedNgLevel: number, viewer
 export function applyOpacityToThreads(threads: Thread[], threadLabels: string[], opacitySetting: { [key: string]: number }) {
     return threads.map((thread, index) => {
         return { ...thread, comments: thread.comments.map((comment) => {
+            if (comment.commands.includes("_live")) return comment
             return { ...comment, commands: [...comment.commands, `nico:opacity:${opacitySetting[threadLabels[index]] ?? 1}`] }
         }) }
     })
