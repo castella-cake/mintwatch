@@ -24,8 +24,8 @@
         cursor: pointer;
 
         .tabler-icon {
-            height: 1.2em;
-            width: 1.2em;
+            height: round(1.25em, 1px);
+            width: round(1.25em, 1px);
             vertical-align: middle;
         }
     }

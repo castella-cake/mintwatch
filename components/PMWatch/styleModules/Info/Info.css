@@ -34,7 +34,7 @@
     gap: var(--info-block-gap);
 
     .videotitle {
-        font-size: 20px;
+        font-size: 1.25em;
         font-weight: bold;
 
         svg {
