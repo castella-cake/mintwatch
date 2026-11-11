@@ -23,7 +23,12 @@ function Header({ headerActionStackerElemRef, sideMenuElemRef }: { headerActionS
     const isFixedHeaderEnabled = syncStorage.enableFixedHeader ?? getDefault("enableFixedHeader")
     const isShinjukuNavbar = syncStorage.pmwlayouttype === "shinjuku" && !syncStorage.shinjukuEnableNavbar && !syncStorage.enableOmniHeader
     const isOmniHeaderEnabled = syncStorage.enableOmniHeader ?? getDefault("enableOmniHeader")
-    const navbarType = isShinjukuNavbar ? "shinjuku" : syncStorage.navbarType ?? getDefault("navbarType")
+    let navbarType = syncStorage.navbarType ?? getDefault("navbarType")
+    if (isOmniHeaderEnabled) {
+        navbarType = "default"
+    } else if (isShinjukuNavbar) {
+        navbarType = "shinjuku"
+    }
     const headerActionType = syncStorage.headerActionType ?? getDefault("headerActionType")
     const isSetToQuickHeaderAction = headerActionType === "quick"
 

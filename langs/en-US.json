@@ -71,7 +71,7 @@
         },
         "navbarType": {
             "name": "Navigation bar display type",
-            "hint": "Set how to display the navigation bar. This setting is ignored in Shinjuku layout.",
+            "hint": "Set how to display the navigation bar. This setting is ignored when Shinjuku layout or OmniHeader is enabled.",
             "select": ["Always show", "Open on hover", "Hide"]
         },
         "enableOmniHeader": {

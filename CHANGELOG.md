@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - 有効な動画IDチェックを厳格な組み合わせからアルファベット2文字に変更しました
+- `_live` コマンドの付与されたコメントでカスタムのコメント不透明度を適用しないようにしました (#87)
+- OmniHeader の使用時は「ナビゲーションバーの表示」設定を無視するようになりました
 
 ## 1.0.5 - 2026/10/27
 
