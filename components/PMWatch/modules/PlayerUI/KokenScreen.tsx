@@ -19,7 +19,7 @@ export function KokenScreen({ smId }: { smId: string }) {
 
         audioElemRef.current.volume = perceptualToAmplitude((localStorage.volume ?? 50) * 0.01, 1, 40)
         audioElemRef.current.muted = localStorage.isMuted ?? false
-    }, [localStorage.volume, localStorage.isMuted, audioElemRef.current])
+    }, [localStorage.volume, localStorage.isMuted, audioElemRef.current, supportersInfo?.data]) // 描画条件に含まれる遅延データを依存関係に含める
 
     const handleMuteToggle = useCallback(() => {
         storage.setItem("sync:muteKokenVoice", !isKokenMuted)
