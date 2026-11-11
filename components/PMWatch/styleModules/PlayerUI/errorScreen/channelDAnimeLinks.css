@@ -28,6 +28,7 @@
 .channel-danime-links-channel {
     display: block;
     text-decoration: none;
+    color: inherit;
 }
 
 .channel-danime-links-watch-link {
@@ -37,6 +38,7 @@
     font-size: 0.9rem;
     padding: 6px 10px;
     background: var(--bgcolor1);
+    color: var(--textcolor1);
     width: max-content;
     border: var(--border);
     border-radius: var(--radius);
