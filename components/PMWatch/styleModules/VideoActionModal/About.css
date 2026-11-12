@@ -51,7 +51,7 @@
     margin-left: 0.5rem;
 }
 
-.about-mintwatch-header button {
+.about-mintwatch-header .about-mintwatch-egg-button {
     border: 2px outset #fff;
     background: #eee;
     color: #000;
@@ -61,6 +61,24 @@
 
     &:active {
         background: #ddd;
+    }
+}
+
+button.about-mintwatch-version {
+    appearance: none;
+    background: none;
+    color: var(--textcolor2);
+    border: none;
+    font-size: inherit;
+    padding: 0;
+    transition: var(--transition-normal);
+
+    &:hover, &:focus-visible {
+        color: var(--textcolor1);
+    }
+
+    &:active {
+        color: var(--textcolor2);
     }
 }
 

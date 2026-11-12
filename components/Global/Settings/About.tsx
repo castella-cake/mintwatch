@@ -138,13 +138,13 @@ function EasterDroppableHeader({ progress, onUnlock }: { progress: 0 | 1 | 2 | 3
                 }}
             />
             <h1 ref={setTextNodeRef}>
-                {progress === 1 && <button onClick={onUnlock}>ロック解除</button>}
+                {progress === 1 && <button onClick={onUnlock} className="about-mintwatch-egg-button">ロック解除</button>}
                 <span key="about-mintwatch-egg-title" style={progress === 1 ? { animation: "aboutshow 0.2s linear 1 forwards", display: "inline-block", position: "absolute" } : {}}>MintWatch</span>
             </h1>
-            <span className="about-mintwatch-version" onClick={handleVersionClick}>
+            <button className="about-mintwatch-version" onClick={handleVersionClick}>
                 v
                 {manifestData.version_name || manifestData.version || "Unknown"}
-            </span>
+            </button>
         </div>
     )
 }
