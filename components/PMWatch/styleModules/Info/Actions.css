@@ -28,8 +28,7 @@
     }
 
     > .video-action-likebutton span {
-        vertical-align: unset;
-        line-height: 1em;
+        line-height: 1.25em;
     }
 
     > button.video-action-disabled, > .tooltip-wrapper > button.video-action-disabled {
