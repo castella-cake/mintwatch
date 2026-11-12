@@ -2,7 +2,7 @@
   "name": "mintwatch",
   "description": "ニコニコ動画用のカスタマイズ可能な動画プレイヤー",
   "private": true,
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "license": "MIT",
   "homepage": "https://github.com/castella-cake/mintwatch#readme",
