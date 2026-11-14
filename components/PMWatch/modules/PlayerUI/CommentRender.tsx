@@ -94,6 +94,7 @@ export function CommentRender(props: {
                 enableLegacyPiP: true,
                 video: (enableCommentPiP ? videoRef.current : undefined),
                 mode: renderMode ?? "html5",
+                enableCustomCommands: true,
                 config: {
                     ...(disableCommentOutline ? disableOutlineConfig : {}),
                     ...(canUseFastRenderConfig ? fastConfig : {}),
