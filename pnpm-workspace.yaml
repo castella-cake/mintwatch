@@ -4,6 +4,6 @@ allowBuilds:
   spawn-sync: true
   dtrace-provider: true
 minimumReleaseAgeExclude:
-  - '@xpadev-net/niconicomments@0.4.1'
+  - '@xpadev-net/niconicomments@0.4.1 || 0.5.0'
 patchedDependencies:
   '@dnd-kit/core': patches/@dnd-kit__core.patch
