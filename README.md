@@ -73,7 +73,7 @@ Node.js と pnpm をインストールしたら、以下のコマンドで依存
 ```
 pnpm install
 ```
-Manifest V3向け(Chromium)にビルドするには、以下のコマンドを実行します。
+Chromium(Manifest V3)向けにビルドするには、以下のコマンドを実行します。
 ```
 pnpm run build
 ```
@@ -82,7 +82,30 @@ pnpm run build
 HMRを利用できる開発サーバーを開始するには、`pnpm run dev`を実行してください。   
 提出用のZIP作成には`pnpm run zip`を使用します。
 
-Manifest V2向け(Firefox)の場合は、runコマンドの最後に`:firefox`を付けて実行します。   
+Firefox(Manifest V2)の場合は、runコマンドの最後に`:firefox`を付けて実行します。   
+
+### Safari で動作させる (Not supported)
+XCode のパッケージャーを使うことで Safari でも動作させることができます。  
+この環境はサポートされておらず、予期しない動作が発生する可能性があります。
+
+まずはSafari(Manifest V2)向けに機能拡張をビルドします。
+```
+pnpm run build:safari
+```
+次に、safari-web-extension-packager を使用してパッケージ化します。(XCode のインストールが必要です)  
+構成に大きな変化がなければこのコマンドの実行は最初の一回でよく、次のビルドではこのコマンドをスキップできるはずです。
+```
+xcrun safari-web-extension-packager ./.output/safari-mv2
+```
+XCode が起動するので、Signing & Capabilities から**アプリと機能拡張を含む全てのターゲットに対して**適切なチームと証明書を割り当てます。
+
+個人のマシンで動作させる場合には、Personal Team で Development 署名を使うことで永続化ができます。  
+適切な署名を設定しなかった場合、Safari が終了した際に無効に戻ります。
+
+その後、Safari が全て閉じていることを確認したら、Archive でビルドを行い、Custom → Copy App でアプリケーションを作成します。  
+(DerivedData 側にあるアプリケーションは重複インストールを発生させるので、都度削除してください)
+
+アプリケーションを一度起動して閉じたら、Safariを起動して動作を確認します。
 
 ## Support
 ### ブラウザー
