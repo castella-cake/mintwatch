@@ -11,7 +11,7 @@ test("Search: Filter functionality test", async ({ page, mockApi, enableSearchPa
     await page.waitForSelector(".search-result-items .videoitem-card", { timeout: 10000 })
 
     // ソート機能のテスト
-    const sortDropdown = page.locator("select.search-sortkey-selector")
+    const sortDropdown = page.locator("select.generic-sortkey-selector")
     await expect(sortDropdown).toBeVisible()
 
     // デフォルトのソート順が「ニコニコで人気」になっているか確認
@@ -19,7 +19,7 @@ test("Search: Filter functionality test", async ({ page, mockApi, enableSearchPa
     expect(defaultSort).toBe("hotLikeAndMylist")
 
     // ソートオプションが存在するか確認
-    const sortOptions = await page.locator(".search-sortkey-selector option").allTextContents()
+    const sortOptions = await page.locator(".generic-sortkey-selector option").allTextContents()
     expect(sortOptions).toContain("ニコニコで人気")
     expect(sortOptions).toContain("あなたへのおすすめ")
     expect(sortOptions).toContain("投稿日時")
@@ -28,11 +28,11 @@ test("Search: Filter functionality test", async ({ page, mockApi, enableSearchPa
     expect(sortOptions).toContain("マイリスト登録数")
 
     // ソート順の切り替えテスト
-    const orderButtons = page.locator(".search-sortorder-selector")
+    const orderButtons = page.locator(".generic-sortorder-selector")
     await expect(orderButtons).toHaveCount(2)
 
     // デフォルトの並び順が「降順」になっているか確認
-    const activeOrderButton = page.locator(".search-sortorder-selector[data-is-active='true']")
+    const activeOrderButton = page.locator(".generic-sortorder-selector[data-is-active='true']")
     await expect(activeOrderButton).toBeVisible()
 
     // フィルター設定を開く
@@ -153,7 +153,7 @@ test("Search: Display options test", async ({ page, mockApi, enableSearchPage })
     await page.waitForSelector(".search-result-items .videoitem-card", { timeout: 10000 })
 
     // 表示形式切り替えボタンが存在するか確認
-    const displaySwitcher = page.locator(".search-option-switcher[data-switcher-type='display']")
+    const displaySwitcher = page.locator(".generic-option-switcher[data-switcher-type='display']")
     await expect(displaySwitcher).toBeVisible()
 
     // リスト表示ボタンとグリッド表示ボタンが存在するか確認

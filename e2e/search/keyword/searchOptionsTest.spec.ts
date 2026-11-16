@@ -11,7 +11,7 @@ test("Search: Keyword search options validation", async ({ page, mockApi, enable
     await page.waitForSelector(".search-result-items .videoitem-card", { timeout: 10000 })
 
     // ソートセレクターの詳細確認
-    const sortSelect = page.locator("select.search-sortkey-selector")
+    const sortSelect = page.locator("select.generic-sortkey-selector")
     await expect(sortSelect).toBeVisible()
 
     // デフォルトのソート値確認
@@ -19,7 +19,7 @@ test("Search: Keyword search options validation", async ({ page, mockApi, enable
     expect(defaultSortValue).toBe("hotLikeAndMylist")
 
     // ソートオプションの存在確認
-    const sortOptions = await page.locator(".search-sortkey-selector option").allTextContents()
+    const sortOptions = await page.locator(".generic-sortkey-selector option").allTextContents()
     expect(sortOptions).toContain("ニコニコで人気")
     expect(sortOptions).toContain("あなたへのおすすめ")
     expect(sortOptions).toContain("投稿日時")
@@ -31,11 +31,11 @@ test("Search: Keyword search options validation", async ({ page, mockApi, enable
     expect(sortOptions).toContain("再生時間")
 
     // ソート順ボタンの確認
-    const orderButtons = page.locator(".search-sortorder-selector")
+    const orderButtons = page.locator(".generic-sortorder-selector")
     await expect(orderButtons).toHaveCount(2)
 
     // デフォルトで降順が選択されていることを確認
-    const activeOrderButton = page.locator(".search-sortorder-selector[data-is-active='true']")
+    const activeOrderButton = page.locator(".generic-sortorder-selector[data-is-active='true']")
     await expect(activeOrderButton).toBeVisible()
 
     // フィルター設定を開く
@@ -88,7 +88,7 @@ test("Search: Keyword search options validation", async ({ page, mockApi, enable
     }
 
     // 表示オプションの確認
-    const displayOptions = page.locator(".search-option-switcher[data-switcher-type='display']")
+    const displayOptions = page.locator(".generic-option-switcher[data-switcher-type='display']")
     await expect(displayOptions).toBeVisible()
 
     const displayButtons = displayOptions.locator("button")

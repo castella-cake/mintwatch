@@ -60,7 +60,7 @@ test("Search: Mylist search sort options validation", async ({ page, mockApi, en
     await page.waitForSelector(".search-result-items .mylistitem-card", { timeout: 10000 })
 
     // ソートセレクターの確認
-    const sortSelect = page.locator("select.search-sortkey-selector")
+    const sortSelect = page.locator("select.generic-sortkey-selector")
     await expect(sortSelect).toBeVisible()
 
     // デフォルトのソート値確認（ニコニコで人気）
@@ -68,17 +68,17 @@ test("Search: Mylist search sort options validation", async ({ page, mockApi, en
     expect(defaultSortValue).toBe("_hotTotalScore")
 
     // マイリスト検索特有のソートオプションの存在確認
-    const sortOptions = await page.locator(".search-sortkey-selector option").allTextContents()
+    const sortOptions = await page.locator(".generic-sortkey-selector option").allTextContents()
     expect(sortOptions).toContain("ニコニコで人気")
     expect(sortOptions).toContain("登録動画数")
     expect(sortOptions).toContain("作成日")
     expect(sortOptions).toContain("動画追加日時")
 
     // ソート順ボタンの確認
-    const orderButtons = page.locator(".search-sortorder-selector")
+    const orderButtons = page.locator(".generic-sortorder-selector")
     await expect(orderButtons).toHaveCount(2)
 
     // デフォルトで降順が選択されていることを確認
-    const activeOrderButton = page.locator(".search-sortorder-selector[data-is-active='true']")
+    const activeOrderButton = page.locator(".generic-sortorder-selector[data-is-active='true']")
     await expect(activeOrderButton).toBeVisible()
 })

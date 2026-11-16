@@ -14,7 +14,7 @@ test("Search: User search data validation", async ({ page, mockApi, enableSearch
     const userCard = page.locator(".useritem-card").first()
 
     // ユーザーIDをhref属性から確認
-    const href = await userCard.getAttribute("href")
+    const href = await userCard.locator(".useritem-card-link").getAttribute("href")
     expect(href).toContain("0") // ユーザーID: 0
 
     // ユーザー名確認
@@ -63,7 +63,7 @@ test("Search: User search sort options validation", async ({ page, mockApi, enab
     await page.waitForSelector(".search-result-items .useritem-card", { timeout: 10000 })
 
     // ソートセレクターの確認
-    const sortSelect = page.locator("select.search-sortkey-selector")
+    const sortSelect = page.locator("select.generic-sortkey-selector")
     await expect(sortSelect).toBeVisible()
 
     // デフォルトのソート値確認（あなたへのおすすめ）
@@ -71,17 +71,17 @@ test("Search: User search sort options validation", async ({ page, mockApi, enab
     expect(defaultSortValue).toBe("_personalized")
 
     // ユーザー検索特有のソートオプションの存在確認
-    const sortOptions = await page.locator(".search-sortkey-selector option").allTextContents()
+    const sortOptions = await page.locator(".generic-sortkey-selector option").allTextContents()
     expect(sortOptions).toContain("あなたへのおすすめ")
     expect(sortOptions).toContain("フォロワー数")
     expect(sortOptions).toContain("投稿動画数")
     expect(sortOptions).toContain("生放送番組数")
 
     // ソート順ボタンの確認
-    const orderButtons = page.locator(".search-sortorder-selector")
+    const orderButtons = page.locator(".generic-sortorder-selector")
     await expect(orderButtons).toHaveCount(2)
 
     // デフォルトで降順が選択されていることを確認
-    const activeOrderButton = page.locator(".search-sortorder-selector[data-is-active='true']")
+    const activeOrderButton = page.locator(".generic-sortorder-selector[data-is-active='true']")
     await expect(activeOrderButton).toBeVisible()
 })
