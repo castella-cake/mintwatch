@@ -2,14 +2,18 @@ import { GenericUserData } from "@/types/user/genericUserData"
 import { UserCard } from "./UserCard"
 import "../styles/GenericUserDataView.css"
 import { UserLevel } from "./UserLevel"
+import { useUserFollowOperation } from "@/hooks/apiHooks/user/userFollow"
 
 interface GenericUserDataViewProps {
     userData: GenericUserData
+    userId: number
     isMe?: boolean
     isFollowing?: boolean
 }
 
-export function GenericUserDataView({ userData, isMe = false, isFollowing = false }: GenericUserDataViewProps) {
+export function GenericUserDataView({ userData, userId, isMe = false, isFollowing = false }: GenericUserDataViewProps) {
+    const { mutate, isPending } = useUserFollowOperation()
+
     return (
         <div className="userdata-container">
             <div className="userdata-user">
@@ -26,10 +30,23 @@ export function GenericUserDataView({ userData, isMe = false, isFollowing = fals
                 <div className="userdata-action-buttons">
                     { !isMe && (
                         <>
-                            <button type="button" className="userdata-action-button" data-is-active={isFollowing}>
+                            <button
+                                type="button"
+                                className="userdata-action-button"
+                                data-action-type="follow"
+                                data-is-active={isFollowing}
+                                onClick={() => mutate({ userId, nickname: userData.nickname, follow: !isFollowing })}
+                                disabled={isPending}
+                            >
                                 { isFollowing ? "フォロー中" : "フォローする" }
                             </button>
-                            <a href={`https://creator-support.nicovideo.jp/registration/${userData.id}`} className="userdata-action-button" target="_blank" rel="noopener noreferrer">
+                            <a
+                                href={`https://creator-support.nicovideo.jp/registration/${userData.id}`}
+                                className="userdata-action-button"
+                                data-action-type="support"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 サポートする
                             </a>
                         </>

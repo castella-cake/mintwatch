@@ -56,6 +56,7 @@ export function UserContent() {
             <title>{`${userData.data.user.nickname} - ニコニコ`}</title>
             <GenericUserDataView
                 userData={userData.data.user}
+                userId={userId}
                 isMe={userData.data.relationships?.isMe || false}
                 isFollowing={userData.data.relationships.sessionUser.isFollowing || false}
             />
