@@ -27,29 +27,48 @@ export function GenericUserDataView({ userData, userId, isMe = false, isFollowin
             )}
 
             <div className="userdata-action">
-                { !isMe && (
-                    <div className="userdata-action-buttons">
-                        <button
-                            type="button"
-                            className="userdata-action-button"
-                            data-action-type="follow"
-                            data-is-active={isFollowing}
-                            onClick={() => mutate({ userId, nickname: userData.nickname, follow: !isFollowing })}
-                            disabled={isPending}
-                        >
-                            { isFollowing ? "フォロー中" : "フォローする" }
-                        </button>
-                        <a
-                            href={`https://creator-support.nicovideo.jp/registration/${userData.id}`}
-                            className="userdata-action-button"
-                            data-action-type="support"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            サポートする
-                        </a>
-                    </div>
-                )}
+                <div className="userdata-action-buttons">
+                    {
+                        !isMe
+                            ? (
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="userdata-action-button"
+                                            data-action-type="follow"
+                                            data-is-active={isFollowing}
+                                            onClick={() => mutate({ userId, nickname: userData.nickname, follow: !isFollowing })}
+                                            disabled={isPending}
+                                        >
+                                            { isFollowing ? "フォロー中" : "フォローする" }
+                                        </button>
+                                        <a
+                                            href={`https://creator-support.nicovideo.jp/registration/${userData.id}`}
+                                            className="userdata-action-button"
+                                            data-action-type="support"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            サポートする
+                                        </a>
+                                    </>
+                                )
+                            : (
+                                    <>
+                                        <a
+                                            href="https://garage.nicovideo.jp/niconico-garage"
+                                            className="userdata-action-button"
+                                            data-action-type="garage"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            ニコニコガレージ
+                                        </a>
+                                    </>
+                                )
+                    }
+
+                </div>
                 <UserLevel userLevel={userData.userLevel} />
             </div>
         </div>
