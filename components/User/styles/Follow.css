@@ -1,0 +1,46 @@
+.user-follow-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
+}
+
+.user-following-users,
+.user-followedby-users {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .useritem-card {
+        background: var(--bgcolor2);
+        border: var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+    }
+
+    .useritem-icon {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+.user-following-users[data-is-grid-layout="true"],
+.user-followedby-users[data-is-grid-layout="true"] {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+
+    .user-following-users-inview-anchor,
+    .user-followedby-users-inview-anchor {
+        grid-column: 1 / -1;
+    }
+}
+
+// フォロー解除直後のユーザーは、再表示でリストから消えるまでグレーアウト表示を残す
+// (フォロワー一覧は「自分がフォローしていないフォロワー」が通常の状態なので対象外)
+.user-following-users .useritem-card[data-is-following="false"] {
+    opacity: 0.75;
+}
+
+.user-following-users .useritem-card[data-layout="vertical-simple"] .useritem-followbutton {
+    flex-direction: row;
+}

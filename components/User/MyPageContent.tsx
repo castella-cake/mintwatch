@@ -41,6 +41,7 @@ export function MyPageContent() {
             <title>マイページ - ニコニコ</title>
             <GenericUserDataView
                 userData={myUserData.data.user}
+                userId={myUserData.data.user.id}
                 isMe={true}
             />
 

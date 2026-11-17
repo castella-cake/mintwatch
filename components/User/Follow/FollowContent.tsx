@@ -2,6 +2,7 @@ import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { FollowingUsers } from "./FollowingUsers"
 import { FollowedByUsers } from "./FollowedByUsers"
+import "../styles/Follow.css"
 
 export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?: boolean }) {
     const hrefPrefix = (isMyPage) ? `/my/follow` : `/user/${userId}/follow`

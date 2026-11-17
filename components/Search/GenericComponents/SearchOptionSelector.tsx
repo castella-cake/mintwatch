@@ -1,5 +1,5 @@
 import { useLocationContext, useHistoryContext } from "../../Router/RouterContext"
-import { OptionSelector } from "../../Global/OptionSelector"
+import { OptionSelector } from "../../Global/OptionSelector/OptionSelector"
 import type { ReactNode } from "react"
 import type { SearchOption } from "@/types/search/Option"
 
