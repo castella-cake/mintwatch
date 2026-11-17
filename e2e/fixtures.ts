@@ -16,6 +16,9 @@ import { searchUserTestData } from "./datas/Search/user"
 import { searchPlaylistTestData } from "./datas/playlist"
 import { recommendationsTestData } from "./datas/recommendations"
 import { watchLazyTestData } from "./datas/watchLazy"
+import { followTargetUserDataTestData, myUserDataTestData } from "./datas/userData"
+import { createUserFollowingsTestData, userFolloweeIds } from "./datas/userFollowings"
+import { createUserFollowStatusTestData, userFollowSuccessTestData } from "./datas/userFollow"
 
 const pathToExtension = path.resolve(".output/chrome-mv3")
 
@@ -24,6 +27,7 @@ type FixtureType = {
     extensionId: string
     mockApi: () => Promise<void>
     enableSearchPage: () => Promise<void>
+    enableUserPage: () => Promise<void>
     enableRankingPage: () => Promise<void>
     enableRecommendationsPage: () => Promise<void>
     enablePastLogAutoLoad: () => Promise<void>
@@ -172,6 +176,56 @@ export const test = base.extend<FixtureType>({
                 status: 200,
                 json: keywordSearchTestData,
             }))
+
+            // ユーザーページ / マイページのユーザーデータ
+            await page.route("https://nvapi.nicovideo.jp/v1/users/12345", route => route.fulfill({
+                status: 200,
+                json: followTargetUserDataTestData,
+            }))
+
+            await page.route("https://nvapi.nicovideo.jp/v1/users/me", route => route.fulfill({
+                status: 200,
+                json: myUserDataTestData,
+            }))
+
+            // フォロー状態とフォロー一覧は操作に応じて変化させる必要があるため、ハンドラのクロージャで保持する
+            // (contextはテスト毎に再生成されるため、状態のリセットは不要)
+            let isFollowingFollowTarget = false
+            const followingFolloweeIds = [...userFolloweeIds]
+
+            // フォロー中のユーザー一覧 (フォロー解除したユーザーは再取得時に消える)
+            await page.route(/https:\/\/nvapi\.nicovideo\.jp\/v1\/users\/me\/following\/users.*/, route => route.fulfill({
+                status: 200,
+                json: createUserFollowingsTestData(followingFolloweeIds),
+            }))
+
+            // フォロー API (GET: 状態取得 / POST: フォロー / DELETE: フォロー解除)
+            await page.route(/https:\/\/user-follow-api\.nicovideo\.jp\/v1\/user\/followees\/niconico-users\/.*/, (route) => {
+                const method = route.request().method()
+                const targetId = Number.parseInt(route.request().url().match(/niconico-users\/(\d+)\.json/)?.[1] ?? "", 10)
+
+                if (method === "GET") {
+                    return route.fulfill({
+                        status: 200,
+                        json: createUserFollowStatusTestData(isFollowingFollowTarget),
+                    })
+                }
+
+                if (method === "POST") {
+                    if (targetId === 12345) isFollowingFollowTarget = true
+                    if (userFolloweeIds.includes(targetId) && !followingFolloweeIds.includes(targetId)) followingFolloweeIds.push(targetId)
+                } else if (method === "DELETE") {
+                    if (targetId === 12345) isFollowingFollowTarget = false
+                    const index = followingFolloweeIds.indexOf(targetId)
+                    if (index !== -1) followingFolloweeIds.splice(index, 1)
+                }
+
+                return route.fulfill({
+                    status: 200,
+                    json: userFollowSuccessTestData,
+                })
+            })
+
             await page.route(/https:\/\/public-api.ch.nicovideo.jp\/v1\/user\/channelVideoDAnimeLinks\?videoId=.*/, route => route.fulfill({
                 status: 404,
                 json: channelVideoDAnimeLinksTestData,
@@ -186,6 +240,14 @@ export const test = base.extend<FixtureType>({
         }
 
         await use(enableSearchPageFunction)
+    },
+    enableUserPage: async ({ page, extensionId }, use) => {
+        async function enableUserPageFunction() {
+            await page.goto(`chrome-extension://${extensionId}/settings.html`)
+            await page.getByRole("checkbox", { name: "Experimental: Enable replacement of the user page" }).click()
+        }
+
+        await use(enableUserPageFunction)
     },
     enableRankingPage: async ({ page, extensionId }, use) => {
         async function enableRankingPageFunction() {
