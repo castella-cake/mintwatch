@@ -5,7 +5,7 @@ import { Achievements } from "./Achievements"
 
 export function CollectionsContent({ userId, isMyPage, nickname }: { userId: number, isMyPage: boolean, nickname?: string }) {
     return (
-        <div className="user-category-container">
+        <div className="user-category-container" data-scroll-anchor>
             <div className="user-category-sidearea">
                 <NavigationAnchorButton href={isMyPage ? "/my/achievement" : `/user/${userId}/achievement`}>
                     実績

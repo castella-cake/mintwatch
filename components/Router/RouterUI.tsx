@@ -14,6 +14,7 @@ import { SearchBody } from "../Search/SearchBody"
 import { RecommendationsBody } from "../Recommendations/RecommendationsBody"
 import { UserBody } from "../User/UserBody"
 import { useQueryClient } from "@tanstack/react-query"
+import { useNavigationScroll, type NavigationState } from "../../hooks/useNavigationScroll"
 
 function MatchWatchPage({ targetPathname, children }: { targetPathname: string | string[], children: ReactNode }) {
     const backgroundPlaying = useBackgroundPlayingContext()
@@ -88,6 +89,9 @@ export default function RouterUI() {
     const setMintConfigShown = useSetMintConfigShownContext()
     const setSideMenuShown = useSetSideMenuShownContext()
 
+    const routerElemRef = useRef<HTMLDivElement>(null)
+    useNavigationScroll(routerElemRef)
+
     const linkClickHandler = useCallback((e: React.MouseEvent) => {
         if (e.target instanceof Element) {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
@@ -122,8 +126,7 @@ export default function RouterUI() {
                         }
                     }
                 }
-                history.push(nearestAnchor.href)
-                window.scroll({ top: 0 })
+                history.push(nearestAnchor.href, { scrollPlan: "link" } satisfies NavigationState)
             }
         }
     }, [setBackgroundPlaying, location, history])
@@ -176,7 +179,7 @@ export default function RouterUI() {
     }, [setHeaderActionState, setMintConfigShown, setSideMenuShown])
 
     return (
-        <div className="router" onClickCapture={linkClickHandler}>
+        <div className="router" ref={routerElemRef} onClickCapture={linkClickHandler}>
             <Header headerActionStackerElemRef={headerActionStackerElemRef} sideMenuElemRef={sideMenuElemRef} />
             <MintConfig nodeRef={mintConfigElemRef} />
             <MintWatchModal containerRef={mintModalElemRef} />

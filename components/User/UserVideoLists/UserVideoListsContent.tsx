@@ -13,7 +13,7 @@ export function UserVideoListsContent({ userId, isMyPage, nickname }: { userId?:
     if (!userId && !isMyPage) return
 
     return (
-        <div className="user-videolists-container">
+        <div className="user-videolists-container" data-scroll-anchor>
             <div className="user-videolists-left">
                 { !isMyPage && (
                     <div className="user-videolists-switcher">

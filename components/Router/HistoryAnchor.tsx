@@ -1,14 +1,14 @@
 import { ReactNode, useCallback } from "react"
 import { useHistoryContext } from "./RouterContext"
+import type { NavigationState } from "../../hooks/useNavigationScroll"
 
 export function HistoryAnchor({ href, beforePush, children, title, className, disabled = false, ...additionalAttributes }: { href?: string, beforePush?: () => void, children: ReactNode, className: string, title?: string, disabled?: boolean }) {
     const history = useHistoryContext()
     const onAnchorClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault()
         if (beforePush) beforePush()
-        if (href && !disabled) history.push(href)
-        window.scroll({ top: 0 })
-    }, [href, beforePush])
+        if (href && !disabled) history.push(href, { scrollPlan: "link" } satisfies NavigationState)
+    }, [href, beforePush, history])
     return (
         <a href={href || "#"} title={title || undefined} onClick={onAnchorClick} aria-disabled={disabled} className={className} {...additionalAttributes}>
             {children}
