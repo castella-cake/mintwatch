@@ -12,12 +12,12 @@ export function useMylistsData(userId: "me" | number | undefined, sampleItemCoun
     })
 
     const mutateMylistsAddItem = useMutation({
-        mutationFn: async (args: { mylistId: Mylist["id"], itemId: string, requestWith: string }) => {
+        mutationFn: async (args: { mylistId: MylistItem["id"], itemId: string, requestWith: string }) => {
             const { mylistId, itemId, requestWith } = args
             const response = await addItemToMylist(mylistId, itemId, requestWith)
             return { ...args, response }
         },
-        onSuccess: (args: { mylistId: Mylist["id"], itemId: string, requestWith: string, response: baseResponse }) => {
+        onSuccess: (args: { mylistId: MylistItem["id"], itemId: string, requestWith: string, response: baseResponse }) => {
             if (mylistsData) queryClient.setQueryData(["mylists"], toIncrementedMylists(mylistsData, args))
             return args
         },
@@ -26,7 +26,7 @@ export function useMylistsData(userId: "me" | number | undefined, sampleItemCoun
     return { mylistsData, mutateMylistsAddItem }
 }
 
-function toIncrementedMylists(mylistsData: MylistsResponseRootObject, args: { mylistId: Mylist["id"], itemId: string }): MylistsResponseRootObject {
+function toIncrementedMylists(mylistsData: MylistsResponseRootObject, args: { mylistId: MylistItem["id"], itemId: string }): MylistsResponseRootObject {
     const clonedMylistsData = structuredClone(mylistsData)
     for (const index in clonedMylistsData.data.mylists) {
         if (clonedMylistsData.data.mylists[index].id === args.mylistId) {

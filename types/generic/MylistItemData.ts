@@ -20,6 +20,6 @@ interface SampleItem {
     description: string
     decoratedDescriptionHtml: string
     addedAt: string
-    status: string
+    status: "public" | "private"
     video: VideoItem
 }
