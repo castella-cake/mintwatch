@@ -36,12 +36,12 @@
     }
 }
 
-// フォロー解除直後のユーザーは、再表示でリストから消えるまでグレーアウト表示を残す
-// (フォロワー一覧は「自分がフォローしていないフォロワー」が通常の状態なので対象外)
-.user-following-users .useritem-card[data-is-following="false"] {
-    opacity: 0.75;
-}
-
 .user-following-users .useritem-card[data-layout="vertical-simple"] .useritem-followbutton {
     flex-direction: row;
+}
+
+// フォロー解除直後のユーザーは、再表示でリストから消えるまでグレーアウト表示を残す
+// (フォロワー一覧は「自分がフォローしていないフォロワー」が通常の状態なので対象外)
+.user-content[data-usertype="my"] .user-following-users .useritem-card[data-is-following="false"] {
+    opacity: 0.75;
 }
