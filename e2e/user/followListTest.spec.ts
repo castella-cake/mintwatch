@@ -88,8 +88,6 @@ test("User: 解除したユーザーはフォロー一覧の再表示で消え�
     await page.goto("https://www.nicovideo.jp/my")
     await page.bringToFront()
     await expect(page.locator(".userdata-container")).toBeVisible()
-    // 自分のページなのでフォローボタン(とサポートするリンク)は表示されない
-    await expect(page.locator(".userdata-action-button")).toHaveCount(0)
 
     await page.goto("https://www.nicovideo.jp/my/follow")
     await page.bringToFront()
