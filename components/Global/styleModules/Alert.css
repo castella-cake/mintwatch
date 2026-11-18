@@ -89,7 +89,7 @@
     display: grid;
     grid-template-columns: max-content 1fr;
     grid-template-rows: repeat(3, max-content);
-    gap: 4px 1rem;
+    gap: 8px 1rem;
     max-width: 90vw;
 }
 
@@ -143,14 +143,13 @@
     background: var(--primary1);
     color: var(--primary-text1);
 
-    &.alert-button:hover {
+    &:not([aria-disabled="true"]):hover {
         background: var(--primary-hover1)
     }
 }
 
 .alert-button[aria-disabled="true"] {
-    background: var(--bgcolor1);
-    color: var(--textcolor3);
+    opacity: 0.5;
     cursor: not-allowed;
 }
 

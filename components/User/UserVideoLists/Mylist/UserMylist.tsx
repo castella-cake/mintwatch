@@ -14,6 +14,10 @@ export const mylistSortKeys = [
         default: true,
     },
     {
+        label: "タイトル",
+        value: "title",
+    },
+    {
         label: "投稿日時",
         value: "registeredAt",
     },
