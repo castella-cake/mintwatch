@@ -1,4 +1,4 @@
-import "./styles/GuestIframe.css"
+import "../styles/GuestIframe.css"
 
 export function GuestIframe({ src }: { src: string }) {
     const origin = new URL(src).origin
