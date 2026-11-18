@@ -15,12 +15,16 @@ export function CollectionsContent({ userId, isMyPage, nickname }: { userId: num
                         図鑑
                     </NavigationAnchorButton>
                 )}
-                <div className="user-category-sidearea-title">
-                    その他
-                </div>
-                <ExternalAnchorButton href="https://gift.nicovideo.jp/giftionary">
-                    ギフト図鑑
-                </ExternalAnchorButton>
+                { isMyPage && (
+                    <>
+                        <div className="user-category-sidearea-title">
+                            その他
+                        </div>
+                        <ExternalAnchorButton href="https://gift.nicovideo.jp/giftionary">
+                            ギフト図鑑
+                        </ExternalAnchorButton>
+                    </>
+                ) }
             </div>
             <Match targetPathname={[isMyPage ? "/my/achievement!" : `/user/${userId}/achievement!`]}>
                 <title>{isMyPage ? "マイページ 実績 - ニコニコ" : `${nickname}さんの実績 - ニコニコ`}</title>
