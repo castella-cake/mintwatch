@@ -23,6 +23,13 @@
     flex: initial;
     text-align: left;
     padding: 6px 8px;
+
+    &[data-isactive="true"] {
+        background: var(--bgcolor2);
+        color: inherit;
+        border: 1px solid var(--primary1);
+        border-left-width: 4px;
+    }
 }
 
 .user-category-content {

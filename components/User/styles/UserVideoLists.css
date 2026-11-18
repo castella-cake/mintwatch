@@ -73,6 +73,7 @@
     gap: 8px;
 
     .user-mylists-control-button {
+        font-size: 0.875rem;
         flex: 1;
         display: flex;
         align-items: center;
@@ -83,6 +84,7 @@
         color: var(--textcolor1);
         border: var(--border);
         border-radius: var(--radius);
+        box-shadow: var(--box-shadow);
         cursor: pointer;
         transition: var(--transition-normal);
 
