@@ -1,6 +1,8 @@
 import { useChannelFolloweesData } from "@/hooks/apiHooks/channel/followeesData"
 import { OptionSelector } from "@/components/Global/OptionSelector/OptionSelector"
 import { FollowChannelItemCard } from "./FollowChannelItemCard"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function FollowingChannels() {
     const { channelFolloweesData, error, isLoading } = useChannelFolloweesData()
@@ -8,11 +10,7 @@ export function FollowingChannels() {
     const isGridLayout = followChannelsGridLayout ?? false
 
     if (isLoading) {
-        return (
-            <div className="user-following-channels-loading">
-                フォロー中のチャンネルを取得中
-            </div>
-        )
+        return <LoadingFiller />
     }
 
     if (error) {
@@ -27,6 +25,9 @@ export function FollowingChannels() {
         <>
             <OptionSelector gridSwitcherEnabled={isGridLayout} onLayoutSwitch={(enabled) => { storage.setItem("local:followChannelsGridLayout", enabled) }} />
             <div className="user-following-users" data-is-grid-layout={isGridLayout}>
+                { channelFolloweesData && channelFolloweesData.data.length === 0 && (
+                    <EmptyNotice contentName="フォロー中のチャンネル" />
+                ) }
                 {channelFolloweesData?.data.map(channel => (
                     <FollowChannelItemCard key={channel.id} channel={channel} isVerticalLayout={isGridLayout} />
                 ))}

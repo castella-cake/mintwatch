@@ -8,6 +8,8 @@ import { useItemSelection } from "@/hooks/useItemSelection"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { MylistItemActionBar } from "../UserVideoLists/Mylist/MylistItemActionBar"
 import { UserVideosOptionSelector } from "../Video/UserVideosOptionSelector"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 const watchLaterSortKeys = [
     {
@@ -58,7 +60,7 @@ export function WatchLater() {
     const sortKey = searchParams.get("sortKey") ?? undefined
     const sortOrder = validOrder.includes(searchParams.get("sortOrder") ?? "") ? searchParams.get("sortOrder") as "asc" | "desc" : undefined
 
-    const { watchLaterData } = useWatchLaterData(sortKey ?? "addedAt", sortOrder ?? "desc", 20, parseInt(page))
+    const { watchLaterData, isLoading } = useWatchLaterData(sortKey ?? "addedAt", sortOrder ?? "desc", 20, parseInt(page))
 
     const copyMutation = useCopyMylistItems()
     const moveMutation = useMoveMylistItems()
@@ -69,6 +71,14 @@ export function WatchLater() {
     const items = watchLaterData?.data.watchLater.items ?? []
     const selection = useItemSelection(items, `${location.pathname}${location.search}`)
     const { showAlert, showToast } = useSetMessageContext()
+
+    if (isLoading) {
+        return (
+            <div className="watch-later-content user-category-content">
+                <LoadingFiller />
+            </div>
+        )
+    }
 
     const firstValidId = watchLaterData?.data.watchLater.items.find(item => item.status === "public" && isValidVideoItem(item.video))?.video.id
 
@@ -213,6 +223,7 @@ export function WatchLater() {
                     isProcessing={isProcessing}
                 />
                 <div className="user-videos-items">
+                    { watchLaterData?.data.watchLater.totalCount === 0 && <EmptyNotice contentName="あとで見るの動画" /> }
                     {watchLaterData && watchLaterData.data.watchLater.items.map((item) => {
                         return (
                             <div className="user-videolist-view-video" key={item.watchId}>

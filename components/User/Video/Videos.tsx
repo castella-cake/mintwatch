@@ -3,6 +3,8 @@ import { useUserVideoData } from "@/hooks/apiHooks/watch/userVideoData"
 import { UserVideosOptionSelector, videoSortKeys } from "./UserVideosOptionSelector"
 import { PageSelector } from "@/components/Global/PageSelector"
 import { useLocationContext } from "@/components/Router/RouterContext"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 const validOrder = ["asc", "desc"]
 
@@ -13,8 +15,16 @@ export function Videos({ userId, contentType = "long" }: { userId: number, conte
     const page = searchParams.get("page") || "1"
     const sortKey = searchParams.get("sortKey") || "registeredAt"
     const sortOrder: "asc" | "desc" = validOrder.includes(searchParams.get("sortOrder") ?? "") ? searchParams.get("sortOrder") as "asc" | "desc" : "desc"
-    const userVideoData = useUserVideoData(userId, sortKey, sortOrder, contentType, "mask", 100, parseInt(page))
+    const { userVideoData, isLoading } = useUserVideoData(userId, sortKey, sortOrder, contentType, "mask", 100, parseInt(page))
     const isHorizontalCardLayout = userEnableGridCardLayout
+
+    if (isLoading) {
+        return (
+            <div className="user-videos-content user-category-content">
+                <LoadingFiller />
+            </div>
+        )
+    }
 
     return (
         <div className="user-videos-content user-category-content">
@@ -34,6 +44,7 @@ export function Videos({ userId, contentType = "long" }: { userId: number, conte
                 />
             </UserVideosOptionSelector>
             <div className="user-videos-items" data-is-grid-layout={userEnableGridCardLayout ?? false}>
+                { userVideoData?.data.totalCount === 0 && <EmptyNotice contentName={contentType === "short" ? "ショート" : "動画"} /> }
                 {userVideoData && userVideoData.data.items.map((item, index) => {
                     return (
                         <VideoItemCard

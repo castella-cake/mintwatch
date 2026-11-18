@@ -1,12 +1,13 @@
 import NicoruSvg from "@/components/PMWatch/modules/CommentList/nicoruSvg"
 import { useNicoruReceiveCountData } from "@/hooks/apiHooks/user/nicoruReceiveCountData"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 export function TotalNicoruCount() {
     const { nicoruReceiveCountData, error, isLoading } = useNicoruReceiveCountData()
     if (isLoading) {
         return (
             <div className="user-history-nicoru-totalcount">
-                ニコられた合計を取得中
+                <LoadingFiller compact />
             </div>
         )
     }

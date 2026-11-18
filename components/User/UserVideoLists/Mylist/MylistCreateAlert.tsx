@@ -4,6 +4,7 @@ import { getMyWatchHistory } from "@/utils/apis/user/me/history"
 import { useQuery } from "@tanstack/react-query"
 import "../../../Global/styleModules/Alert.css"
 import "../../styles/MylistCreateAlert.css"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 const TITLE_MAX_LENGTH = 128
 const DESCRIPTION_MAX_LENGTH = 256
@@ -153,7 +154,7 @@ function MylistCreateForm() {
                 <div className="mylist-create-history-section">
                     <span>最近視聴した動画</span>
                     <div className="mylist-create-history">
-                        { isRecentHistoryLoading && <p className="mylist-create-history-loading">視聴履歴を取得中...</p> }
+                        { isRecentHistoryLoading && <LoadingFiller compact /> }
                         { recentHistoryData?.data.items.map(item => (
                             <label className="mylist-create-history-item" key={item.video.id} data-is-selected={selectedItemIds.includes(item.video.id)}>
                                 <input

@@ -7,6 +7,7 @@ import { IconLock, IconWorld } from "@tabler/icons-react"
 import "../../../PMWatch/styleModules/VideoActionModal/Mylists.css"
 import "../../../Global/styleModules/Alert.css"
 import "../../styles/MylistsReorderList.css"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 type CompactMylist = UserMylistCompactDataRootObject["data"]["mylists"][number]
 type ReorderSortKey = "createdAt" | "title" | "description"
@@ -112,9 +113,7 @@ export function MylistsReorderList() {
     if (isLoading) {
         return (
             <div className="user-mylists-reorder">
-                <p className="user-mylists-reorder-loading">
-                    マイリストを取得中...
-                </p>
+                <LoadingFiller compact />
                 <div className="alert-buttons">
                     <button
                         type="button"

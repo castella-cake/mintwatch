@@ -1,5 +1,6 @@
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { PageSelector } from "@/components/Global/PageSelector"
 import { IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
@@ -126,6 +127,7 @@ export function UserMylist({ userId }: { userId?: number }) {
                 />
             </UserVideosOptionSelector>
             <div className="user-videolist-view-videos">
+                { mylistData?.data.mylist.totalItemCount === 0 && <EmptyNotice contentName="マイリストのアイテム" /> }
                 {mylistData?.data.mylist.items.map(item => (
                     <div className="user-videolist-view-video" key={item.watchId}>
                         <VideoItemCard

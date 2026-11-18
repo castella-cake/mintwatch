@@ -1,16 +1,14 @@
 import { useFollowingMylistsData } from "@/hooks/apiHooks/user/followingMylistsData"
 import { MylistCard } from "../GenericComponents/MylistCard"
 import "../styles/UserVideoLists.css"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function FollowingMylists() {
     const { followingMylistsData, error, isLoading } = useFollowingMylistsData()
 
     if (isLoading) {
-        return (
-            <div className="user-following-mylists-loading">
-                フォロー中のマイリストを取得中
-            </div>
-        )
+        return <LoadingFiller />
     }
 
     if (error) {
@@ -24,6 +22,9 @@ export function FollowingMylists() {
     return (
         <div className="user-videolists-body">
             <div className="user-mylists-list user-videolists-list">
+                { followingMylistsData && followingMylistsData.data.mylists.length === 0 && (
+                    <EmptyNotice contentName="フォロー中のマイリスト" />
+                ) }
                 {
                     followingMylistsData?.data.mylists.map((mylist) => {
                         return (

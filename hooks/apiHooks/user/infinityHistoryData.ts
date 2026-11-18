@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 export function useMyWatchHistoryData() {
-    const { data: myWatchHistoryData, error, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    const { data: myWatchHistoryData, error, isLoading, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["myHistoryData"],
         queryFn: ({ pageParam }) => {
             return getMyWatchHistory(6, pageParam)
@@ -11,5 +11,5 @@ export function useMyWatchHistoryData() {
             return lastPage?.data?.nextCursor || undefined
         },
     })
-    return { myWatchHistoryData, error, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage }
+    return { myWatchHistoryData, error, isLoading, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage }
 }
