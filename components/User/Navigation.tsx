@@ -1,6 +1,7 @@
 import { HistoryAnchor } from "../Router/HistoryAnchor"
 import { useLocationContext } from "../Router/RouterContext"
 import { pathMatcher } from "../Router/RouterUI"
+import { IconExternalLink } from "@tabler/icons-react"
 import "./styles/Navigation.css"
 
 export function UserNavigation({ userId }: { userId: number }) {
@@ -119,5 +120,32 @@ export function NavigationAnchorButton({ children, href, activeWhenStartsWith, o
         <HistoryAnchor href={href} className="userdata-navigation-anchor" data-isactive={isActive}>
             {children}
         </HistoryAnchor>
+    )
+}
+
+export function ExternalAnchorButton({ children, href }: { children: React.ReactNode, href: string }) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="userdata-navigation-anchor userdata-sidearea-externalanchor"
+        >
+            {children}
+            <IconExternalLink />
+        </a>
+    )
+}
+
+export function ExternalWindowButton({ children, href, width, height }: { children: React.ReactNode, href: string, width: number, height: number }) {
+    return (
+        <button
+            type="button"
+            className="userdata-navigation-anchor userdata-sidearea-externalanchor"
+            onClick={() => { window.open(href, "_blank", `width=${width},height=${height},noopener,noreferrer`) }}
+        >
+            {children}
+            <IconExternalLink />
+        </button>
     )
 }
