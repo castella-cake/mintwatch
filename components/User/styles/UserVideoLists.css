@@ -68,6 +68,35 @@
     color: var(--textcolor2);
 }
 
+.user-mylists-controls {
+    display: flex;
+    gap: 8px;
+
+    .user-mylists-control-button {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25em;
+        padding: 8px;
+        background: var(--bgcolor2);
+        color: var(--textcolor1);
+        border: var(--border);
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: var(--transition-normal);
+
+        svg {
+            width: 1.25em;
+            height: 1.25em;
+        }
+
+        &:hover {
+            background: var(--hover1);
+        }
+    }
+}
+
 .user-videolists-body .user-videolists-list {
     .user-videolists-item {
         flex-direction: row;

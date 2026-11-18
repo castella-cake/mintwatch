@@ -33,12 +33,16 @@ const ISetMessageContext = createContext<{
 
     ISetToastState: Dispatch<SetStateAction<IToast[]>>
     showToast: (toast: Omit<IToast, "key">) => void
+
+    closeAlert: () => void
 }>({
     ISetAlertState: () => {},
     showAlert: () => {},
 
     ISetToastState: () => {},
     showToast: () => {},
+
+    closeAlert: () => {},
 })
 
 export function MessageProvider({ children }: { children: ReactNode }) {
@@ -52,10 +56,14 @@ export function MessageProvider({ children }: { children: ReactNode }) {
         ISetToastState(current => [...current, { ...toast, key: crypto.randomUUID() }])
     }, [ISetMessageContext])
 
+    const closeAlert = useCallback(() => {
+        ISetAlertState(current => current.slice(1))
+    }, [ISetAlertState])
+
     return (
         <IAlertContext value={IAlertState}>
             <IToastContext value={IToastState}>
-                <ISetMessageContext value={{ ISetAlertState, showAlert, ISetToastState, showToast }}>
+                <ISetMessageContext value={{ ISetAlertState, showAlert, ISetToastState, showToast, closeAlert }}>
                     {children}
                 </ISetMessageContext>
             </IToastContext>

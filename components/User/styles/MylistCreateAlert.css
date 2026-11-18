@@ -1,0 +1,196 @@
+.mylist-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(48rem, 80vw);
+}
+
+.mylist-create-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: min(60vh, 35rem);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.mylist-create-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--textcolor1);
+
+    input,
+    textarea {
+        padding: 8px;
+        width: 100%;
+        background: var(--bgcolor1);
+        color: var(--textcolor1);
+        border: var(--border);
+        border-radius: var(--radius);
+        resize: vertical;
+    }
+
+    select {
+        padding: 8px;
+        background: var(--bgcolor1);
+        color: var(--textcolor1);
+        border: var(--border);
+        border-radius: var(--radius);
+    }
+
+    input[data-is-required-error="true"] {
+        border: 1px solid var(--dangerous1);
+    }
+}
+
+.mylist-create-row-field {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.mylist-create-required {
+    margin-left: 0.5em;
+    color: var(--textcolor2);
+    font-size: 0.8rem;
+
+    &[data-is-error="true"] {
+        color: var(--dangerous1);
+        font-weight: bold;
+    }
+}
+
+.mylist-create-input-wrapper {
+    position: relative;
+}
+
+.mylist-create-counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 0.8em;
+    line-height: 2rem;
+    font-size: 0.8rem;
+    color: var(--textcolor2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+
+    &[data-is-visible="true"] {
+        opacity: 0.8;
+    }
+}
+
+.mylist-create-selectbuttons {
+    display: inline-flex;
+    border: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.mylist-create-selectbutton {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    color: var(--textcolor1);
+    font-size: 0.9rem;
+
+    &[data-is-current="true"] {
+        background: var(--primary1);
+        color: var(--primary-text1);
+        font-weight: bold;
+    }
+
+    &:hover:not([data-is-current="true"]) {
+        background: var(--hover1);
+    }
+}
+
+.mylist-create-selectbutton + .mylist-create-selectbutton {
+    border-left: var(--border);
+}
+
+.mylist-create-radioinput {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mylist-create-history-section {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+    background: var(--bgcolor2);
+    color: var(--textcolor1);
+    border-radius: var(--radius);
+}
+
+.mylist-create-history {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mylist-create-history-loading {
+    margin: 0;
+    color: var(--textcolor2);
+}
+
+.mylist-create-history-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+    background: var(--bgcolor1);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition-normal);
+
+    &[data-is-selected="true"] {
+        border-color: var(--primary1);
+    }
+
+    img {
+        width: 6em;
+        flex-shrink: 0;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: var(--radius);
+    }
+
+    input[type="checkbox"] {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.mylist-create-history-caption {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.mylist-create-history-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+.mylist-create-error {
+    margin: 0;
+    color: var(--accent2);
+    font-size: 0.9rem;
+}

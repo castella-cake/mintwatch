@@ -1,11 +1,15 @@
 import { useLocationContext } from "@/components/Router/RouterContext"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useMylistsData } from "@/hooks/apiHooks/watch/mylistsData"
-import { IconListNumbers } from "@tabler/icons-react"
+import { IconArrowsUpDown, IconListNumbers, IconPlus } from "@tabler/icons-react"
 import { MylistCard } from "../../GenericComponents/MylistCard"
+import { openMylistCreateAlert } from "./MylistCreateAlert"
+import { openMylistsReorderAlert } from "./MylistsReorderList"
 
 export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { showRootAnchor?: boolean, showSampleItems?: boolean, userId?: number }) {
     const location = useLocationContext()
     const { mylistsData } = useMylistsData(userId ?? "me", 3)
+    const { showAlert } = useSetMessageContext()
 
     if (!mylistsData) {
         return (
@@ -15,8 +19,23 @@ export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { s
         )
     }
 
+    // マイページのサイドエリアでのみ操作ボタンを出す
+    const isSideAreaView = !!showRootAnchor && !userId
+
     return (
         <div className="user-mylists-list user-videolists-list">
+            { isSideAreaView && (
+                <div className="user-mylists-controls">
+                    <button type="button" className="user-mylists-control-button" onClick={() => openMylistsReorderAlert(showAlert)}>
+                        <IconArrowsUpDown />
+                        並び替え
+                    </button>
+                    <button type="button" className="user-mylists-control-button" onClick={() => openMylistCreateAlert(showAlert)}>
+                        <IconPlus />
+                        新規追加
+                    </button>
+                </div>
+            ) }
             { showRootAnchor && (
                 <a
                     className="mylist-item user-videolists-item"

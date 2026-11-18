@@ -11,12 +11,11 @@ export default function Alert() {
         preEnter: true,
     })
     const alertState = useAlertContext()
-    const { ISetAlertState } = useSetMessageContext()
+    const { closeAlert } = useSetMessageContext()
 
-    const closeAlert = () => {
-        ISetAlertState(current => current.slice(1))
-        toggle(false)
-    }
+    useEffect(() => {
+        if (isMounted && alertState.length === 0) toggle(false)
+    }, [alertState.length, isMounted, toggle])
 
     const thisAlert = alertState[0]
     if (!isMounted && alertState.length > 0) toggle(true)
@@ -29,43 +28,45 @@ export default function Alert() {
                         { thisAlert.icon !== null && <div className="alert-icon">{thisAlert.icon ?? <IconInfoCircle />}</div> }
                         <div className="alert-title">{thisAlert.title}</div>
                         { thisAlert.body && <div className="alert-body">{thisAlert.body}</div> }
-                        <div className="alert-buttons">
-                            {
-                                thisAlert.customCloseButton
-                                    ? (
-                                            <>
-                                                {thisAlert.customCloseButton.map((b) => {
-                                                    return (
-                                                        <button
-                                                            className="alert-button"
-                                                            key={b.key}
-                                                            onClick={() => {
-                                                                closeAlert()
-                                                                if (thisAlert.onClose !== undefined) thisAlert.onClose(b.key)
-                                                            }}
-                                                            aria-disabled={!!b.disabled}
-                                                            data-isprimary={b.primary ?? false}
-                                                        >
-                                                            {b.text}
-                                                        </button>
-                                                    )
-                                                })}
-                                            </>
-                                        )
-                                    : (
-                                            <button
-                                                className="alert-button"
-                                                onClick={() => {
-                                                    closeAlert()
-                                                    if (thisAlert.onClose !== undefined) thisAlert.onClose(null)
-                                                }}
-                                                data-isprimary="true"
-                                            >
-                                                OK
-                                            </button>
-                                        )
-                            }
-                        </div>
+                        { (thisAlert.customCloseButton === undefined || thisAlert.customCloseButton.length > 0) && (
+                            <div className="alert-buttons">
+                                {
+                                    thisAlert.customCloseButton
+                                        ? (
+                                                <>
+                                                    {thisAlert.customCloseButton.map((b) => {
+                                                        return (
+                                                            <button
+                                                                className="alert-button"
+                                                                key={b.key}
+                                                                onClick={() => {
+                                                                    closeAlert()
+                                                                    if (thisAlert.onClose !== undefined) thisAlert.onClose(b.key)
+                                                                }}
+                                                                aria-disabled={!!b.disabled}
+                                                                data-isprimary={b.primary ?? false}
+                                                            >
+                                                                {b.text}
+                                                            </button>
+                                                        )
+                                                    })}
+                                                </>
+                                            )
+                                        : (
+                                                <button
+                                                    className="alert-button"
+                                                    onClick={() => {
+                                                        closeAlert()
+                                                        if (thisAlert.onClose !== undefined) thisAlert.onClose(null)
+                                                    }}
+                                                    data-isprimary="true"
+                                                >
+                                                    OK
+                                                </button>
+                                            )
+                                }
+                            </div>
+                        ) }
                     </div>
                 )}
             </ReactFocusLock>
