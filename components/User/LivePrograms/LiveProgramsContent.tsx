@@ -1,4 +1,4 @@
-import { GuestIframe } from "../GuestIframe"
+import { GuestIframe } from "../GenericComponents/GuestIframe"
 
 export function LiveProgramsContent({ userId, nickname }: { userId: number, nickname?: string }) {
     return (

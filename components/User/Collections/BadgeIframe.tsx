@@ -1,4 +1,4 @@
-import { GuestIframe } from "../GuestIframe"
+import { GuestIframe } from "../GenericComponents/GuestIframe"
 
 export function BadgeIframe({ userId }: { userId: number }) {
     return (

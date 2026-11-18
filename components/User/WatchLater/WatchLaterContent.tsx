@@ -1,7 +1,7 @@
 import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { WatchLater } from "./WatchLater"
-import { GuestIframe } from "../GuestIframe"
+import { GuestIframe } from "../GenericComponents/GuestIframe"
 
 export function WatchLaterContent() {
     return (
