@@ -1,6 +1,7 @@
 import { IconInputSearch, IconSearch } from "@tabler/icons-react"
 import { ReactNode, startTransition } from "react"
 import { useHistoryContext } from "../../Router/RouterContext"
+import type { NavigationState } from "../../../hooks/useNavigationScroll"
 import { searchTypeIcons, searchTypeStrings } from "./Search"
 
 export function ExpandSearchInputItem({
@@ -39,7 +40,7 @@ export function ExpandSearchInputItem({
                     if (additionalSearchOptions) {
                         href.search = additionalSearchOptions.toString()
                     }
-                    startTransition(() => history.push(href.toString()))
+                    startTransition(() => history.push(href.toString(), { scrollPlan: "link" } satisfies NavigationState))
                 } else {
                     setQuery(candidate)
                     if (inputRef.current) {
