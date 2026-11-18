@@ -1,5 +1,5 @@
 import { Match } from "@/components/Router/RouterUI"
-import { NavigationAnchorButton } from "../Navigation"
+import { ExternalAnchorButton, ExternalWindowButton, NavigationAnchorButton } from "../Navigation"
 import { WatchHistory } from "./Watch"
 import { LikeHistory } from "./Like"
 import { NicoruHistory } from "./Nicoru"
@@ -26,6 +26,9 @@ export function UserHistoryContent() {
                 <NavigationAnchorButton href="/my/history/translate_video">
                     翻訳
                 </NavigationAnchorButton>
+                <ExternalAnchorButton href="https://ch.nicovideo.jp/my/purchased?ref=pc_mypage_history">
+                    購入履歴を開く
+                </ExternalAnchorButton>
                 <div className="user-category-sidearea-title">
                     生放送
                 </div>
@@ -38,6 +41,15 @@ export function UserHistoryContent() {
                 <NavigationAnchorButton href="/my/history/purchased-serials">
                     プレゼントシリアルコード
                 </NavigationAnchorButton>
+                <div className="user-category-sidearea-title">
+                    その他
+                </div>
+                <ExternalAnchorButton href="https://koken.nicovideo.jp/?ref=pc_mypage_history">
+                    ニコニ貢献
+                </ExternalAnchorButton>
+                <ExternalWindowButton href="https://www.beta.hiroba.nicovideo.jp/thread-list/histories" width={375} height={479}>
+                    ニコニコ広場
+                </ExternalWindowButton>
             </div>
             <Match targetPathname={[
                 "/my/history!",

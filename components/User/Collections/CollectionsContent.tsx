@@ -1,5 +1,5 @@
 import { Match } from "@/components/Router/RouterUI"
-import { NavigationAnchorButton } from "../Navigation"
+import { ExternalAnchorButton, NavigationAnchorButton } from "../Navigation"
 import { BadgeIframe } from "./BadgeIframe"
 
 export function CollectionsContent({ userId, isMyPage }: { userId: number, isMyPage: boolean }) {
@@ -14,6 +14,12 @@ export function CollectionsContent({ userId, isMyPage }: { userId: number, isMyP
                         図鑑
                     </NavigationAnchorButton>
                 )}
+                <div className="user-category-sidearea-title">
+                    その他
+                </div>
+                <ExternalAnchorButton href="https://gift.nicovideo.jp/giftionary">
+                    ギフト図鑑
+                </ExternalAnchorButton>
             </div>
             { isMyPage && (
                 <Match targetPathname={[
