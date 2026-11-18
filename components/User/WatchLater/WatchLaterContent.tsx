@@ -1,7 +1,7 @@
 import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { WatchLater } from "./WatchLater"
-import { TimeshiftIframe } from "./TimeshiftIframe"
+import { GuestIframe } from "../GuestIframe"
 
 export function WatchLaterContent() {
     return (
@@ -26,7 +26,7 @@ export function WatchLaterContent() {
             ]}
             >
                 <title>マイページ タイムシフト予約リスト - ニコニコ</title>
-                <TimeshiftIframe />
+                <GuestIframe src="https://live.nicovideo.jp/embed/timeshift-reservations" />
             </Match>
         </div>
     )

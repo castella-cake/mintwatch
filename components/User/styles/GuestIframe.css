@@ -1,0 +1,10 @@
+.guest-iframe {
+    width: 100%;
+    border: none;
+}
+
+.guest-iframe-wrapper {
+    background: #fafafa;
+    border: 20px solid #fafafa;
+    border-radius: var(--radius);
+}
