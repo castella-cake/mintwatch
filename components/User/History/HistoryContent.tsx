@@ -3,6 +3,9 @@ import { NavigationAnchorButton } from "../Navigation"
 import { WatchHistory } from "./Watch"
 import { LikeHistory } from "./Like"
 import { NicoruHistory } from "./Nicoru"
+import { LiveWatchHistory } from "./Live/Watch"
+import { LiveOwnedTicketsHistory } from "./Live/OwnedTickets"
+import { LivePurchasedSerialsHistory } from "./Live/PurchasedSerials"
 
 export function UserHistoryContent() {
     return (
@@ -22,6 +25,18 @@ export function UserHistoryContent() {
                 </NavigationAnchorButton>
                 <NavigationAnchorButton href="/my/history/translate_video">
                     翻訳
+                </NavigationAnchorButton>
+                <div className="user-category-sidearea-title">
+                    生放送
+                </div>
+                <NavigationAnchorButton href="/my/history/live">
+                    視聴
+                </NavigationAnchorButton>
+                <NavigationAnchorButton href="/my/history/owned-tickets">
+                    購入
+                </NavigationAnchorButton>
+                <NavigationAnchorButton href="/my/history/purchased-serials">
+                    プレゼントシリアルコード
                 </NavigationAnchorButton>
             </div>
             <Match targetPathname={[
@@ -52,6 +67,27 @@ export function UserHistoryContent() {
             >
                 <title>マイページ ニコった履歴 - ニコニコ</title>
                 <NicoruHistory type="send" />
+            </Match>
+            <Match targetPathname={[
+                "/my/history/live!",
+            ]}
+            >
+                <title>マイページ 生放送視聴履歴 - ニコニコ</title>
+                <LiveWatchHistory />
+            </Match>
+            <Match targetPathname={[
+                "/my/history/owned-tickets!",
+            ]}
+            >
+                <title>マイページ 生放送購入履歴 - ニコニコ</title>
+                <LiveOwnedTicketsHistory />
+            </Match>
+            <Match targetPathname={[
+                "/my/history/purchased-serials!",
+            ]}
+            >
+                <title>マイページ プレゼントシリアルコード - ニコニコ</title>
+                <LivePurchasedSerialsHistory />
             </Match>
         </div>
     )

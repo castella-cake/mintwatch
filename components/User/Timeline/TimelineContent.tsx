@@ -12,7 +12,7 @@ export function TimelineContent({ thisUserPageId }: { thisUserPageId?: number })
     return (
         <div className="user-timeline user-category-container">
             <div className="user-timeline-sidearea user-category-sidearea">
-                <div className="user-timeline-sidearea-title">
+                <div className="user-category-sidearea-title">
                     種別選択
                 </div>
                 <NavigationAnchorButton href={`${hrefPrefix}/postings`} otherMatchings={[`/user/${thisUserPageId}`, `/my!`]}>

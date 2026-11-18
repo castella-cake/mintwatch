@@ -7,6 +7,8 @@ import { TimelineContent } from "./Timeline/TimelineContent"
 import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 import { WatchLaterContent } from "./WatchLater/WatchLaterContent"
 import { FollowContent } from "./Follow/FollowContent"
+import { CollectionsContent } from "./Collections/CollectionsContent"
+import { SupportContent } from "./CreatorSupport/SupportContent"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
@@ -81,6 +83,19 @@ export function MyPageContent() {
             ]}
             >
                 <WatchLaterContent />
+            </Match>
+            <Match targetPathname={[
+                "/my/creator-support",
+            ]}
+            >
+                <SupportContent />
+            </Match>
+            <Match targetPathname={[
+                "/my/achievement",
+                "/my/badge",
+            ]}
+            >
+                <CollectionsContent userId={myUserData.data.user.id} isMyPage />
             </Match>
         </div>
     )

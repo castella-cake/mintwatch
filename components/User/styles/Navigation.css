@@ -27,3 +27,8 @@
         font-weight: bold;
     }
 }
+
+.user-category-sidearea-title {
+    color: var(--textcolor2);
+    font-size: 0.9rem;
+}

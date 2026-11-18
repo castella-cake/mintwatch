@@ -1,6 +1,7 @@
-import "../styles/TimeshiftIframe.css"
+import "./styles/GuestIframe.css"
 
-export function TimeshiftIframe() {
+export function GuestIframe({ src }: { src: string }) {
+    const origin = new URL(src).origin
     const [iframeHeight, setIframeHeight] = useState(0)
     const iframeRef = useRef<HTMLIFrameElement>(null)
     useEffect(() => {
@@ -13,8 +14,8 @@ export function TimeshiftIframe() {
                     settled: settled,
                 },
                 __uuid: "7f260704-fe5a-4c66-8361-121a0ea04a30",
-            }), "https://live.nicovideo.jp")
-            // console.log("TimeshiftIframe: ping sent", settled)
+            }), origin)
+            // console.log("GuestIframe: ping sent", settled)
             if (settled && interval) {
                 clearInterval(interval)
                 interval = null
@@ -22,14 +23,26 @@ export function TimeshiftIframe() {
         }, 500)
         const timeout = setTimeout(() => {
             if (interval) {
-                console.error("TimeshiftIframe: timeout, no response from iframe")
+                console.error("GuestIframe: timeout, no response from iframe")
                 clearInterval(interval)
                 interval = null
             }
         }, 10000)
         window.addEventListener("message", (e) => {
-            if (e.origin !== "https://live.nicovideo.jp") return
+            if (e.origin !== origin) return
             // console.log(e)
+            if (origin === "https://creator-support.nicovideo.jp") {
+                const data = JSON.parse(e.data) as { height?: number }
+                if (typeof data.height === "number") {
+                    settled = true
+                    setIframeHeight(data.height)
+                    if (interval) {
+                        clearInterval(interval)
+                        interval = null
+                    }
+                    return
+                }
+            }
             // {"method":"page/heightChanged","params":{"height":4316.390625},"__uuid":"7f260704-fe5a-4c66-8361-121a0ea04a30"}
             const data = JSON.parse(e.data) as { method: string, params: { height?: number, settled?: boolean }, __uuid: string }
             if (data.method === "page/heightChanged" && data.params.height) {
@@ -41,7 +54,7 @@ export function TimeshiftIframe() {
                 }
             } else if (data.method === "$/ping") {
                 settled = true
-                // console.log("TimeshiftIframe: settled")
+                // console.log("GuestIframe: settled")
             }
         }, { signal: controller.signal })
         return () => {
@@ -52,18 +65,20 @@ export function TimeshiftIframe() {
             }
             clearTimeout(timeout)
         }
-    }, [])
+    }, [origin])
     return (
         <div className="user-category-content">
-            <iframe
-                src="https://live.nicovideo.jp/embed/timeshift-reservations"
-                className="timeshift-iframe"
-                ref={iframeRef}
-                style={{
-                    height: iframeHeight,
-                }}
-            >
-            </iframe>
+            <div className="guest-iframe-wrapper">
+                <iframe
+                    src={src}
+                    className="guest-iframe"
+                    ref={iframeRef}
+                    style={{
+                        height: iframeHeight,
+                    }}
+                >
+                </iframe>
+            </div>
         </div>
     )
 }

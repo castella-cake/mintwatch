@@ -100,8 +100,8 @@ export function MyPageNavigation() {
             >
                 履歴
             </NavigationAnchorButton>
-            <NavigationAnchorButton href="/my/achievement">
-                実績
+            <NavigationAnchorButton href="/my/achievement" otherMatchings={["/my/badge"]}>
+                実績・図鑑
             </NavigationAnchorButton>
         </div>
     )
