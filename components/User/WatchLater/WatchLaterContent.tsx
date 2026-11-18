@@ -5,7 +5,7 @@ import { GuestIframe } from "../GenericComponents/GuestIframe"
 
 export function WatchLaterContent() {
     return (
-        <div className="user-category-container">
+        <div className="user-category-container" data-scroll-anchor>
             <div className="user-category-sidearea">
                 <NavigationAnchorButton href="/my/watchlater">
                     あとで見る

@@ -11,7 +11,7 @@ export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?
 
     if (!isMyPage && !userId) return
     return (
-        <div className="user-follow user-category-container">
+        <div className="user-follow user-category-container" data-scroll-anchor>
             <div className="user-follow-sidearea user-category-sidearea">
                 <div className="user-category-sidearea-title">
                     フォロー中

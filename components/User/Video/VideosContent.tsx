@@ -5,7 +5,7 @@ import "../styles/VideosContent.css"
 
 export function VideosContent({ userId, nickname }: { userId: number, nickname?: string }) {
     return (
-        <div className="user-videos user-category-container">
+        <div className="user-videos user-category-container" data-scroll-anchor>
             <div className="user-videos-sidearea user-category-sidearea">
                 <NavigationAnchorButton href={`/user/${userId}/video`}>
                     動画

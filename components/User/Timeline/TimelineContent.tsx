@@ -10,7 +10,7 @@ export function TimelineContent({ thisUserPageId }: { thisUserPageId?: number })
     const hrefPrefix = thisUserPageId ? `/user/${thisUserPageId}/timeline` : `/my/timeline`
     const currentType = location.pathname.replace(`${hrefPrefix}/`, "").replace("postings", "publish")
     return (
-        <div className="user-timeline user-category-container">
+        <div className="user-timeline user-category-container" data-scroll-anchor>
             <div className="user-timeline-sidearea user-category-sidearea">
                 <div className="user-category-sidearea-title">
                     種別選択

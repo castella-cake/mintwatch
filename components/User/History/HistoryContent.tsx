@@ -10,7 +10,7 @@ import { TranslateHistory } from "./Translate"
 
 export function UserHistoryContent() {
     return (
-        <div className="watch-history user-category-container">
+        <div className="watch-history user-category-container" data-scroll-anchor>
             <div className="watch-history-sidearea user-category-sidearea">
                 <NavigationAnchorButton href="/my/history/video">
                     動画視聴
