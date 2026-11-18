@@ -1,6 +1,7 @@
 import { IconFolder, IconListNumbers, IconMessageLanguage, IconTag, IconUser } from "@tabler/icons-react"
 import { memo, startTransition, useEffect, useRef, useState } from "react"
 import { useHistoryContext, useLocationContext } from "../../Router/RouterContext"
+import type { NavigationState } from "../../../hooks/useNavigationScroll"
 import { useSetMessageContext } from "../Contexts/MessageProvider"
 import { ExpandableSearchInput } from "./ExpandableSearchInput"
 
@@ -53,14 +54,14 @@ function Search({ enableHotKey }: { enableHotKey?: boolean }) {
     function handleSearchTypeChange(key: keyof typeof searchTypeStrings) {
         if (inputRef?.current && returnSearchWord(location.pathname) === inputRef.current.value && inputRef.current.value.trim() !== "") {
             const href = returnHrefFromSearchType(inputRef.current.value, key)
-            startTransition(() => history.push(href))
+            startTransition(() => history.push(href, { scrollPlan: "link" } satisfies NavigationState))
         }
         setSearchType(key)
     }
 
     function onSearch(value: string) {
         const href = returnHrefFromSearchType(value, currentSearchType)
-        history.push(href)
+        history.push(href, { scrollPlan: "link" } satisfies NavigationState)
     }
 
     return (

@@ -9,7 +9,7 @@ import.meta.glob("./styleModules/**/*.css", { eager: true })
 export default function ShogiBody() {
     const location = useLocationContext()
     return (
-        <div className="container reshogi-container">
+        <div className="container reshogi-container" data-scroll-anchor>
             <div className="shogi-type-selector">
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/custom")} href="/ranking/custom">カスタムランキング</HistoryAnchor>
                 <HistoryAnchor className="shogi-type-selector-button" data-is-active={location.pathname.startsWith("/ranking/genre")} href="/ranking/genre">ジャンルランキング</HistoryAnchor>

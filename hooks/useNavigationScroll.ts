@@ -1,6 +1,7 @@
 import { Action } from "history"
 import { RefObject, useLayoutEffect, useRef } from "react"
 import { useHistoryContext, useLocationContext } from "../components/Router/RouterContext"
+import { pageKindOf } from "../utils/pageKindUtils"
 
 /** ルート遷移時にhistory stateへ載せる追加データ */
 export type NavigationState = {
@@ -39,20 +40,6 @@ function recordScrollPosition(key: string, scrollY: number) {
 }
 
 /**
- * ユーザーページ内遷移かどうかの判定に使う「ページ種別+同一性」。
- * /user/:userId はユーザーID込みで同一性を見て、/my は別種別として扱う。
- * 同一ユーザーページ内の遷移のみ、主要コンテンツ位置の維持判定を行う。
- */
-function userPageKindOf(pathname: string): string | null {
-    if (pathname.startsWith("/user/")) {
-        const userId = pathname.split("/")[2]
-        return userId ? `user:${userId}` : "user"
-    }
-    if (pathname === "/my" || pathname.startsWith("/my/")) return "my"
-    return null
-}
-
-/**
  * 固定・sticky表示中のヘッダーがビューポート上端で占める高さ。
  * ヘッダーがスクロール追従しない設定の場合は0。
  */
@@ -68,7 +55,7 @@ function getScrollOcclusionTop(): number {
 }
 
 /**
- * 同一ユーザーページ内遷移時に、主要コンテンツ(data-scroll-anchor)の先頭が
+ * 同一ページ種別内遷移時に、主要コンテンツ(data-scroll-anchor)の先頭が
  * ヘッダーの下に隠れている場合だけ、先頭が見える位置までスクロールする。
  * すでに先頭が見えている場合はスクロールしない。
  */
@@ -92,7 +79,7 @@ function applyScrollAnchorNavigation(rootRef: RefObject<HTMLElement | null>) {
  * ルート遷移時のスクロール制御。
  * スクロール位置は location.key をキーに保存し、戻る/進む(POP)で復元する。
  * - POP: 保存済みのスクロール位置を復元する
- * - リンク経由のPUSH(scrollPlan付き): ユーザーページ内遷移はアンカー判定、それ以外はページ先頭へ
+ * - リンク経由のPUSH(scrollPlan付き): 同一ページ種別内遷移はアンカー判定、それ以外はページ先頭へ
  * - プログラマティックなPUSH/REPLACE: 従来通り各コンポーネントの個別処理に任せる
  */
 export function useNavigationScroll(rootRef: RefObject<HTMLElement | null>) {
@@ -131,7 +118,7 @@ export function useNavigationScroll(rootRef: RefObject<HTMLElement | null>) {
         // プログラマティックなpush(WatchUIの動画切り替え等)は各コンポーネントの個別処理に任せる
         if ((location.state as NavigationState | null)?.scrollPlan !== "link") return
 
-        if (userPageKindOf(prevLocation.pathname) === userPageKindOf(location.pathname) && userPageKindOf(location.pathname) !== null) {
+        if (pageKindOf(prevLocation.pathname) === pageKindOf(location.pathname) && pageKindOf(location.pathname) !== null) {
             applyScrollAnchorNavigation(rootRef)
         } else {
             window.scroll({ top: 0 })
