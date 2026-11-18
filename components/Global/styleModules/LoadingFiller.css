@@ -56,3 +56,17 @@
         opacity: 0;
     }
 }
+
+.loading-container[data-compact] {
+    min-height: auto;
+    padding: 8px;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.loading-container[data-compact] .loading-spinner,
+.loading-container[data-compact] .loading-spinner::before,
+.loading-container[data-compact] .loading-spinner::after {
+    width: 24px;
+    height: 24px;
+}

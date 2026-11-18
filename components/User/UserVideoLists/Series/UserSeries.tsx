@@ -1,5 +1,6 @@
 import { VideoItemCard } from "@/components/Global/ItemCard/VideoItemCard"
 import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 import { PageSelector } from "@/components/Global/PageSelector"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { useSeriesInfo } from "@/hooks/apiHooks/watch/seriesData"
@@ -99,6 +100,7 @@ export function UserSeries() {
                 />
             </div>
             <div className="user-videolist-view-videos">
+                { seriesData?.data.totalCount === 0 && <EmptyNotice contentName="シリーズの動画" /> }
                 {seriesData?.data.items.map(item => (
                     <VideoItemCard
                         key={item.video.id}

@@ -2,6 +2,8 @@ import { useLocationContext } from "@/components/Router/RouterContext"
 import { useUserOwnedSeriesData } from "@/hooks/apiHooks/user/seriesData"
 import { IconListNumbers } from "@tabler/icons-react"
 import "../../styles/UserSeriesList.css"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function UserSeriesList({ showRootAnchor, showThumbnail, userId }: { showRootAnchor?: boolean, showThumbnail?: boolean, userId?: number }) {
     const location = useLocationContext()
@@ -10,7 +12,7 @@ export function UserSeriesList({ showRootAnchor, showThumbnail, userId }: { show
     if (!ownedSeriesData) {
         return (
             <div className="user-series-list user-videolists-list">
-                <p>シリーズを取得中...</p>
+                { showThumbnail && <LoadingFiller compact /> }
             </div>
         )
     }
@@ -30,6 +32,9 @@ export function UserSeriesList({ showRootAnchor, showThumbnail, userId }: { show
                         <span className="user-series-title-name user-videolists-title-name">すべてのシリーズ</span>
                     </div>
                 </a>
+            ) }
+            { ownedSeriesData.data.items.length === 0 && (
+                <EmptyNotice contentName="シリーズ" />
             ) }
             {
                 ownedSeriesData.data.items.map((series) => {

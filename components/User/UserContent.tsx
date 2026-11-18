@@ -9,6 +9,7 @@ import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 import { FollowContent } from "./Follow/FollowContent"
 import { CollectionsContent } from "./Collections/CollectionsContent"
 import { LiveProgramsContent } from "./LivePrograms/LiveProgramsContent"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -29,11 +30,7 @@ export function UserContent() {
     }
 
     if (isLoading) {
-        return (
-            <div className="user-content-loading">
-                <p>読み込み中...</p>
-            </div>
-        )
+        return <LoadingFiller />
     }
 
     if (error) {

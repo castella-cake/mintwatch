@@ -5,9 +5,11 @@ import { useInView } from "react-intersection-observer"
 import "../styles/Nicoru.css"
 import { IconPlayerSkipForward } from "@tabler/icons-react"
 import { TotalNicoruCount } from "./TotalNicoruCount"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function NicoruHistory({ type }: { type: "send" | "receive" }) {
-    const { myNicoruHistoryData, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyInfiniteNicoruHistoryData(type)
+    const { myNicoruHistoryData, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useMyInfiniteNicoruHistoryData(type)
     const { ref, inView } = useInView()
 
     useEffect(() => {
@@ -23,6 +25,7 @@ export function NicoruHistory({ type }: { type: "send" | "receive" }) {
         <div className="user-history-content user-category-content">
             { type === "receive" && <TotalNicoruCount /> }
             <div className="user-history-items">
+                { !isLoading && flattenedItems.length === 0 && <EmptyNotice contentName={type === "receive" ? "ニコられた履歴" : "ニコった履歴"} /> }
                 {Object.keys(splittedItems).map((key) => {
                     return (
                         <div key={`history-date-${key}`} className="user-history-date">
@@ -63,7 +66,7 @@ export function NicoruHistory({ type }: { type: "send" | "receive" }) {
                 })}
             </div>
             <div ref={ref} className="user-history-inview-anchor">
-                {isFetchingNextPage && <p>Loading...</p>}
+                {isFetchingNextPage && <LoadingFiller compact />}
             </div>
         </div>
     )

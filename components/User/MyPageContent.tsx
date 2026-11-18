@@ -9,16 +9,13 @@ import { WatchLaterContent } from "./WatchLater/WatchLaterContent"
 import { FollowContent } from "./Follow/FollowContent"
 import { CollectionsContent } from "./Collections/CollectionsContent"
 import { SupportContent } from "./CreatorSupport/SupportContent"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 
 export function MyPageContent() {
     const { myUserData, error, isLoading } = useMyUserData()
 
     if (isLoading) {
-        return (
-            <div className="mypage-content-loading">
-                <p>読み込み中...</p>
-            </div>
-        )
+        return <LoadingFiller />
     }
 
     if (error) {

@@ -5,6 +5,8 @@ import { IconArrowsUpDown, IconListNumbers, IconPlus } from "@tabler/icons-react
 import { MylistCard } from "../../GenericComponents/MylistCard"
 import { openMylistCreateAlert } from "./MylistCreateAlert"
 import { openMylistsReorderAlert } from "./MylistsReorderList"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { showRootAnchor?: boolean, showSampleItems?: boolean, userId?: number }) {
     const location = useLocationContext()
@@ -14,7 +16,7 @@ export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { s
     if (!mylistsData) {
         return (
             <div className="user-mylists-list user-videolists-list">
-                <p>マイリストを取得中...</p>
+                { showSampleItems && <LoadingFiller compact /> }
             </div>
         )
     }
@@ -49,6 +51,9 @@ export function UserMylistsList({ showRootAnchor, showSampleItems, userId }: { s
                         <span className="mylist-title-name user-videolists-title-name">すべてのマイリスト</span>
                     </div>
                 </a>
+            ) }
+            { mylistsData.data.mylists.length === 0 && (
+                <EmptyNotice contentName="マイリスト" />
             ) }
             {
                 mylistsData.data.mylists.map((mylist) => {

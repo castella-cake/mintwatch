@@ -2,6 +2,8 @@ import { useInfiniteUserFollowingsData } from "@/hooks/apiHooks/user/infinityUse
 import { OptionSelector } from "@/components/Global/OptionSelector/OptionSelector"
 import { useInView } from "react-intersection-observer"
 import { FollowUserItemCard } from "./FollowUserItemCard"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { EmptyNotice } from "@/components/Global/EmptyNotice"
 
 export function FollowingUsers({ userId }: { userId: "me" | number }) {
     const { data, error, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteUserFollowingsData(userId)
@@ -16,11 +18,7 @@ export function FollowingUsers({ userId }: { userId: "me" | number }) {
     }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage])
 
     if (isLoading) {
-        return (
-            <div className="user-following-users-loading">
-                フォロー中のユーザーを取得中
-            </div>
-        )
+        return <LoadingFiller />
     }
 
     if (error) {
@@ -31,15 +29,19 @@ export function FollowingUsers({ userId }: { userId: "me" | number }) {
         )
     }
 
+    const items = data?.pages.flatMap(page => page.data.items) ?? []
+
     return (
         <>
             <OptionSelector gridSwitcherEnabled={isGridLayout} onLayoutSwitch={(enabled) => { storage.setItem("local:followUsersGridLayout", enabled) }} />
             <div className="user-following-users" data-is-grid-layout={isGridLayout}>
-                {data?.pages.flatMap(page => page.data.items).map(user => (
-                    <FollowUserItemCard key={user.id} user={user} isVerticalLayout={isGridLayout} />
-                ))}
+                { items.length === 0
+                    ? <EmptyNotice contentName="フォロー中のユーザー" />
+                    : items.map(user => (
+                            <FollowUserItemCard key={user.id} user={user} isVerticalLayout={isGridLayout} />
+                        )) }
                 <div ref={ref} className="user-following-users-inview-anchor">
-                    {isFetchingNextPage && <p>Loading...</p>}
+                    {isFetchingNextPage && <LoadingFiller compact />}
                 </div>
             </div>
         </>

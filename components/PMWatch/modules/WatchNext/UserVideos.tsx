@@ -7,7 +7,7 @@ import { WatchNextVideoAction } from "./WatchNextVideoAction"
 function UserVideos({ videoOwnerData, isHorizontalCardLayout }: { videoOwnerData?: LazyOwnerUser | null, isHorizontalCardLayout?: boolean }) {
     // const lang = useLang()
     const { showExtendedRecommend } = useStorageVar(["showExtendedRecommend"])
-    const userVideoData = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
+    const { userVideoData } = useUserVideoData(videoOwnerData ? videoOwnerData.id : undefined)
 
     return (
         userVideoData && userVideoData.data.items.map((item, index) => {
