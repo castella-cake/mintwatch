@@ -6,6 +6,7 @@ import { NicoruHistory } from "./Nicoru"
 import { LiveWatchHistory } from "./Live/Watch"
 import { LiveOwnedTicketsHistory } from "./Live/OwnedTickets"
 import { LivePurchasedSerialsHistory } from "./Live/PurchasedSerials"
+import { TranslateHistory } from "./Translate"
 
 export function UserHistoryContent() {
     return (
@@ -79,6 +80,10 @@ export function UserHistoryContent() {
             >
                 <title>マイページ ニコった履歴 - ニコニコ</title>
                 <NicoruHistory type="send" />
+            </Match>
+            <Match targetPathname={["/my/history/translate_video!"]}>
+                <title>マイページ 翻訳履歴 - ニコニコ</title>
+                <TranslateHistory />
             </Match>
             <Match targetPathname={[
                 "/my/history/live!",
