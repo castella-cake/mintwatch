@@ -1,8 +1,9 @@
 import { Match } from "@/components/Router/RouterUI"
 import { ExternalAnchorButton, NavigationAnchorButton } from "../Navigation"
 import { BadgeIframe } from "./BadgeIframe"
+import { Achievements } from "./Achievements"
 
-export function CollectionsContent({ userId, isMyPage }: { userId: number, isMyPage: boolean }) {
+export function CollectionsContent({ userId, isMyPage, nickname }: { userId: number, isMyPage: boolean, nickname?: string }) {
     return (
         <div className="user-category-container">
             <div className="user-category-sidearea">
@@ -21,6 +22,10 @@ export function CollectionsContent({ userId, isMyPage }: { userId: number, isMyP
                     ギフト図鑑
                 </ExternalAnchorButton>
             </div>
+            <Match targetPathname={[isMyPage ? "/my/achievement!" : `/user/${userId}/achievement!`]}>
+                <title>{isMyPage ? "マイページ 実績 - ニコニコ" : `${nickname}さんの実績 - ニコニコ`}</title>
+                <Achievements />
+            </Match>
             { isMyPage && (
                 <Match targetPathname={[
                     "/my/badge!",

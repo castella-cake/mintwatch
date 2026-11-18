@@ -8,6 +8,7 @@ import { VideosContent } from "./Video/VideosContent"
 import { UserVideoListsContent } from "./UserVideoLists/UserVideoListsContent"
 import { FollowContent } from "./Follow/FollowContent"
 import { CollectionsContent } from "./Collections/CollectionsContent"
+import { LiveProgramsContent } from "./LivePrograms/LiveProgramsContent"
 
 export function UserContent() {
     const location = useLocationContext()
@@ -96,7 +97,13 @@ export function UserContent() {
                 `/user/${userId}/achievement`,
             ]}
             >
-                <CollectionsContent userId={userId} isMyPage={false} />
+                <CollectionsContent userId={userId} isMyPage={false} nickname={userData?.data?.user.nickname} />
+            </Match>
+            <Match targetPathname={[
+                `/user/${userId}/live_programs`,
+            ]}
+            >
+                <LiveProgramsContent userId={userId} nickname={userData?.data?.user.nickname} />
             </Match>
         </div>
     )

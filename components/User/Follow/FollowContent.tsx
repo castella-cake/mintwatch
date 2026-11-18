@@ -2,6 +2,8 @@ import { Match } from "@/components/Router/RouterUI"
 import { NavigationAnchorButton } from "../Navigation"
 import { FollowingUsers } from "./FollowingUsers"
 import { FollowedByUsers } from "./FollowedByUsers"
+import { FollowingMylists } from "./FollowingMylists"
+import { FollowingChannels } from "./FollowingChannels"
 import "../styles/Follow.css"
 
 export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?: boolean }) {
@@ -49,6 +51,18 @@ export function FollowContent({ userId, isMyPage }: { userId?: number, isMyPage?
                     {isMyPage && <title>マイページ フォロワー - ニコニコ</title>}
                     <FollowedByUsers userId={(isMyPage) ? "me" : userId!} />
                 </Match>
+                { isMyPage && (
+                    <Match targetPathname={[`${hrefPrefix}/mylist!`]}>
+                        <title>マイページ フォロー中マイリスト - ニコニコ</title>
+                        <FollowingMylists />
+                    </Match>
+                )}
+                { isMyPage && (
+                    <Match targetPathname={[`${hrefPrefix}/channel!`]}>
+                        <title>マイページ フォロー中チャンネル - ニコニコ</title>
+                        <FollowingChannels />
+                    </Match>
+                )}
             </div>
         </div>
     )
