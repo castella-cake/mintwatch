@@ -253,7 +253,7 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                         }
                         {
                             isVideoInfoOwnerChannel(videoInfo.owner) && (
-                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.thumbnail.smallUrl} name={videoInfo.owner.name}>
+                                <OwnerInfo id={videoInfo.owner.id} iconUrl={videoInfo.owner.thumbnail.smallUrl} name={videoInfo.owner.name} isChannel>
                                 </OwnerInfo>
                             )
                         }

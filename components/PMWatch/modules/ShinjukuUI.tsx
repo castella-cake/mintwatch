@@ -85,7 +85,7 @@ export function Owner() {
                     <span>{returnVideoOwnerName(videoInfo.owner)}</span>
                 </div>
             </a>
-            { isValidVideoInfoOwner(videoInfo.owner) && <UserFollowButton userId={videoInfo.owner.id} /> }
+            { isVideoInfoOwnerUser(videoInfo.owner) && <UserFollowButton userId={videoInfo.owner.id} /> }
         </div>
     )
 }
