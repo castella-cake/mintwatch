@@ -1,21 +1,3 @@
-.headeraction-modal-transition {
-    &-enter, &-exit-active {
-        --translateX: 110%;
-
-        transform: translateX(var(--translateX));
-        opacity: 0;
-    }
-
-    &-enter-active, &-exit-active {
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    &-enter-done, &-enter-active {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-}
-
 .headeraction-modal-container {
     position: fixed;
     right: 0;
@@ -32,6 +14,22 @@
     border: var(--border);
     display: flex;
     flex-direction: column;
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        --translateX: 110%;
+
+        transform: translateX(var(--translateX));
+        opacity: 0;
+    }
+
+    &[data-animation="entering"], &[data-animation="exiting"] {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    &[data-animation="entered"], &[data-animation="entering"] {
+        transform: translateX(0%);
+        opacity: 1;
+    }
 }
 
 .header-container[data-is-omni-header="true"] .headeraction-modal-container {
@@ -105,26 +103,24 @@
         font-size: 1rem;
         color: var(--textcolor1);
     }
-}
 
-.headeraction-quickmodal-transition {
-    &-enter, &-exit-active {
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
         --translateY: -10%;
-        
+
         transform: translateY(var(--translateY));
         opacity: 0;
     }
 
-    &-enter-active, &-exit-active {
+    &[data-animation="entering"], &[data-animation="exiting"] {
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    &-enter-done, &-enter-active {
+    &[data-animation="entered"], &[data-animation="entering"] {
         transform: translateY(0%);
         opacity: 1;
     }
 
-    &-exit-active {
+    &[data-animation="exiting"] {
         pointer-events: none;
     }
 }

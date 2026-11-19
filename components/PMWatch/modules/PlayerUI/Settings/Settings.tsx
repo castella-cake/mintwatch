@@ -1,14 +1,15 @@
 import { playerSettings, playerSettingsLabel } from "@/utils/playerSettingList"
 import { Dispatch, RefObject, SetStateAction, useId } from "react"
+import type { TransitionStatus } from "react-transition-state"
 import { Stacker } from "../../Stacker"
 import SettingsList from "./SettingsList"
 
 const manifestData = browser.runtime.getManifest()
 
-function Settings({ isStatsShown, setIsStatsShown, nodeRef }: { isStatsShown: boolean, setIsStatsShown: Dispatch<SetStateAction<boolean>>, nodeRef: RefObject<HTMLDivElement | null> }) {
+function Settings({ isStatsShown, setIsStatsShown, nodeRef, "data-animation": dataAnimation }: { "isStatsShown": boolean, "setIsStatsShown": Dispatch<SetStateAction<boolean>>, "nodeRef": RefObject<HTMLDivElement | null>, "data-animation"?: TransitionStatus }) {
     const statisticsCheckboxId = useId()
     return (
-        <div className="playersettings-container" id="pmw-player-settings" ref={nodeRef}>
+        <div className="playersettings-container" id="pmw-player-settings" ref={nodeRef} data-animation={dataAnimation}>
             <div className="playersettings-title">
                 プレイヤー設定
                 <span className="playersettings-version">

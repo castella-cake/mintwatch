@@ -1,4 +1,5 @@
 import { ReactNode, RefObject } from "react"
+import type { TransitionStatus } from "react-transition-state"
 import { useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import SelectButton from "./SelectButton"
 import { watchLayoutType } from "../../WatchContent"
@@ -117,7 +118,7 @@ const onboardPages: onboardingPage[] = [
     },
 ]
 
-export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement | null> }) {
+export function OnboardingPopup({ nodeRef, "data-animation": dataAnimation }: { "nodeRef": RefObject<HTMLDivElement | null>, "data-animation"?: TransitionStatus }) {
     const [pageIndex, setPageIndex] = useState(0)
 
     // const localStorage = useStorageVar(["onboardingIgnored"] as const, "local")
@@ -133,7 +134,7 @@ export function OnboardingPopup({ nodeRef }: { nodeRef: RefObject<HTMLDivElement
     const currentPage = onboardPages[pageIndex]
 
     return (
-        <div className="pmw-onboarding-popup-wrapper" ref={nodeRef}>
+        <div className="pmw-onboarding-popup-wrapper" ref={nodeRef} data-animation={dataAnimation}>
             <div className="pmw-onboarding-popup" data-page-key={currentPage.key}>
                 <h2>{currentPage.title}</h2>
                 <div className="pmw-onboarding-popup-text">

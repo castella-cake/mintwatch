@@ -4,6 +4,7 @@
 
 import { RefObject, useId } from "react"
 import { effectsState } from "@/hooks/eqHooks"
+import type { TransitionStatus } from "react-transition-state"
 
 function delayString(delayTime: number, feedback: number) {
     if (feedback <= 0) {
@@ -73,11 +74,13 @@ function VefxController({
     effectsState,
     onEffectsChange,
     nodeRef,
+    "data-animation": dataAnimation,
 }: {
-    frequencies: number[]
-    effectsState: effectsState
-    onEffectsChange: any
-    nodeRef: RefObject<HTMLDivElement | null>
+    "frequencies": number[]
+    "effectsState": effectsState
+    "onEffectsChange": any
+    "nodeRef": RefObject<HTMLDivElement | null>
+    "data-animation"?: TransitionStatus
 }) {
     const elementId = useId()
     // const lang = useLang()
@@ -168,7 +171,7 @@ function VefxController({
     }
 
     return (
-        <div className="vefx-container" id="pmw-vefx" ref={nodeRef}>
+        <div className="vefx-container" id="pmw-vefx" ref={nodeRef} data-animation={dataAnimation}>
             <div className="vefx-container-inner">
                 <div className="vefx-title">EFFECT CONTROL</div>
                 <VefxDisplay effectsState={effectsState} />

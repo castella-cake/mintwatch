@@ -250,11 +250,6 @@
     "comment": "react-scan"
   },
   {
-    "time": "00:29.25",
-    "command": "ca patissier medium naka #ff7a7a",
-    "comment": "react-transition-group"
-  },
-  {
     "time": "00:29.50",
     "command": "ca patissier medium naka #ffbd7a",
     "comment": "react-transition-state"
@@ -313,11 +308,6 @@
     "time": "00:32.25",
     "command": "ca patissier medium naka #7a7aff",
     "comment": "types - react-dom"
-  },
-  {
-    "time": "00:32.50",
-    "command": "ca patissier medium naka #ff7aff",
-    "comment": "types - react-transition-group"
   },
   {
     "time": "00:32.75",

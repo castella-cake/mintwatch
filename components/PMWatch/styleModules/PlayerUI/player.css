@@ -147,20 +147,18 @@
         font-size: 1.5rem;
     }
 
-    &.player-loading-transition {
-        &-exit-active {
-            --loading-blur: 32px;
+    &[data-animation="exiting"] {
+        --loading-blur: 32px;
 
-            transition: --loading-blur 0.3s ease, opacity 0.3s ease;
-        }
+        transition: --loading-blur 0.3s ease, opacity 0.3s ease;
+    }
 
-        &-enter, &-exit-active {
-            opacity: 0;
-        }
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        opacity: 0;
+    }
 
-        &-enter-done, &-enter-active {
-            opacity: 1;
-        }
+    &[data-animation="entered"], &[data-animation="entering"] {
+        opacity: 1;
     }
 }
 
@@ -307,40 +305,38 @@
     font-size: 16px;
 }
 
-.player-transition {
-    &-vefx-enter, &-vefx-exit-active {
-        --translateX: -125%;
-        --blur: 8px;
+.vefx-container[data-animation="preEnter"], .vefx-container[data-animation="exiting"] {
+    --translateX: -125%;
+    --blur: 8px;
+}
+
+.playersettings-container[data-animation="preEnter"], .playersettings-container[data-animation="exiting"] {
+    --translateX: 125%;
+    --blur: 8px;
+}
+
+.vefx-container, .playersettings-container {
+    &[data-animation="entering"] {
+        transition: transform 0.3s ease, filter 0.2s ease, opacity 0.3s ease;
+        filter: blur(0);
+        opacity: 1;
     }
 
-    &-settings-enter, &-settings-exit-active {
-        --translateX: 125%;
-        --blur: 8px;
+    &[data-animation="exiting"] {
+        transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+        filter: blur(var(--blur));
     }
 
-    &-vefx, &-settings {
-        &-enter-active {
-            transition: transform 0.3s ease, filter 0.2s ease, opacity 0.3s ease;
-            filter: blur(0);
-            opacity: 1;
-        }
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        transform: translateX(var(--translateX));
+        filter: blur(var(--blur));
+        opacity: 0;
+    }
 
-        &-exit-active {
-            transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
-            filter: blur(var(--blur));
-        }
-
-        &-enter, &-exit-active {
-            transform: translateX(var(--translateX));
-            filter: blur(var(--blur));
-            opacity: 0;
-        }
-
-        &-enter-done, &-enter-active {
-            transform: translateX(0%);
-            opacity: 1;
-            filter: blur(0);
-        }
+    &[data-animation="entered"], &[data-animation="entering"] {
+        transform: translateX(0%);
+        opacity: 1;
+        filter: blur(0);
     }
 }
 
@@ -349,6 +345,22 @@
     bottom: 0;
     left: 0;
     right: 0;
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        --translateY: 50%;
+
+        transform: translateY(var(--translateY));
+        opacity: 0;
+    }
+
+    &[data-animation="entering"], &[data-animation="exiting"] {
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    &[data-animation="entered"], &[data-animation="entering"] {
+        transform: translateY(0%);
+        opacity: 1;
+    }
 
     .player-shortcut-feedback {
         width: max-content;
@@ -360,24 +372,6 @@
         box-shadow: 0 0 8px #000;
         border-radius: var(--radius);
         border: 1px solid #333;
-    }
-}
-
-.player-shortcut-feedback-transition {
-    &-enter, &-exit-active {
-        --translateY: 50%;
-
-        transform: translateY(var(--translateY));
-        opacity: 0;
-    }
-
-    &-enter-active, &-exit-active {
-        transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    &-enter-done, &-enter-active {
-        transform: translateY(0%);
-        opacity: 1;
     }
 }
 

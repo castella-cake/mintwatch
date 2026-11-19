@@ -2,7 +2,46 @@
     position: fixed;
     inset: 0;
     z-index: 98;
-    
+
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
+        --translateX: -110%;
+
+        background: rgb(0 0 0 / 0%);
+        backdrop-filter: blur(0);
+
+        .sidemenu-container {
+            transform: translateX(var(--translateX));
+        }
+
+        .zsnow-canvas {
+            opacity: 0;
+        }
+    }
+
+    &[data-animation="entering"], &[data-animation="exiting"] {
+        transition: background 0.3s ease, backdrop-filter 0.3s ease;
+
+        .sidemenu-container {
+            transition: transform 0.3s ease;
+        }
+
+        .zsnow-canvas {
+            transition: opacity 0.2s ease;
+        }
+    }
+
+    &[data-animation="entered"], &[data-animation="entering"] {
+        background: rgb(0 0 0 / 50%);
+        backdrop-filter: var(--backdrop-blur-normal);
+
+        .sidemenu-container {
+            transform: translateX(0%);
+        }
+
+        .zsnow-canvas {
+            opacity: 1;
+        }
+    }
 }
 
 .sidemenu-container {
@@ -127,46 +166,4 @@
     height: 100vh;
     background: #02f2;
     position: fixed;
-}
-
-.sidemenu-transition {
-    &-enter, &-exit-active {
-        --translateX: -110%;
-
-        background: rgb(0 0 0 / 0%);
-        backdrop-filter: blur(0);
-
-        .sidemenu-container {
-            transform: translateX(var(--translateX));
-        }
-
-        .zsnow-canvas {
-            opacity: 0;
-        }
-    }
-
-    &-enter-active, &-exit-active {
-        transition: background 0.3s ease, backdrop-filter 0.3s ease;
-
-        .sidemenu-container {
-            transition: transform 0.3s ease;
-        }
-
-        .zsnow-canvas {
-            transition: opacity 0.2s ease;
-        }
-    }
-
-    &-enter-done, &-enter-active {
-        background: rgb(0 0 0 / 50%);
-        backdrop-filter: var(--backdrop-blur-normal);
-
-        .sidemenu-container {
-            transform: translateX(0%);
-        }
-
-        .zsnow-canvas {
-            opacity: 1;
-        }
-    }
 }

@@ -32,14 +32,14 @@
     min-width: 0;
 }
 
-.modal-transition {
-    &-enter, &-exit-active {
+.modal-wrapper {
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
         --rotatedeg: -10deg;
         --blur: 8px;
         --zmove: -10cm;
     }
 
-    &-enter-active {
+    &[data-animation="entering"] {
         perspective: 100cm;
         transition: opacity 0.1s ease;
 
@@ -48,7 +48,7 @@
         }
     }
 
-    &-exit-active {
+    &[data-animation="exiting"] {
         transition: opacity 0.3s ease;
         opacity: 0;
 
@@ -59,7 +59,7 @@
         }
     }
 
-    &-enter {
+    &[data-animation="preEnter"] {
         opacity: 0;
 
         .modal-container {
@@ -67,7 +67,7 @@
         }
     }
 
-    &-enter-done, &-enter-active {
+    &[data-animation="entered"], &[data-animation="entering"] {
         opacity: 1;
 
         .modal-container {

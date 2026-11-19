@@ -1,10 +1,22 @@
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 
 export function TurikkumaFrame() {
     const syncStorage = useStorageVar(["turikkumaPortalOpened"] as const)
     const [openMessageShown, setOpenMessageShown] = useState(false)
     const [isRodClicked, setIsRodClicked] = useState(false)
     const rodButtonRef = useRef<HTMLButtonElement>(null)
+
+    const isRodButtonOpen = !isRodClicked
+    const [{ status: rodButtonStatus, isMounted: isRodButtonMounted }, toggleRodButton] = useTransitionState({
+        timeout: 500,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+        initialEntered: isRodButtonOpen,
+    })
+    useEffect(() => {
+        toggleRodButton(isRodButtonOpen)
+    }, [isRodButtonOpen])
 
     const openerInputRef = useRef<HTMLInputElement>(null)
 
@@ -40,10 +52,11 @@ export function TurikkumaFrame() {
                     )
                 : (
                         <>
-                            <CSSTransition in={!isRodClicked} timeout={500} nodeRef={rodButtonRef} classNames="turikkuma-portal-door-transition" unmountOnExit>
+                            { isRodButtonMounted && (
                                 <button
                                     ref={rodButtonRef}
                                     className="turikkuma-portal-door"
+                                    data-animation={rodButtonStatus}
                                     onClick={(e) => {
                                         if (e.ctrlKey) {
                                             setIsRodClicked(true)
@@ -52,7 +65,7 @@ export function TurikkumaFrame() {
                                 >
                                     🎣
                                 </button>
-                            </CSSTransition>
+                            ) }
                             { isRodClicked && (
                                 <>
                                     <input className="turikkuma-portal-input" ref={openerInputRef}></input>

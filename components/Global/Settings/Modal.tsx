@@ -10,7 +10,7 @@ import ReactFocusLock from "react-focus-lock"
 import { ReactNode, RefObject, useEffect, useRef } from "react"
 import { MarkdownHelp } from "./MarkdownHelp"
 import { KeyboardShortcuts } from "./KeyboardShortcuts"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 import { useHighlightedSettingKeyContext, useMintConfigShownContext, useSetHighlightedSettingKeyContext, useSetMintConfigShownContext } from "@/components/Global/Contexts/ModalStateProvider"
 import MintWatchIcon from "@/public/mintwatch-white.svg?react"
 import { AboutMintWatch } from "./About"
@@ -25,7 +25,7 @@ const settingsObject = { mintwatch: settings.mintwatch, header: settings.header 
 
 // containerRef をリフトアップするのは外側を押したときの検知に必要だよ おぼえておこうね
 export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLDivElement | null> }) {
-    const wrapperRef = useRef(null)
+    const nodeRef = useRef<HTMLDivElement>(null)
     const highlightedTargetRef = useRef<HTMLElement | null>(null)
     const highlightTimeoutRefs = useRef<number[]>([])
 
@@ -33,7 +33,17 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
     const setMintModalState = useSetMintConfigShownContext()
     const highlightedSettingKey = useHighlightedSettingKeyContext()
     const setHighlightedSettingKey = useSetHighlightedSettingKeyContext()
-    useOutsideClose(containerRef, mintModalState !== false && mintModalState !== "quick", () => setMintModalState(false))
+    const isOpen = mintModalState !== false && mintModalState !== "quick"
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggle(isOpen)
+    }, [isOpen])
+    useOutsideClose(containerRef, isOpen, () => setMintModalState(false))
 
     useEffect(() => {
         if (highlightedSettingKey && mintModalState === "settings") {
@@ -65,110 +75,104 @@ export function MintWatchModal({ containerRef }: { containerRef: RefObject<HTMLD
         }
     }, [highlightedSettingKey, mintModalState, setHighlightedSettingKey])
 
-    return (
-        <CSSTransition
-            nodeRef={wrapperRef}
-            in={mintModalState !== false && mintModalState !== "quick"}
-            timeout={300}
-            unmountOnExit
-            classNames="modal-transition"
-        >
-            <ReactFocusLock>
-                <div className="modal-wrapper" ref={wrapperRef}>
-                    <div className="modal-container mwextendedmodal-container" data-select-placement="top" ref={containerRef}>
-                        <div className="modal-header global-flex">
-                            <h2 className="global-flex1">
-                                {returnTitle(mintModalState)}
-                            </h2>
-                            <MWButton
-                                className="modal-close"
-                                onClick={() => {
-                                    setMintModalState(false)
-                                }}
-                                label="閉じる"
-                            >
-                                <IconX />
-                            </MWButton>
-                        </div>
-                        <div className="modal-selector">
-                            <div className="modal-select-separator">設定</div>
-                            <TabButton
-                                stateKey="settings"
-                            >
-                                <IconTool />
-                                {" "}
-                                <span>設定</span>
-                            </TabButton>
-                            <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
+    if (!isMounted) return null
 
-                            <TabButton
-                                stateKey="whatsnew"
-                                isBottom={true}
-                            >
-                                <IconComet />
-                                {" "}
-                                <span>更新情報</span>
-                            </TabButton>
-                            <TabButton
-                                stateKey="shortcuts"
-                                isBottom={true}
-                            >
-                                <IconKeyboard />
-                                {" "}
-                                <span>ショートカット</span>
-                            </TabButton>
-                            <TabButton
-                                stateKey="help"
-                                isBottom={true}
-                            >
-                                <IconHelpCircle />
-                                {" "}
-                                <span>はじめに</span>
-                            </TabButton>
-                            <TabButton
-                                stateKey="about"
-                                isBottom={true}
-                            >
-                                <MintWatchIcon />
-                                {" "}
-                                <span>MintWatch について</span>
-                            </TabButton>
-                        </div>
-                        <div className="modal-content">
-                            {(mintModalState === "settings") && (
-                                <div className="mintwatch-inmodal-config">
-                                    <CreateSettingsList settings={settingsObject} />
-                                </div>
-                            )}
-                            {(mintModalState === "help" || mintModalState === "whatsnew") && (
-                                <>
-                                    <MarkdownHelp
-                                        contentKey={mintModalState}
-                                        preChildren={mintModalState === "whatsnew" && (
-                                            <UpdateNotice />
-                                        )}
-                                    >
-                                        {mintModalState === "whatsnew" && (
-                                            <details>
-                                                <summary>過去の更新情報</summary>
-                                                <MarkdownHelp contentKey="whatsnew_archive" />
-                                                <ForgottenThing />
-                                            </details>
-                                        )}
-                                    </MarkdownHelp>
-                                </>
-                            )}
-                            {mintModalState === "shortcuts" && (
-                                <KeyboardShortcuts />
-                            )}
-                            {mintModalState === "about" && (
-                                <AboutMintWatch />
-                            )}
-                        </div>
+    return (
+        <ReactFocusLock>
+            <div className="modal-wrapper" ref={nodeRef} data-animation={status}>
+                <div className="modal-container mwextendedmodal-container" data-select-placement="top" ref={containerRef}>
+                    <div className="modal-header global-flex">
+                        <h2 className="global-flex1">
+                            {returnTitle(mintModalState)}
+                        </h2>
+                        <MWButton
+                            className="modal-close"
+                            onClick={() => {
+                                setMintModalState(false)
+                            }}
+                            label="閉じる"
+                        >
+                            <IconX />
+                        </MWButton>
+                    </div>
+                    <div className="modal-selector">
+                        <div className="modal-select-separator">設定</div>
+                        <TabButton
+                            stateKey="settings"
+                        >
+                            <IconTool />
+                            {" "}
+                            <span>設定</span>
+                        </TabButton>
+                        <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
+
+                        <TabButton
+                            stateKey="whatsnew"
+                            isBottom={true}
+                        >
+                            <IconComet />
+                            {" "}
+                            <span>更新情報</span>
+                        </TabButton>
+                        <TabButton
+                            stateKey="shortcuts"
+                            isBottom={true}
+                        >
+                            <IconKeyboard />
+                            {" "}
+                            <span>ショートカット</span>
+                        </TabButton>
+                        <TabButton
+                            stateKey="help"
+                            isBottom={true}
+                        >
+                            <IconHelpCircle />
+                            {" "}
+                            <span>はじめに</span>
+                        </TabButton>
+                        <TabButton
+                            stateKey="about"
+                            isBottom={true}
+                        >
+                            <MintWatchIcon />
+                            {" "}
+                            <span>MintWatch について</span>
+                        </TabButton>
+                    </div>
+                    <div className="modal-content">
+                        {(mintModalState === "settings") && (
+                            <div className="mintwatch-inmodal-config">
+                                <CreateSettingsList settings={settingsObject} />
+                            </div>
+                        )}
+                        {(mintModalState === "help" || mintModalState === "whatsnew") && (
+                            <>
+                                <MarkdownHelp
+                                    contentKey={mintModalState}
+                                    preChildren={mintModalState === "whatsnew" && (
+                                        <UpdateNotice />
+                                    )}
+                                >
+                                    {mintModalState === "whatsnew" && (
+                                        <details>
+                                            <summary>過去の更新情報</summary>
+                                            <MarkdownHelp contentKey="whatsnew_archive" />
+                                            <ForgottenThing />
+                                        </details>
+                                    )}
+                                </MarkdownHelp>
+                            </>
+                        )}
+                        {mintModalState === "shortcuts" && (
+                            <KeyboardShortcuts />
+                        )}
+                        {mintModalState === "about" && (
+                            <AboutMintWatch />
+                        )}
                     </div>
                 </div>
-            </ReactFocusLock>
-        </CSSTransition>
+            </div>
+        </ReactFocusLock>
     )
 }
 

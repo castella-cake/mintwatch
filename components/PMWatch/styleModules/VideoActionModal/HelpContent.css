@@ -45,19 +45,19 @@
 }
 
 // transition
-.pmw-onboarding-popup-transition {
-    &-enter, &-exit-active {
+.pmw-onboarding-popup-wrapper {
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
         --translateY: 100%;
 
         transform: translateY(var(--translateY));
         opacity: 0;
     }
 
-    &-enter-active, &-exit-active {
+    &[data-animation="entering"], &[data-animation="exiting"] {
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    &-enter-done, &-enter-active {
+    &[data-animation="entered"], &[data-animation="entering"] {
         transform: translateY(0%);
         opacity: 1;
     }

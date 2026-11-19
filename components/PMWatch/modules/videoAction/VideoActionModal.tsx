@@ -11,7 +11,7 @@ import { Mylist } from "./MylistUI"
 import { ShareAction } from "./ShareUI"
 import { ReactNode, RefObject } from "react"
 import { useVideoInfoContext } from "@/components/Global/Contexts/VideoDataProvider"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 import { useSetMintConfigShownContext, useSetVideoActionModalStateContext, useVideoActionModalStateContext } from "@/components/Global/Contexts/ModalStateProvider"
 import NgComments from "./NgComments"
 import { TagInfo } from "./TagInfo"
@@ -29,94 +29,97 @@ export function VideoActionModal({
     const videoActionModalState = useVideoActionModalStateContext()
     const setVideoActionModalState = useSetVideoActionModalStateContext()
     const setIsMintConfigShown = useSetMintConfigShownContext()
-    useOutsideClose(containerRef, videoActionModalState !== false, () => setVideoActionModalState(false))
+    const isOpen = videoActionModalState !== false
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggle(isOpen)
+    }, [isOpen])
+    useOutsideClose(containerRef, isOpen, () => setVideoActionModalState(false))
 
     if (!videoInfo?.video) return <></>
+    if (!isMounted) return null
 
     return (
-        <CSSTransition
-            nodeRef={nodeRef}
-            in={videoActionModalState !== false}
-            timeout={300}
-            unmountOnExit
-            classNames="modal-transition"
-        >
-            <ReactFocusLock>
-                <div className="modal-wrapper" ref={nodeRef}>
-                    <div className="modal-container" ref={containerRef}>
-                        <div className="modal-header global-flex">
-                            <h2 className="global-flex1">
-                                動画アクション
-                            </h2>
-                            <MWButton
-                                className="modal-close"
-                                onClick={() => {
-                                    setVideoActionModalState(false)
-                                }}
-                                label="閉じる"
-                            >
-                                <IconX />
-                            </MWButton>
-                        </div>
-                        <div className="modal-selector">
-                            <div className="modal-select-separator">動画アクション</div>
-                            <VideoActionTabButton
-                                stateKey="mylist"
-                            >
-                                <IconFolder />
-                                {" "}
-                                マイリスト
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="share"
-                            >
-                                <IconShare />
-                                {" "}
-                                共有
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="ngcomments"
-                            >
-                                <IconBubbleX />
-                                {" "}
-                                NGコメント設定
-                            </VideoActionTabButton>
-                            <VideoActionTabButton
-                                stateKey="taginfo"
-                            >
-                                <IconTags />
-                                {" "}
-                                この動画のタグ
-                            </VideoActionTabButton>
-                            <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
-                            <button
-                                className="modal-select modal-select-bottom"
-                                onClick={() => {
-                                    setIsMintConfigShown("help")
-                                    setVideoActionModalState(false)
-                                }}
-                            >
-                                <IconHelpCircle />
-                                {" "}
-                                MintWatch ヘルプ
-                            </button>
-                        </div>
-                        <div className="modal-content">
-                            {videoActionModalState === "mylist" && (
-                                <Mylist />
-                            )}
-                            {videoActionModalState === "share" && (
-                                <ShareAction />
-                            )}
-                            {videoActionModalState === "ngcomments" && (
-                                <NgComments />
-                            )}
-                            {videoActionModalState === "taginfo" && (<TagInfo />)}
-                        </div>
+        <ReactFocusLock>
+            <div className="modal-wrapper" ref={nodeRef} data-animation={status}>
+                <div className="modal-container" ref={containerRef}>
+                    <div className="modal-header global-flex">
+                        <h2 className="global-flex1">
+                            動画アクション
+                        </h2>
+                        <MWButton
+                            className="modal-close"
+                            onClick={() => {
+                                setVideoActionModalState(false)
+                            }}
+                            label="閉じる"
+                        >
+                            <IconX />
+                        </MWButton>
+                    </div>
+                    <div className="modal-selector">
+                        <div className="modal-select-separator">動画アクション</div>
+                        <VideoActionTabButton
+                            stateKey="mylist"
+                        >
+                            <IconFolder />
+                            {" "}
+                            マイリスト
+                        </VideoActionTabButton>
+                        <VideoActionTabButton
+                            stateKey="share"
+                        >
+                            <IconShare />
+                            {" "}
+                            共有
+                        </VideoActionTabButton>
+                        <VideoActionTabButton
+                            stateKey="ngcomments"
+                        >
+                            <IconBubbleX />
+                            {" "}
+                            NGコメント設定
+                        </VideoActionTabButton>
+                        <VideoActionTabButton
+                            stateKey="taginfo"
+                        >
+                            <IconTags />
+                            {" "}
+                            この動画のタグ
+                        </VideoActionTabButton>
+                        <div className="modal-select-separator select-separator-bottom">ヘルプ</div>
+                        <button
+                            className="modal-select modal-select-bottom"
+                            onClick={() => {
+                                setIsMintConfigShown("help")
+                                setVideoActionModalState(false)
+                            }}
+                        >
+                            <IconHelpCircle />
+                            {" "}
+                            MintWatch ヘルプ
+                        </button>
+                    </div>
+                    <div className="modal-content">
+                        {videoActionModalState === "mylist" && (
+                            <Mylist />
+                        )}
+                        {videoActionModalState === "share" && (
+                            <ShareAction />
+                        )}
+                        {videoActionModalState === "ngcomments" && (
+                            <NgComments />
+                        )}
+                        {videoActionModalState === "taginfo" && (<TagInfo />)}
                     </div>
                 </div>
-            </ReactFocusLock>
-        </CSSTransition>
+            </div>
+        </ReactFocusLock>
     )
 }
 

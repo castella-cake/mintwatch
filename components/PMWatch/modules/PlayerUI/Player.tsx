@@ -7,7 +7,7 @@ import type { Dispatch, SetStateAction } from "react"
 import CommentInput from "./CommentInput"
 import Settings from "./Settings/Settings"
 import { StatsOverlay } from "./StatsOverlay"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 import { EndCard } from "./EndCard"
 import { useAudioEffects } from "@/hooks/eqHooks"
 import { ErrorScreen } from "./ErrorScreen"
@@ -214,6 +214,36 @@ function Player(props: Props) {
     // for transition
     const vefxElemRef = useRef<HTMLDivElement>(null)
     const settingsElemRef = useRef<HTMLDivElement>(null)
+
+    const [{ status: vefxStatus, isMounted: isVefxMounted }, toggleVefx] = useTransitionState({
+        timeout: 400,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggleVefx(isVefxShown)
+    }, [isVefxShown])
+
+    const [{ status: settingsStatus, isMounted: isSettingsMounted }, toggleSettings] = useTransitionState({
+        timeout: 400,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggleSettings(isSettingsShown)
+    }, [isSettingsShown])
+
+    const [{ status: shortcutFeedbackStatus, isMounted: isShortcutFeedbackMounted }, toggleShortcutFeedbackTransition] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggleShortcutFeedbackTransition(shortcutFeedbackShown)
+    }, [shortcutFeedbackShown])
 
     const isLoudnessEnabled = localStorage.enableLoudnessData ?? true
     const integratedLoudness = (
@@ -687,46 +717,30 @@ function Player(props: Props) {
                         }
                     />
                 )}
-                <CSSTransition
-                    nodeRef={vefxElemRef}
-                    in={isVefxShown}
-                    timeout={400}
-                    unmountOnExit
-                    classNames="player-transition-vefx"
-                >
+                {isVefxMounted && (
                     <VefxController
                         nodeRef={vefxElemRef}
+                        data-animation={vefxStatus}
                         frequencies={frequencies}
                         effectsState={effectsState}
                         onEffectsChange={handleEffectsChange}
                     />
-                </CSSTransition>
-                <CSSTransition
-                    nodeRef={settingsElemRef}
-                    in={isSettingsShown}
-                    timeout={400}
-                    unmountOnExit
-                    classNames="player-transition-settings"
-                >
+                )}
+                {isSettingsMounted && (
                     <Settings
                         nodeRef={settingsElemRef}
+                        data-animation={settingsStatus}
                         isStatsShown={isStatsShown}
                         setIsStatsShown={setIsStatsShown}
                     />
-                </CSSTransition>
-                <CSSTransition
-                    nodeRef={shortcutFeedbackElemRef}
-                    in={shortcutFeedbackShown}
-                    timeout={300}
-                    unmountOnExit
-                    classNames="player-shortcut-feedback-transition"
-                >
-                    <div className="player-shortcut-feedback-wrapper" ref={shortcutFeedbackElemRef}>
+                )}
+                {isShortcutFeedbackMounted && (
+                    <div className="player-shortcut-feedback-wrapper" ref={shortcutFeedbackElemRef} data-animation={shortcutFeedbackStatus}>
                         <div className="player-shortcut-feedback">
                             {shortcutFeedbackText}
                         </div>
                     </div>
-                </CSSTransition>
+                )}
                 {isStatsShown && (
                     <StatsOverlay
                         videoRef={videoRef}

@@ -1,7 +1,7 @@
 import { amplitudeToPerceptual, perceptualToAmplitude } from "@discordapp/perceptual"
 import { IconPlayerPlayFilled } from "@tabler/icons-react"
 import { ReactNode, RefObject } from "react"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 
 type VideoPlayerProps = {
     children?: ReactNode
@@ -41,6 +41,19 @@ export function VideoPlayer(props: VideoPlayerProps) {
     const videoContainerRef = useRef<HTMLDivElement>(null)
 
     const volumeGestureUsedRef = useRef<boolean>(false)
+
+    const isLoading = !canPlay && !isPlaying
+    const [{ status: loadingStatus, isMounted: isLoadingMounted }, toggleLoading] = useTransitionState({
+        timeout: isAutoplayEnabled ? 300 : 100,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+        initialEntered: true,
+    })
+    useEffect(() => {
+        toggleLoading(isLoading)
+    }, [isLoading])
+
     useEffect(() => {
         // ホイールの音量ジェスチャー
         function onWheel(e: WheelEvent) {
@@ -84,8 +97,8 @@ export function VideoPlayer(props: VideoPlayerProps) {
     return (
         <div className="player-video-container">
             <div className="player-video-container-inner" ref={videoContainerRef}>
-                <CSSTransition nodeRef={nodeRef} in={!canPlay && !isPlaying} timeout={isAutoplayEnabled ? 300 : 100} unmountOnExit classNames="player-loading-transition">
-                    <div ref={nodeRef} className="player-video-loading-container">
+                {isLoadingMounted && (
+                    <div ref={nodeRef} className="player-video-loading-container" data-animation={loadingStatus}>
                         <img src={thumbnailSrc} className="player-video-loading-thumbnail"></img>
                         <div className="player-video-loading-text-container">
                             <div className="player-video-loading-text-genre">
@@ -100,7 +113,7 @@ export function VideoPlayer(props: VideoPlayerProps) {
                         </div>
                         <div className="player-video-loading-text">Loading...</div>
                     </div>
-                </CSSTransition>
+                )}
                 <video
                     ref={videoRef}
                     autoPlay={isAutoplayEnabled}

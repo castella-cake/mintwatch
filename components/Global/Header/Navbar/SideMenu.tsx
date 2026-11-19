@@ -1,5 +1,5 @@
 import ReactFocusLock from "react-focus-lock"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 import { useSetSideMenuShownContext, useSideMenuShownContext } from "../../Contexts/ModalStateProvider"
 import { MWButton } from "../../MWButton"
 import { NavigationObject, SeparatorItem, SideMenuItem } from "./NavigationObjects"
@@ -51,41 +51,40 @@ export default function SideMenu({ nodeRef, isEditMode, setIsEditMode, showMintT
 
     // ここでのnodeRefは、transitionではなく単に外側をクリックした場合に閉じるために使う。Transitionは内部で用意する。
     const wrapperTransitionRef = useRef<HTMLDivElement>(null)
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggle(isSideMenuShown)
+    }, [isSideMenuShown])
+    if (!isMounted) return null
     return (
-        <CSSTransition
-            nodeRef={wrapperTransitionRef}
-            in={
-                isSideMenuShown
-            }
-            timeout={300}
-            unmountOnExit
-            classNames="sidemenu-transition"
-        >
-
-            <div className="sidemenu-wrapper" ref={wrapperTransitionRef}>
-                { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
-                <ReactFocusLock>
-                    <div className="sidemenu-container" ref={nodeRef}>
-                        <MWButton label="サイドメニューを閉じる" className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)}><IconX /></MWButton>
-                        {
-                            SideMenuContents.map((item, index) => {
-                                if ("type" in item && item.type === "separator") {
-                                    return <div className="sidemenu-separator" key={index} />
-                                }
-                                if ("href" in item) return (
-                                    <SideMenuItem key={index} item={item} isEditMode={isEditMode} />
-                                )
-                            })
-                        }
-                        <button className="sidemenu-editmode-button" onClick={() => setIsEditMode(!isEditMode)}>
-                            <IconPencil />
-                            <span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span>
-                        </button>
-                        { showMintToolBox && <MintToolBox quietWhatsNew={true} /> }
-                    </div>
-                </ReactFocusLock>
-            </div>
-        </CSSTransition>
+        <div className="sidemenu-wrapper" ref={wrapperTransitionRef} data-animation={status}>
+            { !disableSeasonalEffects && isItWinterSeason() && <ZSnowBackground /> }
+            <ReactFocusLock>
+                <div className="sidemenu-container" ref={nodeRef}>
+                    <MWButton label="サイドメニューを閉じる" className="sidemenu-closebutton" onClick={() => setIsSideMenuShown(false)}><IconX /></MWButton>
+                    {
+                        SideMenuContents.map((item, index) => {
+                            if ("type" in item && item.type === "separator") {
+                                return <div className="sidemenu-separator" key={index} />
+                            }
+                            if ("href" in item) return (
+                                <SideMenuItem key={index} item={item} isEditMode={isEditMode} />
+                            )
+                        })
+                    }
+                    <button className="sidemenu-editmode-button" onClick={() => setIsEditMode(!isEditMode)}>
+                        <IconPencil />
+                        <span>{isEditMode ? "編集を終了" : "カスタムエリアを編集"}</span>
+                    </button>
+                    { showMintToolBox && <MintToolBox quietWhatsNew={true} /> }
+                </div>
+            </ReactFocusLock>
+        </div>
     )
 }
 

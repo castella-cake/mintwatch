@@ -173,19 +173,19 @@
 }
 
 
-.mintconfig-transition {
-    &-enter, &-exit-active {
+.mintwatch-config {
+    &[data-animation="preEnter"], &[data-animation="exiting"] {
         --translateX: -110%;
 
         transform: translateX(var(--translateX));
         opacity: 0;
     }
 
-    &-enter-active, &-exit-active {
+    &[data-animation="entering"], &[data-animation="exiting"] {
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    &-enter-done, &-enter-active {
+    &[data-animation="entered"], &[data-animation="entering"] {
         transform: translateX(0%);
         opacity: 1;
     }

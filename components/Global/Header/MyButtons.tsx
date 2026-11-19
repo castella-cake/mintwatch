@@ -6,7 +6,31 @@ import useOshiraseBellQuery from "@/hooks/apiHooks/global/oshiraseBell"
 import MyMenu from "./MyMenu"
 import Notifications from "./Notifications"
 import HeaderActivities from "./Activities"
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
+
+function QuickHeaderActionModal({ nodeRef, isOpen, onMouseEnter, onMouseLeave, children }: {
+    nodeRef: React.RefObject<HTMLDivElement | null>
+    isOpen: boolean
+    onMouseEnter: () => void
+    onMouseLeave: () => void
+    children: React.ReactNode
+}) {
+    const [{ status, isMounted }, toggle] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+    })
+    useEffect(() => {
+        toggle(isOpen)
+    }, [isOpen])
+    if (!isMounted) return null
+    return (
+        <div className="headeraction-quickmodal-wrapper" ref={nodeRef} data-animation={status} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+            {children}
+        </div>
+    )
+}
 
 export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolean }) {
     const { oshiraseBellData, setOshiraseBellData } = useOshiraseBellQuery()
@@ -122,18 +146,15 @@ export function MyButtons({ isQuickHeaderAction }: { isQuickHeaderAction: boolea
                 </a>
             )}
             {headerModals.map(modal => (
-                <CSSTransition
+                <QuickHeaderActionModal
                     key={modal.type}
                     nodeRef={modal.ref}
-                    in={headerModalType === modal.type && isQuickHeaderAction}
-                    timeout={300}
-                    unmountOnExit
-                    classNames="headeraction-quickmodal-transition"
+                    isOpen={headerModalType === modal.type && isQuickHeaderAction}
+                    onMouseEnter={() => handleModalHover(modal.type)}
+                    onMouseLeave={() => setHeaderModalType(false)}
                 >
-                    <div className="headeraction-quickmodal-wrapper" ref={modal.ref} onMouseEnter={() => handleModalHover(modal.type)} onMouseLeave={() => setHeaderModalType(false)}>
-                        <modal.Component />
-                    </div>
-                </CSSTransition>
+                    <modal.Component />
+                </QuickHeaderActionModal>
             ))}
         </div>
     )

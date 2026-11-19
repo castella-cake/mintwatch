@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, startTransition } from "react"
 // import { useLang } from "./localizeHook";
-import { CSSTransition } from "react-transition-group"
+import { useTransitionState } from "react-transition-state"
 import { VideoActionModal } from "./modules/videoAction/VideoActionModal"
 import { OnboardingPopup } from "./modules/Onboarding/Onboarding"
 import { PlaylistDndWrapper } from "./modules/PlaylistDndWrapper"
@@ -36,6 +36,18 @@ function CreateWatchUI() {
 
     const isBackgroundPlaying = useBackgroundPlayingContext()
     const [isFullscreenUi, setIsFullscreenUi] = useState(false)
+
+    const isOnboardingPopupOpen = !onboardingIgnored && !isFullscreenUi
+    const [{ status: onboardingPopupStatus, isMounted: isOnboardingPopupMounted }, toggleOnboardingPopup] = useTransitionState({
+        timeout: 300,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        preEnter: true,
+        initialEntered: isOnboardingPopupOpen,
+    })
+    useEffect(() => {
+        toggleOnboardingPopup(isOnboardingPopupOpen)
+    }, [isOnboardingPopupOpen])
 
     const videoRef = useVideoRefContext()
     const { videoId: currentVideoId } = useVideoInfoContext()
@@ -215,19 +227,12 @@ function CreateWatchUI() {
             onClickCapture={linkClickHandler}
         >
             <TitleElement />
-            <CSSTransition
-                nodeRef={onboardingPopupElemRef}
-                in={
-                    !onboardingIgnored && !isFullscreenUi
-                }
-                timeout={300}
-                unmountOnExit
-                classNames="pmw-onboarding-popup-transition"
-            >
+            { isOnboardingPopupMounted && (
                 <OnboardingPopup
                     nodeRef={onboardingPopupElemRef}
+                    data-animation={onboardingPopupStatus}
                 />
-            </CSSTransition>
+            ) }
 
             <VideoActionModal
                 nodeRef={videoActionModalElemRef}
