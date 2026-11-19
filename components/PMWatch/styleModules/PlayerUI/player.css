@@ -206,8 +206,21 @@
 
 // 非フルスクリーンもしくは非ダイナミックコントローラー時に、動画要素の上でカーソルが動いていない場合は半透明。
 // 非ホバー時は適用しない。また、後ろに書いたopacityによってオーバーライドする場合もある
+// 背景を持つ要素ごと透過すると、テーマの背景が透けて白んで見えるため、背景の内側の子要素のみを半透明にする
 .player-container[data-is-cursor-stopped="true"]:hover .player-bottom-container:not(:hover) {
-    opacity: 0.5; 
+    .commentinput-container:not(:has(:focus, :focus-visible)) {
+        opacity: 0.5;
+    }
+
+    .playercontroller-container > .seekbar-container,
+    .playercontroller-container-middle > * {
+        opacity: 0.5;
+    }
+}
+
+.playercontroller-container > .seekbar-container,
+.playercontroller-container-middle > * {
+    transition: opacity 0.2s ease;
 }
 
 .player-container[data-is-integrated-controller="true"][data-is-cursor-stopped="true"] .playercontroller-container:not(:hover) {
