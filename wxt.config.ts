@@ -1,4 +1,5 @@
 import { defineConfig } from "wxt"
+import { withFilter } from "vite"
 import svgr from "vite-plugin-svgr"
 // See https://wxt.dev/api/config.html
 
@@ -14,7 +15,8 @@ export default defineConfig({
                 },
             },
             plugins: [
-                svgr(),
+                // load フックが全モジュールに対して呼ばれるのを防ぐため、SVG だけにフックフィルタを付ける
+                withFilter(svgr(), { load: { id: /\.svg\?react$/ } }),
             ],
         }
     },
