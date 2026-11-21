@@ -9,6 +9,12 @@ const artistSeparatedRegexWithSpaces = /(.*?)\s[/／-]\s(.*)/
 const artistParenthesesRegex = /(.*)\s?[「『]\s?(.*)\s?[」』](.*)/
 // B (SubtitleA - SubtitleB)
 // const subTitleParenthesesRegex = /(.*)\s?[（(]\s?(.*)\s?[/／-]\s?(.*)\s?[）)]/
+// Bが?を歌ってくれました「A」
+// Bが「A」を歌ってくれました
+// 2文字以上の名前を許容する 省略名は避けたかったがやむなし
+// 「の」で終わる前置きとしては「うちの」のみを許可する /.+の/を許容すると「唯世かのん」などで前が持っていかれる
+const jpOgSeparatedRegex = /^(?:【.+】)?(?:うちの|.+を)?([ぁ-んァ-ヶー一-龯々\w]{2,}?)(?:[姉兄]?さん|ちゃん|くん|君)?\s*が.*[「『]\s*(.+)\s*[」』].*$/
+
 const prefixRemoverRegex = /^\s?[/／-]\s?/
 const suffixRemoverRegex = /\s?[/／-]$/
 
@@ -59,6 +65,19 @@ export function resolveTitleAndArtist(videoTitle: string, ownerNickname: string 
 
     let title = videoTitle
     let artist = ownerNickname ?? null
+
+    console.time("jpOg")
+    const jpOgMethodResult = jpOgSeparatedRegex.exec(videoTitle)
+    console.timeEnd("jpOg")
+    if (jpOgMethodResult) {
+        const vocalString = jpOgMethodResult[1].trim()
+        title = jpOgMethodResult[2].trim()
+        artist = `${ownerNickname} / ${vocalString}`
+        return {
+            title,
+            artist,
+        }
+    }
 
     const parenthesesMethodResult = artistParenthesesRegex.exec(videoTitle)
     if (parenthesesMethodResult) {

@@ -73,3 +73,29 @@ test("三連分離を正しく解釈する", () => {
 test("三連分離で/より-を優先する", () => {
     expect(resolveTitleAndArtist("Artist/Participant - Title - feat.Somebody/Somebody", "Artist")).toEqual({ title: "Title", artist: "Artist/Participant / feat.Somebody/Somebody" })
 })
+
+test("jpOg式の「〜が歌ってくれたよ」タイトルが正しく分離される", () => {
+    expect(resolveTitleAndArtist("初音ミクがオリジナル曲を歌ってくれました「Packaged」Full ver.", "kz")).toEqual({ title: "Packaged", artist: "kz / 初音ミク" })
+})
+
+test("jpOg式で敬称付きの歌唱者が正しく分離される", () => {
+    expect(resolveTitleAndArtist("Singerさんが「Title」を歌ってくれたよ", "Artist")).toEqual({ title: "Title", artist: "Artist / Singer" })
+    expect(resolveTitleAndArtist("Singerちゃんが「Title」を歌ってくれたよ", "Artist")).toEqual({ title: "Title", artist: "Artist / Singer" })
+    expect(resolveTitleAndArtist("Singerくんが「Title」を歌ってくれたよ", "Artist")).toEqual({ title: "Title", artist: "Artist / Singer" })
+})
+
+test("jpOg式で2文字の日本語名の歌唱者も分離される", () => {
+    expect(resolveTitleAndArtist("星界が歌ってくれたよ「Title」", "Artist")).toEqual({ title: "Title", artist: "Artist / 星界" })
+})
+
+test("jpOg式で歌唱者と「が」の間に複数の空白があっても分離される", () => {
+    expect(resolveTitleAndArtist("初音ミク　が　 オリジナル曲を歌ってくれたよ「LEGENDS」", "Artist")).toEqual({ title: "LEGENDS", artist: "Artist / 初音ミク" })
+})
+
+test("jpOg式で「うちの」前置きが歌唱者に含まれない", () => {
+    expect(resolveTitleAndArtist("うちのSingerが歌ってくれたよ「Title」", "Artist")).toEqual({ title: "Title", artist: "Artist / Singer" })
+})
+
+test("jpOg式で名前に「の」を含む歌唱者が誤分割されない", () => {
+    expect(resolveTitleAndArtist("唯世かのんが「Title」を歌ってくれたよ", "Artist")).toEqual({ title: "Title", artist: "Artist / 唯世かのん" })
+})

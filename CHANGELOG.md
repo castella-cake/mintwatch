@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - プレイヤーコントローラーのグレーアウトの挙動を改善しました
 - アニメーションライブラリを react-transition-state へ全て移行しました
+- タイトル/アーティスト推定が、「～を歌ってくれたよ」形式のタイトル記述に対応しました
 
 ### Fixed
 - 視聴ページで投稿者へのリンク先がチャンネルの場合誤ったURLへ飛ぶ問題を修正しました [#88](https://github.com/castella-cake/mintwatch/issues/88)
