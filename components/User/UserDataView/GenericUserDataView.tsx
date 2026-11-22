@@ -17,7 +17,7 @@ export function GenericUserDataView({ userData, userId, isMe = false, isFollowin
     return (
         <div className="userdata-container">
             <div className="userdata-user">
-                <UserCard userData={userData} isMe={isMe} />
+                <UserCard userData={userData} userId={userId} isMe={isMe} />
             </div>
 
             {userData.coverImage && (

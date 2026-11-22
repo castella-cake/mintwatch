@@ -25,10 +25,11 @@
     border-radius: var(--radius);
     padding: 4px 12px;
     font-size: 0.9rem;
-    cursor: not-allowed;
+    cursor: pointer;
+    transition: var(--transition-normal);
 
-    &[aria-disabled="true"] {
-        opacity: 0.6;
+    &:hover {
+        background: var(--hover1);
     }
 }
 
@@ -127,24 +128,103 @@
     }
 }
 
-.achievement-card[data-honor-class="50"] {
+[data-honor-class="50"] {
     --achievement-honor-bg: rgb(46 125 50 / 15%);
     --achievement-honor-color: #4caf50;
 }
 
-.achievement-card[data-honor-class="100"] {
+[data-honor-class="100"] {
     --achievement-honor-bg: rgb(21 101 192 / 15%);
     --achievement-honor-color: #64b5f6;
 }
 
-.achievement-card[data-honor-class="200"] {
+[data-honor-class="200"] {
     --achievement-honor-bg: rgb(123 31 162 / 15%);
     --achievement-honor-color: #ba68c8;
 }
 
-.achievement-card[data-honor-class="300"] {
+[data-honor-class="300"] {
     --achievement-honor-bg: rgb(251 192 45 / 20%);
     --achievement-honor-color: #f9a825;
+}
+
+.achievement-pin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(36rem, 80vw);
+}
+
+.achievement-pin-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: min(60vh, 35rem);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.achievement-pin-empty {
+    margin: 0;
+    color: var(--textcolor2);
+    font-size: 0.9rem;
+}
+
+.achievement-pin-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+    background: var(--bgcolor1);
+    color: var(--textcolor1);
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition-normal);
+
+    &[data-is-selected="true"] {
+        border-color: var(--primary1);
+        background: var(--bgcolor2);
+    }
+
+    input[type="radio"] {
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+    }
+}
+
+.achievement-pin-item-icon {
+    display: grid;
+    place-content: center;
+    flex-shrink: 0;
+    color: var(--achievement-honor-color);
+
+    svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+.achievement-pin-item-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.95rem;
+}
+
+.achievement-pin-item-date {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.achievement-pin-error {
+    margin: 0;
+    color: var(--accent2);
+    font-size: 0.9rem;
 }
 
 @media (width <= 900px) {

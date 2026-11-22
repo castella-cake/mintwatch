@@ -1,15 +1,18 @@
 import { useId } from "react"
 import { EmptyNotice } from "@/components/Global/EmptyNotice"
-import { LoadingFiller } from "@/components/Global/LoadingFiller"
+import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { useHistoryContext, useLocationContext } from "@/components/Router/RouterContext"
+import { LoadingFiller } from "@/components/Global/LoadingFiller"
 import { useAchievedHistoryData, usePinnedAchievedHistoryData } from "@/hooks/apiHooks/user/achievedHistoryData"
 import { AchievementCard } from "./AchievementCard"
+import { openAchievementPinAlert } from "./AchievementPinAlert"
 
 type AchievementOrder = "honor_class" | "achieved_at"
 
 const validOrders: AchievementOrder[] = ["honor_class", "achieved_at"]
 
-export function Achievements({ userId }: { userId: number }) {
+export function Achievements({ userId, isMyPage }: { userId: number, isMyPage: boolean }) {
+    const { showAlert } = useSetMessageContext()
     const location = useLocationContext()
     const history = useHistoryContext()
     const sortSelectId = useId()
@@ -43,20 +46,29 @@ export function Achievements({ userId }: { userId: number }) {
     const histories = achievedHistoryData?.data.user_achieved_histories ?? []
     const pinnedItem = pinnedError || !pinnedAchievedHistoryData ? null : pinnedAchievedHistoryData.data.user_achieved_history
 
+    const handleOpenPinAlert = () => {
+        openAchievementPinAlert(showAlert, {
+            userId,
+            histories,
+            currentPinnedId: pinnedItem?.id ?? null,
+        })
+    }
+
     return (
         <div className="user-history-content user-category-content">
             {pinnedItem && (
                 <div className="achievement-pinned-container" data-pinned>
                     <div className="achievement-pinned-header">
                         <h2 className="achievement-section-title">代表実績</h2>
-                        <button
-                            type="button"
-                            className="achievement-settings-button"
-                            aria-disabled="true"
-                            onClick={() => { }}
-                        >
-                            実績の設定
-                        </button>
+                        {isMyPage && (
+                            <button
+                                type="button"
+                                className="achievement-settings-button"
+                                onClick={handleOpenPinAlert}
+                            >
+                                実績の設定
+                            </button>
+                        )}
                     </div>
                     <AchievementCard item={pinnedItem} />
                 </div>

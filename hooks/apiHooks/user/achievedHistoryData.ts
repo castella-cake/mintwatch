@@ -1,5 +1,5 @@
-import { getUserAchievedHistories, getUserPinnedAchievedHistory } from "@/utils/apis/user/achievedHistory"
-import { useQuery } from "@tanstack/react-query"
+import { getUserAchievedHistories, getUserPinnedAchievedHistory, pinUserAchievedHistory } from "@/utils/apis/user/achievedHistory"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export function useAchievedHistoryData(userId: number | undefined, order: "honor_class" | "achieved_at", limit = 100, page = 1) {
     const { data: achievedHistoryData, isLoading, error } = useQuery({
@@ -25,4 +25,14 @@ export function usePinnedAchievedHistoryData(userId: number | undefined) {
     })
 
     return { pinnedAchievedHistoryData, isLoading, error }
+}
+
+export function usePinAchievedHistoryMutation(userId: number) {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (achievedHistoryId: number) => pinUserAchievedHistory(achievedHistoryId),
+        onSuccess: (pinnedAchievedHistoryData) => {
+            queryClient.setQueryData(["user", userId, "pinnedAchievedHistory"], pinnedAchievedHistoryData)
+        },
+    })
 }

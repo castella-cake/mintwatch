@@ -54,3 +54,24 @@ export async function getUserPinnedAchievedHistory(userId: number) {
     if (!validateBaseResponse(responseJson)) throw new APIError("getUserPinnedAchievedHistory failed.", responseJson)
     return responseJson
 }
+
+/**
+ * 実績を代表実績として設定するAPI
+ * @param achievedHistoryId 実績履歴ID (AchievedHistoryItem.id)
+ */
+export async function pinUserAchievedHistory(achievedHistoryId: number) {
+    const url = new URL(`https://mjk.nicovideo.jp/api/v1/user_achieved_histories/${achievedHistoryId}/pin`)
+
+    url.searchParams.append("additional_fields", "content")
+
+    const response = await fetch(url, {
+        headers: achievedHistoryHeaders,
+        method: "PUT",
+        mode: "cors",
+        credentials: "include",
+    })
+
+    const responseJson = await response.json() as PinnedAchievedHistoryDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("pinUserAchievedHistory failed.", responseJson)
+    return responseJson
+}
