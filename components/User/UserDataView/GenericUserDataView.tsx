@@ -3,6 +3,7 @@ import { UserCard } from "./UserCard"
 import "../styles/GenericUserDataView.css"
 import { UserLevel } from "./UserLevel"
 import { useUserFollowOperation } from "@/hooks/apiHooks/user/userFollow"
+import { IconCheck, IconHeartHandshake, IconStar } from "@tabler/icons-react"
 
 interface GenericUserDataViewProps {
     userData: GenericUserData
@@ -40,7 +41,14 @@ export function GenericUserDataView({ userData, userId, isMe = false, isFollowin
                                             onClick={() => mutate({ userId, nickname: userData.nickname, follow: !isFollowing })}
                                             disabled={isPending}
                                         >
-                                            { isFollowing ? "フォロー中" : "フォローする" }
+                                            {
+                                                isFollowing
+                                                    ? <IconCheck />
+                                                    : <IconStar />
+                                            }
+                                            <span>
+                                                { isFollowing ? "フォロー中" : "フォローする" }
+                                            </span>
                                         </button>
                                         <a
                                             href={`https://creator-support.nicovideo.jp/registration/${userData.id}`}
@@ -49,7 +57,10 @@ export function GenericUserDataView({ userData, userId, isMe = false, isFollowin
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
-                                            サポートする
+                                            <IconHeartHandshake />
+                                            <span>
+                                                サポートする
+                                            </span>
                                         </a>
                                     </>
                                 )
