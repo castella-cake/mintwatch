@@ -31,7 +31,7 @@ export function Achievements({ userId, isMyPage }: { userId: number, isMyPage: b
     }
 
     if (isLoading || isPinnedLoading) {
-        return <LoadingFiller />
+        return <div className="user-history-content user-category-content"><LoadingFiller /></div>
     }
 
     if (error) {
