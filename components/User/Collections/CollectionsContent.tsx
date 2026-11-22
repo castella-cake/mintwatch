@@ -28,7 +28,7 @@ export function CollectionsContent({ userId, isMyPage, nickname }: { userId: num
             </div>
             <Match targetPathname={[isMyPage ? "/my/achievement!" : `/user/${userId}/achievement!`]}>
                 <title>{isMyPage ? "マイページ 実績 - ニコニコ" : `${nickname}さんの実績 - ニコニコ`}</title>
-                <Achievements />
+                <Achievements userId={userId} />
             </Match>
             { isMyPage && (
                 <Match targetPathname={[

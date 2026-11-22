@@ -4,6 +4,7 @@ import { MyPageContent } from "./MyPageContent"
 import { UserContent } from "./UserContent"
 import "./styles/index.css"
 import "./styles/History.css"
+import "./styles/Achievements.css"
 
 export function UserBody() {
     const location = useLocationContext()
