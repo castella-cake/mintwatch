@@ -1,29 +1,54 @@
-export function UserMylistHeader({ mylistData }: { mylistData: UserMylistResponseRootObject | undefined }) {
+import { useMylistFollowOperation } from "@/hooks/apiHooks/user/mylistFollow"
+import { IconCheck, IconStar } from "@tabler/icons-react"
+
+export function UserMylistHeader({ mylistData, showFollowButton = false }: { mylistData: UserMylistResponseRootObject | undefined, showFollowButton?: boolean }) {
+    // Rules of Hooks: 早期returnより前にフックを呼ぶ
+    const { mutate, isPending } = useMylistFollowOperation()
     if (!mylistData) return
+    const mylist = mylistData.data.mylist
+    const handleFollow = () => {
+        mutate({ mylistId: mylist.id, mylistName: mylist.name, follow: !mylist.isFollowing })
+    }
     return (
         <div className="user-videolist-view-information">
             <div className="user-videolist-view-information-data">
-                <h2 className="user-videolist-view-title">{mylistData?.data.mylist.name}</h2>
+                <div className="user-videolist-view-information-titleline">
+                    <h2 className="user-videolist-view-title">{mylist.name}</h2>
+                    { showFollowButton && (
+                        <button
+                            type="button"
+                            className="user-videolist-view-follow-button"
+                            data-is-active={mylist.isFollowing}
+                            disabled={isPending}
+                            onClick={handleFollow}
+                        >
+                            {mylist.isFollowing ? <IconCheck /> : <IconStar />}
+                            <span>
+                                {mylist.isFollowing ? "フォロー中" : "フォロー"}
+                            </span>
+                        </button>
+                    )}
+                </div>
                 <div className="user-videolist-view-stats">
                     <div className="user-videolist-view-stat">
                         全
                         {" "}
-                        <strong>{mylistData?.data.mylist.totalItemCount}</strong>
+                        <strong>{mylist.totalItemCount}</strong>
                         {" "}
                         件
                     </div>
                     <div className="user-videolist-view-stat">
-                        {mylistData?.data.mylist.isPublic ? "公開" : "非公開"}
+                        {mylist.isPublic ? "公開" : "非公開"}
                     </div>
                     <div className="user-videolist-view-stat">
                         フォロワー
                         {" "}
-                        <strong>{mylistData?.data.mylist.followerCount}</strong>
+                        <strong>{mylist.followerCount}</strong>
                     </div>
                 </div>
-                { mylistData?.data.mylist.description && (
+                { mylist.description && (
                     <div className="user-videolist-view-description">
-                        {mylistData?.data.mylist.description}
+                        {mylist.description}
                     </div>
                 )}
             </div>

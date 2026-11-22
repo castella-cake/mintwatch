@@ -54,6 +54,8 @@ export async function mylistFollowApi(mylistId: number | string, method: "POST" 
         headers: {
             "x-frontend-id": "6",
             "x-frontend-version": "0",
+            "x-niconico-language": "ja-jp",
+            "x-request-with": "https://www.nicovideo.jp",
         },
         method: method,
         credentials: "include",

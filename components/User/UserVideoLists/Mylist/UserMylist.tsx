@@ -108,7 +108,7 @@ export function UserMylist({ userId }: { userId?: number }) {
     return (
         <div className="user-videolist-view user-mylist-view">
             <title>{`${mylistData ? `「${mylistData?.data.mylist.name}」 ` : ""}${mylistData?.data.mylist.owner.name}さんの公開マイリスト - ニコニコ`}</title>
-            <UserMylistHeader mylistData={mylistData} />
+            <UserMylistHeader mylistData={mylistData} showFollowButton={true} />
             <UserVideosOptionSelector sortKeys={mylistSortKeys}>
                 {
                     firstValidId && (
