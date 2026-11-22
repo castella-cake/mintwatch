@@ -33,6 +33,7 @@
 .usercard-title {
     margin: 0;
     font-size: 1.5rem;
+    line-height: 1.25em;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -104,6 +105,11 @@
     border: 1px solid #fa0;
     padding: 4px 8px;
     border-radius: var(--radius);
+}
+
+.usercard-description-nothing {
+    font-style: italic;
+    color: var(--textcolor2);
 }
 
 @media (width <= 600px) {

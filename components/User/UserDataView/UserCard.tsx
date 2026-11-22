@@ -26,6 +26,13 @@ export function UserCard({ userData, userId, isMe = false }: UserCardProps) {
                 </h2>
                 <div className="usercard-stats">
                     <span className="usercard-stat">
+                        ID:
+                        {" "}
+                        {userData.id}
+                        {" "}
+                        {userData.registeredVersion}
+                    </span>
+                    <span className="usercard-stat">
                         <strong>
                             {userData.followeeCount}
                         </strong>
@@ -60,7 +67,7 @@ export function UserCard({ userData, userId, isMe = false }: UserCardProps) {
                                 <div dangerouslySetInnerHTML={{ __html: userData.decoratedDescriptionHtml }} />
                             )
                         : (
-                                <p>{userData.strippedDescription || "説明はありません"}</p>
+                                <div>{userData.strippedDescription || <span className="usercard-description-nothing">説明はありません</span>}</div>
                             )}
                 </div>
             </div>
