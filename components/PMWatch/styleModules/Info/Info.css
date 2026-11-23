@@ -42,35 +42,35 @@
         }
     }
 
-    details {
-        border-radius: var(--radius);
-        border: 2px solid var(--accent1);
-        padding: 0;
+}
 
-        summary {
-            padding: 8px 16px;
-            border-radius: var(--radius-mini);
+.videoinfo-desc {
+    border-radius: var(--radius);
+    border: 2px solid var(--accent1);
+    padding: 0;
+
+    summary {
+        padding: 8px 16px;
+        border-radius: var(--radius-mini);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: var(--transition-normal);
+
+        span {
+            font-size: 0.9em;
+            vertical-align: middle;
+            color: var(--textcolor3);
+            overflow-x: hidden;
             white-space: nowrap;
-            overflow: hidden;
             text-overflow: ellipsis;
-            transition: var(--transition-normal);
-
-            span {
-                font-size: 0.9em;
-                vertical-align: middle;
-                color: var(--textcolor3);
-                overflow-x: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-        }
-
-        summary:hover {
-            background: var(--hover1);
-            cursor: pointer;
         }
     }
 
+    summary:hover {
+        background: var(--hover1);
+        cursor: pointer;
+    }
 }
 
 .videoinfo-owner {

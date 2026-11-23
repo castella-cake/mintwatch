@@ -1,7 +1,7 @@
 .usercard-container {
     display: grid;
     grid-template-columns: max-content 1fr;
-    gap: 16px;
+    gap: 8px 16px;
     padding: var(--info-block-padding);
     background: var(--bgcolor2);
     border: var(--border);
@@ -28,6 +28,7 @@
     display: flex;
     flex-direction: column;
     gap: calc(var(--info-block-gap) / 2);
+    overflow: hidden;
 }
 
 .usercard-title {
@@ -110,6 +111,77 @@
 .usercard-description-nothing {
     font-style: italic;
     color: var(--textcolor2);
+}
+
+.usercard-description {
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--bgcolor1);
+    overflow: hidden;
+
+    summary {
+        padding: 8px 12px;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition-normal);
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::before {
+            content: "▶";
+            font-size: 0.7em;
+            color: var(--textcolor2);
+            transition: transform var(--transition-normal);
+        }
+
+        span {
+            flex: 1;
+            min-width: 0;
+            font-weight: normal;
+            font-size: 0.85em;
+            color: var(--textcolor2);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &[open] summary::before {
+        transform: rotate(90deg);
+    }
+
+    summary:hover {
+        background: var(--hover1);
+    }
+}
+
+.usercard-description-content {
+    padding: 12px;
+    overflow-wrap: break-word;
+    border-top: var(--border);
+
+    a {
+        color: var(--linktext1, #4ea1ff);
+    }
+}
+
+.usercard-description-empty {
+    margin: 0;
+    padding: 8px 12px;
+    color: var(--textcolor3);
+    font-size: 0.9rem;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--bgcolor1);
+}
+
+.usercard-description, .usercard-description-empty {
+    grid-column: 2/3;
 }
 
 @media (width <= 600px) {

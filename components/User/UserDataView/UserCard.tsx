@@ -1,6 +1,7 @@
 import { GenericUserData } from "@/types/user/genericUserData"
 import { usePinnedAchievedHistoryData } from "@/hooks/apiHooks/user/achievedHistoryData"
 import { honorClassConfig } from "../GenericComponents/achievementConfig"
+import { ExpandableHtmlDetails } from "@/components/Global/ExpandableHtmlDetails"
 import "../styles/UserCard.css"
 import { SnsLinks } from "./SnsLinks"
 
@@ -61,16 +62,22 @@ export function UserCard({ userData, userId, isMe = false }: UserCardProps) {
                         </a>
                     )}
                 </div>
-                <div className="usercard-description">
-                    {userData.decoratedDescriptionHtml
-                        ? (
-                                <div dangerouslySetInnerHTML={{ __html: userData.decoratedDescriptionHtml }} />
-                            )
-                        : (
-                                <div>{userData.strippedDescription || <span className="usercard-description-nothing">説明はありません</span>}</div>
-                            )}
-                </div>
             </div>
+            {userData.decoratedDescriptionHtml
+                ? (
+                        <ExpandableHtmlDetails
+                            className="usercard-description"
+                            contentClassName="usercard-description-content"
+                            summaryLabel="ユーザーの概要文を閉じる"
+                            showPreviewAsClosedSummary
+                            html={userData.decoratedDescriptionHtml}
+                        />
+                    )
+                : (
+                        <div className="usercard-description-empty">
+                            {userData.strippedDescription || <span className="usercard-description-nothing">説明はありません</span>}
+                        </div>
+                    )}
         </div>
     )
 }

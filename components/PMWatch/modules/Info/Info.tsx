@@ -4,12 +4,11 @@ import {
 } from "@tabler/icons-react"
 import type { ErrorResponse } from "@/types/watch/Base"
 import { MouseEvent, useState } from "react"
-import DOMPurify from "dompurify"
-import HTMLReactParser from "html-react-parser"
 import {
     useVideoInfoContext,
     useVideoRefContext,
 } from "@/components/Global/Contexts/VideoDataProvider"
+import { ExpandableHtmlDetails } from "@/components/Global/ExpandableHtmlDetails"
 import OwnerInfo from "./Owner"
 import UserFollowButton from "./UserFollowButton"
 import Tags from "./Tags"
@@ -17,12 +16,6 @@ import VideoTitle from "./VideoTitle"
 import ExternalLinkMenu from "./ExternalLinkMenu"
 import APIError from "@/utils/classes/APIError"
 import { isValidVideoInfoOwner, isVideoInfoOwnerUser } from "@/utils/handleVideoInfoOwner"
-
-function htmlToText(htmlString: string) {
-    const dummyDiv = document.createElement("div")
-    dummyDiv.innerHTML = htmlString
-    return dummyDiv.textContent || dummyDiv.innerText || ""
-}
 
 const reasonCodeLang = {
     INVALID_PARAMETER: "この動画は視聴できません",
@@ -130,7 +123,7 @@ function LoadingUI({ isShinjukuLayout }: { isShinjukuLayout: boolean }) {
                 </div>
                 {!isShinjukuLayout && <div className="videoinfo-owner"></div>}
             </div>
-            <details>
+            <details className="videoinfo-desc">
                 <summary>この動画の概要</summary>
                 <div className="videodesc"></div>
             </details>
@@ -171,12 +164,6 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
     )
     if (errorInfo) return <ErrorUI error={errorInfo} />
     if (!videoInfo) return <LoadingUI isShinjukuLayout={isShinjukuLayout} />
-
-    // Not scary!
-    const sanitizedDesc = DOMPurify.sanitize(
-        videoInfo.video.description || "",
-    )
-    const descElem = HTMLReactParser(sanitizedDesc)
 
     const handleAnchorClick = (e: MouseEvent<HTMLDivElement>) => {
         if (e.target instanceof Element) {
@@ -277,30 +264,18 @@ function Info({ isShinjukuLayout, isTitleShown }: Props) {
                     動画概要
                 </button>
             )}
-            <details
-                open={isDescOpen && true}
-                onToggle={(e) => {
-                    setIsDescOpen(e.currentTarget.open)
-                    storage.setItem(
-                        "local:descriptionOpen",
-                        e.currentTarget.open,
-                    )
+            <ExpandableHtmlDetails
+                className="videoinfo-desc"
+                contentClassName="videodesc"
+                html={videoInfo.video?.description || ""}
+                summaryLabel="この動画の概要"
+                open={isDescOpen}
+                onToggle={(open) => {
+                    setIsDescOpen(open)
+                    storage.setItem("local:descriptionOpen", open)
                 }}
-            >
-                <summary>
-                    この動画の概要
-                    {" "}
-                    {!isDescOpen && <span>{htmlToText(sanitizedDesc)}</span>}
-                </summary>
-                <div
-                    className="videodesc"
-                    onClickCapture={(e) => {
-                        handleAnchorClick(e)
-                    }}
-                >
-                    {descElem}
-                </div>
-            </details>
+                onContentClick={handleAnchorClick}
+            />
             {videoInfo.tags && (
                 <Tags
                     key={`${videoInfo.client?.watchId ?? ""}-${videoInfo.client?.watchTrackId ?? ""}`}

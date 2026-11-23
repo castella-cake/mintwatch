@@ -500,7 +500,7 @@
     }
 
     // 動画概要
-    .videoinfo-container details {
+    .videoinfo-desc {
         border: 2px solid var(--textcolor1);
         margin-top: 0;
         margin-bottom: 4px;
