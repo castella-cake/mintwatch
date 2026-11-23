@@ -9,6 +9,7 @@
 .user-category-container {
     display: flex;
     gap: 1rem;
+    margin-top: var(--blocks-gap);
 }
 
 .user-category-sidearea {

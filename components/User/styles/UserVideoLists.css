@@ -1,23 +1,17 @@
-.user-videolists-container {
+.user-category-sidearea .user-videolists-switcher {
     display: flex;
     gap: var(--blocks-gap);
-}
-
-.user-videolists-body {
-    flex: 4;
-}
-
-.user-videolists-left {
-    flex: 1;
-}
-
-.user-videolists-switcher {
-    display: flex;
-    gap: var(--blocks-gap);
-    margin-bottom: var(--blocks-gap);
 
     .userdata-navigation-anchor {
         padding: 6px;
+        flex: 1;
+        text-align: center;
+
+        &[data-isactive="true"] {
+            background: var(--textcolor1);
+            color: var(--bgcolor1);
+            border: var(--border);
+        }
     }
 }
 

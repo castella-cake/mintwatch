@@ -5,7 +5,7 @@ import { UserMylistByMe } from "./Mylist/UserMylistByMe"
 import "../styles/UserVideoLists.css"
 import "../styles/UserVideoListView.css"
 // series import is in UserSeriesList and UserSeries
-import { NavigationAnchorButton } from "../Navigation"
+import { ExternalAnchorButton, NavigationAnchorButton } from "../Navigation"
 import { UserSeriesList } from "./Series/UserSeriesList"
 import { UserSeries } from "./Series/UserSeries"
 
@@ -13,8 +13,8 @@ export function UserVideoListsContent({ userId, isMyPage, nickname }: { userId?:
     if (!userId && !isMyPage) return
 
     return (
-        <div className="user-videolists-container" data-scroll-anchor>
-            <div className="user-videolists-left">
+        <div className="user-videolists-container user-category-container" data-scroll-anchor>
+            <div className="user-videolists-left user-category-sidearea">
                 { !isMyPage && (
                     <div className="user-videolists-switcher">
                         <NavigationAnchorButton href={`/user/${userId}/mylist`} activeWhenStartsWith>
@@ -34,6 +34,11 @@ export function UserVideoListsContent({ userId, isMyPage, nickname }: { userId?:
                         ]}
                 >
                     <UserMylistsList showRootAnchor userId={userId} />
+                    {isMyPage && (
+                        <ExternalAnchorButton href="/my/follow/mylist">
+                            フォロー中のマイリストへ
+                        </ExternalAnchorButton>
+                    )}
                 </Match>
                 <Match targetPathname={isMyPage
                     ? []
@@ -44,7 +49,7 @@ export function UserVideoListsContent({ userId, isMyPage, nickname }: { userId?:
                     <UserSeriesList showRootAnchor userId={userId} />
                 </Match>
             </div>
-            <div className="user-videolists-body">
+            <div className="user-videolists-body user-category-content">
                 <Match targetPathname={isMyPage
                     ? [
                             "/my/mylist!",

@@ -12,7 +12,7 @@ export function CollectionsContent({ userId, isMyPage, nickname }: { userId: num
                 </NavigationAnchorButton>
                 { isMyPage && (
                     <NavigationAnchorButton href="/my/badge">
-                        図鑑
+                        バッジ
                     </NavigationAnchorButton>
                 )}
                 { isMyPage && (

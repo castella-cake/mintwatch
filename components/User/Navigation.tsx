@@ -125,12 +125,12 @@ export function NavigationAnchorButton({ children, href, activeWhenStartsWith, o
     )
 }
 
-export function ExternalAnchorButton({ children, href }: { children: React.ReactNode, href: string }) {
+export function ExternalAnchorButton({ children, href, isBlank }: { children: React.ReactNode, href: string, isBlank?: boolean }) {
     return (
         <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={isBlank ? "_blank" : undefined}
+            rel={isBlank ? "noopener noreferrer" : undefined}
             className="userdata-navigation-anchor userdata-sidearea-externalanchor"
         >
             {children}
