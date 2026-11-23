@@ -5,7 +5,7 @@ import { EmptyNotice } from "../EmptyNotice"
 
 export function ActivitiesTimeline({ context, type, userId, isActorsQuery }: {
     context?: "header_timeline" | "my_timeline" | `user_timeline_${number}`
-    type?: "publish" | "video" | "live" | "all"
+    type?: "publish" | "video" | "short_video" | "live" | "all"
     userId?: number
     isActorsQuery?: boolean
 }) {

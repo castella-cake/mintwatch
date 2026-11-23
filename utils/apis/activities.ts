@@ -41,7 +41,7 @@ export async function getPublishTimeline(context = "header_timeline") {
  * @param isActorsQuery falseでフォロー新着, trueで純粋な新着を取得
  * @returns ActivitiesDataRootObject
  */
-export async function getActivities(context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline", type: "publish" | "video" | "live" | "all" = "publish", userId?: number, isActorsQuery = false) {
+export async function getActivities(context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline", type: "publish" | "video" | "short_video" | "live" | "all" = "publish", userId?: number, isActorsQuery = false) {
     let apiUrlString = `https://api.feed.nicovideo.jp/v1/activities/followings/${encodeURIComponent(type)}`
     if (userId) {
         apiUrlString = `https://api.feed.nicovideo.jp/v1/activities/${isActorsQuery ? "actors" : "followings"}/users/${encodeURIComponent(userId)}/${encodeURIComponent(type)}`

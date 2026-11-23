@@ -3,7 +3,7 @@ import { NavigationAnchorButton } from "../Navigation"
 import { ActivitiesTimeline } from "@/components/Global/Activities/ActivitiesTimeline"
 import "../styles/TimelineContent.css"
 
-const validTypes = ["publish", "video", "live", "all"] as const
+const validTypes = ["publish", "video", "short_video", "live", "all"] as const
 
 export function TimelineContent({ thisUserPageId }: { thisUserPageId?: number }) {
     const location = useLocationContext()
@@ -20,6 +20,9 @@ export function TimelineContent({ thisUserPageId }: { thisUserPageId?: number })
                 </NavigationAnchorButton>
                 <NavigationAnchorButton href={`${hrefPrefix}/video`}>
                     動画投稿
+                </NavigationAnchorButton>
+                <NavigationAnchorButton href={`${hrefPrefix}/short_video`}>
+                    ショート投稿
                 </NavigationAnchorButton>
                 <NavigationAnchorButton href={`${hrefPrefix}/live`}>
                     生放送

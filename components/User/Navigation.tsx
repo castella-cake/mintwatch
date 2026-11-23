@@ -13,6 +13,7 @@ export function UserNavigation({ userId }: { userId: number }) {
                     `/user/${userId}/timeline/all`,
                     `/user/${userId}/timeline/postings`,
                     `/user/${userId}/timeline/video`,
+                    `/user/${userId}/timeline/short_video`,
                     `/user/${userId}/timeline/live`,
                 ]}
             >
@@ -61,6 +62,7 @@ export function MyPageNavigation() {
                     `/my/timeline/all`,
                     `/my/timeline/postings`,
                     `/my/timeline/video`,
+                    `/my/timeline/short_video`,
                     `/my/timeline/live`,
                 ]}
             >

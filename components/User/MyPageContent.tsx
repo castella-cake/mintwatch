@@ -50,6 +50,7 @@ export function MyPageContent() {
                 `/my/timeline/all`,
                 `/my/timeline/postings`,
                 `/my/timeline/video`,
+                `/my/timeline/short_video`,
                 `/my/timeline/live`,
             ]}
             >

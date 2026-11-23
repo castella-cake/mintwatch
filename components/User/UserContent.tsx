@@ -65,6 +65,7 @@ export function UserContent() {
                 `/user/${userId}/timeline/all`,
                 `/user/${userId}/timeline/postings`,
                 `/user/${userId}/timeline/video`,
+                `/user/${userId}/timeline/short_video`,
                 `/user/${userId}/timeline/live`,
             ]}
             >
