@@ -155,6 +155,9 @@
     margin-bottom: 8px;
     padding: 8px;
     border-bottom: var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--blocks-gap);
 
     .genericitem-card {
         border: none;
@@ -196,10 +199,13 @@
     margin-bottom: 8px;
 }
 
-.user-videolist-view-video-listdata:not(:has(.user-videolist-view-video-listdata-memo-text, .user-videolist-view-video-listdata-memo-editor-textarea)) {
+.user-videolist-view-video-listdata:not(:has(.user-videolist-view-video-listdata-memo-text, .user-videolist-view-video-listdata-memo-editor-textarea, .user-videolist-view-video-listdata-description)) {
     display: flex;
     align-items: center;
-    flex-direction: row-reverse;
+    
+    &:has(.user-videolist-view-video-listdata-memo-editbutton) {
+        flex-direction: row-reverse;
+    }
 
     > .user-videolist-view-video-listdata-memo {
         margin-bottom: 0;
