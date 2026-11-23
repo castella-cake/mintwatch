@@ -3,13 +3,14 @@ import { Activities } from "./ActivitiesList"
 import { LoadingFiller } from "../LoadingFiller"
 import { EmptyNotice } from "../EmptyNotice"
 
-export function ActivitiesTimeline({ context, type, userId, isActorsQuery }: {
+export function ActivitiesTimeline({ context, type, actorType, userId, isActorsQuery }: {
     context?: "header_timeline" | "my_timeline" | `user_timeline_${number}`
     type?: "publish" | "video" | "short_video" | "live" | "all"
+    actorType?: "users" | "channels"
     userId?: number
     isActorsQuery?: boolean
 }) {
-    const { activitiesData, isLoading } = useActivitiesQuery(context || "header_timeline", type || "publish", userId, isActorsQuery || false)
+    const { activitiesData, isLoading } = useActivitiesQuery(context || "header_timeline", type || "publish", actorType, userId, isActorsQuery || false)
 
     if (isLoading) return <LoadingFiller />
     if (!activitiesData) return <div className="activities-timeline-container">データが取得できませんでした</div>

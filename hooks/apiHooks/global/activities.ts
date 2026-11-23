@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query"
 
-export function useActivitiesQuery(context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline", type: "publish" | "video" | "short_video" | "live" | "all" = "publish", userId?: number, isActorsQuery = false) {
+export function useActivitiesQuery(
+    context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline",
+    type: "publish" | "video" | "short_video" | "live" | "all" = "publish",
+    actorType?: "users" | "channels",
+    userId?: number,
+    isActorsQuery = false,
+) {
     const { data: activitiesData, isLoading, error } = useQuery({
-        queryKey: ["activities", context, type, userId, isActorsQuery],
+        queryKey: ["activities", context, type, actorType, userId, isActorsQuery],
         queryFn: () => {
-            return getActivities(context, type, userId, isActorsQuery)
+            return getActivities(context, type, actorType, userId, isActorsQuery)
         },
     })
     return { activitiesData, isLoading, error }

@@ -41,10 +41,10 @@ export async function getPublishTimeline(context = "header_timeline") {
  * @param isActorsQuery falseでフォロー新着, trueで純粋な新着を取得
  * @returns ActivitiesDataRootObject
  */
-export async function getActivities(context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline", type: "publish" | "video" | "short_video" | "live" | "all" = "publish", userId?: number, isActorsQuery = false) {
+export async function getActivities(context: "header_timeline" | "my_timeline" | `user_timeline_${number}` = "header_timeline", type: "publish" | "video" | "short_video" | "live" | "all" = "publish", actorType?: "users" | "channels", userId?: number, isActorsQuery = false) {
     let apiUrlString = `https://api.feed.nicovideo.jp/v1/activities/followings/${encodeURIComponent(type)}`
-    if (userId) {
-        apiUrlString = `https://api.feed.nicovideo.jp/v1/activities/${isActorsQuery ? "actors" : "followings"}/users/${encodeURIComponent(userId)}/${encodeURIComponent(type)}`
+    if (actorType && userId) {
+        apiUrlString = `https://api.feed.nicovideo.jp/v1/activities/${isActorsQuery ? "actors" : "followings"}/${encodeURIComponent(actorType)}/${encodeURIComponent(userId)}/${encodeURIComponent(type)}`
     }
     const apiUrl = new URL(apiUrlString)
     apiUrl.searchParams.append("context", context)
@@ -80,8 +80,12 @@ export async function getFeedUnread() {
  * フォロー新着を既読としてマーク
  * @param requestWith 現在のURL
  */
-export async function postFeedRead(requestWith: string) {
-    const response = await fetch("https://api.feed.nicovideo.jp/v1/read", {
+export async function postFeedRead(requestWith: string, actorType?: "users" | "channels", actorId?: number) {
+    let url = "https://api.feed.nicovideo.jp/v1/read"
+    if (actorType && actorId) {
+        url += `/${encodeURIComponent(actorType)}/${encodeURIComponent(actorId)}`
+    }
+    const response = await fetch(url, {
         headers: {
             "x-frontend-id": "6",
             "x-request-with": requestWith,

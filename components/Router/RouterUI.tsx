@@ -100,8 +100,9 @@ export default function RouterUI() {
             if (
                 nearestAnchor
                 && !nearestAnchor.getAttribute("data-seektime")
+                // パスが違うか、パスが同じだがクエリが同じではない
                 && (
-                    targetPathnames.some(path => (nearestAnchor.href.startsWith(nicovideoPrefix + path) && location.pathname !== path))
+                    targetPathnames.some(path => (nearestAnchor.href.startsWith(nicovideoPrefix + path) && (location.pathname !== path || location.search !== new URL(nearestAnchor.href).search)))
                 )
                 && !isOutOfBoundsLinkAnchor(nearestAnchor)
             ) {
