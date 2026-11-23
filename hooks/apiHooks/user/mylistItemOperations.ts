@@ -1,6 +1,6 @@
 import { copyMylistItems, moveMylistItems } from "@/utils/apis/user/mylistItemOperations"
 import { deleteWatchLaterItems } from "@/utils/apis/watchLater"
-import { deleteMylistItems } from "@/utils/apis/user/userMylist"
+import { deleteMylistItems, putMylistItemDescription } from "@/utils/apis/user/userMylist"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export interface CopyMylistParams {
@@ -63,6 +63,34 @@ export function useDeleteMylistItems() {
         mutationFn: ({ mylistId, itemIds }: DeleteMylistParams) => deleteMylistItems(mylistId, itemIds),
         onSuccess: (_data, { mylistId }) => {
             queryClient.invalidateQueries({ queryKey: ["user", "me", "mylist", mylistId] })
+        },
+    })
+}
+
+export interface PutMylistItemDescriptionParams {
+    mylistId: number
+    itemId: number
+    description: string
+}
+
+export function usePutMylistItemDescription() {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ mylistId, itemId, description }: PutMylistItemDescriptionParams) => putMylistItemDescription(mylistId, itemId, description),
+        onSuccess: (data, { mylistId }) => {
+            queryClient.setQueriesData<UserMylistResponseRootObject>({ queryKey: ["user", "me", "mylist", mylistId] }, (mylistData) => {
+                if (!mylistData) return mylistData
+                return {
+                    ...mylistData,
+                    data: {
+                        ...mylistData.data,
+                        mylist: {
+                            ...mylistData.data.mylist,
+                            items: mylistData.data.mylist.items.map(item => item.itemId === data.data.item.itemId ? data.data.item : item),
+                        },
+                    },
+                }
+            })
         },
     })
 }

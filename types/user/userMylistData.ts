@@ -1,3 +1,5 @@
+import { MylistVideoItem } from "../generic/MylistItemData"
+
 export interface UserMylistResponseRootObject extends baseResponse {
     data: Data
 }
@@ -13,7 +15,7 @@ interface Mylist {
     decoratedDescriptionHtml: string
     defaultSortKey: string
     defaultSortOrder: string
-    items: Item[]
+    items: MylistVideoItem[]
     totalItemCount: number
     hasNext: boolean
     isPublic: boolean
@@ -21,14 +23,4 @@ interface Mylist {
     hasInvisibleItems: boolean
     followerCount: number
     isFollowing: boolean
-}
-
-interface Item {
-    itemId: number
-    watchId: string
-    description: string
-    decoratedDescriptionHtml: string
-    addedAt: string
-    status: string
-    video: VideoItem
 }

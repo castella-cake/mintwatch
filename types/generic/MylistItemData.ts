@@ -8,13 +8,13 @@ export interface MylistItem {
     defaultSortOrder: string
     itemsCount: number
     owner: GenericOwner
-    sampleItems: SampleItem[]
+    sampleItems: MylistVideoItem[]
     followerCount: number
     createdAt: string
     isFollowing: boolean
 }
 
-interface SampleItem {
+export interface MylistVideoItem {
     itemId: number
     watchId: string
     description: string

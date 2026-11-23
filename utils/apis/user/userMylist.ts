@@ -118,3 +118,21 @@ export async function createMylist(name: string, description: string, defaultSor
     if (!validateBaseResponse(responseJson)) throw new APIError("createMylist failed.", responseJson)
     return responseJson
 }
+
+/**
+ * マイリストアイテムのメモを更新するAPI
+ * @param mylistId マイリストID
+ * @param itemId アイテムID
+ * @param description メモの内容
+ */
+export async function putMylistItemDescription(mylistId: number, itemId: number, description: string) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/mylists/${mylistId}/items/${itemId}`, {
+        headers: formOperationHeaders,
+        method: "PUT",
+        credentials: "include",
+        body: new URLSearchParams({ description: description }).toString(),
+    })
+    const responseJson = await response.json() as UserMylistItemPutResponseDataRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("putMylistItemDescription failed.", responseJson)
+    return responseJson
+}

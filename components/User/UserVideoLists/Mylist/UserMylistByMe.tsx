@@ -11,6 +11,7 @@ import { useItemSelection } from "@/hooks/useItemSelection"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { UserMylistHeader } from "./UserMylistHeader"
 import { MylistItemActionBar } from "./MylistItemActionBar"
+import { MylistItemMemo } from "./MylistItemMemo"
 import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
 import { mylistSortKeys } from "./UserMylist"
 
@@ -223,11 +224,7 @@ export function UserMylistByMe() {
                             )}
                         />
                         <div className="user-videolist-view-video-listdata">
-                            { item.description && (
-                                <div className="user-videolist-view-video-listdata-description">
-                                    {item.description}
-                                </div>
-                            )}
+                            <MylistItemMemo mylistId={mylistId} item={item} />
                             <div className="user-videolist-view-video-listdata-addedAt">
                                 追加日時
                                 {" "}
