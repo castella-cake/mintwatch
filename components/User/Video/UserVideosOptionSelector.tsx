@@ -80,6 +80,7 @@ export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptio
             onOrderChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortOrder", value.toString())
+                    if (sortKeys.find(k => k.value === currentUrl.searchParams.get("sortKey"))) return
                     const defaultSort = sortKeys.find(k => k.default)?.value || defaultSortOption
                     if (defaultSort) currentUrl.searchParams.set("sortKey", defaultSort)
                 })
@@ -91,6 +92,7 @@ export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptio
             onSortKeyChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortKey", value.toString())
+                    if (sortOrders.find(o => o.value === currentUrl.searchParams.get("sortOrder"))) return
                     const defaultOrder = sortOrders.find(k => k.default)?.value || defaultOrderOption
                     if (defaultOrder) currentUrl.searchParams.set("sortOrder", defaultOrder)
                 })
