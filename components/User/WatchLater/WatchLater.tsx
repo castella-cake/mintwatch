@@ -3,10 +3,11 @@ import { useWatchLaterData } from "@/hooks/apiHooks/user/watchLaterData"
 import { useLocationContext } from "@/components/Router/RouterContext"
 import { IconAlertTriangle, IconCheck, IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { PageSelector } from "@/components/Global/PageSelector"
-import { useCopyMylistItems, useDeleteWatchLaterItems, useMoveMylistItems } from "@/hooks/apiHooks/user/mylistItemOperations"
+import { useCopyMylistItems, useDeleteWatchLaterItems, useModifyWatchLaterMemo, useMoveMylistItems } from "@/hooks/apiHooks/user/mylistItemOperations"
 import { useItemSelection } from "@/hooks/useItemSelection"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { MylistItemActionBar } from "../UserVideoLists/Mylist/MylistItemActionBar"
+import { MylistItemMemo } from "../UserVideoLists/Mylist/MylistItemMemo"
 import { UserVideosOptionSelector } from "../Video/UserVideosOptionSelector"
 import { EmptyNotice } from "@/components/Global/EmptyNotice"
 import { LoadingFiller } from "@/components/Global/LoadingFiller"
@@ -65,6 +66,10 @@ export function WatchLater() {
     const copyMutation = useCopyMylistItems()
     const moveMutation = useMoveMylistItems()
     const deleteMutation = useDeleteWatchLaterItems()
+    const watchLaterMemoMutation = useModifyWatchLaterMemo()
+    const handleSaveMemo = useCallback(async (memo: string, itemId: number) => {
+        await watchLaterMemoMutation.mutateAsync({ itemId, memo })
+    }, [watchLaterMemoMutation])
 
     const [selectedDestinationId, setSelectedDestinationId] = useState<number | null>(null)
     const isProcessing = copyMutation.isPending || moveMutation.isPending || deleteMutation.isPending
@@ -247,11 +252,11 @@ export function WatchLater() {
                                     )}
                                 />
                                 <div className="user-videolist-view-video-listdata">
-                                    { item.memo && (
-                                        <div className="user-videolist-view-video-listdata-description">
-                                            {item.memo}
-                                        </div>
-                                    )}
+                                    <MylistItemMemo
+                                        memo={item.memo}
+                                        itemId={item.itemId}
+                                        save={handleSaveMemo}
+                                    />
                                     <div className="user-videolist-view-video-listdata-addedAt">
                                         追加日時
                                         {" "}

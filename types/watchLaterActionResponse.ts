@@ -1,3 +1,5 @@
+import { WatchLaterItem } from "./generic/watchLaterItem"
+
 export interface WatchLaterActionResponseDataRootObject extends baseResponse {
     data: Data
 }
@@ -7,15 +9,5 @@ interface Data {
 }
 
 interface WatchLater {
-    item: Item
-}
-
-interface Item {
-    itemId: number
-    watchId: string
-    memo: string
-    decoratedMemoHtml: string
-    addedAt: string
-    status: string
-    video: VideoItem
+    item: WatchLaterItem
 }

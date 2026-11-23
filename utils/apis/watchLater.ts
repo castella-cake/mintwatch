@@ -69,7 +69,7 @@ export async function modifyWatchLaterMemo(itemId: number, memo = "") {
             "x-request-with": "https://www.nicovideo.jp",
         },
         body: `memo=${encodeURIComponent(memo)}`,
-        method: "POST",
+        method: "PUT",
         credentials: "include",
     })
     const responseJson = await response.json() as WatchLaterActionResponseDataRootObject

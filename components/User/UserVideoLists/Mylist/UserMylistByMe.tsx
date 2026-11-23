@@ -6,7 +6,7 @@ import { PageSelector } from "@/components/Global/PageSelector"
 // import "../../styles/UserMylist.css"
 import { IconAlertTriangle, IconCheck, IconPlayCard1, IconPlayerTrackNextFilled } from "@tabler/icons-react"
 import { useUserMylistData } from "@/hooks/apiHooks/user/userMylistData"
-import { useCopyMylistItems, useDeleteMylistItems, useMoveMylistItems } from "@/hooks/apiHooks/user/mylistItemOperations"
+import { useCopyMylistItems, useDeleteMylistItems, useMoveMylistItems, usePutMylistItemDescription } from "@/hooks/apiHooks/user/mylistItemOperations"
 import { useItemSelection } from "@/hooks/useItemSelection"
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
 import { UserMylistHeader } from "./UserMylistHeader"
@@ -34,6 +34,10 @@ export function UserMylistByMe() {
     const copyMutation = useCopyMylistItems()
     const moveMutation = useMoveMylistItems()
     const deleteMutation = useDeleteMylistItems()
+    const memoMutation = usePutMylistItemDescription()
+    const handleSaveMemo = useCallback(async (description: string, itemId: number) => {
+        await memoMutation.mutateAsync({ mylistId: mylistId!, itemId, description })
+    }, [memoMutation, mylistId])
 
     const [selectedDestinationId, setSelectedDestinationId] = useState<number | null>(null)
     const isProcessing = copyMutation.isPending || moveMutation.isPending || deleteMutation.isPending
@@ -224,7 +228,11 @@ export function UserMylistByMe() {
                             )}
                         />
                         <div className="user-videolist-view-video-listdata">
-                            <MylistItemMemo mylistId={mylistId} item={item} />
+                            <MylistItemMemo
+                                memo={item.description}
+                                itemId={item.itemId}
+                                save={handleSaveMemo}
+                            />
                             <div className="user-videolist-view-video-listdata-addedAt">
                                 追加日時
                                 {" "}

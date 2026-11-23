@@ -1,47 +1,45 @@
 import { useSetMessageContext } from "@/components/Global/Contexts/MessageProvider"
-import { usePutMylistItemDescription } from "@/hooks/apiHooks/user/mylistItemOperations"
 import { IconAlertTriangle, IconCheck, IconEdit } from "@tabler/icons-react"
 
 const MEMO_MAX_LENGTH = 256
 
 interface MylistItemMemoProps {
-    mylistId: number
-    item: MylistVideoItem
+    memo: string
+    itemId: number
+    save: (memo: string, itemId: number) => Promise<void>
 }
 
-export function MylistItemMemo({ mylistId, item }: MylistItemMemoProps) {
+export function MylistItemMemo({ memo, itemId, save }: MylistItemMemoProps) {
     const { showToast } = useSetMessageContext()
-    const memoMutation = usePutMylistItemDescription()
     const [isEditing, setIsEditing] = useState(false)
-    const [draft, setDraft] = useState(item.description)
+    const [isSaving, setIsSaving] = useState(false)
+    const [draft, setDraft] = useState(memo)
 
     const handleEdit = () => {
-        setDraft(item.description)
+        setDraft(memo)
         setIsEditing(true)
     }
 
     const handleCancel = () => {
-        setDraft(item.description)
+        setDraft(memo)
         setIsEditing(false)
     }
 
-    const handleSave = () => {
-        memoMutation.mutate(
-            { mylistId, itemId: item.itemId, description: draft },
-            {
-                onSuccess: () => {
-                    setIsEditing(false)
-                    showToast({ title: "メモを保存しました", icon: <IconCheck /> })
-                },
-                onError: (error) => {
-                    showToast({
-                        title: "メモの保存に失敗しました",
-                        body: String(error),
-                        icon: <IconAlertTriangle />,
-                    })
-                },
-            },
-        )
+    const handleSave = async () => {
+        setIsSaving(true)
+        try {
+            await save(draft, itemId)
+            setIsEditing(false)
+            showToast({ title: "メモを保存しました", icon: <IconCheck /> })
+        } catch (error) {
+            showToast({
+                title: "メモの保存に失敗しました",
+                body: String(error),
+                icon: <IconAlertTriangle />,
+            })
+        } finally {
+            setIsSaving(false)
+        }
     }
 
     if (isEditing) {
@@ -60,8 +58,8 @@ export function MylistItemMemo({ mylistId, item }: MylistItemMemoProps) {
                         className="user-videolist-view-video-listdata-memo-editor-button"
                         data-isprimary="true"
                         onClick={handleSave}
-                        disabled={memoMutation.isPending}
-                        aria-disabled={memoMutation.isPending}
+                        disabled={isSaving}
+                        aria-disabled={isSaving}
                     >
                         保存
                     </button>
@@ -69,8 +67,8 @@ export function MylistItemMemo({ mylistId, item }: MylistItemMemoProps) {
                         type="button"
                         className="user-videolist-view-video-listdata-memo-editor-button"
                         onClick={handleCancel}
-                        disabled={memoMutation.isPending}
-                        aria-disabled={memoMutation.isPending}
+                        disabled={isSaving}
+                        aria-disabled={isSaving}
                     >
                         キャンセル
                     </button>
@@ -92,9 +90,9 @@ export function MylistItemMemo({ mylistId, item }: MylistItemMemoProps) {
 
     return (
         <div className="user-videolist-view-video-listdata-memo">
-            {item.description && (
+            {memo && (
                 <div className="user-videolist-view-video-listdata-memo-text">
-                    {item.description}
+                    {memo}
                 </div>
             )}
             <button

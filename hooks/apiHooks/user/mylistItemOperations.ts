@@ -1,5 +1,5 @@
 import { copyMylistItems, moveMylistItems } from "@/utils/apis/user/mylistItemOperations"
-import { deleteWatchLaterItems } from "@/utils/apis/watchLater"
+import { deleteWatchLaterItems, modifyWatchLaterMemo } from "@/utils/apis/watchLater"
 import { deleteMylistItems, putMylistItemDescription } from "@/utils/apis/user/userMylist"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
@@ -87,6 +87,33 @@ export function usePutMylistItemDescription() {
                         mylist: {
                             ...mylistData.data.mylist,
                             items: mylistData.data.mylist.items.map(item => item.itemId === data.data.item.itemId ? data.data.item : item),
+                        },
+                    },
+                }
+            })
+        },
+    })
+}
+
+export interface ModifyWatchLaterMemoParams {
+    itemId: number
+    memo: string
+}
+
+export function useModifyWatchLaterMemo() {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ itemId, memo }: ModifyWatchLaterMemoParams) => modifyWatchLaterMemo(itemId, memo),
+        onSuccess: (data) => {
+            queryClient.setQueriesData<WatchLaterDataRootObject>({ queryKey: ["user", "me", "watchlater"] }, (watchLaterData) => {
+                if (!watchLaterData) return watchLaterData
+                return {
+                    ...watchLaterData,
+                    data: {
+                        ...watchLaterData.data,
+                        watchLater: {
+                            ...watchLaterData.data.watchLater,
+                            items: watchLaterData.data.watchLater.items.map(item => item.itemId === data.data.watchLater.item.itemId ? data.data.watchLater.item : item),
                         },
                     },
                 }
