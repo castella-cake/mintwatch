@@ -54,21 +54,19 @@ export function Match({ targetPathname, children }: { targetPathname: string | s
     return <></>
 }
 
-const nicovideoPrefix = "https://www.nicovideo.jp"
-
 export default function RouterUI() {
     const syncStorage = useStorageVar(["enableReshogi", "enableSearchPage", "enableShortsPage", "enableRecommendationsPage", "enableUserPage"] as const)
     const isShortsPageEnabled = syncStorage.enableShortsPage ?? getDefault("enableShortsPage")
     const targetPathnames = [
         "/watch/",
         ...(isShortsPageEnabled ? ["/shorts/"] : []),
-        ...(syncStorage.enableReshogi ? ["/ranking"] : []),
+        ...(syncStorage.enableReshogi ? ["/ranking!", "/ranking/"] : []),
         ...(syncStorage.enableSearchPage
             ? searchPagePaths
             : []),
-        ...(syncStorage.enableRecommendationsPage ? ["/recommendations"] : []),
+        ...(syncStorage.enableRecommendationsPage ? ["/recommendations!"] : []),
         ...(syncStorage.enableUserPage
-            ? ["/user/", "/my"]
+            ? ["/user/", "/my!", "/my/"]
             : []
         ),
     ]
@@ -97,12 +95,14 @@ export default function RouterUI() {
             const nearestAnchor: HTMLAnchorElement | null = e.target.closest("a")
             // data-seektimeがある場合は、mousecaptureな都合上スキップする。
             // ここでのPath管理は完全にルーティングした先のコンポーネントに任せるため、単にページを切り替えるだけに留める。
+            if (!nearestAnchor || nearestAnchor.getAttribute("data-seektime")) return
+            const hrefUrl = new URL(nearestAnchor.href)
             if (
                 nearestAnchor
                 && !nearestAnchor.getAttribute("data-seektime")
                 // パスが違うか、パスが同じだがクエリが同じではない
                 && (
-                    targetPathnames.some(path => (nearestAnchor.href.startsWith(nicovideoPrefix + path) && (location.pathname !== path || location.search !== new URL(nearestAnchor.href).search)))
+                    targetPathnames.some(path => (pathMatcher(hrefUrl.pathname, path) && (location.pathname !== path || location.search !== hrefUrl.search)))
                 )
                 && !isOutOfBoundsLinkAnchor(nearestAnchor)
             ) {
@@ -110,7 +110,7 @@ export default function RouterUI() {
                 e.stopPropagation()
                 e.preventDefault()
                 // バックグラウンド再生に入れるかどうかは遷移先のページ種別で判定する。
-                const destinationPathname = new URL(nearestAnchor.href).pathname
+                const destinationPathname = hrefUrl.pathname
                 const isPlaying = !!(videoRef.current && !videoRef.current.paused)
                 const willVisitVideoPage = isPathnameIsVideoPage(destinationPathname, isShortsPageEnabled)
 
@@ -134,7 +134,7 @@ export default function RouterUI() {
 
     useLayoutEffect(() => {
         return history.listen(({ location: newLocation }) => {
-            if (!targetPathnames.some(path => newLocation.pathname.startsWith(path))) {
+            if (!targetPathnames.some(path => pathMatcher(newLocation.pathname, path))) {
                 console.log("Out of bounds. reloading...")
                 window.location.reload()
             } else if (newLocation.pathname.split("/")[1] !== location.pathname.split("/")[1]) {
