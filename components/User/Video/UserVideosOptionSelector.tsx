@@ -5,22 +5,22 @@ import type { ReactNode } from "react"
 interface UserVideosSortKey {
     label: string
     value: string
-    default?: boolean
 }
 
 interface UserVideosOptionSelectorProps {
     children?: ReactNode
     sortKeys: UserVideosSortKey[]
+    defaultSortOrder?: string
+    defaultSortKey?: string
 }
 
-const defaultSortOption = "registeredAt"
-const defaultOrderOption = "desc"
+const fallbackSortKey = "registeredAt"
+const fallbackSortOrder = "desc"
 
 export const videoSortKeys: UserVideosSortKey[] = [
     {
         label: "投稿日時",
         value: "registeredAt",
-        default: true,
     },
     {
         label: "再生数",
@@ -52,7 +52,6 @@ const sortOrders = [
     {
         label: "降順",
         value: "desc",
-        default: true,
     },
     {
         label: "昇順",
@@ -60,7 +59,7 @@ const sortOrders = [
     },
 ]
 
-export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptionSelectorProps) {
+export function UserVideosOptionSelector({ children, sortKeys, defaultSortKey, defaultSortOrder }: UserVideosOptionSelectorProps) {
     const { userEnableGridCardLayout } = useStorageVar(["userEnableGridCardLayout"], "local")
     const history = useHistoryContext()
     const location = useLocationContext()
@@ -74,26 +73,26 @@ export function UserVideosOptionSelector({ children, sortKeys }: UserVideosOptio
     return (
         <OptionSelector
             order={sortOrders.map((option) => {
-                const currentOption = new URLSearchParams(location.search).get("sortOrder") || sortOrders.find(k => k.default)?.value || defaultOrderOption
+                const currentOption = new URLSearchParams(location.search).get("sortOrder") || defaultSortOrder || fallbackSortOrder
                 return { ...option, active: option.value === currentOption }
             })}
             onOrderChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortOrder", value.toString())
                     if (sortKeys.find(k => k.value === currentUrl.searchParams.get("sortKey"))) return
-                    const defaultSort = sortKeys.find(k => k.default)?.value || defaultSortOption
+                    const defaultSort = defaultSortKey || fallbackSortKey
                     if (defaultSort) currentUrl.searchParams.set("sortKey", defaultSort)
                 })
             }}
             sortKey={sortKeys.map((option) => {
-                const currentOption = new URLSearchParams(location.search).get("sortKey") || sortKeys.find(k => k.default)?.value || defaultSortOption
+                const currentOption = new URLSearchParams(location.search).get("sortKey") || defaultSortKey || fallbackSortKey
                 return { ...option, active: option.value === currentOption }
             })}
             onSortKeyChanged={(value) => {
                 pushSearchUrl((currentUrl) => {
                     currentUrl.searchParams.set("sortKey", value.toString())
                     if (sortOrders.find(o => o.value === currentUrl.searchParams.get("sortOrder"))) return
-                    const defaultOrder = sortOrders.find(k => k.default)?.value || defaultOrderOption
+                    const defaultOrder = defaultSortOrder || fallbackSortOrder
                     if (defaultOrder) currentUrl.searchParams.set("sortOrder", defaultOrder)
                 })
             }}

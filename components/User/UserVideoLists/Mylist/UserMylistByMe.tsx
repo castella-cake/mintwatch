@@ -166,13 +166,16 @@ export function UserMylistByMe() {
     const watchPlaylistString = btoa(JSON.stringify(playlistObject))
     watchPlaylistQuery.set("playlist", watchPlaylistString)
 
+    const defaultSortOrder = mylistData?.data.mylist.defaultSortOrder
+    const defaultSortKey = mylistData?.data.mylist.defaultSortKey
+
     const firstValidId = mylistData?.data.mylist.items.find(item => item.status === "public" && isValidVideoItem(item.video))?.video.id
 
     return (
         <div className="user-videolist-view user-mylist-view">
             <title>{`マイページ ${mylistData ? `${mylistData?.data.mylist.name}` : ""} - ニコニコ`}</title>
             <UserMylistHeader mylistData={mylistData} />
-            <UserVideosOptionSelector sortKeys={mylistSortKeys}>
+            <UserVideosOptionSelector sortKeys={mylistSortKeys} defaultSortOrder={defaultSortOrder} defaultSortKey={defaultSortKey}>
                 {
                     firstValidId && (
                         <a className="user-videolist-view-playbutton" href={`https://www.nicovideo.jp/watch/${firstValidId}?${watchPlaylistQuery.toString()}`}>
