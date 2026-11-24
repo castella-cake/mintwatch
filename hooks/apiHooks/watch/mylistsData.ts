@@ -18,20 +18,12 @@ export function useMylistsData(userId: "me" | number | undefined, sampleItemCoun
             return { ...args, response }
         },
         onSuccess: (args: { mylistId: MylistItem["id"], itemId: string, requestWith: string, response: baseResponse }) => {
-            if (mylistsData) queryClient.setQueryData(["mylists"], toIncrementedMylists(mylistsData, args))
+            // マイリスト一覧の件数表示と、追加対象マイリストの詳細ページのキャッシュを破棄する
+            queryClient.invalidateQueries({ queryKey: ["mylists"] })
+            queryClient.invalidateQueries({ queryKey: ["user", "me", "mylist", args.mylistId] })
             return args
         },
     })
 
     return { mylistsData, mutateMylistsAddItem }
-}
-
-function toIncrementedMylists(mylistsData: MylistsResponseRootObject, args: { mylistId: MylistItem["id"], itemId: string }): MylistsResponseRootObject {
-    const clonedMylistsData = structuredClone(mylistsData)
-    for (const index in clonedMylistsData.data.mylists) {
-        if (clonedMylistsData.data.mylists[index].id === args.mylistId) {
-            clonedMylistsData.data.mylists[index].itemsCount = clonedMylistsData.data.mylists[index].itemsCount + 1
-        }
-    }
-    return clonedMylistsData
 }
