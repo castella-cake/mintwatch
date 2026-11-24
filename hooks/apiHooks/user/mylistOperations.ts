@@ -1,5 +1,5 @@
 import { addItemToMylist } from "@/utils/apis/mylist"
-import { createMylist, getUserMylistsCompact, putUserMylistsOrder } from "@/utils/apis/user/userMylist"
+import { createMylist, deleteMylist, getUserMylistsCompact, putUserMylistsOrder, updateMylist } from "@/utils/apis/user/userMylist"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export interface CreateMylistParams {
@@ -55,6 +55,40 @@ export function useCreateMylistMutation() {
             return { mylistId, failedItemCount }
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["mylists"] })
+            queryClient.invalidateQueries({ queryKey: ["userMylistsCompact"] })
+        },
+    })
+}
+
+export interface UpdateMylistParams {
+    mylistId: number
+    name: string
+    description: string
+    defaultSortKey: string
+    defaultSortOrder: "asc" | "desc"
+    isPublic: boolean
+}
+
+export function useUpdateMylistMutation() {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({ mylistId, name, description, defaultSortKey, defaultSortOrder, isPublic }: UpdateMylistParams) =>
+            updateMylist(mylistId, name, description, defaultSortKey, defaultSortOrder, isPublic),
+        onSuccess: (_data, { mylistId }) => {
+            queryClient.invalidateQueries({ queryKey: ["user", "me", "mylist", mylistId] })
+            queryClient.invalidateQueries({ queryKey: ["mylists"] })
+            queryClient.invalidateQueries({ queryKey: ["userMylistsCompact"] })
+        },
+    })
+}
+
+export function useDeleteMylistMutation() {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (mylistId: number) => deleteMylist(mylistId),
+        onSuccess: (_data, mylistId) => {
+            queryClient.removeQueries({ queryKey: ["user", "me", "mylist", mylistId] })
             queryClient.invalidateQueries({ queryKey: ["mylists"] })
             queryClient.invalidateQueries({ queryKey: ["userMylistsCompact"] })
         },

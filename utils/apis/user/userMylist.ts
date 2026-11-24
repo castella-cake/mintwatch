@@ -120,6 +120,49 @@ export async function createMylist(name: string, description: string, defaultSor
 }
 
 /**
+ * マイリスト情報を編集するAPI
+ * @param mylistId 更新するマイリストのID
+ * @param name マイリスト名
+ * @param description 説明文
+ * @param defaultSortKey 既定の並び順
+ * @param defaultSortOrder 既定の昇順/降順
+ * @param isPublic 公開するかどうか
+ * @returns アイテム情報を抜いた UserMylistResponseRootObject (items: [], totalItemCount: 0)
+ */
+export async function updateMylist(mylistId: number, name: string, description: string, defaultSortKey: string, defaultSortOrder: "asc" | "desc", isPublic: boolean) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/mylists/${encodeURIComponent(mylistId)}`, {
+        headers: formOperationHeaders,
+        method: "PUT",
+        credentials: "include",
+        body: new URLSearchParams({
+            name: name,
+            description: description,
+            defaultSortKey: defaultSortKey,
+            defaultSortOrder: defaultSortOrder,
+            isPublic: isPublic ? "true" : "false",
+        }).toString(),
+    })
+    const responseJson = await response.json() as UserMylistResponseRootObject
+    if (!validateBaseResponse(responseJson)) throw new APIError("updateMylist failed.", responseJson)
+    return responseJson
+}
+
+/**
+ * マイリストを削除するAPI
+ * @param mylistId 削除するマイリストのID
+ */
+export async function deleteMylist(mylistId: number) {
+    const response = await fetch(`https://nvapi.nicovideo.jp/v1/users/me/mylists/${encodeURIComponent(mylistId)}`, {
+        headers: formOperationHeaders,
+        method: "DELETE",
+        credentials: "include",
+    })
+    const responseJson = await response.json() as baseResponse
+    if (!validateBaseResponse(responseJson)) throw new APIError("deleteMylist failed.", responseJson)
+    return responseJson
+}
+
+/**
  * マイリストアイテムのメモを更新するAPI
  * @param mylistId マイリストID
  * @param itemId アイテムID

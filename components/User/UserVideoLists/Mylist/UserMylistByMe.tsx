@@ -13,7 +13,6 @@ import { UserMylistHeader } from "./UserMylistHeader"
 import { MylistItemActionBar } from "./MylistItemActionBar"
 import { MylistItemMemo } from "./MylistItemMemo"
 import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
-import { mylistSortKeys } from "./UserMylist"
 
 const validOrder = ["asc", "desc"]
 
@@ -174,7 +173,7 @@ export function UserMylistByMe() {
     return (
         <div className="user-videolist-view user-mylist-view">
             <title>{`マイページ ${mylistData ? `${mylistData?.data.mylist.name}` : ""} - ニコニコ`}</title>
-            <UserMylistHeader mylistData={mylistData} />
+            <UserMylistHeader mylistData={mylistData} showManageMenu />
             <UserVideosOptionSelector sortKeys={mylistSortKeys} defaultSortOrder={defaultSortOrder} defaultSortKey={defaultSortKey}>
                 {
                     firstValidId && (

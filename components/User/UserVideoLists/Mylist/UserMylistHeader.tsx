@@ -1,7 +1,8 @@
 import { useMylistFollowOperation } from "@/hooks/apiHooks/user/mylistFollow"
 import { IconCheck, IconStar } from "@tabler/icons-react"
+import { MylistManageMenu } from "./MylistManageMenu"
 
-export function UserMylistHeader({ mylistData, showFollowButton = false }: { mylistData: UserMylistResponseRootObject | undefined, showFollowButton?: boolean }) {
+export function UserMylistHeader({ mylistData, showFollowButton = false, showManageMenu = false }: { mylistData: UserMylistResponseRootObject | undefined, showFollowButton?: boolean, showManageMenu?: boolean }) {
     // Rules of Hooks: 早期returnより前にフックを呼ぶ
     const { mutate, isPending } = useMylistFollowOperation()
     if (!mylistData) return
@@ -28,6 +29,7 @@ export function UserMylistHeader({ mylistData, showFollowButton = false }: { myl
                             </span>
                         </button>
                     )}
+                    { showManageMenu && <MylistManageMenu mylist={mylist} /> }
                 </div>
                 <div className="user-videolist-view-stats">
                     <div className="user-videolist-view-stat">

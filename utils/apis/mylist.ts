@@ -3,6 +3,53 @@ import { MylistsResponseRootObject } from "@/types/mylistsData"
 import APIError from "../classes/APIError"
 
 /**
+ * nvapiのマイリストAPIで利用できるソートの種類とその表示名
+ * sortKey / defaultSortKey パラメータの選択肢として使用する
+ */
+export const mylistSortKeys = [
+    {
+        label: "マイリスト登録日時",
+        value: "addedAt",
+    },
+    {
+        label: "タイトル",
+        value: "title",
+    },
+    {
+        label: "投稿日時",
+        value: "registeredAt",
+    },
+    {
+        label: "メモ",
+        value: "mylistComment",
+    },
+    {
+        label: "再生数",
+        value: "viewCount",
+    },
+    {
+        label: "最終コメント日時",
+        value: "lastCommentTime",
+    },
+    {
+        label: "コメント数",
+        value: "commentCount",
+    },
+    {
+        label: "いいね！数",
+        value: "likeCount",
+    },
+    {
+        label: "マイリスト数",
+        value: "mylistCount",
+    },
+    {
+        label: "動画時間",
+        value: "duration",
+    },
+]
+
+/**
  * 指定したマイリストをプレイリストとして取得するAPI
  * @param mylistId 取得するマイリストのID
  * @param pageSize 1ページのアイテム数

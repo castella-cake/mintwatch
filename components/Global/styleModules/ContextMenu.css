@@ -44,6 +44,10 @@
             width: 1.5em;
         }
     }
+
+    .generic-contextmenu-item[data-is-dangerous="true"] {
+        color: var(--dangerous1);
+    }
 }
 
 .popupmenu-container {

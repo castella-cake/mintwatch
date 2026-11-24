@@ -84,6 +84,41 @@
     }
 }
 
+.user-videolist-view-menu-container {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.user-videolist-view-menubutton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 4px;
+    border: var(--border);
+    border-radius: var(--radius-mini);
+    background: var(--bgcolor2);
+    color: var(--textcolor2);
+    cursor: pointer;
+    transition: var(--transition-normal);
+
+    &:hover,
+    &:focus-visible {
+        background: var(--hover1);
+        color: var(--textcolor1);
+    }
+
+    &[data-is-active="true"] {
+        background: var(--textcolor1);
+        color: var(--bgcolor2);
+    }
+
+    > svg {
+        width: 1.2em;
+        height: 1.2em;
+    }
+}
+
 .user-videolist-view-information-thumbnail {
     width: 8em;
     aspect-ratio: 16/9;

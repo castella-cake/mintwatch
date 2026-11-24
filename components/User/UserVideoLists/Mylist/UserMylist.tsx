@@ -8,49 +8,6 @@ import { useMylistData } from "@/hooks/apiHooks/watch/mylistData"
 import { UserMylistHeader } from "./UserMylistHeader"
 import { UserVideosOptionSelector } from "../../Video/UserVideosOptionSelector"
 
-export const mylistSortKeys = [
-    {
-        label: "マイリスト登録日時",
-        value: "addedAt",
-    },
-    {
-        label: "タイトル",
-        value: "title",
-    },
-    {
-        label: "投稿日時",
-        value: "registeredAt",
-    },
-    {
-        label: "メモ",
-        value: "mylistComment",
-    },
-    {
-        label: "再生数",
-        value: "viewCount",
-    },
-    {
-        label: "最終コメント日時",
-        value: "lastCommentTime",
-    },
-    {
-        label: "コメント数",
-        value: "commentCount",
-    },
-    {
-        label: "いいね！数",
-        value: "likeCount",
-    },
-    {
-        label: "マイリスト数",
-        value: "mylistCount",
-    },
-    {
-        label: "動画時間",
-        value: "duration",
-    },
-]
-
 const validOrder = ["asc", "desc"]
 
 export function UserMylist({ userId }: { userId?: number }) {
