@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - 視聴ページで投稿者へのリンク先がチャンネルの場合誤ったURLへ飛ぶ問題を修正しました [#88](https://github.com/castella-cake/mintwatch/issues/88)
 - Turnstile ウィジェットを更新しました
+- 検索サジェストの単語が長すぎる場合に、文字がオーバーフローする問題を修正しました
 
 ## 1.0.6 - 2026/11/12
 

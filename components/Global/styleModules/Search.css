@@ -48,6 +48,7 @@
         z-index: 10;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
 
         .searchbox-expand-title {
             padding: 8px;
@@ -118,6 +119,9 @@
 
             .searchbox-expand-item-word {
                 flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             &:hover, &:focus-visible {
